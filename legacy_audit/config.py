@@ -183,6 +183,27 @@ class InventoryConfig(Strict):
     use_default_excludes: bool = True
 
 
+class SqlConfig(Strict):
+    dialect: str = Field(
+        "oracle",
+        description="Dialect of SQL found in code: oracle, db2, sqlserver, sybase, mysql, "
+        "postgresql, generic. Embedded SQL in COBOL uses cobol.sql_dialect.",
+    )
+
+
+class CobolConfig(Strict):
+    copybook_paths: list[str] = Field(
+        default_factory=list,
+        description="Folders (relative to the source root) searched first for COPY members",
+    )
+    sql_dialect: str = "db2"
+
+    @field_validator("copybook_paths")
+    @classmethod
+    def _paths(cls, v: list[str]) -> list[str]:
+        return [_norm_path(p).strip("/") for p in v]
+
+
 class AuditConfig(Strict):
     application: Application
     source: Source = Field(default_factory=LocalSource)
@@ -198,6 +219,8 @@ class AuditConfig(Strict):
     rules: RulesConfig = Field(default_factory=RulesConfig)
     branding: Branding = Field(default_factory=Branding)
     inventory: InventoryConfig = Field(default_factory=InventoryConfig)
+    sql: SqlConfig = Field(default_factory=SqlConfig)
+    cobol: CobolConfig = Field(default_factory=CobolConfig)
 
     @model_validator(mode="before")
     @classmethod

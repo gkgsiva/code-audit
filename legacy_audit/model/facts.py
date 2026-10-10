@@ -81,6 +81,7 @@ class ComponentType(StrEnum):
     REPORT = "report"
     LIBRARY = "library"
     DB = "db"
+    ONLINE_MAINFRAME = "online-mainframe"
     UNKNOWN = "unknown"
 
 
@@ -99,15 +100,23 @@ class Component(Fact):
 
 class EntryPoint(Fact):
     name: str
-    kind: str
+    kind: str = Field(description="main, scheduler, filter, listener, spring-boot-app, ...")
     file: str
+    line: int | None = None
     component: str | None = None
 
 
 class Service(Fact):
     name: str
-    kind: str
+    kind: str = Field(
+        description="struts-action, spring-handler, servlet, soap-operation, rest-operation, "
+        "ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow"
+    )
     component: str | None = None
+    file: str | None = None
+    handler: str | None = Field(None, description="Class, method or program implementing it")
+    url: str | None = Field(None, description="URL pattern or path, when it has one")
+    screens: list[str] = Field(default_factory=list, description="Screens it renders")
     inputs: list[str] = Field(default_factory=list)
     outputs: list[str] = Field(default_factory=list)
     complexity: str | None = None
@@ -118,11 +127,15 @@ class Service(Fact):
 class Screen(Fact):
     name: str
     technology: str
+    file: str | None = None
     action: str | None = None
     fields_count: int = 0
     component: str | None = None
     complexity: str | None = None
     partial: bool = False
+    targeted_by: list[str] = Field(
+        default_factory=list, description="Services or pages that forward to / include it"
+    )
 
 
 class PgGrade(StrEnum):
@@ -134,19 +147,34 @@ class PgGrade(StrEnum):
 class SqlStatement(Fact):
     file: str
     line: int
-    type: str
+    type: str = Field(description="SELECT, INSERT, UPDATE, DELETE, MERGE, CALL, ...")
+    source: str = Field(
+        "unknown",
+        description="jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, "
+        "spring-data, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+    )
+    text: str = Field("", description="Statement text (bind variables as written), max 4000")
     tables: list[str] = Field(default_factory=list)
+    procedures: list[str] = Field(default_factory=list, description="Procedures it calls")
     dialect: str | None = None
     dynamic: bool = False
+    parsed: bool = True
+    fingerprint: str = Field("", description="Hash of the normalized text; equal = distinct")
+    normalized: str | None = None
+    vendor_features: list[str] = Field(default_factory=list)
     pg_grade: PgGrade | None = None
     reason: str | None = None
-    normalized: str | None = None
     component: str | None = None
 
 
 class DbObject(Fact):
     name: str
-    object_type: str
+    object_type: str = Field(
+        description="table, view, sequence, index, synonym, package, procedure, function, "
+        "trigger, type"
+    )
+    defined_in: str | None = Field(None, description="File holding its DDL, if scanned")
+    members: list[str] = Field(default_factory=list, description="Package procedures")
     referenced_by: list[str] = Field(default_factory=list)
     crud: dict[str, list[str]] = Field(
         default_factory=dict, description="Operation (C/R/U/D) to referencing ids"
@@ -154,12 +182,19 @@ class DbObject(Fact):
 
 
 class Integration(Fact):
-    type: str
+    type: str = Field(
+        description="HTTP, SOAP, MQ, MQ-CHANNEL, MQ-QMGR, JMS, FTP, SFTP, SCP, CFT, SMTP, "
+        "LDAP, SOCKET, FILE, DB"
+    )
     target: str
-    direction: str
+    direction: str = Field(description="outbound, inbound, both, defined or unknown")
     protocol: str | None = None
     usages: int = 0
     source_files: list[str] = Field(default_factory=list)
+    producers: list[str] = Field(default_factory=list, description="Files that send/write")
+    consumers: list[str] = Field(default_factory=list, description="Files that receive/read")
+    components: list[str] = Field(default_factory=list)
+    details: dict[str, str] = Field(default_factory=dict)
 
 
 class CodeEdge(Fact):
@@ -171,9 +206,14 @@ class CodeEdge(Fact):
 
 class BatchJob(Fact):
     name: str
-    scheduler: str
+    scheduler: str = Field(description="autosys, jcl, cron, spring-batch")
+    kind: str = Field("job", description="job, box (container, not counted), file-watcher")
     schedule: str | None = None
     box: str | None = None
+    command: str | None = None
+    machine: str | None = None
+    condition: str | None = None
+    component: str | None = None
     steps: list[str] = Field(default_factory=list)
     programs: list[str] = Field(default_factory=list)
     datasets: list[str] = Field(default_factory=list)
@@ -184,6 +224,9 @@ class Library(Fact):
     group: str | None = None
     artifact: str
     version: str | None = None
+    language: str = "java"
+    source: str = Field(description="maven, gradle, ivy, jar, npm, js-file")
+    sha1: str | None = None
     scope: str | None = None
     license: str | None = None
     declared: bool = True
@@ -196,7 +239,11 @@ class Library(Fact):
 class TechItem(Fact):
     name: str
     version: str | None = None
-    category: str
+    category: str = Field(
+        description="language, framework, library, database, runtime, build, scheduler, "
+        "middleware, auth, upgrade-signal"
+    )
+    usages: int = 1
     eol: bool | None = None
 
 
@@ -243,6 +290,25 @@ class InputCoverage(Fact):
     file_count: int = 0
 
 
+class UnparsedRegion(FactModel):
+    file: str
+    start: int
+    end: int
+    reason: str
+
+
+class AnalyzerCoverage(FactModel):
+    """How much of the files an analyzer handled it could actually parse."""
+
+    files: int = 0
+    lines: int = 0
+    unparsed_lines: int = 0
+    coverage_pct: float = 100.0
+    regions: list[UnparsedRegion] = Field(
+        default_factory=list, description="First 50 unparsed regions"
+    )
+
+
 class SourceInfo(FactModel):
     name: str
     type: str
@@ -273,6 +339,8 @@ class RunInfo(FactModel):
     overrides: dict[str, Any] = Field(default_factory=dict)
     counting_rules: dict[str, str] = Field(default_factory=dict)
     warnings: list[str] = Field(default_factory=list)
+    analyzers: dict[str, AnalyzerCoverage] = Field(default_factory=dict)
+    unresolved_references: int = 0
 
 
 # Every fact entity: file stem in the data folder -> model. Order is the export order.
@@ -297,6 +365,7 @@ ENTITIES: dict[str, type[Fact]] = {
 # Models exported as JSON Schema (facts plus run info and evidence).
 SCHEMA_MODELS: dict[str, type[BaseModel]] = {
     "evidence": Evidence,
+    "analyzer_coverage": AnalyzerCoverage,
     "file_record": FileRecord,
     "component": Component,
     "entry_point": EntryPoint,
