@@ -1,0 +1,9 @@
+/* Orders application styles */
+body { font-family: Verdana, Arial, sans-serif; font-size: 12px; }
+
+.header { background: #003366; color: #ffffff; padding: 4px; }
+.header .user { float: right; }
+.footer { color: #666666; margin-top: 20px; }
+/* tables */
+table { border-collapse: collapse; }
+th { background: #dddddd; }

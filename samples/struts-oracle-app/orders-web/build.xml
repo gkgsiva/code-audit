@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Ant build for the orders web application -->
+<project name="orders-web" default="war" basedir=".">
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="WebContent"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="javac.source" value="1.5"/>
+    <property name="javac.target" value="1.5"/>
+
+    <path id="compile.classpath">
+        <fileset dir="${web.dir}/WEB-INF/lib" includes="*.jar"/>
+        <fileset dir="${env.TOMCAT_HOME}/lib" includes="servlet-api.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}/classes"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}/classes"
+               source="${javac.source}" target="${javac.target}" debug="true">
+            <classpath refid="compile.classpath"/>
+        </javac>
+        <copy todir="${build.dir}/classes">
+            <fileset dir="${src.dir}" includes="**/*.properties"/>
+        </copy>
+    </target>
+
+    <target name="war" depends="compile">
+        <mkdir dir="${dist.dir}"/>
+        <war destfile="${dist.dir}/orders.war" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}" excludes="WEB-INF/web.xml"/>
+            <classes dir="${build.dir}/classes"/>
+        </war>
+    </target>
+</project>

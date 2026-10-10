@@ -6,7 +6,8 @@ It scans a codebase (Java/Struts/Spring, C/C++, Pro*C, COBOL, JCL, shell, Autosy
 
 ## Status
 
-Planning complete; implementation not started. See `docs/progress.md`.
+Phase 1 (foundations) is done: inventory, components, input coverage, run history, file cache,
+overrides and run diff. Language analyzers come in phase 2. See `docs/progress.md`.
 
 ## Documents
 
@@ -15,6 +16,53 @@ Planning complete; implementation not started. See `docs/progress.md`.
 - `docs/prompts/` — build prompts, one per phase
 - `CLAUDE.md` — rules and conventions for Claude Code
 
+## Install
+
+Python 3.11 or newer.
+
+```
+python -m venv .venv
+.venv\Scripts\activate          # Windows  (Linux/macOS: source .venv/bin/activate)
+pip install -e ".[dev]"
+```
+
 ## Usage
 
-(Filled in as phases are completed.)
+```
+cd <legacy workspace>
+legacy-audit init                 # audit.yaml, audit-overrides.yaml, audit-inputs/<kind>/
+legacy-audit scan                 # new run under audit-output/runs/<run-id>/, latest -> newest
+legacy-audit scan --full          # ignore the file cache and re-analyse everything
+legacy-audit diff previous latest # what changed between two runs (ids, 'previous', 'latest')
+legacy-audit purge-cache          # delete cloned Git sources (~/.legacy-audit/cache)
+legacy-audit version
+```
+
+`--config/-c` points at another `audit.yaml` (default: `./audit.yaml`); `scan -o DIR` overrides
+the output folder. Try it on the sample: `legacy-audit scan -c samples/struts-oracle-app/audit.yaml`.
+
+**What a run writes** (`audit-output/runs/<run-id>/`):
+
+- `run.json` – config hash, source folders and Git commit SHAs, tool version, timings, input
+  coverage, overrides applied, counting rules, warnings.
+- `data/` – one JSON (source of truth) and CSV file per entity, `facts.sqlite` with one table per
+  entity, and `audit-summary.json` (totals and top-N lists, under 30 KB).
+- `logs/scan.log`.
+
+Re-runs only re-analyse new or changed files; totals are always recomputed. Supplementary
+inputs (Autosys JIL, MQSC, CFT exports, DDL, crontab, server config) go in
+`audit-inputs/<kind>/` whenever they arrive; a missing folder is reported as a coverage gap.
+Corrections go in `audit-overrides.yaml` and are re-applied on every run.
+
+The scanner never writes inside the source tree and makes no network calls, except cloning a
+Git source when `source.type: git` is configured (token read from the environment variable
+named in `token_env`, never stored).
+
+## Development
+
+```
+ruff check . && ruff format --check .
+mypy legacy_audit
+pytest
+python -m legacy_audit.model.schemas   # regenerate schemas/facts/ after changing a model
+```

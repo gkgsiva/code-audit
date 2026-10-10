@@ -1,0 +1,11 @@
+# Human corrections, re-applied after analysis on every run and recorded in run.json.
+# Overrides that match nothing are reported as warnings.
+
+files:
+  exclude: []        # e.g. ["legacy/old-copy/**"]  dropped from every fact
+  include: []        # e.g. ["build/"]  re-included despite the default excludes
+
+components:
+  assign: {}         # e.g. {"src/reports/**": reports}  move files to a component
+  rename: {}         # e.g. {web: customer-portal}
+  type: {}           # e.g. {customer-portal: web}

@@ -1,0 +1,8 @@
+<%-- Shared page header --%>
+<div class="header">
+  <img src="../images/logo.gif" alt="ACME"/>
+  <span>Orders</span>
+  <% if (session.getAttribute("user") != null) { %>
+    <span class="user"><%= session.getAttribute("user") %></span>
+  <% } %>
+</div>
