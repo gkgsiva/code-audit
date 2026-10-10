@@ -8,3 +8,4 @@ dist/
 *.egg-info/
 # scan outputs of sample apps
 samples/*/audit-output/
+node_modules/

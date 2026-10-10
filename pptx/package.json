@@ -1,0 +1,14 @@
+{
+  "name": "legacy-audit-pptx",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Builds the editable management PPTX from deck.json (legacy-audit report --type pptx).",
+  "license": "MIT",
+  "main": "build-pptx.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "pptxgenjs": "3.12.0"
+  }
+}

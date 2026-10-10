@@ -126,7 +126,7 @@ def write_status(run_dir: Path) -> dict[str, Any]:
     return status
 
 
-def _latest_copy(run_dir: Path) -> Path | None:
+def latest_copy(run_dir: Path) -> Path | None:
     """``<output>/latest`` when it is a plain copy of this run, else None."""
     if run_dir.parent.name != "runs":
         return None
@@ -142,14 +142,14 @@ def _latest_copy(run_dir: Path) -> Path | None:
 
 def sync_from_latest(run_dir: Path) -> None:
     """Bring files the agent wrote into a copied ``latest/enrichment`` into the run folder."""
-    latest = _latest_copy(run_dir)
+    latest = latest_copy(run_dir)
     if latest is not None and (latest / ENRICHMENT).is_dir():
         shutil.copytree(latest / ENRICHMENT, enrichment_dir(run_dir), dirs_exist_ok=True)
 
 
 def sync_to_latest(run_dir: Path) -> None:
     """After stamping, put the run's enrichment back into a copied ``latest``."""
-    latest = _latest_copy(run_dir)
+    latest = latest_copy(run_dir)
     if latest is not None and enrichment_dir(run_dir).is_dir():
         shutil.copytree(enrichment_dir(run_dir), latest / ENRICHMENT, dirs_exist_ok=True)
 

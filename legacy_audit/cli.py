@@ -236,6 +236,8 @@ def report(
     open_: Annotated[bool, typer.Option("--open", help="Open the report in the browser")] = False,
 ) -> None:
     """Build reports from a run (default: the latest) into <run>/reports/."""
+    from legacy_audit.report.mgmt import build_mgmt_report
+    from legacy_audit.report.pptx import build_pptx
     from legacy_audit.report.tech import build_tech_report
 
     if type_ not in REPORT_TYPES:
@@ -248,16 +250,40 @@ def report(
         run_dir = resolve_run(output_dir or loaded.output_dir, run)
     except RunNotFound as err:
         raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
-    if type_ in ("mgmt", "pptx"):
-        raise _fail(f"The '{type_}' report arrives in phase 5; use --type tech.")
-    index = build_tech_report(run_dir, loaded.inputs_dir)
-    console.print(f"[bold green]Technical report[/bold green] -> {index}")
-    if open_:
+    branding, config_dir = loaded.config.branding, loaded.path.parent
+    to_open: Path | None = None
+    if type_ in ("tech", "all"):
+        index = build_tech_report(run_dir, loaded.inputs_dir)
+        console.print(f"[bold green]Technical report[/bold green] -> {index}")
+        to_open = index
+    if type_ in ("mgmt", "all"):
+        deck = build_mgmt_report(run_dir, branding, config_dir)
+        console.print(f"[bold green]Management deck[/bold green] -> {deck}")
+        to_open = to_open or deck
+    if type_ in ("pptx", "all"):
+        result = build_pptx(run_dir, branding, config_dir)
+        if result.path is not None:
+            console.print(f"[bold green]PowerPoint[/bold green] -> {result.path}")
+            if result.message != "PPTX written.":
+                console.print(f"  {result.message.removeprefix('PPTX written. ')}")
+        else:
+            console.print(f"[yellow]{result.message}[/yellow]")
+            if type_ == "pptx":
+                raise typer.Exit(code=1)
+    if type_ in ("mgmt", "pptx", "all"):
+        from legacy_audit.enrich.status import compute_status
+
+        status = compute_status(run_dir)
+        if status["missing"] or status["stale"]:
+            console.print(
+                f"  Enrichment: {len(status['missing'])} stage(s) missing, "
+                f"{len(status['stale'])} stale; their slides show a placeholder or a warning "
+                "(run /audit-enrich in Copilot, then legacy-audit validate)."
+            )
+    if open_ and to_open is not None:
         import webbrowser
 
-        webbrowser.open(index.resolve().as_uri())
-    if type_ == "all":
-        console.print("  mgmt and pptx reports arrive in phase 5; built tech only.")
+        webbrowser.open(to_open.resolve().as_uri())
 
 
 def _resolve(config: Path, run: str, output_dir: Path | None) -> tuple[Path, Path]:
