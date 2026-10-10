@@ -1,0 +1,87 @@
+# legacy-audit configuration. Relative paths are resolved from this file's folder.
+# Both / and \ work as path separators. Unknown keys are rejected.
+
+application:
+  name: "my-application"  # shown in every report
+  # description: "Customer billing (Struts 1 + Oracle)"
+  # owner: "Migration team A"
+
+# Where the code is. Default: the folder holding this file.
+source:
+  type: local                    # local | git
+  paths:
+    - "."
+# Optional Git source: the tool clones into ~/.legacy-audit/cache (outside this workspace).
+# source:
+#   type: git
+#   repos:
+#     - url: https://github.example.com/team/billing.git
+#       ref: main                # branch, tag or commit; default branch if omitted
+#       paths: ["billing-web"]   # optional sub-paths to scan
+#       token_env: GIT_TOKEN     # name of an env var holding a read-only token (never the token)
+#   cache_dir: null              # default ~/.legacy-audit/cache
+
+# Files to scan, in .gitignore syntax. Default excludes (.git, node_modules, target/, build/,
+# dist/, out/, IDE folders) always apply unless inventory.use_default_excludes is false.
+include:
+  - "**"
+exclude: []
+#  - "docs/**"
+#  - "**/*.bak"
+
+# Optional manual component list. Files under these folders belong to the named component;
+# everything else is detected automatically (one component per build file or top folder).
+components: []
+#  - name: billing-web
+#    path: web
+#    type: web                   # web | batch | cft | script | report | library | db | unknown
+
+inputs_dir: audit-inputs         # late inputs: autosys/, mq/, cft/, ddl/, crontab/, server-config/
+output_dir: audit-output         # runs/<run-id>/ and latest/
+overrides_file: audit-overrides.yaml
+
+# Target stack (used by mapping rules and reports).
+target:
+  java: "25"
+  spring_boot: "4.1"
+  angular: "21"
+  database: postgresql
+  cloud: gcp
+
+# Counting rules printed in every report. Defaults come from docs/plan.md; override any entry
+# by giving its text here, e.g.:
+# counting:
+#   screen: "One JSP that is a forward target; tiles and fragments are partials."
+counting: {}
+
+# Complexity score weights and band thresholds (Simple < medium <= Medium < complex ...).
+complexity:
+  weights:
+    loc: 1.0
+    cyclomatic: 2.0
+    tables: 1.5
+    integrations: 2.0
+    vendor_sql: 1.5
+    fan_out: 1.0
+  thresholds:
+    medium: 10
+    complex: 25
+    very_complex: 50
+
+# Rule packs to run (phase 3).
+rules:
+  enabled: [risk, postgresql, dependency]
+
+# Report branding; the neutral default theme is used until a corporate template is added.
+branding:
+  theme: neutral
+  logo: null
+  primary_color: "#1f4e79"
+  accent_color: "#2e75b6"
+  font: "Segoe UI, Arial, sans-serif"
+  pptx_template: null
+
+inventory:
+  include_binaries: false        # images/objects/executables; jar/war/ear/zip are always listed
+  max_file_size_mb: 20           # larger files are hashed but not read
+  use_default_excludes: true
