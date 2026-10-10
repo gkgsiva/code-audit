@@ -126,9 +126,7 @@ def test_explorer_evidence_and_traversal(sample_copy) -> None:  # type: ignore[n
     comp = _ok(client.get("/api/runs/latest/component/orders-web"))
     assert comp["services"]["total"] == 4
 
-    ev = _ok(
-        client.get("/api/runs/latest/evidence", params={"file": "conf/orders-app.properties"})
-    )
+    ev = _ok(client.get("/api/runs/latest/evidence", params={"file": "conf/orders-app.properties"}))
     assert "db.password" in ev["text"] and SECRET not in ev["text"]
     assert ev["vscode"].startswith("vscode://file/")
     for bad in ("../../../../etc/passwd", "/etc/passwd", "..\\..\\audit.yaml"):
@@ -223,9 +221,7 @@ def test_jobs_events_busy_cancel_and_open(sample_copy) -> None:  # type: ignore[
     assert busy.status_code in (200, 409)  # 409 while the first one still runs
     _wait(client)
     with client.stream("GET", f"/api/jobs/{job['id']}/events") as stream:
-        events = [
-            json.loads(line[6:]) for line in stream.iter_lines() if line.startswith("data: ")
-        ]
+        events = [json.loads(line[6:]) for line in stream.iter_lines() if line.startswith("data: ")]
     types = [e["type"] for e in events]
     assert types[0] == "started" and types[-1] == "end" and "progress" in types
     assert {e["stage"] for e in events if e["type"] == "progress"} >= {"inventory", "export"}

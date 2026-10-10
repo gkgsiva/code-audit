@@ -563,6 +563,18 @@ class _Linker:
             objects.append(obj)
             return obj
 
+        # membership sets beside the lists: a busy table is referenced by thousands of statements
+        refs: dict[str, set[str]] = {}
+        crud: dict[tuple[str, str], set[str]] = {}
+
+        def add_ref(obj: DbObject, sid: str) -> None:
+            seen = refs.get(obj.id)
+            if seen is None:
+                seen = refs[obj.id] = set(obj.referenced_by)
+            if sid not in seen:
+                seen.add(sid)
+                obj.referenced_by.append(sid)
+
         for st in sql:
             if st.dialect == "hql":
                 st.tables = sorted(
@@ -576,13 +588,15 @@ class _Linker:
                 obj = table(t)
                 if not obj.evidence:
                     obj.evidence = [Evidence(file=st.file, line=st.line)]
-                if st.id not in obj.referenced_by:
-                    obj.referenced_by.append(st.id)
-                ops = _crud(st.type, t, target)
-                for op in ops:
-                    obj.crud.setdefault(op, [])
-                    if st.id not in obj.crud[op]:
-                        obj.crud[op].append(st.id)
+                add_ref(obj, st.id)
+                for op in _crud(st.type, t, target):
+                    ids = obj.crud.setdefault(op, [])
+                    seen = crud.get((obj.id, op))
+                    if seen is None:
+                        seen = crud[(obj.id, op)] = set(ids)
+                    if st.id not in seen:
+                        seen.add(st.id)
+                        ids.append(st.id)
             for p in st.procedures:
                 key = p.upper()
                 proc = (
@@ -590,8 +604,8 @@ class _Linker:
                     or procs.get(key.split(".", 1)[0])
                     or procs.get(key.rsplit(".", 1)[-1])
                 )
-                if proc is not None and st.id not in proc.referenced_by:
-                    proc.referenced_by.append(st.id)
+                if proc is not None:
+                    add_ref(proc, st.id)
         return objects
 
     # ---- reach: what a service touches -------------------------------------------------------

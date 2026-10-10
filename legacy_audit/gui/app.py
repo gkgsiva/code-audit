@@ -421,10 +421,19 @@ def create_app(
         from legacy_audit.source import SourceError
         from legacy_audit.workspace import prescan
 
+        loaded = ws.loaded()
         try:
-            return prescan(ws.loaded())
+            out = prescan(loaded)
         except SourceError as err:
             raise HTTPException(422, str(err)) from None
+        # the pre-scan reads no file, so its types are a first guess; the last scan knows better
+        scanned: dict[str, str] = {}
+        with contextlib.suppress(RunNotFound):
+            data = _read_json(resolve_run(loaded.output_dir, "latest") / "data" / "components.json")
+            scanned = {c["name"]: c["type"] for c in data or []}
+        for c in out["components"]:
+            c["scan_type"] = scanned.get(c["name"])
+        return out
 
     @app.put("/api/components")
     def put_components(body: ComponentsBody) -> dict[str, Any]:

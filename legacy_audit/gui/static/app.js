@@ -361,7 +361,7 @@
   // ---------------------------------------------------------------- 3. components
   var TYPES = ["web", "batch", "cft", "script", "report", "library", "db", "unknown"];
   function screenComponents(node) {
-    add(node, heading("Components", "Detected from build files and folders without reading any file. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
+    add(node, heading("Components", "Detected from build files and folders without reading any file; the type is the last scan's when there is one. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
     if (needConfig(node)) return;
     var host = el("div", null, [el("p", { class: "muted", text: "Pre-scanning…" })]);
     node.appendChild(host);
@@ -376,7 +376,7 @@
           cb.checked = c.included; ticks[c.path] = cb; return cb; } },
         { key: "name", label: "Component" },
         { label: "Folder", value: function (c) { return c.path || "(root)"; }, code: true },
-        { key: "detected_type", label: "Detected type" },
+        { label: "Type", value: function (c) { return c.scan_type || c.detected_type; } },
         { label: "Type override", value: function (c) {
           var sel = el("select", { "aria-label": "Type of " + c.name }, [new Option("(as detected)", "")].concat(TYPES.map(function (t) { return new Option(t, t); })));
           sel.value = c.type_override || ""; types[c.name] = sel; return sel; } },
@@ -521,13 +521,13 @@
   }
   var EXPLORE_COLS = {
     components: ["name", "type", "files", "loc_code", "technology", "detected_by"],
-    services: ["name", "kind", "component", "complexity", "tables", "file", "line"],
+    services: ["name", "kind", "component", "complexity", "tables", "file"],
     screens: ["name", "component", "partial", "complexity", "file"],
-    sql_statements: ["type", "pg_grade", "tables", "component", "file", "line", "text"],
-    batch_jobs: ["name", "scheduler", "component", "command", "file", "line"],
+    sql_statements: ["type", "pg_grade", "tables", "component", "file", "text"],
+    batch_jobs: ["name", "scheduler", "component", "command", "file"],
     integrations: ["type", "target", "direction", "components", "usages"],
     libraries: ["artifact", "version", "group", "eol", "vulnerabilities", "recommendation"],
-    findings: ["severity", "rule_id", "message", "file", "line"],
+    findings: ["severity", "rule_id", "message", "file"],
     inventory: ["path", "language", "category", "component", "loc_code", "size"]
   };
   function screenExplorer(node) {
@@ -559,6 +559,7 @@
               value: function (r) {
                 var v = r[c];
                 if (c === "severity" || c === "pg_grade" || c === "complexity") return v ? chip(v) : "";
+                if (c === "file" && v) return el("span", { title: v, text: v.split("/").pop() + (r.line ? ":" + r.line : "") });
                 if (Array.isArray(v)) return v.map(function (x) { return typeof x === "object" ? JSON.stringify(x) : x; }).join(", ");
                 if (c === "text" && v && v.length > 160) return v.slice(0, 160) + "…";
                 return v;
