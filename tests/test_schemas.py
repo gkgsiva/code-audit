@@ -1,7 +1,13 @@
 import json
 
 from legacy_audit.model import ENTITIES, make_id
-from legacy_audit.model.schemas import SCHEMA_DIR, build_schemas, render
+from legacy_audit.model.schemas import (
+    ENRICH_SCHEMA_DIR,
+    SCHEMA_DIR,
+    build_enrichment_schemas,
+    build_schemas,
+    render,
+)
 
 
 def test_schema_files_match_models():
@@ -12,6 +18,15 @@ def test_schema_files_match_models():
     for name, schema in built.items():
         text = (SCHEMA_DIR / f"{name}.schema.json").read_text(encoding="utf-8")
         assert text == render(schema), f"{name}.schema.json drifted from the model"
+
+
+def test_enrichment_schema_files_match_models():
+    built = build_enrichment_schemas()
+    on_disk = {p.name.removesuffix(".schema.json") for p in ENRICH_SCHEMA_DIR.glob("*.schema.json")}
+    assert on_disk == set(built), "enrichment schema files added or removed"
+    for name, schema in built.items():
+        text = (ENRICH_SCHEMA_DIR / f"{name}.schema.json").read_text(encoding="utf-8")
+        assert text == render(schema), f"enrichment/{name}.schema.json drifted from the model"
 
 
 def test_every_entity_has_id_and_evidence():

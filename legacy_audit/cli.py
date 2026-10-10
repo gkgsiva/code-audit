@@ -1,4 +1,5 @@
-"""Command-line interface: ``legacy-audit init | scan | report | diff | purge-cache | version``."""
+"""Command-line interface: ``legacy-audit init | scan | report | validate | facts | mcp | diff |
+purge-cache | version``."""
 
 from __future__ import annotations
 
@@ -64,8 +65,18 @@ def init(
     folder: Annotated[Path, typer.Argument(help="Legacy workspace folder")] = Path("."),
     name: Annotated[str | None, typer.Option(help="Application name")] = None,
     force: Annotated[bool, typer.Option(help="Overwrite existing starter files")] = False,
+    copilot_layout: Annotated[
+        str,
+        typer.Option(
+            help="Copilot agent files: agents (.agent.md), chatmodes (older VS Code), both, none"
+        ),
+    ] = "both",
 ) -> None:
-    """Create audit.yaml, audit-overrides.yaml and audit-inputs/ in a legacy workspace."""
+    """Create audit.yaml, audit-overrides.yaml, audit-inputs/ and the Copilot agent files."""
+    from legacy_audit.copilot.install import LAYOUTS, install
+
+    if copilot_layout not in LAYOUTS:
+        raise _fail(f"--copilot-layout must be one of {', '.join(LAYOUTS)}")
     folder = folder.resolve()
     folder.mkdir(parents=True, exist_ok=True)
     app_name = name or folder.name or "application"
@@ -88,7 +99,20 @@ def init(
             created.append(f"audit-inputs/{kind}/")
     for item in created:
         console.print(f"[green]created[/green] {item}")
-    console.print("Next: review audit.yaml, then run [bold]legacy-audit scan[/bold].")
+    kept = []
+    for done in install(folder, copilot_layout):
+        if done.action in ("created", "updated"):
+            console.print(f"[green]{done.action}[/green] {done.path}")
+        elif done.action == "kept":
+            kept.append(done.path)
+    for path in kept:
+        console.print(
+            f"[yellow]kept your edits[/yellow] {path} (new version written to {path}.new)"
+        )
+    console.print(
+        "Next: review audit.yaml, then run [bold]legacy-audit scan[/bold], or in VS Code open "
+        "Copilot Chat, pick the [bold]legacy-auditor[/bold] agent and run /audit-scan."
+    )
 
 
 @app.command()
@@ -212,6 +236,8 @@ def report(
     open_: Annotated[bool, typer.Option("--open", help="Open the report in the browser")] = False,
 ) -> None:
     """Build reports from a run (default: the latest) into <run>/reports/."""
+    from legacy_audit.report.mgmt import build_mgmt_report
+    from legacy_audit.report.pptx import build_pptx
     from legacy_audit.report.tech import build_tech_report
 
     if type_ not in REPORT_TYPES:
@@ -224,16 +250,159 @@ def report(
         run_dir = resolve_run(output_dir or loaded.output_dir, run)
     except RunNotFound as err:
         raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
-    if type_ in ("mgmt", "pptx"):
-        raise _fail(f"The '{type_}' report arrives in phase 5; use --type tech.")
-    index = build_tech_report(run_dir, loaded.inputs_dir)
-    console.print(f"[bold green]Technical report[/bold green] -> {index}")
-    if open_:
+    branding, config_dir = loaded.config.branding, loaded.path.parent
+    to_open: Path | None = None
+    if type_ in ("tech", "all"):
+        index = build_tech_report(run_dir, loaded.inputs_dir)
+        console.print(f"[bold green]Technical report[/bold green] -> {index}")
+        to_open = index
+    if type_ in ("mgmt", "all"):
+        deck = build_mgmt_report(run_dir, branding, config_dir)
+        console.print(f"[bold green]Management deck[/bold green] -> {deck}")
+        to_open = to_open or deck
+    if type_ in ("pptx", "all"):
+        result = build_pptx(run_dir, branding, config_dir)
+        if result.path is not None:
+            console.print(f"[bold green]PowerPoint[/bold green] -> {result.path}")
+            if result.message != "PPTX written.":
+                console.print(f"  {result.message.removeprefix('PPTX written. ')}")
+        else:
+            console.print(f"[yellow]{result.message}[/yellow]")
+            if type_ == "pptx":
+                raise typer.Exit(code=1)
+    if type_ in ("mgmt", "pptx", "all"):
+        from legacy_audit.enrich.status import compute_status
+
+        status = compute_status(run_dir)
+        if status["missing"] or status["stale"]:
+            console.print(
+                f"  Enrichment: {len(status['missing'])} stage(s) missing, "
+                f"{len(status['stale'])} stale; their slides show a placeholder or a warning "
+                "(run /audit-enrich in Copilot, then legacy-audit validate)."
+            )
+    if open_ and to_open is not None:
         import webbrowser
 
-        webbrowser.open(index.resolve().as_uri())
-    if type_ == "all":
-        console.print("  mgmt and pptx reports arrive in phase 5; built tech only.")
+        webbrowser.open(to_open.resolve().as_uri())
+
+
+def _resolve(config: Path, run: str, output_dir: Path | None) -> tuple[Path, Path]:
+    """(run folder, inputs folder) for a command that reads an existing run."""
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    try:
+        return resolve_run(output_dir or loaded.output_dir, run), loaded.inputs_dir
+    except RunNotFound as err:
+        raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
+
+
+@app.command()
+def validate(
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    stage: Annotated[
+        list[str] | None, typer.Option("--stage", "-s", help="Only these stages (repeatable)")
+    ] = None,
+    restamp: Annotated[
+        bool,
+        typer.Option(help="Record the current facts as the stages' inputs (after re-running them)"),
+    ] = False,
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Check the Copilot enrichment against the scan; mark stale stages in status.json."""
+    from legacy_audit.enrich.stages import STAGES
+    from legacy_audit.enrich.validate import validate_run
+
+    run_dir, _ = _resolve(config, run, output_dir)
+    rep = validate_run(run_dir, stage, restamp=restamp)
+    for m in rep.messages:
+        colour = "red" if m.level == "error" else "yellow"
+        console.print(f"[{colour}]{m}[/{colour}]")
+    table = Table("#", "stage", "file", "state")
+    for st in STAGES:
+        e = rep.status["stages"][st.name]
+        if not e["present"]:
+            state = "[dim]missing[/dim]"
+        elif any(m.stage == st.name and m.level == "error" for m in rep.messages):
+            state = "[red]invalid[/red]"
+        elif e.get("stale"):
+            why = ", ".join(
+                e.get("changed", []) + [f"stage:{u}" for u in e.get("stale_upstream", [])]
+            )
+            state = f"[yellow]stale[/yellow] ({why})"
+        else:
+            state = "[green]valid[/green]"
+        table.add_row(str(st.number), st.name, st.file, state)
+    console.print(table)
+    console.print(
+        f"{len(rep.checked)} checked, {len(rep.errors)} error(s), {len(rep.warnings)} "
+        f"warning(s); status -> {run_dir / 'enrichment' / 'status.json'}"
+    )
+    if rep.errors:
+        raise typer.Exit(code=1)
+
+
+@app.command()
+def facts(
+    kind: Annotated[str, typer.Argument(help="services, screens, sql_statements, ...")],
+    filter_: Annotated[
+        list[str] | None,
+        typer.Option("--filter", "-f", help="field=value (repeatable); field=~text for contains"),
+    ] = None,
+    fields: Annotated[str | None, typer.Option(help="Comma-separated fields to show")] = None,
+    limit: Annotated[int, typer.Option(help="At most this many rows (max 500)")] = 50,
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Print facts of one kind as JSON (read-only; for the Copilot agent and for people)."""
+    from legacy_audit.mcp.facts import Facts, FactsError
+
+    run_dir, _ = _resolve(config, run, output_dir)
+    filters: dict[str, str] = {}
+    for f in filter_ or []:
+        key, sep, value = f.partition("=")
+        if not sep:
+            raise _fail(f"--filter needs field=value, got '{f}'")
+        filters[key.strip()] = value
+    cols = [c.strip() for c in fields.split(",")] if fields else None
+    try:
+        result = Facts(lambda: run_dir).query_facts(kind, filters, limit, cols)
+    except FactsError as err:
+        raise _fail(str(err)) from None
+    typer.echo(json.dumps(result, indent=2, ensure_ascii=False))
+
+
+@app.command()
+def mcp(
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Serve the latest run's facts to Copilot as a read-only MCP server (stdio)."""
+    import sys
+
+    from legacy_audit.mcp.facts import Facts, FactsError
+    from legacy_audit.mcp.server import Server
+
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    out = output_dir or loaded.output_dir
+
+    def latest() -> Path:
+        try:
+            return resolve_run(out, "latest")
+        except RunNotFound as err:
+            raise FactsError(f"{err}. Run 'legacy-audit scan' first.") from None
+
+    for stream in (sys.stdin, sys.stdout):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8")
+    Server(Facts(latest)).serve()
 
 
 @app.command("purge-cache")

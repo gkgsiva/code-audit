@@ -13,8 +13,10 @@ CFT) whose facts are linked across files into services, screens, SQL, integratio
 libraries and code edges. Phase 3 adds metrics (cyclomatic complexity, duplication, dead-code
 candidates, complexity bands), YAML rule packs and findings, PostgreSQL grading, dependency
 security (Dependency-Check / OSV-Scanner, EOL, upgrade advice, CycloneDX SBOM) and an effort
-estimate. Phase 4 adds the technical HTML report (offline, one folder per run). The management
-deck and PPTX come in phase 5. See `docs/progress.md`.
+estimate. Phase 4 adds the technical HTML report (offline, one folder per run). Phase 5 adds the
+GitHub Copilot agent and prompt files (installed by `init`), validated enrichment with staleness
+tracking, a read-only MCP server, the management HTML deck and the editable PPTX. See
+`docs/progress.md`.
 
 ## Documents
 
@@ -37,12 +39,16 @@ pip install -e ".[dev]"
 
 ```
 cd <legacy workspace>
-legacy-audit init                 # audit.yaml, audit-overrides.yaml, audit-inputs/<kind>/
+legacy-audit init                 # audit.yaml, audit-overrides.yaml, audit-inputs/<kind>/, Copilot files
 legacy-audit scan                 # new run under audit-output/runs/<run-id>/, latest -> newest
 legacy-audit scan --full          # ignore the file cache and re-analyse everything
 legacy-audit diff previous latest # what changed between two runs (ids, 'previous', 'latest')
 legacy-audit report --open        # technical HTML report of the latest run, opened in a browser
 legacy-audit report --run <id>    # report of an older run (default: latest)
+legacy-audit report --type all    # technical site + management deck (HTML) + deck.pptx
+legacy-audit validate             # check Copilot's enrichment against the scan; mark stale stages
+legacy-audit facts services -f kind=servlet   # query facts as JSON (what the agent reads)
+legacy-audit mcp                  # read-only MCP server for Copilot (stdio)
 legacy-audit purge-cache          # delete cloned Git sources (~/.legacy-audit/cache)
 legacy-audit version
 ```
@@ -64,6 +70,14 @@ the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-orac
   (CycloneDX 1.5), `effort.json` ("estimate — weights from config") and `target-mapping.json`.
 - `security/` – reports written by Dependency-Check / OSV-Scanner when the scan runs them.
 - `logs/scan.log`.
+- `enrichment/` – Copilot's interpretation, one JSON file per stage (schemas in
+  `schemas/enrichment/`), and `status.json` (present / valid / stale per stage). Carried into each
+  new run; stages whose facts changed are marked stale.
+- `reports/mgmt/` and `reports/deck.pptx` – written by `legacy-audit report --type mgmt|pptx|all`:
+  `deck.json` (the slides as data), an offline HTML deck (arrow keys, `N` for notes, print to PDF)
+  and an editable PowerPoint with native charts. The PPTX needs Node.js 18+ and `npm install` once
+  in `pptx/`; without them it is skipped with a message. Slides whose enrichment is missing show
+  a placeholder.
 - `reports/tech/` – written by `legacy-audit report`: `index.html` (overview), one page per
   component, architecture diagrams, catalogues (services, screens, SQL, DB objects, CRUD matrix,
   integrations, batch jobs, libraries, findings) with search, filters, sorting and paging,
@@ -99,11 +113,17 @@ The scanner never writes inside the source tree and makes no network calls, exce
 Git source when `source.type: git` is configured (token read from the environment variable
 named in `token_env`, never stored).
 
+**Copilot enrichment**: open the workspace in VS Code, pick the **legacy-auditor** agent in
+Copilot Chat and run `/audit-scan`, `/audit-enrich all`, `/audit-report`. The agent only
+interprets: numbers are copied from the scan as figures, claims cite `file:line`, and
+`legacy-audit validate` rejects anything else. See [`docs/copilot-agent.md`](docs/copilot-agent.md).
+
 ## Validating from VS Code
 
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
 `3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
-`7. build and open the technical report`; **Run and
+`7. build and open the technical report`, `8`–`12` for phase 5 (PPTX builder, Copilot files, demo
+enrichment, decks, facts); **Run and
 Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
 [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 
