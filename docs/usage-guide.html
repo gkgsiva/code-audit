@@ -142,6 +142,7 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
     <li><a href="#open">5. Open the folder in VS Code</a></li>
     <li><a href="#setup">6. Install the tool</a></li>
     <li><a href="#check">7. Check that it works</a></li>
+    <li><a href="#wsl">WSL2 users: read this</a></li>
     <li class="group">Use it</li>
     <li><a href="#sample">8. Practice on a sample</a></li>
     <li><a href="#own">9. Audit your own application</a></li>
@@ -163,7 +164,7 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
 <header class="hero">
   <h1>legacy-audit: usage guide</h1>
   <p>This guide takes you from a fresh Windows laptop to a finished audit report. You don't need to be a programmer. Every step says what to click, what to type and what you should see.</p>
-  <p>Instructions are written for <strong>Windows</strong>. Where Mac or Linux differs, there is a grey box marked "On a Mac or Linux".</p>
+  <p>Instructions are written for <strong>Windows</strong>. Where Mac or Linux differs, there is a grey box marked "On a Mac or Linux". <strong>If your workspace is in WSL2</strong> (Linux inside Windows), also read <a href="#wsl">the WSL2 section</a>.</p>
   <div class="toolbar">
     <button type="button" id="theme-btn">Light / dark</button>
     <button type="button" onclick="window.print()">Print or save as PDF</button>
@@ -205,6 +206,7 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
   <li>A Windows 10 or 11 laptop where you can install programs (or ask IT to install Python for you).</li>
   <li><strong>Visual Studio Code</strong> (VS Code) is installed.</li>
   <li>The <code>code-audit</code> project is already on your laptop (it was "cloned" from GitHub) and you can open it in VS Code.</li>
+  <li>If you cloned the project inside <strong>WSL2</strong> (the path starts with <code>/home/</code> or <code>\\wsl.localhost\</code>), read <a href="#wsl">the WSL2 section</a> before section 4.</li>
   <li>An internet connection for the one-time setup (about 5 minutes). After that, no internet is needed.</li>
   <li>The source code of the application you want to audit, in a folder on your laptop (or a network drive you can reach).</li>
 </ul>
@@ -245,6 +247,7 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
 
 <!-- ============================================================ 4 -->
 <h2 id="python">4. Install Python (once)</h2>
+<div class="callout note"><p><span class="label">WSL2?</span> Skip this section and follow <a href="#wsl">WSL2, step 2</a> instead: Python must be installed inside Ubuntu, not on Windows.</p></div>
 <p>The tool is written in Python, so Python must be installed. You need <strong>version 3.11 or newer</strong>; 3.12 or 3.13 are good choices.</p>
 
 <h3>First, check whether you already have it</h3>
@@ -312,6 +315,102 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
   <li>Run the doctor task again: <em>pptxgenjs</em> now says <strong>ok</strong>.</li>
 </ol>
 
+<!-- ============================================================ WSL2 -->
+<h2 id="wsl">WSL2: if your workspace is in Linux on Windows</h2>
+<p><strong>WSL2</strong> (Windows Subsystem for Linux) runs a real Linux, usually Ubuntu, inside Windows. If you cloned <code>code-audit</code> inside WSL2, for example into <code>/home/you/code-audit</code>, most of this guide still applies. VS Code just runs the Linux version of each step. This section lists what is different. Read it once, then use the rest of the guide as normal.</p>
+
+<h3>What changes, at a glance</h3>
+<div class="table-wrap"><table>
+  <tr><th></th><th>Plain Windows</th><th>WSL2</th></tr>
+  <tr><td>VS Code window</td><td>Normal window</td><td>A <strong>WSL window</strong>: the bottom-left corner says <em>WSL: Ubuntu</em></td></tr>
+  <tr><td>Terminal</td><td>PowerShell</td><td>bash (Linux)</td></tr>
+  <tr><td>Python</td><td>Installed from python.org (section 4)</td><td>Installed inside Ubuntu with <code>apt</code> (below)</td></tr>
+  <tr><td>Tool commands</td><td><code>.venv\Scripts\legacy-audit</code></td><td><code>.venv/bin/legacy-audit</code></td></tr>
+  <tr><td>Paths</td><td><code>C:\Audits\billing</code></td><td><code>/home/you/audits/billing</code> (or <code>~/audits/billing</code>)</td></tr>
+  <tr><td>Browser</td><td>Opens by itself</td><td>Use your normal Windows browser. It may not open by itself, so you open the address yourself</td></tr>
+  <tr><td>VS Code tasks</td><td colspan="2">The same menu and the same task names. VS Code picks the Linux version of each task automatically.</td></tr>
+</table></div>
+
+<h3>Step 1: open the project in a WSL window</h3>
+<ol class="steps">
+  <li>In VS Code, open the Extensions view (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd>) and install <strong>WSL</strong> (by Microsoft), if it isn't installed already.</li>
+  <li>Open the project in one of two ways:
+    <ul>
+      <li>In the <strong>Ubuntu</strong> app (from the Start menu), type <code>cd ~/code-audit</code>, press <kbd>Enter</kbd>, then type <code>code .</code> and press <kbd>Enter</kbd>.</li>
+      <li>Or in VS Code press <kbd>F1</kbd>, type <code>WSL: Open Folder in WSL...</code>, and pick the <code>code-audit</code> folder.</li>
+    </ul></li>
+  <li>Check the <strong>bottom-left corner</strong> of VS Code. It must say <em>WSL: Ubuntu</em> (or your distribution's name). If it doesn't, you're in a plain Windows window and the tasks will fail.</li>
+  <li>Trust the folder when asked. When VS Code offers the recommended extensions, install them. In a WSL window the button says <span class="menu">Install in WSL: Ubuntu</span>; that is the right one.</li>
+</ol>
+
+<h3>Step 2: install Python inside Ubuntu (replaces section 4)</h3>
+<ol class="steps">
+  <li>Open a terminal in the WSL window (<span class="menu">Terminal &gt; New Terminal</span>). It's a Linux (bash) terminal.</li>
+  <li>Check which version you have:
+<pre><code>python3 --version</code></pre></li>
+  <li>If it shows <strong>3.11 or newer</strong> (Ubuntu 24.04 comes with 3.12), install the helpers the setup task needs. It asks for your Ubuntu password; nothing shows while you type it, which is normal.
+<pre><code>sudo apt update
+sudo apt install -y python3-venv python3-pip python-is-python3</code></pre>
+  <code>python-is-python3</code> makes the command <code>python</code> work, which the setup task uses.</li>
+  <li>If it shows <strong>3.10 or older</strong> (Ubuntu 22.04 and earlier), install Python 3.12 alongside it:
+<pre><code>sudo apt update
+sudo apt install -y software-properties-common
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt install -y python3.12 python3.12-venv</code></pre>
+  Then, in step 3 below, don't use task 1. Run this once in the terminal instead, from the <code>code-audit</code> folder:
+<pre><code>python3.12 -m venv .venv &amp;&amp; .venv/bin/python -m pip install -e ".[dev]"</code></pre></li>
+</ol>
+
+<h3>Step 3: install and check the tool (sections 6 and 7)</h3>
+<p>These are the same as on Windows: run task <code>audit: 1. set up (venv + install)</code>, select the <code>.venv</code> interpreter, then run task <code>audit: 14. check installed tools (doctor)</code>. The doctor shows Linux paths such as <code>/home/you/code-audit/.venv/bin/python3</code>.</p>
+<p>For the PowerPoint file, install Node.js <strong>inside Ubuntu</strong>, not on Windows: <code>sudo apt install -y nodejs npm</code> (Ubuntu 24.04 gives version 18, which is enough; check with <code>node --version</code>). Then run task 8. Dependency-Check or OSV-Scanner also need their Linux versions inside Ubuntu.</p>
+
+<h3>Step 4: where to keep the audit folders and the code</h3>
+<ul>
+  <li><strong>Keep audit folders in Linux</strong>, for example <code>~/audits/billing</code>. To create one, type <code>mkdir -p ~/audits/billing</code> in the terminal.</li>
+  <li><strong>The application's code is fastest in Linux too</strong>, for example <code>~/git/billing</code>.</li>
+  <li>Code on the Windows drive works as well. In WSL, <code>C:\Users\you\git\billing</code> is <code>/mnt/c/Users/you/git/billing</code>. Scans of <code>/mnt/c</code> are noticeably slower, so for a large application, copy or clone it into Linux.</li>
+  <li>On the <strong>Project setup</strong> screen, type folders as Linux paths (<code>/home/you/git/billing</code> or <code>/mnt/c/...</code>), never <code>C:\...</code>.</li>
+  <li>To see Linux files from Windows File Explorer, go to <code>\\wsl.localhost\Ubuntu\home\you</code>. Or, from any folder in the WSL terminal, type <code>explorer.exe .</code> (with the dot) to open that folder in File Explorer.</li>
+</ul>
+
+<h3>Step 5: start the app (replaces section 9, step 2)</h3>
+<ol class="steps">
+  <li>In the WSL window's terminal, from the <code>code-audit</code> folder, run (change the folder to yours):
+<pre><code>.venv/bin/legacy-audit serve --workspace ~/audits/billing</code></pre></li>
+  <li>The terminal prints <em>... at http://127.0.0.1:8765/ (Ctrl+C to stop)</em>. If your browser doesn't open by itself, hold <kbd>Ctrl</kbd> and click that address in the terminal, or type <code>http://localhost:8765</code> into your Windows browser. WSL2 passes the address through to Windows, and VS Code may also show a pop-up <em>"Your application running on port 8765 is available"</em> with <span class="menu">Open in Browser</span>.</li>
+  <li>Everything else in sections 9 to 13 works the same.</li>
+</ol>
+<div class="callout warn"><p><span class="label">The page says "Host not allowed".</span> The app only accepts its own address, port included. This happens when the browser's address uses a different port than the app, for example because VS Code forwarded 8765 to another port when something on Windows already used 8765. Close the other program, or stop the app (<kbd>Ctrl</kbd>+<kbd>C</kbd>) and start it with <code>--port 8790</code>, then open <code>http://localhost:8790</code>. The two numbers must match.</p></div>
+
+<h3>Step 6: opening reports and files</h3>
+<ul>
+  <li><strong>Reports:</strong> the easiest way is the app's <span class="menu">8. Reports</span> screen. <span class="menu">Open</span> shows each report through the app's address, which works fine in your Windows browser. Tasks 7 and 11 and <code>report --open</code> build the report but may not open a browser from WSL. If not, go to the run's report folder and use File Explorer:
+<pre><code>cd ~/audits/billing/audit-output/latest/reports/tech
+explorer.exe .</code></pre>
+  Then double-click <code>index.html</code>. The report works from there, offline, as usual.</li>
+  <li><strong>"Open inputs folder" and "Open run folder"</strong> in the app use Linux's <code>xdg-open</code>. Install the WSL helpers once so they open Windows File Explorer:
+<pre><code>sudo apt install -y wslu xdg-utils</code></pre>
+  If a button still does nothing or shows an error, open the folder with <code>explorer.exe .</code> from the terminal instead.</li>
+  <li><strong>"Open in VS Code" and "VS Code" links</strong> (in the app's Explorer and in the reports) point at a Linux path. Clicked in a Windows browser, they open a plain Windows VS Code window that can't see Linux files. Instead, copy the file and line shown next to the link (for example <code>src/OrderDao.java:42</code>), go to your WSL VS Code window, press <kbd>Ctrl</kbd>+<kbd>P</kbd>, paste it and press <kbd>Enter</kbd>.</li>
+</ul>
+
+<h3>Step 7: Copilot in WSL (section 13)</h3>
+<p>Open the audit folder in a WSL window (<code>cd ~/audits/billing &amp;&amp; code .</code>), then use Copilot Chat and the <strong>legacy-auditor</strong> agent as described. Copilot runs its commands in the Linux terminal. If it can't find <code>legacy-audit</code>, give it the full path <code>/home/you/code-audit/.venv/bin/legacy-audit</code>, and put the same path as <code>"command"</code> in the audit folder's <code>.vscode/mcp.json</code>.</p>
+
+<h3>WSL2 problems and fixes</h3>
+<div class="table-wrap"><table>
+  <tr><th>What you see</th><th>What to do</th></tr>
+  <tr><td>Task 1: <code>python: command not found</code></td><td><code>sudo apt install -y python-is-python3</code>, or use the <code>python3.12</code> command from step 2.</td></tr>
+  <tr><td><code>ensurepip is not available</code> or <code>No module named venv</code></td><td><code>sudo apt install -y python3-venv</code> (or <code>python3.12-venv</code>), delete the half-made <code>.venv</code> folder (<code>rm -rf .venv</code>) and run the setup again.</td></tr>
+  <tr><td><code>requires a different Python: 3.10</code></td><td>Your Ubuntu's Python is too old. Follow the 3.10-or-older part of step 2.</td></tr>
+  <tr><td>Tasks fail with <code>.venv\Scripts\python</code> errors</td><td>You're in a plain Windows window, not WSL. Check the bottom-left corner, then reopen the folder with step 1.</td></tr>
+  <tr><td>Scans are slow</td><td>The code or the audit folder is on <code>/mnt/c</code>. Move them under your Linux home folder (step 4).</td></tr>
+  <tr><td>The browser doesn't open by itself</td><td>Normal in WSL. Open <code>http://localhost:8765</code> yourself, or install <code>wslu</code> (step 6).</td></tr>
+  <tr><td>"Host not allowed"</td><td>The port in the browser's address differs from the app's. See the box under step 5.</td></tr>
+  <tr><td>"This site can't be reached"</td><td>Check that the app is still running in the WSL terminal. If it is, run <code>wsl --shutdown</code> in Windows PowerShell, reopen the WSL window and start the app again.</td></tr>
+</table></div>
+
 <!-- ============================================================ 8 -->
 <h2 id="sample">8. Practice on a sample application</h2>
 <p>The project includes four small made-up applications in the <code>samples</code> folder, so you can try everything safely:</p>
@@ -370,6 +469,7 @@ footer { margin-top: 60px; color: var(--muted); font-size: 14px; border-top: 1px
   <li><strong>Leave the terminal running</strong> while you use the app. Closing it stops the app.</li>
 </ol>
 <details><summary>On a Mac or Linux</summary><pre><code>.venv/bin/legacy-audit serve --workspace "/Users/you/Audits/billing"</code></pre></details>
+<p>In <strong>WSL2</strong>, see <a href="#wsl">WSL2, step 5</a>.</p>
 <div class="callout tip"><p><span class="label">Next time.</span> To come back to the same application later, run the same command again. Your settings and all earlier runs are still in the audit folder.</p></div>
 
 <h3>Step 3: set it up and run it</h3>
