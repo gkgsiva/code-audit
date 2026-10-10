@@ -105,3 +105,35 @@ The steps below are for looking at the results yourself.
    *Appendix* shows the counting rules, the config with passwords masked, and the run log summary.
 8. **Re-run**: run tasks 4 and 7 again. A new `runs/<run-id>/reports/tech/` appears, the older
    run's report is unchanged, and `latest` points to the new one.
+
+## Phase 5: Copilot agent, enrichment, management deck and PPTX
+
+1. Run task `audit: 1. set up` again (adds `python-pptx` for the tests), then
+   `audit: 8. install the PPTX builder (npm, once)` (needs Node.js 18+).
+2. **Copilot files**: run `audit: 9. install Copilot files into a sample (init)`. The sample now
+   has `.github/agents/legacy-auditor.agent.md`, `.github/chatmodes/…`, `.github/prompts/audit-*.prompt.md`,
+   `.github/copilot-instructions.md`, `.github/legacy-audit/schemas/` and `.vscode/mcp.json`.
+   Edit `copilot-instructions.md` and run the task again: your edit stays and the file is not
+   listed as updated. These files are ignored by git here and never scanned.
+3. **Enrichment without Copilot**: run `audit: 4. scan a sample` with `struts-oracle-app`, then
+   `audit: 10. load demo enrichment and validate` with an empty option. All 12 stages show
+   `valid`. Run it again with `--break`: the terminal shows
+   `figure 'Services' says 12 but the scan says 4 (counts.services.total)` and exits with an
+   error. Run it once more without `--break` to restore.
+4. **Stale stages**: run `audit: 4. scan a sample` again. Open
+   `samples/struts-oracle-app/audit-output/latest/enrichment/status.json`: the enrichment was
+   carried into the new run and `stale` is empty, since nothing changed. (The automated test adds
+   Autosys input to `spring-mvc-batch-app` and checks that flows, risks, plan and narratives go
+   stale while classification does not.)
+5. **Decks**: run `audit: 11. build management deck and PPTX`. The technical report opens; it has
+   a new **Analysis** page with the enrichment, its stage states and evidence links. Then open
+   `audit-output/latest/reports/mgmt/index.html`: arrow keys move between 26 slides, `N` shows
+   speaker notes, the browser's Print saves a PDF with one slide per page. Open
+   `audit-output/latest/reports/deck.pptx` in PowerPoint: click a chart and choose
+   **Edit Data**; the charts are native charts and the tables are native tables.
+6. **Placeholders**: build the decks for another sample (no enrichment). Slides that need
+   enrichment show "Not enriched yet … run /audit-enrich <stage> in Copilot".
+7. **MCP / facts**: run `audit: 12. query facts as Copilot does`; it prints the JSON rows that the
+   MCP tool `query_facts` returns. With Copilot: open the sample folder as a workspace, start the
+   `legacy-audit` server from `.vscode/mcp.json`, pick the **legacy-auditor** agent and ask
+   "which services use the ORDERS table?". See `docs/copilot-agent.md`.

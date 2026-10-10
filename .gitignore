@@ -9,3 +9,5 @@ dist/
 # scan outputs of sample apps
 samples/*/audit-output/
 node_modules/
+samples/*/.github/
+samples/*/.vscode/

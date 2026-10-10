@@ -8,6 +8,20 @@
       "description": "Sample application to scan",
       "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2"],
       "default": "struts-oracle-app"
+    },
+    {
+      "id": "demo",
+      "type": "pickString",
+      "description": "Load the demo enrichment as is, or with one wrong count",
+      "options": ["", "--break"],
+      "default": ""
+    },
+    {
+      "id": "kind",
+      "type": "pickString",
+      "description": "Kind of facts",
+      "options": ["services", "screens", "sql_statements", "integrations", "batch_jobs", "libraries", "findings", "components"],
+      "default": "services"
     }
   ],
   "tasks": [
@@ -70,6 +84,48 @@
       "command": ".venv/bin/python -m legacy_audit report --type tech --open -c samples/${input:sample}/audit.yaml",
       "windows": {
         "command": ".venv\\Scripts\\python -m legacy_audit report --type tech --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 8. install the PPTX builder (npm, once)",
+      "type": "shell",
+      "command": "npm install --prefix pptx",
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 9. install Copilot files into a sample (init)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit init samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit init samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 10. load demo enrichment and validate (Struts sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/demo_enrichment.py samples/struts-oracle-app ${input:demo}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\demo_enrichment.py samples\\struts-oracle-app ${input:demo}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 11. build management deck and PPTX",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type all --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type all --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 12. query facts as Copilot does",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit facts ${input:kind} --limit 5 -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit facts ${input:kind} --limit 5 -c samples\\${input:sample}\\audit.yaml"
       },
       "problemMatcher": []
     }

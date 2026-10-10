@@ -9,7 +9,7 @@ Update this file at the end of every phase, and whenever a session stops mid-pha
 | 2 – Core analyzers | Done | 15 analyzers (build, deps, config, java, web, spring, sql, shell, c_cpp, proc, cobol/BMS, jcl, autosys, mq, cft), linker (edges, merges, Maven versions, screen/partial and COBOL sub-program rules, service reach, component classification), headline counts, analyzer coverage in `run.json`, 3 new samples with `expected.yaml`, re-run and 200k LOC stress tests (2026-10-10) |
 | 3 – Rules, metrics, dependency security | Done | Code units and cyclomatic complexity, duplication, fan-in/out, dead-code candidates, test ratio, complexity bands; rule engine with 4 YAML packs (19 risk rules, PostgreSQL constructs, dependency rules, EOL) and config switches; PostgreSQL grading with sqlglot; Dependency-Check/OSV import or run, EOL, upgrade advice, CycloneDX SBOM, optional jdeps/jdeprscan; effort model; 4 samples extended (2026-10-10). Added after review: dynamic SQL rebuilt in Java, C/ODBC/OCI, Pro*C and COBOL with holes, variants and grading; VS Code tasks and `docs/validate-in-vscode.md` (2026-10-10) |
 | 4 – Technical HTML report | Done | `legacy-audit report --type tech [--open]`: static offline site per run (overview, component pages, architecture/integration/batch Mermaid diagrams, 8 catalogues with search/filter/sort/paging, CRUD matrix, PostgreSQL readiness, dependency security + SBOM download, findings, appendix), evidence links to files and VS Code, light/dark; vendored Chart.js and Mermaid (2026-10-10) |
-| 5 – Copilot agent, enrichment, management outputs | Not started | |
+| 5 – Copilot agent, enrichment, management outputs | Done | `init` installs the legacy-auditor agent, instructions, 4 prompt files, enrichment schemas and `.vscode/mcp.json` (keeps user edits); 12 enrichment schemas; `legacy-audit validate` (schema, references, figures vs scan, evidence, prose counts) with stamping, staleness and carry-over; read-only MCP server and `facts` command; `deck.json`, HTML management deck (26 slides) and editable PPTX with native charts; Analysis page in the technical report (2026-10-10) |
 | 6 – GUI and hardening | Not started | |
 
 ## Phase 3 result
@@ -59,11 +59,32 @@ Checked by eye in Chromium (light and dark): overview, components, architecture,
 findings, appendix pages of the samples; no console errors and no network requests.
 How to validate in VS Code: `docs/validate-in-vscode.md` § Phase 4.
 
+## Phase 5 result
+
+Acceptance criteria (from `docs/prompts/phase-5-agent-enrichment-mgmt.md`), all checked by tests:
+
+1. `init` on a sample installs the Copilot files; re-running `init` keeps user edits and writes a
+   `.new` copy when the template changed (`tests/test_copilot.py`).
+2. Hand-written enrichment for `struts-oracle-app` (`tests/fixtures/enrichment/`) validates; a
+   wrong count, missing or out-of-range evidence, an unknown id or component fails with a message
+   naming the field (`tests/test_enrich.py`).
+3. Adding Autosys input and re-scanning `spring-mvc-batch-app` marks flows, risks, plan and
+   narratives stale but not classification; an unchanged re-scan marks nothing; enrichment
+   written into a copied `latest` survives (`tests/test_enrich.py`).
+4. `report --type mgmt` and `--type pptx` build for the sample with fixtures; the PPTX opens with
+   python-pptx, has one slide per `deck.json` slide, native bar, doughnut and line charts, native
+   tables and no chart pictures; the HTML deck is offline and its KPIs equal the summary for every
+   sample; missing enrichment gives placeholders (`tests/test_mgmt.py`).
+5. The MCP server answers each tool in-process and over real stdio (`tests/test_mcp.py`).
+
+Checked by eye: HTML deck in Chromium (no console errors, no network); the PPTX rendered through
+LibreOffice. The Copilot files were not run inside VS Code from the build environment (see
+`docs/copilot-agent.md` § Versions). How to validate in VS Code: `docs/validate-in-vscode.md`
+§ Phase 5.
+
 ## Next step
 
-Start phase 5 (Copilot agent, enrichment, management outputs): read
-`docs/prompts/phase-5-*.md`. The technical report has hook points for enrichment (architecture
-page, an enrichment section) to fill once the enrichment schemas exist (decision 69).
+Start phase 6 (GUI and hardening): read `docs/prompts/phase-6-gui-hardening.md`.
 
 ## Known gaps
 
@@ -98,3 +119,9 @@ page, an enrichment section) to fill once the enrichment schemas exist (decision
 - Report: diagrams are capped at 60 nodes (largest components, most used integrations) with a
   note; the full lists are in the catalogues. Licence flags rely on licences in POMs/manifests,
   which most scanned libraries do not carry. Enrichment sections arrive in phase 5.
+- Copilot: the agent and prompt files follow the documented VS Code 1.105–1.106 formats and are
+  tested for shape only; the first real run in VS Code may need the `tools:` list adjusting.
+- Enrichment staleness compares whole fact files per kind, so any change in a kind (even in
+  another component) marks the stages that read it stale.
+- PPTX: diagrams are pictures only when Mermaid CLI is installed; the corporate master
+  (`branding.pptx_template`) is not applied yet; long tables are cut to 10 rows per slide.
