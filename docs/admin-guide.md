@@ -76,8 +76,12 @@ import (decision 8).
   `dependency-check --updateonly --data D:/nvd` (add `--nvdDatafeed <mirror>` for a mirror).
   Each run records the database date in `run.json` (`vulnerability_sources`) and the reports print
   it, so stale data is visible.
-- **OSV-Scanner**: `security.osv_scanner.path` and `data_dir` with `offline: true`; refresh its
-  local database with `osv-scanner --download-offline-databases` on a schedule.
+- **OSV-Scanner** (version 2.x): `security.osv_scanner.path` and, optionally, `data_dir` with
+  `offline: true`. The scan runs `osv-scanner --offline --experimental-plugins java/archive`
+  (jar files as well as build files); `data_dir` is passed as `OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY`.
+  Refresh the local database on a schedule with the same variable set:
+  `osv-scanner scan source --offline-vulnerabilities --download-offline-databases
+  --experimental-plugins java/archive -r <code folder>`.
 - **Imported reports**: put Dependency-Check `JSON` or OSV-Scanner JSON output in
   `audit-inputs/security/`; the run imports them and says so in the coverage list.
 
