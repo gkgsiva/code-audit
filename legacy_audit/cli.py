@@ -236,6 +236,64 @@ def report(
         console.print("  mgmt and pptx reports arrive in phase 5; built tech only.")
 
 
+def _resolve(config: Path, run: str, output_dir: Path | None) -> tuple[Path, Path]:
+    """(run folder, inputs folder) for a command that reads an existing run."""
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    try:
+        return resolve_run(output_dir or loaded.output_dir, run), loaded.inputs_dir
+    except RunNotFound as err:
+        raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
+
+
+@app.command()
+def validate(
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    stage: Annotated[
+        list[str] | None, typer.Option("--stage", "-s", help="Only these stages (repeatable)")
+    ] = None,
+    restamp: Annotated[
+        bool,
+        typer.Option(help="Record the current facts as the stages' inputs (after re-running them)"),
+    ] = False,
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Check the Copilot enrichment against the scan; mark stale stages in status.json."""
+    from legacy_audit.enrich.stages import STAGES
+    from legacy_audit.enrich.validate import validate_run
+
+    run_dir, _ = _resolve(config, run, output_dir)
+    rep = validate_run(run_dir, stage, restamp=restamp)
+    for m in rep.messages:
+        colour = "red" if m.level == "error" else "yellow"
+        console.print(f"[{colour}]{m}[/{colour}]")
+    table = Table("#", "stage", "file", "state")
+    for st in STAGES:
+        e = rep.status["stages"][st.name]
+        if not e["present"]:
+            state = "[dim]missing[/dim]"
+        elif any(m.stage == st.name and m.level == "error" for m in rep.messages):
+            state = "[red]invalid[/red]"
+        elif e.get("stale"):
+            why = ", ".join(
+                e.get("changed", []) + [f"stage:{u}" for u in e.get("stale_upstream", [])]
+            )
+            state = f"[yellow]stale[/yellow] ({why})"
+        else:
+            state = "[green]valid[/green]"
+        table.add_row(str(st.number), st.name, st.file, state)
+    console.print(table)
+    console.print(
+        f"{len(rep.checked)} checked, {len(rep.errors)} error(s), {len(rep.warnings)} "
+        f"warning(s); status -> {run_dir / 'enrichment' / 'status.json'}"
+    )
+    if rep.errors:
+        raise typer.Exit(code=1)
+
+
 @app.command("purge-cache")
 def purge_cache_cmd(
     config: Annotated[

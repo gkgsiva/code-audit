@@ -15,6 +15,7 @@ from legacy_audit import __version__
 from legacy_audit.analyzers import Analyzer, AnalyzerContext, Facts, registered, version_key
 from legacy_audit.assess import assess, team_dir
 from legacy_audit.config import GitSource, LoadedConfig
+from legacy_audit.enrich.status import carry_over
 from legacy_audit.inventory.cache import CacheEntry, FileCache
 from legacy_audit.inventory.components import detect_components
 from legacy_audit.inventory.files import INVENTORY_VERSION, analyze_file, skip_by_extension
@@ -36,7 +37,7 @@ from legacy_audit.model import (
 from legacy_audit.overrides import apply_component_overrides, load_overrides
 from legacy_audit.rules.packs import rules_key, text_rules
 from legacy_audit.source import resolve_sources
-from legacy_audit.store.runs import new_run_id, runs_dir, set_latest
+from legacy_audit.store.runs import LATEST_FILE, new_run_id, runs_dir, set_latest
 from legacy_audit.store.summary import build_summary
 from legacy_audit.store.writer import FactSet, write_facts, write_json
 
@@ -127,6 +128,12 @@ def _analyzer_coverage(file_facts: list[tuple[str, str, Facts]]) -> dict[str, An
         if cov.lines:
             cov.coverage_pct = round(100.0 * (cov.lines - cov.unparsed_lines) / cov.lines, 1)
     return dict(sorted(out.items()))
+
+
+def _previous_run(out_dir: Path) -> Path | None:
+    latest = runs_dir(out_dir) / LATEST_FILE
+    run_id = latest.read_text(encoding="utf-8").strip() if latest.exists() else ""
+    return runs_dir(out_dir) / run_id if run_id else None
 
 
 def run_scan(
@@ -399,6 +406,7 @@ def _run(
     write_json(run_dir / "run.json", run.model_dump(mode="json"))
     effort = assessed.effort.model_dump(mode="json") if assessed.effort else None
     write_json(data_dir / "audit-summary.json", build_summary(run, facts, effort=effort))
+    carry_over(_previous_run(out_dir), run_dir)
     set_latest(out_dir, run_id)
     for w in warnings:
         log.warning(w)

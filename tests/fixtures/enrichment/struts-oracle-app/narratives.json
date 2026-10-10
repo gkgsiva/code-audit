@@ -1,0 +1,35 @@
+{
+  "meta": {
+    "stage": "narratives",
+    "author": "copilot-agent"
+  },
+  "executive": {
+    "text": "Orders is a small, business-critical Struts application with 4 services and 4 screens. It runs on end-of-life libraries with critical vulnerabilities. A three-wave migration to Spring Boot, Angular and Cloud SQL is estimated at 37 to 129 person-days (likely 68).",
+    "key_messages": [
+      "Small estate, high risk today",
+      "Three waves, about four months",
+      "Two decisions needed now"
+    ]
+  },
+  "architect": {
+    "text": "One WAR with JSP, Struts actions, a JDBC DAO and a PL/SQL pricing package. The target splits it into an Angular UI and a Spring Boot API on Cloud Run with Cloud SQL.",
+    "key_messages": [
+      "No service layer today",
+      "Pricing logic moves from PL/SQL to Java"
+    ]
+  },
+  "functional": {
+    "text": "Agents keep the same steps: log in, search, open an order. Login moves to the corporate single sign-on and pages become faster.",
+    "key_messages": [
+      "Same steps for users",
+      "Single sign-on"
+    ]
+  },
+  "developer": {
+    "text": "Rewrite the 3 Struts actions as REST endpoints, replace concatenated SQL with bind parameters, and port PKG_ORDER_PRICING with golden tests.",
+    "key_messages": [
+      "Bind parameters only",
+      "Golden tests for pricing"
+    ]
+  }
+}

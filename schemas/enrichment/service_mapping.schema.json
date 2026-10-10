@@ -1,0 +1,185 @@
+{
+  "$defs": {
+    "BuiltFrom": {
+      "additionalProperties": false,
+      "properties": {
+        "facts_hash_by_input": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "sha256 of each fact file (and 'stage:<name>' of each upstream stage)",
+          "title": "Facts Hash By Input",
+          "type": "object"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "facts_hash_by_input"
+      ],
+      "title": "BuiltFrom",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "default": "copilot-agent",
+          "title": "Author",
+          "type": "string"
+        },
+        "built_from": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BuiltFrom"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stamped by `legacy-audit validate`; leave it out when (re)writing"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        },
+        "overrides_noted": {
+          "description": "Overrides from audit-overrides.yaml (run.json > overrides) this stage took into account",
+          "items": {
+            "type": "string"
+          },
+          "title": "Overrides Noted",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Meta",
+      "type": "object"
+    },
+    "ServiceMap": {
+      "additionalProperties": false,
+      "properties": {
+        "approach": {
+          "enum": [
+            "rehost",
+            "replatform",
+            "refactor",
+            "rewrite",
+            "retire",
+            "replace"
+          ],
+          "title": "Approach",
+          "type": "string"
+        },
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        },
+        "service_id": {
+          "title": "Service Id",
+          "type": "string"
+        },
+        "target": {
+          "description": "e.g. Spring Boot REST controller, Spring Batch job",
+          "title": "Target",
+          "type": "string"
+        },
+        "target_component": {
+          "title": "Target Component",
+          "type": "string"
+        }
+      },
+      "required": [
+        "service_id",
+        "target",
+        "target_component",
+        "approach"
+      ],
+      "title": "ServiceMap",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/enrichment/service_mapping.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "mappings": {
+      "items": {
+        "$ref": "#/$defs/ServiceMap"
+      },
+      "title": "Mappings",
+      "type": "array"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "required": [
+    "meta",
+    "mappings"
+  ],
+  "title": "ServiceMapping",
+  "type": "object"
+}
