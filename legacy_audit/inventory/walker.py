@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import sys
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
 from pathlib import Path
@@ -88,10 +89,26 @@ def anchored_excludes(root: Path, paths: Iterable[Path]) -> list[str]:
     return out
 
 
+def extended_path(path: Path | str, windows: bool = sys.platform == "win32") -> str:
+    r"""On Windows, the ``\\?\`` form of an absolute path, which is not limited to 260
+    characters (legacy trees nest deeply). Elsewhere the path unchanged."""
+    raw = str(path)
+    if not windows or raw.startswith("\\\\?\\"):
+        return raw
+    if sys.platform == "win32":
+        raw = os.path.abspath(raw)
+    raw = raw.replace("/", "\\")
+    if raw.startswith("\\\\"):  # UNC share: \\server\share -> \\?\UNC\server\share
+        return "\\\\?\\UNC\\" + raw[2:]
+    return "\\\\?\\" + raw
+
+
 def walk(
     root_name: str, root: Path, filters: Filters, subpaths: list[str] | None = None
 ) -> Iterator[WalkedFile]:
-    """Yield selected files in a stable (sorted) order."""
+    """Yield selected files in a stable (sorted) order. Symlinked folders and files are not
+    followed (no loops, nothing outside the tree); on Windows paths over 260 characters work."""
+    root = Path(extended_path(root))
     starts = [root / to_posix(s) for s in subpaths] if subpaths else [root]
     for start in starts:
         if not start.exists():

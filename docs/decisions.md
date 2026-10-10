@@ -17,7 +17,7 @@ Decisions taken while planning. Newest last. These override `docs/plan.md` where
 
 ## Open
 
-- Typical estate size (LOC, number of apps) — needed for phase 6 performance targets. Default target until answered: 2M LOC scanned in under 15 minutes on a laptop.
+- Typical estate size (LOC, number of apps): still open. Phase 6 used the default target, 2M LOC scanned in under 15 minutes on a laptop (decision 92, `docs/performance.md`).
 - Angular 21 fixed, or "latest Angular LTS"? Default: 21, configurable.
 - Further frameworks (EJB 2.x, JSF, GWT, Tapestry, .NET)? Default: EJB and JSF covered at the level in the plan; others not in scope.
 
@@ -117,3 +117,19 @@ Decisions taken while planning. Newest last. These override `docs/plan.md` where
 | 80 | 2026-10-10 | Dev dependency `python-pptx` reads the generated PPTX in tests (slide count, chart types, tables, no chart pictures); CI installs Node 20 and runs `npm ci --prefix pptx` | The acceptance test needs to open the PPTX |
 | 81 | 2026-10-10 | The technical report gains an **Analysis** page showing the enrichment (stage states, risks, flows, service mapping, plan, narratives) with evidence links, labelled as Copilot interpretation | Completes decision 69; scanner counts stay on the other pages |
 | 82 | 2026-10-10 | `scripts/demo_enrichment.py` loads the hand-written test fixtures into a scanned sample and validates them (`--break` injects a wrong count) | Lets the team check phase 5 in VS Code without Copilot |
+
+## Phase 6 decisions
+
+| # | Date | Decision | Reason |
+| --- | --- | --- | --- |
+| 83 | 2026-10-10 | Runtime dependencies `fastapi` (GUI API, OpenAPI docs) and `uvicorn` (its server); dev dependency `httpx` (FastAPI's test client) | Named in the plan; no other web stack is needed |
+| 84 | 2026-10-10 | `legacy-audit serve` binds to `127.0.0.1` only, with no option to change it. It refuses Host headers other than `127.0.0.1:<port>` / `localhost:<port>` (DNS rebinding) and any POST/PUT/DELETE without the `X-Legacy-Audit: 1` header or from another origin (a cross-site page cannot set it without a CORS pre-flight, which is never granted) | The GUI can start scans and write files; only the local user may drive it |
+| 85 | 2026-10-10 | The GUI API calls the same functions as the CLI (`run_scan`, report builders, `validate_run`, `diff_runs`, the MCP `Facts` queries, `doctor`); `init` moved to `workspace.py` so both share it | No duplicate logic, as the phase prompt requires |
+| 86 | 2026-10-10 | Form edits replace only the top-level blocks they change (`application`, `source`, `target`, `include`, `exclude`) and validate the result before writing; the raw editor validates the whole text. The component picker writes `files.exclude` (`<folder>/**`) and `components.type` in `audit-overrides.yaml`. Git tokens are never typed: the form takes the environment variable's name | Keeps the documented comments in `audit.yaml`; overrides are the place for human corrections; no secret is stored |
+| 87 | 2026-10-10 | Jobs (scan, report build) run in a background thread, one at a time per GUI; progress is sent as Server-Sent Events (throttled to a few per second) and warnings are relayed from the log; cancel sets an Event checked between files and stages | Simple, no extra dependency; a 100k-file scan does not flood the browser |
+| 88 | 2026-10-10 | One scan per output folder via an OS file lock on `runs/.lock` (`fcntl` / `msvcrt`), released when the process dies. A cancelled run's folder is removed; a run folder without `run.json` left by a crash is removed by the next scan; the file cache is committed every 500 files, so the next scan resumes instead of starting over | A stale lock file can never block; interrupted runs never show up as runs |
+| 89 | 2026-10-10 | Per-file analysis and PostgreSQL grading run in a process pool (`inventory.workers`, 0 = CPUs − 1, at most 8); batches under 64 items run in-process. Results are consumed in input order, so outputs are identical for any worker count (tested). SQL grades are cached in `cache/grade-cache.sqlite`, keyed by statement and rule-set hash, pruned to what the last run used | SQL parsing and grading were about 70 % of a 500k-line scan; determinism is non-negotiable |
+| 90 | 2026-10-10 | Files over `inventory.max_file_size_mb` become `file-too-large` findings and unreadable files (permissions, path too long, vanished) become `file-unreadable` findings, both `low`, category `coverage` | Missing inputs are coverage gaps, not errors |
+| 91 | 2026-10-10 | On Windows the walker uses `\\?\` extended paths (UNC: `\\?\UNC\…`) so trees deeper than 260 characters are read; symlinked folders and files are not followed (no loops, nothing outside the tree) | Legacy trees nest deeply; the team works on Windows |
+| 92 | 2026-10-10 | Performance target kept at 2M LOC in under 15 minutes on a laptop (open question unanswered); measured on the generated estate in `tests/stress_tree.py` with `scripts/perf.py`, results in `docs/performance.md` | A repeatable benchmark anyone can run in VS Code (task 15) |
+| 93 | 2026-10-10 | `legacy-audit doctor` reports Python and the Python packages (required), the output folder (required, writable), and Node 18+, pptxgenjs, Mermaid CLI, Dependency-Check (and its data folder), OSV-Scanner, `jdeps` and Git (optional; Git required when the source is Git); exit code 1 only when something required is missing | One place to see what a laptop can produce |

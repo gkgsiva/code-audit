@@ -10,7 +10,7 @@ Update this file at the end of every phase, and whenever a session stops mid-pha
 | 3 – Rules, metrics, dependency security | Done | Code units and cyclomatic complexity, duplication, fan-in/out, dead-code candidates, test ratio, complexity bands; rule engine with 4 YAML packs (19 risk rules, PostgreSQL constructs, dependency rules, EOL) and config switches; PostgreSQL grading with sqlglot; Dependency-Check/OSV import or run, EOL, upgrade advice, CycloneDX SBOM, optional jdeps/jdeprscan; effort model; 4 samples extended (2026-10-10). Added after review: dynamic SQL rebuilt in Java, C/ODBC/OCI, Pro*C and COBOL with holes, variants and grading; VS Code tasks and `docs/validate-in-vscode.md` (2026-10-10) |
 | 4 – Technical HTML report | Done | `legacy-audit report --type tech [--open]`: static offline site per run (overview, component pages, architecture/integration/batch Mermaid diagrams, 8 catalogues with search/filter/sort/paging, CRUD matrix, PostgreSQL readiness, dependency security + SBOM download, findings, appendix), evidence links to files and VS Code, light/dark; vendored Chart.js and Mermaid (2026-10-10) |
 | 5 – Copilot agent, enrichment, management outputs | Done | `init` installs the legacy-auditor agent, instructions, 4 prompt files, enrichment schemas and `.vscode/mcp.json` (keeps user edits); 12 enrichment schemas; `legacy-audit validate` (schema, references, figures vs scan, evidence, prose counts) with stamping, staleness and carry-over; read-only MCP server and `facts` command; `deck.json`, HTML management deck (26 slides) and editable PPTX with native charts; Analysis page in the technical report (2026-10-10) |
-| 6 – GUI and hardening | Not started | |
+| 6 – GUI and hardening | Done | `legacy-audit serve` (local FastAPI GUI, 9 screens, background jobs with live progress and cancel), `legacy-audit doctor`; files analysed and SQL graded in parallel processes with a grade cache; scan lock, cleanup of interrupted runs, findings for too-large/unreadable files, long Windows paths; faster linking; user, admin and rules guides, performance results, changelog (2026-10-10) |
 
 ## Phase 3 result
 
@@ -82,9 +82,38 @@ LibreOffice. The Copilot files were not run inside VS Code from the build enviro
 `docs/copilot-agent.md` § Versions). How to validate in VS Code: `docs/validate-in-vscode.md`
 § Phase 5.
 
+## Phase 6 result
+
+Acceptance criteria (from `docs/prompts/phase-6-gui-hardening.md`):
+
+1. From a clean environment with only Python, the GUI's API inits a workspace, scans, shows the
+   dashboard and builds the technical report (`tests/test_gui.py::test_clean_workspace_init_scan_dashboard_report`).
+   Also checked by hand: the built wheel installed into a fresh venv, `legacy-audit serve` driven
+   end to end over HTTP on a copy of the C/Pro*C sample.
+2. Adding a JIL from Inputs and re-running updates the dashboard (batch jobs up, Autosys present)
+   and marks flows, risks, plan and narratives stale; compare runs lists the new jobs
+   (`test_inputs_upload_rerun_marks_enrichment_stale`).
+3. `doctor` reports Node and Dependency-Check as missing, optional, with what each adds, and still
+   says the machine can scan (`tests/test_hardening.py::test_doctor_without_node_or_dependency_check`).
+4. Performance on a generated 2M-line estate meets the 15-minute target; see
+   [performance.md](performance.md).
+
+Hardening tests (`tests/test_hardening.py`): ordered parallel map and cancel, parallel scan equals
+serial, cancel removes the unfinished run, interrupted runs are cleaned up, one scan at a time,
+too-large and unreadable files, symlink loop, read-only source tree, `\\?\` paths and paths over
+260 characters (the last one runs on Windows CI only). GUI safety (`tests/test_gui.py`): foreign
+hosts and cross-site writes refused, path traversal refused, secrets masked in the source viewer
+and data pack.
+
+Checked by eye in Chromium: all 9 screens, light and dark and at phone width, with no console
+errors and no requests leaving `127.0.0.1`. How to validate in VS Code:
+`docs/validate-in-vscode.md` § Phase 6.
+
 ## Next step
 
-Start phase 6 (GUI and hardening): read `docs/prompts/phase-6-gui-hardening.md`.
+All six phases are done. Next: validate on a real estate and on the team's Windows laptops (record
+laptop timings in `docs/performance.md`), calibrate the complexity and effort weights, and run the
+Copilot agent in VS Code once.
 
 ## Known gaps
 
@@ -101,8 +130,12 @@ Start phase 6 (GUI and hardening): read `docs/prompts/phase-6-gui-hardening.md`.
   (`files.include: ["build/"]`), as in `.gitignore`.
 - `purge-cache` removes the whole Git clone cache; there is no per-repo purge yet.
 - Python 3.11 and Windows are covered by CI only (local runs were Linux, Python 3.13).
-- Stress test: 200k LOC (1.6k files) scans in about 16 s and re-runs from cache in about 4 s on
-  the build container; laptop timings still to be measured.
+- Performance was measured on the 4-CPU build container with a generated estate
+  (`docs/performance.md`); laptop timings and a real estate are still to be measured. A 2M-line
+  run writes about 2.6 GB of output, most of it fact files in three formats.
+- GUI: one analyst per laptop; no login, no multi-user locking beyond one scan at a time. The
+  pre-scan on the Components screen uses file names only, so its type can differ from the
+  scan's (the latest scan's type is shown when there is one).
 - Vulnerabilities come only from Dependency-Check / OSV-Scanner results (imported or run); the
   tool does not download or sync a database itself. Transitive dependencies that are not in the
   inventory are counted as unmatched report entries (logged), not listed.

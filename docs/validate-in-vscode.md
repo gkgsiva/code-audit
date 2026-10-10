@@ -137,3 +137,48 @@ The steps below are for looking at the results yourself.
    MCP tool `query_facts` returns. With Copilot: open the sample folder as a workspace, start the
    `legacy-audit` server from `.vscode/mcp.json`, pick the **legacy-auditor** agent and ask
    "which services use the ORDERS table?". See `docs/copilot-agent.md`.
+
+## Phase 6: GUI and hardening
+
+1. Run task `audit: 1. set up` again (adds FastAPI and uvicorn), then
+   `audit: 14. check installed tools (doctor)`. The table lists Python and the Python packages as
+   required and `ok`, and every other tool as optional, with what it is needed for. Rename your
+   Node folder or run on a machine without it: Node.js shows `missing` and the command still ends
+   with "Ready to scan".
+2. **GUI from a clean folder**: create an empty folder, copy one sample's code into it (for
+   example `samples/struts-oracle-app/orders-web` as `src`), and in a terminal there run
+   `<repo>\.venv\Scripts\legacy-audit serve` (Windows) or `<repo>/.venv/bin/legacy-audit serve`.
+   The browser opens on **Project setup**:
+   - Click **Create audit.yaml**, set *Folders* to `src` and **Save audit.yaml**. Open
+     `audit.yaml` in VS Code: the comments are still there.
+   - On **Run**, click **Re-run**. The bar moves through inventory, analysis, linking, rules and
+     writing facts, and the run appears in the table.
+   - Open **Dashboard** (tiles and four charts), then **Reports** > **Build technical report** >
+     **Open**.
+
+   No CLI command was needed apart from starting the GUI.
+3. **Late input**: copy `samples/spring-mvc-batch-app/audit-inputs/autosys/billing.jil` to your
+   Desktop, then run `audit: 13. start the GUI on a sample` with `spring-mvc-batch-app`.
+   - On **Inputs**, **Remove** `billing.jil`, then **Re-run** on **Run**.
+   - Back on **Inputs**, **Add file** with the copy from your Desktop, then **Re-run** again.
+   - **Dashboard**: *Batch jobs* goes up and the Autosys badge is green.
+   - **Compare runs**: the default previous-to-latest comparison lists the added batch jobs and
+     dependencies.
+   - **AI enrichment** lists the 11 stages as missing with `/audit-enrich all` to copy. With
+     enrichment present, the new JIL marks flows, risks, plan and narratives `stale`; the test
+     `test_inputs_upload_rerun_marks_enrichment_stale` in `tests/test_gui.py` checks exactly this
+     sequence through the GUI's API.
+4. **Explorer**: pick *sql statements*, click a row. The source opens on the right with the line
+   highlighted, and **Open in VS Code** jumps to it. Pick *components* and click one to drill down
+   into its services, SQL and jobs.
+5. **Components**: untick a component, **Save choices**, **Re-run**. It disappears from the
+   dashboard, and `audit-overrides.yaml` has its folder under `files.exclude`. Tick it again
+   afterwards.
+6. **Cancel**: start a **Full rescan** and press **Cancel**. The run table keeps the previous run
+   as latest, and no half-written run folder is left in `audit-output/runs/`.
+7. **Performance**: run `audit: 15. performance test` with `500000`. It prints the full scan and
+   re-run times and the per-stage timings. Compare them with `docs/performance.md`; please send
+   the 2,000,000 result from a team laptop so the laptop column can be filled in.
+8. **Security checks** are automated: `tests/test_gui.py` covers foreign Host headers,
+   cross-site writes, path traversal on evidence, reports, run ids and input file names, and
+   checks that the sample's database password appears in no output file or data pack.

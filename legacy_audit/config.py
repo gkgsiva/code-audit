@@ -325,6 +325,12 @@ class InventoryConfig(Strict):
         20.0, description="Larger files are inventoried (hash, size) but not read for LOC"
     )
     use_default_excludes: bool = True
+    workers: int = Field(
+        0,
+        ge=0,
+        description="Processes used to analyse files and grade SQL; 0 = one per CPU less one "
+        "(at most 8), 1 = no extra processes",
+    )
 
 
 class SqlConfig(Strict):

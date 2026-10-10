@@ -1,11 +1,10 @@
 """Command-line interface: ``legacy-audit init | scan | report | validate | facts | mcp | diff |
-purge-cache | version``."""
+serve | doctor | purge-cache | version``."""
 
 from __future__ import annotations
 
 import json
 import logging
-from importlib.resources import files
 from pathlib import Path
 from typing import Annotated
 
@@ -16,7 +15,7 @@ from rich.progress import BarColumn, MofNCompleteColumn, Progress, TextColumn
 from rich.table import Table
 
 from legacy_audit import __version__
-from legacy_audit.config import INPUT_KINDS, ConfigError, load_config
+from legacy_audit.config import ConfigError, load_config
 from legacy_audit.inventory.inputs import coverage_line
 from legacy_audit.source import SourceError
 from legacy_audit.source.git import default_cache_dir, purge_cache
@@ -50,10 +49,6 @@ def _fail(message: str) -> typer.Exit:
     return typer.Exit(code=1)
 
 
-def _template(name: str) -> str:
-    return files("legacy_audit.templates").joinpath(name).read_text(encoding="utf-8")
-
-
 @app.command()
 def version() -> None:
     """Print the tool version."""
@@ -73,42 +68,25 @@ def init(
     ] = "both",
 ) -> None:
     """Create audit.yaml, audit-overrides.yaml, audit-inputs/ and the Copilot agent files."""
-    from legacy_audit.copilot.install import LAYOUTS, install
+    from legacy_audit.copilot.install import LAYOUTS
+    from legacy_audit.workspace import init_workspace
 
     if copilot_layout not in LAYOUTS:
         raise _fail(f"--copilot-layout must be one of {', '.join(LAYOUTS)}")
-    folder = folder.resolve()
-    folder.mkdir(parents=True, exist_ok=True)
-    app_name = name or folder.name or "application"
-    created: list[str] = []
-    for fname, content in (
-        ("audit.yaml", _template("audit.yaml").format(name=json.dumps(app_name))),
-        ("audit-overrides.yaml", _template("audit-overrides.yaml")),
-    ):
-        target = folder / fname
-        if target.exists() and not force:
-            console.print(f"[yellow]Kept existing {fname}[/yellow] (use --force to overwrite)")
+    done = init_workspace(folder, name, force, copilot_layout)
+    for item in done:
+        if item.action in ("created", "updated"):
+            console.print(f"[green]{item.action}[/green] {item.path}")
+    for item in done:
+        if item.action != "kept":
             continue
-        target.write_text(content, encoding="utf-8", newline="\n")
-        created.append(fname)
-    for kind in INPUT_KINDS:
-        d = folder / "audit-inputs" / kind
-        if not d.exists():
-            d.mkdir(parents=True)
-            (d / ".gitkeep").touch()
-            created.append(f"audit-inputs/{kind}/")
-    for item in created:
-        console.print(f"[green]created[/green] {item}")
-    kept = []
-    for done in install(folder, copilot_layout):
-        if done.action in ("created", "updated"):
-            console.print(f"[green]{done.action}[/green] {done.path}")
-        elif done.action == "kept":
-            kept.append(done.path)
-    for path in kept:
-        console.print(
-            f"[yellow]kept your edits[/yellow] {path} (new version written to {path}.new)"
-        )
+        if item.path in ("audit.yaml", "audit-overrides.yaml"):
+            console.print(f"[yellow]Kept existing {item.path}[/yellow] (use --force to overwrite)")
+        else:
+            console.print(
+                f"[yellow]kept your edits[/yellow] {item.path} "
+                f"(new version written to {item.path}.new)"
+            )
     console.print(
         "Next: review audit.yaml, then run [bold]legacy-audit scan[/bold], or in VS Code open "
         "Copilot Chat, pick the [bold]legacy-auditor[/bold] agent and run /audit-scan."
@@ -403,6 +381,77 @@ def mcp(
         if reconfigure is not None:
             reconfigure(encoding="utf-8")
     Server(Facts(latest)).serve()
+
+
+@app.command()
+def serve(
+    workspace: Annotated[
+        Path, typer.Option("--workspace", "-w", help="Folder holding (or to hold) audit.yaml")
+    ] = Path("."),
+    port: Annotated[int, typer.Option(help="Port on 127.0.0.1")] = 8765,
+    browser: Annotated[bool, typer.Option(help="Open the browser")] = True,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Start the local GUI on http://127.0.0.1:PORT (this computer only)."""
+    import threading
+    import webbrowser
+
+    import uvicorn
+
+    from legacy_audit.gui.app import create_app
+
+    _setup_logging(verbose)
+    folder = workspace.resolve()
+    if not folder.is_dir():
+        raise _fail(f"{folder} is not a folder")
+    url = f"http://127.0.0.1:{port}/"
+    console.print(f"legacy-audit GUI for [bold]{folder}[/bold] at {url} (Ctrl+C to stop)")
+    if browser:
+        threading.Timer(1.0, webbrowser.open, [url]).start()
+    uvicorn.run(create_app(folder, port), host="127.0.0.1", port=port, log_level="warning")
+
+
+@app.command()
+def doctor(
+    config: Annotated[
+        Path | None, typer.Option("--config", "-c", help="audit.yaml (tool paths, output folder)")
+    ] = None,
+) -> None:
+    """Check Python, Node, pptxgenjs, Mermaid CLI, Dependency-Check, OSV-Scanner, JDK and Git."""
+    from legacy_audit.doctor import run_checks
+
+    cfg, out_dir = None, None
+    path = config or Path("audit.yaml")
+    if path.exists():
+        try:
+            loaded = load_config(path)
+        except ConfigError as err:
+            raise _fail(str(err)) from None
+        cfg, out_dir = loaded.config, loaded.output_dir
+    elif config is not None:
+        raise _fail(f"{config} not found")
+    checks = run_checks(cfg, out_dir)
+    table = Table("check", "status", "", "detail", "needed for")
+    colours = {"ok": "green", "missing": "yellow", "old": "red", "error": "red"}
+    for c in checks:
+        colour = colours[c.status] if c.required or c.ok else "yellow"
+        table.add_row(
+            c.name,
+            f"[{colour}]{c.status}[/{colour}]",
+            "required" if c.required else "optional",
+            c.detail,
+            c.needed_for,
+        )
+    console.print(table)
+    broken = [c.name for c in checks if c.required and not c.ok]
+    missing = [c.name for c in checks if not c.required and not c.ok]
+    if broken:
+        console.print(f"[red]Not ready:[/red] {', '.join(broken)}")
+        raise typer.Exit(code=1)
+    console.print(
+        "[green]Ready to scan.[/green]"
+        + (f" Optional, not available: {', '.join(missing)}." if missing else "")
+    )
 
 
 @app.command("purge-cache")
