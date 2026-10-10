@@ -326,7 +326,7 @@ def _run(
 
     # ---- Linking and classification -----------------------------------------------------------
     t = time.perf_counter()
-    linked = link(records, (f for _, _, f in file_facts))
+    linked = link(records, (f for _, _, f in file_facts), cfg.cobol.copybook_paths)
     fixed_types = set(overrides.components.type) | {c.name for c in cfg.components if c.type}
     classify_components(components, linked.entities, source_records, fixed_types)
     timings["link"] = round(time.perf_counter() - t, 3)

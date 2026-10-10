@@ -125,8 +125,14 @@ def _file_id(rec: FileRecord) -> str:
 
 
 class _Linker:
-    def __init__(self, records: list[FileRecord], facts: Iterable[Facts]) -> None:
+    def __init__(
+        self,
+        records: list[FileRecord],
+        facts: Iterable[Facts],
+        copybook_paths: Iterable[str] = (),
+    ) -> None:
         self.records = records
+        self.copybook_dirs = [f"/{d.strip('/')}/".lower() for d in copybook_paths if d.strip("/")]
         self.by_path = {r.path: r for r in records}
         self.entities: dict[str, list[Fact]] = defaultdict(list)
         self.symbols: list[Symbol] = []
@@ -147,24 +153,30 @@ class _Linker:
         rec = self.by_path.get(path or "")
         return rec.component if rec else None
 
-    def _pick(self, paths: list[str], near: str) -> str | None:
-        """Best candidate for a reference made in file ``near``: same component first, then
-        the longest shared folder prefix, then alphabetical."""
+    def _pick(self, paths: list[str], near: str, prefer: list[str] | None = None) -> str | None:
+        """Best candidate for a reference made in file ``near``: one under a ``prefer`` folder
+        first (in order), then same component, then the longest shared folder prefix, then
+        alphabetical."""
         if not paths:
             return None
         if len(paths) == 1:
             return paths[0]
         comp = self.comp(near)
         near_dir = near.split("/")
+        prefer = prefer or []
 
-        def score(p: str) -> tuple[int, int, str]:
+        def rank(p: str) -> int:
+            folder = "/" + p.lower()
+            return next((i for i, d in enumerate(prefer) if d in folder), len(prefer))
+
+        def score(p: str) -> tuple[int, int, int, str]:
             same = 1 if comp is not None and self.comp(p) == comp else 0
             common = 0
             for a, b in zip(p.split("/"), near_dir, strict=False):
                 if a != b:
                     break
                 common += 1
-            return (-same, -common, p)
+            return (rank(p), -same, -common, p)
 
         return sorted(paths, key=score)[0]
 
@@ -187,13 +199,15 @@ class _Linker:
         rec = self.by_path.get(s.file)
         return _file_id(rec) if rec else f"file:{s.file}"
 
-    def _symbol(self, kind: str, name: str, near: str) -> Symbol | None:
+    def _symbol(
+        self, kind: str, name: str, near: str, prefer: list[str] | None = None
+    ) -> Symbol | None:
         cands = self.ix.symbols.get((kind, name)) or self.ix.symbols_ci.get((kind, name.lower()))
         if not cands:
             return None
         owned = [c for c in cands if c.owner]  # a fact (service, job, ...) beats a bare mention
         cands = owned or cands
-        best = self._pick([c.file for c in cands], near)
+        best = self._pick([c.file for c in cands], near, prefer)
         return next(c for c in cands if c.file == best)
 
     def _source(self, ref: Ref) -> str:
@@ -222,13 +236,14 @@ class _Linker:
 
     def _resolve(self, ref: Ref) -> str | None:
         target = ref.target
+        prefer = self.copybook_dirs if "cobol-copybook" in ref.target_kinds else None
         for kind in ref.target_kinds:
             node: str | None = None
             if kind == "path":
                 p = self._path(target, ref.file)
                 node = self._node_for_file(p, page=True) if p else None
             elif kind == "file-name":
-                p = self._pick(self.ix.basename.get(target.lower(), []), ref.file)
+                p = self._pick(self.ix.basename.get(target.lower(), []), ref.file, prefer)
                 node = self._node_for_file(p) if p else None
             elif kind == "view":
                 node = self._view(target, ref.file)
@@ -236,12 +251,12 @@ class _Linker:
                 ids = self.ix.urls.get(target) or self.ix.urls.get(target + ".do")
                 node = ids[0] if ids else None
             else:
-                s = self._symbol(kind, target, ref.file)
+                s = self._symbol(kind, target, ref.file, prefer)
                 node = self._node_for_symbol(s) if s else None
             if node:
                 return node
         if "file-name" in ref.target_kinds:  # last resort: same name, any extension
-            p = self._pick(self.ix.stem.get(target.lower(), []), ref.file)
+            p = self._pick(self.ix.stem.get(target.lower(), []), ref.file, prefer)
             if p:
                 return self._node_for_file(p)
         return None
@@ -765,5 +780,7 @@ def classify_components(
         # Otherwise the inventory-based type from phase 1 stands.
 
 
-def link(records: list[FileRecord], facts: Iterable[Facts]) -> LinkResult:
-    return _Linker(records, facts).run()
+def link(
+    records: list[FileRecord], facts: Iterable[Facts], copybook_paths: Iterable[str] = ()
+) -> LinkResult:
+    return _Linker(records, facts, copybook_paths).run()

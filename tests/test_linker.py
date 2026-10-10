@@ -11,13 +11,13 @@ from legacy_audit.model import CodeEdge, Evidence, Integration, Library, Service
 from tests.analyzers.helpers import config, record
 
 
-def estate(files: dict[str, str]) -> LinkResult:
+def estate(files: dict[str, str], copybook_paths: tuple[str, ...] = ()) -> LinkResult:
     records = [record(path, text=text) for path, text in files.items()]
     facts: list[Facts] = []
     for rec in records:
         ctx = AnalyzerContext(config=config(), abs_path=Path(rec.path), text=files[rec.path])
         facts.extend(a.analyze(rec, ctx) for a in registered() if a.supports(rec))
-    return link(records, facts)
+    return link(records, facts, copybook_paths)
 
 
 def _edges(result: LinkResult) -> set[tuple[str, str, str, bool]]:
@@ -151,6 +151,20 @@ def test_called_cobol_subprograms_are_not_services() -> None:
     # The call to the pruned sub-program points at its file, not at a service that is gone.
     assert ("calls", "host/cobol/ORDINQ.cbl", "host/cobol/ORDVAL.cbl", True) in edges
     assert result.unresolved == 0
+
+
+def test_copybook_paths_are_searched_first() -> None:
+    copy = "WORKING-STORAGE SECTION.\n           COPY ORDREC."
+    prog = ORDVAL.replace("PROCEDURE DIVISION.", copy)
+    files = {
+        "host/cobol/ORDVAL.cbl": prog,
+        "host/copy/ORDREC.cpy": "       01  ORD-REC PIC X.\n",
+        "host/zlib/ORDREC.cpy": "       01  ORD-REC PIC X(2).\n",
+    }
+    default = _edges(estate(files))
+    assert ("includes", "host/cobol/ORDVAL.cbl", "host/copy/ORDREC.cpy", True) in default
+    configured = _edges(estate(files, copybook_paths=("zlib",)))
+    assert ("includes", "host/cobol/ORDVAL.cbl", "host/zlib/ORDREC.cpy", True) in configured
 
 
 def _ev(file: str) -> list[Evidence]:
