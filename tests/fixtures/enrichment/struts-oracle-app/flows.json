@@ -1,0 +1,50 @@
+{
+  "meta": {
+    "stage": "flows",
+    "author": "copilot-agent"
+  },
+  "flows": [
+    {
+      "name": "Find and view an order",
+      "kind": "online",
+      "summary": "An agent logs in, searches orders by customer or status, and opens an order to see its lines and current prices.",
+      "trigger": "Customer call",
+      "steps": [
+        {
+          "order": 1,
+          "description": "Log in",
+          "fact_ids": [
+            "service:e238462a66aa312f",
+            "screen:05aa629fbec46620"
+          ]
+        },
+        {
+          "order": 2,
+          "description": "Search orders",
+          "fact_ids": [
+            "service:f1d82f2dd35b68cd",
+            "screen:927c65728f5fbfe5"
+          ]
+        },
+        {
+          "order": 3,
+          "description": "Open order detail with prices from the pricing service",
+          "fact_ids": [
+            "service:7faeee752a0d66a4",
+            "screen:81b23756f56db307",
+            "integration:1594fbd54390e803"
+          ]
+        }
+      ],
+      "component_ids": [
+        "component:404d0ac1b34aff1f"
+      ],
+      "evidence": [
+        {
+          "file": "WebContent/WEB-INF/struts-config.xml",
+          "line": 22
+        }
+      ]
+    }
+  ]
+}

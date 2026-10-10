@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "stage": "overview",
+    "author": "copilot-agent"
+  },
+  "purpose": "Orders is an internal web application where customer service staff log in, search customer orders and view order details with prices from the pricing web service.",
+  "users": [
+    "Customer service agents",
+    "Order desk supervisors"
+  ],
+  "figures": [
+    {
+      "label": "Services",
+      "metric": "counts.services.total",
+      "value": 4
+    },
+    {
+      "label": "Screens",
+      "metric": "counts.screens.total",
+      "value": 4
+    },
+    {
+      "label": "SQL statements",
+      "metric": "counts.sql.total",
+      "value": 14
+    },
+    {
+      "label": "Integrations",
+      "metric": "counts.integrations.total",
+      "value": 4
+    },
+    {
+      "label": "Effort (likely)",
+      "metric": "effort.likely",
+      "value": 68.2,
+      "unit": "person-days"
+    }
+  ],
+  "key_points": [
+    {
+      "text": "Single Struts 1.2 web application on Java with Oracle; all 4 services are online.",
+      "evidence": [
+        {
+          "file": "WebContent/WEB-INF/struts-config.xml",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "text": "Prices come from an external SOAP service called through Axis 1.4.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/client/PricingSoapClient.java",
+          "line": 21
+        }
+      ]
+    },
+    {
+      "text": "Order search builds SQL by concatenation, an injection risk to fix during migration.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/dao/OrderDao.java",
+          "line": 69
+        }
+      ]
+    }
+  ]
+}

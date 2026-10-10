@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ deck.application }}: management deck</title>
+<link rel="stylesheet" href="assets/deck.css">
+<style>:root { --brand: {{ brand_color }}; --brand-font: {{ brand_font }}; }</style>
+</head>
+<body>
+{%- macro block(b, i) -%}
+{%- if b.type == "kpis" -%}
+<div class="kpis">
+  {%- for k in b["items"] %}
+  <div class="kpi" data-metric="{{ k.metric }}" data-value="{{ k.value }}"><div class="v">{{ fmt(k.value) }}</div><div class="l">{{ k.label }}{% if k.unit %} <span class="u">({{ k.unit }})</span>{% endif %}</div></div>
+  {%- endfor %}
+</div>
+{%- if b.note %}<p class="note">{{ b.note }}</p>{% endif -%}
+{%- elif b.type == "bullets" -%}
+<div class="blk">{% if b.title %}<h3>{{ b.title }}</h3>{% endif %}<ul>{% for it in b["items"] %}<li>{{ it }}</li>{% endfor %}</ul></div>
+{%- elif b.type == "text" -%}
+<div class="blk"><p class="lead">{{ b.text }}</p></div>
+{%- elif b.type == "chart" -%}
+<figure class="blk chart"><figcaption>{{ b.title }}</figcaption>
+{%- if b["values"] %}
+<div class="chart-box"><canvas data-chart="{{ i }}" role="img" aria-label="{{ b.title }}"></canvas></div>
+<script type="application/json" id="{{ i }}">{{ b | tojson }}</script>
+<table class="sr">{% for l in b.labels %}<tr><th>{{ l }}</th><td>{{ fmt(b["values"][loop.index0]) }}</td></tr>{% endfor %}</table>
+{%- else %}<p class="muted">Nothing to chart.</p>{% endif %}
+</figure>
+{%- elif b.type == "table" -%}
+<div class="blk tbl">{% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+<table><thead><tr>{% for c in b.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+<tbody>{% for r in b.rows %}<tr>{% for c in r %}<td>{{ c }}</td>{% endfor %}</tr>{% else %}<tr><td colspan="{{ b.columns | length }}" class="muted">None.</td></tr>{% endfor %}</tbody></table>
+{%- if b.more %}<p class="note">+{{ b.more }} more in the technical report.</p>{% endif %}</div>
+{%- elif b.type == "diagram" -%}
+<figure class="blk diagram"><figcaption>{{ b.title }}</figcaption>
+{%- if b.mermaid %}<pre class="mermaid">{{ b.mermaid }}</pre>{% else %}<p class="muted">{{ b.note or "No diagram." }}</p>{% endif %}</figure>
+{%- elif b.type == "placeholder" -%}
+<div class="blk placeholder"><strong>Not enriched yet.</strong> {{ b.text }}</div>
+{%- endif -%}
+{%- endmacro %}
+<main id="deck">
+{%- for s in deck.slides %}
+{%- set n = loop.index %}
+<section class="slide {{ s.type }}" id="s{{ n }}" data-section="{{ s.section }}" aria-label="Slide {{ n }}: {{ s.title }}"{% if n > 1 %} hidden{% endif %}>
+  <header>
+    <div class="kicker">{{ s.section }} · <span>for {{ s.audience }}</span></div>
+    <h1>{{ s.title }}</h1>
+    {%- if s.subtitle %}<p class="sub">{{ s.subtitle }}</p>{% endif %}
+    {%- if logo %}<img class="logo" src="{{ logo }}" alt="">{% endif %}
+  </header>
+  {%- set kp = s.blocks | selectattr("type", "equalto", "kpis") | list %}
+  {%- set rest = s.blocks | rejectattr("type", "equalto", "kpis") | list %}
+  <div class="body">
+    {%- for b in kp %}{{ block(b, "c" ~ n ~ "k" ~ loop.index) }}{% endfor %}
+    {%- if rest %}<div class="cols n{{ rest | length }}">{% for b in rest %}{{ block(b, "c" ~ n ~ "b" ~ loop.index) }}{% endfor %}</div>{% endif %}
+  </div>
+  <footer><span>{{ deck.application }} · run {{ deck.run_id }}</span>{% if s.stale %}<span class="stale">Enrichment out of date: {{ s.stale | join(", ") }}</span>{% endif %}<span>{{ n }} / {{ deck.slides | length }}</span></footer>
+  <aside class="notes"><h2>Speaker notes</h2><p>{{ s.notes or "No notes." }}</p></aside>
+</section>
+{%- endfor %}
+</main>
+<nav class="controls" aria-label="Slides">
+  <button id="prev" title="Previous (Left arrow)">&#8592;</button>
+  <span id="pos"></span>
+  <button id="next" title="Next (Right arrow)">&#8594;</button>
+  <button id="notes" title="Speaker notes (N)">Notes</button>
+  <button id="theme" title="Light or dark">Theme</button>
+</nav>
+<script src="assets/vendor/chart-4.4.7.umd.js"></script>
+<script src="assets/vendor/mermaid-11.4.1.min.js"></script>
+<script src="assets/deck.js"></script>
+</body>
+</html>

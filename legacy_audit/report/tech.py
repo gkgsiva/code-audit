@@ -53,6 +53,7 @@ NAV = [
     ("postgresql", "postgresql.html", "PostgreSQL"),
     ("security", "security.html", "Security"),
     ("findings", "findings.html", "Findings"),
+    ("analysis", "analysis.html", "Analysis"),
     ("appendix", "appendix.html", "Appendix"),
 ]
 CATALOGUE_PAGES = {
@@ -153,6 +154,7 @@ def _build_into(rd: RunData, out: Path) -> None:
     page.postgresql()
     page.security()
     page.findings()
+    page.analysis()
     page.appendix()
 
 
@@ -674,6 +676,77 @@ class _Pages:
             has_sbom=self.rd.has_sbom,
             data_scripts=["libraries"],
             charts=True,
+        )
+
+    def analysis(self) -> None:
+        """The Copilot enrichment, validated by ``legacy-audit validate``, labelled as such."""
+        from legacy_audit.enrich.stages import STAGES
+        from legacy_audit.enrich.status import compute_status
+        from legacy_audit.report.deck_builder import load_enrichment
+
+        e = load_enrichment(self.rd.run_dir)
+        status = compute_status(self.rd.run_dir)
+
+        def cite(item: dict[str, Any]) -> dict[str, Any]:
+            links = [self._link(ev.get("file"), ev.get("line")) for ev in item.get("evidence", [])]
+            return {**item, "links": links}
+
+        stages = []
+        for st in STAGES:
+            entry = status["stages"][st.name]
+            state = (
+                "missing"
+                if not entry["present"]
+                else "stale"
+                if entry.get("stale")
+                else "valid"
+                if entry.get("validated")
+                else "not validated"
+            )
+            stages.append(
+                {
+                    "number": st.number,
+                    "name": st.name,
+                    "title": st.title,
+                    "state": state,
+                    "changed": entry.get("changed", []),
+                }
+            )
+
+        def diagram_list(stage: str) -> list[dict[str, Any]]:
+            return [
+                {
+                    "title": d["title"],
+                    "source": d["mermaid"],
+                    "nodes": 1,
+                    "note": "Drawn by the Copilot agent (enrichment), not by the scanner.",
+                }
+                for d in (e.get(stage) or {}).get("diagrams", [])
+            ]
+
+        risks = sorted(
+            (cite(r) for r in (e.get("risks") or {}).get("risks", [])),
+            key=lambda r: SEVERITIES.index(r["severity"]) if r["severity"] in SEVERITIES else 9,
+        )
+        self._render(
+            "analysis.html",
+            "analysis.html",
+            "analysis",
+            "Analysis",
+            stages=stages,
+            e=e,
+            key_points=[cite(k) for k in (e.get("overview") or {}).get("key_points", [])],
+            classes=[cite(c) for c in (e.get("classification") or {}).get("components", [])],
+            flows=[cite(f) for f in (e.get("flows") or {}).get("flows", [])],
+            mappings=[
+                {**cite(m), "service": self.rd.label(m["service_id"])}
+                for m in (e.get("service_mapping") or {}).get("mappings", [])
+            ],
+            risks=risks,
+            arch_diagrams=diagram_list("architecture"),
+            target_diagrams=diagram_list("target_architecture"),
+            label=self.rd.label,
+            diagrams=True,
         )
 
     def findings(self) -> None:
