@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Findings from the rule packs (risk, PostgreSQL, dependency). Severity and switches are set in <code>audit.yaml</code> (<code>rules.severity</code>, <code>rules.disabled</code>).</p>
+<div class="grid2">
+  {{ m.chart(severity_chart) }}
+  {{ m.chart(category_chart) }}
+</div>
+<div style="margin-top:16px">{{ m.chart(rule_chart) }}</div>
+<h2>All findings</h2>
+{{ m.catalogue("findings") }}
+{% endblock %}

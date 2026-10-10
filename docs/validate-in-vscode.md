@@ -80,3 +80,28 @@ The steps below are for looking at the results yourself.
    Undo the edit afterwards.
 7. Without Dependency-Check installed, `run.json` > `coverage` shows `dependency-check: missing`
    (a gap, not "no vulnerabilities").
+
+## Phase 4: technical HTML report
+
+1. Run task `audit: 4. scan a sample` (or `5. scan all samples`), then
+   `audit: 7. build and open the technical report` with the same sample. The report opens in the
+   browser from `samples/<sample>/audit-output/runs/<run-id>/reports/tech/index.html`
+   (also reachable through `audit-output/latest/reports/tech/`).
+2. **Overview**: the KPI tiles (services, screens, SQL, integrations, batch jobs, libraries,
+   findings by severity, PostgreSQL grades, effort) equal the numbers in
+   `latest/data/audit-summary.json` and `effort.json`. The badges under the title show which
+   inputs were present or missing.
+3. **Evidence**: on any catalogue (e.g. *SQL*), the *Where* link opens the source file; the
+   **VS Code** link opens it in VS Code at the line (allow the browser to open `vscode://` links
+   the first time).
+4. **Catalogues**: type in the search box, pick a value in a filter (e.g. *PG grade* = manual),
+   click a column header to sort, and page with *Previous/Next* (50 rows per page). The *CRUD
+   matrix* shows which component creates, reads, updates or deletes each table.
+5. **Architecture**: the component graph, the integration map and the batch chains are drawn
+   from the scan (Mermaid, no network). Each component page lists its services, screens, SQL and
+   findings.
+6. **Theme**: the button at the right of the menu switches light/dark; charts and diagrams follow.
+7. **Offline**: with the network off (or DevTools > Network), no request leaves the machine.
+   *Appendix* shows the counting rules, the config with passwords masked, and the run log summary.
+8. **Re-run**: run tasks 4 and 7 again. A new `runs/<run-id>/reports/tech/` appears, the older
+   run's report is unchanged, and `latest` points to the new one.

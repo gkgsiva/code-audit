@@ -13,7 +13,8 @@ CFT) whose facts are linked across files into services, screens, SQL, integratio
 libraries and code edges. Phase 3 adds metrics (cyclomatic complexity, duplication, dead-code
 candidates, complexity bands), YAML rule packs and findings, PostgreSQL grading, dependency
 security (Dependency-Check / OSV-Scanner, EOL, upgrade advice, CycloneDX SBOM) and an effort
-estimate. Reports come in phase 4. See `docs/progress.md`.
+estimate. Phase 4 adds the technical HTML report (offline, one folder per run). The management
+deck and PPTX come in phase 5. See `docs/progress.md`.
 
 ## Documents
 
@@ -40,6 +41,8 @@ legacy-audit init                 # audit.yaml, audit-overrides.yaml, audit-inpu
 legacy-audit scan                 # new run under audit-output/runs/<run-id>/, latest -> newest
 legacy-audit scan --full          # ignore the file cache and re-analyse everything
 legacy-audit diff previous latest # what changed between two runs (ids, 'previous', 'latest')
+legacy-audit report --open        # technical HTML report of the latest run, opened in a browser
+legacy-audit report --run <id>    # report of an older run (default: latest)
 legacy-audit purge-cache          # delete cloned Git sources (~/.legacy-audit/cache)
 legacy-audit version
 ```
@@ -61,6 +64,12 @@ the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-orac
   (CycloneDX 1.5), `effort.json` ("estimate — weights from config") and `target-mapping.json`.
 - `security/` – reports written by Dependency-Check / OSV-Scanner when the scan runs them.
 - `logs/scan.log`.
+- `reports/tech/` – written by `legacy-audit report`: `index.html` (overview), one page per
+  component, architecture diagrams, catalogues (services, screens, SQL, DB objects, CRUD matrix,
+  integrations, batch jobs, libraries, findings) with search, filters, sorting and paging,
+  PostgreSQL readiness, security, findings and an appendix (counting rules, masked config,
+  glossary). It works offline from disk (Chart.js and Mermaid are vendored); every number links
+  to its source file, and a **VS Code** link opens the file at the line.
 
 **Rules, weights and security tools** are set in `audit.yaml`: `complexity` (weights, scales,
 band thresholds), `effort.weights` (person-days per item and level), `rules` (packs, `disabled`,
@@ -93,7 +102,8 @@ named in `token_env`, never stored).
 ## Validating from VS Code
 
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
-`3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`; **Run and
+`3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
+`7. build and open the technical report`; **Run and
 Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
 [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 

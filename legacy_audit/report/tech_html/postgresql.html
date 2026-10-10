@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Every SQL statement is parsed in its source dialect and transpiled to PostgreSQL. <strong>auto</strong>: converts cleanly; <strong>review</strong>: vendor syntax a person should check; <strong>manual</strong>: stored code, unparseable SQL or SQL whose structure is only known at run time.</p>
+<div class="grid2">
+  {{ m.chart(grade_chart) }}
+  {{ m.chart(construct_chart) }}
+</div>
+<h2>Stored procedures, packages, functions and triggers</h2>
+{% if procedures %}<div class="table-wrap"><table class="data">
+  <thead><tr><th>Object</th><th>Type</th><th>Grade</th><th>Why</th><th>Defined in</th></tr></thead>
+  <tbody>{% for p in procedures %}<tr><td><code>{{ p.name }}</code></td><td>{{ p.type }}</td><td><span class="chip {{ p.grade }}">{{ p.grade }}</span></td><td>{{ p.reason }}</td><td>{{ m.ev(p.link) }}</td></tr>{% endfor %}</tbody>
+</table></div>{% else %}<p class="muted">None found.</p>{% endif %}
+<h2>Statements needing manual work</h2>
+{{ m.catalogue("sql", "grade", "manual") }}
+<h2>Statements to review</h2>
+{{ m.catalogue("sql", "grade", "review") }}
+{% endblock %}

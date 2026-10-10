@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Diagrams generated from the code edges, integrations and batch definitions found by the scan. AI-derived architecture views are added in a later phase and will be labelled as such.</p>
+{{ m.diagram(components_diagram) }}
+<h2>Integrations</h2>
+{{ m.diagram(integration_diagram) }}
+<h2>Batch chains</h2>
+{% for d in batch_diagrams %}{{ m.diagram(d) }}{% else %}<p class="muted">No batch jobs found.</p>{% endfor %}
+{% endblock %}
