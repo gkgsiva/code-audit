@@ -21,7 +21,8 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
     monkeypatch.setattr(vulns, "find_tool", lambda configured, names: None)
     expected = yaml.safe_load((sample / "expected.yaml").read_text(encoding="utf-8"))
     result = run_scan(load_config(sample / "audit.yaml"), output_dir=tmp_path / "out")
-    summary = json.loads((result.run_dir / "data" / "audit-summary.json").read_text())
+    summary_path = result.run_dir / "data" / "audit-summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
 
     inv = expected["inventory"]
     totals = summary["totals"]
@@ -70,7 +71,7 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
     )
     assert result.run.unresolved_references == expected["unresolved_references"]
     # Every analyzer that ran reports its coverage.
-    run_json = json.loads((result.run_dir / "run.json").read_text())
+    run_json = json.loads((result.run_dir / "run.json").read_text(encoding="utf-8"))
     assert run_json["analyzers"]
     for cov in run_json["analyzers"].values():
         assert cov["files"] > 0 and 0 <= cov["coverage_pct"] <= 100

@@ -222,7 +222,7 @@ def test_missing_dependency_check_is_a_coverage_gap(sample_copy, monkeypatch) ->
     assert cov["osv-scanner"].status == "present"  # the imported report still counts
     sources = {s.name: s.status for s in result.run.vulnerability_sources}
     assert sources == {"dependency-check": "missing", "osv-scanner": "imported"}
-    run_json = json.loads((result.run_dir / "run.json").read_text())
+    run_json = json.loads((result.run_dir / "run.json").read_text(encoding="utf-8"))
     assert run_json["vulnerability_sources"]
 
 

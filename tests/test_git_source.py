@@ -73,11 +73,11 @@ def test_git_clone_scan_records_sha_and_hides_token(tmp_path, bare_repo, monkeyp
     run_dir = loaded.output_dir / "latest"
     import json
 
-    run = json.loads((run_dir / "run.json").read_text())
+    run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
     sha = git("rev-parse", "HEAD", cwd=work)
     assert run["sources"][0]["commit"] == sha
     assert run["sources"][0]["type"] == "git"
-    inv = json.loads((run_dir / "data" / "inventory.json").read_text())
+    inv = json.loads((run_dir / "data" / "inventory.json").read_text(encoding="utf-8"))
     assert sorted(r["path"] for r in inv) == ["app/build.xml", "app/src/A.java", "batch/run.ksh"]
 
     # The token must not appear in any output, log or the clone's git config.

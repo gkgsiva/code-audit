@@ -151,7 +151,7 @@ def test_changing_weights_rebands_without_reanalysis(sample_copy) -> None:  # ty
         return sum(1 for _, b in bands(r) if b == "Very complex")
 
     assert very(second) > very(first)
-    e1 = json.loads((first.run_dir / "data" / "effort.json").read_text())
-    e2 = json.loads((second.run_dir / "data" / "effort.json").read_text())
+    e1 = json.loads((first.run_dir / "data" / "effort.json").read_text(encoding="utf-8"))
+    e2 = json.loads((second.run_dir / "data" / "effort.json").read_text(encoding="utf-8"))
     assert e2["likely"] > e1["likely"]
     assert e2["label"] == "estimate — weights from config"
