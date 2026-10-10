@@ -18,7 +18,8 @@ def _facts(run_dir: Path) -> dict:
     return {
         p.stem: json.loads(p.read_text())
         for p in sorted(data.glob("*.json"))
-        if p.stem != "audit-summary"
+        # The summary and the SBOM carry the run id and time.
+        if p.stem not in ("audit-summary", "sbom.cdx")
     }
 
 

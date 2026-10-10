@@ -10,8 +10,10 @@ Phases 1 (foundations) and 2 (analyzers and linker) are done: inventory, compone
 coverage, run history, file cache, overrides and run diff, plus 15 analyzers (build, jars, config,
 Java, Struts/JSP/web.xml, Spring, SQL, shell, C/C++, Pro*C, COBOL/CICS/BMS, JCL, Autosys, MQ,
 CFT) whose facts are linked across files into services, screens, SQL, integrations, batch jobs,
-libraries and code edges. Rules, metrics and dependency security come in phase 3. See
-`docs/progress.md`.
+libraries and code edges. Phase 3 adds metrics (cyclomatic complexity, duplication, dead-code
+candidates, complexity bands), YAML rule packs and findings, PostgreSQL grading, dependency
+security (Dependency-Check / OSV-Scanner, EOL, upgrade advice, CycloneDX SBOM) and an effort
+estimate. Reports come in phase 4. See `docs/progress.md`.
 
 ## Documents
 
@@ -54,11 +56,25 @@ the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-orac
 - `data/` – one JSON (source of truth) and CSV file per entity, `facts.sqlite` with one table per
   entity (services, screens, SQL statements, DB objects, integrations, batch jobs, libraries,
   tech stack, entry points, dependencies, findings...), and `audit-summary.json` (headline
-  counts, totals and top-N lists, under 30 KB).
+  counts, totals and top-N lists, under 30 KB). Phase 3 adds `findings`, `metrics`, PostgreSQL
+  grades on `sql_statements`, CVEs/EOL/recommendations on `libraries`, `sbom.cdx.json`
+  (CycloneDX 1.5), `effort.json` ("estimate — weights from config") and `target-mapping.json`.
+- `security/` – reports written by Dependency-Check / OSV-Scanner when the scan runs them.
 - `logs/scan.log`.
 
-Re-runs only re-analyse new or changed files; totals are always recomputed. Supplementary
-inputs (Autosys JIL, MQSC, CFT exports, DDL, crontab, server config) go in
+**Rules, weights and security tools** are set in `audit.yaml`: `complexity` (weights, scales,
+band thresholds), `effort.weights` (person-days per item and level), `rules` (packs, `disabled`,
+`severity`, a team `packs_dir`), `security` (Dependency-Check / OSV-Scanner paths, data folder,
+offline). Changing them takes effect on the next run without re-analysing files. The rule packs
+are in `rules/`, each documented in its header comment.
+
+Vulnerability data: put Dependency-Check or OSV-Scanner JSON reports in `audit-inputs/security/`
+(e.g. from CI), or install the tools with a local database; the scan runs them offline. Without
+either, `run.json` shows the check as a coverage gap.
+
+Re-runs only re-analyse new or changed files; totals, metrics, rules and effort are always
+recomputed. Supplementary inputs (Autosys JIL, MQSC, CFT exports, DDL, crontab, server config,
+vulnerability reports) go in
 `audit-inputs/<kind>/` whenever they arrive; a missing folder is reported as a coverage gap.
 Corrections go in `audit-overrides.yaml` and are re-applied on every run.
 

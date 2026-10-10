@@ -1,0 +1,52 @@
+{
+  "results": [
+    {
+      "source": {"path": "/build/billing/pom.xml", "type": "lockfile"},
+      "packages": [
+        {
+          "package": {"name": "log4j:log4j", "version": "1.2.17", "ecosystem": "Maven"},
+          "vulnerabilities": [
+            {"id": "GHSA-2qrg-x229-3v8q", "aliases": ["CVE-2019-17571"],
+             "summary": "Deserialization of untrusted data in Log4j 1.x SocketServer",
+             "affected": [{"package": {"name": "log4j:log4j", "ecosystem": "Maven"},
+                           "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "1.2"}]}]}],
+             "database_specific": {"severity": "CRITICAL"}}
+          ],
+          "groups": [{"ids": ["GHSA-2qrg-x229-3v8q"], "max_severity": "9.8"}]
+        },
+        {
+          "package": {"name": "org.mybatis:mybatis", "version": "3.4.6", "ecosystem": "Maven"},
+          "vulnerabilities": [
+            {"id": "GHSA-7v5p-6qpr-f5x9", "aliases": ["CVE-2020-26945"],
+             "summary": "Unsafe deserialization in MyBatis second-level cache",
+             "affected": [{"package": {"name": "org.mybatis:mybatis", "ecosystem": "Maven"},
+                           "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "0"}, {"fixed": "3.5.6"}]}]}],
+             "database_specific": {"severity": "HIGH"}}
+          ],
+          "groups": [{"ids": ["GHSA-7v5p-6qpr-f5x9"], "max_severity": "8.1"}]
+        },
+        {
+          "package": {"name": "org.hibernate:hibernate-core", "version": "4.3.11.Final", "ecosystem": "Maven"},
+          "vulnerabilities": [
+            {"id": "GHSA-j8jw-g6fq-mp7h", "aliases": ["CVE-2020-25638"],
+             "summary": "SQL injection in Hibernate ORM with hibernate.use_sql_comments",
+             "affected": [{"package": {"name": "org.hibernate:hibernate-core", "ecosystem": "Maven"},
+                           "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "0"}, {"fixed": "5.3.20.Final"}, {"introduced": "5.4.0"}, {"fixed": "5.4.24.Final"}]}]}],
+             "database_specific": {"severity": "HIGH"}}
+          ],
+          "groups": [{"ids": ["GHSA-j8jw-g6fq-mp7h"], "max_severity": "7.4"}]
+        },
+        {
+          "package": {"name": "org.yaml:snakeyaml", "version": "1.17", "ecosystem": "Maven"},
+          "vulnerabilities": [
+            {"id": "GHSA-mjmj-j48q-9wg2", "aliases": ["CVE-2022-1471"],
+             "summary": "Transitive dependency, not in the inventory (reported as unmatched)",
+             "affected": [{"package": {"name": "org.yaml:snakeyaml", "ecosystem": "Maven"},
+                           "ranges": [{"type": "ECOSYSTEM", "events": [{"introduced": "0"}, {"fixed": "2.0"}]}]}],
+             "database_specific": {"severity": "HIGH"}}
+          ]
+        }
+      ]
+    }
+  ]
+}

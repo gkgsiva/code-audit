@@ -114,7 +114,7 @@ def test_analyzer_crash_is_a_finding_not_a_failure(
     write(app / "run.sh", "#!/bin/sh\necho hi\n")
     result = run_scan(load_config(app / "audit.yaml"))
     rules = [f.rule_id for f in result.facts["findings"]]  # type: ignore[attr-defined]
-    assert rules == ["analyzer-error"]
+    assert [r for r in rules if r == "analyzer-error"] == ["analyzer-error"]
     assert result.run.analyzers["shell"].coverage_pct == 0.0
 
 

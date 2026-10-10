@@ -19,7 +19,14 @@ components:
 - {name: ddl, type: db, files: 1, detected_by: folder}
 - {name: jcl, type: batch, files: 1, detected_by: folder}
 - {name: proclib, type: batch, files: 1, detected_by: folder}
-coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing}
+coverage:
+  autosys: missing
+  mq: missing
+  cft: missing
+  ddl: missing
+  crontab: missing
+  server-config: missing
+  security: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -51,7 +58,7 @@ counts:
   libraries: {total: 0, declared: 0, undeclared: 0}
   entry_points: {}
   dependencies: {resolved: 11, unresolved: 0}
-  findings: {}
+  findings: {ebcdic-packed-decimal: 2, no-tests: 1}
 services:
 - 'batch-job: ORDNIGHT'
 - 'cics-transaction: ORDI'
@@ -67,3 +74,21 @@ integrations:
 batch_jobs:
 - 'jcl job: ORDNIGHT'
 unresolved_references: 0
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {low: 1, medium: 2}
+  pg_grades: {auto: 1, review: 4}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {Simple: 2}
+    batch_jobs: {Medium: 1}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}

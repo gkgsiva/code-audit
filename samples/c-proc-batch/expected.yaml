@@ -16,7 +16,14 @@ inventory:
   by_category: {build: 1, script: 2, source: 4, sql: 1}
 components:
 - {name: settlement, type: batch, files: 8, detected_by: build-file}
-coverage: {autosys: missing, mq: missing, cft: present, ddl: missing, crontab: present, server-config: missing}
+coverage:
+  autosys: missing
+  mq: missing
+  cft: present
+  ddl: missing
+  crontab: present
+  server-config: missing
+  security: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -47,8 +54,8 @@ counts:
     by_scheduler: {cron: 2}
   libraries: {total: 0, declared: 0, undeclared: 0}
   entry_points: {main: 2}
-  dependencies: {resolved: 9, unresolved: 1}
-  findings: {unresolved-reference: 1}
+  dependencies: {resolved: 10, unresolved: 1}
+  findings: {filesystem-path: 3, no-tests: 1, pg-manual-sql: 1, sql-concatenation: 1, unresolved-reference: 1}
 services:
 - 'batch-job: purge_logs.sh'
 - 'batch-job: run_settlement.ksh'
@@ -67,3 +74,21 @@ batch_jobs:
 - 'cron job: purge_logs.sh'
 - 'cron job: run_settlement.ksh'
 unresolved_references: 1
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {high: 1, info: 1, low: 4, medium: 1}
+  pg_grades: {auto: 3, manual: 1, review: 3}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {}
+    batch_jobs: {Medium: 1, Simple: 1}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}

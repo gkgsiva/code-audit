@@ -5,7 +5,6 @@ from __future__ import annotations
 import logging
 import os
 import time
-from collections import defaultdict
 from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -14,6 +13,7 @@ from typing import Any
 
 from legacy_audit import __version__
 from legacy_audit.analyzers import Analyzer, AnalyzerContext, Facts, registered, version_key
+from legacy_audit.assess import assess, team_dir
 from legacy_audit.config import GitSource, LoadedConfig
 from legacy_audit.inventory.cache import CacheEntry, FileCache
 from legacy_audit.inventory.components import detect_components
@@ -21,14 +21,12 @@ from legacy_audit.inventory.files import INVENTORY_VERSION, analyze_file, skip_b
 from legacy_audit.inventory.inputs import coverage_line, input_coverage
 from legacy_audit.inventory.walker import Filters, WalkedFile, anchored_excludes, walk
 from legacy_audit.linker import classify_components, link
+from legacy_audit.metrics.compute import compute as compute_metrics
 from legacy_audit.model import (
     AnalyzerCoverage,
-    Category,
-    Component,
     Evidence,
     FileRecord,
     Finding,
-    Metric,
     Origin,
     RunInfo,
     Severity,
@@ -36,6 +34,7 @@ from legacy_audit.model import (
     make_id,
 )
 from legacy_audit.overrides import apply_component_overrides, load_overrides
+from legacy_audit.rules.packs import rules_key, text_rules
 from legacy_audit.source import resolve_sources
 from legacy_audit.store.runs import new_run_id, runs_dir, set_latest
 from legacy_audit.store.summary import build_summary
@@ -77,29 +76,6 @@ def _secrets(loaded: LoadedConfig) -> list[str]:
     if not isinstance(src, GitSource):
         return []
     return [os.environ.get(r.token_env, "") for r in src.repos if r.token_env]
-
-
-def _metrics(records: list[FileRecord], components: list[Component]) -> list[Metric]:
-    members: dict[str, list[FileRecord]] = defaultdict(list)
-    for r in records:
-        if r.component:
-            members[r.component].append(r)
-    out = []
-    for c in components:
-        files = members.get(c.name, [])
-        out.append(
-            Metric(
-                id=make_id("metric", c.id),
-                component=c.name,
-                files=len(files),
-                loc_code=sum(f.loc_code for f in files),
-                loc_comment=sum(f.loc_comment for f in files),
-                loc_blank=sum(f.loc_blank for f in files),
-                test_files=sum(1 for f in files if f.category == Category.TEST),
-                evidence=c.evidence,
-            )
-        )
-    return out
 
 
 def _load_facts(path: str, payload: dict[str, Any]) -> list[tuple[str, str, Facts]]:
@@ -231,9 +207,11 @@ def _run(
 
     # Settings that change per-file results are part of the cache key.
     inv = cfg.inventory
+    patterns = text_rules(cfg.rules.enabled, team_dir(loaded))
     cache_version = (
         f"{version_key(INVENTORY_VERSION)};binaries={inv.include_binaries};"
-        f"max_mb={inv.max_file_size_mb}"
+        f"max_mb={inv.max_file_size_mb};dup={cfg.metrics.duplication_tokens};"
+        f"rules={rules_key(patterns)}"
     )
     cache = FileCache(out_dir / "cache" / "file-cache.sqlite", cache_version)
     analyzers = registered()
@@ -275,7 +253,9 @@ def _run(
         analyzed += 1
         per_analyzer: dict[str, Facts] = {}
         if rec is not None and (result.text is not None or rec.language == "archive"):
-            ctx = AnalyzerContext(config=cfg, abs_path=wf.abs_path, text=result.text)
+            ctx = AnalyzerContext(
+                config=cfg, abs_path=wf.abs_path, text=result.text, text_rules=patterns
+            )
             for a in analyzers:
                 if a.supports(rec):
                     per_analyzer[a.name] = _analyze(a, rec, ctx, result.text)
@@ -332,8 +312,47 @@ def _run(
     timings["link"] = round(time.perf_counter() - t, 3)
     log.info("Linked: %d edges, %d unresolved references", linked.edges, linked.unresolved)
 
-    # ---- Coverage, metrics, export --------------------------------------------------------------
-    coverage = input_coverage(inputs_dir, INPUTS_ROOT)
+    # ---- Metrics ------------------------------------------------------------------------------
+    t = time.perf_counter()
+    units = {path: f.units for name, path, f in file_facts if name == "metrics"}
+    windows = {path: f.windows for name, path, f in file_facts if name == "metrics"}
+    measured = compute_metrics(cfg, source_records, components, linked.entities, units, windows)
+    timings["metrics"] = round(time.perf_counter() - t, 3)
+
+    # ---- Assess: PostgreSQL grades, dependency security, rules, effort --------------------------
+    t = time.perf_counter()
+    hits = [
+        (path, str(h[0]), int(h[1]), str(h[2]))
+        for name, path, f in file_facts
+        if name == "patterns"
+        for h in f.hits
+    ]
+    assessed = assess(
+        loaded,
+        run_id,
+        started.isoformat(timespec="seconds"),
+        run_dir,
+        records,
+        linked.entities,
+        measured,
+        hits,
+        [r.path for r in roots],
+        {path: wf.abs_path for wf, path, _ in walked},
+    )
+    timings["assess"] = round(time.perf_counter() - t, 3)
+    log.info("Assessed: %d findings", len(assessed.findings))
+    if assessed.unmatched_reports:
+        log.info(
+            "Vulnerability reports: %d entries match no library in the inventory (transitive?)",
+            assessed.unmatched_reports,
+        )
+    for s in assessed.sources:
+        log.info(
+            "Vulnerability source %s: %s%s", s.name, s.status, f" ({s.detail})" if s.detail else ""
+        )
+
+    # ---- Coverage, export ---------------------------------------------------------------------
+    coverage = input_coverage(inputs_dir, INPUTS_ROOT) + assessed.coverage
     for c in coverage:
         log.info("Input coverage: %s", coverage_line(c))
     records.sort(key=lambda r: (r.origin != Origin.SOURCE, r.path))
@@ -341,7 +360,8 @@ def _run(
         "inventory": records,
         "components": components,
         **linked.entities,
-        "metrics": _metrics(source_records, components),
+        "metrics": measured.metrics,
+        "findings": assessed.findings,
         "input_coverage": coverage,
     }
 
@@ -364,15 +384,21 @@ def _run(
         warnings=warnings,
         analyzers=_analyzer_coverage(file_facts),
         unresolved_references=linked.unresolved,
+        vulnerability_sources=assessed.sources,
     )
     t = time.perf_counter()
     data_dir = run_dir / "data"
     write_facts(data_dir, facts)
+    write_json(data_dir / "sbom.cdx.json", assessed.sbom)
+    if assessed.effort is not None:
+        write_json(data_dir / "effort.json", assessed.effort.model_dump(mode="json"))
+    write_json(data_dir / "target-mapping.json", assessed.target_mapping)
     timings["export"] = round(time.perf_counter() - t, 3)
     run.timings = timings
     run.finished_at = datetime.now(UTC).isoformat(timespec="seconds")
     write_json(run_dir / "run.json", run.model_dump(mode="json"))
-    write_json(data_dir / "audit-summary.json", build_summary(run, facts))
+    effort = assessed.effort.model_dump(mode="json") if assessed.effort else None
+    write_json(data_dir / "audit-summary.json", build_summary(run, facts, effort=effort))
     set_latest(out_dir, run_id)
     for w in warnings:
         log.warning(w)

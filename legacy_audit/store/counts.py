@@ -77,4 +77,21 @@ def counts(facts: FactSet) -> dict[str, Any]:
             "unresolved": sum(1 for e in edges if not e.resolved),
         },
         "findings": _sorted(Counter(f.rule_id for f in findings)),
+        # Phase 3: grades, bands, dependency security.
+        "findings_by_severity": _sorted(Counter(str(f.severity) for f in findings)),
+        "pg_grades": _sorted(Counter(str(s.pg_grade) for s in sql if s.pg_grade)),
+        "complexity": {
+            "services": _sorted(Counter(s.complexity for s in services if s.complexity)),
+            "screens": _sorted(Counter(s.complexity for s in real_screens if s.complexity)),
+            "batch_jobs": _sorted(Counter(j.complexity for j in counted_jobs if j.complexity)),
+        },
+        "vulnerable_libraries": {
+            "total": sum(1 for lib in libs if lib.cves),
+            "by_severity": _sorted(Counter(lib.max_severity for lib in libs if lib.max_severity)),
+            "vulnerabilities": len({c for lib in libs for c in lib.cves}),
+        },
+        "eol_libraries": sum(1 for lib in libs if lib.eol),
+        "recommendations": _sorted(
+            Counter(lib.recommendation.action for lib in libs if lib.recommendation)
+        ),
     }

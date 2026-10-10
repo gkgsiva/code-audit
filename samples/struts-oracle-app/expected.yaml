@@ -7,7 +7,7 @@
 
 inventory:
   files: 35              # source files; WebContent/images/logo.gif is skipped (binary)
-  input_files: 1         # audit-inputs/ddl/orders_schema.sql
+  input_files: 2         # ddl/orders_schema.sql, security/dependency-check-report.json
   loc: {code: 554, comment: 39, blank: 92}
   by_language:
     archive:    {files: 5,  code: 0,   comment: 0,  blank: 0}
@@ -41,6 +41,9 @@ coverage:
   ddl: present
   crontab: missing
   server-config: missing
+  security: present
+  dependency-check: present
+  osv-scanner: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -71,8 +74,8 @@ counts:
     by_scheduler: {}
   libraries: {total: 5, declared: 0, undeclared: 5}
   entry_points: {}
-  dependencies: {resolved: 36, unresolved: 1}
-  findings: {config-credential: 1, unresolved-reference: 1}
+  dependencies: {resolved: 37, unresolved: 1}
+  findings: {config-credential: 1, dead-code-candidate: 1, eol-library: 5, eol-technology: 4, hardcoded-endpoint: 3, pg-manual-object: 1, pg-manual-sql: 1, sql-concatenation: 1, unresolved-reference: 1, vulnerable-library: 4}
 services:
 - 'servlet: health'
 - 'struts-action: /login'
@@ -92,3 +95,21 @@ integrations:
 - SOAP http://pricing.acme.local:8080/axis/services/PricingService [outbound]
 batch_jobs: []
 unresolved_references: 1
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {critical: 2, high: 4, info: 2, medium: 14}
+  pg_grades: {auto: 4, manual: 1, review: 8}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {Simple: 4}
+    batch_jobs: {}
+  vulnerable_libraries:
+    total: 4
+    by_severity: {critical: 2, high: 2}
+    vulnerabilities: 8
+  eol_libraries: 5
+  recommendations: {replace: 5}

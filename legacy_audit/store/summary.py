@@ -12,8 +12,11 @@ from legacy_audit.model import (
     Component,
     DbObject,
     FileRecord,
+    Finding,
     InputCoverage,
     Integration,
+    Library,
+    Metric,
     RunInfo,
     Service,
     TechItem,
@@ -37,7 +40,12 @@ def _by(records: list[FileRecord], key: str) -> dict[str, dict[str, int]]:
     return {k: out[k] for k in sorted(out)}
 
 
-def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, Any]:
+SEVERITY_RANK = {"critical": 0, "high": 1, "medium": 2, "low": 3, "info": 4, "unknown": 5}
+
+
+def build_summary(
+    run: RunInfo, facts: FactSet, top_n: int = 15, effort: dict[str, Any] | None = None
+) -> dict[str, Any]:
     files = [f for f in facts.get("inventory", []) if isinstance(f, FileRecord)]
     source = [f for f in files if f.origin == "source"]
     comps = [c for c in facts.get("components", []) if isinstance(c, Component)]
@@ -50,6 +58,9 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
         if isinstance(o, DbObject) and o.object_type == "table"
     ]
     tech = [t for t in facts.get("tech_stack", []) if isinstance(t, TechItem)]
+    findings = [f for f in facts.get("findings", []) if isinstance(f, Finding)]
+    libs = [lib for lib in facts.get("libraries", []) if isinstance(lib, Library)]
+    metrics = [m for m in facts.get("metrics", []) if isinstance(m, Metric)]
     headline = counts(facts)
 
     def build(n: int) -> dict[str, Any]:
@@ -72,7 +83,7 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
             },
             "counts": headline,
             "tech_stack": [
-                {"name": t.name, "version": t.version, "category": t.category}
+                {"name": t.name, "version": t.version, "category": t.category, "eol": t.eol}
                 for t in tech[: n * 4]
             ],
             "by_language": _by(source, "language"),
@@ -97,6 +108,50 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
                 {"type": i.type, "target": i.target, "direction": i.direction, "usages": i.usages}
                 for i in sorted(integrations, key=lambda i: (-i.usages, i.type, i.target))[:n]
             ],
+            "top_findings": [
+                {
+                    "rule": f.rule_id,
+                    "severity": f.severity,
+                    "file": f.file,
+                    "line": f.line,
+                    "message": f.message[:200],
+                }
+                for f in findings[:n]
+            ],
+            "risky_libraries": [
+                {
+                    "name": f"{lib.group}:{lib.artifact}" if lib.group else lib.artifact,
+                    "version": lib.version,
+                    "max_severity": lib.max_severity,
+                    "cves": len(lib.cves),
+                    "eol": lib.eol,
+                    "recommendation": lib.recommendation.action if lib.recommendation else None,
+                    "target": lib.recommendation.target if lib.recommendation else None,
+                }
+                for lib in sorted(
+                    (lib for lib in libs if lib.cves or lib.eol),
+                    key=lambda x: (
+                        SEVERITY_RANK.get(x.max_severity or "unknown", 5),
+                        -len(x.cves),
+                        x.artifact,
+                    ),
+                )[:n]
+            ],
+            "component_metrics": [
+                {
+                    "component": m.component,
+                    "complexity": m.complexity,
+                    "complexity_avg": m.complexity_avg,
+                    "duplication_pct": m.duplication_pct,
+                    "test_ratio": m.test_ratio,
+                    "dead_code_candidates": m.dead_code_candidates,
+                }
+                for m in metrics[: n * 2]
+            ],
+            "effort": {k: effort[k] for k in ("label", "unit", "low", "likely", "high")}
+            if effort
+            else None,
+            "vulnerability_sources": [s.model_dump(mode="json") for s in run.vulnerability_sources],
             "coverage": {c.kind: coverage_line(c) for c in coverage},
             "analyzer_coverage": {
                 name: {"files": a.files, "coverage_pct": a.coverage_pct}
