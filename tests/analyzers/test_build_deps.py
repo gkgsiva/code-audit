@@ -32,13 +32,18 @@ def test_maven_dependencies_properties_and_unresolved_versions() -> None:
     assert ("junit", "4.12", "test") in libs
     assert ("spring-core", None, "compile") in libs  # resolved from the parent by the linker
     assert any(s.kind == "maven-unresolved" for s in facts.symbols)
-    assert any(s.kind == "maven-pom" and s.data["parent"] == "com.acme:parent" for s in facts.symbols)
+    assert any(
+        s.kind == "maven-pom" and s.data["parent"] == "com.acme:parent" for s in facts.symbols
+    )
     java = [t for t in entities(facts, "tech_stack") if t.name == "Java"]
     assert java and java[0].version == "1.8"
 
 
 def test_makefile_executables_and_proc() -> None:
-    text = "CC = gcc\nall: loader\nloader: loader.o\n\t$(CC) -o loader loader.o\n%.c: %.pc\n\tproc iname=$<\n"
+    text = (
+        "CC = gcc\nall: loader\nloader: loader.o\n\t$(CC) -o loader loader.o\n"
+        "%.c: %.pc\n\tproc iname=$<\n"
+    )
     facts = run(BuildAnalyzer(), "batch/Makefile", text)
     assert {s.name for s in facts.symbols if s.kind == "c-executable"} == {"loader"}
     names = {t.name for t in entities(facts, "tech_stack")}
@@ -46,8 +51,12 @@ def test_makefile_executables_and_proc() -> None:
 
 
 def test_ant_java_version() -> None:
-    facts = run(BuildAnalyzer(), "build.xml", '<project><javac source="1.5" target="1.5"/></project>')
-    assert [(t.name, t.version) for t in entities(facts, "tech_stack") if t.name == "Java"] == [("Java", "1.5")]
+    facts = run(
+        BuildAnalyzer(), "build.xml", '<project><javac source="1.5" target="1.5"/></project>'
+    )
+    assert [(t.name, t.version) for t in entities(facts, "tech_stack") if t.name == "Java"] == [
+        ("Java", "1.5")
+    ]
 
 
 def _jar(tmp_path: Path, name: str, pom_props: str | None, manifest: str = "") -> Path:
@@ -62,15 +71,26 @@ def _jar(tmp_path: Path, name: str, pom_props: str | None, manifest: str = "") -
 
 
 def test_jar_identity_from_pom_properties_then_file_name(tmp_path: Path) -> None:
-    jar = _jar(tmp_path, "whatever.jar", "groupId=log4j\nartifactId=log4j\nversion=1.2.17\n",
-               "Implementation-Version: 9.9\n")  # pom.properties wins over the manifest
+    jar = _jar(
+        tmp_path,
+        "whatever.jar",
+        "groupId=log4j\nartifactId=log4j\nversion=1.2.17\n",
+        "Implementation-Version: 9.9\n",
+    )  # pom.properties wins over the manifest
     facts = run(DepsAnalyzer(), "WEB-INF/lib/whatever.jar", "", language="archive", abs_path=jar)
     (lib,) = entities(facts, "libraries")
-    assert (lib.group, lib.artifact, lib.version, lib.declared) == ("log4j", "log4j", "1.2.17", False)
+    assert (lib.group, lib.artifact, lib.version, lib.declared) == (
+        "log4j",
+        "log4j",
+        "1.2.17",
+        False,
+    )
     assert lib.sha1 and len(lib.sha1) == 40
 
     jar = _jar(tmp_path, "struts-1.2.9.jar", None)
-    facts = run(DepsAnalyzer(), "WEB-INF/lib/struts-1.2.9.jar", "", language="archive", abs_path=jar)
+    facts = run(
+        DepsAnalyzer(), "WEB-INF/lib/struts-1.2.9.jar", "", language="archive", abs_path=jar
+    )
     (lib,) = entities(facts, "libraries")
     assert (lib.group, lib.artifact, lib.version) == (None, "struts", "1.2.9")
 

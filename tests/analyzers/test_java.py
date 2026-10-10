@@ -35,7 +35,11 @@ def test_jdbc_sql_constants_concatenation_and_calls() -> None:
     by_line = {s.line: s for s in sql}
     assert by_line[8].tables == ["ORDERS"] and by_line[8].source == "jdbc"
     dyn = by_line[12]
-    assert dyn.dynamic and dyn.tables == ["CUSTOMERS", "ORDERS"] and "OUTER JOIN (+)" in dyn.vendor_features
+    assert (
+        dyn.dynamic
+        and dyn.tables == ["CUSTOMERS", "ORDERS"]
+        and "OUTER JOIN (+)" in dyn.vendor_features
+    )
     call = next(s for s in sql if s.type == "CALL")
     assert call.procedures == ["PKG_ORDERS.CLOSE_DAY"]
     assert not any("customer from the list" in s.text for s in sql)  # UI text is not SQL
@@ -43,8 +47,12 @@ def test_jdbc_sql_constants_concatenation_and_calls() -> None:
 
 def test_entry_points_sockets_and_upgrade_signal() -> None:
     facts = run(JavaAnalyzer(), "src/com/acme/dao/OrderDao.java", DAO)
-    assert [(e.kind, e.name) for e in entities(facts, "entry_points")] == [("main", "com.acme.dao.OrderDao")]
-    assert ("SOCKET", "legacy-host:7001") in {(i.type, i.target) for i in entities(facts, "integrations")}
+    assert [(e.kind, e.name) for e in entities(facts, "entry_points")] == [
+        ("main", "com.acme.dao.OrderDao")
+    ]
+    assert ("SOCKET", "legacy-host:7001") in {
+        (i.type, i.target) for i in entities(facts, "integrations")
+    }
     assert any(t.category == "upgrade-signal" for t in entities(facts, "tech_stack"))
     assert any(s.kind == "java-class" and s.name == "com.acme.dao.OrderDao" for s in facts.symbols)
 

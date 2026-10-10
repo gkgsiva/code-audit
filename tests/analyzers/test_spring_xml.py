@@ -35,7 +35,10 @@ BEANS = """<beans xmlns="http://www.springframework.org/schema/beans"
 
 def test_beans_mq_batch_sql_and_view_resolver() -> None:
     facts = run(SpringAnalyzer(), "WEB-INF/app-context.xml", BEANS)
-    ints = {(i.type, i.target, bool(i.producers), bool(i.consumers)) for i in entities(facts, "integrations")}
+    ints = {
+        (i.type, i.target, bool(i.producers), bool(i.consumers))
+        for i in entities(facts, "integrations")
+    }
     assert ("MQ-QMGR", "QM1@mqhost:1414", False, False) in ints
     assert ("MQ", "OUT.Q", True, False) in ints
     assert ("MQ", "IN.Q", False, True) in ints
@@ -48,7 +51,8 @@ def test_beans_mq_batch_sql_and_view_resolver() -> None:
 
 
 MAPPER = """<mapper namespace="com.acme.PaymentMapper">
-  <select id="find">SELECT * FROM payments WHERE 1=1 <if test="x != null">AND id = #{x}</if></select>
+  <select id="find">SELECT * FROM payments WHERE 1=1
+    <if test="x != null">AND id = #{x}</if></select>
   <update id="settle">UPDATE payments SET settled = 'Y' WHERE id = #{id}</update>
 </mapper>"""
 
@@ -68,5 +72,7 @@ SECURITY = """<beans:beans xmlns="http://www.springframework.org/schema/security
 
 def test_security_ldap() -> None:
     facts = run(SpringAnalyzer(), "WEB-INF/security.xml", SECURITY)
-    assert ("LDAP", "ldap://ldap.acme.local:389") in {(i.type, i.target) for i in entities(facts, "integrations")}
+    assert ("LDAP", "ldap://ldap.acme.local:389") in {
+        (i.type, i.target) for i in entities(facts, "integrations")
+    }
     assert any(t.category == "auth" for t in entities(facts, "tech_stack"))

@@ -162,7 +162,8 @@ def generate(root: Path, target_loc: int = 200_000) -> int:
     (root / "batch").mkdir(parents=True, exist_ok=True)
     (root / "batch/Makefile").write_text("all: prog\n\tcc -o prog prog.c\n")
     writers = [
-        (lambda n: f"web/src/com/acme/gen/p{n % 20}/Gen{n}.java", lambda n: _java(f"com.acme.gen.p{n % 20}", f"Gen{n}", n)),
+        (lambda n: f"web/src/com/acme/gen/p{n % 20}/Gen{n}.java",
+         lambda n: _java(f"com.acme.gen.p{n % 20}", f"Gen{n}", n)),
         (lambda n: f"web/WebContent/jsp/page{n}.jsp", _jsp),
         (lambda n: f"host/cobol/PGM{n:04d}.cbl", _cobol),
         (lambda n: f"batch/src/prog_{n}.c", _c),

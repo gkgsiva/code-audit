@@ -114,9 +114,9 @@ class CobolAnalyzer:
         program = program_m.group(1).upper() if program_m else stem(path).upper()
         prog_line = code.count("\n", 0, program_m.start()) + 1 if program_m else 1
 
-        # Embedded SQL (on the raw text so spans and lines match the file).
+        # Embedded SQL, from the code area only (one line per source line, so lines match).
         dialect = ctx.config.cobol.sql_dialect
-        res = extract(text, file=path, dialect=dialect, cobol=True)
+        res = extract(code, file=path, dialect=dialect, cobol=True)
         if res.statements:
             facts.add(
                 "tech_stack",

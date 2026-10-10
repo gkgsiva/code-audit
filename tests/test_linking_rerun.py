@@ -49,7 +49,9 @@ def test_autosys_added_later_links_to_cached_scripts(tmp_path: Path) -> None:
     cfg = load_config(app / "audit.yaml")
 
     first = run_scan(cfg)
-    assert not any(isinstance(j, BatchJob) and j.scheduler == "autosys" for j in first.facts["batch_jobs"])
+    assert not any(
+        isinstance(j, BatchJob) and j.scheduler == "autosys" for j in first.facts["batch_jobs"]
+    )
     assert {c.kind: c.status for c in first.run.coverage}["autosys"] == "missing"
 
     write(jil, saved)
@@ -63,7 +65,9 @@ def test_autosys_added_later_links_to_cached_scripts(tmp_path: Path) -> None:
     assert ("depends-on", "BIL_INVOICE", "BIL_USAGE_WAIT") in edges
     assert ("contains", "BIL_NIGHTLY_BOX", "BIL_INVOICE") in edges
     # The job takes the component of the script it runs, and reaches the job's tables.
-    svc = next(s for s in second.facts["services"] if isinstance(s, Service) and s.name == "BIL_INVOICE")
+    svc = next(
+        s for s in second.facts["services"] if isinstance(s, Service) and s.name == "BIL_INVOICE"
+    )
     assert svc.component == "billing-batch"
     assert "INVOICES" in svc.tables
     assert {c.kind: c.status for c in second.run.coverage}["autosys"] == "present"
@@ -96,7 +100,9 @@ def test_run_json_has_analyzer_coverage(tmp_path: Path) -> None:
     assert java["regions"][0]["file"] == "src/Bad.java"
 
 
-def test_analyzer_crash_is_a_finding_not_a_failure(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_analyzer_crash_is_a_finding_not_a_failure(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     from legacy_audit.analyzers.shell import ShellAnalyzer
 
     def boom(self, file, ctx):  # type: ignore[no-untyped-def]
@@ -119,7 +125,9 @@ def test_stress_200k_loc(tmp_path: Path) -> None:
     started = time.perf_counter()
     result = run_scan(load_config(tmp_path / "audit.yaml"))
     elapsed = time.perf_counter() - started
-    log.warning("stress: %d lines, %d files scanned in %.1f s", lines, result.run.files_total, elapsed)
+    log.warning(
+        "stress: %d lines, %d files scanned in %.1f s", lines, result.run.files_total, elapsed
+    )
     print(f"\nstress: {lines} lines, {result.run.files_total} files in {elapsed:.1f} s")
     assert lines >= 200_000
     assert not [f for f in result.facts["findings"] if f.rule_id == "analyzer-error"]  # type: ignore[attr-defined]

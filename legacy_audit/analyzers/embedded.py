@@ -62,27 +62,15 @@ class EmbeddedResult:
     unparsed: list[tuple[int, int]] = field(default_factory=list)  # line ranges
 
 
-def _clean_cobol(body: str) -> str:
-    """Drop COBOL sequence/indicator columns and comment lines inside a block."""
-    out = []
-    for line in body.splitlines():
-        if len(line) > 6 and line[:6].strip().isdigit() and len(line) > 7:
-            if line[6] in "*/":
-                out.append("")
-                continue
-            line = line[7:72]
-        out.append(line)
-    return "\n".join(out)
-
-
 def extract(text: str, *, file: str, dialect: str | None, cobol: bool) -> EmbeddedResult:
+    """EXEC SQL blocks of C (``;``) or COBOL (``END-EXEC``) text. COBOL callers pass the code
+    area only (see ``cobol.source_lines``), so sequence and identification columns are gone."""
     res = EmbeddedResult()
     index = LineIndex(text)
     for m in (_COBOL_BLOCK if cobol else _C_BLOCK).finditer(text):
         res.spans.append((m.start(), m.end()))
         line = index.line(m.start())
-        body = _clean_cobol(m.group(1)) if cobol else m.group(1)
-        body = body.strip()
+        body = m.group(1).strip()
         inc = _INCLUDE.match(body)
         if inc:
             member = inc.group(1)

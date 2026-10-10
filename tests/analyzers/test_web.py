@@ -43,8 +43,12 @@ WEB_XML = """<web-app>
 
 def test_web_xml_servlets_skip_front_controllers() -> None:
     facts = run(WebAnalyzer(), "WebContent/WEB-INF/web.xml", WEB_XML)
-    assert [(s.kind, s.name, s.url) for s in entities(facts, "services")] == [("servlet", "health", "/health")]
-    assert [(e.kind, e.name) for e in entities(facts, "entry_points")] == [("filter", "com.acme.EncodingFilter")]
+    assert [(s.kind, s.name, s.url) for s in entities(facts, "services")] == [
+        ("servlet", "health", "/health")
+    ]
+    assert [(e.kind, e.name) for e in entities(facts, "entry_points")] == [
+        ("filter", "com.acme.EncodingFilter")
+    ]
     assert any(r.target == "/index.jsp" for r in facts.refs)
 
 
@@ -80,5 +84,8 @@ def test_tiles_definitions() -> None:
   <definition name="order.search" extends="base"><put name="body" value="/search.jsp"/></definition>
 </tiles-definitions>"""
     facts = run(WebAnalyzer(), "WEB-INF/tiles-defs.xml", text)
-    assert {s.name for s in facts.symbols if s.kind == "tiles-definition"} == {"base", "order.search"}
+    assert {s.name for s in facts.symbols if s.kind == "tiles-definition"} == {
+        "base",
+        "order.search",
+    }
     assert ("tiles:order.search", "/search.jsp") in {(r.source, r.target) for r in facts.refs}

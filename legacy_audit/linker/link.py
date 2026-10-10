@@ -333,7 +333,15 @@ class _Linker:
                 outgoing[e.source].append(e)
 
         screens = self._classify_screens(screens, services, incoming, outgoing)
-        services = self._prune_cobol(services, incoming)
+        kept = self._prune_cobol(services, incoming)
+        if len(kept) != len(services):
+            edges = self._retarget_pruned(services, kept, edges)
+            incoming, outgoing = defaultdict(list), defaultdict(list)
+            for e in edges:
+                if e.resolved:
+                    incoming[e.target].append(e)
+                    outgoing[e.source].append(e)
+        services = kept
         db_objects = self._link_sql(sql, db_objects)
         self._job_components(jobs, outgoing)
         self._reach(services, job_service, sql, integrations, outgoing)
@@ -459,6 +467,33 @@ class _Linker:
                     continue
             out.append(svc)
         return out
+
+    def _retarget_pruned(
+        self, before: list[Service], after: list[Service], edges: list[CodeEdge]
+    ) -> list[CodeEdge]:
+        """Edges to or from a pruned sub-program point at its file instead, so none dangle and
+        the caller still reaches the sub-program's tables."""
+        kept = {s.id for s in after}
+        node = {
+            s.id: self.by_path[s.file].id
+            for s in before
+            if s.id not in kept and s.file and s.file in self.by_path
+        }
+        if not node:
+            return edges
+        out: dict[str, CodeEdge] = {}
+        for e in edges:
+            src, tgt = node.get(e.source, e.source), node.get(e.target, e.target)
+            if (src, tgt) != (e.source, e.target):
+                e = e.model_copy(
+                    update={"id": make_id("edge", e.kind, src, tgt), "source": src, "target": tgt}
+                )
+            prev = out.get(e.id)
+            if prev is None:
+                out[e.id] = e
+            else:
+                prev.evidence = [*prev.evidence, *(v for v in e.evidence if v not in prev.evidence)]
+        return list(out.values())
 
     # ---- SQL ----------------------------------------------------------------------------------
     def _link_sql(self, sql: list[SqlStatement], objects: list[DbObject]) -> list[DbObject]:

@@ -65,7 +65,8 @@ def parse_jil(
         if not line or line.startswith("#"):
             continue
         # Several "attr: value" pairs may share a line: split on attribute names.
-        starts = [m for m in _ATTR.finditer(line)]
+        quoted = [q.span() for q in re.finditer(r'"[^"]*"', line)]
+        starts = [m for m in _ATTR.finditer(line) if not any(a < m.start(1) < b for a, b in quoted)]
         if not starts or (starts[0].start() > 0 and line[: starts[0].start()].strip()):
             unparsed.append(no)
             continue
