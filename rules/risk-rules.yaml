@@ -133,15 +133,27 @@ rules:
       languages: [java]
       unless_file: 'setFeature\s*\(|XMLConstants\.(?:FEATURE_SECURE_PROCESSING|ACCESS_EXTERNAL)|IS_SUPPORTING_EXTERNAL_ENTITIES|setExpandEntityReferences\s*\(\s*false'
 
+  # Values concatenated into SQL text (a quoted value, the right side of a comparison, an IN list,
+  # MyBatis ${...}). SQL assembled from fixed fragments with ? binds is not flagged.
   - id: sql-concatenation
     severity: high
     category: security
-    message: "SQL built at run time ({source}, {type}) in {file}"
+    message: "Values concatenated into SQL text ({value_holes}x; {source}, {type}) in {file}"
     remediation: Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.
     match:
       entity: sql_statements
       where:
-        dynamic: true
+        value_holes: {gt: 0}
+
+  - id: sql-runtime-structure
+    severity: medium
+    category: pg-compat
+    message: "Part of the SQL statement is only known at run time ({structural_holes}x; {source}) in {file}"
+    remediation: Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.
+    match:
+      entity: sql_statements
+      where:
+        structural_holes: {gt: 0}
 
   # ---- code quality ------------------------------------------------------------------------
   - id: high-complexity-unit

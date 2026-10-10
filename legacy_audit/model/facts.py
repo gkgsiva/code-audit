@@ -155,13 +155,35 @@ class SqlStatement(Fact):
     source: str = Field(
         "unknown",
         description="jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, "
-        "spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+        "spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, "
+        "odbc, oci, libpq, mysql, sqlite (C API calls), c-string",
     )
     text: str = Field("", description="Statement text (bind variables as written), max 4000")
     tables: list[str] = Field(default_factory=list)
     procedures: list[str] = Field(default_factory=list, description="Procedures it calls")
     dialect: str | None = None
-    dynamic: bool = False
+    dynamic: bool = Field(False, description="Text is built at run time (holes, optional parts)")
+    built_with: list[str] = Field(
+        default_factory=list,
+        description="How the text was rebuilt: concatenation, string-builder, string-format, "
+        "conditional, ternary, reassignment, string-statement (COBOL STRING), "
+        "prepare-from-variable, <mapper>-dynamic-tags, variable (not followed)",
+    )
+    fragments: int = Field(1, description="Code fragments the text was rebuilt from")
+    optional_fragments: int = Field(0, description="Fragments added only on some code paths")
+    value_holes: int = Field(
+        0, description="Values concatenated into the text (shown as ?): injection risk"
+    )
+    structural_holes: int = Field(
+        0,
+        description="Parts of the statement itself (columns, tables, clauses) only known at "
+        "run time (shown as ?)",
+    )
+    variants: list[str] = Field(
+        default_factory=list,
+        description="Other texts the statement takes at run time (without optional parts, "
+        "other branches); at most 5",
+    )
     parsed: bool = True
     fingerprint: str = Field("", description="Hash of the normalized text; equal = distinct")
     normalized: str | None = None

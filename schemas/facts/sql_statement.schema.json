@@ -53,6 +53,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "built_with": {
+      "description": "How the text was rebuilt: concatenation, string-builder, string-format, conditional, ternary, reassignment, string-statement (COBOL STRING), prepare-from-variable, <mapper>-dynamic-tags, variable (not followed)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Built With",
+      "type": "array"
+    },
     "component": {
       "anyOf": [
         {
@@ -79,6 +87,7 @@
     },
     "dynamic": {
       "default": false,
+      "description": "Text is built at run time (holes, optional parts)",
       "title": "Dynamic",
       "type": "boolean"
     },
@@ -99,6 +108,12 @@
       "title": "Fingerprint",
       "type": "string"
     },
+    "fragments": {
+      "default": 1,
+      "description": "Code fragments the text was rebuilt from",
+      "title": "Fragments",
+      "type": "integer"
+    },
     "id": {
       "title": "Id",
       "type": "string"
@@ -118,6 +133,12 @@
       ],
       "default": null,
       "title": "Normalized"
+    },
+    "optional_fragments": {
+      "default": 0,
+      "description": "Fragments added only on some code paths",
+      "title": "Optional Fragments",
+      "type": "integer"
     },
     "parsed": {
       "default": true,
@@ -171,9 +192,15 @@
     },
     "source": {
       "default": "unknown",
-      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, odbc, oci, libpq, mysql, sqlite (C API calls), c-string",
       "title": "Source",
       "type": "string"
+    },
+    "structural_holes": {
+      "default": 0,
+      "description": "Parts of the statement itself (columns, tables, clauses) only known at run time (shown as ?)",
+      "title": "Structural Holes",
+      "type": "integer"
     },
     "tables": {
       "items": {
@@ -192,6 +219,20 @@
       "description": "SELECT, INSERT, UPDATE, DELETE, MERGE, CALL, ...",
       "title": "Type",
       "type": "string"
+    },
+    "value_holes": {
+      "default": 0,
+      "description": "Values concatenated into the text (shown as ?): injection risk",
+      "title": "Value Holes",
+      "type": "integer"
+    },
+    "variants": {
+      "description": "Other texts the statement takes at run time (without optional parts, other branches); at most 5",
+      "items": {
+        "type": "string"
+      },
+      "title": "Variants",
+      "type": "array"
     },
     "vendor_features": {
       "items": {

@@ -181,14 +181,46 @@ def parse_tables(sql: str, dialect: str | None) -> tuple[list[str], list[str], b
             {
                 ".".join(p for p in (t.db, t.name) if p).upper()
                 for t in tree.find_all(exp.Table)
-                if t.name and t.name.upper() not in ctes
+                if t.name and t.name.upper() not in ctes and "?" not in t.name
             }
             - _NOT_TABLES
         )
         return tables, [], True
     except Exception:
-        tables = sorted({m.group(1).upper() for m in _REGEX_TABLES.finditer(s)} - _NOT_TABLES)
+        tables = sorted(
+            {m.group(1).upper() for m in _REGEX_TABLES.finditer(s) if "?" not in m.group(1)}
+            - _NOT_TABLES
+        )
         return tables, [], False
+
+
+# What comes just before a hole decides its kind: a value (bind-able) or part of the statement.
+_VALUE_BEFORE = re.compile(
+    r"(?:'|=|<>|!=|<|>|\s[-+/]|\bLIKE|\bBETWEEN|\bBETWEEN\s+\S+\s+AND|\bLIMIT|\bOFFSET|\bTOP)"
+    r"\s*$",
+    re.I,
+)
+_LIST_OPEN = re.compile(r"\b(?:IN|VALUES)\s*\($", re.I)
+
+
+def hole_kind(before: str) -> str:
+    """Kind of a run-time piece of SQL text, from the text just before it: ``value`` (after
+    ``=`` or an arithmetic operator, inside quotes, in ``IN (...)``/``VALUES (...)``) or
+    ``structural`` (a column, table or whole clause)."""
+    text = before.rstrip()
+    if text.count("'") % 2 == 1 or _VALUE_BEFORE.search(text):
+        return "value"
+    depth, i = 0, len(text) - 1
+    while i >= 0:  # inside an IN (...) / VALUES (...) list?
+        ch = text[i]
+        if ch == ")":
+            depth += 1
+        elif ch == "(":
+            if depth == 0:
+                return "value" if _LIST_OPEN.search(text[: i + 1]) else "structural"
+            depth -= 1
+        i -= 1
+    return "structural"
 
 
 def sql_fact(

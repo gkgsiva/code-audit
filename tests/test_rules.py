@@ -182,11 +182,26 @@ def test_nvl_is_converted_by_sqlglot() -> None:
 
 
 def test_dynamic_unparsed_spring_data_and_hql() -> None:
-    assert grade(_st("SELECT 1", dynamic=True), RULES)[0] == PgGrade.MANUAL
+    assert grade(_st("SELECT 1", type="DYNAMIC"), RULES)[0] == PgGrade.MANUAL
     assert grade(_st("SELEC garbage", parsed=False), RULES)[0] == PgGrade.MANUAL
     assert grade(_st("findByName", source="spring-data", type="SELECT"), RULES)[0] == "auto"
     assert grade(_st("from Order o where o.id = :id", dialect="hql", type="SELECT"),
                  RULES)[0] == "auto"  # fmt: skip
+
+
+def test_dynamic_sql_grades() -> None:
+    known = _st("SELECT id FROM orders WHERE 1=1 AND name = ?", dynamic=True, fragments=3,
+                optional_fragments=1)  # fmt: skip
+    g, why, _ = grade(known, RULES)
+    assert g == "review" and why and "3 fragment(s), 1 optional" in why
+    hole = _st("SELECT id FROM orders ORDER BY ?", dynamic=True, structural_holes=1)
+    g, why, _ = grade(hole, RULES)
+    assert g == "manual" and why and "run time (1 place" in why
+    # the worst variant decides the grade
+    variant = _st("SELECT id FROM orders WHERE 1=1", dynamic=True,
+                  variants=["SELECT id FROM orders WHERE ROWNUM < 5"])  # fmt: skip
+    g, why, _ = grade(variant, RULES)
+    assert g == "review" and why and "2 variants" in why
 
 
 def test_db2_and_stored_objects() -> None:
@@ -205,7 +220,7 @@ def test_disable_and_reweight_rules_on_rerun(sample_copy) -> None:  # type: igno
     app = sample_copy("struts-oracle-app")
     first = run_scan(load_config(app / "audit.yaml"))
     rules = {f.rule_id for f in first.facts["findings"]}  # type: ignore[attr-defined]
-    assert {"hardcoded-endpoint", "eol-library", "pg-manual-sql"} <= rules
+    assert {"hardcoded-endpoint", "eol-library", "sql-concatenation"} <= rules
     cfg = app / "audit.yaml"
     cfg.write_text(
         cfg.read_text(encoding="utf-8")

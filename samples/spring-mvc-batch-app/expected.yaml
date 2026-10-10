@@ -61,7 +61,7 @@ counts:
   libraries: {total: 10, declared: 10, undeclared: 0}
   entry_points: {message-listener: 1}
   dependencies: {resolved: 24, unresolved: 1}
-  findings: {eol-library: 7, eol-technology: 6, no-tests: 3, pg-manual-sql: 2, sql-concatenation: 2, unresolved-reference: 1, vulnerable-library: 3}
+  findings: {eol-library: 7, eol-technology: 6, no-tests: 3, pg-manual-sql: 1, sql-runtime-structure: 1, unresolved-reference: 1, vulnerable-library: 3}
 services:
 - 'batch-job: BIL_ARCHIVE'
 - 'batch-job: BIL_INVOICE'
@@ -100,8 +100,8 @@ unresolved_references: 1
 # tests run with Dependency-Check and OSV-Scanner forced "not installed".
 
 assessment:
-  findings_by_severity: {critical: 1, high: 4, info: 1, low: 3, medium: 15}
-  pg_grades: {auto: 4, manual: 2, review: 6}
+  findings_by_severity: {critical: 1, high: 2, info: 1, low: 3, medium: 15}
+  pg_grades: {auto: 4, manual: 1, review: 7}
   complexity:
     services: {Medium: 5, Simple: 3}
     screens: {Simple: 4}

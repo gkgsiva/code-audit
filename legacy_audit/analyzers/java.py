@@ -9,7 +9,7 @@ configuration is handled by the ``spring`` analyzer.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import ClassVar
 
 import tree_sitter_java
@@ -17,8 +17,9 @@ from tree_sitter import Language, Node, Parser
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
+from legacy_audit.analyzers.dynsql import fill
 from legacy_audit.analyzers.integrations import classify_url, integration, parse_jdbc
-from legacy_audit.analyzers.sqltools import looks_like_hql, looks_like_sql, sql_fact
+from legacy_audit.analyzers.sqltools import hole_kind, looks_like_hql, looks_like_sql, sql_fact
 from legacy_audit.model import EntryPoint, Evidence, FileRecord, Service, make_id
 
 _LANG = Language(tree_sitter_java.language())
@@ -102,12 +103,77 @@ JAVAX_EE = re.compile(
 
 @dataclass
 class _Expr:
+    """A string value rebuilt from code. ``text`` includes every fragment (optional ones too);
+    ``minimal`` leaves out fragments added only on some code paths (inside if/loop/switch)."""
+
     node: Node
     text: str
     dynamic: bool
     line: int
     source: str | None = None
     hql: bool = False
+    minimal: str | None = None
+    value_holes: int = 0
+    structural_holes: int = 0
+    fragments: int = 1
+    optional: int = 0
+    how: set[str] = field(default_factory=set)
+    lines: set[int] = field(default_factory=set)
+    variants: list[str] = field(default_factory=list)
+
+    @property
+    def base(self) -> str:
+        return self.text if self.minimal is None else self.minimal
+
+
+MAX_VARIANTS = 5
+STRING_METHODS = {"format", "formatted", "valueOf", "concat", "append", "toString", "trim"}
+_FORMAT_SPEC = re.compile(r"%(?:\d+\$)?[-#+ 0,(]*\d*(?:\.\d+)?([a-zA-Z%])")
+COND_STATEMENTS = {
+    "if_statement",
+    "while_statement",
+    "for_statement",
+    "enhanced_for_statement",
+    "do_statement",
+    "switch_expression",
+    "switch_statement",
+    "catch_clause",
+    "lambda_expression",
+}
+BUILDER_TYPES = {"StringBuilder", "StringBuffer", "StringJoiner"}
+
+
+def _hole(node: Node, before: str) -> _Expr:
+    kind = hole_kind(before)
+    line = node.start_point[0] + 1
+    return _Expr(
+        node, "?", True, line,
+        value_holes=1 if kind == "value" else 0,
+        structural_holes=1 if kind == "structural" else 0,
+        fragments=0, lines={line},
+    )  # fmt: skip
+
+
+def _concat(a: _Expr, b: _Expr, node: Node, optional: bool = False) -> _Expr:
+    return _Expr(
+        node=node,
+        text=a.text + b.text,
+        dynamic=a.dynamic or b.dynamic or optional,
+        line=a.line,
+        source=a.source or b.source,
+        hql=a.hql or b.hql,
+        minimal=a.base + ("" if optional else b.base),
+        value_holes=a.value_holes + b.value_holes,
+        structural_holes=a.structural_holes + b.structural_holes,
+        fragments=a.fragments + b.fragments,
+        optional=a.optional + b.optional + (b.fragments if optional else 0),
+        how=a.how | b.how | ({"conditional"} if optional else set()),
+        lines=a.lines | b.lines,
+        # Variants are whole alternative texts: combine each side's alternatives with the other.
+        variants=[*(v + b.text for v in a.variants), *(a.text + v for v in b.variants)][
+            :MAX_VARIANTS
+        ],
+    )
 
 
 @dataclass
@@ -133,7 +199,7 @@ def _txt(node: Node | None) -> str:
 
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
-    version: ClassVar[str] = "2"
+    version: ClassVar[str] = "3"
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -175,6 +241,10 @@ class _Visitor:
         self.classes: list[_ClassInfo] = []
         self.constants: dict[str, _Expr] = {}  # field name -> expression
         self.exprs: dict[int, _Expr] = {}  # start_byte -> top-level string expression
+        self.var_keys: dict[str, int] = {}  # local variable -> key of its value in exprs
+        # Values used only as a piece of a larger statement (a constant prefix, a literal in a
+        # concatenation) are not statements of their own unless a SQL call uses them directly.
+        self.used_as_fragment: set[int] = set()
         self.type_names: set[str] = set()
         self.dialect = ctx.config.sql.dialect
 
@@ -379,6 +449,7 @@ class _Visitor:
         body = node.child_by_field_name("body")
         if body is not None:
             local: dict[str, _Expr] = {}
+            self.var_keys = {}
             self._scan(body, local, cls=cls)
 
     def _services(
@@ -505,48 +576,251 @@ class _Visitor:
         self.facts.add("sql_statements", fact)
 
     # ---- expressions --------------------------------------------------------------------------
-    def _eval(self, node: Node) -> _Expr | None:
-        """Evaluate a string expression: literals, concatenation, constants. None if not text."""
+    def _eval(self, node: Node, local: dict[str, _Expr] | None = None) -> _Expr | None:
+        """Evaluate a string expression: literals, concatenation, constants and (in a method)
+        local variables, ``StringBuilder``s, ``String.format``, ternaries. Parts that are not
+        known become holes (``?``). None when the expression is not text at all."""
         t = node.type
         line = node.start_point[0] + 1
-        if t == "string_literal":
-            return _Expr(node, _unquote(_txt(node)), False, line)
+        if t in ("string_literal", "text_block"):
+            return _Expr(node, _unquote(_txt(node)), False, line, lines={line})
+        if t == "character_literal":
+            return _Expr(node, _unquote(_txt(node)), False, line, lines={line})
         if t == "parenthesized_expression" and node.named_children:
-            return self._eval(node.named_children[0])
+            return self._eval(node.named_children[0], local)
         if t == "binary_expression" and _txt(node.child_by_field_name("operator")) == "+":
             left = node.child_by_field_name("left")
             right = node.child_by_field_name("right")
-            le = self._eval(left) if left is not None else None
-            re_ = self._eval(right) if right is not None else None
+            le = self._eval(left, local) if left is not None else None
+            re_ = self._eval(right, local) if right is not None else None
             if le is None and re_ is None:
                 return None
-            lt = le.text if le else "?"
-            rt = re_.text if re_ else "?"
-            dyn = (le is None or le.dynamic) or (re_ is None or re_.dynamic)
-            return _Expr(node, lt + rt, dyn, line)
+            for part in (le, re_):
+                if part is not None:
+                    self.used_as_fragment.add(id(part))
+            if le is None:
+                le = _hole(left or node, "")
+            if re_ is None:
+                re_ = _hole(right or node, le.text)
+            out = _concat(le, re_, node)
+            if le.dynamic or re_.dynamic:
+                out.how.add("concatenation")
+            return out
         if t == "identifier":
-            c = self.constants.get(_txt(node))
-            if c is not None:
-                return _Expr(node, c.text, c.dynamic, line)
+            name = _txt(node)
+            return (local or {}).get(name) or self.constants.get(name)
+        if t == "ternary_expression":
+            a = node.child_by_field_name("consequence")
+            b = node.child_by_field_name("alternative")
+            ea = self._eval(a, local) if a is not None else None
+            eb = self._eval(b, local) if b is not None else None
+            if ea is None or eb is None:
+                return None
+            out = _concat(_Expr(node, "", False, line, fragments=0), ea, node)
+            out.dynamic = True
+            out.how.add("ternary")
+            out.variants = [eb.text, *ea.variants, *eb.variants][:MAX_VARIANTS]
+            out.fragments = ea.fragments + eb.fragments
+            out.lines |= eb.lines
+            return out
+        if t == "object_creation_expression":
+            typ = _txt(node.child_by_field_name("type")).split("<")[0].rsplit(".", 1)[-1]
+            if typ in BUILDER_TYPES:
+                args = node.child_by_field_name("arguments")
+                argv = list(args.named_children) if args is not None else []
+                first = self._eval(argv[0], local) if argv and typ != "StringJoiner" else None
+                if first is None:
+                    return _Expr(node, "", False, line, fragments=0, how={"string-builder"})
+                self.used_as_fragment.add(id(first))
+                return replace(first, node=node, line=line, how=first.how | {"string-builder"},
+                               lines=first.lines | {line})  # fmt: skip
+            return None
+        if t == "method_invocation":
+            return self._eval_call(node, local)
         return None
 
-    def _top_expr(self, node: Node) -> _Expr | None:
-        e = self._eval(node)
+    def _eval_call(self, node: Node, local: dict[str, _Expr] | None) -> _Expr | None:
+        name = _txt(node.child_by_field_name("name"))
+        obj = node.child_by_field_name("object")
+        args = node.child_by_field_name("arguments")
+        argv = list(args.named_children) if args is not None else []
+        if name in ("toString", "trim", "strip", "intern") and obj is not None and not argv:
+            return self._eval(obj, local)
+        if name == "valueOf" and _txt(obj) == "String" and len(argv) == 1:
+            return self._eval(argv[0], local)
+        if name == "concat" and obj is not None and len(argv) == 1:
+            a = self._eval(obj, local)
+            if a is None:
+                return None
+            b = self._eval(argv[0], local) or _hole(argv[0], a.text)
+            out = _concat(a, b, node)
+            out.how.add("concatenation")
+            return out
+        fmt_node: Node | None = None
+        values: list[Node] = []
+        if name == "format" and _txt(obj) == "String" and argv:
+            fmt_node, values = argv[0], argv[1:]
+        elif name == "formatted" and obj is not None:
+            fmt_node, values = obj, argv
+        if fmt_node is not None:
+            fmt = self._eval(fmt_node, local)
+            if fmt is None:
+                return None
+            return self._format(node, fmt, values, local)
+        return None
+
+    def _format(
+        self, node: Node, fmt: _Expr, values: list[Node], local: dict[str, _Expr] | None
+    ) -> _Expr:
+        out = _Expr(node, "", fmt.dynamic, fmt.line, fragments=0, lines=set(fmt.lines))
+        pos, k = 0, 0
+        for m in _FORMAT_SPEC.finditer(fmt.text):
+            lit = fmt.text[pos : m.start()]
+            out = _concat(out, _Expr(node, lit, False, fmt.line, fragments=0), node)
+            if m.group(1) == "%":
+                out = _concat(out, _Expr(node, "%", False, fmt.line, fragments=0), node)
+            elif m.group(1) == "n":
+                out = _concat(out, _Expr(node, " ", False, fmt.line, fragments=0), node)
+            else:
+                v = self._eval(values[k], local) if k < len(values) else None
+                out = _concat(out, v or _hole(values[k] if k < len(values) else node, out.text),
+                              node)  # fmt: skip
+                k += 1
+            pos = m.end()
+        out = _concat(out, _Expr(node, fmt.text[pos:], False, fmt.line, fragments=0), node)
+        out.fragments = max(out.fragments, 1)
+        out.how |= {"string-format"}
+        return out
+
+    def _top_expr(self, node: Node, local: dict[str, _Expr] | None = None) -> _Expr | None:
+        e = self._eval(node, local)
         if e is None or not e.text.strip():
             return None
+        if local and any(e is v for v in local.values()):
+            return e  # a tracked variable: already registered where it was declared
         self.exprs[node.start_byte] = e
         return e
+
+    def _track(self, local: dict[str, _Expr], name: str, e: _Expr, key: int | None) -> None:
+        """Remember a local string/builder variable; its latest value replaces the earlier one
+        in the list of expressions (keyed where the variable got its first value)."""
+        local[name] = e
+        if key is None:
+            key = self.var_keys.get(name, e.node.start_byte)
+        self.var_keys[name] = key
+        if e.text.strip():
+            self.exprs[key] = e
+        else:
+            self.exprs.pop(key, None)
+
+    def _update(self, local: dict[str, _Expr], name: str, new: _Expr, cond: bool,
+                append: bool) -> None:  # fmt: skip
+        prev = local.get(name)
+        if prev is None:
+            self._track(local, name, new, new.node.start_byte)
+            return
+        if append:
+            out = _concat(prev, new, new.node, optional=cond)
+        elif not cond:
+            out = new  # plain reassignment replaces the value
+        else:  # reassigned on some paths only: keep both
+            out = _concat(prev, _Expr(new.node, "", False, prev.line, fragments=0), prev.node)
+            out.dynamic = True
+            out.how |= {"reassignment"}
+            out.variants = [*prev.variants, new.text][:MAX_VARIANTS]
+            out.fragments += new.fragments
+            out.lines |= new.lines
+        out.node, out.line = prev.node, prev.line
+        out.source = out.source or prev.source
+        self._track(local, name, out, None)
+
+    def _statement(self, n: Node, local: dict[str, _Expr], cond: bool) -> bool:
+        """String building statements (``sql += ...``, ``sb.append(...)``, ``s = ...``).
+        True when handled (its children need no further scan)."""
+        expr = n.named_children[0] if n.named_children else None
+        if expr is None:
+            return False
+        if expr.type == "assignment_expression":
+            left = expr.child_by_field_name("left")
+            right = expr.child_by_field_name("right")
+            op = _txt(expr.child_by_field_name("operator"))
+            if left is None or right is None or left.type != "identifier":
+                return False
+            name = _txt(left)
+            prev = local.get(name)
+            value = self._eval(right, local)
+            if value is None:
+                if prev is None:
+                    return False
+                value = _hole(right, prev.text)
+            if op == "+=":
+                self._update(local, name, value, cond, append=True)
+            elif op == "=":
+                if prev is not None and value is not prev and value.text.startswith(prev.text) \
+                        and prev.text and value.lines >= prev.lines:  # fmt: skip
+                    # s = s + "..." is an append of the rest
+                    delta = _Expr(
+                        right, value.text[len(prev.text) :], value.dynamic, value.line,
+                        value_holes=value.value_holes - prev.value_holes,
+                        structural_holes=value.structural_holes - prev.structural_holes,
+                        fragments=max(value.fragments - prev.fragments, 1),
+                        how=value.how, lines=value.lines - prev.lines or {value.line},
+                    )  # fmt: skip
+                    self._update(local, name, delta, cond, append=True)
+                else:
+                    self._update(local, name, value, cond, append=False)
+            else:
+                return False
+            return True
+        if expr.type == "method_invocation":
+            chain: list[Node] = []
+            cur: Node | None = expr
+            while cur is not None and cur.type == "method_invocation":
+                chain.append(cur)
+                cur = cur.child_by_field_name("object")
+            if cur is None or cur.type != "identifier" or _txt(cur) not in local:
+                return False
+            names = [_txt(c.child_by_field_name("name")) for c in chain]
+            if not all(x in ("append", "add", "setLength") for x in names):
+                return False
+            name = _txt(cur)
+            for call in reversed(chain):  # innermost first
+                cname = _txt(call.child_by_field_name("name"))
+                args = call.child_by_field_name("arguments")
+                argv = list(args.named_children) if args is not None else []
+                if cname == "setLength":
+                    if not cond:
+                        empty = _Expr(call, "", False, call.start_point[0] + 1, fragments=0)
+                        empty.how = {"string-builder"}
+                        self._update(local, name, empty, False, append=False)
+                    continue
+                if not argv:
+                    continue
+                v = self._eval(argv[0], local) or _hole(argv[0], local[name].text)
+                v.how = v.how | {"string-builder"}
+                self._update(local, name, v, cond, append=True)
+            return True
+        return False
 
     def _scan(
         self, node: Node, local: dict[str, _Expr] | None, cls: _ClassInfo | None = None
     ) -> None:
-        """Walk a method body: string expressions, SQL call sites, endpoints."""
-        stack = [node]
+        """Walk a method body in source order: string expressions and the variables that build
+        SQL text, SQL call sites, endpoints. Code inside if/loop/switch/catch is conditional."""
+        stack: list[tuple[Node, bool]] = [(node, False)]
         while stack:
-            n = stack.pop()
+            n, cond = stack.pop()
             t = n.type
+            if (
+                t == "expression_statement"
+                and local is not None
+                and self._statement(n, local, cond)
+            ):
+                for c in n.named_children:  # calls on the line (e.g. executeQuery) still count
+                    self._calls_in(c, local)
+                continue
             if t in ("string_literal", "binary_expression") and n.start_byte not in self.exprs:
-                e = self._top_expr(n)
+                e = self._top_expr(n, local)
                 if e is not None:
                     continue
             if t == "local_variable_declaration" and local is not None:
@@ -554,11 +828,13 @@ class _Visitor:
                     if decl.type == "variable_declarator":
                         v = decl.child_by_field_name("value")
                         if v is not None:
-                            e = self._top_expr(v)
+                            e = self._eval(v, local)
                             if e is not None:
-                                local[_txt(decl.child_by_field_name("name"))] = e
+                                self._track(local, _txt(decl.child_by_field_name("name")), e,
+                                            v.start_byte)  # fmt: skip
+                                self._calls_in(v, local)
                                 continue
-                            stack.append(v)
+                            stack.append((v, cond))
                 continue
             if t == "method_invocation":
                 self._call(n, local or {})
@@ -566,7 +842,23 @@ class _Visitor:
                 self._new(n)
             elif t == "type_identifier":
                 self.type_names.add(_txt(n))
-            stack.extend(reversed(n.children))
+            inner = cond or t in COND_STATEMENTS
+            for c in reversed(n.children):
+                is_test = t in ("if_statement", "while_statement") and c == n.child_by_field_name(
+                    "condition"
+                )
+                stack.append((c, cond if is_test else inner))
+
+    def _calls_in(self, node: Node, local: dict[str, _Expr]) -> None:
+        """SQL call sites and object creations inside an expression that was evaluated."""
+        stack = [node]
+        while stack:
+            n = stack.pop()
+            if n.type == "method_invocation":
+                self._call(n, local)
+            elif n.type == "object_creation_expression":
+                self._new(n)
+            stack.extend(n.children)
 
     def _arg_expr(self, arg: Node, local: dict[str, _Expr]) -> _Expr | None:
         if arg.type == "identifier":
@@ -574,10 +866,12 @@ class _Visitor:
             return local.get(name) or self.constants.get(name)
         if arg.start_byte in self.exprs:
             return self.exprs[arg.start_byte]
-        return self._top_expr(arg)
+        return self._top_expr(arg, local)
 
     def _call(self, n: Node, local: dict[str, _Expr]) -> None:
         name = _txt(n.child_by_field_name("name"))
+        if name in STRING_METHODS:
+            return  # its arguments are pieces of text, evaluated with the expression
         obj = _txt(n.child_by_field_name("object"))
         args = n.child_by_field_name("arguments")
         argv = list(args.named_children) if args is not None else []
@@ -712,31 +1006,39 @@ class _Visitor:
 
     # ---- results ------------------------------------------------------------------------------
     def _sql(
-        self, text: str, line: int, source: str, dynamic: bool = False, hql: bool = False
+        self,
+        text: str,
+        line: int,
+        source: str,
+        dynamic: bool = False,
+        hql: bool = False,
+        expr: _Expr | None = None,
     ) -> None:
-        self.facts.add(
-            "sql_statements",
-            sql_fact(
-                file=self.path,
-                line=line,
-                text=text,
-                source=source,
-                dialect=self.dialect,
-                dynamic=dynamic,
-                hql=hql,
-            ),
+        fact = sql_fact(
+            file=self.path,
+            line=line,
+            text=text,
+            source=source,
+            dialect=self.dialect,
+            dynamic=dynamic,
+            hql=hql,
         )
+        if expr is not None:
+            fill(fact, expr)
+        self.facts.add("sql_statements", fact)
 
     def _emit_sql(self) -> None:
         soap = any(i.startswith(SOAP_IMPORTS) for i in self.imports)
         for e in sorted(self.exprs.values(), key=lambda e: e.node.start_byte):
+            if id(e) in self.used_as_fragment and e.source is None:
+                continue
             text = e.text.strip()
             if e.hql or (e.source == "hql" and looks_like_hql(text)):
-                self._sql(text, e.line, "hql", e.dynamic, hql=True)
+                self._sql(text, e.line, "hql", e.dynamic, hql=True, expr=e)
             elif looks_like_sql(text, strict=not e.source):
-                self._sql(text, e.line, e.source or "java-string", e.dynamic)
+                self._sql(text, e.line, e.source or "java-string", e.dynamic, expr=e)
             elif e.source in ("hql",) and looks_like_hql(text):
-                self._sql(text, e.line, "hql", e.dynamic, hql=True)
+                self._sql(text, e.line, "hql", e.dynamic, hql=True, expr=e)
             if "://" in text or text.lower().startswith("jdbc:"):
                 for m in re.finditer(r"(jdbc:[^\s\"']+|[a-z]+://[^\s\"'<>]+)", text, re.I):
                     url = m.group(1)
