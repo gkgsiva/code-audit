@@ -1,4 +1,5 @@
-"""Command-line interface: ``legacy-audit init | scan | report | diff | purge-cache | version``."""
+"""Command-line interface: ``legacy-audit init | scan | report | validate | facts | mcp | diff |
+purge-cache | version``."""
 
 from __future__ import annotations
 
@@ -64,8 +65,18 @@ def init(
     folder: Annotated[Path, typer.Argument(help="Legacy workspace folder")] = Path("."),
     name: Annotated[str | None, typer.Option(help="Application name")] = None,
     force: Annotated[bool, typer.Option(help="Overwrite existing starter files")] = False,
+    copilot_layout: Annotated[
+        str,
+        typer.Option(
+            help="Copilot agent files: agents (.agent.md), chatmodes (older VS Code), both, none"
+        ),
+    ] = "both",
 ) -> None:
-    """Create audit.yaml, audit-overrides.yaml and audit-inputs/ in a legacy workspace."""
+    """Create audit.yaml, audit-overrides.yaml, audit-inputs/ and the Copilot agent files."""
+    from legacy_audit.copilot.install import LAYOUTS, install
+
+    if copilot_layout not in LAYOUTS:
+        raise _fail(f"--copilot-layout must be one of {', '.join(LAYOUTS)}")
     folder = folder.resolve()
     folder.mkdir(parents=True, exist_ok=True)
     app_name = name or folder.name or "application"
@@ -88,7 +99,20 @@ def init(
             created.append(f"audit-inputs/{kind}/")
     for item in created:
         console.print(f"[green]created[/green] {item}")
-    console.print("Next: review audit.yaml, then run [bold]legacy-audit scan[/bold].")
+    kept = []
+    for done in install(folder, copilot_layout):
+        if done.action in ("created", "updated"):
+            console.print(f"[green]{done.action}[/green] {done.path}")
+        elif done.action == "kept":
+            kept.append(done.path)
+    for path in kept:
+        console.print(
+            f"[yellow]kept your edits[/yellow] {path} (new version written to {path}.new)"
+        )
+    console.print(
+        "Next: review audit.yaml, then run [bold]legacy-audit scan[/bold], or in VS Code open "
+        "Copilot Chat, pick the [bold]legacy-auditor[/bold] agent and run /audit-scan."
+    )
 
 
 @app.command()
@@ -292,6 +316,67 @@ def validate(
     )
     if rep.errors:
         raise typer.Exit(code=1)
+
+
+@app.command()
+def facts(
+    kind: Annotated[str, typer.Argument(help="services, screens, sql_statements, ...")],
+    filter_: Annotated[
+        list[str] | None,
+        typer.Option("--filter", "-f", help="field=value (repeatable); field=~text for contains"),
+    ] = None,
+    fields: Annotated[str | None, typer.Option(help="Comma-separated fields to show")] = None,
+    limit: Annotated[int, typer.Option(help="At most this many rows (max 500)")] = 50,
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Print facts of one kind as JSON (read-only; for the Copilot agent and for people)."""
+    from legacy_audit.mcp.facts import Facts, FactsError
+
+    run_dir, _ = _resolve(config, run, output_dir)
+    filters: dict[str, str] = {}
+    for f in filter_ or []:
+        key, sep, value = f.partition("=")
+        if not sep:
+            raise _fail(f"--filter needs field=value, got '{f}'")
+        filters[key.strip()] = value
+    cols = [c.strip() for c in fields.split(",")] if fields else None
+    try:
+        result = Facts(lambda: run_dir).query_facts(kind, filters, limit, cols)
+    except FactsError as err:
+        raise _fail(str(err)) from None
+    typer.echo(json.dumps(result, indent=2, ensure_ascii=False))
+
+
+@app.command()
+def mcp(
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Serve the latest run's facts to Copilot as a read-only MCP server (stdio)."""
+    import sys
+
+    from legacy_audit.mcp.facts import Facts, FactsError
+    from legacy_audit.mcp.server import Server
+
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    out = output_dir or loaded.output_dir
+
+    def latest() -> Path:
+        try:
+            return resolve_run(out, "latest")
+        except RunNotFound as err:
+            raise FactsError(f"{err}. Run 'legacy-audit scan' first.") from None
+
+    for stream in (sys.stdin, sys.stdout):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8")
+    Server(Facts(latest)).serve()
 
 
 @app.command("purge-cache")
