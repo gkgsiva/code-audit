@@ -171,3 +171,15 @@ def test_report_all_command(enriched: Path) -> None:
         assert (enriched / "reports" / "deck.pptx").is_file()
     else:
         assert "PPTX skipped" in res.output
+
+
+def test_tech_report_analysis_page_shows_enrichment(enriched: Path) -> None:
+    from legacy_audit.report.tech import build_tech_report
+
+    page = build_tech_report(enriched).parent / "analysis.html"
+    c = _check(page)
+    assert not c.errors and c.stack == []
+    html = page.read_text(encoding="utf-8")
+    assert "SQL injection in order search" in html and "Find and view an order" in html
+    assert html.count(">valid<") == 12
+    assert "vscode://file/" in html  # claims link to their evidence

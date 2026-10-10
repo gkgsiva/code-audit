@@ -44,7 +44,14 @@ from legacy_audit.store.writer import FactSet, write_facts, write_json
 log = logging.getLogger("legacy_audit")
 
 INPUTS_ROOT = "audit-inputs"
-COPILOT_PATHS = (".github/agents", ".github/prompts", ".github/copilot-instructions.md")
+COPILOT_PATHS = (  # installed by `init` (legacy_audit/copilot/install.py), never scanned
+    ".github/agents",
+    ".github/chatmodes",
+    ".github/prompts",
+    ".github/legacy-audit",
+    ".github/copilot-instructions.md",
+    ".github/copilot-instructions.md.new",
+)
 
 Progress = Callable[[str, int, int], None]
 

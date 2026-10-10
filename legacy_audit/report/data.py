@@ -107,7 +107,8 @@ class RunData:
         item = self.by_id.get(entity_id)
         if item is None:
             return entity_id.split(":", 1)[-1]
-        return str(item.get("name") or item.get("path") or item.get("target") or entity_id)
+        name = item.get("name") or item.get("artifact") or item.get("path") or item.get("target")
+        return str(name or entity_id)
 
     def abs_path(self, file: str) -> Path | None:
         """Where a fact's file is on disk (None when the source is not local)."""
