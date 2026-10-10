@@ -135,6 +135,19 @@
       ],
       "default": null
     },
+    "pg_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Suggested PostgreSQL text (auto and review)",
+      "title": "Pg Text"
+    },
     "procedures": {
       "description": "Procedures it calls",
       "items": {
@@ -153,6 +166,7 @@
         }
       ],
       "default": null,
+      "description": "Why the grade is not auto",
       "title": "Reason"
     },
     "source": {

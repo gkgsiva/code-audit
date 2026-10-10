@@ -119,7 +119,10 @@ class Service(Fact):
     screens: list[str] = Field(default_factory=list, description="Screens it renders")
     inputs: list[str] = Field(default_factory=list)
     outputs: list[str] = Field(default_factory=list)
-    complexity: str | None = None
+    complexity: str | None = Field(None, description="Simple, Medium, Complex or Very complex")
+    complexity_score: float | None = None
+    fan_in: int = Field(0, description="Resolved edges into the service")
+    fan_out: int = Field(0, description="Resolved edges out of the service and its own file")
     tables: list[str] = Field(default_factory=list)
     external_calls: list[str] = Field(default_factory=list)
 
@@ -132,6 +135,7 @@ class Screen(Fact):
     fields_count: int = 0
     component: str | None = None
     complexity: str | None = None
+    complexity_score: float | None = None
     partial: bool = False
     targeted_by: list[str] = Field(
         default_factory=list, description="Services or pages that forward to / include it"
@@ -163,7 +167,8 @@ class SqlStatement(Fact):
     normalized: str | None = None
     vendor_features: list[str] = Field(default_factory=list)
     pg_grade: PgGrade | None = None
-    reason: str | None = None
+    reason: str | None = Field(None, description="Why the grade is not auto")
+    pg_text: str | None = Field(None, description="Suggested PostgreSQL text (auto and review)")
     component: str | None = None
 
 
@@ -179,6 +184,8 @@ class DbObject(Fact):
     crud: dict[str, list[str]] = Field(
         default_factory=dict, description="Operation (C/R/U/D) to referencing ids"
     )
+    pg_grade: PgGrade | None = Field(None, description="Set for packages, procedures, ...")
+    reason: str | None = None
 
 
 class Integration(Fact):
@@ -221,6 +228,30 @@ class BatchJob(Fact):
     programs: list[str] = Field(default_factory=list)
     datasets: list[str] = Field(default_factory=list)
     predecessors: list[str] = Field(default_factory=list)
+    complexity: str | None = None
+    complexity_score: float | None = None
+
+
+class Vulnerability(FactModel):
+    id: str = Field(description="CVE, GHSA or OSV id")
+    aliases: list[str] = Field(default_factory=list)
+    severity: str = Field(description="critical, high, medium, low or unknown")
+    cvss: float | None = None
+    fixed_versions: list[str] = Field(default_factory=list)
+    sources: list[str] = Field(default_factory=list, description="dependency-check, osv")
+    description: str | None = None
+
+
+class Recommendation(FactModel):
+    action: str = Field(
+        description="upgrade, use-bom, migrate-jakarta, replace, rewrite, remove or keep"
+    )
+    target: str | None = Field(None, description="Target coordinates or product")
+    reason: str
+    effort: str = Field("low", description="low, medium or high")
+    recipe: str | None = Field(None, description="OpenRewrite recipe id, when one applies")
+    verify: bool = Field(False, description="Target not confirmed by rule data; check it")
+    rule: str | None = Field(None, description="Rule in dependency-upgrades.yaml")
 
 
 class Library(Fact):
@@ -235,8 +266,13 @@ class Library(Fact):
     declared: bool = True
     where_used: list[str] = Field(default_factory=list)
     cves: list[str] = Field(default_factory=list)
+    vulnerabilities: list[Vulnerability] = Field(default_factory=list)
+    max_severity: str | None = None
     eol: bool | None = None
+    eol_date: str | None = None
+    replacement: str | None = None
     recommended_version: str | None = None
+    recommendation: Recommendation | None = None
 
 
 class TechItem(Fact):
@@ -248,6 +284,8 @@ class TechItem(Fact):
     )
     usages: int = 1
     eol: bool | None = None
+    eol_date: str | None = None
+    replacement: str | None = None
 
 
 class Severity(StrEnum):
@@ -265,6 +303,7 @@ class Finding(Fact):
     file: str | None = None
     line: int | None = None
     message: str
+    remediation: str | None = None
 
 
 class Metric(Fact):
@@ -273,11 +312,31 @@ class Metric(Fact):
     loc_comment: int = 0
     loc_blank: int = 0
     files: int = 0
-    complexity_avg: float | None = None
+    units: int = Field(0, description="Functions, methods, paragraphs and scripts measured")
+    complexity_avg: float | None = Field(None, description="Mean cyclomatic complexity per unit")
     complexity_max: int | None = None
+    complex_units: int = Field(0, description="Units above the high-complexity threshold")
+    duplicated_lines: int = 0
     duplication_pct: float | None = None
     test_files: int = 0
+    test_ratio: float | None = Field(None, description="Test files / code files")
     dead_code_candidates: int = 0
+    fan_in_max: int = 0
+    fan_out_max: int = 0
+    complexity: str | None = Field(None, description="Band of the mean item score")
+    complexity_score: float | None = None
+    bands: dict[str, int] = Field(default_factory=dict, description="Items per band")
+
+
+class CodeUnit(FactModel):
+    """A function, method, COBOL paragraph or script, measured for complexity."""
+
+    name: str
+    kind: str = Field(description="method, function, paragraph, procedure or script")
+    line: int
+    end_line: int
+    loc: int = Field(description="Non-blank lines")
+    cyclomatic: int = Field(description="1 + decision points")
 
 
 class CoverageStatus(StrEnum):
@@ -312,6 +371,39 @@ class AnalyzerCoverage(FactModel):
     )
 
 
+class VulnerabilitySource(FactModel):
+    """One vulnerability data source for this run (tool run or imported report)."""
+
+    name: str = Field(description="dependency-check or osv-scanner")
+    status: str = Field(description="ran, imported, missing or failed")
+    detail: str | None = None
+    database_date: str | None = None
+    reports: list[str] = Field(default_factory=list)
+
+
+class EffortLine(FactModel):
+    component: str
+    item: str = Field(description="service, screen, batch_job, sql, stored_procedure, ...")
+    level: str = Field(description="Band, PG grade or upgrade action the weight is for")
+    count: int
+    low: float
+    likely: float
+    high: float
+
+
+class EffortEstimate(FactModel):
+    """``effort.json``: person-days from config weights. An estimate, labelled as such."""
+
+    label: str = "estimate — weights from config"
+    unit: str = "person-days"
+    low: float = 0.0
+    likely: float = 0.0
+    high: float = 0.0
+    by_component: dict[str, dict[str, float]] = Field(default_factory=dict)
+    lines: list[EffortLine] = Field(default_factory=list)
+    weights: dict[str, Any] = Field(default_factory=dict)
+
+
 class SourceInfo(FactModel):
     name: str
     type: str
@@ -344,6 +436,7 @@ class RunInfo(FactModel):
     warnings: list[str] = Field(default_factory=list)
     analyzers: dict[str, AnalyzerCoverage] = Field(default_factory=dict)
     unresolved_references: int = 0
+    vulnerability_sources: list[VulnerabilitySource] = Field(default_factory=list)
 
 
 # Every fact entity: file stem in the data folder -> model. Order is the export order.
@@ -385,4 +478,7 @@ SCHEMA_MODELS: dict[str, type[BaseModel]] = {
     "metric": Metric,
     "input_coverage": InputCoverage,
     "run_info": RunInfo,
+    "vulnerability": Vulnerability,
+    "recommendation": Recommendation,
+    "effort": EffortEstimate,
 }

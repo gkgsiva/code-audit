@@ -38,6 +38,144 @@
       ],
       "title": "Evidence",
       "type": "object"
+    },
+    "Recommendation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "description": "upgrade, use-bom, migrate-jakarta, replace, rewrite, remove or keep",
+          "title": "Action",
+          "type": "string"
+        },
+        "effort": {
+          "default": "low",
+          "description": "low, medium or high",
+          "title": "Effort",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "recipe": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "OpenRewrite recipe id, when one applies",
+          "title": "Recipe"
+        },
+        "rule": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Rule in dependency-upgrades.yaml",
+          "title": "Rule"
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target coordinates or product",
+          "title": "Target"
+        },
+        "verify": {
+          "default": false,
+          "description": "Target not confirmed by rule data; check it",
+          "title": "Verify",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "action",
+        "reason"
+      ],
+      "title": "Recommendation",
+      "type": "object"
+    },
+    "Vulnerability": {
+      "additionalProperties": false,
+      "properties": {
+        "aliases": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        },
+        "cvss": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cvss"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "fixed_versions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fixed Versions",
+          "type": "array"
+        },
+        "id": {
+          "description": "CVE, GHSA or OSV id",
+          "title": "Id",
+          "type": "string"
+        },
+        "severity": {
+          "description": "critical, high, medium, low or unknown",
+          "title": "Severity",
+          "type": "string"
+        },
+        "sources": {
+          "description": "dependency-check, osv",
+          "items": {
+            "type": "string"
+          },
+          "title": "Sources",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "severity"
+      ],
+      "title": "Vulnerability",
+      "type": "object"
     }
   },
   "$id": "legacy-audit/facts/library.schema.json",
@@ -71,6 +209,18 @@
       ],
       "default": null,
       "title": "Eol"
+    },
+    "eol_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Eol Date"
     },
     "evidence": {
       "items": {
@@ -112,6 +262,29 @@
       "default": null,
       "title": "License"
     },
+    "max_severity": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Max Severity"
+    },
+    "recommendation": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Recommendation"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "recommended_version": {
       "anyOf": [
         {
@@ -123,6 +296,18 @@
       ],
       "default": null,
       "title": "Recommended Version"
+    },
+    "replacement": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Replacement"
     },
     "scope": {
       "anyOf": [
@@ -164,6 +349,13 @@
       ],
       "default": null,
       "title": "Version"
+    },
+    "vulnerabilities": {
+      "items": {
+        "$ref": "#/$defs/Vulnerability"
+      },
+      "title": "Vulnerabilities",
+      "type": "array"
     },
     "where_used": {
       "items": {

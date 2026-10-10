@@ -68,6 +68,30 @@
       "default": null,
       "title": "Command"
     },
+    "complexity": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity"
+    },
+    "complexity_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Score"
+    },
     "component": {
       "anyOf": [
         {

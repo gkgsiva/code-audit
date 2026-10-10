@@ -216,6 +216,59 @@
       ],
       "title": "UnparsedRegion",
       "type": "object"
+    },
+    "VulnerabilitySource": {
+      "additionalProperties": false,
+      "description": "One vulnerability data source for this run (tool run or imported report).",
+      "properties": {
+        "database_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Database Date"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Detail"
+        },
+        "name": {
+          "description": "dependency-check or osv-scanner",
+          "title": "Name",
+          "type": "string"
+        },
+        "reports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reports",
+          "type": "array"
+        },
+        "status": {
+          "description": "ran, imported, missing or failed",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "status"
+      ],
+      "title": "VulnerabilitySource",
+      "type": "object"
     }
   },
   "$id": "legacy-audit/facts/run_info.schema.json",
@@ -328,6 +381,13 @@
       "default": 0,
       "title": "Unresolved References",
       "type": "integer"
+    },
+    "vulnerability_sources": {
+      "items": {
+        "$ref": "#/$defs/VulnerabilitySource"
+      },
+      "title": "Vulnerability Sources",
+      "type": "array"
     },
     "warnings": {
       "items": {

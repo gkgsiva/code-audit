@@ -54,7 +54,10 @@ target:
 #   screen: "One JSP that is a forward target; tiles and fragments are partials."
 counting: {}
 
-# Complexity score weights and band thresholds (Simple < medium <= Medium < complex ...).
+# Complexity bands. Score = sum of weight x (feature / scale) over: loc and cyclomatic of the
+# code an item runs, tables, integrations, vendor-specific SQL statements, fan-out and (screens)
+# fields. Simple < medium <= Medium < complex <= Complex < very_complex <= Very complex.
+# Changing these re-computes bands and effort on the next run without re-analysing files.
 complexity:
   weights:
     loc: 1.0
@@ -63,14 +66,53 @@ complexity:
     integrations: 2.0
     vendor_sql: 1.5
     fan_out: 1.0
+    fields: 0.2
+  scale:
+    loc: 100                     # per 100 lines of code
+    cyclomatic: 10               # per 10 decision points
   thresholds:
     medium: 10
     complex: 25
     very_complex: 50
+  high_unit: 20                  # a function from this cyclomatic complexity is a finding
 
-# Rule packs to run (phase 3).
+metrics:
+  duplication_tokens: 50         # tokens in a window counted as duplicated code
+
+# Rule packs (rules/*.yaml). Switch rules off or change their severity by id; a team folder of
+# packs can add rules or replace ours with the same id.
 rules:
   enabled: [risk, postgresql, dependency]
+  disabled: []
+  severity: {}                 # e.g. {system-exit: low}
+  packs_dir: null
+
+# Effort estimate in person-days [low, likely, high] per item and level. Only the entries given
+# here replace the defaults (see docs/plan.md § Effort model); every output labels the result
+# "estimate — weights from config".
+effort:
+  enabled: true
+  weights: {}                  # e.g. {service: {complex: [4, 7, 10]}}
+
+# Dependency security. Tools are optional: when one is missing the run reports a coverage gap.
+# Recorded JSON reports dropped in audit-inputs/security/ are imported instead of running a tool.
+security:
+  dependency_check:
+    enabled: true
+    path: null                   # dependency-check(.bat); found on PATH when empty
+    data_dir: null               # local NVD database folder
+    nvd_mirror_url: null         # team mirror, only used when syncing the database
+    offline: true                # never update the database during a scan
+    timeout_minutes: 30
+  osv_scanner:
+    enabled: true
+    path: null
+    data_dir: null
+    offline: true
+    timeout_minutes: 15
+  jdk_tools:
+    enabled: false               # true: run jdeps / jdeprscan on jars (needs a JDK; slow)
+    java_home: null
 
 # Report branding; the neutral default theme is used until a corporate template is added.
 branding:
