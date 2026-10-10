@@ -140,7 +140,27 @@ def vendor_features(sql: str) -> list[str]:
     return [name for name, pat in VENDOR_FEATURES if pat.search(sql)]
 
 
-def _sqlglot_dialect(dialect: str | None) -> str | None:
+def prepare(sql: str, keep_binds: bool = False) -> str:
+    """Statement text sqlglot can parse: no comments, no cursor declaration or embedded
+    ``INTO :host`` list, DB2 isolation clauses dropped and special registers in standard form.
+    Bind variables become ``?`` unless ``keep_binds`` (then ``:WS-NAME`` becomes ``:WS_NAME``)."""
+    s = strip_comments(sql)
+    s = _CURSOR.sub("", s)
+    if keep_binds:
+        s = re.sub(
+            r"#\{\s*([A-Za-z_]\w*)[^}]*\}|#([A-Za-z_]\w*)#",
+            lambda m: ":" + (m.group(1) or m.group(2)),
+            s,
+        )
+        s = re.sub(r":([A-Za-z][\w-]*)", lambda m: ":" + m.group(1).replace("-", "_"), s)
+    else:
+        s = _BIND.sub("?", s)
+    s = _SELECT_INTO.sub(" ", s) if statement_type(s) == "SELECT" else s
+    s = _DB2_ISOLATION.sub("", s.strip().rstrip(";"))
+    return _DB2_SPECIAL_REGISTER.sub(lambda m: "CURRENT_" + m.group(1).upper(), s)
+
+
+def sqlglot_dialect(dialect: str | None) -> str | None:
     if dialect in (None, "db2", "generic", "sybase", "informix"):
         return None
     return {"sqlserver": "tsql", "postgresql": "postgres"}.get(dialect, dialect)
@@ -151,14 +171,9 @@ def parse_tables(sql: str, dialect: str | None) -> tuple[list[str], list[str], b
     m = _CALL.match(sql)
     if m:
         return [], [m.group(4).upper()], True
-    s = strip_comments(sql)
-    s = _CURSOR.sub("", s)
-    s = _BIND.sub("?", s)
-    s = _SELECT_INTO.sub(" ", s) if statement_type(s) == "SELECT" else s
-    s = _DB2_ISOLATION.sub("", s.strip().rstrip(";"))
-    s = _DB2_SPECIAL_REGISTER.sub(lambda m: "CURRENT_" + m.group(1).upper(), s)
+    s = prepare(sql)
     try:
-        tree = sqlglot.parse_one(s, read=_sqlglot_dialect(dialect))
+        tree = sqlglot.parse_one(s, read=sqlglot_dialect(dialect))
         if tree is None or isinstance(tree, exp.Command):
             raise ValueError("not parsed")
         ctes = {c.alias_or_name.upper() for c in tree.find_all(exp.CTE)}
