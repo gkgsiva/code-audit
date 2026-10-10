@@ -1,4 +1,4 @@
-"""Command-line interface: ``legacy-audit init | scan | diff | purge-cache | version``."""
+"""Command-line interface: ``legacy-audit init | scan | report | diff | purge-cache | version``."""
 
 from __future__ import annotations
 
@@ -198,6 +198,42 @@ def diff(
     if json_out:
         write_json(json_out, result)
         console.print(f"Diff written to {json_out}")
+
+
+REPORT_TYPES = ("tech", "mgmt", "pptx", "all")
+
+
+@app.command()
+def report(
+    type_: Annotated[str, typer.Option("--type", "-t", help="tech, mgmt, pptx or all")] = "tech",
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+    open_: Annotated[bool, typer.Option("--open", help="Open the report in the browser")] = False,
+) -> None:
+    """Build reports from a run (default: the latest) into <run>/reports/."""
+    from legacy_audit.report.tech import build_tech_report
+
+    if type_ not in REPORT_TYPES:
+        raise _fail(f"Unknown report type '{type_}' (use {', '.join(REPORT_TYPES)})")
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    try:
+        run_dir = resolve_run(output_dir or loaded.output_dir, run)
+    except RunNotFound as err:
+        raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
+    if type_ in ("mgmt", "pptx"):
+        raise _fail(f"The '{type_}' report arrives in phase 5; use --type tech.")
+    index = build_tech_report(run_dir, loaded.inputs_dir)
+    console.print(f"[bold green]Technical report[/bold green] -> {index}")
+    if open_:
+        import webbrowser
+
+        webbrowser.open(index.resolve().as_uri())
+    if type_ == "all":
+        console.print("  mgmt and pptx reports arrive in phase 5; built tech only.")
 
 
 @app.command("purge-cache")

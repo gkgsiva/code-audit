@@ -1,0 +1,37 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<h2>Counting rules</h2>
+<dl class="kv">{% for k, v in counting_rules.items() %}<dt>{{ k|replace("_", " ") }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
+
+<h2>Input coverage</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Input</th><th>Status</th><th class="num">Files</th><th>Folder</th></tr></thead><tbody>
+{% for c in input_coverage %}<tr><td>{{ c.label }}</td><td><span class="badge {{ c.status }}">{{ c.status }}</span></td><td class="num">{{ c.file_count }}</td><td><code>{{ c.path }}</code></td></tr>{% endfor %}
+</tbody></table></div>
+
+<h2>Coverage per analyzer</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Analyzer</th><th class="num">Files</th><th class="num">Lines</th><th class="num">Unparsed lines</th><th class="num">Coverage %</th></tr></thead><tbody>
+{% for name, a in analyzers %}<tr><td>{{ name }}</td><td class="num">{{ a.files }}</td><td class="num">{{ a.lines }}</td><td class="num">{{ a.unparsed_lines }}</td><td class="num">{{ a.coverage_pct }}</td></tr>{% endfor %}
+</tbody></table></div>
+
+<h2>Run</h2>
+<dl class="kv">
+  <dt>Run id</dt><dd><code>{{ run.run_id }}</code></dd>
+  <dt>Started / finished</dt><dd>{{ run.started_at }} / {{ run.finished_at }}</dd>
+  <dt>Files</dt><dd>{{ run.files_total }} ({{ run.files_analyzed }} analyzed, {{ run.files_cached }} from cache{% if run.full_scan %}, full scan{% endif %})</dd>
+  <dt>Unresolved references</dt><dd>{{ run.unresolved_references }}</dd>
+  <dt>Configuration hash</dt><dd><code>{{ run.config_hash }}</code></dd>
+  <dt>Timings (s)</dt><dd>{% for k, v in run.timings.items() %}{{ k }} {{ v }}{% if not loop.last %} · {% endif %}{% endfor %}</dd>
+  {% if run.warnings %}<dt>Warnings</dt><dd><ul class="compact">{% for w in run.warnings %}<li>{{ w }}</li>{% endfor %}</ul></dd>{% endif %}
+</dl>
+
+<h2>Run configuration</h2>
+<p class="muted">From <code>{{ config_name }}</code>; values of password, secret and token keys are masked.</p>
+<pre class="block">{{ config_text }}</pre>
+
+<h2>Scan log summary</h2>
+<p>{% for level, n in log_levels.items() %}{{ level }}: {{ n }}{% if not loop.last %} · {% endif %}{% endfor %}</p>
+{% if log_lines %}<pre class="block">{{ log_lines|join("\n") }}</pre>{% else %}<p class="muted">No warnings or errors in the scan log.</p>{% endif %}
+
+<h2>Glossary</h2>
+<dl class="kv">{% for k, v in glossary %}<dt>{{ k }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
+{% endblock %}

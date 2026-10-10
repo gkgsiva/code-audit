@@ -1,0 +1,35 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Component <strong>{{ c.name }}</strong> ({{ c.type }}), folder <code>{{ c.path or "." }}</code> in source <code>{{ c.root }}</code>, detected by {{ c.detected_by }}.</p>
+<div class="tiles">
+{% for t in c.tiles %}{{ m.tile(t) }}
+{% endfor %}
+</div>
+
+<div class="grid2" style="margin-top:16px">
+<div class="panel">
+  <h3>Entry points</h3>
+  {% if c.entry_points %}<ul class="compact">{% for e in c.entry_points %}<li>{{ e.kind }}: <code>{{ e.name }}</code> · {{ m.ev(e.link) }}</li>{% endfor %}</ul>{% else %}<p class="muted">None found.</p>{% endif %}
+</div>
+<div class="panel">
+  <h3>Dependencies on other components</h3>
+  {% if c.deps_out or c.deps_in %}
+  <table class="data"><thead><tr><th>Direction</th><th>Component</th><th class="num">Edges</th><th>Kinds</th></tr></thead><tbody>
+  {% for d in c.deps_out %}<tr><td>uses</td><td><a href="{{ d.slug }}.html">{{ d.name }}</a></td><td class="num">{{ d.count }}</td><td>{{ d.kinds }}</td></tr>{% endfor %}
+  {% for d in c.deps_in %}<tr><td>used by</td><td><a href="{{ d.slug }}.html">{{ d.name }}</a></td><td class="num">{{ d.count }}</td><td>{{ d.kinds }}</td></tr>{% endfor %}
+  </tbody></table>
+  {% else %}<p class="muted">No code edges to or from other components.</p>{% endif %}
+</div>
+</div>
+
+<h2>Services</h2>{{ m.catalogue("services", "component", c.name) }}
+<h2>Screens</h2>{{ m.catalogue("screens", "component", c.name) }}
+<h2>SQL statements</h2>{{ m.catalogue("sql", "component", c.name) }}
+<h2>Integrations</h2>{{ m.catalogue("integrations", "components", c.name) }}
+<h2>Batch jobs</h2>{{ m.catalogue("batch-jobs", "component", c.name) }}
+<h2>Libraries</h2>
+{% if c.libraries %}<div class="table-wrap"><table class="data"><thead><tr><th>Library</th><th>Version</th><th>Action</th><th class="num">CVEs</th><th>End of life</th></tr></thead><tbody>
+{% for l in c.libraries %}<tr><td><code>{{ l.name }}</code></td><td><code>{{ l.version }}</code></td><td>{{ l.action }}</td><td class="num">{{ l.cves }}</td><td>{{ "yes" if l.eol else "" }}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p class="muted">None.</p>{% endif %}
+<h2>Findings</h2>{{ m.catalogue("findings", "component", c.name) }}
+{% endblock %}

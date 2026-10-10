@@ -8,7 +8,7 @@ Update this file at the end of every phase, and whenever a session stops mid-pha
 | 1 – Foundations | Done | Package, config, local + git sources, inventory, components, coverage, runs, file cache, overrides, diff, summary, CLI, fact model + schemas, `struts-oracle-app` inventory sample (2026-10-10) |
 | 2 – Core analyzers | Done | 15 analyzers (build, deps, config, java, web, spring, sql, shell, c_cpp, proc, cobol/BMS, jcl, autosys, mq, cft), linker (edges, merges, Maven versions, screen/partial and COBOL sub-program rules, service reach, component classification), headline counts, analyzer coverage in `run.json`, 3 new samples with `expected.yaml`, re-run and 200k LOC stress tests (2026-10-10) |
 | 3 – Rules, metrics, dependency security | Done | Code units and cyclomatic complexity, duplication, fan-in/out, dead-code candidates, test ratio, complexity bands; rule engine with 4 YAML packs (19 risk rules, PostgreSQL constructs, dependency rules, EOL) and config switches; PostgreSQL grading with sqlglot; Dependency-Check/OSV import or run, EOL, upgrade advice, CycloneDX SBOM, optional jdeps/jdeprscan; effort model; 4 samples extended (2026-10-10). Added after review: dynamic SQL rebuilt in Java, C/ODBC/OCI, Pro*C and COBOL with holes, variants and grading; VS Code tasks and `docs/validate-in-vscode.md` (2026-10-10) |
-| 4 – Technical HTML report | Not started | |
+| 4 – Technical HTML report | Done | `legacy-audit report --type tech [--open]`: static offline site per run (overview, component pages, architecture/integration/batch Mermaid diagrams, 8 catalogues with search/filter/sort/paging, CRUD matrix, PostgreSQL readiness, dependency security + SBOM download, findings, appendix), evidence links to files and VS Code, light/dark; vendored Chart.js and Mermaid (2026-10-10) |
 | 5 – Copilot agent, enrichment, management outputs | Not started | |
 | 6 – GUI and hardening | Not started | |
 
@@ -40,12 +40,30 @@ EOL, recommendation), `sbom.cdx.json`, `effort.json`, `target-mapping.json`; `ru
 `vulnerability_sources` (status, database date); `audit-summary.json` gains phase 3 counts, top
 findings, risky libraries, component metrics and the effort range.
 
+## Phase 4 result
+
+Acceptance criteria (from `docs/prompts/phase-4-tech-report.md`), all checked by `tests/test_report.py`:
+
+1. The report builds for every sample; every page passes a basic HTML check (doctype, every
+   element closed in order) and has no `http(s)://` script, stylesheet or image reference; every
+   local reference exists (`test_report_builds_valid_offline_html`).
+2. Every KPI tile on the overview equals its value in `audit-summary.json`
+   (`test_overview_kpis_equal_the_summary`).
+3. A synthetic 20k-row SQL catalogue stays out of the page (rows paged in by `report.js` from
+   `data/sql.js`; 25k rows load in about 0.5 s in Chromium) (`test_large_catalogue_stays_out_of_the_page`).
+4. A new scan plus `report` builds from `latest` into the new run; the older run's report is
+   untouched; a `latest` copy (no symlinks) gets its own build with working links
+   (`test_rerun_keeps_older_reports`, `test_latest_copy_gets_its_own_build`).
+
+Checked by eye in Chromium (light and dark): overview, components, architecture, SQL, security,
+findings, appendix pages of the samples; no console errors and no network requests.
+How to validate in VS Code: `docs/validate-in-vscode.md` § Phase 4.
+
 ## Next step
 
-Start phase 4 (technical HTML report): read `docs/prompts/phase-4-*.md`. Every number it needs is
-in `audit-output/runs/<id>/data/` and `audit-summary.json`; `legacy_audit/store/counts.py` is the
-one place headline counts come from; counting rules and complexity/effort weights are in
-`run.json` and the config.
+Start phase 5 (Copilot agent, enrichment, management outputs): read
+`docs/prompts/phase-5-*.md`. The technical report has hook points for enrichment (architecture
+page, an enrichment section) to fill once the enrichment schemas exist (decision 69).
 
 ## Known gaps
 
@@ -77,3 +95,6 @@ one place headline counts come from; counting rules and complexity/effort weight
 - Dynamic SQL is followed within one file and in source order: text filled in another file, by a
   called function's return value, through pointers/aliases, `memcpy`, COBOL `UNSTRING`/`INSPECT`,
   or a C++ `std::string` is a hole (or a `DYNAMIC` statement); at most 5 variants are kept.
+- Report: diagrams are capped at 60 nodes (largest components, most used integrations) with a
+  note; the full lists are in the catalogues. Licence flags rely on licences in POMs/manifests,
+  which most scanned libraries do not carry. Enrichment sections arrive in phase 5.
