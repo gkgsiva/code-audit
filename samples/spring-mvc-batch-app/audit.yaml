@@ -1,0 +1,7 @@
+# Sample: Spring 4 (XML + annotations) billing app built with Maven (parent + 3 modules):
+# Spring MVC web, Spring Batch, JdbcTemplate, Hibernate, MyBatis, JMS to IBM MQ, LDAP login.
+application:
+  name: "Billing (Spring MVC/Batch sample)"
+source:
+  type: local
+  paths: ["billing"]

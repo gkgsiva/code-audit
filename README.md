@@ -6,8 +6,12 @@ It scans a codebase (Java/Struts/Spring, C/C++, Pro*C, COBOL, JCL, shell, Autosy
 
 ## Status
 
-Phase 1 (foundations) is done: inventory, components, input coverage, run history, file cache,
-overrides and run diff. Language analyzers come in phase 2. See `docs/progress.md`.
+Phases 1 (foundations) and 2 (analyzers and linker) are done: inventory, components, input
+coverage, run history, file cache, overrides and run diff, plus 15 analyzers (build, jars, config,
+Java, Struts/JSP/web.xml, Spring, SQL, shell, C/C++, Pro*C, COBOL/CICS/BMS, JCL, Autosys, MQ,
+CFT) whose facts are linked across files into services, screens, SQL, integrations, batch jobs,
+libraries and code edges. Rules, metrics and dependency security come in phase 3. See
+`docs/progress.md`.
 
 ## Documents
 
@@ -39,14 +43,18 @@ legacy-audit version
 ```
 
 `--config/-c` points at another `audit.yaml` (default: `./audit.yaml`); `scan -o DIR` overrides
-the output folder. Try it on the sample: `legacy-audit scan -c samples/struts-oracle-app/audit.yaml`.
+the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-oracle-app/audit.yaml`
+(also `spring-mvc-batch-app`, `c-proc-batch`, `cobol-cics-db2`).
 
 **What a run writes** (`audit-output/runs/<run-id>/`):
 
 - `run.json` – config hash, source folders and Git commit SHAs, tool version, timings, input
-  coverage, overrides applied, counting rules, warnings.
+  coverage, per-analyzer coverage (files, unparsed regions, %), unresolved references,
+  overrides applied, counting rules, warnings.
 - `data/` – one JSON (source of truth) and CSV file per entity, `facts.sqlite` with one table per
-  entity, and `audit-summary.json` (totals and top-N lists, under 30 KB).
+  entity (services, screens, SQL statements, DB objects, integrations, batch jobs, libraries,
+  tech stack, entry points, dependencies, findings...), and `audit-summary.json` (headline
+  counts, totals and top-N lists, under 30 KB).
 - `logs/scan.log`.
 
 Re-runs only re-analyse new or changed files; totals are always recomputed. Supplementary

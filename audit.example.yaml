@@ -85,3 +85,11 @@ inventory:
   include_binaries: false        # images/objects/executables; jar/war/ear/zip are always listed
   max_file_size_mb: 20           # larger files are hashed but not read
   use_default_excludes: true
+
+# Dialect of SQL embedded in code and scripts (oracle, db2, sqlserver, sybase, mysql, postgresql).
+sql:
+  dialect: oracle
+
+cobol:
+  copybook_paths: []             # folders searched first for COPY members, e.g. ["copybooks"]
+  sql_dialect: db2

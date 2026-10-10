@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:batch="http://www.springframework.org/schema/batch">
+
+  <batch:job id="invoiceJob">
+    <batch:step id="generateInvoices" next="notifyCustomers">
+      <batch:tasklet>
+        <batch:chunk reader="usageReader" writer="invoiceWriter" commit-interval="100"/>
+      </batch:tasklet>
+    </batch:step>
+    <batch:step id="notifyCustomers">
+      <batch:tasklet ref="notifyTasklet"/>
+    </batch:step>
+  </batch:job>
+
+  <bean id="usageReader" class="org.springframework.batch.item.database.JdbcCursorItemReader">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="sql"
+              value="SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id"/>
+  </bean>
+
+  <bean id="invoiceWriter" class="com.acme.billing.batch.InvoiceWriter"/>
+
+  <bean id="paymentListener" class="com.acme.billing.batch.PaymentListener"/>
+
+  <bean id="paymentContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <property name="connectionFactory" ref="mqConnectionFactory"/>
+    <property name="destinationName" value="PAYMENTS.IN"/>
+    <property name="messageListener" ref="paymentListener"/>
+  </bean>
+</beans>

@@ -72,8 +72,21 @@
       "type": "string"
     },
     "kind": {
+      "description": "main, scheduler, filter, listener, spring-boot-app, ...",
       "title": "Kind",
       "type": "string"
+    },
+    "line": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Line"
     },
     "name": {
       "title": "Name",

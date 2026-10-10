@@ -95,6 +95,11 @@
       "title": "Id",
       "type": "string"
     },
+    "language": {
+      "default": "java",
+      "title": "Language",
+      "type": "string"
+    },
     "license": {
       "anyOf": [
         {
@@ -131,6 +136,23 @@
       "default": null,
       "title": "Scope"
     },
+    "sha1": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Sha1"
+    },
+    "source": {
+      "description": "maven, gradle, ivy, jar, npm, js-file",
+      "title": "Source",
+      "type": "string"
+    },
     "version": {
       "anyOf": [
         {
@@ -153,7 +175,8 @@
   },
   "required": [
     "id",
-    "artifact"
+    "artifact",
+    "source"
   ],
   "title": "Library",
   "type": "object"

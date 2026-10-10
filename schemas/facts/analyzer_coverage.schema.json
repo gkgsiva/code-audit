@@ -1,0 +1,69 @@
+{
+  "$defs": {
+    "UnparsedRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "title": "End",
+          "type": "integer"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "start": {
+          "title": "Start",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "start",
+        "end",
+        "reason"
+      ],
+      "title": "UnparsedRegion",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/analyzer_coverage.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "How much of the files an analyzer handled it could actually parse.",
+  "properties": {
+    "coverage_pct": {
+      "default": 100.0,
+      "title": "Coverage Pct",
+      "type": "number"
+    },
+    "files": {
+      "default": 0,
+      "title": "Files",
+      "type": "integer"
+    },
+    "lines": {
+      "default": 0,
+      "title": "Lines",
+      "type": "integer"
+    },
+    "regions": {
+      "description": "First 50 unparsed regions",
+      "items": {
+        "$ref": "#/$defs/UnparsedRegion"
+      },
+      "title": "Regions",
+      "type": "array"
+    },
+    "unparsed_lines": {
+      "default": 0,
+      "title": "Unparsed Lines",
+      "type": "integer"
+    }
+  },
+  "title": "AnalyzerCoverage",
+  "type": "object"
+}
