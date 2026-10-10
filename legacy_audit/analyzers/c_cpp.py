@@ -156,6 +156,9 @@ LIBC = {
 SYSTEM_HEADERS = re.compile(r"^(std|sys/|netinet/|arpa/|linux/|bits/|c\+\+|win|cmq)", re.I)
 
 
+_SCRIPT_COMMAND = re.compile(r"^\s*[\w./$-]+\.(?:k?sh|bash|csh|pl|py)(?:\s|$)")
+
+
 def _str(node: Node | None) -> str | None:
     """Literal value of a string or concatenated string; None if not a literal."""
     if node is None:
@@ -275,6 +278,14 @@ class _Walker:
                     ),
                 )
         elif name in ("strcpy", "strncpy", "memcpy", "sprintf", "snprintf") and len(args) >= 2:
+            # A command line built with sprintf and run later: "<script> %s" formats.
+            fmt = (
+                _str(args[2 if name == "snprintf" else 1])
+                if len(args) > 2 or name == "sprintf"
+                else None
+            )
+            if fmt and _SCRIPT_COMMAND.match(fmt):
+                self._command(fmt, line)
             dest = _txt(args[0])
             src = _str(args[1]) if name not in ("sprintf", "snprintf") else None
             if src and dest.endswith("ObjectName"):
@@ -455,7 +466,7 @@ def analyze_c(path: str, text: str, facts: Facts, cpp: bool = False) -> None:
 
 class CAnalyzer:
     name: ClassVar[str] = "c_cpp"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in ("c", "cpp")

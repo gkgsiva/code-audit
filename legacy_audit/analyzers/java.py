@@ -133,7 +133,7 @@ def _txt(node: Node | None) -> str:
 
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -179,6 +179,21 @@ class _Visitor:
         self.dialect = ctx.config.sql.dialect
 
     # ---- driving ------------------------------------------------------------------------------
+    def _type_references(self, root: Node) -> None:
+        """Types named anywhere (fields, parameters, extends, casts) and classes used as static
+        receivers (``Factory.get()``): same-package classes need no import, so this is how
+        the linker sees them."""
+        stack = [root]
+        while stack:
+            n = stack.pop()
+            if n.type == "type_identifier":
+                self.type_names.add(_txt(n))
+            elif n.type in ("method_invocation", "field_access"):
+                obj = n.child_by_field_name("object")
+                if obj is not None and obj.type == "identifier" and _txt(obj)[:1].isupper():
+                    self.type_names.add(_txt(obj))
+            stack.extend(n.children)
+
     def run(self, root: Node) -> None:
         for child in root.children:
             if child.type == "package_declaration":
@@ -194,6 +209,7 @@ class _Visitor:
                 "annotation_type_declaration",
             ):
                 self._class(child, prefix=self.package)
+        self._type_references(root)
         self._imports_and_signals()
         self._emit_sql()
         self._class_refs()
