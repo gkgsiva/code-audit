@@ -1,0 +1,135 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/metric.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "complexity_avg": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Avg"
+    },
+    "complexity_max": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Max"
+    },
+    "component": {
+      "title": "Component",
+      "type": "string"
+    },
+    "dead_code_candidates": {
+      "default": 0,
+      "title": "Dead Code Candidates",
+      "type": "integer"
+    },
+    "duplication_pct": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duplication Pct"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "files": {
+      "default": 0,
+      "title": "Files",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "loc_blank": {
+      "default": 0,
+      "title": "Loc Blank",
+      "type": "integer"
+    },
+    "loc_code": {
+      "default": 0,
+      "title": "Loc Code",
+      "type": "integer"
+    },
+    "loc_comment": {
+      "default": 0,
+      "title": "Loc Comment",
+      "type": "integer"
+    },
+    "test_files": {
+      "default": 0,
+      "title": "Test Files",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "component"
+  ],
+  "title": "Metric",
+  "type": "object"
+}

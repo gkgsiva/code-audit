@@ -1,0 +1,41 @@
+{
+  "$id": "legacy-audit/facts/evidence.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+  "properties": {
+    "file": {
+      "title": "File",
+      "type": "string"
+    },
+    "line": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Line"
+    },
+    "snippet": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Snippet"
+    }
+  },
+  "required": [
+    "file"
+  ],
+  "title": "Evidence",
+  "type": "object"
+}

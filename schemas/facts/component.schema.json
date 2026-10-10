@@ -1,0 +1,136 @@
+{
+  "$defs": {
+    "ComponentType": {
+      "enum": [
+        "web",
+        "batch",
+        "cft",
+        "script",
+        "report",
+        "library",
+        "db",
+        "unknown"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/component.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "build_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Build Files",
+      "type": "array"
+    },
+    "detected_by": {
+      "description": "build-file, folder, root, config or override",
+      "title": "Detected By",
+      "type": "string"
+    },
+    "entry_points": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Entry Points",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "files": {
+      "default": 0,
+      "title": "Files",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "loc_code": {
+      "default": 0,
+      "title": "Loc Code",
+      "type": "integer"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "path": {
+      "description": "Component folder relative to the source root ('' = root)",
+      "title": "Path",
+      "type": "string"
+    },
+    "root": {
+      "description": "Source root name",
+      "title": "Root",
+      "type": "string"
+    },
+    "technology": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Technology",
+      "type": "array"
+    },
+    "type": {
+      "$ref": "#/$defs/ComponentType",
+      "default": "unknown"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "root",
+    "path",
+    "detected_by"
+  ],
+  "title": "Component",
+  "type": "object"
+}
