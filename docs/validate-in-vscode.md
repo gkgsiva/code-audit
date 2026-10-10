@@ -116,8 +116,8 @@ The steps below are for looking at the results yourself.
    Edit `copilot-instructions.md` and run the task again: your edit stays and the file is not
    listed as updated. These files are ignored by git here and never scanned.
 3. **Enrichment without Copilot**: run `audit: 4. scan a sample` with `struts-oracle-app`, then
-   `audit: 10. load demo enrichment and validate` with an empty option. All 12 stages show
-   `valid`. Run it again with `--break`: the terminal shows
+   `audit: 10. load demo enrichment and validate` with an empty option. All stage files show
+   `valid` (12 in phase 5, 14 since phase 7). Run it again with `--break`: the terminal shows
    `figure 'Services' says 12 but the scan says 4 (counts.services.total)` and exits with an
    error. Run it once more without `--break` to restore.
 4. **Stale stages**: run `audit: 4. scan a sample` again. Open
@@ -127,7 +127,7 @@ The steps below are for looking at the results yourself.
    stale while classification does not.)
 5. **Decks**: run `audit: 11. build management deck and PPTX`. The technical report opens; it has
    a new **Analysis** page with the enrichment, its stage states and evidence links. Then open
-   `audit-output/latest/reports/mgmt/index.html`: arrow keys move between 26 slides, `N` shows
+   `audit-output/latest/reports/mgmt/index.html`: arrow keys move between the slides (about 40 since phase 7), `N` shows
    speaker notes, the browser's Print saves a PDF with one slide per page. Open
    `audit-output/latest/reports/deck.pptx` in PowerPoint: click a chart and choose
    **Edit Data**; the charts are native charts and the tables are native tables.
@@ -164,7 +164,7 @@ The steps below are for looking at the results yourself.
    - **Dashboard**: *Batch jobs* goes up and the Autosys badge is green.
    - **Compare runs**: the default previous-to-latest comparison lists the added batch jobs and
      dependencies.
-   - **AI enrichment** lists the 11 stages as missing with `/audit-enrich all` to copy. With
+   - **AI enrichment** lists the stages as missing (13 since phase 7) with `/audit-enrich all` to copy. With
      enrichment present, the new JIL marks flows, risks, plan and narratives `stale`; the test
      `test_inputs_upload_rerun_marks_enrichment_stale` in `tests/test_gui.py` checks exactly this
      sequence through the GUI's API.
@@ -182,3 +182,39 @@ The steps below are for looking at the results yourself.
 8. **Security checks** are automated: `tests/test_gui.py` covers foreign Host headers,
    cross-site writes, path traversal on evidence, reports, run ids and input file names, and
    checks that the sample's database password appears in no output file or data pack.
+
+## Phase 7: functional document, screen and batch flows, graphics
+
+Works the same on Windows and on WSL2 (the tasks pick `.venv\Scripts\python` or
+`.venv/bin/python` themselves). On WSL2, open the HTML files from the Windows Explorer
+(`\\wsl$\...`) or with `explorer.exe <file>` if the browser does not open by itself.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_functional.py`.
+2. **Batch flows without Copilot**: run `audit: 4. scan a sample` with `spring-mvc-batch-app`,
+   then `audit: 17. build and open the functional document` with the same sample. Open
+   **Batch**:
+   - the week calendar shows BIL_NIGHTLY_BOX at 01:30 Monday to Friday, and invoiceJob as
+     "Started by BIL_INVOICE (via run_invoice_job.sh)";
+   - click **BIL_NIGHTLY_BOX**: the diagram shows the schedule and the usage file starting the
+     box, the three steps in order (the archive runs on "success or failure"), the tables
+     INVOICES and INVOICE_AUDIT (C) and USAGE_RECORDS (R), the MQ queue and the e-mail; *If it
+     fails* says BIL_INVOICE raises an alarm and is retried once.
+   The purpose and business impact boxes say "Not enriched yet … /audit-enrich functional".
+3. **The words from Copilot**: run `audit: 16. load demo functional enrichment (Billing sample)`
+   (it stands in for Copilot and prints `valid`), then task 17 again. The same pages now carry the
+   capability map, use cases, rules and the story of each batch next to the scan's diagram.
+4. **Screen flows**: run task 4 and task 17 with `struts-oracle-app`, open **Screens** and click
+   `orderDetail.jsp`: it comes from orderSearch.jsp, is loaded by `/orderDetail`, opens
+   `/orderSearch`, reads ORDERS, CUSTOMERS and USERS, and calls the pricing SOAP service.
+5. **Technical report**: run `audit: 7. build and open the technical report`. The overview has
+   coloured tiles, readiness gauges and charts; the new **Flows** and **Data model** pages hold
+   every screen and batch flow and the CRUD heat map; each component page has a radar and, with
+   enrichment (task 10), a "What this component does" box.
+6. **Deck and PPTX**: run `audit: 11. build management deck and PPTX` with
+   `spring-mvc-batch-app`. In the HTML deck each section starts with a coloured slide; look for
+   *Migration readiness* (gauges), *Batch flow: BIL_NIGHTLY_BOX*, *Batch calendar* and *Who
+   changes which data*. Open `audit-output/latest/reports/deck.pptx` in PowerPoint: the gauges are
+   doughnut charts (**Edit Data** works), the calendar and heat maps are tables, and the flow
+   boxes and arrows can be moved and recoloured.
+7. **Dark mode**: the theme button in each report switches light/dark; colours stay readable and
+   every value is still printed as text.

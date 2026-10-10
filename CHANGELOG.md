@@ -4,7 +4,24 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 ## 0.1.0 (unreleased)
 
-The first complete version: phases 1 to 6 of `docs/plan.md`.
+The first complete version: phases 1 to 7 of `docs/plan.md`.
+
+### Phase 7: functional documentation and graphics (2026-10-10)
+
+- Functional document (`legacy-audit report --type functional`, also in `all`, the GUI and VS
+  Code task 17): capability map, users and use cases, business flows, a flow for every screen
+  (services and tables with C/R/U/D) and every batch (trigger, ordered steps, tables and files,
+  failure handling, week calendar and timeline), business rules, data, interfaces, glossary.
+- Screen and batch flows are drawn from the scan; Copilot's new stages 12 (functional) and 13
+  (component documentation) add the explanations, checked by `legacy-audit validate`.
+- New facts: services list the SQL they reach; Autosys jobs keep their description and failure
+  settings (alarms, retries, notifications).
+- Technical report: coloured theme and icons, readiness gauges, doughnut, stacked, radar and
+  bubble charts, Flows and Data model pages, layered and today-to-target diagrams, risk heat map,
+  roadmap Gantt, "what this component does".
+- Management deck and PPTX: coloured section dividers, gauges, capability map, screen and batch
+  flow slides, batch calendar, layers, CRUD and risk heat maps, today-to-target flow and roadmap,
+  all native (editable) in PowerPoint.
 
 ### Phase 6: GUI and hardening (2026-10-10)
 

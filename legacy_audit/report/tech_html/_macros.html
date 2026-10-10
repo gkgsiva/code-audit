@@ -1,12 +1,20 @@
 {% macro chart(c) -%}
 <div class="panel">
   <h3>{{ c.title }}</h3>
-  {% if c["values"] %}
-  <div class="chart-box{% if c["labels"]|length > 8 %} tall{% endif %}"><canvas data-chart="chart-{{ c.id }}" role="img" aria-label="{{ c.title }}"></canvas></div>
+  {% if c.has_data is not defined and c["values"] or c.has_data %}
+  <div class="chart-box{% if c.spec.type == "doughnut" %} doughnut{% elif c.tall or c["labels"]|length > 8 %} tall{% endif %}"><canvas data-chart="chart-{{ c.id }}" role="img" aria-label="{{ c.title }}"></canvas></div>
   <script type="application/json" id="chart-{{ c.id }}">{{ c.spec|tojson }}</script>
   <details class="as-table"><summary>Show as table</summary>
+    {% if c.datasets %}
+    <table class="data"><thead><tr><th>{{ c.category }}</th>{% for d in c.datasets %}<th class="num">{{ d.label }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for l in c["labels"] %}{% set i = loop.index0 %}<tr><td>{{ l }}</td>{% for d in c.datasets %}<td class="num">{{ d["values"][i] }}</td>{% endfor %}</tr>{% endfor %}</tbody></table>
+    {% elif c.spec.points %}
+    <table class="data"><thead><tr><th>{{ c.category }}</th><th class="num">{{ c.spec.xLabel }}</th><th class="num">{{ c.spec.yLabel }}</th></tr></thead>
+    <tbody>{% for p in c.spec.points %}<tr><td>{{ p.name }}</td><td class="num">{{ p.x }}</td><td class="num">{{ p.y }}</td></tr>{% endfor %}</tbody></table>
+    {% else %}
     <table class="data"><thead><tr><th>{{ c.category }}</th><th class="num">{{ c.label }}</th></tr></thead>
-    <tbody>{% for l in c["labels"] %}<tr><td>{{ l }}</td><td class="num">{{ c["values"][loop.index0] }}</td></tr>{% endfor %}</tbody></table>
+    <tbody>{% for l in c["labels"] %}<tr><td>{{ l }}</td><td class="num">{{ c.spec.raw[loop.index0] if c.spec.raw else c["values"][loop.index0] }}</td></tr>{% endfor %}</tbody></table>
+    {% endif %}
   </details>
   {% else %}<p class="muted">Nothing to show.</p>{% endif %}
   {% if c.note %}<p class="note">{{ c.note }}</p>{% endif %}
@@ -14,20 +22,75 @@
 {%- endmacro %}
 
 {% macro tile(t) -%}
-<div class="tile" data-kpi="{{ t.key }}" data-value="{{ t.value }}">
+<div class="tile{% if t.color %} {{ t.color }}{% endif %}" data-kpi="{{ t.key }}" data-value="{{ t.value }}">
+  {% if t.icon %}<div class="ico">{{ icon(t.icon) }}</div>{% endif %}
+  <div class="body">
   <div class="value">{{ t.display }}</div>
   <div class="label">{{ t.label }}</div>
   {% if t.sub %}<div class="sub">{{ t.sub }}</div>{% endif %}
+  </div>
 </div>
 {%- endmacro %}
 
 {% macro diagram(d) -%}
 <div class="panel">
   <h3>{{ d.title }}</h3>
-  {% if d.nodes %}<div class="diagram"><pre class="mermaid">{{ d.source }}</pre></div>{% endif %}
+  {% if d.nodes %}<div class="diagram{% if d.legend %} fit{% endif %}"><pre class="mermaid">{{ d.source }}</pre></div>{% endif %}
+  {% if d.legend %}{{ flow_legend() }}{% endif %}
   {% if d.note %}<p class="note">{{ d.note }}</p>{% endif %}
   <details class="as-table"><summary>Diagram source (Mermaid)</summary><pre class="block">{{ d.source }}</pre></details>
 </div>
+{%- endmacro %}
+
+{% macro flow_legend() -%}
+<div class="legend" aria-label="Legend">
+  <span><i style="background:#dbe9fb;border-color:#2a78d6"></i>Screen</span>
+  <span><i style="background:#ece3fb;border-color:#7c4dcc"></i>Service or program</span>
+  <span><i style="background:#dcf3dc;border-color:#0ca30c"></i>Table (C create, R read, U update, D delete)</span>
+  <span><i style="background:#fde7d9;border-color:#ec835a"></i>File, queue or external system</span>
+  <span><i style="background:#fff1cc;border-color:#d69a00"></i>Trigger</span>
+  <span><i style="background:#d8f1f0;border-color:#13867f"></i>Batch job</span>
+  <span><i style="background:#f0efec;border-color:#898781"></i>Previous or next screen</span>
+</div>
+{%- endmacro %}
+
+{% macro gauges(items) -%}
+<div class="gauges">
+{% for g in items %}<div class="gauge" data-gauge="{{ g.label }}" data-pct="{{ g.pct }}">
+  <div class="ring" style="--p: {{ g.pct }}; --c: var(--{{ g.color }})" role="img" aria-label="{{ g.label }}: {{ g.pct }}%"><span>{{ g.pct }}%</span></div>
+  <div class="label">{{ g.label }}</div>
+  {% if g.sub %}<div class="sub">{{ g.sub }}</div>{% endif %}
+</div>{% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro risk_matrix(rm) -%}
+<div class="table-wrap" style="padding:8px;border:0;background:none">
+<table class="heat risk" aria-label="Risks by severity and likelihood">
+  <thead><tr><th>Severity \ likelihood</th>{% for c in rm.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for r in rm.rows %}<tr><th>{{ r.severity }}</th>{% for c in r.cells %}<td class="r{{ c.level }}" title="{{ c.ids | join(', ') }}">{{ c.ids | length if c.ids else "" }}{% if c.ids %}<br><span style="font-weight:400;font-size:11px">{{ c.ids[:3] | join(" ") }}{% if c.ids|length > 3 %} …{% endif %}</span>{% endif %}</td>{% endfor %}</tr>{% endfor %}</tbody>
+</table>
+</div>
+{%- endmacro %}
+
+{% macro gantt(g) -%}
+<div class="gantt" role="img" aria-label="Plan waves over {{ g.months }} months">
+  <div></div><div class="months">{% for t in g.ticks %}<span style="left:{{ t.left }}%">M{{ t.m }}</span>{% endfor %}</div>
+  {% for b in g.bars %}<div title="{{ b.goal }}">{{ b.name }}</div><div class="track"><div class="bar" style="left:{{ b.left }}%;width:{{ b.width }}%;--c:var(--{{ b.color }})" title="Months {{ b.start }} to {{ b.end }}"></div></div>{% endfor %}
+</div>
+{%- endmacro %}
+
+{% macro crud_heat(mx, base, limit=30) -%}
+{% if mx.rows %}{% set lv = {1: 2, 2: 3, 3: 4, 4: 6} %}
+<div class="table-wrap" style="padding:8px">
+<table class="heat" aria-label="Create, read, update and delete by table">
+  <thead><tr><th></th>{% for t in mx.tables[:limit] %}<th class="rot">{{ t }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for r in mx.rows %}<tr><th>{{ r }}</th>{% for t in mx.tables[:limit] %}{% set v = mx.cells.get(r ~ "|" ~ t, "") %}<td class="h{{ lv.get(v|length, 0) }}" title="{{ r }} · {{ t }}: {{ v or 'not used' }}">{{ v }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+</table>
+</div>
+<div class="legend"><span><i style="background:var(--seq-2)"></i>1 operation</span><span><i style="background:var(--seq-3)"></i>2</span><span><i style="background:var(--seq-4)"></i>3</span><span><i style="background:var(--seq-6)"></i>all four (CRUD)</span></div>
+{% if mx.tables|length > limit %}<p class="note">Showing the {{ limit }} busiest of {{ mx.tables|length }} tables; the CRUD matrix catalogue has them all.</p>{% endif %}
+{% else %}<p class="muted">No SQL linked to tables.</p>{% endif %}
 {%- endmacro %}
 
 {% macro ev(link) -%}

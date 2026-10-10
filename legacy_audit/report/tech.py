@@ -13,6 +13,7 @@ import json
 import re
 import shutil
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from importlib.resources import files
 from pathlib import Path
 from typing import Any
@@ -20,7 +21,8 @@ from typing import Any
 from jinja2 import ChainableUndefined, Environment, PackageLoader, select_autoescape
 
 from legacy_audit.report import catalogues as cat
-from legacy_audit.report import diagrams
+from legacy_audit.report import diagrams, flows
+from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData, slug
 
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
@@ -43,6 +45,8 @@ NAV = [
     ("overview", "index.html", "Overview"),
     ("components", "components.html", "Components"),
     ("architecture", "architecture.html", "Architecture"),
+    ("flows", "flows.html", "Flows"),
+    ("data-model", "data-model.html", "Data model"),
     ("services", "services.html", "Services"),
     ("screens", "screens.html", "Screens"),
     ("sql", "sql.html", "SQL"),
@@ -109,6 +113,36 @@ GLOSSARY = [
 ]
 
 
+# KPI tile -> (icon, colour class); colours follow the section the tile links to.
+TILE_STYLE = {
+    "totals.files": ("files", "c1"),
+    "totals.loc_code": ("code", "c1"),
+    "totals.components": ("components", "c3"),
+    "counts.services.total": ("services", "c7"),
+    "counts.screens.total": ("screens", "c1"),
+    "counts.sql.total": ("sql", "c6"),
+    "counts.pg_grades.manual": ("warning", "c8"),
+    "counts.stored_procedures": ("procedure", "c6"),
+    "counts.integrations.total": ("integrations", "c2"),
+    "counts.batch_jobs.total": ("batch", "c4"),
+    "counts.libraries.total": ("libraries", "c5"),
+    "counts.vulnerable_libraries.total": ("shield", "c8"),
+    "counts.eol_libraries": ("eol", "c8"),
+    "totals.findings": ("findings", "c2"),
+    "effort.likely": ("effort", "c7"),
+}
+COMPONENT_TILE_STYLE = {
+    "component.files": ("files", "c1"),
+    "component.loc_code": ("code", "c1"),
+    "component.services": ("services", "c7"),
+    "component.screens": ("screens", "c1"),
+    "component.sql": ("sql", "c6"),
+    "component.integrations": ("integrations", "c2"),
+    "component.jobs": ("batch", "c4"),
+    "component.findings": ("findings", "c2"),
+}
+
+
 def _env() -> Environment:
     env = Environment(
         loader=PackageLoader("legacy_audit.report", "tech_html"),
@@ -117,6 +151,7 @@ def _env() -> Environment:
         trim_blocks=True,
         lstrip_blocks=True,
     )
+    env.globals["icon"] = vz.icon
     return env
 
 
@@ -149,6 +184,8 @@ def _build_into(rd: RunData, out: Path) -> None:
     page.overview()
     page.components()
     page.architecture()
+    page.flows()
+    page.data_model()
     for page_id, names in CATALOGUE_PAGES.items():
         page.catalogue(page_id, [cats[n] for n in names])
     page.postgresql()
@@ -240,6 +277,11 @@ class _Pages:
         self.env = env
         s = rd.summary
         self.counts = s.get("counts", {})
+        from legacy_audit.report.deck_builder import load_enrichment
+
+        self.e = load_enrichment(rd.run_dir)
+        self.screen_flows = flows.screen_flows(rd)
+        self.batch_flows = flows.batch_flows(rd)
         run = rd.run
         self.common = {
             "app": run.get("application") or s.get("run", {}).get("application") or "application",
@@ -250,6 +292,7 @@ class _Pages:
             "badges": self._badges(),
             "nav": [{"id": i, "href": h, "title": t} for i, h, t in NAV],
             "effort_label": (rd.effort or {}).get("label", "estimate"),
+            "doc_kind": "Technical audit",
         }
 
     # ---- shared -------------------------------------------------------------------------------
@@ -300,6 +343,7 @@ class _Pages:
 
     def _tile(self, key: str, label: str, href: str = "", sub: str = "") -> dict[str, Any]:
         value = _get(self.rd.summary, key)
+        ico, color = TILE_STYLE.get(key, ("files", "c1"))
         return {
             "key": key,
             "label": label,
@@ -307,6 +351,8 @@ class _Pages:
             "display": _fmt(value),
             "href": href,
             "sub": sub,
+            "icon": ico,
+            "color": color,
         }
 
     # ---- pages --------------------------------------------------------------------------------
@@ -375,16 +421,23 @@ class _Pages:
             key=lambda kv: -kv[1],
         )
         langs = [kv for kv in langs if kv[1] > 0]
-        loc_chart = bar(
+        top_langs = langs[:7]
+        if len(langs) > 7:
+            top_langs.append(("other", sum(v for _, v in langs[7:])))
+        loc_chart = vz.chart(
             "loc",
             "Code lines by language",
-            [k for k, _ in langs],
-            [v for _, v in langs],
+            "doughnut",
+            [k for k, _ in top_langs],
+            [v for _, v in top_langs],
+            colors=[f"series-{i % 8 + 1}" for i in range(len(top_langs))],
             label="Code lines",
             category="Language",
             unit="lines",
-            horizontal=True,
+            note="Top 7 languages; the rest are grouped as 'other'." if len(langs) > 7 else "",
         )
+        band_chart = self._band_chart()
+        gauges = self._gauges()
         metrics = {m["component"]: m for m in s.get("component_metrics", [])}
         comps = []
         for comp in self.rd.items("components"):
@@ -407,6 +460,8 @@ class _Pages:
             "Overview",
             tiles=tiles,
             loc_chart=loc_chart,
+            band_chart=band_chart,
+            gauges=gauges,
             tech_stack=sorted(
                 self.rd.items("tech_stack"), key=lambda t: (t.get("category") or "", t["name"])
             ),
@@ -415,6 +470,70 @@ class _Pages:
             largest_files=largest,
             charts=True,
         )
+
+    def _band_chart(self) -> dict[str, Any]:
+        """Items (services, screens, jobs, units) per complexity band, per component."""
+        rows = [m for m in self.rd.items("metrics") if m.get("bands")]
+        rows.sort(key=lambda m: -sum(m["bands"].values()))
+        rows = rows[:15]
+        labels = [m["component"] for m in rows]
+        datasets = [
+            {
+                "label": band,
+                "values": [int(m["bands"].get(band, 0)) for m in rows],
+                "color": vz.BAND_COLOR[band],
+            }
+            for band in vz.COMPLEXITY_BANDS
+        ]
+        return vz.chart(
+            "bands",
+            "Complexity bands per component",
+            "stacked",
+            labels,
+            datasets=datasets,
+            category="Component",
+            unit="items",
+            horizontal=True,
+            note="Services, screens and batch jobs per complexity band (weights in the "
+            "configuration). Largest 15 components.",
+        )
+
+    def _gauges(self) -> list[dict[str, Any]]:
+        c, rd = self.counts, self.rd
+        sql_total = _get(c, "sql.total")
+        libs = _get(c, "libraries.total")
+        cov = rd.run.get("coverage", [])
+        out = [
+            vz.gauge(
+                "SQL that converts automatically",
+                _get(c, "pg_grades.auto"),
+                sql_total,
+                "good",
+                f"{_fmt(_get(c, 'pg_grades.auto'))} of {_fmt(sql_total)} statements",
+            ),
+            vz.gauge(
+                "Libraries with no known vulnerability",
+                libs - _get(c, "vulnerable_libraries.total"),
+                libs,
+                "series-1",
+                f"{_fmt(_get(c, 'vulnerable_libraries.total'))} vulnerable of {_fmt(libs)}",
+            ),
+            vz.gauge(
+                "Libraries still supported",
+                libs - _get(c, "eol_libraries"),
+                libs,
+                "series-3",
+                f"{_fmt(_get(c, 'eol_libraries'))} end of life",
+            ),
+            vz.gauge(
+                "Inputs provided",
+                sum(1 for x in cov if x.get("status") == "present"),
+                len(cov),
+                "series-7",
+                f"{sum(1 for x in cov if x.get('status') == 'present')} of {len(cov)} kinds",
+            ),
+        ]
+        return out
 
     def components(self) -> None:
         rd = self.rd
@@ -453,6 +572,20 @@ class _Pages:
                         "eol": lib.get("eol"),
                     }
                 )
+        radar = self._radars(per)
+        docs = {}
+        for d in (self.e.get("component_docs") or {}).get("components", []):
+            docs[d["component"]] = {
+                **d,
+                "links": [
+                    self._link(ev.get("file"), ev.get("line")) for ev in d.get("evidence", [])
+                ],
+                "elements": [
+                    {**k, "link": self._link(k["file"], None) if k.get("file") else None}
+                    for k in d.get("key_elements", [])
+                ],
+                "tables": [rd.label(i) for i in d.get("db_object_ids", [])],
+            }
         rows = []
         for comp in rd.items("components"):
             name = comp["name"]
@@ -499,6 +632,7 @@ class _Pages:
             ]
             for t in tiles:
                 t["display"], t["sub"] = _fmt(t["value"]), ""
+                t["icon"], t["color"] = COMPONENT_TILE_STYLE[t["key"]]
             entry = [
                 {**e, "link": self._link(*rd.first_evidence(e))}
                 for e in rd.items("entry_points")
@@ -507,6 +641,13 @@ class _Pages:
             ctx = {
                 **comp,
                 "tiles": tiles,
+                "radar": radar.get(name),
+                "doc": docs.get(name),
+                "flows": [
+                    {"name": f.name, "slug": f.slug, "kind": f.kind, "summary": f.summary}
+                    for f in [*self.screen_flows, *self.batch_flows]
+                    if f.component == name
+                ],
                 "entry_points": entry,
                 "deps_out": deps(sorted((b, k) for (a, b), k in edges.items() if a == name)),
                 "deps_in": deps(sorted((a, k) for (a, b), k in edges.items() if b == name)),
@@ -526,10 +667,44 @@ class _Pages:
                     "batch-jobs",
                     "findings",
                 ],
+                charts=True,
             )
         self._render(
             "components.html", "components.html", "components", "Components", components=rows
         )
+
+    def _radars(self, per: dict[str, Counter[str]]) -> dict[str, dict[str, Any]]:
+        """Each component's profile against the largest value of each axis in this estate
+        (100 = the largest); the raw values are in the tooltip and the table view."""
+        metrics = {m["component"]: m for m in self.rd.items("metrics")}
+        axes: list[tuple[str, Callable[[dict[str, Any], dict[str, Any]], Any]]] = [
+            ("Code lines", lambda c, m: c.get("loc_code", 0)),
+            ("Complexity", lambda c, m: m.get("complexity_score") or 0),
+            ("Fan-in", lambda c, m: m.get("fan_in_max") or 0),
+            ("Fan-out", lambda c, m: m.get("fan_out_max") or 0),
+            ("Duplication %", lambda c, m: m.get("duplication_pct") or 0),
+            ("Findings", lambda c, m: per[c["name"]]["findings"]),
+            ("SQL", lambda c, m: per[c["name"]]["sql"]),
+        ]
+        comps = self.rd.items("components")
+        raw = {c["name"]: [float(f(c, metrics.get(c["name"], {}))) for _, f in axes] for c in comps}
+        tops = [max((r[i] for r in raw.values()), default=0) for i in range(len(axes))]
+        out = {}
+        for name, vals in raw.items():
+            out[name] = vz.chart(
+                "radar",
+                "Profile against the other components",
+                "radar",
+                [a for a, _ in axes],
+                [round(100 * v / t) if t else 0 for v, t in zip(vals, tops, strict=True)],
+                label=name,
+                category="Measure",
+                color="series-3",
+                raw=[_fmt(int(v) if float(v).is_integer() else v) for v in vals],
+                note="100 = the highest value of that measure among the components; "
+                "the table shows the measured values.",
+            )
+        return out
 
     def architecture(self) -> None:
         self._render(
@@ -540,8 +715,114 @@ class _Pages:
             components_diagram=diagrams.component_graph(self.rd),
             integration_diagram=diagrams.integration_map(self.rd),
             batch_diagrams=diagrams.batch_chains(self.rd),
+            layers_diagram=diagrams.layered(self.e.get("architecture") or {}),
+            target_diagram=diagrams.current_to_target(
+                self.rd, self.e.get("target_architecture") or {}
+            ),
             diagrams=True,
         )
+
+    # ---- flows (scan) -----------------------------------------------------------------------
+    def flow_ctx(self, f: flows.Flow, story: dict[str, Any] | None = None) -> dict[str, Any]:
+        """What a flow page shows: the scan's flow, plus the agent's story when there is one."""
+        rd = self.rd
+        steps = [{**st, "link": self._link(*st["evidence"]), "label": st["name"]} for st in f.steps]
+        if story:
+            story = {
+                **story,
+                "links": [
+                    self._link(ev.get("file"), ev.get("line")) for ev in story.get("evidence", [])
+                ],
+                "step_list": [
+                    {
+                        **st,
+                        "facts": [rd.label(i).rsplit("/", 1)[-1] for i in st.get("fact_ids", [])],
+                    }
+                    for st in sorted(story.get("steps", []), key=lambda x: x.get("order", 0))
+                ],
+            }
+        return {
+            "flow": f,
+            "diagram": {
+                "title": "Flow" if f.kind == "screen" else "Batch flow",
+                "source": f.mermaid,
+                "nodes": sum(len(n) for _, n in f.columns),
+                "note": f.note,
+                "legend": True,
+            },
+            "steps": steps,
+            "tables": [
+                {**t, "words": flows.crud_words(t["crud"]) if t["crud"] else "uses"}
+                for t in f.tables
+            ],
+            "link": self._link(*f.evidence),
+            "story": story,
+            "component_slug": slug(f.component) if f.component else "",
+        }
+
+    def flows(self) -> None:
+        all_flows = [*self.screen_flows, *self.batch_flows]
+        for f in all_flows:
+            self._render(
+                "flow.html",
+                f"flows/{f.slug}.html",
+                "flows",
+                f"{'Screen' if f.kind == 'screen' else 'Batch'} flow: {f.name}",
+                audience="technical",
+                diagrams=True,
+                **self.flow_ctx(f),
+            )
+        self._render(
+            "flows.html",
+            "flows.html",
+            "flows",
+            "Screen and batch flows",
+            audience="technical",
+            screen_flows=self.screen_flows,
+            batch_flows=self.batch_flows,
+            week=flows.week_grid(self.batch_flows),
+            days=flows.DAY_NAMES,
+        )
+
+    def data_model(self) -> None:
+        mx = flows.crud_matrix(self.rd)
+        top = sorted(self.summary_top_tables(), key=lambda t: -t[1])[:15]
+        refs_chart = vz.chart(
+            "table-refs",
+            "Most used tables",
+            "bar",
+            [t for t, _ in top],
+            [n for _, n in top],
+            colors="series-6",
+            label="SQL statements",
+            category="Table",
+            horizontal=True,
+        )
+        pairs = flows.tables_used_together(self.rd)
+        self._render(
+            "data-model.html",
+            "data-model.html",
+            "data-model",
+            "Data model",
+            matrix=mx,
+            refs_chart=refs_chart,
+            data_map={
+                "title": "Tables used together in the same SQL statement",
+                "source": flows.data_map_mermaid(self.rd),
+                "nodes": len(pairs),
+                "note": "A line joins two tables read or written by the same statement (joins, "
+                "sub-queries): a hint of the relationships, not the declared keys.",
+            },
+            charts=True,
+            diagrams=True,
+        )
+
+    def summary_top_tables(self) -> list[tuple[str, int]]:
+        out: Counter[str] = Counter()
+        for st in self.rd.items("sql_statements"):
+            for t in {t.upper() for t in st.get("tables") or []}:
+                out[t] += 1
+        return list(out.items())
 
     def catalogue(self, page_id: str, cats: list[cat.Catalogue]) -> None:
         self._render(
@@ -625,6 +906,36 @@ class _Pages:
             category="Action",
             horizontal=True,
         )
+        points: list[dict[str, Any]] = []
+        for lib in self.rd.items("libraries"):
+            vulns = lib.get("vulnerabilities") or []
+            if not lib.get("cves"):
+                continue
+            cvss = max((v.get("cvss") or 0 for v in vulns), default=0)
+            used = len(lib.get("where_used") or [])
+            name = f"{cat._library_name(lib)} {lib.get('version') or ''}".strip()
+            points.append(
+                {
+                    "x": len(lib["cves"]),
+                    "y": cvss,
+                    "r": min(22, 5 + 2 * used),
+                    "name": name,
+                    "label": f"{name}: {len(lib['cves'])} CVE(s), highest CVSS {cvss}, "
+                    f"used in {used} place(s)",
+                }
+            )
+        bubble_chart = vz.chart(
+            "vuln-bubble",
+            "Vulnerable libraries: how many CVEs and how severe",
+            "bubble",
+            [p["name"] for p in points],
+            points=points,
+            xLabel="Known vulnerabilities (CVEs)",
+            yLabel="Highest CVSS score",
+            category="Library",
+            color="series-8",
+            note="One bubble per vulnerable library; a bigger bubble is used in more places.",
+        )
         rank = {s: i for i, s in enumerate(SEVERITIES)}
         libs = [lib for lib in self.rd.items("libraries") if lib.get("cves") or lib.get("eol")]
         libs.sort(
@@ -669,6 +980,7 @@ class _Pages:
             vuln_sources=self.rd.run.get("vulnerability_sources", []),
             severity_chart=severity_chart,
             action_chart=action_chart,
+            bubble_chart=bubble_chart,
             risky=risky,
             licence_flags=flags,
             licence_unknown=unknown,
@@ -743,6 +1055,8 @@ class _Pages:
                 for m in (e.get("service_mapping") or {}).get("mappings", [])
             ],
             risks=risks,
+            risk_matrix=vz.risk_matrix(risks) if risks else None,
+            gantt=vz.gantt((e.get("plan") or {}).get("waves", [])) if e.get("plan") else None,
             arch_diagrams=diagram_list("architecture"),
             target_diagrams=diagram_list("target_architecture"),
             label=self.rd.label,

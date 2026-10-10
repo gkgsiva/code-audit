@@ -11,7 +11,8 @@
 <header class="top">
   <div class="app">
     <strong>{{ app }}</strong>
-    <span class="meta">Technical audit · run <code>{{ run_id }}</code> · {{ run_date }} · legacy-audit {{ tool_version }}</span>
+    <span class="doc-kind">{{ doc_kind }}</span>
+    <span class="meta">run <code>{{ run_id }}</code> · {{ run_date }} · legacy-audit {{ tool_version }}</span>
   </div>
   <div class="meta">Sources:
     {% for s in sources %}<code>{{ s.name }}</code>{% if s.commit %} @ <code title="Git commit">{{ s.commit[:12] }}</code>{% elif s.type == "local" %} (local folder){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
@@ -30,8 +31,8 @@
 {% block content %}{% endblock %}
 </main>
 <footer>
-  Every number on these pages comes from the scan data in <code>data/</code> of this run, produced by deterministic scripts; nothing is estimated by AI.
-  Effort figures are labelled "{{ effort_label }}".
+  {% if footer_note %}{{ footer_note }}{% else %}Every number on these pages comes from the scan data in <code>data/</code> of this run, produced by deterministic scripts; nothing is estimated by AI.
+  Effort figures are labelled "{{ effort_label }}". Text in dashed boxes was written by the Copilot agent and checked against the scan by <code>legacy-audit validate</code>.{% endif %}
 </footer>
 {% for js in data_scripts %}<script src="{{ base }}data/{{ js }}.js"></script>
 {% endfor %}{% if charts %}<script src="{{ base }}assets/vendor/chart-4.4.7.umd.js"></script>

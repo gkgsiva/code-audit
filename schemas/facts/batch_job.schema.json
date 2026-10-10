@@ -123,6 +123,19 @@
       "title": "Datasets",
       "type": "array"
     },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Description from the scheduler, if any",
+      "title": "Description"
+    },
     "evidence": {
       "items": {
         "$ref": "#/$defs/Evidence"
@@ -155,6 +168,14 @@
     "name": {
       "title": "Name",
       "type": "string"
+    },
+    "on_failure": {
+      "description": "Failure handling in the scheduler definition (alarms, retries, limits)",
+      "items": {
+        "type": "string"
+      },
+      "title": "On Failure",
+      "type": "array"
     },
     "predecessors": {
       "items": {

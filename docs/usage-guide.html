@@ -606,7 +606,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <h3 id="gui-reports">8. Reports</h3>
 <ul>
-  <li><strong>Build technical report</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, or <strong>Build all</strong> (recommended).</li>
+  <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, or <strong>Build all</strong> (recommended).</li>
   <li>When a report is built, <strong>Open</strong> appears next to it (and <strong>Download</strong> for the PowerPoint). Until then it says <em>not built yet</em>.</li>
   <li><strong>Download data pack (ZIP)</strong>: one ZIP file with every list (CSV for Excel, JSON, a SQLite database), the run details and the AI analysis. Send this to someone who wants the raw data.</li>
   <li><strong>Open run folder</strong>: opens the folder where this run's files are, in File Explorer.</li>
@@ -627,6 +627,8 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>Overview</td><td>The headline numbers, which inputs were present or missing, and the effort estimate.</td></tr>
   <tr><td>Components</td><td>The parts of the application, with a page for each listing its services, screens, SQL and findings.</td></tr>
   <tr><td>Architecture</td><td>Diagrams drawn from the scan: how components connect, the map of connections to other systems, and chains of batch jobs.</td></tr>
+  <tr><td>Flows</td><td>One picture per screen (the services behind it and the tables they use) and per batch (what starts it, its steps, tables and files, what happens if it fails), plus a week calendar of when batches run.</td></tr>
+  <tr><td>Data model</td><td>Which part of the application creates, reads, updates or deletes each table, as a coloured grid (darker = more operations), and which tables are used together.</td></tr>
   <tr><td>Services</td><td>Every entry point other systems or users call: web services, servlets, Struts actions, CICS transactions and so on.</td></tr>
   <tr><td>Screens</td><td>Every user screen (JSP pages, mainframe maps), with its fields.</td></tr>
   <tr><td>SQL</td><td>Every database query found in the code, including queries the code builds while running, with its PostgreSQL grade.</td></tr>
@@ -654,6 +656,25 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <li><strong>From File Explorer:</strong> <code>explorer.exe ~/audits/billing/audit-output/latest/reports/tech</code>, then double-click <code>index.html</code>. The address bar shows <code>\\wsl.localhost\Ubuntu\...</code>. Opened this way, the <strong>Where</strong> links to source files work too. Use this when you want to zip and send the report: copy the <code>tech</code> folder to Windows first (drag it to your Desktop).</li>
 </ul>
 <p>The <strong>VS Code</strong> links have the same limit as in the app: use <kbd>Ctrl</kbd>+<kbd>P</kbd> in your WSL VS Code window instead (see <a href="#gui-explorer">Explorer</a>).</p></div>
+
+<h3>The functional document</h3>
+<p>A second website, in plain language, for business and functional teams: <code>reports/functional/index.html</code> in the run's folder. Build it with <span class="menu">8. Reports &gt; Build functional document</span> (or <strong>Build all</strong>). Like the technical report, it opens from disk with no internet.</p>
+<div class="table-wrap"><table>
+  <tr><th>Page</th><th>What it tells you</th></tr>
+  <tr><td>Summary</td><td>What the application does, its business areas and capabilities (a coloured map), who uses it and the key numbers.</td></tr>
+  <tr><td>Users and use cases</td><td>Who uses the application and what each of them does with it.</td></tr>
+  <tr><td>Business flows</td><td>The main end-to-end flows, step by step.</td></tr>
+  <tr><td>Screens</td><td>Every screen, with a picture: where the user comes from, the services the screen calls, the tables they read or change (C create, R read, U update, D delete), other systems, and where the user goes next.</td></tr>
+  <tr><td>Batch</td><td>Every batch, with a calendar of when it runs and a picture: what starts it (a time, a file arriving, another job), its steps in order, the tables and files it uses, and what happens when it fails (alarms, retries, steps that run anyway).</td></tr>
+  <tr><td>Business rules</td><td>The rules the code applies (checks, calculations, status changes) that the new system must keep.</td></tr>
+  <tr><td>Data</td><td>The main business data and the tables that hold it.</td></tr>
+  <tr><td>Interfaces</td><td>The other systems the application talks to and what is exchanged.</td></tr>
+  <tr><td>Glossary and questions</td><td>Business terms and open questions.</td></tr>
+</table></div>
+<div class="callout note"><p><span class="label">Pictures first, words after Copilot.</span> The pictures, tables and calendars come from the scan and are there straight away. The explanations (purpose, what the user does, business impact, rules) come from Copilot: until you run <code>/audit-enrich functional</code> (section 13), those boxes say <em>Not enriched yet</em>.</p></div>
+
+<h3>The management deck and PowerPoint</h3>
+<p>Each section starts with a coloured slide. Look for the readiness gauges, the capability map, a flow slide for the main screens and batches, the batch calendar and the roadmap. In PowerPoint every chart, table and box is editable: click a chart and choose <strong>Edit Data</strong>, or move and recolour the flow boxes.</p>
 
 <h3>How to read the key labels</h3>
 <h4>Finding severity</h4>
@@ -839,6 +860,7 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <li>Back in the app, open <span class="menu">7. AI enrichment</span> and click <span class="menu">Validate now</span>. Every stage should say <span class="pill">valid</span>. If not, the screen lists what is wrong; ask Copilot to fix those stages.</li>
   <li>Build the reports again (<span class="menu">8. Reports &gt; Build all</span>). The technical report now has an <strong>Analysis</strong> page and the deck's placeholder slides are filled in.</li>
 </ol>
+<p>To get only the business explanations for the functional document, type <code>/audit-enrich functional</code> (and <code>/audit-enrich component_docs</code> for a description of each component). Copilot first reads everything the scan found, then writes. Then build the reports again.</p>
 <p>Other instructions you can give the agent: <code>/audit-scan</code> (run the scan and summarise), <code>/audit-enrich stale</code> (redo only stages that are out of date after a re-run), <code>/audit-report</code> (check and build all reports), <code>/audit-qa</code> (double-check the analysis against the scan).</p>
 <div class="callout warn"><p><span class="label">Copilot needs the tool too.</span> The agent runs <code>legacy-audit</code> commands in its terminal. If it says the command isn't found, give it the full path: <span class="only-win"><code>C:\Users\you\code-audit\.venv\Scripts\legacy-audit.exe</code></span><span class="only-wsl"> 🐧 WSL2: <code>/home/you/code-audit/.venv/bin/legacy-audit</code></span>. Put the same path as <code>"command"</code> in the audit folder's <code>.vscode/mcp.json</code> if you use the MCP server. More detail for analysts is in <code>docs/copilot-agent.md</code>.</p></div>
 
@@ -875,7 +897,8 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
 <pre><code>legacy-audit init                  # create audit.yaml, audit-inputs and the Copilot files
 legacy-audit scan                  # new run (only changed files are re-read)
 legacy-audit scan --full           # re-read every file
-legacy-audit report --type all --open   # build technical report, deck and PPTX, and open them
+legacy-audit report --type all --open   # build technical report, functional document, deck and PPTX
+legacy-audit report --type functional --open   # only the functional document
 legacy-audit diff previous latest  # what changed between the last two runs
 legacy-audit validate              # check Copilot's analysis against the scan
 legacy-audit facts services        # print the services as JSON
@@ -975,7 +998,7 @@ legacy-audit version               # the tool's version</code></pre>
   <dt>CVE / vulnerability</dt><dd>A publicly known security problem in a library, with an id like CVE-2021-44228.</dd>
   <dt>DDL</dt><dd>Database scripts that create tables, views and procedures.</dd>
   <dt>Dynamic SQL</dt><dd>A database query that the program assembles from pieces while it runs, instead of writing it out in full. The tool rebuilds it where it can.</dd>
-  <dt>Enrichment / stage</dt><dd>The written analysis Copilot adds, in parts called stages (overview, architecture, flows, risks, plan and so on).</dd>
+  <dt>Enrichment / stage</dt><dd>The written analysis Copilot adds, in parts called stages (overview, architecture, flows, risks, plan, functional view, component documentation and so on).</dd>
   <dt>NVD API key</dt><dd>A free personal code from the US National Vulnerability Database that lets Dependency-Check download its database quickly. Keep it private.</dd>
   <dt>EOL (end of life)</dt><dd>A library or product version that its makers no longer support or patch.</dd>
   <dt>Evidence</dt><dd>The file and line number a number or item came from. Every count has it.</dd>

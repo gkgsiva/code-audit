@@ -59,7 +59,8 @@ legacy-audit scan --full          # ignore the file cache and re-analyse everyth
 legacy-audit diff previous latest # what changed between two runs (ids, 'previous', 'latest')
 legacy-audit report --open        # technical HTML report of the latest run, opened in a browser
 legacy-audit report --run <id>    # report of an older run (default: latest)
-legacy-audit report --type all    # technical site + management deck (HTML) + deck.pptx
+legacy-audit report --type functional  # functional document: screen and batch flows, use cases, rules
+legacy-audit report --type all    # technical site + functional document + management deck (HTML) + deck.pptx
 legacy-audit validate             # check Copilot's enrichment against the scan; mark stale stages
 legacy-audit facts services -f kind=servlet   # query facts as JSON (what the agent reads)
 legacy-audit mcp                  # read-only MCP server for Copilot (stdio)
@@ -137,7 +138,8 @@ interprets: numbers are copied from the scan as figures, claims cite `file:line`
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
 `3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
 `7. build and open the technical report`, `8`–`12` for phase 5 (PPTX builder, Copilot files, demo
-enrichment, decks, facts), `13`–`15` for phase 6 (GUI, doctor, performance test); **Run and
+enrichment, decks, facts), `13`–`15` for phase 6 (GUI, doctor, performance test), `16`–`17` for phase 7 (demo functional
+enrichment, functional document); **Run and
 Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
 [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 

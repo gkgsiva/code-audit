@@ -11,6 +11,7 @@ Update this file at the end of every phase, and whenever a session stops mid-pha
 | 4 – Technical HTML report | Done | `legacy-audit report --type tech [--open]`: static offline site per run (overview, component pages, architecture/integration/batch Mermaid diagrams, 8 catalogues with search/filter/sort/paging, CRUD matrix, PostgreSQL readiness, dependency security + SBOM download, findings, appendix), evidence links to files and VS Code, light/dark; vendored Chart.js and Mermaid (2026-10-10) |
 | 5 – Copilot agent, enrichment, management outputs | Done | `init` installs the legacy-auditor agent, instructions, 4 prompt files, enrichment schemas and `.vscode/mcp.json` (keeps user edits); 12 enrichment schemas; `legacy-audit validate` (schema, references, figures vs scan, evidence, prose counts) with stamping, staleness and carry-over; read-only MCP server and `facts` command; `deck.json`, HTML management deck (26 slides) and editable PPTX with native charts; Analysis page in the technical report (2026-10-10) |
 | 6 – GUI and hardening | Done | `legacy-audit serve` (local FastAPI GUI, 9 screens, background jobs with live progress and cancel), `legacy-audit doctor`; files analysed and SQL graded in parallel processes with a grade cache; scan lock, cleanup of interrupted runs, findings for too-large/unreadable files, long Windows paths; faster linking; user, admin and rules guides, performance results, changelog (2026-10-10) |
+| 7 – Functional documentation and graphics | Done | Enrichment stages 12 (functional) and 13 (component documentation); screen and batch flows drawn from the scan; functional document (`report --type functional`); colours, gauges, radar, bubble, heat maps, Gantt and coloured flows in the technical report; section dividers, gauges, capability map, flow slides, batch calendar, layers, heat maps and roadmap in the HTML deck and native in the PPTX (2026-10-10) |
 
 ## Phase 3 result
 
@@ -109,9 +110,31 @@ Checked by eye in Chromium: all 9 screens, light and dark and at phone width, wi
 errors and no requests leaving `127.0.0.1`. How to validate in VS Code:
 `docs/validate-in-vscode.md` § Phase 6.
 
+## Phase 7 result
+
+Asked for by Siva: functional documentation for scanned applications, a functional flow for each
+batch and for each screen (with its services and tables), a more colourful technical document and
+more graphics in the deck and PPTX.
+
+Acceptance criteria (from `docs/prompts/phase-7-functional-docs-graphics.md`), all in
+`tests/test_functional.py` unless noted:
+
+1. Screen and batch flows match the facts: `orderDetail.jsp` is loaded by `/orderDetail`, opens
+   `/orderSearch` and reads ORDERS; `BIL_NIGHTLY_BOX` runs BIL_USAGE_WAIT, BIL_INVOICE and
+   BIL_ARCHIVE in order at 01:30 on weekdays, retries BIL_INVOICE once and archives whatever
+   happens; `invoiceJob` is started by BIL_INVOICE through `run_invoice_job.sh`.
+2. The functional document builds offline and is valid HTML on all four samples, with placeholders
+   naming `/audit-enrich functional` when there is no enrichment.
+3. Stage 12 and 13 fixtures validate (14 files, `tests/test_enrich.py`); a wrong screen id fails.
+4. The PPTX holds native charts (one doughnut per gauge) and native tables (heat maps included),
+   no chart pictures (`tests/test_mgmt.py`).
+
+Checked by eye in Chromium (light and dark) and in LibreOffice for the PPTX, with no console errors
+and no network requests. How to validate in VS Code: `docs/validate-in-vscode.md` § Phase 7.
+
 ## Next step
 
-All six phases are done. Next: validate on a real estate and on the team's Windows laptops (record
+All seven phases are done. Next: validate on a real estate and on the team's Windows laptops (record
 laptop timings in `docs/performance.md`), calibrate the complexity and effort weights, and run the
 Copilot agent in VS Code once.
 
@@ -156,5 +179,9 @@ Copilot agent in VS Code once.
   tested for shape only; the first real run in VS Code may need the `tools:` list adjusting.
 - Enrichment staleness compares whole fact files per kind, so any change in a kind (even in
   another component) marks the stages that read it stale.
+- Flows: a service's tables come from the SQL in the files it reaches, so a DAO shared by several
+  screens shows all its tables on each of them (decision 97). Flows of very large boxes are
+  readable in HTML (Mermaid) but crowded on a PPTX slide; the deck shows the 3 largest screens and
+  batches only.
 - PPTX: diagrams are pictures only when Mermaid CLI is installed; the corporate master
   (`branding.pptx_template`) is not applied yet; long tables are cut to 10 rows per slide.

@@ -1,0 +1,390 @@
+{
+  "meta": {
+    "stage": "functional",
+    "author": "copilot-agent"
+  },
+  "summary": "Orders Web lets customer-service agents find a customer's orders, look at one order with its lines, and get the current price from the central pricing service while the customer is on the phone. A monthly database clean-up cancels orders left pending for more than six months.",
+  "domains": [
+    {
+      "name": "Order servicing",
+      "description": "Answering customers' questions about their orders.",
+      "components": [
+        "orders-web"
+      ],
+      "capabilities": [
+        {
+          "name": "Sign in",
+          "description": "Agents sign in with their user name and password before using the application.",
+          "service_ids": [
+            "service:e238462a66aa312f"
+          ],
+          "screen_ids": [
+            "screen:05aa629fbec46620"
+          ],
+          "evidence": [
+            {
+              "file": "src/com/acme/orders/action/LoginAction.java",
+              "line": 29
+            }
+          ]
+        },
+        {
+          "name": "Find orders",
+          "description": "Search orders by customer and status.",
+          "service_ids": [
+            "service:f1d82f2dd35b68cd"
+          ],
+          "screen_ids": [
+            "screen:927c65728f5fbfe5"
+          ],
+          "evidence": [
+            {
+              "file": "src/com/acme/orders/service/OrderService.java",
+              "line": 18
+            }
+          ]
+        },
+        {
+          "name": "View and price an order",
+          "description": "Show one order with its lines and its price including tax, confirmed by the pricing service.",
+          "service_ids": [
+            "service:7faeee752a0d66a4"
+          ],
+          "screen_ids": [
+            "screen:81b23756f56db307"
+          ],
+          "evidence": [
+            {
+              "file": "src/com/acme/orders/service/OrderService.java",
+              "line": 26
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Order housekeeping",
+      "description": "Keeping the order book clean.",
+      "components": [
+        "orders-web"
+      ],
+      "capabilities": [
+        {
+          "name": "Cancel stale orders",
+          "description": "Orders pending for more than six months are cancelled by a SQL script.",
+          "evidence": [
+            {
+              "file": "sql/order_queries.sql",
+              "line": 15
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actors": [
+    {
+      "name": "Customer-service agent",
+      "kind": "user",
+      "description": "Answers customer calls about orders.",
+      "screen_ids": [
+        "screen:05aa629fbec46620",
+        "screen:927c65728f5fbfe5",
+        "screen:81b23756f56db307"
+      ]
+    },
+    {
+      "name": "Pricing service",
+      "kind": "external-system",
+      "description": "Central service that returns the current price of an order.",
+      "integration_ids": [
+        "integration:1594fbd54390e803"
+      ]
+    },
+    {
+      "name": "Database administrator",
+      "kind": "operator",
+      "description": "Runs the deployment and clean-up scripts."
+    }
+  ],
+  "use_cases": [
+    {
+      "id": "UC-01",
+      "name": "Sign in",
+      "actor": "Customer-service agent",
+      "goal": "Get access to the order screens",
+      "domain": "Order servicing",
+      "screen_ids": [
+        "screen:05aa629fbec46620"
+      ],
+      "service_ids": [
+        "service:e238462a66aa312f"
+      ],
+      "steps": [
+        "Enter user name and password",
+        "Press Sign in",
+        "See the order search screen, or the error page when the password is wrong"
+      ],
+      "outcome": "The agent is signed in.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/action/LoginAction.java",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "id": "UC-02",
+      "name": "Find a customer's orders",
+      "actor": "Customer-service agent",
+      "goal": "See the orders of the customer on the phone",
+      "domain": "Order servicing",
+      "screen_ids": [
+        "screen:927c65728f5fbfe5"
+      ],
+      "service_ids": [
+        "service:f1d82f2dd35b68cd"
+      ],
+      "steps": [
+        "Type the customer and optionally a status",
+        "Press Search",
+        "Read the list of matching orders"
+      ],
+      "outcome": "A list of orders.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/service/OrderService.java",
+          "line": 18
+        }
+      ]
+    },
+    {
+      "id": "UC-03",
+      "name": "View an order with its price",
+      "actor": "Customer-service agent",
+      "goal": "Answer a question about one order and its price",
+      "domain": "Order servicing",
+      "screen_ids": [
+        "screen:81b23756f56db307"
+      ],
+      "service_ids": [
+        "service:7faeee752a0d66a4"
+      ],
+      "steps": [
+        "Click an order in the list",
+        "Read its lines and the price including tax"
+      ],
+      "outcome": "The order detail with a current price.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/service/OrderService.java",
+          "line": 26
+        }
+      ]
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-01",
+      "name": "Only known users can sign in",
+      "description": "When the user name and password do not match a known user, the agent is sent to the error page instead of the order screens.",
+      "kind": "validation",
+      "domain": "Order servicing",
+      "fact_ids": [
+        "service:e238462a66aa312f"
+      ],
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/action/LoginAction.java",
+          "line": 29
+        }
+      ]
+    },
+    {
+      "id": "BR-02",
+      "name": "Price includes tax and is confirmed centrally",
+      "description": "The order total is computed with tax in the database, then confirmed by the pricing service before it is shown.",
+      "kind": "calculation",
+      "domain": "Order servicing",
+      "fact_ids": [
+        "service:7faeee752a0d66a4",
+        "db_object:680a4965f0bc0c36"
+      ],
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/service/OrderService.java",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "id": "BR-03",
+      "name": "Pending orders expire after six months",
+      "description": "When an order has been pending for more than six months, its status becomes CANCELLED.",
+      "kind": "status-change",
+      "domain": "Order housekeeping",
+      "fact_ids": [
+        "sql:af564f2b8f197c77",
+        "db_object:ef97536d0298e878"
+      ],
+      "evidence": [
+        {
+          "file": "sql/order_queries.sql",
+          "line": 15
+        }
+      ]
+    }
+  ],
+  "data_entities": [
+    {
+      "name": "Customer",
+      "description": "A person or company that places orders.",
+      "db_object_ids": [
+        "db_object:02d5a98eab0474e2"
+      ],
+      "domain": "Order servicing",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/dao/OrderDao.java",
+          "line": 24
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "description": "An order with its status and creation date.",
+      "db_object_ids": [
+        "db_object:ef97536d0298e878"
+      ],
+      "domain": "Order servicing",
+      "evidence": [
+        {
+          "file": "sql/order_queries.sql",
+          "line": 11
+        }
+      ]
+    },
+    {
+      "name": "Order line",
+      "description": "One product and quantity on an order.",
+      "db_object_ids": [
+        "db_object:7d8347f08ff6057d"
+      ],
+      "domain": "Order servicing",
+      "evidence": [
+        {
+          "file": "sql/pkg_order_pricing.pkb",
+          "line": 6
+        }
+      ]
+    },
+    {
+      "name": "Application user",
+      "description": "An agent allowed to sign in.",
+      "db_object_ids": [
+        "db_object:cdef501d9f4785bd"
+      ],
+      "domain": "Order servicing",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/dao/OrderDao.java",
+          "line": 21
+        }
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "screen_id": "screen:05aa629fbec46620",
+      "purpose": "The agent signs in.",
+      "user_actions": [
+        "Enter user name and password",
+        "Press Sign in"
+      ],
+      "data_shown": "Nothing but the sign-in form.",
+      "next_steps": "On success the order search screen opens; on failure the error page.",
+      "evidence": [
+        {
+          "file": "WebContent/jsp/login.jsp",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "screen_id": "screen:927c65728f5fbfe5",
+      "purpose": "The agent finds the orders of a customer.",
+      "user_actions": [
+        "Search by customer and status",
+        "Open an order"
+      ],
+      "data_shown": "Orders with customer, status and date.",
+      "next_steps": "Opening an order shows its detail.",
+      "evidence": [
+        {
+          "file": "WebContent/jsp/orderSearch.jsp",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "screen_id": "screen:81b23756f56db307",
+      "purpose": "The agent reads one order and its price.",
+      "user_actions": [
+        "Go back to the search"
+      ],
+      "data_shown": "Order header, lines and the price including tax.",
+      "next_steps": "Back to the search for the next question.",
+      "evidence": [
+        {
+          "file": "WebContent/jsp/orderDetail.jsp",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "screen_id": "screen:5c7d3fcc0e7289e9",
+      "purpose": "Tells the agent something went wrong, for example a wrong password.",
+      "user_actions": [
+        "Go back to sign in"
+      ],
+      "next_steps": "Back to the sign-in screen.",
+      "evidence": [
+        {
+          "file": "WebContent/jsp/error.jsp",
+          "line": 1
+        }
+      ]
+    }
+  ],
+  "interfaces": [
+    {
+      "integration_id": "integration:1594fbd54390e803",
+      "partner": "Central pricing",
+      "purpose": "Confirms the current price of an order.",
+      "data_exchanged": "Order number and local total out; confirmed price back.",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/client/PricingSoapClient.java",
+          "line": 21
+        }
+      ]
+    },
+    {
+      "integration_id": "integration:51275d88f40325a2",
+      "partner": "Company mail server",
+      "purpose": "Sends e-mail from the application.",
+      "data_exchanged": "E-mail messages.",
+      "assumption": true
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Agent",
+      "meaning": "A customer-service employee who uses Orders Web."
+    },
+    {
+      "term": "Pending order",
+      "meaning": "An order that is not yet confirmed or shipped."
+    }
+  ]
+}

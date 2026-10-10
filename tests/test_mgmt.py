@@ -152,10 +152,11 @@ def test_pptx_has_native_charts_and_tables(enriched: Path) -> None:
             elif shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
                 pictures += 1
     expected = [b for b in _blocks(deck, "chart") if b["values"]]
-    assert len(charts) == len(expected)
+    gauges = sum(len(b["items"]) for b in _blocks(deck, "gauges"))  # one doughnut per gauge
+    assert gauges and len(charts) == len(expected) + gauges
     assert {XL_CHART_TYPE.COLUMN_CLUSTERED, XL_CHART_TYPE.DOUGHNUT} <= set(charts)
     assert XL_CHART_TYPE.LINE_MARKERS in charts or XL_CHART_TYPE.LINE in charts
-    assert tables == len(_blocks(deck, "table"))
+    assert tables == len(_blocks(deck, "table")) + len(_blocks(deck, "heatmap"))
     assert pictures == len([b for b in _blocks(deck, "diagram") if b.get("png")])  # no chart images
     notes = prs.slides[0].notes_slide.notes_text_frame.text
     assert notes  # speaker notes carried over
@@ -181,5 +182,5 @@ def test_tech_report_analysis_page_shows_enrichment(enriched: Path) -> None:
     assert not c.errors and c.stack == []
     html = page.read_text(encoding="utf-8")
     assert "SQL injection in order search" in html and "Find and view an order" in html
-    assert html.count(">valid<") == 12
+    assert html.count(">valid<") == 14
     assert "vscode://file/" in html  # claims link to their evidence

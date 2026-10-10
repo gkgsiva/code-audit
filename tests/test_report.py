@@ -96,6 +96,7 @@ def test_report_builds_valid_offline_html(sample: str, tmp_path: Path) -> None:
         "index.html", "components.html", "architecture.html", "services.html", "screens.html",
         "sql.html", "db-objects.html", "integrations.html", "batch-jobs.html", "libraries.html",
         "postgresql.html", "security.html", "findings.html", "appendix.html", "analysis.html",
+        "flows.html", "data-model.html",
     }  # fmt: skip
     assert list((root / "components").glob("*.html"))
     for page in pages:

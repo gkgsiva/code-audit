@@ -6,6 +6,9 @@ Validate the enrichment and build the reports.
    `/audit-enrich stale` first or build the reports with placeholders.
 3. Run `legacy-audit report --type all`. It builds:
    - `audit-output/latest/reports/tech/index.html`: technical site;
+   - `audit-output/latest/reports/functional/index.html`: functional document for business
+     readers (capabilities, use cases, a flow per screen and per batch, business rules, data,
+     batch calendar, interfaces, glossary);
    - `audit-output/latest/reports/mgmt/index.html`: management deck (arrow keys to move,
      `N` for speaker notes, print to PDF from the browser);
    - `audit-output/latest/reports/deck.pptx`: editable PowerPoint (needs Node.js; the command
