@@ -16,9 +16,10 @@ from tests.conftest import invoke, tree_hash, write
 def _facts(run_dir: Path) -> dict:
     data = run_dir / "data"
     return {
-        p.stem: json.loads(p.read_text())
+        p.stem: json.loads(p.read_text(encoding="utf-8"))
         for p in sorted(data.glob("*.json"))
-        if p.stem != "audit-summary"
+        # The summary and the SBOM carry the run id and time.
+        if p.stem not in ("audit-summary", "sbom.cdx")
     }
 
 
@@ -46,7 +47,8 @@ def test_init_then_scan_workspace_excludes_tool_files(runner, tmp_path: Path):
     assert result.exit_code == 0, result.output
     # Second scan must not pick up the first scan's output folder.
     invoke(runner, "scan", "--config", str(ws / "audit.yaml"))
-    inv = json.loads((ws / "audit-output" / "latest" / "data" / "inventory.json").read_text())
+    inv_path = ws / "audit-output" / "latest" / "data" / "inventory.json"
+    inv = json.loads(inv_path.read_text(encoding="utf-8"))
     assert [r["path"] for r in inv] == ["src/A.java"]
 
 
@@ -64,7 +66,7 @@ def test_scan_outputs(sample_copy):
         "input_coverage.json",
     ):
         assert (run_dir / "data" / name).is_file(), name
-    run = json.loads((run_dir / "run.json").read_text())
+    run = json.loads((run_dir / "run.json").read_text(encoding="utf-8"))
     assert run["config_hash"] and run["tool_version"] and run["timings"]
     assert run["counting_rules"]["service"].startswith("One independently invokable")
     assert (run_dir / "logs" / "scan.log").is_file()
@@ -127,13 +129,13 @@ def test_coverage_change_and_diff(runner, sample_copy):
     app = sample_copy("struts-oracle-app")
     cfg = str(app / "audit.yaml")
     invoke(runner, "scan", "--config", cfg)
-    before = json.loads((app / "audit-output" / "latest" / "run.json").read_text())
+    before = json.loads((app / "audit-output" / "latest" / "run.json").read_text(encoding="utf-8"))
     autosys = {c["kind"]: c for c in before["coverage"]}["autosys"]
     assert autosys["status"] == "missing"
 
     write(app / "audit-inputs" / "autosys" / "orders.jil", "insert_job: ORD_NIGHTLY\n")
     invoke(runner, "scan", "--config", cfg)
-    after = json.loads((app / "audit-output" / "latest" / "run.json").read_text())
+    after = json.loads((app / "audit-output" / "latest" / "run.json").read_text(encoding="utf-8"))
     autosys = {c["kind"]: c for c in after["coverage"]}["autosys"]
     assert autosys["status"] == "present" and autosys["file_count"] == 1
 
@@ -141,7 +143,7 @@ def test_coverage_change_and_diff(runner, sample_copy):
     result = invoke(runner, "diff", "previous", "latest", "--config", cfg, "--json", str(out))
     assert result.exit_code == 0
     assert "autosys" in result.output
-    d = json.loads(out.read_text())
+    d = json.loads(out.read_text(encoding="utf-8"))
     changed = d["entities"]["input_coverage"]["changed"]
     assert len(changed) == 1
     assert changed[0]["fields"]["status"] == ["missing", "present"]
@@ -223,7 +225,8 @@ def test_latest_pointer_copy_fallback(sample_copy, monkeypatch):
     second = run_scan(loaded)
     latest = app / "audit-output" / "latest"
     assert latest.is_dir() and not latest.is_symlink()
-    assert json.loads((latest / "run.json").read_text())["run_id"] == second.run.run_id
+    latest_run = json.loads((latest / "run.json").read_text(encoding="utf-8"))
+    assert latest_run["run_id"] == second.run.run_id
     assert len(list_runs(app / "audit-output")) == 2
 
 

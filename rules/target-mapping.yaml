@@ -1,0 +1,64 @@
+# Default target per legacy element (docs/plan.md § Target mapping rules). The scan engine only
+# ships this table with the facts; the Copilot agent applies it and records exceptions with a
+# reason. A team pack can replace an entry by giving the same id.
+pack: target-mapping
+description: Default GCP / Java 25 / Spring Boot 4 / Angular 21 / PostgreSQL target per legacy element.
+
+data:
+  targets:
+    - id: screen
+      legacy: JSP / JSF / Struts screen, Spring MVC view, BMS map
+      applies_to: {entity: screens}
+      target: Angular 21 component (route per screen, shared components for repeated forms)
+    - id: online-service
+      legacy: Struts action, Spring MVC handler, servlet, EJB, SOAP operation
+      applies_to: {entity: services, kinds: [struts-action, spring-mvc, servlet, ejb, soap-operation, jax-rs]}
+      target: Spring Boot 4 REST controller + service, grouped into bounded-context services
+    - id: mainframe-program
+      legacy: COBOL / Pro*C online program
+      applies_to: {entity: services, kinds: [cics-transaction, cobol-program, proc-program]}
+      target: Spring Boot service (rewritten), or rehost candidate if the logic is very large
+    - id: batch-job
+      legacy: Batch job (Autosys / JCL / cron + shell, C, COBOL, Spring Batch)
+      applies_to: {entity: batch_jobs}
+      target: Spring Batch on Cloud Run jobs or GKE; Autosys job chains → Cloud Composer, simple schedules → Cloud Scheduler + Workflows
+    - id: database
+      legacy: Oracle / DB2 / other database
+      applies_to: {entity: db_objects}
+      target: Cloud SQL for PostgreSQL or AlloyDB; procedures → Java service logic or PL/pgSQL
+    - id: messaging
+      legacy: IBM MQ / JMS
+      applies_to: {entity: integrations, types: [MQ, JMS]}
+      target: Pub/Sub, or IBM MQ kept (e.g. on GKE) where ordering or transactions require it
+    - id: file-transfer
+      legacy: FTP / SFTP / CFT file transfer
+      applies_to: {entity: integrations, types: [FTP, SFTP, CFT]}
+      target: Cloud Storage + Storage Transfer Service, or a managed SFTP gateway; events via Pub/Sub
+    - id: shared-files
+      legacy: Shared file system
+      applies_to: {entity: integrations, types: [FILE]}
+      target: Cloud Storage or Filestore
+    - id: email
+      legacy: Email (SMTP)
+      applies_to: {entity: integrations, types: [SMTP]}
+      target: SMTP relay / SendGrid with credentials in Secret Manager
+    - id: config
+      legacy: Config / properties
+      applies_to: {entity: inventory, categories: [config]}
+      target: Spring configuration + Secret Manager
+    - id: reports
+      legacy: Reports (Crystal, Jasper, Oracle Reports)
+      applies_to: {entity: tech_stack, names: [Crystal Reports, JasperReports, Oracle Reports]}
+      target: JasperReports on Spring Boot or Looker Studio, case by case
+    - id: auth
+      legacy: Auth (LDAP, SiteMinder, custom)
+      applies_to: {entity: integrations, types: [LDAP]}
+      target: Identity Platform / IAP, or the corporate IdP via OIDC
+    - id: observability
+      legacy: Logging, monitoring
+      applies_to: {entity: tech_stack, names: [Log4j 1, Log4j 2, Logback]}
+      target: Cloud Logging, Cloud Monitoring, Cloud Trace
+    - id: runtime
+      legacy: Runtime (app server, batch host)
+      applies_to: {entity: components}
+      target: GKE Autopilot or Cloud Run; CI/CD with Cloud Build + Artifact Registry

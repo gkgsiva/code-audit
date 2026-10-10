@@ -18,7 +18,7 @@ from typing import Any, ClassVar, Protocol
 from pydantic import BaseModel, ConfigDict, Field
 
 from legacy_audit.config import AuditConfig
-from legacy_audit.model import ENTITIES, Fact, FileRecord
+from legacy_audit.model import ENTITIES, CodeUnit, Fact, FileRecord
 
 
 class _Model(BaseModel):
@@ -72,6 +72,11 @@ class Facts:
     symbols: list[Symbol] = field(default_factory=list)
     refs: list[Ref] = field(default_factory=list)
     coverage: Coverage = field(default_factory=Coverage)
+    units: list[CodeUnit] = field(default_factory=list)
+    # Duplication windows: [hash, first line, last line] for windows starting at a line.
+    windows: list[list[int]] = field(default_factory=list)
+    # Text-rule hits: [rule id, line, matched text (secrets masked)].
+    hits: list[list[Any]] = field(default_factory=list)
 
     def add(self, entity: str, fact: Fact) -> Fact:
         self.entities.setdefault(entity, []).append(fact)
@@ -89,6 +94,9 @@ class Facts:
         self.symbols.extend(other.symbols)
         self.refs.extend(other.refs)
         self.coverage.unparsed.extend(other.coverage.unparsed)
+        self.units.extend(other.units)
+        self.windows.extend(other.windows)
+        self.hits.extend(other.hits)
 
     def dump(self) -> dict[str, Any]:
         return {
@@ -98,6 +106,9 @@ class Facts:
             "symbols": [s.model_dump(mode="json") for s in self.symbols],
             "refs": [r.model_dump(mode="json") for r in self.refs],
             "coverage": self.coverage.model_dump(mode="json"),
+            "units": [u.model_dump(mode="json") for u in self.units],
+            "windows": self.windows,
+            "hits": self.hits,
         }
 
     @classmethod
@@ -110,6 +121,9 @@ class Facts:
             symbols=[Symbol.model_validate(s) for s in data.get("symbols", [])],
             refs=[Ref.model_validate(r) for r in data.get("refs", [])],
             coverage=Coverage.model_validate(data.get("coverage", {})),
+            units=[CodeUnit.model_validate(u) for u in data.get("units", [])],
+            windows=[list(w) for w in data.get("windows", [])],
+            hits=[list(h) for h in data.get("hits", [])],
         )
 
 
@@ -120,6 +134,7 @@ class AnalyzerContext:
     config: AuditConfig
     abs_path: Path
     text: str | None
+    text_rules: list[Any] | None = None  # rules.packs.Rule; None = the built-in packs
 
     def read_bytes(self) -> bytes:
         return self.abs_path.read_bytes()

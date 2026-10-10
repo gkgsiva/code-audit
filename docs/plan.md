@@ -88,11 +88,11 @@ A plugin-based Python 3.11+ package (`legacy_audit`) with one analyzer per techn
 
 | Technology | Parser approach | Key facts extracted |
 | --- | --- | --- |
-| Java (plain, EJB) | `javalang` or tree-sitter-java | packages, classes, methods, annotations, imports, JDBC/JPA/iBATIS SQL, REST/SOAP clients, `main()` and schedulers |
+| Java (plain, EJB) | `javalang` or tree-sitter-java | packages, classes, methods, annotations, imports, JDBC/JPA/iBATIS SQL (including SQL built at run time, see *Dynamic SQL* below), REST/SOAP clients, `main()` and schedulers |
 | Struts 1/2, JSP, JSF | XML parse of struts-config.xml / struts.xml, web.xml; JSP tag scan | actions, form beans, forwards, screens, filters, servlets, tiles |
-| C / C++ | tree-sitter-c / tree-sitter-cpp | functions, `#include` graph, `main()`, sockets, file I/O, system calls, shared libs |
-| Pro*C / Pro*COBOL | pre-scan `EXEC SQL ... ;` blocks, then C analyzer | embedded SQL, cursors, host variables, Oracle-specific syntax |
-| COBOL | regex divisions + copybook resolver (optionally ProLeap or Koopa) | programs, paragraphs, `CALL`, `COPY`, `EXEC SQL`, `EXEC CICS`, file `SELECT`s, BMS maps |
+| C / C++ | tree-sitter-c / tree-sitter-cpp | functions, `#include` graph, `main()`, sockets, file I/O, system calls, shared libs, SQL passed to ODBC / DB2 CLI / OCI / libpq / MySQL / SQLite calls and SQL built in `char` buffers |
+| Pro*C / Pro*COBOL | pre-scan `EXEC SQL ... ;` blocks, then C analyzer | embedded SQL, cursors, host variables, Oracle-specific syntax, `PREPARE ... FROM :buf` / `EXECUTE IMMEDIATE :buf` rebuilt from the C that fills the buffer |
+| COBOL | regex divisions + copybook resolver (optionally ProLeap or Koopa) | programs, paragraphs, `CALL`, `COPY`, `EXEC SQL` (dynamic SQL rebuilt from `VALUE`/`MOVE`/`STRING`), `EXEC CICS`, file `SELECT`s, BMS maps |
 | JCL | line parser | jobs, steps, `PGM=`, DD datasets, job dependencies |
 | Shell, Perl, Python, batch | regex + shebang | invoked programs, cron entries, ftp/sftp/scp/CFTUTIL commands, DB clients (sqlplus, db2) |
 | SQL / PL/SQL / stored procs | `sqlglot` (Oracle/DB2/T-SQL dialects) | tables, DML/DDL type, joins, vendor functions, transpile test to PostgreSQL |
@@ -116,7 +116,17 @@ A plugin-based Python 3.11+ package (`legacy_audit`) with one analyzer per techn
 - **Spring Security** – auth mechanism (LDAP, form, SiteMinder headers, custom filters), mapped to the target identity option.
 - **Upgrade signals** – `javax.*` imports needing the Jakarta namespace, removed APIs, XML-only config, Spring version; used to size the move to Spring Boot 4.
 
-**PostgreSQL readiness check:** every extracted SQL statement is parsed with `sqlglot` in its source dialect and transpiled to PostgreSQL. Statements are graded *auto* (transpiles cleanly), *review* (vendor functions like `NVL`, `DECODE`, `ROWNUM`, `CONNECT BY`, hints, `(+)` joins) or *manual* (PL/SQL packages, dynamic SQL, DB2-specific).
+**Dynamic SQL (built at run time):** SQL that code assembles is rebuilt into the statement it sends, not only literals at a call site. The scripts follow the variable that holds the text, in source order, up to the call that executes it:
+
+- **Java** – `+` / `+=` concatenation, `s = s + ...`, `StringBuilder`/`StringBuffer`/`StringJoiner` `append` chains, `String.format`/`formatted`, `concat`, ternaries, constants.
+- **C / C++** – `strcpy`/`strncpy`, `strcat`/`strncat`, `sprintf`/`snprintf` (also writing at `buf + strlen(buf)`), `#define` and file-level string constants, ternaries; executed by ODBC / DB2 CLI (`SQLExecDirect`, `SQLPrepare`), OCI (`OCIStmtPrepare`), libpq, MySQL, SQLite calls.
+- **Pro*C** – the same C, executed by `EXEC SQL PREPARE s FROM :buf` / `EXECUTE IMMEDIATE :buf` (`VARCHAR` host variables through `.arr`).
+- **COBOL / Pro*COBOL** – `VALUE` clauses, `MOVE`, `STRING ... DELIMITED BY ... INTO` (with `WITH POINTER` or the target as first operand = append), `INITIALIZE`, DB2 varying-length host variables (level-49 text item), executed by `PREPARE ... FROM :var` / `EXECUTE IMMEDIATE :var`.
+- **MyBatis / iBATIS** – dynamic tags (`<if>`, `<where>`, `<foreach>`, `isNotEmpty`...) and `${...}` / `$x$` substitutions.
+
+Code inside `if` / loops / `switch` / `catch` (COBOL: `IF`, `EVALUATE`, inline `PERFORM`) is conditional, so what it adds is an *optional fragment*. A piece only known at run time (a parameter, user input, a call result) becomes `?` and is classified from the text before it: a **value hole** (after `=`, a comparison or arithmetic operator, inside quotes or an `IN (...)`/`VALUES (...)` list — an injection risk) or a **structural hole** (a table, column or clause — the statement itself is unknown). Each statement records how it was built, its fragment, optional-fragment and hole counts, up to 5 *variants* (without the optional parts, other ternary branches or reassignments) and evidence for every fragment's line. A buffer, constant or variable that is only used as a fragment is not counted as a statement of its own. When the variable cannot be followed (filled in another file or from input), the statement stays type `DYNAMIC` with one structural hole.
+
+**PostgreSQL readiness check:** every extracted SQL statement is parsed with `sqlglot` in its source dialect and transpiled to PostgreSQL. Statements are graded *auto* (transpiles cleanly), *review* (vendor functions like `NVL`, `DECODE`, `ROWNUM`, `CONNECT BY`, hints, `(+)` joins) or *manual* (PL/SQL packages, DB2-specific, unparseable, and dynamic SQL with a structural hole or that could not be rebuilt). Rebuilt dynamic SQL without structural holes is graded on its full text and on each variant, the worst grade wins, and it is at least *review* (each variant must be checked).
 
 **CLI:** `legacy-audit init`, `scan --config audit.yaml`, `report --type tech|mgmt|pptx|all`, `validate`, `diff`, `serve` (GUI), `purge-cache`. The same commands are what the Copilot agent runs in the terminal.
 
@@ -132,7 +142,7 @@ One normalized fact model feeds every output. JSON is the source of truth, CSV i
 | `components.json` | module/component | id, name, type (web, batch, CFT, script, report, library, DB), technology, files, LOC, entry points |
 | `services.csv/json` | service unit | id, name, kind (Struts action, Spring handler, servlet, EJB, SOAP op, COBOL program, batch job, C daemon), component, inputs/outputs, complexity, tables used, external calls |
 | `screens.csv/json` | screen | id, name, technology (JSP, JSF, BMS, form), action, fields count, component, complexity |
-| `sql_statements.csv/json` | SQL statement | id, file, line, type (SELECT/INSERT/…/PROC), tables, dialect, dynamic yes/no, PG grade auto/review/manual, reason |
+| `sql_statements.csv/json` | SQL statement | id, file, line, type (SELECT/INSERT/…/PROC/DYNAMIC), source, text, tables, dialect, dynamic yes/no, built_with, fragments, optional_fragments, value_holes, structural_holes, variants, PG grade auto/review/manual, reason |
 | `db_objects.json` | table / proc / view | name, referenced by, CRUD matrix |
 | `integrations.csv/json` | external endpoint | type (HTTP, SOAP, MQ, FTP, CFT, SMTP, socket, file share, DB link), target, direction, protocol, source file |
 | `dependencies.json` | code edge | from, to, kind (calls, includes, forwards, reads, writes, triggers) |
@@ -206,7 +216,7 @@ Published in every report and configurable.
 | --- | --- | --- |
 | Service | One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable | Utility libraries and copybooks are shared components, not services |
 | Screen | One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form | JSP fragments/tiles counted separately as "partials" |
-| DB query | One distinct SQL statement after normalizing whitespace and bind variables | Report total, distinct, by type, by PG grade; dynamic SQL flagged |
+| DB query | One distinct SQL statement after normalizing whitespace and bind variables; SQL built at run time counts once per execution site, rebuilt to its full text (fragments are not statements) | Report total, distinct, by type, by PG grade; dynamic SQL flagged with its holes and variants |
 | Stored procedure | One package/procedure/function | Counted separately; graded manual or review |
 | Integration | One unique (type, target, direction) | Same FTP host used by 10 scripts = 1 integration, 10 usages |
 | Batch job | One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job) | Steps listed under it; Autosys boxes are containers, not jobs |
@@ -356,10 +366,12 @@ Six phases, each ending with something usable on a real legacy app. Detailed pro
 
 1. **Foundations** – repo, config, schemas, source handling (local + optional git), inventory walker, LOC, language/encoding detection, CSV/JSON/SQLite export, CLI, run history and file-hash cache. *Exit:* inventory of a sample app, re-runnable.
 2. **Core analyzers** – Java + Struts/JSP + Spring, build files and dependency inventory, SQL with `sqlglot` PG grading, config, shell; then C/C++, Pro*C, COBOL/copybooks, JCL, Autosys JIL, IBM MQ, CFT. Linker and service/screen classification. *Exit:* correct counts on `samples/`, checked against expected-count files.
-3. **Rules, metrics and dependency security** – complexity, duplication, dead code, risk/PG/dependency rule packs, OWASP Dependency-Check and SBOM, effort model. *Exit:* findings, complexity bands, vulnerability and upgrade tables.
+3. **Rules, metrics and dependency security** – complexity, duplication, dead code, dynamic SQL reconstruction (Java, C, Pro*C, COBOL), risk/PG/dependency rule packs, OWASP Dependency-Check and SBOM, effort model. *Exit:* findings, complexity bands, rebuilt dynamic SQL with grades, vulnerability and upgrade tables.
 4. **Technical HTML report** – templates, catalogues, charts, Mermaid diagrams, evidence links. *Exit:* report usable by architects.
 5. **Copilot agent + enrichment + management outputs** – agent files and installer, enrichment schemas and validator, staleness, optional MCP server, management HTML deck and PPTX builder. *Exit:* full pipeline on one real application.
 6. **GUI + hardening** – FastAPI GUI, run comparison, performance on 1M+ LOC, packaging, user guide. *Exit:* analysts run audits without the tool's developers.
+
+Every phase ends with VS Code validation steps in `docs/validate-in-vscode.md` (tasks and debug configurations in `.vscode/`), so the team can check the result themselves.
 
 Pilot on one real application after phase 5, compare counts with a manual audit, tune rules, then roll out.
 
@@ -369,7 +381,7 @@ Pilot on one real application after phase 5, compare counts with a manual audit,
 | --- | --- |
 | COBOL / Pro*C dialects and copybooks the parser misses | Regex-based start with a coverage report of unparsed lines; ProLeap/Koopa later |
 | Missing source (binaries, generated code, vendor jars) | Inventory flags binaries and unresolved calls as an explicit gap |
-| Dynamic SQL and reflection hide queries and calls | Flag dynamic constructs; counts marked as "minimum" |
+| Dynamic SQL and reflection hide queries and calls | Rebuild SQL assembled in Java, C, Pro*C and COBOL (fragments, optional parts, holes, variants); what stays unknown is a hole or a `DYNAMIC` statement, graded manual; counts marked as "minimum" |
 | AI invents architecture or numbers | Scripts-count rule, evidence on every claim, schema validation, QA prompt |
 | Client code cannot leave the network | Scanner fully offline; only AI is the team's approved Copilot |
 | Copilot features change between versions | Thin agent assets; logic in Python and prompts; installer supports both layouts |

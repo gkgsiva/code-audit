@@ -1,0 +1,48 @@
+# End-of-life data for libraries and technologies.
+#
+# `libraries` entries match a library by `artifact` regex (full match), an optional `group`
+# regex (checked only when the library has a group: jars found on disk often have none) and a
+# version range (`versions`, see legacy_audit/security/versions.py: "<2", ">=3.0,<3.5", "*").
+# `technologies` entries match a tech-stack item by `name` (full match) and `versions`.
+# A library whose version is unknown is flagged only when the range is "*".
+#
+# Dates are the vendor's announced end of life (end of public support). A team pack in
+# `rules.packs_dir` can add entries; team entries are matched first.
+pack: eol
+description: End-of-life frameworks, libraries and runtimes.
+
+data:
+  libraries:
+    - {name: Struts 1, artifact: 'struts|struts-core', group: 'struts|org\.apache\.struts', versions: '<2', eol_date: '2013-04-05', replacement: 'Spring MVC (Spring Boot 4)'}
+    - {name: Struts 2 before 6, artifact: 'struts2-core', versions: '<6', eol_date: '2023-06-30', replacement: 'Spring MVC (Spring Boot 4)'}
+    - {name: Log4j 1, artifact: 'log4j', group: 'log4j', versions: '<2', eol_date: '2015-08-05', replacement: 'SLF4J + Logback (Spring Boot default)'}
+    - {name: Commons Collections 3, artifact: 'commons-collections', versions: '<4', eol_date: '2015-11-12', replacement: 'org.apache.commons:commons-collections4'}
+    - {name: Commons Lang 2, artifact: 'commons-lang', versions: '<3', eol_date: '2011-01-16', replacement: 'org.apache.commons:commons-lang3'}
+    - {name: Spring Boot before 3, artifact: 'spring-boot(-[a-z-]+)?', group: 'org\.springframework\.boot', versions: '<3', eol_date: '2023-11-24', replacement: 'Spring Boot 4'}
+    - {name: Spring Batch before 5, artifact: 'spring-batch-[a-z]+', group: 'org\.springframework\.batch', versions: '<5', eol_date: '2023-11-18', replacement: 'Spring Batch 6 (Spring Boot 4)'}
+    - {name: Spring Security before 6, artifact: 'spring-security-[a-z]+', group: 'org\.springframework\.security', versions: '<6', eol_date: '2024-02-28', replacement: 'Spring Security 7 (Spring Boot 4)'}
+    - {name: Spring Framework before 6, artifact: 'spring(-[a-z]+)*', group: 'org\.springframework', versions: '<6', eol_date: '2024-08-31', replacement: 'Spring Framework 7 (Spring Boot 4)'}
+    - {name: Hibernate before 6, artifact: 'hibernate(3|-core|-entitymanager)?', group: 'org\.hibernate', versions: '<6', eol_date: '2022-12-31', replacement: 'Hibernate ORM 7 (Spring Boot 4)'}
+    - {name: Apache Axis 1, artifact: 'axis', group: 'axis|org\.apache\.axis', versions: '*', eol_date: '2006-04-22', replacement: 'Spring Web Services or a REST client (RestClient)'}
+    - {name: iBATIS, artifact: 'ibatis(-sqlmap|2-sqlmap)?', versions: '*', eol_date: '2010-06-16', replacement: 'MyBatis 3 or Spring Data JPA'}
+    - {name: AngularJS, artifact: 'angular', versions: '<2', eol_date: '2021-12-31', replacement: 'Angular 21'}
+    - {name: jQuery before 3.5, artifact: 'jquery', versions: '<3.5', eol_date: '2020-04-10', replacement: 'Angular 21 (or jQuery 3.7+)'}
+    - {name: Oracle JDBC ojdbc14, artifact: 'ojdbc14', versions: '*', eol_date: '2013-07-31', replacement: 'org.postgresql:postgresql (target database)'}
+
+  technologies:
+    - {name: 'Struts 1', versions: '*', eol_date: '2013-04-05', replacement: 'Spring MVC (Spring Boot 4)'}
+    - {name: 'Log4j 1', versions: '*', eol_date: '2015-08-05', replacement: 'SLF4J + Logback'}
+    - {name: 'Apache Axis', versions: '*', eol_date: '2006-04-22', replacement: 'Spring Web Services or a REST client'}
+    - {name: 'iBATIS', versions: '*', eol_date: '2010-06-16', replacement: 'MyBatis 3 or Spring Data JPA'}
+    - {name: 'AngularJS', versions: '<2', eol_date: '2021-12-31', replacement: 'Angular 21'}
+    - {name: 'Spring Framework', versions: '<6', eol_date: '2024-08-31', replacement: 'Spring Framework 7 (Spring Boot 4)'}
+    - {name: 'Spring Boot', versions: '<3', eol_date: '2023-11-24', replacement: 'Spring Boot 4'}
+    - {name: 'Spring Batch', versions: '<5', eol_date: '2023-11-18', replacement: 'Spring Batch 6'}
+    - {name: 'Hibernate', versions: '<6', eol_date: '2022-12-31', replacement: 'Hibernate ORM 7'}
+    - {name: 'Servlet API', versions: '<3', eol_date: '2013-06-12', replacement: 'Jakarta Servlet 6.1'}
+    # Java: public updates ended on these dates; the target is Java 25.
+    - {name: 'Java', versions: '<1.6', eol_date: '2009-10-30', replacement: 'Java 25'}
+    - {name: 'Java', versions: '>=1.6,<1.7', eol_date: '2013-02-28', replacement: 'Java 25'}
+    - {name: 'Java', versions: '>=1.7,<1.8', eol_date: '2015-04-30', replacement: 'Java 25'}
+    - {name: 'Java', versions: '>=1.8,<9', eol_date: '2019-01-31', replacement: 'Java 25'}
+    - {name: 'Java', versions: '>=9,<11', eol_date: '2018-09-25', replacement: 'Java 25'}

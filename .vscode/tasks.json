@@ -1,0 +1,68 @@
+{
+  // Validate legacy-audit from VS Code: Terminal > Run Task... (see docs/validate-in-vscode.md).
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "sample",
+      "type": "pickString",
+      "description": "Sample application to scan",
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2"],
+      "default": "struts-oracle-app"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "audit: 1. set up (venv + install)",
+      "type": "shell",
+      "command": "python -m venv .venv && .venv/bin/python -m pip install -e \".[dev]\"",
+      "windows": {
+        "command": "python -m venv .venv; .venv\\Scripts\\python -m pip install -e \".[dev]\""
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 2. tests (pytest)",
+      "type": "shell",
+      "command": ".venv/bin/python -m pytest -q",
+      "windows": { "command": ".venv\\Scripts\\python -m pytest -q" },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 3. lint + type check",
+      "type": "shell",
+      "command": ".venv/bin/python -m ruff check . && .venv/bin/python -m ruff format --check . && .venv/bin/python -m mypy legacy_audit",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m ruff check .; .venv\\Scripts\\python -m ruff format --check .; .venv\\Scripts\\python -m mypy legacy_audit"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 4. scan a sample",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit scan -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit scan -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 5. scan all samples",
+      "type": "shell",
+      "command": "for s in struts-oracle-app spring-mvc-batch-app c-proc-batch cobol-cics-db2; do .venv/bin/python -m legacy_audit scan -c samples/$s/audit.yaml || exit 1; done",
+      "windows": {
+        "command": "foreach ($s in 'struts-oracle-app','spring-mvc-batch-app','c-proc-batch','cobol-cics-db2') { .venv\\Scripts\\python -m legacy_audit scan -c samples\\$s\\audit.yaml; if ($LASTEXITCODE) { exit 1 } }"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 6. show dynamic SQL of the latest run",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_sql.py samples/${input:sample} --dynamic",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_sql.py samples\\${input:sample} --dynamic"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -49,10 +49,13 @@ static int close_day(void)
     return 0;
 }
 
-static int purge_old(const char *table)
+static int purge_old(const char *table, int keep_failed)
 {
     /* Table name comes from the caller: dynamic SQL. */
     sprintf(dyn_sql, "DELETE FROM %s WHERE run_date < ADD_MONTHS(SYSDATE, -13)", table);
+    if (keep_failed) {
+        strcat(dyn_sql, " AND status <> 'FAILED'");
+    }
     EXEC SQL PREPARE purge_stmt FROM :dyn_sql;
     EXEC SQL EXECUTE purge_stmt;
     return 0;
@@ -64,7 +67,7 @@ int main(int argc, char **argv)
     EXEC SQL CONNECT :argv;
     load_lines();
     close_day();
-    purge_old("settlement_lines");
+    purge_old("settlement_lines", 1);
     EXEC SQL COMMIT WORK RELEASE;
     settle_log("settle_load done");
     return 0;

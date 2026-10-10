@@ -1,5 +1,6 @@
-"""Pro*C (``.pc``): ``EXEC SQL`` blocks become ``SqlStatement``s (source ``embedded``), then the
-blocks are blanked and the remaining C is handed to the C analyzer. Pro*COBOL is handled by the
+"""Pro*C (``.pc``): the ``EXEC SQL`` blocks are blanked and the C is handed to the C analyzer,
+then the blocks become ``SqlStatement``s (source ``embedded``); ``PREPARE ... FROM :buffer`` is
+rebuilt from the C that fills the buffer. Pro*COBOL is handled by the
 COBOL analyzer, which reads ``EXEC SQL ... END-EXEC`` itself."""
 
 from __future__ import annotations
@@ -8,14 +9,14 @@ from typing import ClassVar
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
-from legacy_audit.analyzers.c_cpp import analyze_c
-from legacy_audit.analyzers.embedded import blank_spans, extract
+from legacy_audit.analyzers.c_cpp import analyze_c, emit_c_sql
+from legacy_audit.analyzers.embedded import blank_spans, block_spans, extract
 from legacy_audit.model import FileRecord
 
 
 class ProcAnalyzer:
     name: ClassVar[str] = "proc"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "3"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language == "proc"
@@ -25,7 +26,10 @@ class ProcAnalyzer:
         text = ctx.text or ""
         path = file.path
         facts.coverage.lines = text.count("\n") + 1
-        res = extract(text, file=path, dialect=ctx.config.sql.dialect, cobol=False)
+        # The C part first, so PREPARE ... FROM :buffer can be rebuilt from the C that fills it.
+        csql = analyze_c(path, blank_spans(text, block_spans(text, cobol=False)), facts)
+        dialect = ctx.config.sql.dialect
+        res = extract(text, file=path, dialect=dialect, cobol=False, resolve=csql.value_at)
         if res.spans:
             facts.add("tech_stack", tech("Oracle Pro*C", None, "language", path, 1))
         for stmt in res.statements:
@@ -42,5 +46,5 @@ class ProcAnalyzer:
             )
         for start, end in res.unparsed:
             facts.coverage.gap(start, end, "embedded SQL not parsed")
-        analyze_c(path, blank_spans(text, res.spans), facts)
+        emit_c_sql(path, csql, facts, dialect)
         return facts

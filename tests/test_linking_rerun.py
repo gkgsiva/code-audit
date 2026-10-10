@@ -92,7 +92,7 @@ def test_run_json_has_analyzer_coverage(tmp_path: Path) -> None:
     write(app / "src" / "Bad.java", "public class Bad { void x( { }\n")
     write(app / "src" / "Good.java", "public class Good { void x() { } }\n")
     result = run_scan(load_config(app / "audit.yaml"))
-    run = json.loads((result.run_dir / "run.json").read_text())
+    run = json.loads((result.run_dir / "run.json").read_text(encoding="utf-8"))
     java = run["analyzers"]["java"]
     assert java["files"] == 2
     assert java["unparsed_lines"] >= 1
@@ -114,7 +114,7 @@ def test_analyzer_crash_is_a_finding_not_a_failure(
     write(app / "run.sh", "#!/bin/sh\necho hi\n")
     result = run_scan(load_config(app / "audit.yaml"))
     rules = [f.rule_id for f in result.facts["findings"]]  # type: ignore[attr-defined]
-    assert rules == ["analyzer-error"]
+    assert [r for r in rules if r == "analyzer-error"] == ["analyzer-error"]
     assert result.run.analyzers["shell"].coverage_pct == 0.0
 
 

@@ -98,6 +98,18 @@
       "title": "Message",
       "type": "string"
     },
+    "remediation": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Remediation"
+    },
     "rule_id": {
       "title": "Rule Id",
       "type": "string"

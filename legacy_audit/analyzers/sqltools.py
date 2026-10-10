@@ -140,7 +140,27 @@ def vendor_features(sql: str) -> list[str]:
     return [name for name, pat in VENDOR_FEATURES if pat.search(sql)]
 
 
-def _sqlglot_dialect(dialect: str | None) -> str | None:
+def prepare(sql: str, keep_binds: bool = False) -> str:
+    """Statement text sqlglot can parse: no comments, no cursor declaration or embedded
+    ``INTO :host`` list, DB2 isolation clauses dropped and special registers in standard form.
+    Bind variables become ``?`` unless ``keep_binds`` (then ``:WS-NAME`` becomes ``:WS_NAME``)."""
+    s = strip_comments(sql)
+    s = _CURSOR.sub("", s)
+    if keep_binds:
+        s = re.sub(
+            r"#\{\s*([A-Za-z_]\w*)[^}]*\}|#([A-Za-z_]\w*)#",
+            lambda m: ":" + (m.group(1) or m.group(2)),
+            s,
+        )
+        s = re.sub(r":([A-Za-z][\w-]*)", lambda m: ":" + m.group(1).replace("-", "_"), s)
+    else:
+        s = _BIND.sub("?", s)
+    s = _SELECT_INTO.sub(" ", s) if statement_type(s) == "SELECT" else s
+    s = _DB2_ISOLATION.sub("", s.strip().rstrip(";"))
+    return _DB2_SPECIAL_REGISTER.sub(lambda m: "CURRENT_" + m.group(1).upper(), s)
+
+
+def sqlglot_dialect(dialect: str | None) -> str | None:
     if dialect in (None, "db2", "generic", "sybase", "informix"):
         return None
     return {"sqlserver": "tsql", "postgresql": "postgres"}.get(dialect, dialect)
@@ -151,14 +171,9 @@ def parse_tables(sql: str, dialect: str | None) -> tuple[list[str], list[str], b
     m = _CALL.match(sql)
     if m:
         return [], [m.group(4).upper()], True
-    s = strip_comments(sql)
-    s = _CURSOR.sub("", s)
-    s = _BIND.sub("?", s)
-    s = _SELECT_INTO.sub(" ", s) if statement_type(s) == "SELECT" else s
-    s = _DB2_ISOLATION.sub("", s.strip().rstrip(";"))
-    s = _DB2_SPECIAL_REGISTER.sub(lambda m: "CURRENT_" + m.group(1).upper(), s)
+    s = prepare(sql)
     try:
-        tree = sqlglot.parse_one(s, read=_sqlglot_dialect(dialect))
+        tree = sqlglot.parse_one(s, read=sqlglot_dialect(dialect))
         if tree is None or isinstance(tree, exp.Command):
             raise ValueError("not parsed")
         ctes = {c.alias_or_name.upper() for c in tree.find_all(exp.CTE)}
@@ -166,14 +181,46 @@ def parse_tables(sql: str, dialect: str | None) -> tuple[list[str], list[str], b
             {
                 ".".join(p for p in (t.db, t.name) if p).upper()
                 for t in tree.find_all(exp.Table)
-                if t.name and t.name.upper() not in ctes
+                if t.name and t.name.upper() not in ctes and "?" not in t.name
             }
             - _NOT_TABLES
         )
         return tables, [], True
     except Exception:
-        tables = sorted({m.group(1).upper() for m in _REGEX_TABLES.finditer(s)} - _NOT_TABLES)
+        tables = sorted(
+            {m.group(1).upper() for m in _REGEX_TABLES.finditer(s) if "?" not in m.group(1)}
+            - _NOT_TABLES
+        )
         return tables, [], False
+
+
+# What comes just before a hole decides its kind: a value (bind-able) or part of the statement.
+_VALUE_BEFORE = re.compile(
+    r"(?:'|=|<>|!=|<|>|\s[-+/]|\bLIKE|\bBETWEEN|\bBETWEEN\s+\S+\s+AND|\bLIMIT|\bOFFSET|\bTOP)"
+    r"\s*$",
+    re.I,
+)
+_LIST_OPEN = re.compile(r"\b(?:IN|VALUES)\s*\($", re.I)
+
+
+def hole_kind(before: str) -> str:
+    """Kind of a run-time piece of SQL text, from the text just before it: ``value`` (after
+    ``=`` or an arithmetic operator, inside quotes, in ``IN (...)``/``VALUES (...)``) or
+    ``structural`` (a column, table or whole clause)."""
+    text = before.rstrip()
+    if text.count("'") % 2 == 1 or _VALUE_BEFORE.search(text):
+        return "value"
+    depth, i = 0, len(text) - 1
+    while i >= 0:  # inside an IN (...) / VALUES (...) list?
+        ch = text[i]
+        if ch == ")":
+            depth += 1
+        elif ch == "(":
+            if depth == 0:
+                return "value" if _LIST_OPEN.search(text[: i + 1]) else "structural"
+            depth -= 1
+        i -= 1
+    return "structural"
 
 
 def sql_fact(

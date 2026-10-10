@@ -2,21 +2,30 @@
 # audit-inputs has a CFT export (partner BANKFR, flows SETTLE and SETTACK) and a crontab; the
 # cron job purge_logs.sh is deliberately missing from the source -> 1 unresolved reference.
 # CFT flow SETTACK is defined in the export but no script receives it: kept as '*/SETTACK'.
+# purge_old() builds its DELETE with sprintf + a conditional strcat and PREPAREs it: rebuilt as
+# 'DELETE FROM ? ...' (table only known at run time -> manual, sql-runtime-structure).
 
 inventory:
   files: 8
   input_files: 2
-  loc: {code: 164, comment: 18, blank: 26}
+  loc: {code: 167, comment: 18, blank: 26}
   by_language:
     c: {files: 3, code: 63, comment: 7, blank: 9}
     make: {files: 1, code: 13, comment: 1, blank: 5}
-    proc: {files: 1, code: 59, comment: 5, blank: 7}
+    proc: {files: 1, code: 62, comment: 5, blank: 7}
     shell: {files: 2, code: 21, comment: 4, blank: 3}
     sql: {files: 1, code: 8, comment: 1, blank: 2}
   by_category: {build: 1, script: 2, source: 4, sql: 1}
 components:
 - {name: settlement, type: batch, files: 8, detected_by: build-file}
-coverage: {autosys: missing, mq: missing, cft: present, ddl: missing, crontab: present, server-config: missing}
+coverage:
+  autosys: missing
+  mq: missing
+  cft: present
+  ddl: missing
+  crontab: present
+  server-config: missing
+  security: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -32,10 +41,10 @@ counts:
   sql:
     total: 7
     distinct: 7
-    by_type: {CALL: 1, DYNAMIC: 1, INSERT: 1, SELECT: 3, UPDATE: 1}
+    by_type: {CALL: 1, DELETE: 1, INSERT: 1, SELECT: 3, UPDATE: 1}
     by_source: {embedded: 5, script: 1, sql-file: 1}
     dynamic: 1
-    not_parsed: 1
+    not_parsed: 0
   stored_procedures: 0
   db_objects: {table: 4}
   integrations:
@@ -47,8 +56,8 @@ counts:
     by_scheduler: {cron: 2}
   libraries: {total: 0, declared: 0, undeclared: 0}
   entry_points: {main: 2}
-  dependencies: {resolved: 9, unresolved: 1}
-  findings: {unresolved-reference: 1}
+  dependencies: {resolved: 10, unresolved: 1}
+  findings: {filesystem-path: 3, no-tests: 1, pg-manual-sql: 1, sql-runtime-structure: 1, unresolved-reference: 1}
 services:
 - 'batch-job: purge_logs.sh'
 - 'batch-job: run_settlement.ksh'
@@ -67,3 +76,21 @@ batch_jobs:
 - 'cron job: purge_logs.sh'
 - 'cron job: run_settlement.ksh'
 unresolved_references: 1
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {info: 1, low: 4, medium: 2}
+  pg_grades: {auto: 3, manual: 1, review: 3}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {}
+    batch_jobs: {Medium: 1, Simple: 1}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}

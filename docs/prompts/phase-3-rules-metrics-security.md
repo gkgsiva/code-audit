@@ -10,11 +10,23 @@ Goal: turn facts into judgements that deterministic code can make — complexity
 ## Rule engine
 
 - YAML rule packs in `rules/`: `risk-rules.yaml`, `pg-rules.yaml`, `dependency-upgrades.yaml`, `target-mapping.yaml`. A rule matches facts (by kind and field predicates or regex on evidence) and emits `Finding`s with severity, category, message, remediation, evidence. Rules can be disabled or re-weighted in config.
-- Starter risk rules: hard-coded IPs/hosts/credentials, `System.exit`, direct file-system paths, platform-specific calls, EBCDIC/packed-decimal handling, no tests, very high complexity, unresolved references, binaries without source, Security Manager / `sun.*` usage, XML external entity parsers without hardening, SQL built by string concatenation.
+- Starter risk rules: hard-coded IPs/hosts/credentials, `System.exit`, direct file-system paths, platform-specific calls, EBCDIC/packed-decimal handling, no tests, very high complexity, unresolved references, binaries without source, Security Manager / `sun.*` usage, XML external entity parsers without hardening, values concatenated into SQL text (`sql-concatenation`: value holes), SQL whose structure is only known at run time (`sql-runtime-structure`: structural holes).
+
+## Dynamic SQL reconstruction
+
+SQL built at run time must be rebuilt into the statement the code sends, in every language that builds it — not only literals at the call site. Follow the variable holding the text in source order up to the call that executes it:
+
+- **Java**: `+`/`+=`, `s = s + ...`, `StringBuilder`/`StringBuffer`/`StringJoiner` chains, `String.format`/`formatted`, `concat`, ternaries, constants (also used as a builder's start).
+- **C / C++**: `strcpy`/`strncpy`/`strlcpy`, `strcat`/`strncat`, `sprintf`/`snprintf` (writing at `buf + strlen(buf)` or formatting `"%s..."` from the buffer itself is an append; numeric conversions are values), `#define` and file-level strings, ternaries. Call sites: ODBC / DB2 CLI (`SQLExecDirect`, `SQLPrepare`), OCI (`OCIStmtPrepare[2]`), libpq, MySQL, SQLite. A buffer or constant that looks like SQL but reaches the database through a wrapper is still reported (source `c-string`).
+- **Pro*C**: the same C, consumed by `EXEC SQL PREPARE s FROM :buf` / `EXECUTE IMMEDIATE :buf`; `VARCHAR` host variables via `.arr`.
+- **COBOL / Pro*COBOL**: `VALUE` clauses (with continuation lines), `MOVE` (reference-modified target = append), `STRING ... DELIMITED BY ... INTO` (`WITH POINTER` or the target as first operand = append), `INITIALIZE`; DB2 varying-length host variables (level-49 length + text) are looked up through the text item; consumed by `PREPARE ... FROM :var` / `EXECUTE IMMEDIATE :var`. A variable filled in a paragraph further down the source uses its last value.
+- **MyBatis / iBATIS**: dynamic tags are optional fragments; `${}`/`$x$` substitutions are holes.
+
+Rules: code inside `if`/loops/`switch`/`catch` (COBOL `IF`/`EVALUATE`/inline `PERFORM`) is conditional, so what it adds is an optional fragment; a reassignment on some paths only keeps both texts. Unknown pieces become `?` and are classified by the text before them: **value** hole (after `=`, a comparison or arithmetic operator, inside quotes, in `IN (...)`/`VALUES (...)`) or **structural** hole (table, column, clause). `SqlStatement` records `dynamic`, `built_with`, `fragments`, `optional_fragments`, `value_holes`, `structural_holes`, up to 5 `variants` (whole alternative texts) and evidence for every fragment line. Fragments are not statements of their own; `?` is never a table. A host variable the code does not show being filled stays type `DYNAMIC` with one structural hole. Everything is deterministic code in the analyzers — no LLM.
 
 ## PostgreSQL grading
 
-For each `SqlStatement`: transpile with `sqlglot` from source dialect to PostgreSQL. Grade *auto* (clean transpile, no flagged constructs), *review* (vendor functions/syntax in `pg-rules.yaml`: `NVL`, `DECODE`, `ROWNUM`, `CONNECT BY`, `(+)`, `SYSDATE`, sequences `.NEXTVAL`, hints, `MERGE` differences, DB2 `FETCH FIRST`/special registers), *manual* (PL/SQL packages/procedures, dynamic SQL, unparseable). Store reasons and the suggested PostgreSQL text for *auto*/*review*.
+For each `SqlStatement`: transpile with `sqlglot` from source dialect to PostgreSQL. Grade *auto* (clean transpile, no flagged constructs), *review* (vendor functions/syntax in `pg-rules.yaml`: `NVL`, `DECODE`, `ROWNUM`, `CONNECT BY`, `(+)`, `SYSDATE`, sequences `.NEXTVAL`, hints, `MERGE` differences, DB2 `FETCH FIRST`/special registers), *manual* (PL/SQL packages/procedures, unparseable, type `DYNAMIC`, or any structural hole). Rebuilt dynamic SQL without structural holes is graded on its text and every variant, worst grade wins, at least *review*; the reason says how many fragments, optional parts, concatenated values and variants it was rebuilt from. Store reasons and the suggested PostgreSQL text for *auto*/*review*.
 
 ## Dependency security (OWASP)
 
@@ -39,3 +51,4 @@ Person-day weights per item type × complexity (and per PG grade, per upgrade ac
 - Removing Dependency-Check from PATH produces a coverage gap and no crash.
 - Changing a weight in `audit.yaml` changes bands/effort on re-run without re-analysing files.
 - SBOM validates against the CycloneDX schema (vendored).
+- SQL built at run time is rebuilt in Java, C/ODBC/OCI, Pro*C and COBOL with its fragments, optional parts, holes and variants (unit tests per language), and the samples' dynamic statements (Java `OrderDao.advancedSearch` and `InvoiceDao`, Pro*C `purge_old`, COBOL `ORDRPT`) are graded and flagged as `expected.yaml` says.

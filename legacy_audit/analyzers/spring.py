@@ -15,7 +15,7 @@ from typing import ClassVar
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import classify_url, integration
-from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
+from legacy_audit.analyzers.sqltools import hole_kind, looks_like_sql, sql_fact
 from legacy_audit.analyzers.textutil import attrs, child_text, line_of, ns_of, parse_xml, text_of
 from legacy_audit.model import BatchJob, Evidence, FileRecord, Service, make_id
 
@@ -104,7 +104,7 @@ def _short(cls: str) -> str:
 
 class SpringAnalyzer:
     name: ClassVar[str] = "spring"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language == "xml" and file.category in ("config", "source", "other")
@@ -616,7 +616,18 @@ class SpringAnalyzer:
                 or (kind == "ibatis" and re.search(r"\$\w+\$", raw) is not None)
             )
             sql = re.sub(r"#\{[^}]*\}|#[\w.]+(:\w+)?#", "?", raw)
-            sql = re.sub(r"\$\{[^}]*\}|\$[\w.]+\$", "?", sql)
+            holes = {"value": 0, "structural": 0}
+
+            def _subst(m: re.Match[str], text: str = sql, counts: dict[str, int] = holes) -> str:
+                counts[hole_kind(text[: m.start()])] += 1
+                return "?"
+
+            sql = re.sub(r"\$\{[^}]*\}|\$[\w.]+\$", _subst, sql)
+            optional = sum(
+                1
+                for c in el.iter()
+                if c.tag in ("if", "when", "otherwise", "foreach") or str(c.tag).startswith("is")
+            )
             fact = sql_fact(
                 file=path,
                 line=line_of(el) or 1,
@@ -626,6 +637,10 @@ class SpringAnalyzer:
                 dynamic=dynamic,
             )
             fact.evidence[0].snippet = f"{ns}.{attrs(el).get('id', '')}"
+            fact.value_holes, fact.structural_holes = holes["value"], holes["structural"]
+            fact.optional_fragments = optional
+            if optional:
+                fact.built_with = [f"{kind}-dynamic-tags"]
             facts.add("sql_statements", fact)
 
     def _hbm(self, path: str, root: ET.Element, facts: Facts, ctx: AnalyzerContext) -> None:

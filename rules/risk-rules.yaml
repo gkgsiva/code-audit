@@ -1,0 +1,206 @@
+# Risk rules: code and configuration patterns that make a migration harder or riskier.
+#
+# A rule has `match` (fact predicates, evaluated every run) or `pattern` (regex over source
+# text, evaluated per file and cached). See legacy_audit/rules/packs.py for the syntax.
+# Switch a rule off or change its severity in audit.yaml (rules.disabled / rules.severity);
+# a team folder (rules.packs_dir) can replace a rule by giving one with the same id.
+pack: risk
+description: Hard-coded configuration, platform dependencies, security smells, code quality.
+
+rules:
+  # ---- hard-coded configuration ------------------------------------------------------------
+  - id: hardcoded-ip
+    severity: medium
+    category: hard-coded-config
+    message: "Hard-coded IP address: {match}"
+    remediation: Move the address to configuration (Spring properties, Secret Manager) or use a DNS name.
+    pattern:
+      regex: '(?<![\w.])(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)(?![\w.])'
+      languages: [java, jsp, javascript, c, cpp, proc, cobol, procobol, shell, perl, python, batch, sql, plsql]
+      ignore: '^(?:127\.0\.0\.1|0\.0\.0\.0|255\.255\.255\.\d+)$'
+
+  - id: hardcoded-endpoint
+    severity: medium
+    category: hard-coded-config
+    message: "Hard-coded endpoint in code: {match}"
+    remediation: Read the endpoint from configuration so each environment can set it.
+    pattern:
+      regex: '"(?:(?:https?|ftp|sftp|ldaps?)://(?:[^"\s/@:]+:(?P<secret>[^@"\s/]+)@)?[^"\s]+|jdbc:[a-z0-9]+:(?:thin:)?(?:[\w.$]+/(?P<secret2>[^@"\s]+)@)?[^"\s]*)"'
+      languages: [java, jsp, javascript, c, cpp, proc]
+      ignore: 'java\.sun\.com|jakarta\.ee|xmlns\.jcp\.org|www\.w3\.org|springframework\.org/(?:schema|tags)|struts\.apache\.org|apache\.org/(?:dtds|struts)|localhost|127\.0\.0\.1|example\.(?:com|org)'
+
+  - id: hardcoded-credential
+    severity: high
+    category: security
+    message: "Credential in source code: {match}"
+    remediation: Remove the value from the code and read it from a secret store (Secret Manager); rotate it.
+    pattern:
+      regex: '(?i)\b[\w.]*(?:password|passwd|pwd|secret|api[_-]?key|token)\w*\s*[:=]\s*"(?P<secret>[^"\s$%{}]{3,})"'
+      languages: [java, jsp, javascript, c, cpp, proc]
+
+  - id: hardcoded-credential-script
+    severity: high
+    category: security
+    message: "Credential in a script: {match}"
+    remediation: Read the credential from a protected file or a secret store at run time; rotate it.
+    pattern:
+      regex: '(?i)(?:\b\w*(?:PASSWORD|PASSWD|PWD)\w*=["'']?(?P<secret>[^\s$''"`;]{3,})|\b(?:sqlplus|isql|db2)\s+(?:-\w+\s+)*[\w.]+/(?P<secret2>[^@\s$/]{3,})@)'
+      languages: [shell, perl, python, batch]
+
+  # ---- portability and platform ------------------------------------------------------------
+  - id: system-exit
+    severity: medium
+    category: portability
+    message: "Process exit from application code: {match}"
+    remediation: Let the container or batch framework end the process; return an exit status from the job instead.
+    pattern:
+      regex: '\bSystem\.exit\s*\(|\bRuntime\.getRuntime\(\)\.(?:exit|halt)\s*\('
+      languages: [java, jsp]
+
+  - id: filesystem-path
+    severity: low
+    category: portability
+    message: "Absolute file-system path in code: {match}"
+    remediation: Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume.
+    pattern:
+      regex: '"(?:/(?:data|opt|home|var|tmp|usr|export|apps?|u\d\d|mnt|nfs|logs?|batch|interfaces?)/[^"\s]*|[A-Za-z]:\\\\[^"]*)"'
+      languages: [java, jsp, c, cpp, proc]
+
+  - id: platform-process-java
+    severity: medium
+    category: portability
+    message: "Operating-system dependency in Java: {match}"
+    remediation: Replace shell-outs and native code with Java libraries or a separate job step.
+    pattern:
+      regex: '\bRuntime\.getRuntime\(\)\.exec\s*\(|\bnew\s+ProcessBuilder\s*\(|\bSystem\.load(?:Library)?\s*\(|\bnative\s+[\w<>\[\],\s]+\s+\w+\s*\('
+      languages: [java]
+
+  - id: platform-call-c
+    severity: low
+    category: portability
+    message: "Platform-specific system call: {match}"
+    remediation: Isolate or replace when the program is rewritten; check behaviour in containers.
+    pattern:
+      regex: '\b(?:fork|vfork|ioctl|shmget|shmat|semget|semop|msgget|msgsnd|msgrcv|dlopen|sigaction)\s*\('
+      languages: [c, cpp, proc]
+
+  - id: ebcdic-packed-decimal
+    severity: medium
+    category: data-conversion
+    message: "EBCDIC or packed-decimal data handling: {match}"
+    remediation: Plan the character-set and numeric conversion (COMP-3, zoned decimal) when data leaves the mainframe.
+    pattern:
+      regex: '(?i)(?<![\w-])(?:COMP-3|PACKED-DECIMAL|cp037|ibm-?037|cp500|ibm-?500|cp1047|ibm-?1047|ebcdic)(?![\w-])'
+      languages: [cobol, procobol, java, c, cpp, proc]
+
+  - id: ebcdic-file
+    severity: medium
+    category: data-conversion
+    message: "File is EBCDIC encoded ({encoding}): {path}"
+    remediation: Convert the file to UTF-8 as part of the migration and check every reader of it.
+    match:
+      entity: inventory
+      where:
+        encoding: {in: [cp037, cp500, cp1047, cp273, cp277, cp278, cp280, cp284, cp285, cp297]}
+
+  # ---- Java 25 compatibility and security ---------------------------------------------------
+  - id: jdk-internal-import
+    severity: high
+    category: java-compatibility
+    message: "JDK-internal API: {match}"
+    remediation: Replace with a supported API; internal packages are encapsulated since Java 17.
+    pattern:
+      regex: '^\s*import\s+(?:static\s+)?(?:sun\.|com\.sun\.(?!mail\.|net\.httpserver\.|xml\.bind\.|jersey\.|faces\.))[\w.*]+'
+      multiline: true
+      languages: [java, jsp]
+
+  - id: security-manager
+    severity: high
+    category: java-compatibility
+    message: "Security Manager use (removed in Java 24): {match}"
+    remediation: Remove the Security Manager code; enforce the policy with container and IAM controls.
+    pattern:
+      regex: '\bSystem\.(?:get|set)SecurityManager\s*\(|\bextends\s+SecurityManager\b|\bAccessController\.doPrivileged\s*\('
+      languages: [java]
+
+  - id: xxe-parser
+    severity: high
+    category: security
+    message: "XML parser created without external-entity hardening: {match}"
+    remediation: Disable DTDs and external entities (FEATURE_SECURE_PROCESSING, disallow-doctype-decl) on the factory.
+    pattern:
+      regex: '\b(?:DocumentBuilderFactory|SAXParserFactory|XMLInputFactory|TransformerFactory|SchemaFactory)\.newInstance\s*\('
+      languages: [java]
+      unless_file: 'setFeature\s*\(|XMLConstants\.(?:FEATURE_SECURE_PROCESSING|ACCESS_EXTERNAL)|IS_SUPPORTING_EXTERNAL_ENTITIES|setExpandEntityReferences\s*\(\s*false'
+
+  # Values concatenated into SQL text (a quoted value, the right side of a comparison, an IN list,
+  # MyBatis ${...}). SQL assembled from fixed fragments with ? binds is not flagged.
+  - id: sql-concatenation
+    severity: high
+    category: security
+    message: "Values concatenated into SQL text ({value_holes}x; {source}, {type}) in {file}"
+    remediation: Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.
+    match:
+      entity: sql_statements
+      where:
+        value_holes: {gt: 0}
+
+  - id: sql-runtime-structure
+    severity: medium
+    category: pg-compat
+    message: "Part of the SQL statement is only known at run time ({structural_holes}x; {source}) in {file}"
+    remediation: Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.
+    match:
+      entity: sql_statements
+      where:
+        structural_holes: {gt: 0}
+
+  # ---- code quality ------------------------------------------------------------------------
+  - id: high-complexity-unit
+    severity: medium
+    category: quality
+    message: "{kind} {name} has cyclomatic complexity {cyclomatic}"
+    remediation: Split the logic before or during the rewrite; cover it with tests first.
+    match:
+      entity: units
+      where:
+        complex: true
+
+  - id: very-complex-service
+    severity: medium
+    category: quality
+    message: "Service {name} is Very complex (score {complexity_score})"
+    remediation: Plan it as its own work item; consider splitting it in the target design.
+    match:
+      entity: services
+      where:
+        complexity: Very complex
+
+  - id: no-tests
+    severity: low
+    category: quality
+    message: "Component {component} has code but no test files"
+    remediation: Write characterisation tests before changing behaviour.
+    match:
+      entity: metrics
+      where:
+        units: {gt: 0}
+        test_files: 0
+
+  - id: dead-code-candidate
+    severity: info
+    category: dead-code
+    message: "Nothing reaches {file} from any service, screen, job, entry point or configuration"
+    remediation: Confirm with the team (reflection, external callers) and leave it out of the migration if unused.
+    match:
+      entity: dead_code
+
+  - id: binary-without-source
+    severity: medium
+    category: coverage
+    message: "Compiled file without matching source: {path}"
+    remediation: Find the source code or treat the component as a black box to rebuild.
+    match:
+      entity: binaries
+      where:
+        has_source: false

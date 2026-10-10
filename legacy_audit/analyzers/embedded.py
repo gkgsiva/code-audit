@@ -2,17 +2,20 @@
 
 Each block becomes a ``SqlStatement`` with source ``embedded``; cursor declarations count as the
 SELECT they declare; ``OPEN/FETCH/CLOSE``, ``WHENEVER``, ``CONNECT`` and transaction control are
-not statements. ``PREPARE``/``EXECUTE IMMEDIATE`` from a host variable are recorded as dynamic.
+not statements. ``PREPARE``/``EXECUTE IMMEDIATE`` from a host variable are rebuilt from the code
+that fills the variable when the caller can (see ``resolve``), else recorded as ``DYNAMIC``.
 Callers get the block spans back so they can blank them before parsing the host language.
 """
 
 from __future__ import annotations
 
 import re
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
+from legacy_audit.analyzers.dynsql import Built, fill
 from legacy_audit.analyzers.sql import embedded_dml
-from legacy_audit.analyzers.sqltools import sql_fact, statement_type
+from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact, statement_type
 from legacy_audit.analyzers.textutil import LineIndex
 from legacy_audit.model import SqlStatement
 
@@ -62,9 +65,17 @@ class EmbeddedResult:
     unparsed: list[tuple[int, int]] = field(default_factory=list)  # line ranges
 
 
-def extract(text: str, *, file: str, dialect: str | None, cobol: bool) -> EmbeddedResult:
+def extract(
+    text: str,
+    *,
+    file: str,
+    dialect: str | None,
+    cobol: bool,
+    resolve: Callable[[str, int], Built | None] | None = None,
+) -> EmbeddedResult:
     """EXEC SQL blocks of C (``;``) or COBOL (``END-EXEC``) text. COBOL callers pass the code
-    area only (see ``cobol.source_lines``), so sequence and identification columns are gone."""
+    area only (see ``cobol.source_lines``), so sequence and identification columns are gone.
+    ``resolve(":host-var", line)`` rebuilds the text a dynamic statement prepares."""
     res = EmbeddedResult()
     index = LineIndex(text)
     for m in (_COBOL_BLOCK if cobol else _C_BLOCK).finditer(text):
@@ -106,7 +117,19 @@ def extract(text: str, *, file: str, dialect: str | None, cobol: bool) -> Embedd
         dyn = _DYNAMIC.match(body)
         if dyn:
             arg = dyn.group(2).strip()
-            if arg.startswith(":"):
+            built = resolve(arg.split()[0], line) if resolve and arg.startswith(":") else None
+            if built is not None and looks_like_sql(built.text):
+                fact = sql_fact(
+                    file=file,
+                    line=line,
+                    text=built.text,
+                    source="embedded",
+                    dialect=dialect,
+                    dynamic=built.dynamic,
+                )
+                fact.built_with = ["prepare-from-variable"]
+                res.statements.append(fill(fact, built))
+            elif arg.startswith(":"):
                 fact = sql_fact(
                     file=file,
                     line=line,
@@ -115,7 +138,15 @@ def extract(text: str, *, file: str, dialect: str | None, cobol: bool) -> Embedd
                     dialect=dialect,
                     dynamic=True,
                 )
-                res.statements.append(fact.model_copy(update={"type": "DYNAMIC"}))
+                res.statements.append(
+                    fact.model_copy(
+                        update={
+                            "type": "DYNAMIC",
+                            "structural_holes": 1,
+                            "built_with": ["prepare-from-variable"],
+                        }
+                    )
+                )
             elif arg.startswith(("'", '"')):
                 res.statements.append(
                     sql_fact(
@@ -143,6 +174,11 @@ def extract(text: str, *, file: str, dialect: str | None, cobol: bool) -> Embedd
             res.unparsed.append((line, line + body.count("\n")))
         res.statements.append(fact)
     return res
+
+
+def block_spans(text: str, *, cobol: bool) -> list[tuple[int, int]]:
+    """Character spans of the ``EXEC SQL`` blocks (the same spans :func:`extract` returns)."""
+    return [m.span() for m in (_COBOL_BLOCK if cobol else _C_BLOCK).finditer(text)]
 
 
 def blank_spans(text: str, spans: list[tuple[int, int]]) -> str:

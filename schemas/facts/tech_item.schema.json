@@ -61,6 +61,18 @@
       "default": null,
       "title": "Eol"
     },
+    "eol_date": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Eol Date"
+    },
     "evidence": {
       "items": {
         "$ref": "#/$defs/Evidence"
@@ -75,6 +87,18 @@
     "name": {
       "title": "Name",
       "type": "string"
+    },
+    "replacement": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Replacement"
     },
     "usages": {
       "default": 1,

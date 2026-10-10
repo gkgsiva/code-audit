@@ -2,7 +2,7 @@
 
 Small, hand-written synthetic applications used to test every phase. Each folder has its own `audit.yaml`, optional `audit-inputs/`, and an `expected.yaml` with the exact counts the scanner must produce. Keep each under ~2,000 lines; they need to be realistic in structure, not in business logic.
 
-All four exist (phases 1–2). `tests/test_samples.py` scans each one and compares the result with its `expected.yaml`: inventory and components (phase 1), then headline counts, services, screens, integrations, batch jobs and unresolved references (phase 2). When an analyzer change moves a number, check the new value by hand before updating `expected.yaml`.
+All four exist (phases 1–2). `tests/test_samples.py` scans each one and compares the result with its `expected.yaml`: inventory and components (phase 1), then headline counts, services, screens, integrations, batch jobs and unresolved references (phase 2), then findings by rule and severity, PostgreSQL grades, complexity bands, vulnerable and end-of-life libraries and upgrade actions (phase 3, `assessment:`). When an analyzer change moves a number, check the new value by hand before updating `expected.yaml`.
 
 | Sample | Technologies | What it exercises |
 | --- | --- | --- |
@@ -12,6 +12,8 @@ All four exist (phases 1–2). `tests/test_samples.py` scans each one and compar
 | `cobol-cics-db2/` | COBOL programs + copybooks, CICS transactions + BMS maps, DB2 EXEC SQL, JCL jobs | COBOL/CICS screens and services, copybook resolution, JCL batch chains, DB2 grading |
 | `*/audit-inputs/` fixtures | Autosys JIL (boxes, CMD jobs, conditions s()/f()/d(), file watcher) and MQSC in `spring-mvc-batch-app`; CFT partner/flow export and crontab in `c-proc-batch`; Oracle DDL in `struts-oracle-app` | Late inputs and re-run behaviour (`tests/test_linking_rerun.py` adds the JIL after a first scan) |
 
+Dynamic SQL (built at run time) is in every language sample: `OrderDao.advancedSearch` (Java `StringBuffer` with conditional appends and a ternary) and `OrderDao` line 69 (a concatenated value) in `struts-oracle-app`; `InvoiceDao` (`ORDER BY` from a variable) and `PaymentMapper.xml` (MyBatis dynamic tags) in `spring-mvc-batch-app`; `purge_old` in `settle_load.pc` (`sprintf` table name + conditional `strcat`, then `PREPARE FROM :dyn_sql`) in `c-proc-batch`; `ORDRPT` `DETAIL-PARA` (`MOVE`/`STRING` with an optional region filter and a sort column, then `PREPARE FROM :WS-DYN-SQL`) in `cobol-cics-db2`.
+
 Some references are deliberately missing so unresolved-reference reporting is exercised: `layout.jsp` (struts-oracle-app), `archive_usage.sh` (spring-mvc-batch-app) and `purge_logs.sh` (c-proc-batch).
 
-Vulnerability results for tests come from recorded Dependency-Check / OSV JSON reports stored in `tests/fixtures/`, never from the network.
+Vulnerability results come from recorded reports in `audit-inputs/security/`: a Dependency-Check JSON report in `struts-oracle-app` (one entry matched by SHA-1, one with no vulnerabilities) and an OSV-Scanner JSON report in `spring-mvc-batch-app` (one package that is not in the inventory). The sample tests force both tools "not installed", so results never depend on the machine or the network.

@@ -90,6 +90,41 @@ public class OrderDao {
         }
     }
 
+    public List advancedSearch(String customer, String status, java.util.Date from,
+            boolean openOnly) throws SQLException {
+        // Criteria screen: the WHERE clause grows with the fields the user filled in.
+        StringBuffer sql = new StringBuffer("SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1");
+        List params = new ArrayList();
+        if (customer != null) {
+            sql.append(" AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?)");
+            params.add(customer + "%");
+        }
+        if (status != null) {
+            sql.append(" AND O.STATUS = ?");
+            params.add(status);
+        }
+        if (from != null) {
+            sql.append(" AND O.CREATED_AT >= ?");
+            params.add(from);
+        }
+        sql.append(openOnly ? " AND O.CLOSED_AT IS NULL" : " AND O.CREATED_AT > SYSDATE - 365");
+        Connection con = ConnectionFactory.getConnection();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql.toString());
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+            ResultSet rs = ps.executeQuery();
+            List ids = new ArrayList();
+            while (rs.next()) {
+                ids.add(new Long(rs.getLong(1)));
+            }
+            return ids;
+        } finally {
+            con.close();
+        }
+    }
+
     public List orderTree(long orderId) throws SQLException {
         Connection con = ConnectionFactory.getConnection();
         List ids = new ArrayList();

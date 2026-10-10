@@ -1,0 +1,105 @@
+{
+  "$defs": {
+    "EffortLine": {
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "title": "Component",
+          "type": "string"
+        },
+        "count": {
+          "title": "Count",
+          "type": "integer"
+        },
+        "high": {
+          "title": "High",
+          "type": "number"
+        },
+        "item": {
+          "description": "service, screen, batch_job, sql, stored_procedure, ...",
+          "title": "Item",
+          "type": "string"
+        },
+        "level": {
+          "description": "Band, PG grade or upgrade action the weight is for",
+          "title": "Level",
+          "type": "string"
+        },
+        "likely": {
+          "title": "Likely",
+          "type": "number"
+        },
+        "low": {
+          "title": "Low",
+          "type": "number"
+        }
+      },
+      "required": [
+        "component",
+        "item",
+        "level",
+        "count",
+        "low",
+        "likely",
+        "high"
+      ],
+      "title": "EffortLine",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/effort.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "``effort.json``: person-days from config weights. An estimate, labelled as such.",
+  "properties": {
+    "by_component": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "number"
+        },
+        "type": "object"
+      },
+      "title": "By Component",
+      "type": "object"
+    },
+    "high": {
+      "default": 0.0,
+      "title": "High",
+      "type": "number"
+    },
+    "label": {
+      "default": "estimate \u2014 weights from config",
+      "title": "Label",
+      "type": "string"
+    },
+    "likely": {
+      "default": 0.0,
+      "title": "Likely",
+      "type": "number"
+    },
+    "lines": {
+      "items": {
+        "$ref": "#/$defs/EffortLine"
+      },
+      "title": "Lines",
+      "type": "array"
+    },
+    "low": {
+      "default": 0.0,
+      "title": "Low",
+      "type": "number"
+    },
+    "unit": {
+      "default": "person-days",
+      "title": "Unit",
+      "type": "string"
+    },
+    "weights": {
+      "additionalProperties": true,
+      "title": "Weights",
+      "type": "object"
+    }
+  },
+  "title": "EffortEstimate",
+  "type": "object"
+}
