@@ -1,0 +1,80 @@
+{
+  "reportSchema": "1.1",
+  "scanInfo": {
+    "engineVersion": "12.1.0",
+    "dataSource": [
+      {"name": "NVD API Last Checked", "timestamp": "2026-09-30T06:00:00Z"},
+      {"name": "NVD API Last Modified", "timestamp": "2026-09-29T21:14:03Z"}
+    ]
+  },
+  "projectInfo": {"name": "orders-web", "reportDate": "2026-10-01T08:00:00Z"},
+  "dependencies": [
+    {
+      "fileName": "log4j-1.2.17.jar",
+      "filePath": "/build/orders-web/WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+      "sha1": "0000000000000000000000000000000000000001",
+      "packages": [{"id": "pkg:maven/log4j/log4j@1.2.17", "confidence": "HIGHEST"}],
+      "vulnerabilities": [
+        {"source": "NVD", "name": "CVE-2019-17571", "severity": "CRITICAL",
+         "cvssv3": {"baseScore": 9.8, "baseSeverity": "CRITICAL"},
+         "description": "Included in Log4j 1.2 is a SocketServer class that is vulnerable to deserialization of untrusted data.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:log4j:*:*:*:*:*:*:*:*", "versionStartIncluding": "1.2", "versionEndIncluding": "1.2.17"}}]},
+        {"source": "NVD", "name": "CVE-2022-23305", "severity": "CRITICAL",
+         "cvssv3": {"baseScore": 9.8, "baseSeverity": "CRITICAL"},
+         "description": "JDBCAppender in Log4j 1.2.x is vulnerable to SQL injection.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:log4j:*:*:*:*:*:*:*:*", "versionEndExcluding": "2.0"}}]},
+        {"source": "NVD", "name": "CVE-2021-4104", "severity": "HIGH",
+         "cvssv3": {"baseScore": 7.5, "baseSeverity": "HIGH"},
+         "description": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:log4j:1.2.17:*:*:*:*:*:*:*"}}]}
+      ]
+    },
+    {
+      "fileName": "commons-collections-3.2.1.jar",
+      "filePath": "/build/orders-web/WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+      "packages": [{"id": "pkg:maven/commons-collections/commons-collections@3.2.1", "confidence": "HIGH"}],
+      "vulnerabilities": [
+        {"source": "NVD", "name": "CVE-2015-7501", "severity": "CRITICAL",
+         "cvssv3": {"baseScore": 9.8, "baseSeverity": "CRITICAL"},
+         "description": "Deserialization of untrusted data with InvokerTransformer.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:commons_collections:*:*:*:*:*:*:*:*", "versionEndExcluding": "3.2.2"}}]}
+      ]
+    },
+    {
+      "fileName": "axis.jar",
+      "filePath": "/build/lib/axis.jar",
+      "sha1": "5b4ff5e75bd75ed8f8e2becab121b4530e450b41",
+      "packages": [],
+      "vulnerabilities": [
+        {"source": "NVD", "name": "CVE-2019-0227", "severity": "HIGH",
+         "cvssv3": {"baseScore": 7.5, "baseSeverity": "HIGH"},
+         "description": "Server-side request forgery in Apache Axis 1.4.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:axis:1.4:*:*:*:*:*:*:*"}}]},
+        {"source": "NVD", "name": "CVE-2018-8032", "severity": "MEDIUM",
+         "cvssv3": {"baseScore": 6.1, "baseSeverity": "MEDIUM"},
+         "description": "Cross-site scripting in the default servlet of Apache Axis 1.x.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:axis:*:*:*:*:*:*:*:*", "versionEndIncluding": "1.4"}}]}
+      ]
+    },
+    {
+      "fileName": "struts-1.2.9.jar",
+      "filePath": "/build/orders-web/WebContent/WEB-INF/lib/struts-1.2.9.jar",
+      "packages": [{"id": "pkg:maven/struts/struts@1.2.9", "confidence": "HIGH"}],
+      "vulnerabilities": [
+        {"source": "NVD", "name": "CVE-2016-1182", "severity": "HIGH",
+         "cvssv3": {"baseScore": 8.2, "baseSeverity": "HIGH"},
+         "description": "ActionServlet.java in Apache Struts 1 does not properly restrict the Validator configuration.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:struts:*:*:*:*:*:*:*:*", "versionEndIncluding": "1.3.10"}}]},
+        {"source": "NVD", "name": "CVE-2014-0114", "severity": "HIGH",
+         "cvssv2": {"score": 7.5, "severity": "HIGH"},
+         "description": "Apache Commons BeanUtils as used in Struts 1 allows ClassLoader manipulation.",
+         "vulnerableSoftware": [{"software": {"id": "cpe:2.3:a:apache:struts:*:*:*:*:*:*:*:*", "versionEndIncluding": "1.3.10"}}]}
+      ]
+    },
+    {
+      "fileName": "ojdbc14.jar",
+      "filePath": "/build/orders-web/WebContent/WEB-INF/lib/ojdbc14.jar",
+      "packages": []
+    }
+  ]
+}

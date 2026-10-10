@@ -1,0 +1,62 @@
+# PostgreSQL readiness. Every SQL statement is transpiled with sqlglot from its source dialect
+# to PostgreSQL and graded:
+#   auto   - transpiles cleanly and uses none of the constructs below
+#   review - transpiles, but uses a construct below with grade "review" (reason recorded)
+#   manual - dynamic SQL, not parseable, does not transpile, or a construct with grade "manual"
+# Packages, procedures, functions and triggers are graded manual.
+#
+# `constructs` are matched (case-insensitive) on the statement text with comments removed. The
+# suggested PostgreSQL text is kept only when sqlglot converted every construct found (one still
+# present in its output means "not converted"), unless the construct is `valid_in_pg`.
+# A team pack can add constructs or change a grade by giving an entry with the same id.
+pack: postgresql
+description: Vendor-specific SQL that needs attention when moving to PostgreSQL.
+
+data:
+  constructs:
+    # ---- Oracle ---------------------------------------------------------------------------
+    - {id: nvl, regex: '\bNVL\s*\(', grade: review, reason: "NVL → COALESCE"}
+    - {id: nvl2, regex: '\bNVL2\s*\(', grade: review, reason: "NVL2 → CASE"}
+    - {id: decode, regex: '\bDECODE\s*\(', grade: review, reason: "DECODE → CASE"}
+    - {id: rownum, regex: '\bROWNUM\b', grade: review, reason: "ROWNUM → LIMIT / ROW_NUMBER()"}
+    - {id: rowid, regex: '\bROWID\b', grade: review, reason: "ROWID has no PostgreSQL equivalent (ctid is not stable)"}
+    - {id: connect-by, regex: '\bCONNECT\s+BY\b|\bSTART\s+WITH\b', grade: review, reason: "hierarchical query → WITH RECURSIVE"}
+    - {id: outer-join-plus, regex: '\(\s*\+\s*\)', grade: review, reason: "Oracle (+) outer join → ANSI LEFT/RIGHT JOIN"}
+    - {id: sysdate, regex: '\b(?:SYSDATE|SYSTIMESTAMP)\b', grade: review, reason: "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)"}
+    - {id: sequence, regex: '\.\s*(?:NEXTVAL|CURRVAL)\b', grade: review, reason: "seq.NEXTVAL → nextval('seq')"}
+    - {id: hint, regex: '/\*\+', grade: review, reason: "optimizer hint dropped; check the plan"}
+    - {id: dual, regex: '\bFROM\s+(?:SYS\.)?DUAL\b', grade: review, reason: "FROM DUAL removed"}
+    - {id: minus, regex: '\bMINUS\b', grade: review, reason: "MINUS → EXCEPT"}
+    - {id: listagg, regex: '\bLISTAGG\s*\(', grade: review, reason: "LISTAGG → string_agg"}
+    - {id: trunc-date, regex: '\bTRUNC\s*\(\s*(?:SYSDATE|[\w.]*DATE|[\w.]*_DT)\b', grade: review, reason: "TRUNC(date) → date_trunc"}
+    - {id: merge, regex: '^\s*MERGE\s+INTO\b', grade: review, reason: "MERGE semantics differ (PostgreSQL 15+) or use INSERT ... ON CONFLICT"}
+    - {id: oracle-package-api, regex: '\b(?:DBMS_\w+|UTL_\w+)\.', grade: manual, reason: "Oracle supplied package (DBMS_/UTL_)"}
+    # ---- DB2 ------------------------------------------------------------------------------
+    - {id: fetch-first, regex: '\bFETCH\s+FIRST\s+\d*\s*ROWS?\s+ONLY\b', grade: review, reason: "FETCH FIRST: check row-limit and ordering semantics", valid_in_pg: true}
+    - {id: special-register, regex: '\bCURRENT\s+(?:DATE|TIME|TIMESTAMP|SERVER|SQLID|SCHEMA|USER)\b', grade: review, reason: "DB2 special register → CURRENT_DATE / CURRENT_TIMESTAMP / current_user"}
+    - {id: isolation-clause, regex: '\bWITH\s+(?:UR|CS|RS|RR)\s*;?\s*$', grade: review, reason: "DB2 isolation clause (WITH UR/CS/RS/RR) dropped"}
+    - {id: for-fetch-only, regex: '\bFOR\s+(?:FETCH|READ)\s+ONLY\b', grade: review, reason: "FOR FETCH ONLY dropped"}
+    # ---- embedded and procedural SQL ------------------------------------------------------
+    - {id: host-variables-into, regex: '\bINTO\s*:\s*[A-Za-z]', grade: review, reason: "INTO :host variables become JDBC result mapping"}
+    - {id: procedure-call, regex: '^\s*(?:\{\s*\??\s*=?\s*)?CALL\b|^\s*EXEC(?:UTE)?\s+\w', grade: review, reason: "calls a stored procedure; converted together with it", valid_in_pg: true}
+
+rules:
+  - id: pg-manual-sql
+    severity: medium
+    category: pg-compat
+    message: "Manual PostgreSQL conversion ({occurrences}x): {type} at {file}:{line} — {reason}"
+    remediation: Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.
+    match:
+      entity: sql_distinct
+      where:
+        pg_grade: manual
+
+  - id: pg-manual-object
+    severity: medium
+    category: pg-compat
+    message: "Stored {object_type} {name} needs manual conversion ({reason})"
+    remediation: Move the logic into the Java service layer or rewrite it in PL/pgSQL.
+    match:
+      entity: db_objects
+      where:
+        pg_grade: manual

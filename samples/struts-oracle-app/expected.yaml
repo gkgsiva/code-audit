@@ -7,12 +7,12 @@
 
 inventory:
   files: 35              # source files; WebContent/images/logo.gif is skipped (binary)
-  input_files: 1         # audit-inputs/ddl/orders_schema.sql
-  loc: {code: 554, comment: 39, blank: 92}
+  input_files: 2         # ddl/orders_schema.sql, security/dependency-check-report.json
+  loc: {code: 587, comment: 40, blank: 93}
   by_language:
     archive:    {files: 5,  code: 0,   comment: 0,  blank: 0}
     css:        {files: 1,  code: 6,   comment: 2,  blank: 1}
-    java:       {files: 11, code: 289, comment: 16, blank: 67}
+    java:       {files: 11, code: 322, comment: 17, blank: 68}
     jsp:        {files: 6,  code: 86,  comment: 4,  blank: 0}
     plsql:      {files: 2,  code: 25,  comment: 2,  blank: 3}
     properties: {files: 3,  code: 17,  comment: 3,  blank: 1}
@@ -41,6 +41,9 @@ coverage:
   ddl: present
   crontab: missing
   server-config: missing
+  security: present
+  dependency-check: present
+  osv-scanner: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -54,11 +57,11 @@ counts:
     partials: 2
     by_technology: {jsp: 4}
   sql:
-    total: 13
-    distinct: 12
-    by_type: {CALL: 2, SELECT: 9, UPDATE: 2}
-    by_source: {jdbc: 6, plsql: 3, script: 1, sql-file: 3}
-    dynamic: 1
+    total: 14
+    distinct: 13
+    by_type: {CALL: 2, SELECT: 10, UPDATE: 2}
+    by_source: {jdbc: 7, plsql: 3, script: 1, sql-file: 3}
+    dynamic: 2
     not_parsed: 0
   stored_procedures: 1
   db_objects: {package: 1, table: 4}
@@ -71,8 +74,8 @@ counts:
     by_scheduler: {}
   libraries: {total: 5, declared: 0, undeclared: 5}
   entry_points: {}
-  dependencies: {resolved: 36, unresolved: 1}
-  findings: {config-credential: 1, unresolved-reference: 1}
+  dependencies: {resolved: 37, unresolved: 1}
+  findings: {config-credential: 1, dead-code-candidate: 1, eol-library: 5, eol-technology: 4, hardcoded-endpoint: 3, pg-manual-object: 1, sql-concatenation: 1, unresolved-reference: 1, vulnerable-library: 4}
 services:
 - 'servlet: health'
 - 'struts-action: /login'
@@ -92,3 +95,21 @@ integrations:
 - SOAP http://pricing.acme.local:8080/axis/services/PricingService [outbound]
 batch_jobs: []
 unresolved_references: 1
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {critical: 2, high: 4, info: 2, medium: 13}
+  pg_grades: {auto: 4, review: 10}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {Simple: 4}
+    batch_jobs: {}
+  vulnerable_libraries:
+    total: 4
+    by_severity: {critical: 2, high: 2}
+    vulnerabilities: 8
+  eol_libraries: 5
+  recommendations: {replace: 5}

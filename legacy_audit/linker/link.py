@@ -338,6 +338,7 @@ class _Linker:
 
         self.ix = _build_index(self.records, self.symbols, services)
         self._link_refs()
+        self._hql_entities(sql)
         edges = list(self.edges.values())
 
         incoming: dict[str, list[CodeEdge]] = defaultdict(list)
@@ -482,6 +483,26 @@ class _Linker:
                     continue
             out.append(svc)
         return out
+
+    def _hql_entities(self, sql: list[SqlStatement]) -> None:
+        """An HQL/JPQL query uses the entity classes it names (no import needed for that)."""
+        for st in sql:
+            if st.dialect != "hql" or st.file not in self.by_path:
+                continue
+            for t in st.tables:
+                s = self._symbol("jpa-entity", t.rsplit(".", 1)[-1], st.file)
+                if s is None or s.file == st.file or s.file not in self.by_path:
+                    continue
+                ref = Ref(
+                    kind="uses",
+                    source=f"file:{st.file}",
+                    source_label=st.file,
+                    target=s.name,
+                    target_kinds=["jpa-entity"],
+                    file=st.file,
+                    line=st.line,
+                )
+                self._edge(self.by_path[st.file].id, self.by_path[s.file].id, "uses", ref)
 
     def _retarget_pruned(
         self, before: list[Service], after: list[Service], edges: list[CodeEdge]

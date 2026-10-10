@@ -31,6 +31,7 @@ INPUT_KINDS: dict[str, str] = {
     "ddl": "Database DDL",
     "crontab": "Crontab entries",
     "server-config": "Server configuration",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON)",
 }
 
 # Defaults from docs/plan.md § Counting rules. Every report prints these.
@@ -142,24 +143,167 @@ class Target(Strict):
     cloud: str = "gcp"
 
 
+DEFAULT_COMPLEXITY_WEIGHTS: dict[str, float] = {
+    "loc": 1.0,
+    "cyclomatic": 2.0,
+    "tables": 1.5,
+    "integrations": 2.0,
+    "vendor_sql": 1.5,
+    "fan_out": 1.0,
+    "fields": 0.2,
+}
+DEFAULT_COMPLEXITY_SCALE: dict[str, float] = {"loc": 100.0, "cyclomatic": 10.0}
+DEFAULT_COMPLEXITY_THRESHOLDS: dict[str, float] = {
+    "medium": 10.0,
+    "complex": 25.0,
+    "very_complex": 50.0,
+}
+
+# Person-days (low, likely, high) per item and level. Labelled as an estimate everywhere.
+DEFAULT_EFFORT: dict[str, dict[str, list[float]]] = {
+    "service": {
+        "simple": [1, 2, 3],
+        "medium": [2, 4, 6],
+        "complex": [5, 8, 12],
+        "very_complex": [10, 15, 25],
+    },
+    "screen": {
+        "simple": [0.5, 1, 2],
+        "medium": [1, 2, 3],
+        "complex": [2, 4, 6],
+        "very_complex": [4, 7, 10],
+    },
+    "batch_job": {
+        "simple": [1, 2, 3],
+        "medium": [2, 3, 5],
+        "complex": [4, 6, 9],
+        "very_complex": [8, 12, 18],
+    },
+    "sql": {"auto": [0, 0.05, 0.1], "review": [0.25, 0.5, 1], "manual": [1, 2, 3]},
+    "stored_procedure": {"review": [1, 2, 4], "manual": [2, 4, 8]},
+    "integration": {"each": [2, 4, 8]},
+    "library": {
+        "keep": [0, 0, 0],
+        "use-bom": [0, 0.1, 0.25],
+        "upgrade": [0.25, 0.5, 1],
+        "migrate-jakarta": [0.5, 1, 2],
+        "remove": [0.5, 1, 2],
+        "replace": [3, 5, 10],
+        "rewrite": [10, 20, 40],
+    },
+}
+
+
 class ComplexityConfig(Strict):
     weights: dict[str, float] = Field(
-        default_factory=lambda: {
-            "loc": 1.0,
-            "cyclomatic": 2.0,
-            "tables": 1.5,
-            "integrations": 2.0,
-            "vendor_sql": 1.5,
-            "fan_out": 1.0,
-        }
+        default_factory=lambda: dict(DEFAULT_COMPLEXITY_WEIGHTS),
+        description="Score = sum of weight x (feature / scale); missing keys keep defaults",
+    )
+    scale: dict[str, float] = Field(
+        default_factory=lambda: dict(DEFAULT_COMPLEXITY_SCALE),
+        description="Divisor per feature before weighting (default 1)",
     )
     thresholds: dict[str, float] = Field(
-        default_factory=lambda: {"medium": 10.0, "complex": 25.0, "very_complex": 50.0}
+        default_factory=lambda: dict(DEFAULT_COMPLEXITY_THRESHOLDS),
+        description="Lowest score of each band above Simple",
     )
+    high_unit: int = Field(
+        20, description="Cyclomatic complexity from which a function is reported as too complex"
+    )
+
+    @field_validator("weights")
+    @classmethod
+    def _weights(cls, v: dict[str, float]) -> dict[str, float]:
+        return {**DEFAULT_COMPLEXITY_WEIGHTS, **v}
+
+    @field_validator("scale")
+    @classmethod
+    def _scale(cls, v: dict[str, float]) -> dict[str, float]:
+        return {**DEFAULT_COMPLEXITY_SCALE, **v}
+
+    @field_validator("thresholds")
+    @classmethod
+    def _thresholds(cls, v: dict[str, float]) -> dict[str, float]:
+        return {**DEFAULT_COMPLEXITY_THRESHOLDS, **v}
+
+
+class MetricsConfig(Strict):
+    duplication_tokens: int = Field(
+        50, ge=10, description="Tokens in a duplicated window (smaller finds more clones)"
+    )
+
+
+class EffortConfig(Strict):
+    enabled: bool = True
+    weights: dict[str, dict[str, list[float]]] = Field(
+        default_factory=lambda: {k: dict(v) for k, v in DEFAULT_EFFORT.items()},
+        description="Person-days [low, likely, high] per item and level; merged with defaults",
+    )
+
+    @field_validator("weights")
+    @classmethod
+    def _weights(cls, v: dict[str, dict[str, list[float]]]) -> dict[str, dict[str, list[float]]]:
+        merged = {k: dict(d) for k, d in DEFAULT_EFFORT.items()}
+        for item, levels in v.items():
+            merged.setdefault(item, {}).update(levels)
+        for item, levels in merged.items():
+            for level, triple in levels.items():
+                if len(triple) != 3 or not triple[0] <= triple[1] <= triple[2]:
+                    raise ValueError(
+                        f"effort.weights.{item}.{level} must be [low, likely, high], ascending"
+                    )
+        return merged
 
 
 class RulesConfig(Strict):
-    enabled: list[str] = Field(default_factory=lambda: ["risk", "postgresql", "dependency"])
+    enabled: list[str] = Field(
+        default_factory=lambda: ["risk", "postgresql", "dependency"],
+        description="Rule packs to apply: risk, postgresql, dependency",
+    )
+    disabled: list[str] = Field(default_factory=list, description="Rule ids to switch off")
+    severity: dict[str, str] = Field(
+        default_factory=dict, description="Rule id -> severity (info/low/medium/high/critical)"
+    )
+    packs_dir: str | None = Field(
+        None, description="Folder with team rule packs; a rule with the same id replaces ours"
+    )
+
+    @field_validator("severity")
+    @classmethod
+    def _severity(cls, v: dict[str, str]) -> dict[str, str]:
+        allowed = ("info", "low", "medium", "high", "critical")
+        for rule, sev in v.items():
+            if sev not in allowed:
+                raise ValueError(f"rules.severity.{rule}: {sev!r} is not one of {allowed}")
+        return v
+
+
+class DependencyCheckConfig(Strict):
+    enabled: bool = True
+    path: str | None = Field(None, description="dependency-check script; found on PATH when empty")
+    data_dir: str | None = Field(None, description="Local NVD database folder (--data)")
+    nvd_mirror_url: str | None = Field(None, description="Team NVD mirror, used when syncing")
+    offline: bool = Field(True, description="Never update the database during a scan")
+    timeout_minutes: int = 30
+
+
+class OsvScannerConfig(Strict):
+    enabled: bool = True
+    path: str | None = Field(None, description="osv-scanner binary; found on PATH when empty")
+    data_dir: str | None = Field(None, description="Local OSV database folder")
+    offline: bool = True
+    timeout_minutes: int = 15
+
+
+class JdkToolsConfig(Strict):
+    enabled: bool = Field(False, description="Run jdeps/jdeprscan on jars (slow; opt-in)")
+    java_home: str | None = Field(None, description="JDK holding jdeps/jdeprscan; else PATH")
+
+
+class SecurityConfig(Strict):
+    dependency_check: DependencyCheckConfig = Field(default_factory=DependencyCheckConfig)
+    osv_scanner: OsvScannerConfig = Field(default_factory=OsvScannerConfig)
+    jdk_tools: JdkToolsConfig = Field(default_factory=JdkToolsConfig)
 
 
 class Branding(Strict):
@@ -221,6 +365,9 @@ class AuditConfig(Strict):
     inventory: InventoryConfig = Field(default_factory=InventoryConfig)
     sql: SqlConfig = Field(default_factory=SqlConfig)
     cobol: CobolConfig = Field(default_factory=CobolConfig)
+    metrics: MetricsConfig = Field(default_factory=MetricsConfig)
+    effort: EffortConfig = Field(default_factory=EffortConfig)
+    security: SecurityConfig = Field(default_factory=SecurityConfig)
 
     @model_validator(mode="before")
     @classmethod

@@ -54,7 +54,20 @@
         }
       ],
       "default": null,
+      "description": "Simple, Medium, Complex or Very complex",
       "title": "Complexity"
+    },
+    "complexity_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Score"
     },
     "component": {
       "anyOf": [
@@ -81,6 +94,18 @@
       },
       "title": "External Calls",
       "type": "array"
+    },
+    "fan_in": {
+      "default": 0,
+      "description": "Resolved edges into the service",
+      "title": "Fan In",
+      "type": "integer"
+    },
+    "fan_out": {
+      "default": 0,
+      "description": "Resolved edges out of the service and its own file",
+      "title": "Fan Out",
+      "type": "integer"
     },
     "file": {
       "anyOf": [

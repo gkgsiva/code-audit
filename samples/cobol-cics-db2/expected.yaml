@@ -1,14 +1,16 @@
 # Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
 # ORDVAL (LINKed from ORDINQ) and DATECONV (CALLed by ORDBATCH) are sub-programs, so they
 # are not counted as services. ORDRPT runs through the catalogued procedure ORDRPTP.
+# ORDRPT DETAIL-PARA builds a SELECT with MOVE/STRING (optional region filter, sort column from
+# input) and PREPAREs it: rebuilt with 1 value hole and 1 structural hole -> manual.
 
 inventory:
   files: 11
   input_files: 0
-  loc: {code: 204, comment: 29, blank: 3}
+  loc: {code: 227, comment: 30, blank: 3}
   by_language:
     bms: {files: 1, code: 14, comment: 1, blank: 0}
-    cobol: {files: 7, code: 148, comment: 21, blank: 0}
+    cobol: {files: 7, code: 171, comment: 22, blank: 0}
     jcl: {files: 2, code: 24, comment: 6, blank: 0}
     sql: {files: 1, code: 18, comment: 1, blank: 3}
   by_category: {job: 2, screen: 1, source: 7, sql: 1}
@@ -19,7 +21,14 @@ components:
 - {name: ddl, type: db, files: 1, detected_by: folder}
 - {name: jcl, type: batch, files: 1, detected_by: folder}
 - {name: proclib, type: batch, files: 1, detected_by: folder}
-coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing}
+coverage:
+  autosys: missing
+  mq: missing
+  cft: missing
+  ddl: missing
+  crontab: missing
+  server-config: missing
+  security: missing
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -33,11 +42,11 @@ counts:
     partials: 0
     by_technology: {BMS: 2}
   sql:
-    total: 5
-    distinct: 5
-    by_type: {SELECT: 4, UPDATE: 1}
-    by_source: {embedded: 5}
-    dynamic: 0
+    total: 6
+    distinct: 6
+    by_type: {SELECT: 5, UPDATE: 1}
+    by_source: {embedded: 6}
+    dynamic: 1
     not_parsed: 0
   stored_procedures: 0
   db_objects: {table: 3, view: 1}
@@ -51,7 +60,7 @@ counts:
   libraries: {total: 0, declared: 0, undeclared: 0}
   entry_points: {}
   dependencies: {resolved: 11, unresolved: 0}
-  findings: {}
+  findings: {ebcdic-packed-decimal: 2, no-tests: 1, pg-manual-sql: 1, sql-concatenation: 1, sql-runtime-structure: 1}
 services:
 - 'batch-job: ORDNIGHT'
 - 'cics-transaction: ORDI'
@@ -67,3 +76,21 @@ integrations:
 batch_jobs:
 - 'jcl job: ORDNIGHT'
 unresolved_references: 0
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {high: 1, low: 1, medium: 4}
+  pg_grades: {auto: 1, manual: 1, review: 4}
+  complexity:
+    services: {Medium: 3, Simple: 1}
+    screens: {Simple: 2}
+    batch_jobs: {Medium: 1}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}

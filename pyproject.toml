@@ -29,6 +29,7 @@ dev = [
     "ruff>=0.5",
     "mypy>=1.10",
     "types-PyYAML",
+    "jsonschema>=4.21",
 ]
 
 [project.scripts]
@@ -39,6 +40,10 @@ path = "legacy_audit/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["legacy_audit"]
+
+# Rule packs ship inside the package (legacy_audit/_rules) so an installed tool finds them.
+[tool.hatch.build.targets.wheel.force-include]
+"rules" = "legacy_audit/_rules"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

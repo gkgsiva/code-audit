@@ -51,4 +51,4 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 - Before coding a phase, restate its acceptance criteria and list the files you will create.
 - Commit in small, working steps with clear messages; keep `main` green (tests pass).
 - When the spec is ambiguous, pick the simplest option consistent with the rules above, record it in `docs/decisions.md`, and carry on; ask only for decisions that are expensive to reverse.
-- At the end of a phase: run the full test suite, run the CLI on every sample app, update `docs/progress.md` (done, known gaps, next step), and summarise for the user.
+- At the end of a phase: run the full test suite, run the CLI on every sample app, update `docs/progress.md` (done, known gaps, next step), add the phase's section to `docs/validate-in-vscode.md`, and summarise for the user, including how to validate the phase from VS Code.

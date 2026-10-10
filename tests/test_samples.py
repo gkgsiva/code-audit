@@ -8,6 +8,7 @@ import yaml
 
 from legacy_audit.config import load_config
 from legacy_audit.scan import run_scan
+from legacy_audit.security import vulns
 from legacy_audit.store.counts import counts
 from tests.conftest import SAMPLES
 
@@ -15,10 +16,13 @@ SAMPLE_DIRS = sorted(p.parent for p in SAMPLES.glob("*/expected.yaml"))
 
 
 @pytest.mark.parametrize("sample", SAMPLE_DIRS, ids=[p.name for p in SAMPLE_DIRS])
-def test_sample_counts(sample: Path, tmp_path: Path):
+def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
+    # Vulnerabilities come only from the fixture reports, whatever is installed here.
+    monkeypatch.setattr(vulns, "find_tool", lambda configured, names: None)
     expected = yaml.safe_load((sample / "expected.yaml").read_text(encoding="utf-8"))
     result = run_scan(load_config(sample / "audit.yaml"), output_dir=tmp_path / "out")
-    summary = json.loads((result.run_dir / "data" / "audit-summary.json").read_text())
+    summary_path = result.run_dir / "data" / "audit-summary.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
 
     inv = expected["inventory"]
     totals = summary["totals"]
@@ -51,7 +55,7 @@ def test_sample_counts(sample: Path, tmp_path: Path):
     # Phase 2: headline counts and the named services, screens, integrations and jobs.
     facts = result.facts
     assert summary["counts"] == counts(facts)
-    assert counts(facts) == expected["counts"]
+    assert counts(facts) == {**expected["counts"], **expected["assessment"]}
     assert sorted(f"{s.kind}: {s.name}" for s in facts["services"]) == expected["services"]  # type: ignore[attr-defined]
     assert (
         sorted(s.name + (" (partial)" if s.partial else "") for s in facts["screens"])  # type: ignore[attr-defined]
@@ -67,7 +71,7 @@ def test_sample_counts(sample: Path, tmp_path: Path):
     )
     assert result.run.unresolved_references == expected["unresolved_references"]
     # Every analyzer that ran reports its coverage.
-    run_json = json.loads((result.run_dir / "run.json").read_text())
+    run_json = json.loads((result.run_dir / "run.json").read_text(encoding="utf-8"))
     assert run_json["analyzers"]
     for cov in run_json["analyzers"].values():
         assert cov["files"] > 0 and 0 <= cov["coverage_pct"] <= 100

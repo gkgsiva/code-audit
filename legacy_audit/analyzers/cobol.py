@@ -2,7 +2,8 @@
 
 Programs: ``PROGRAM-ID`` (a ``cobol-program`` service, or a ``cics-transaction`` service when
 the program runs under CICS), paragraphs, ``CALL`` (literal or a variable with a ``VALUE``),
-``COPY``, ``EXEC SQL`` (dialect ``cobol.sql_dialect``), ``EXEC CICS`` (``SEND/RECEIVE MAP`` to
+``COPY``, ``EXEC SQL`` (dialect ``cobol.sql_dialect``; dynamic SQL rebuilt by
+:mod:`legacy_audit.analyzers.cobol_sql`), ``EXEC CICS`` (``SEND/RECEIVE MAP`` to
 BMS maps, ``LINK/XCTL``, ``START/RETURN TRANSID``, file commands), file ``SELECT ... ASSIGN``
 and IBM MQ (MQI) calls. A program that is only ever CALLed is not counted as a service; the
 linker removes it once every file is known.
@@ -17,6 +18,7 @@ from typing import ClassVar
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
+from legacy_audit.analyzers.cobol_sql import CobolSql
 from legacy_audit.analyzers.embedded import extract
 from legacy_audit.analyzers.integrations import integration
 from legacy_audit.analyzers.textutil import stem
@@ -84,7 +86,7 @@ def source_lines(text: str) -> list[str]:
 
 class CobolAnalyzer:
     name: ClassVar[str] = "cobol"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "3"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in ("cobol", "procobol", "bms")
@@ -114,9 +116,19 @@ class CobolAnalyzer:
         program = program_m.group(1).upper() if program_m else stem(path).upper()
         prog_line = code.count("\n", 0, program_m.start()) + 1 if program_m else 1
 
-        # Embedded SQL, from the code area only (one line per source line, so lines match).
+        # Blank EXEC blocks in the code view so their words are not read as COBOL.
+        code_wo_exec = re.sub(
+            r"\bEXEC\s+(SQL|CICS|DLI)\b[\s\S]*?\bEND-EXEC\b",
+            lambda m: re.sub(r"[^\n]", " ", m.group(0)),
+            code,
+            flags=re.I,
+        )
+        # Embedded SQL, from the code area only (one line per source line, so lines match);
+        # PREPARE ... FROM :var is rebuilt from the MOVE/STRING statements that fill the var.
         dialect = ctx.config.cobol.sql_dialect
-        res = extract(code, file=path, dialect=dialect, cobol=True)
+        built = CobolSql()
+        built.run(code_wo_exec.split("\n"))
+        res = extract(code, file=path, dialect=dialect, cobol=True, resolve=built.value_at)
         if res.statements:
             facts.add(
                 "tech_stack",
@@ -142,13 +154,6 @@ class CobolAnalyzer:
             )
         for start, end in res.unparsed:
             facts.coverage.gap(start, end, "embedded SQL not parsed")
-        # Blank EXEC blocks in the code view so their words are not read as COBOL.
-        code_wo_exec = re.sub(
-            r"\bEXEC\s+(SQL|CICS|DLI)\b[\s\S]*?\bEND-EXEC\b",
-            lambda m: re.sub(r"[^\n]", " ", m.group(0)),
-            code,
-            flags=re.I,
-        )
 
         values: dict[str, str] = {}
         for text_line in lines:

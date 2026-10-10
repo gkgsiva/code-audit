@@ -1,6 +1,7 @@
 """C and C++ sources (tree-sitter-c / tree-sitter-cpp): functions, ``main()`` (a ``c-executable``
 service named after the file), includes, called functions, ``system()``/``exec*``/``popen``
-commands, file I/O, sockets and IBM MQ MQI calls.
+commands, file I/O, sockets, IBM MQ MQI calls and SQL (database client API calls and SQL text
+built in buffers, see :mod:`legacy_audit.analyzers.c_sql`).
 
 The Pro*C analyzer blanks ``EXEC SQL`` blocks and calls :func:`analyze_c` on the rest.
 """
@@ -16,8 +17,11 @@ from tree_sitter import Language, Node, Parser
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
+from legacy_audit.analyzers.c_sql import CSql
 from legacy_audit.analyzers.cft import cftutil_integration
+from legacy_audit.analyzers.dynsql import fill
 from legacy_audit.analyzers.integrations import integration
+from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
 from legacy_audit.analyzers.textutil import basename, stem
 from legacy_audit.model import EntryPoint, Evidence, FileRecord, Service, make_id
 
@@ -156,6 +160,9 @@ LIBC = {
 SYSTEM_HEADERS = re.compile(r"^(std|sys/|netinet/|arpa/|linux/|bits/|c\+\+|win|cmq)", re.I)
 
 
+_SCRIPT_COMMAND = re.compile(r"^\s*[\w./$-]+\.(?:k?sh|bash|csh|pl|py)(?:\s|$)")
+
+
 def _str(node: Node | None) -> str | None:
     """Literal value of a string or concatenated string; None if not a literal."""
     if node is None:
@@ -275,6 +282,14 @@ class _Walker:
                     ),
                 )
         elif name in ("strcpy", "strncpy", "memcpy", "sprintf", "snprintf") and len(args) >= 2:
+            # A command line built with sprintf and run later: "<script> %s" formats.
+            fmt = (
+                _str(args[2 if name == "snprintf" else 1])
+                if len(args) > 2 or name == "sprintf"
+                else None
+            )
+            if fmt and _SCRIPT_COMMAND.match(fmt):
+                self._command(fmt, line)
             dest = _txt(args[0])
             src = _str(args[1]) if name not in ("sprintf", "snprintf") else None
             if src and dest.endswith("ObjectName"):
@@ -440,7 +455,8 @@ def _gaps(root: Node, facts: Facts, label: str) -> None:
 _PARSERS: dict[str, Parser] = {}
 
 
-def analyze_c(path: str, text: str, facts: Facts, cpp: bool = False) -> None:
+def analyze_c(path: str, text: str, facts: Facts, cpp: bool = False) -> CSql:
+    """Facts of one C/C++ text; returns the rebuilt SQL buffers for :func:`emit_c_sql`."""
     key = "cpp" if cpp else "c"
     parser = _PARSERS.get(key)
     if parser is None:
@@ -451,11 +467,34 @@ def analyze_c(path: str, text: str, facts: Facts, cpp: bool = False) -> None:
     walker = _Walker(path, facts)
     walker.run(tree.root_node)
     walker.finish()
+    csql = CSql()
+    csql.run(tree.root_node)
+    return csql
+
+
+def emit_c_sql(path: str, csql: CSql, facts: Facts, dialect: str | None) -> None:
+    """SQL statements at database API call sites, then SQL-looking buffers and constants that
+    reach the database some other way (a wrapper function)."""
+    for line, fn, source, built, raw in csql.calls:
+        if built is not None and looks_like_sql(built.text):
+            fact = sql_fact(file=path, line=line, text=built.text, source=source,
+                            dialect=dialect, dynamic=built.dynamic)  # fmt: skip
+            facts.add("sql_statements", fill(fact, built))
+        else:  # the text comes from somewhere this file does not show
+            fact = sql_fact(file=path, line=line, text=f"{fn}({raw})", source=source,
+                            dialect=dialect, dynamic=True)  # fmt: skip
+            fact.type, fact.structural_holes, fact.built_with = "DYNAMIC", 1, ["variable"]
+            facts.add("sql_statements", fact)
+    for built in sorted(csql.leftovers(), key=lambda b: b.line):
+        if looks_like_sql(built.text, strict=True):
+            fact = sql_fact(file=path, line=built.line, text=built.text, source="c-string",
+                            dialect=dialect, dynamic=built.dynamic)  # fmt: skip
+            facts.add("sql_statements", fill(fact, built))
 
 
 class CAnalyzer:
     name: ClassVar[str] = "c_cpp"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "3"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in ("c", "cpp")
@@ -467,5 +506,6 @@ class CAnalyzer:
         cpp = file.language == "cpp" or bool(
             file.path.endswith(".h") and re.search(r"^\s*(class|namespace|template)\b", text, re.M)
         )
-        analyze_c(file.path, text, facts, cpp=cpp)
+        csql = analyze_c(file.path, text, facts, cpp=cpp)
+        emit_c_sql(file.path, csql, facts, ctx.config.sql.dialect)
         return facts

@@ -38,6 +38,15 @@
       ],
       "title": "Evidence",
       "type": "object"
+    },
+    "PgGrade": {
+      "enum": [
+        "auto",
+        "review",
+        "manual"
+      ],
+      "title": "PgGrade",
+      "type": "string"
     }
   },
   "$id": "legacy-audit/facts/db_object.schema.json",
@@ -95,6 +104,30 @@
       "description": "table, view, sequence, index, synonym, package, procedure, function, trigger, type",
       "title": "Object Type",
       "type": "string"
+    },
+    "pg_grade": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PgGrade"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Set for packages, procedures, ..."
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason"
     },
     "referenced_by": {
       "items": {

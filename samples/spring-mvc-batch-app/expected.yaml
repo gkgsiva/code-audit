@@ -6,7 +6,7 @@
 
 inventory:
   files: 28
-  input_files: 2
+  input_files: 3
   loc: {code: 580, comment: 10, blank: 97}
   by_language:
     java: {files: 11, code: 221, comment: 7, blank: 69}
@@ -20,7 +20,16 @@ components:
 - {name: billing-batch, type: batch, files: 5, detected_by: build-file}
 - {name: billing-common, type: library, files: 7, detected_by: build-file}
 - {name: billing-web, type: web, files: 15, detected_by: build-file}
-coverage: {autosys: present, mq: present, cft: missing, ddl: missing, crontab: missing, server-config: missing}
+coverage:
+  autosys: present
+  mq: present
+  cft: missing
+  ddl: missing
+  crontab: missing
+  server-config: missing
+  security: present
+  dependency-check: missing
+  osv-scanner: present
 
 # ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
 # Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
@@ -51,8 +60,8 @@ counts:
     by_scheduler: {autosys: 3, spring-batch: 1}
   libraries: {total: 10, declared: 10, undeclared: 0}
   entry_points: {message-listener: 1}
-  dependencies: {resolved: 22, unresolved: 1}
-  findings: {unresolved-reference: 1}
+  dependencies: {resolved: 24, unresolved: 1}
+  findings: {eol-library: 7, eol-technology: 6, no-tests: 3, pg-manual-sql: 1, sql-runtime-structure: 1, unresolved-reference: 1, vulnerable-library: 3}
 services:
 - 'batch-job: BIL_ARCHIVE'
 - 'batch-job: BIL_INVOICE'
@@ -85,3 +94,21 @@ batch_jobs:
 - 'autosys job: BIL_INVOICE'
 - 'spring-batch job: invoiceJob'
 unresolved_references: 1
+
+# ---- phase 3: PostgreSQL grades, complexity bands, findings, dependency security ----
+# Vulnerabilities come from the fixture reports in audit-inputs/security/ (no network); the
+# tests run with Dependency-Check and OSV-Scanner forced "not installed".
+
+assessment:
+  findings_by_severity: {critical: 1, high: 2, info: 1, low: 3, medium: 15}
+  pg_grades: {auto: 4, manual: 1, review: 7}
+  complexity:
+    services: {Medium: 5, Simple: 3}
+    screens: {Simple: 4}
+    batch_jobs: {Medium: 2, Simple: 1}
+  vulnerable_libraries:
+    total: 3
+    by_severity: {critical: 1, high: 2}
+    vulnerabilities: 3
+  eol_libraries: 7
+  recommendations: {keep: 1, migrate-jakarta: 1, replace: 1, upgrade: 1, use-bom: 6}
