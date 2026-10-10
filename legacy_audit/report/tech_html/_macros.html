@@ -1,0 +1,41 @@
+{% macro chart(c) -%}
+<div class="panel">
+  <h3>{{ c.title }}</h3>
+  {% if c["values"] %}
+  <div class="chart-box{% if c["labels"]|length > 8 %} tall{% endif %}"><canvas data-chart="chart-{{ c.id }}" role="img" aria-label="{{ c.title }}"></canvas></div>
+  <script type="application/json" id="chart-{{ c.id }}">{{ c.spec|tojson }}</script>
+  <details class="as-table"><summary>Show as table</summary>
+    <table class="data"><thead><tr><th>{{ c.category }}</th><th class="num">{{ c.label }}</th></tr></thead>
+    <tbody>{% for l in c["labels"] %}<tr><td>{{ l }}</td><td class="num">{{ c["values"][loop.index0] }}</td></tr>{% endfor %}</tbody></table>
+  </details>
+  {% else %}<p class="muted">Nothing to show.</p>{% endif %}
+  {% if c.note %}<p class="note">{{ c.note }}</p>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro tile(t) -%}
+<div class="tile" data-kpi="{{ t.key }}" data-value="{{ t.value }}">
+  <div class="value">{{ t.display }}</div>
+  <div class="label">{{ t.label }}</div>
+  {% if t.sub %}<div class="sub">{{ t.sub }}</div>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro diagram(d) -%}
+<div class="panel">
+  <h3>{{ d.title }}</h3>
+  {% if d.nodes %}<div class="diagram"><pre class="mermaid">{{ d.source }}</pre></div>{% endif %}
+  {% if d.note %}<p class="note">{{ d.note }}</p>{% endif %}
+  <details class="as-table"><summary>Diagram source (Mermaid)</summary><pre class="block">{{ d.source }}</pre></details>
+</div>
+{%- endmacro %}
+
+{% macro ev(link) -%}
+{% if link.href %}<a href="{% if not link.abs %}{{ base }}{% endif %}{{ link.href }}"><code>{{ link.text }}</code></a>{% else %}<code>{{ link.text }}</code>{% endif %}{% if link.vscode %} <a href="{{ link.vscode }}" title="Open in VS Code">VS Code</a>{% endif %}
+{%- endmacro %}
+
+{% macro catalogue(name, col=None, value=None) -%}
+<div class="catalogue" data-catalogue="{{ name }}"{% if col %} data-filter-col="{{ col }}" data-filter-value="{{ value }}"{% endif %}>
+  <noscript><p class="muted">This table needs JavaScript; the same rows are in <code>data/{{ name }}.js</code> and the run's CSV files.</p></noscript>
+</div>
+{%- endmacro %}

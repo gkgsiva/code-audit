@@ -21,6 +21,7 @@ dependencies = [
     "tree-sitter-java>=0.23",
     "tree-sitter-c>=0.23",
     "tree-sitter-cpp>=0.23",
+    "Jinja2>=3.1",
 ]
 
 [project.optional-dependencies]

@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% for cat in catalogues %}
+{% if not loop.first %}<h2>{{ cat.title }}</h2>{% endif %}
+<p class="lead">{{ cat.intro }}</p>
+{{ m.catalogue(cat.name) }}
+{% endfor %}
+{% endblock %}

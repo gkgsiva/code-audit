@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">What was scanned and what it contains. Counting rules are in the <a href="{{ base }}appendix.html">appendix</a>; every tile links to its catalogue.</p>
+<div class="tiles">
+{% for t in tiles %}{% if t.href %}<a href="{{ base }}{{ t.href }}" style="text-decoration:none;color:inherit">{{ m.tile(t) }}</a>{% else %}{{ m.tile(t) }}{% endif %}
+{% endfor %}
+</div>
+
+<div class="grid2" style="margin-top:16px">
+  {{ m.chart(loc_chart) }}
+  <div class="panel">
+    <h3>Technology stack</h3>
+    <table class="data">
+      <thead><tr><th>Technology</th><th>Version</th><th>Category</th><th>End of life</th></tr></thead>
+      <tbody>
+      {% for t in tech_stack %}<tr><td>{{ t.name }}</td><td><code>{{ t.version or "" }}</code></td><td>{{ t.category }}</td>
+        <td>{% if t.eol %}<span class="chip critical">end of life{% if t.eol_date %} {{ t.eol_date }}{% endif %}</span>{% if t.replacement %} → {{ t.replacement }}{% endif %}{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Components</h2>
+<div class="table-wrap">
+<table class="data">
+  <thead><tr><th>Component</th><th>Type</th><th class="num">Files</th><th class="num">Code lines</th><th>Complexity</th><th class="num">Duplication %</th><th class="num">Test ratio</th><th class="num">Dead-code candidates</th></tr></thead>
+  <tbody>
+  {% for c in components %}<tr>
+    <td><a href="{{ base }}components/{{ c.slug }}.html">{{ c.name }}</a></td><td>{{ c.type }}</td>
+    <td class="num">{{ c.files }}</td><td class="num">{{ c.loc_code }}</td>
+    <td>{% if c.complexity %}<span class="chip {{ c.complexity|lower|replace(' ', '-') }}">{{ c.complexity }}</span>{% endif %}</td>
+    <td class="num">{{ c.duplication_pct if c.duplication_pct is not none else "" }}</td>
+    <td class="num">{{ c.test_ratio if c.test_ratio is not none else "" }}</td>
+    <td class="num">{{ c.dead_code_candidates if c.dead_code_candidates is not none else "" }}</td>
+  </tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% if effort %}
+<h2>Effort</h2>
+<p>{{ effort.low }} – {{ effort.high }} {{ effort.unit }}, most likely {{ effort.likely }} <span class="muted">({{ effort.label }}; weights per item and complexity in the run configuration).</span></p>
+{% endif %}
+
+<h2>Largest files</h2>
+<div class="table-wrap"><table class="data">
+  <thead><tr><th>File</th><th>Language</th><th class="num">Code lines</th></tr></thead>
+  <tbody>{% for f in largest_files %}<tr><td>{{ m.ev(f.link) }}</td><td>{{ f.language }}</td><td class="num">{{ f.loc_code }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}
