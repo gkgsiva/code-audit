@@ -1,0 +1,6 @@
+# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.
+application:
+  name: "Orders (Struts/Oracle sample)"
+source:
+  type: local
+  paths: ["orders-web"]

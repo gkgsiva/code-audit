@@ -1,0 +1,43 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# Phase 1 covers the inventory; phase 2 adds services, screens, SQL, integrations and libraries.
+#
+# LOC was checked by hand on deploy.ksh (10/3/3), order_queries.sql (10/3/3),
+# LoginAction.java (27/4/7) and web.xml (34/1/5). Known approximation: Java inside JSP
+# scriptlets is counted as JSP code, so `// ...` inside <% %> is code, not comment.
+
+inventory:
+  files: 35              # source files; WebContent/images/logo.gif is skipped (binary)
+  input_files: 1         # audit-inputs/ddl/orders_schema.sql
+  loc: {code: 554, comment: 39, blank: 92}
+  by_language:
+    archive:    {files: 5,  code: 0,   comment: 0,  blank: 0}
+    css:        {files: 1,  code: 6,   comment: 2,  blank: 1}
+    java:       {files: 11, code: 289, comment: 16, blank: 67}
+    jsp:        {files: 6,  code: 86,  comment: 4,  blank: 0}
+    plsql:      {files: 2,  code: 25,  comment: 2,  blank: 3}
+    properties: {files: 3,  code: 17,  comment: 3,  blank: 1}
+    shell:      {files: 1,  code: 10,  comment: 3,  blank: 3}
+    sql:        {files: 1,  code: 10,  comment: 3,  blank: 3}
+    text:       {files: 1,  code: 0,   comment: 4,  blank: 1}
+    xml:        {files: 4,  code: 111, comment: 2,  blank: 13}
+  by_category:
+    binary: 5
+    build: 1
+    config: 6
+    doc: 1
+    screen: 6
+    script: 1
+    source: 11
+    sql: 3
+    test: 1
+
+components:
+  - {name: orders-web, type: web, files: 35, detected_by: build-file}
+
+coverage:
+  autosys: missing
+  mq: missing
+  cft: missing
+  ddl: present
+  crontab: missing
+  server-config: missing
