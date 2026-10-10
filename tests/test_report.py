@@ -138,8 +138,11 @@ def test_overview_kpis_equal_the_summary(sample: str, tmp_path: Path) -> None:
         assert str(_summary_value(summary, key)) == value, key
 
 
-def test_evidence_links_reach_the_source(tmp_path: Path) -> None:
-    _, index = _scan_and_report(SAMPLES / "struts-oracle-app", tmp_path / "out")
+def test_evidence_links_reach_the_source(sample_copy) -> None:  # type: ignore[no-untyped-def]
+    # source and report on one drive (on Windows CI the checkout and temp dir are on different
+    # drives, where links are file:// URIs instead; see the cross-drive test below)
+    app_dir = sample_copy("struts-oracle-app")
+    _, index = _scan_and_report(app_dir, app_dir / "audit-output")
     root = index.parent
     js = (root / "data" / "sql.js").read_text(encoding="utf-8")
     payload = json.loads(js.split("=", 2)[2].rstrip(";\n"))
@@ -163,6 +166,21 @@ def test_large_catalogue_stays_out_of_the_page(tmp_path: Path) -> None:
     assert js.count('"SELECT a') == 20_000
     js_text = (index.parent / "assets" / "report.js").read_text(encoding="utf-8")
     assert "PAGE_SIZE" in js_text
+
+
+def test_cross_drive_evidence_is_an_absolute_uri(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def other_drive(*args, **kwargs):  # type: ignore[no-untyped-def]
+        raise ValueError("path is on mount 'D:', start on mount 'C:'")
+
+    run_dir, index = _scan_and_report(SAMPLES / "struts-oracle-app", tmp_path / "out")
+    rd = RunData.load(run_dir)
+    file, line = rd.first_evidence(rd.items("sql_statements")[0])
+    monkeypatch.setattr(os.path, "relpath", other_drive)
+    ev = rd.evidence_links(index.parent, file, line)
+    assert ev["abs"] and ev["href"].startswith("file:///")
+    assert ev["vscode"].startswith("vscode://file/")
 
 
 def test_rerun_keeps_older_reports(sample_copy) -> None:  # type: ignore[no-untyped-def]
