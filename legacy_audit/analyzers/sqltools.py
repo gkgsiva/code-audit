@@ -79,8 +79,20 @@ _REGEX_TABLES = re.compile(
 _NOT_TABLES = {"SELECT", "DUAL", "SET", "VALUES", "WHERE", "TABLE", "LATERAL", "UNNEST", "THE"}
 
 
-def looks_like_sql(text: str) -> bool:
-    return bool(_SQL_SHAPE.match(text))
+# Free-standing strings ("Select a customer from the list") must also carry SQL syntax.
+_SQL_SYNTAX = re.compile(r"[*,=?()<>]|\b(WHERE|JOIN|GROUP\s+BY|ORDER\s+BY|UNION)\b", re.I)
+_UPPER_SELECT = re.compile(r"^\s*\(?\s*SELECT\b[\s\S]+?\bFROM\b")
+
+
+def looks_like_sql(text: str, *, strict: bool = False) -> bool:
+    """Statement shape; ``strict`` (strings with no SQL call site) also wants upper-case
+    SELECT/FROM or SQL punctuation, so UI captions are not counted."""
+    m = _SQL_SHAPE.match(text)
+    if not m:
+        return False
+    if strict and m.group(1)[:6].upper() == "SELECT":
+        return bool(_UPPER_SELECT.match(text) or _SQL_SYNTAX.search(text))
+    return True
 
 
 def looks_like_hql(text: str) -> bool:

@@ -157,7 +157,7 @@
     },
     "source": {
       "default": "unknown",
-      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
       "title": "Source",
       "type": "string"
     },

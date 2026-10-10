@@ -200,7 +200,10 @@ class Integration(Fact):
 class CodeEdge(Fact):
     source: str
     target: str
-    kind: str = Field(description="calls, includes, forwards, reads, writes or triggers")
+    kind: str = Field(
+        description="calls, uses, invokes, runs, triggers, includes, forwards, renders, submits, "
+        "links, reads, writes, contains or depends-on"
+    )
     resolved: bool = True
 
 

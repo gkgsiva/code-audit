@@ -56,7 +56,7 @@
       "type": "string"
     },
     "kind": {
-      "description": "calls, includes, forwards, reads, writes or triggers",
+      "description": "calls, uses, invokes, runs, triggers, includes, forwards, renders, submits, links, reads, writes, contains or depends-on",
       "title": "Kind",
       "type": "string"
     },

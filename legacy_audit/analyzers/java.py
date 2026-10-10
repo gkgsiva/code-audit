@@ -717,7 +717,7 @@ class _Visitor:
             text = e.text.strip()
             if e.hql or (e.source == "hql" and looks_like_hql(text)):
                 self._sql(text, e.line, "hql", e.dynamic, hql=True)
-            elif looks_like_sql(text):
+            elif looks_like_sql(text, strict=not e.source):
                 self._sql(text, e.line, e.source or "java-string", e.dynamic)
             elif e.source in ("hql",) and looks_like_hql(text):
                 self._sql(text, e.line, "hql", e.dynamic, hql=True)
