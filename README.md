@@ -24,6 +24,7 @@ the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (
 
 - `docs/plan.md` — full specification
 - `docs/decisions.md` — decisions and open questions
+- `docs/usage-guide.html` — step-by-step usage guide for non-technical users (Windows, VS Code); open it in a browser
 - `docs/user-guide.md` — an audit end to end with the GUI
 - `docs/admin-guide.md` — install (pipx, offline), vulnerability database, branding, rule packs
 - `docs/rules.md` — how to add, change or switch off rules
