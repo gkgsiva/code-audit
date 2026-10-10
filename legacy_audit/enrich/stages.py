@@ -1,4 +1,4 @@
-"""Enrichment stages (eleven; stage 8 writes two files) and what each is built from.
+"""Enrichment stages (thirteen; stage 8 writes two files) and what each is built from.
 
 ``inputs`` are fact files in ``data/`` (an entity name, ``effort`` or ``target-mapping``);
 ``after`` are earlier stages whose output the stage reads. A stage is stale when the hash of one
@@ -55,6 +55,14 @@ STAGES: list[Stage] = [
           ("overview", "classification", "architecture", "flows", "service_mapping",
            "data_migration", "dependency_plan", "risks", "assumptions", "target_architecture",
            "plan")),
+    Stage(12, "functional", "Functional", m.Functional,
+          ("components", "services", "screens", "batch_jobs", "integrations", "db_objects",
+           "sql_statements", "dependencies"),
+          ("classification", "flows")),
+    Stage(13, "component_docs", "Component documentation", m.ComponentDocs,
+          ("components", "services", "screens", "sql_statements", "db_objects", "integrations",
+           "dependencies", "metrics", "findings", "libraries"),
+          ("classification",)),
 ]  # fmt: skip
 BY_NAME = {s.name: s for s in STAGES}
 FACT_FILES = {"effort": "effort.json", "target-mapping": "target-mapping.json"}

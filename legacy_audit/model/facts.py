@@ -124,6 +124,10 @@ class Service(Fact):
     fan_in: int = Field(0, description="Resolved edges into the service")
     fan_out: int = Field(0, description="Resolved edges out of the service and its own file")
     tables: list[str] = Field(default_factory=list)
+    sql: list[str] = Field(
+        default_factory=list,
+        description="Ids of the SQL statements it reaches (its CRUD on each table comes from them)",
+    )
     external_calls: list[str] = Field(default_factory=list)
 
 
@@ -240,6 +244,7 @@ class BatchJob(Fact):
     name: str
     scheduler: str = Field(description="autosys, jcl, cron, spring-batch")
     kind: str = Field("job", description="job, box (container, not counted), file-watcher")
+    description: str | None = Field(None, description="Description from the scheduler, if any")
     schedule: str | None = None
     box: str | None = None
     command: str | None = None
@@ -250,6 +255,10 @@ class BatchJob(Fact):
     programs: list[str] = Field(default_factory=list)
     datasets: list[str] = Field(default_factory=list)
     predecessors: list[str] = Field(default_factory=list)
+    on_failure: list[str] = Field(
+        default_factory=list,
+        description="Failure handling in the scheduler definition (alarms, retries, limits)",
+    )
     complexity: str | None = None
     complexity_score: float | None = None
 

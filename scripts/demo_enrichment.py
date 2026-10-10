@@ -2,7 +2,7 @@
 
     python scripts/demo_enrichment.py samples/struts-oracle-app [--break]
 
-Stands in for Copilot when checking phase 5 without it: copies
+Stands in for Copilot when checking phases 5 and 7 without it: copies
 ``tests/fixtures/enrichment/<sample>/*.json`` into the sample's
 ``audit-output/latest/enrichment/`` (as the agent would) and runs ``legacy-audit validate``.
 ``--break`` changes one figure to a wrong count first, to see the validator reject it.
@@ -42,6 +42,9 @@ def main(argv: list[str]) -> int:
     target.mkdir(exist_ok=True)
     for f in fixtures.glob("*.json"):
         shutil.copyfile(f, target / f.name)
+    if "--break" in argv and not (fixtures / "overview.json").exists():
+        print(f"--break changes overview.json, which the {sample.name} demo does not have.")
+        return 2
     if "--break" in argv:
         path = target / "overview.json"
         data = json.loads(path.read_text(encoding="utf-8"))

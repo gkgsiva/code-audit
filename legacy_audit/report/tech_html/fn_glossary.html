@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+{% if terms %}<h2>Business terms</h2>
+<dl class="kv">{% for t in terms %}<dt><strong>{{ t.term }}</strong></dt><dd>{{ t.meaning }}</dd>{% endfor %}</dl>{% endif %}
+<h2>Open questions</h2>
+{% if questions or gaps %}<ul class="compact">{% for q in questions %}<li>{{ q }}</li>{% endfor %}{% for g in gaps %}<li>Input not provided: {{ g }}. What it would show is not in this document.</li>{% endfor %}</ul>{% else %}<p class="muted">None recorded.</p>{% endif %}
+{% if assumptions %}<h2>Assumptions</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>ID</th><th>Assumption</th><th>Impact</th><th>Owner</th><th>Check by</th></tr></thead><tbody>
+{% for a in assumptions %}<tr><td>{{ a.id }}</td><td>{{ a.statement }}</td><td>{{ a.impact }}</td><td>{{ a.owner }}</td><td>{{ a.validate_by }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
+<h2>Words used in this document</h2>
+<dl class="kv">{% for term, meaning in tool_terms %}<dt><strong>{{ term }}</strong></dt><dd>{{ meaning }}</dd>{% endfor %}
+<dt><strong>CRUD</strong></dt><dd>Create, read, update, delete: what a screen or batch does with a table.</dd>
+<dt><strong>Batch</strong></dt><dd>Work the application does on its own: an Autosys box with its jobs, or a job that runs on its own (cron, JCL, Spring Batch).</dd></dl>
+{% endblock %}

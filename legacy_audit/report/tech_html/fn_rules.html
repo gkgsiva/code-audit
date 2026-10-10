@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+<p class="lead">Rules the application applies: checks, calculations, eligibility, status changes and limits, each with the place in the code it comes from. These rules must be kept (or deliberately changed) in the new system.</p>
+{% if rules %}
+<div class="grid2">{{ m.chart(chart) }}<div class="panel"><h3>Why this matters</h3><p>Business rules hidden in legacy code are the easiest thing to lose in a migration. Each rule below cites its source line so it can be checked with the business owner and turned into a test.</p></div></div>
+<h2>Rules</h2>
+<div class="cards">{% for r in rules %}<div class="card {{ r.color }}"><h3>{{ r.id }} · {{ r.name }}</h3><p><span class="pill {{ r.color }}">{{ r.kind }}</span>{% if r.domain %} <span class="pill">{{ r.domain }}</span>{% endif %}</p><p style="color:var(--text)">{{ r.description }}</p>{% if r.facts %}<p class="muted">Applies to: {{ r.facts | join(", ") }}</p>{% endif %}<p class="note">{% for l in r.links %}{{ m.ev(l) }} {% endfor %}{% if r.assumption %}assumption{% endif %}</p></div>{% endfor %}</div>
+{% endif %}
+{% endblock %}

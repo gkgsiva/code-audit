@@ -20,7 +20,8 @@ from typing import Any
 from legacy_audit.config import Branding
 from legacy_audit.enrich.stages import BY_NAME
 from legacy_audit.enrich.status import compute_status, enrichment_dir, sync_from_latest
-from legacy_audit.report import diagrams
+from legacy_audit.report import diagrams, flows
+from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData
 
 DECK_VERSION = "1"
@@ -46,7 +47,44 @@ PALETTE = {
     "muted": "6D6B66",
     "surface": "FCFCFB",
     "grid": "E1E0D9",
+    "series-1": "2A78D6",
+    "series-2": "EB6834",
+    "series-3": "1BAF7A",
+    "series-4": "EDA100",
+    "series-5": "E87BA4",
+    "series-6": "008300",
+    "series-7": "6250D6",
+    "series-8": "E34948",
+    # heat-map steps (sequential blue) and flow-node fills / borders
+    "seq-0": "F3F2EE",
+    "seq-1": "CDE2FB",
+    "seq-2": "9EC5F4",
+    "seq-3": "6DA7EC",
+    "seq-4": "3987E5",
+    "seq-5": "256ABF",
+    "seq-6": "184F95",
+    "risk-0": "D3EFD3",
+    "risk-1": "FDE8B5",
+    "risk-2": "F9D2C1",
+    "risk-3": "F2BDBD",
+    "kind-screen": "DBE9FB/2A78D6",
+    "kind-service": "ECE3FB/6250D6",
+    "kind-table": "DCF3DC/0CA30C",
+    "kind-system": "FDE7D9/EC835A",
+    "kind-trigger": "FFF1CC/D69A00",
+    "kind-job": "D8F1F0/13867F",
+    "kind-muted": "F0EFEC/898781",
 }
+SECTION_COLOR = {
+    "exec": "series-1",
+    "functional": "series-7",
+    "current": "series-3",
+    "technical": "series-2",
+    "target": "series-6",
+    "plan": "series-4",
+    "risks": "series-8",
+}
+KEY_FLOWS = 3  # screen flows and batch flows given their own slide
 MAX_ROWS = 10  # per table on a slide
 MAX_CELL = 100  # characters per table cell on a slide (full text in the technical report)
 RESOLVING_ACTIONS = {"upgrade", "replace", "remove"}
@@ -91,8 +129,23 @@ class _Deck:
         self.section = SECTIONS[0]
 
     # ---- helpers -------------------------------------------------------------------------------
-    def start(self, key: str) -> None:
+    def start(self, key: str, divider: bool = True) -> None:
         self.section = next(s for s in SECTIONS if s[0] == key)
+        if divider and key != "exec":
+            self.slides.append(
+                {
+                    "id": f"section-{key}",
+                    "section": self.section[1],
+                    "audience": self.section[2],
+                    "type": "section",
+                    "title": self.section[1],
+                    "subtitle": f"For {self.section[2].lower()}",
+                    "color": SECTION_COLOR[key],
+                    "blocks": [],
+                    "notes": "",
+                    "stale": [],
+                }
+            )
 
     def add(
         self,
@@ -102,6 +155,7 @@ class _Deck:
         notes: str = "",
         kind: str = "content",
         subtitle: str = "",
+        layout: str = "",
     ) -> None:
         uses = sorted({b["stage"] for b in blocks if b.get("stage")})
         stale = [u for u in uses if u in self.status.get("stale", [])]
@@ -116,6 +170,8 @@ class _Deck:
                 "blocks": blocks,
                 "notes": notes,
                 "stale": stale,
+                "color": SECTION_COLOR[self.section[0]],
+                "layout": layout,
             }
         )
 
@@ -173,6 +229,94 @@ class _Deck:
         n = (self.stage("narratives") or {}).get(who) or {}
         return str(n.get("text", ""))
 
+    def flow_slide(self, f: flows.Flow, story: dict[str, Any] | None, what: str) -> None:
+        block = f.deck_block()
+        words: dict[str, Any]
+        if story:
+            items = [story["purpose"]]
+            if f.kind == "screen":
+                items += story.get("user_actions", [])[:4]
+            else:
+                if story.get("when"):
+                    items.append("When: " + story["when"])
+                items += [st["description"] for st in story.get("steps", [])][:4]
+                if story.get("on_failure"):
+                    items.append("If it fails: " + story["on_failure"])
+            words = {"type": "bullets", "stage": "functional", "items": items}
+        else:
+            words = {"type": "bullets", "items": [f.summary]}
+        self.add(
+            f"fn-{f.kind}-{f.slug}",
+            f"{what} flow: {f.name}",
+            [block, words],
+            "The flow is drawn from the scan (services, SQL, tables, scheduler definitions); "
+            "the words beside it are the Copilot agent's, checked by legacy-audit validate.",
+            layout="wide-left",
+        )
+
+    def gauges(self) -> dict[str, Any]:
+        c = self.s.get("counts", {})
+        sql = _get(c, "sql.total")
+        libs = _get(c, "libraries.total")
+        cov = self.rd.run.get("coverage", [])
+        present = sum(1 for x in cov if x.get("status") == "present")
+        items = [
+            vz.gauge("SQL converting automatically", _get(c, "pg_grades.auto"), sql, "good",
+                     f"{_num(_get(c, 'pg_grades.auto'))} of {_num(sql)} statements"),
+            vz.gauge("Libraries with no known vulnerability",
+                     libs - _get(c, "vulnerable_libraries.total"), libs, "series-1",
+                     f"{_num(_get(c, 'vulnerable_libraries.total'))} vulnerable"),
+            vz.gauge("Libraries still supported", libs - _get(c, "eol_libraries"), libs,
+                     "series-3", f"{_num(_get(c, 'eol_libraries'))} end of life"),
+            vz.gauge("Inputs provided", present, len(cov), "series-7",
+                     f"{present} of {len(cov)} kinds"),
+        ]  # fmt: skip
+        return {"type": "gauges", "items": items}
+
+    @staticmethod
+    def heatmap(
+        title: str, columns: list[str], rows: list[dict[str, Any]], scale: str, legend: str = ""
+    ) -> dict[str, Any]:
+        """Rows of ``{label, cells: [{text, level}]}``; ``scale`` is seq (0..6) or risk (0..3)."""
+        return {
+            "type": "heatmap",
+            "title": title,
+            "columns": columns,
+            "rows": rows,
+            "scale": scale,
+            "legend": legend,
+        }
+
+    def crud_heatmap(self, limit_tables: int = 8, limit_rows: int = 8) -> dict[str, Any]:
+        mx = flows.crud_matrix(self.rd)
+        tables = mx["tables"][:limit_tables]
+        level = {0: 0, 1: 2, 2: 3, 3: 4, 4: 6}
+        rows = [
+            {
+                "label": r,
+                "cells": [
+                    {
+                        "text": mx["cells"].get(f"{r}|{t}", ""),
+                        "level": level[len(mx["cells"].get(f"{r}|{t}", ""))],
+                    }
+                    for t in tables
+                ],
+            }
+            for r in mx["rows"][:limit_rows]
+        ]
+        return self.heatmap(
+            "Create, read, update, delete by component and table",
+            tables,
+            rows,
+            "seq",
+            "C create · R read · U update · D delete; darker = more operations. "
+            + (
+                f"Busiest {limit_tables} of {len(mx['tables'])} tables."
+                if len(mx["tables"]) > limit_tables
+                else ""
+            ),
+        )
+
     # ---- sections ------------------------------------------------------------------------------
     def executive(self) -> None:
         self.start("exec")
@@ -221,6 +365,12 @@ class _Deck:
             [kpis, points],
             "Counts are from the scan (audit-summary.json); counting rules are printed in "
             "the technical report's appendix.",
+        )
+        self.add(
+            "exec-readiness",
+            "Migration readiness",
+            [self.gauges()],
+            "Each ring is a share computed from the scan's counts (audit-summary.json).",
         )
 
         risks = self.stage("risks")
@@ -291,7 +441,21 @@ class _Deck:
     def functional(self) -> None:
         self.start("functional")
         cl = self.stage("classification")
-        if cl:
+        fn = self.stage("functional")
+        if fn and fn.get("domains"):
+            block: dict[str, Any] = {
+                "type": "capmap",
+                "stage": "functional",
+                "domains": [
+                    {
+                        "name": d["name"],
+                        "color": f"series-{i % 8 + 1}",
+                        "caps": [c["name"] for c in d.get("capabilities", [])],
+                    }
+                    for i, d in enumerate(fn["domains"])
+                ],
+            }
+        elif cl:
             block = self.table(
                 ["Component", "Capability", "Kind", "Criticality"],
                 [
@@ -301,8 +465,28 @@ class _Deck:
             )
             block["stage"] = "classification"
         else:
-            block = self.placeholder("classification", "Capabilities and modules")
-        self.add("fn-capabilities", "Capabilities and modules", [block])
+            block = self.placeholder("functional", "Capability map")
+        self.add("fn-capabilities", "Capability map", [block])
+
+        if fn and fn.get("use_cases"):
+            uc = self.table(
+                ["Use case", "Who", "Goal"],
+                [[f"{u['id']} {u['name']}", u["actor"], u["goal"]] for u in fn["use_cases"]],
+            )
+            uc["stage"] = "functional"
+            actors: dict[str, Any] = {
+                "type": "bullets",
+                "title": "Who uses it",
+                "stage": "functional",
+                "items": [f"{a['name']} ({a['kind']})" for a in fn.get("actors", [])],
+            }
+            self.add("fn-use-cases", "Users and use cases", [actors, uc])
+        else:
+            self.add(
+                "fn-use-cases",
+                "Users and use cases",
+                [self.placeholder("functional", "Actors and use cases")],
+            )
 
         per = Counter(
             s.get("component") or "(none)" for s in self.rd.items("screens") if not s.get("partial")
@@ -316,7 +500,7 @@ class _Deck:
         self.add("fn-screens", "Screens per component", [screens])
 
         fl = self.stage("flows")
-        flows: dict[str, Any] = (
+        flows_block: dict[str, Any] = (
             {
                 "type": "bullets",
                 "stage": "flows",
@@ -325,7 +509,57 @@ class _Deck:
             if fl
             else self.placeholder("flows", "Key business flows")
         )
-        self.add("fn-flows", "Key business flows", [flows])
+        self.add("fn-flows", "Key business flows", [flows_block])
+
+        stories = {x["screen_id"]: x for x in (fn or {}).get("screens", [])}
+        key_screens = sorted(
+            flows.screen_flows(self.rd), key=lambda f: (-len(f.services) - len(f.tables), f.name)
+        )[:KEY_FLOWS]
+        for f in key_screens:
+            self.flow_slide(f, stories.get(f.id), "Screen")
+        bstories = {x["job_id"]: x for x in (fn or {}).get("batches", [])}
+        batch = flows.batch_flows(self.rd)
+        for f in sorted(batch, key=lambda f: (-len(f.steps) - len(f.tables), f.name))[:KEY_FLOWS]:
+            self.flow_slide(f, bstories.get(f.id), "Batch")
+        if batch:
+            week = flows.week_grid(batch)
+            rows = [
+                {
+                    "label": r["name"],
+                    "cells": [{"text": c, "level": 4 if c else 0} for c in r["cells"]],
+                }
+                for r in week[:MAX_ROWS]
+            ]
+            self.add(
+                "fn-batch-calendar",
+                "Batch calendar",
+                [
+                    self.heatmap(
+                        "When each batch runs",
+                        flows.DAY_NAMES,
+                        rows,
+                        "seq",
+                        "Start times from the scheduler definitions (Autosys, cron).",
+                    ),
+                    {"type": "bullets", "items": [f"{r['name']}: {r['text']}" for r in week]},
+                ],
+            )
+        if fn and fn.get("business_rules"):
+            rules = self.table(
+                ["Rule", "Kind", "What it says"],
+                [
+                    [f"{r['id']} {r['name']}", r["kind"], r["description"]]
+                    for r in fn["business_rules"]
+                ],
+            )
+            rules["stage"] = "functional"
+            self.add("fn-rules", "Business rules to keep", [rules])
+        else:
+            self.add(
+                "fn-rules",
+                "Business rules to keep",
+                [self.placeholder("functional", "Business rules")],
+            )
 
         n = (self.stage("narratives") or {}).get("functional")
         users: dict[str, Any] = (
@@ -366,6 +600,34 @@ class _Deck:
             }
         notes = "; ".join(n["text"] for n in (arch or {}).get("notes", []))
         self.add("cur-components", "Component diagram", [diag], notes)
+        if arch and arch.get("layers"):
+            self.add(
+                "cur-layers",
+                "Layers",
+                [
+                    {
+                        "type": "layers",
+                        "stage": "architecture",
+                        "layers": [
+                            {
+                                "name": la["name"],
+                                "color": f"series-{i % 8 + 1}",
+                                "items": la.get("components", []),
+                                "note": la.get("description", ""),
+                            }
+                            for i, la in enumerate(arch["layers"])
+                        ],
+                    }
+                ],
+            )
+        else:
+            self.add("cur-layers", "Layers", [self.placeholder("architecture", "Layers")])
+        self.add(
+            "cur-crud",
+            "Who changes which data",
+            [self.crud_heatmap()],
+            "From the SQL each component runs: letters are create, read, update, delete.",
+        )
 
         by_type = _get(self.s, "counts.integrations.by_type", {}) or {}
         labels = sorted(by_type, key=lambda k: (-by_type[k], k))
@@ -667,6 +929,40 @@ class _Deck:
         else:
             blocks = [self.placeholder("target_architecture", "Target architecture")]
         self.add("tgt-architecture", "Target architecture", blocks, self.narrative("architect"))
+        if ta:
+            legacy = sorted({r for c in ta["components"] for r in c.get("replaces", [])})
+            trans: dict[str, Any] = {
+                "type": "flow",
+                "title": "From today to the target",
+                "stage": "target_architecture",
+                "columns": [
+                    {
+                        "title": "Today",
+                        "nodes": [{"key": "o:" + n, "label": n, "kind": "muted"} for n in legacy],
+                    },
+                    {
+                        "title": "Target on Google Cloud",
+                        "nodes": [
+                            {
+                                "key": "t:" + c["name"],
+                                "label": f"{c['name']}\n{c['technology']} · {c['platform']}",
+                                "kind": "service",
+                            }
+                            for c in ta["components"]
+                        ],
+                    },
+                ],
+                "edges": [
+                    {"from": "o:" + r, "to": "t:" + c["name"], "label": "becomes"}
+                    for c in ta["components"]
+                    for r in c.get("replaces", [])
+                ],
+            }
+            d = diagrams.current_to_target(self.rd, ta)
+            trans["mermaid"] = d.source if d else ""
+        else:
+            trans = self.placeholder("target_architecture", "From today to the target")
+        self.add("tgt-transition", "From today to the target", [trans])
         self.add(
             "tgt-mapping",
             "Legacy to target mapping",
@@ -683,6 +979,7 @@ class _Deck:
         self.start("plan")
         plan = self.stage("plan")
         if not plan:
+            self.add("plan-roadmap", "Roadmap", [self.placeholder("plan", "Roadmap")])
             self.add("plan-waves", "Waves and roadmap", [self.placeholder("plan", "Waves")])
             self.add(
                 "plan-team",
@@ -691,6 +988,23 @@ class _Deck:
             )
             return
         waves = sorted(plan["waves"], key=lambda w: w["order"])
+        g = vz.gantt(waves)
+        self.add(
+            "plan-roadmap",
+            "Roadmap",
+            [
+                {
+                    "type": "gantt",
+                    "stage": "plan",
+                    "months": g["months"],
+                    "bars": [
+                        {k: b[k] for k in ("name", "goal", "start", "end", "color")}
+                        for b in g["bars"]
+                    ],
+                }
+            ],
+            "Waves, start month and duration from the plan stage.",
+        )
 
         def effort(w: dict[str, Any]) -> float:
             return float(
@@ -768,6 +1082,27 @@ class _Deck:
         else:
             block = self.placeholder("risks", "Risk register")
         self.add("risk-register", "Risk register", [block])
+        if risks:
+            rm = vz.risk_matrix(risks["risks"])
+            heat = self.heatmap(
+                "Risks by severity and likelihood",
+                [f"likelihood {c}" for c in rm["columns"]],
+                [
+                    {
+                        "label": r["severity"],
+                        "cells": [
+                            {"text": " ".join(c["ids"]), "level": c["level"]} for c in r["cells"]
+                        ],
+                    }
+                    for r in rm["rows"]
+                ],
+                "risk",
+                "Each cell lists the risk ids; red = act first.",
+            )
+            heat["stage"] = "risks"
+        else:
+            heat = self.placeholder("risks", "Risk heat map")
+        self.add("risk-heatmap", "Risk heat map", [heat])
 
         asm = self.stage("assumptions")
         if asm:

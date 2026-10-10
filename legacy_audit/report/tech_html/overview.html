@@ -1,13 +1,19 @@
 {% extends "base.html" %}{% import "_macros.html" as m with context %}
 {% block content %}
-<p class="lead">What was scanned and what it contains. Counting rules are in the <a href="{{ base }}appendix.html">appendix</a>; every tile links to its catalogue.</p>
+<p class="lead">What was scanned and what it contains. The functional document (<code>reports/functional/index.html</code>, built with <code>legacy-audit report --type functional</code>) describes the same application for business readers. Counting rules are in the <a href="{{ base }}appendix.html">appendix</a>; every tile links to its catalogue.</p>
 <div class="tiles">
 {% for t in tiles %}{% if t.href %}<a href="{{ base }}{{ t.href }}" style="text-decoration:none;color:inherit">{{ m.tile(t) }}</a>{% else %}{{ m.tile(t) }}{% endif %}
 {% endfor %}
 </div>
 
+<h2>Migration readiness</h2>
+{{ m.gauges(gauges) }}
+
 <div class="grid2" style="margin-top:16px">
   {{ m.chart(loc_chart) }}
+  {{ m.chart(band_chart) }}
+</div>
+<div class="grid2" style="margin-top:16px">
   <div class="panel">
     <h3>Technology stack</h3>
     <table class="data">

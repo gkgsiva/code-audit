@@ -39,6 +39,16 @@ _ATTR = re.compile(r"(?:^|\s)(" + "|".join(JIL_ATTRS) + r"):\s*", re.I)
 _CONDITION = re.compile(
     r"\b(s|success|f|failure|d|done|n|notrunning|t|terminated|e|exitcode)\s*\(\s*([^,)\s]+)", re.I
 )
+_FAILURE_ATTRS = (
+    "alarm_if_fail",
+    "alarm_if_terminated",
+    "n_retrys",
+    "max_run_alarm",
+    "term_run_time",
+    "box_failure",
+    "send_notification",
+    "notification_msg",
+)
 _JOB_TYPES = {"c": "CMD", "cmd": "CMD", "b": "BOX", "box": "BOX", "f": "FW", "fw": "FW"}
 _SCHEDULE_ATTRS = (
     "date_conditions",
@@ -95,7 +105,7 @@ def predecessors(condition: str) -> list[str]:
 
 class AutosysAnalyzer:
     name: ClassVar[str] = "autosys"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def supports(self, file: FileRecord) -> bool:
         return file.language == "jil" or (
@@ -151,12 +161,14 @@ class AutosysAnalyzer:
             name=name,
             scheduler="autosys",
             kind=kind,
+            description=get("description"),
             schedule=schedule,
             box=get("box_name"),
             command=get("command"),
             machine=get("machine"),
             condition=condition,
             predecessors=preds,
+            on_failure=[f"{k}: {get(k)}" for k in _FAILURE_ATTRS if get(k)],
             evidence=[
                 Evidence(file=path, line=line, snippet=f"insert_job: {name} job_type: {jtype}")
             ],

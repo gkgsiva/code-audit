@@ -12,6 +12,7 @@ You are building **legacy-audit**, described in `docs/plan.md` (spec), `docs/dec
 | 4 | `phase-4-tech-report.md` | Static technical HTML site |
 | 5 | `phase-5-agent-enrichment-mgmt.md` | Copilot agent assets + installer, enrichment schemas/validator/staleness, MCP server, management deck + PPTX |
 | 6 | `phase-6-gui-hardening.md` | FastAPI GUI, run compare, performance, packaging, user guide |
+| 7 | `phase-7-functional-docs-graphics.md` | Functional and component documentation stages, screen and batch flows, functional document, graphics in reports, deck and PPTX |
 
 Do one phase per session if possible. Each phase must leave `main` working: tests green, CLI runnable on every sample app.
 

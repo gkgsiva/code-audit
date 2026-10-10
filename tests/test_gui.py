@@ -250,6 +250,10 @@ def test_secrets_are_masked_in_every_output(sample_copy) -> None:  # type: ignor
     _scan(client)
     _ok(client.post("/api/runs/latest/reports", json={"type": "all"}, headers=H))
     _wait(client)
+    reports = _ok(client.get("/api/runs/latest/reports"))["reports"]
+    assert reports["functional"] and reports["mgmt"]
+    assert client.get(reports["functional"]).status_code == 200
+    assert client.get(reports["mgmt"]).status_code == 200
     pack = client.get("/api/runs/latest/datapack.zip")
     assert pack.status_code == 200
     with zipfile.ZipFile(io.BytesIO(pack.content)) as zf:

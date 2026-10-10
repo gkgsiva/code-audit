@@ -167,6 +167,14 @@
       "title": "Screens",
       "type": "array"
     },
+    "sql": {
+      "description": "Ids of the SQL statements it reaches (its CRUD on each table comes from them)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sql",
+      "type": "array"
+    },
     "tables": {
       "items": {
         "type": "string"

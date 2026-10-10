@@ -208,17 +208,24 @@
   Array.prototype.forEach.call(document.querySelectorAll("[data-catalogue]"), Catalogue);
 
   // ---- charts (Chart.js, vendored) ---------------------------------------------------------
-  // Each chart is one series: bars in the accent colour, or in status colours where the bar
-  // is a grade or a severity (the axis label always names it, so colour is never alone).
+  // spec.type: bar (one series; accent, or status colours where the bar is a grade or a
+  // severity, the axis label always names it), stacked (several series, legend shown),
+  // doughnut, radar (one component's profile) or bubble (libraries by CVEs and CVSS).
   function drawCharts() {
     if (!window.Chart) return;
     var ink = cssVar("--text-2"), grid = cssVar("--grid"), axis = cssVar("--axis");
+    var surface = cssVar("--surface");
     Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", sans-serif';
     Chart.defaults.color = ink;
+    function col(c) { return cssVar("--" + c) || c; }
     Array.prototype.forEach.call(document.querySelectorAll("canvas[data-chart]"), function (canvas) {
       var spec = JSON.parse(document.getElementById(canvas.getAttribute("data-chart")).textContent);
-      var colors = spec.colors.map(function (c) { return cssVar("--" + c) || c; });
-      var horizontal = spec.horizontal;
+      var type = spec.type || "bar";
+      var unit = spec.unit ? " " + spec.unit : "";
+      var tooltip = { callbacks: { label: function (c) {
+        var v = c.raw && typeof c.raw === "object" && c.raw.label ? c.raw.label : c.formattedValue + unit;
+        return (c.dataset.label && type !== "bar" ? c.dataset.label + ": " : "") + v;
+      } } };
       var valueAxis = {
         beginAtZero: true,
         grid: { color: grid },
@@ -227,32 +234,56 @@
         title: { display: !!spec.unit, text: spec.unit, color: ink }
       };
       var catAxis = { grid: { display: false }, border: { color: axis } };
-      new Chart(canvas, {
-        type: "bar",
-        data: {
-          labels: spec.labels,
-          datasets: [{
-            label: spec.label,
-            data: spec.values,
-            backgroundColor: colors,
-            borderRadius: 4,
-            borderSkipped: "start",
-            maxBarThickness: 28,
-            categoryPercentage: 0.8,
-            barPercentage: 0.9
-          }]
-        },
-        options: {
-          indexAxis: horizontal ? "y" : "x",
-          maintainAspectRatio: false,
-          animation: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: { callbacks: { label: function (c) { return c.formattedValue + (spec.unit ? " " + spec.unit : ""); } } }
-          },
-          scales: horizontal ? { x: valueAxis, y: catAxis } : { x: catAxis, y: valueAxis }
-        }
-      });
+      var cfg;
+      if (type === "doughnut") {
+        cfg = { type: "doughnut",
+          data: { labels: spec.labels.map(function (l, k) { return l + " (" + spec.values[k] + ")"; }),
+            datasets: [{ data: spec.values, backgroundColor: spec.colors.map(col), borderColor: surface, borderWidth: 2 }] },
+          options: { maintainAspectRatio: false, animation: false, cutout: "58%",
+            plugins: { legend: { position: "right" }, tooltip: tooltip } } };
+      } else if (type === "stacked") {
+        cfg = { type: "bar",
+          data: { labels: spec.labels, datasets: spec.datasets.map(function (d) {
+            return { label: d.label, data: d.values, backgroundColor: col(d.color), borderColor: surface,
+              borderWidth: { top: 0, bottom: 0, left: spec.horizontal ? 0 : 0, right: spec.horizontal ? 2 : 0 },
+              borderSkipped: false, maxBarThickness: 28 }; }) },
+          options: { indexAxis: spec.horizontal ? "y" : "x", maintainAspectRatio: false, animation: false,
+            plugins: { legend: { position: "top", align: "start" }, tooltip: tooltip },
+            scales: spec.horizontal
+              ? { x: Object.assign({ stacked: true }, valueAxis), y: Object.assign({ stacked: true }, catAxis) }
+              : { x: Object.assign({ stacked: true }, catAxis), y: Object.assign({ stacked: true }, valueAxis) } } };
+      } else if (type === "radar") {
+        var c1 = col(spec.color || "series-3");
+        cfg = { type: "radar",
+          data: { labels: spec.labels, datasets: [{ label: spec.label, data: spec.values,
+            borderColor: c1, backgroundColor: c1 + "33", borderWidth: 2, pointRadius: 4, pointBackgroundColor: c1 }] },
+          options: { maintainAspectRatio: false, animation: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) {
+              return (spec.raw ? spec.raw[c.dataIndex] : c.formattedValue); } } } },
+            scales: { r: { min: 0, max: 100, ticks: { display: false, stepSize: 25 },
+              grid: { color: grid }, angleLines: { color: grid }, pointLabels: { color: ink } } } } };
+      } else if (type === "bubble") {
+        var bc = col(spec.color || "series-8");
+        cfg = { type: "bubble",
+          data: { datasets: [{ label: spec.label, data: spec.points, backgroundColor: bc + "99",
+            borderColor: bc, borderWidth: 1 }] },
+          options: { maintainAspectRatio: false, animation: false,
+            plugins: { legend: { display: false }, tooltip: tooltip },
+            scales: {
+              x: { beginAtZero: true, grid: { color: grid }, border: { color: axis }, ticks: { precision: 0 },
+                title: { display: true, text: spec.xLabel } },
+              y: { beginAtZero: true, suggestedMax: 10, grid: { color: grid }, border: { color: axis },
+                title: { display: true, text: spec.yLabel } } } } };
+      } else {
+        cfg = { type: "bar",
+          data: { labels: spec.labels, datasets: [{ label: spec.label, data: spec.values,
+            backgroundColor: spec.colors.map(col), borderRadius: 4, borderSkipped: "start",
+            maxBarThickness: 28, categoryPercentage: 0.8, barPercentage: 0.9 }] },
+          options: { indexAxis: spec.horizontal ? "y" : "x", maintainAspectRatio: false, animation: false,
+            plugins: { legend: { display: false }, tooltip: tooltip },
+            scales: spec.horizontal ? { x: valueAxis, y: catAxis } : { x: catAxis, y: valueAxis } } };
+      }
+      new Chart(canvas, cfg);
     });
   }
   drawCharts();
@@ -263,7 +294,7 @@
       startOnLoad: false,
       securityLevel: "strict",
       theme: isDark() ? "dark" : "neutral",
-      flowchart: { htmlLabels: false, useMaxWidth: false },
+      flowchart: { htmlLabels: false, useMaxWidth: false, curve: "basis" },
       maxTextSize: 200000
     });
     window.mermaid.run({ querySelector: "pre.mermaid" });

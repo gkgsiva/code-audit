@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+<p class="lead">The information the application keeps, and which part of it creates, reads, updates or deletes each table.</p>
+{% if entities %}<h2>Business data</h2>
+<div class="cards">{% for d in entities %}<div class="card c6"><h3>{{ d.name }}</h3><p>{{ d.description }}</p><div class="chips">{% for t in d.tables %}<span class="pill c6">{{ t }}</span>{% endfor %}{% if d.domain %}<span class="pill c3">{{ d.domain }}</span>{% endif %}</div><p class="note">{% for l in d.links %}{{ m.ev(l) }} {% endfor %}{% if d.assumption %}assumption{% endif %}</p></div>{% endfor %}</div>{% endif %}
+<h2>Who changes which data</h2>
+{{ m.crud_heat(matrix, base) }}
+{{ m.diagram(data_map) }}
+{% endblock %}

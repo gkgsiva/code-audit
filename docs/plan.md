@@ -152,7 +152,7 @@ One normalized fact model feeds every output. JSON is the source of truth, CSV i
 | `findings.csv/json` | finding | rule id, severity, category (security, PG compat, dependency, dead code, hard-coded config, EOL), file, line, message |
 | `metrics.json` | component | LOC, complexity avg/max, duplication %, test files, dead-code candidates |
 | `audit-summary.json` | run | totals and top-N lists, under ~30 KB so the agent can read it in one go |
-| `enrichment/*.json` | agent output | architecture, flows, risks, assumptions, target mapping, plan, narratives per audience |
+| `enrichment/*.json` | agent output | architecture, flows, risks, assumptions, target mapping, plan, narratives per audience, functional view, component documentation |
 
 Every record carries `evidence: [{file, line}]`. Schemas are versioned JSON Schema files in `schemas/`; enrichment is validated against them before reports are built.
 
@@ -206,7 +206,7 @@ A custom agent defined in the workspace, driven by prompt files, runs the scanne
 
 **Agent rules:** numbers come only from scanner output (re-classification allowed but recorded with reason); one component at a time; every claim cites evidence or is marked as an assumption; strict JSON matching `schemas/enrichment/*.schema.json`, validated after each stage; stop and ask when evidence conflicts.
 
-**Enrichment stages:** 1 Orient (`overview.json`) · 2 Classify · 3 Architecture (`architecture.json`, with Mermaid) · 4 Flows (`flows.json`) · 5 Services (`service_mapping.json`) · 6 Data (`data_migration.json`) · 7 Dependencies (`dependency_plan.json`: group upgrades into themes, link to waves) · 8 Risks & assumptions (`risks.json`, `assumptions.json`) · 9 Target architecture (`target_architecture.json`) · 10 Plan (`plan.json`) · 11 Narratives (`narratives.json`: executive, architect, functional, developer). For large estates stages loop per component with a carried summary file.
+**Enrichment stages:** 1 Orient (`overview.json`) · 2 Classify · 3 Architecture (`architecture.json`, with Mermaid) · 4 Flows (`flows.json`) · 5 Services (`service_mapping.json`) · 6 Data (`data_migration.json`) · 7 Dependencies (`dependency_plan.json`: group upgrades into themes, link to waves) · 8 Risks & assumptions (`risks.json`, `assumptions.json`) · 9 Target architecture (`target_architecture.json`) · 10 Plan (`plan.json`) · 11 Narratives (`narratives.json`: executive, architect, functional, developer) · 12 Functional (`functional.json`: business domains and capabilities, actors, use cases, business rules, data entities, one story per screen and per batch, interfaces, glossary) · 13 Component documentation (`component_docs.json`: what each component does, key elements, inputs/outputs, tech debt, migration notes). Stages 12 and 13 read everything the scan found for the application (services, screens, SQL, tables, batch, integrations, libraries, metrics, findings) before writing. For large estates stages loop per component with a carried summary file.
 
 ## Counting rules
 
@@ -259,6 +259,14 @@ All generated from the same facts + enrichment, so numbers never disagree.
 
 **2. Technical HTML documentation** – static, self-contained site (Jinja2, Chart.js, Mermaid, DataTables) that opens from disk with no server, and with no CDN (all JS vendored): overview and tech stack with EOL flags; one page per component; architecture and flow diagrams; service, screen, SQL, integration, batch and library catalogues with evidence links; PostgreSQL readiness; dependency security; findings, risks, assumptions, target mapping, plan; appendix with counting rules, run config, input coverage, scan log.
 
+**2b. Functional document** – a second static site (`reports/functional/`) for business and functional teams, in plain language: summary with a capability map, users and use cases, business flows, one flow per screen and per batch, business rules, data, interfaces, glossary.
+
+- **Flow per screen** (drawn from the scan): where the user comes from, the screen, the services it loads or submits to, the tables each service reads or changes (with C/R/U/D), the other systems it calls, and the screens it leads to.
+- **Flow per batch** (drawn from the scan): what starts it (schedule, file arrival, another job), its steps in order with success/failure conditions, what each step runs, tables and files read and written, what happens when it fails (alarms, retries, steps that run anyway), plus a week calendar of when every batch runs.
+- The Copilot agent's stage 12 adds the words: purpose, user actions, business impact, rules. The diagrams, tables and schedules come from the scan and are always present; missing words show a placeholder naming `/audit-enrich functional`.
+
+Both HTML sites use one colour system (8 series colours, a sequential blue ramp, status colours, light and dark): icon tiles, gauges, doughnuts, stacked bars, radar per component, bubble chart for vulnerable libraries, CRUD and risk heat maps, Gantt roadmap, coloured Mermaid flows with a legend.
+
 **3. Management presentation** – one slide definition (`deck.json`) rendered twice:
 
 - **HTML deck** (simple slider + Chart.js) for screen-sharing
@@ -267,12 +275,14 @@ All generated from the same facts + enrichment, so numbers never disagree.
 | Section | Audience | Content |
 | --- | --- | --- |
 | Executive summary (2–3 slides) | Top management | Size of estate, migration scope in one number set, top 5 risks, approach, timeline and effort range |
-| Functional view (3–5 slides) | Business / functional | Capabilities and modules, screens per capability, key business flows in plain language, what changes for users |
+| Functional view (5–12 slides) | Business / functional | Capability map, users and use cases, screens per component, key business flows, a flow slide for the main screens and batches, batch calendar, business rules, what changes for users |
 | Current architecture (3–4 slides) | Architects | Tech stack, component diagram, integrations map, data landscape |
 | Technical deep-dive (4–6 slides) | Tech leads, developers | Services by complexity, SQL readiness, batch landscape, dependency security, code quality, findings |
 | Target architecture (2–3 slides) | Architects | Java 25 / Spring Boot / Angular / PostgreSQL / GCP component view, mapping table |
 | Plan (2–3 slides) | All | Waves, roadmap, team, dependencies, decisions needed |
 | Risks, assumptions, next steps | All | Mitigation owners, open questions |
+
+Each section opens with a coloured divider slide; graphics are native in the PPTX (gauges as doughnut charts, heat maps as tables, flows, capability maps, layers and the roadmap as shapes), so they stay editable.
 
 Branding is a config slot (logo, colours, fonts, PPT master) with a neutral default theme; the corporate template plugs in later without code changes.
 
@@ -362,7 +372,7 @@ Legacy workspace after `legacy-audit init`:
 
 ## Build plan
 
-Six phases, each ending with something usable on a real legacy app. Detailed prompts are in `docs/prompts/`.
+Seven phases, each ending with something usable on a real legacy app. Detailed prompts are in `docs/prompts/`.
 
 1. **Foundations** – repo, config, schemas, source handling (local + optional git), inventory walker, LOC, language/encoding detection, CSV/JSON/SQLite export, CLI, run history and file-hash cache. *Exit:* inventory of a sample app, re-runnable.
 2. **Core analyzers** – Java + Struts/JSP + Spring, build files and dependency inventory, SQL with `sqlglot` PG grading, config, shell; then C/C++, Pro*C, COBOL/copybooks, JCL, Autosys JIL, IBM MQ, CFT. Linker and service/screen classification. *Exit:* correct counts on `samples/`, checked against expected-count files.
@@ -370,6 +380,7 @@ Six phases, each ending with something usable on a real legacy app. Detailed pro
 4. **Technical HTML report** – templates, catalogues, charts, Mermaid diagrams, evidence links. *Exit:* report usable by architects.
 5. **Copilot agent + enrichment + management outputs** – agent files and installer, enrichment schemas and validator, staleness, optional MCP server, management HTML deck and PPTX builder. *Exit:* full pipeline on one real application.
 6. **GUI + hardening** – FastAPI GUI, run comparison, performance on 1M+ LOC, packaging, user guide. *Exit:* analysts run audits without the tool's developers.
+7. **Functional documentation and graphics** – enrichment stages 12 (functional) and 13 (component documentation); scan-drawn screen and batch flows; the functional document; a colour and graphics pass on the technical report, the HTML deck and the PPTX. *Exit:* a business reader can follow every screen and batch from the documents alone.
 
 Every phase ends with VS Code validation steps in `docs/validate-in-vscode.md` (tasks and debug configurations in `.vscode/`), so the team can check the result themselves.
 

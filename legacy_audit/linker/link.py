@@ -630,8 +630,10 @@ class _Linker:
         outgoing: dict[str, list[CodeEdge]],
     ) -> None:
         sql_by_file: dict[str, set[str]] = defaultdict(set)
+        sql_ids_by_file: dict[str, list[str]] = defaultdict(list)
         for st in sql:
             sql_by_file[st.file].update(st.tables)
+            sql_ids_by_file[st.file].append(st.id)
         integ_by_file: dict[str, set[str]] = defaultdict(set)
         for it in integrations:
             for f in it.source_files:
@@ -662,10 +664,13 @@ class _Linker:
                         queue.append((e.target, depth + 1))
             tables: set[str] = set()
             calls: set[str] = set()
+            sql_ids: set[str] = set()
             for f in files:
                 tables |= sql_by_file.get(f, set())
+                sql_ids.update(sql_ids_by_file.get(f, []))
                 calls |= integ_by_file.get(f, set())
             svc.tables = sorted(tables)
+            svc.sql = sorted(sql_ids)
             svc.external_calls = sorted(calls)
 
     def _job_components(self, jobs: list[BatchJob], outgoing: dict[str, list[CodeEdge]]) -> None:

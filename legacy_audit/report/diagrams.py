@@ -39,6 +39,7 @@ def _label(text: str) -> str:
         .replace("<", "#lt;")
         .replace(">", "#gt;")
         .replace("@", "#64;")  # Mermaid reads user@host as a markdown link
+        .replace("://", "#58;//")  # ...and http://host as one
     )
     return f'"{out}"'
 
@@ -201,3 +202,65 @@ def _run_targets(rd: RunData, runs: dict[str, list[str]], job_id: str) -> list[s
             if t2.startswith("batch_job:"):
                 out.append(rd.label(t2) + " (batch job)")
     return list(dict.fromkeys(out))[:6]
+
+
+_LAYER_FILLS = ["#dbe9fb", "#ece3fb", "#dcf3dc", "#fde7d9", "#fff1cc", "#d8f1f0", "#fbe1ec"]
+_LAYER_STROKES = ["#2a78d6", "#6250d6", "#0ca30c", "#eb6834", "#d69a00", "#13867f", "#e87ba4"]
+
+
+def layered(architecture: dict[str, Any]) -> Diagram | None:
+    """The agent's layers (enrichment ``architecture.layers``) as coloured bands, top down."""
+    layers = architecture.get("layers") or []
+    if not layers:
+        return None
+    lines = ["flowchart TB"]
+    prev = None
+    for i, layer in enumerate(layers):
+        lid = f"L{i}"
+        lines.append(f"  subgraph {lid}[{_label(layer['name'])}]")
+        lines.append("    direction LR")
+        comps = layer.get("components") or ["(none)"]
+        for k, comp in enumerate(comps):
+            lines.append(f"    {lid}c{k}[{_label(comp)}]")
+        lines.append("  end")
+        fill, stroke = _LAYER_FILLS[i % 7], _LAYER_STROKES[i % 7]
+        lines.append(f"  style {lid} fill:{fill},stroke:{stroke},color:#0b0b0b")
+        if prev is not None:
+            lines.append(f"  {prev} --> {lid}")
+        prev = lid
+    return Diagram(
+        "Layers (interpreted by the Copilot agent)",
+        "\n".join(lines),
+        "Layers and their components come from enrichment/architecture.json.",
+        len(layers),
+    )
+
+
+def current_to_target(rd: RunData, target: dict[str, Any]) -> Diagram | None:
+    """Legacy components (scan) on the left, target components (enrichment) on the right, an
+    arrow for each 'replaces'."""
+    comps = target.get("components") or []
+    if not comps:
+        return None
+    legacy = sorted({r for c in comps for r in c.get("replaces") or []})
+    lines = ["flowchart LR", "  subgraph NOW[Today]"]
+    ids = _Ids("o")
+    for name in legacy:
+        lines.append(f"    {ids(name)}[{_label(name)}]")
+    lines += ["  end", "  subgraph NEXT[Target on Google Cloud]"]
+    tids = _Ids("t")
+    for c in comps:
+        text = _label(f"{c['name']} · {c['technology']} · {c['platform']}")
+        lines.append(f"    {tids(c['name'])}([{text}])")
+    lines.append("  end")
+    for c in comps:
+        for r in c.get("replaces") or []:
+            lines.append(f"  {ids(r)} ==> {tids(c['name'])}")
+    lines.append("  style NOW fill:#f0efec,stroke:#898781,color:#0b0b0b")
+    lines.append("  style NEXT fill:#dcf3dc,stroke:#0ca30c,color:#0b0b0b")
+    return Diagram(
+        "Today and target (interpreted by the Copilot agent)",
+        "\n".join(lines),
+        "Target components and what they replace come from enrichment/target_architecture.json.",
+        len(legacy) + len(comps),
+    )

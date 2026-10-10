@@ -55,7 +55,7 @@ def test_fixtures_validate_and_get_stamped(struts_run: Path, tmp_path: Path) -> 
     rep = validate_run(run_dir)
     assert rep.ok, [str(m) for m in rep.messages]
     assert not rep.warnings, [str(m) for m in rep.warnings]
-    assert len(rep.checked) == 12 and rep.stamped == rep.checked
+    assert len(rep.checked) == 14 and rep.stamped == rep.checked
     meta = json.loads((run_dir / "enrichment" / "plan.json").read_text(encoding="utf-8"))["meta"]
     assert meta["built_from"]["run_id"] == run_dir.name
     assert {"components", "effort", "stage:risks"} <= set(meta["built_from"]["facts_hash_by_input"])
@@ -219,7 +219,7 @@ def test_validate_command(struts_run: Path, tmp_path: Path) -> None:
     runner = CliRunner()
     ok = runner.invoke(app, ["validate", "-c", str(cfg), "--run", str(run_dir)])
     assert ok.exit_code == 0, ok.output
-    assert "12 checked, 0 error(s)" in ok.output
+    assert "14 checked, 0 error(s)" in ok.output
     _edit(run_dir, "overview", lambda d: d["figures"][0].update(value=12))
     bad = runner.invoke(app, ["validate", "-c", str(cfg), "--run", str(run_dir)])
     assert bad.exit_code == 1
