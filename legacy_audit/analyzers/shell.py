@@ -183,6 +183,8 @@ def _split_segments(line: str) -> list[str]:
         elif ch in "'\"":
             quote = ch
             buf.append(ch)
+        elif ch == "&" and ((buf and buf[-1] == ">") or line[i + 1 : i + 2] == ">"):
+            buf.append(ch)  # redirection: 2>&1, &>file
         elif ch in ";|&":
             out.append("".join(buf))
             buf = []
@@ -304,7 +306,9 @@ class ShellAnalyzer:
         if cmd in INTERPRETERS and args:
             target = next((a for a in args if not a.startswith("-")), None)
             if target:
-                self._invoke(path, no, self._expand(target, variables), facts, explicit=True)
+                # Sourcing an environment file (". ./app.env") is not running a program.
+                explicit = cmd not in (".", "source") or target.lower().endswith(SCRIPT_EXT)
+                self._invoke(path, no, self._expand(target, variables), facts, explicit=explicit)
             return
         if cmd in ("java", "javaw", "java.exe"):
             self._java(path, no, [self._expand(a, variables) for a in args], facts)

@@ -41,3 +41,54 @@ coverage:
   ddl: present
   crontab: missing
   server-config: missing
+
+# ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
+# Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
+
+counts:
+  services:
+    total: 4
+    by_kind: {servlet: 1, struts-action: 3}
+  screens:
+    total: 4
+    partials: 2
+    by_technology: {jsp: 4}
+  sql:
+    total: 13
+    distinct: 12
+    by_type: {CALL: 2, SELECT: 9, UPDATE: 2}
+    by_source: {jdbc: 6, plsql: 3, script: 1, sql-file: 3}
+    dynamic: 1
+    not_parsed: 0
+  stored_procedures: 1
+  db_objects: {package: 1, table: 4}
+  integrations:
+    total: 4
+    by_type: {DB: 1, SMTP: 1, SOAP: 2}
+  batch_jobs:
+    total: 0
+    boxes: 0
+    by_scheduler: {}
+  libraries: {total: 5, declared: 0, undeclared: 5}
+  entry_points: {}
+  dependencies: {resolved: 36, unresolved: 1}
+  findings: {config-credential: 1, unresolved-reference: 1}
+services:
+- 'servlet: health'
+- 'struts-action: /login'
+- 'struts-action: /orderDetail'
+- 'struts-action: /orderSearch'
+screens:
+- WebContent/jsp/common/footer.jspf (partial)
+- WebContent/jsp/common/header.jspf (partial)
+- WebContent/jsp/error.jsp
+- WebContent/jsp/login.jsp
+- WebContent/jsp/orderDetail.jsp
+- WebContent/jsp/orderSearch.jsp
+integrations:
+- DB oracle://ordersdb01.acme.local:1521/ORDP [outbound]
+- SMTP smtp.acme.local [outbound]
+- SOAP http://pricing.acme.com [outbound]
+- SOAP http://pricing.acme.local:8080/axis/services/PricingService [outbound]
+batch_jobs: []
+unresolved_references: 1

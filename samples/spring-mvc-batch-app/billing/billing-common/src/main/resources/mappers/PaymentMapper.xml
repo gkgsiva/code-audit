@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.acme.billing.common.mapper.PaymentMapper">
+
+  <select id="findPayments" resultType="map">
+    SELECT payment_id, invoice_id, amount, received_on
+      FROM payments
+     WHERE 1 = 1
+    <if test="invoiceId != null">
+       AND invoice_id = #{invoiceId}
+    </if>
+    <if test="from != null">
+       AND received_on &gt;= #{from}
+    </if>
+  </select>
+
+  <insert id="insertPayment">
+    INSERT INTO payments (payment_id, invoice_id, amount, received_on)
+    VALUES (payments_seq.NEXTVAL, #{invoiceId}, #{amount}, SYSDATE)
+  </insert>
+
+  <update id="settle">
+    UPDATE payments SET settled = 'Y' WHERE payment_id = #{paymentId}
+  </update>
+</mapper>

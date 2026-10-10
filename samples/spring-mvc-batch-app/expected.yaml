@@ -1,0 +1,87 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# Maven parent + 3 modules (billing-common, billing-web, billing-batch); audit-inputs has an
+# Autosys export (box, file watcher, 2 CMD jobs) and an MQSC export for queue manager QMBILL.
+# Known: the parent folder 'billing' holds only pom.xml, so it is a component of type unknown;
+# archive_usage.sh (run by Autosys job BIL_ARCHIVE) is deliberately missing -> 1 unresolved.
+
+inventory:
+  files: 28
+  input_files: 2
+  loc: {code: 580, comment: 10, blank: 97}
+  by_language:
+    java: {files: 11, code: 221, comment: 7, blank: 69}
+    jsp: {files: 5, code: 56, comment: 0, blank: 0}
+    properties: {files: 1, code: 4, comment: 1, blank: 0}
+    shell: {files: 1, code: 9, comment: 2, blank: 1}
+    xml: {files: 10, code: 290, comment: 0, blank: 27}
+  by_category: {build: 4, config: 7, screen: 5, script: 1, source: 11}
+components:
+- {name: billing, type: unknown, files: 1, detected_by: build-file}
+- {name: billing-batch, type: batch, files: 5, detected_by: build-file}
+- {name: billing-common, type: library, files: 7, detected_by: build-file}
+- {name: billing-web, type: web, files: 15, detected_by: build-file}
+coverage: {autosys: present, mq: present, cft: missing, ddl: missing, crontab: missing, server-config: missing}
+
+# ---- phase 2: services, screens, SQL, integrations, jobs, libraries, links ----
+# Lists are 'kind: name' so a change shows exactly what appeared or disappeared.
+
+counts:
+  services:
+    total: 8
+    by_kind: {batch-job: 3, spring-handler: 5}
+  screens:
+    total: 4
+    partials: 1
+    by_technology: {jsp: 4}
+  sql:
+    total: 12
+    distinct: 12
+    by_type: {INSERT: 3, SELECT: 7, UPDATE: 2}
+    by_source: {hql: 2, jdbc-template: 6, mybatis: 3, spring-xml: 1}
+    dynamic: 2
+    not_parsed: 0
+  stored_procedures: 0
+  db_objects: {table: 5}
+  integrations:
+    total: 9
+    by_type: {DB: 1, FILE: 1, LDAP: 1, MQ: 2, MQ-CHANNEL: 2, MQ-QMGR: 1, SMTP: 1}
+  batch_jobs:
+    total: 4
+    boxes: 1
+    by_scheduler: {autosys: 3, spring-batch: 1}
+  libraries: {total: 10, declared: 10, undeclared: 0}
+  entry_points: {message-listener: 1}
+  dependencies: {resolved: 22, unresolved: 1}
+  findings: {unresolved-reference: 1}
+services:
+- 'batch-job: BIL_ARCHIVE'
+- 'batch-job: BIL_INVOICE'
+- 'batch-job: invoiceJob'
+- 'spring-handler: GET /customers/search'
+- 'spring-handler: GET /health'
+- 'spring-handler: GET /invoices'
+- 'spring-handler: GET /invoices/{id}'
+- 'spring-handler: POST /invoices/{id}/pay'
+screens:
+- billing-web/src/main/webapp/WEB-INF/views/common/header.jspf (partial)
+- billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp
+- billing-web/src/main/webapp/WEB-INF/views/home.jsp
+- billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp
+- billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp
+integrations:
+- DB oracle://billingdb01.acme.local:1521/BILLP [outbound]
+- FILE /data/billing/in/usage_*.csv [inbound]
+- LDAP ldap://ldap.acme.local:389 [outbound]
+- MQ BILLING.INVOICE.PAID [outbound]
+- MQ PAYMENTS.IN [inbound]
+- MQ-CHANNEL BILLING.SVRCONN [inbound]
+- MQ-CHANNEL QMBILL.QMCRM [outbound]
+- MQ-QMGR QMBILL@mqbill01.acme.local:1414 [outbound]
+- SMTP mail (mailx) [outbound]
+batch_jobs:
+- 'autosys box: BIL_NIGHTLY_BOX'
+- 'autosys file-watcher: BIL_USAGE_WAIT'
+- 'autosys job: BIL_ARCHIVE'
+- 'autosys job: BIL_INVOICE'
+- 'spring-batch job: invoiceJob'
+unresolved_references: 1

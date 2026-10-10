@@ -149,7 +149,8 @@ def merge_libraries(items: Iterable[Library]) -> list[Library]:
 _LIB_TECH: list[tuple[re.Pattern[str], str, str]] = [
     (re.compile(r"^(struts|struts-core)$"), "Struts 1", "framework"),
     (re.compile(r"^struts2-core$"), "Struts 2", "framework"),
-    (re.compile(r"^spring(-core)?$"), "Spring Framework", "framework"),
+    (re.compile(r"^spring(-(core|context|beans|web|webmvc|jdbc|jms|tx|orm|aop))?$"),
+     "Spring Framework", "framework"),
     (re.compile(r"^spring-boot$"), "Spring Boot", "framework"),
     (re.compile(r"^spring-batch-core$"), "Spring Batch", "framework"),
     (re.compile(r"^spring-security-core$"), "Spring Security", "auth"),

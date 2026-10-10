@@ -70,6 +70,7 @@ VENDOR_FEATURES: list[tuple[str, re.Pattern[str]]] = [
 _CALL = re.compile(r"^\s*\{?\s*(\?\s*=\s*)?(CALL|EXEC(UTE)?)\s+([\w.$#]+)", re.I)
 _CURSOR = re.compile(r"^\s*DECLARE\s+[\w-]+\s+CURSOR\s+(WITH\s+HOLD\s+)?FOR\s+", re.I)
 _SELECT_INTO = re.compile(r"\bINTO\s+[^()]*?(?=\bFROM\b)", re.I | re.S)
+_DB2_SPECIAL_REGISTER = re.compile(r"\bCURRENT\s+(DATE|TIMESTAMP|TIME)\b", re.I)
 _DB2_ISOLATION = re.compile(r"\bWITH\s+(UR|CS|RS|RR)\s*$", re.I)
 _REGEX_TABLES = re.compile(
     r"\b(?:FROM|JOIN|INTO|UPDATE|TABLE|MERGE\s+INTO|USING)\s+([A-Za-z_][\w$#]*(?:\.[A-Za-z_][\w$#]*)?)",
@@ -143,6 +144,7 @@ def parse_tables(sql: str, dialect: str | None) -> tuple[list[str], list[str], b
     s = _BIND.sub("?", s)
     s = _SELECT_INTO.sub(" ", s) if statement_type(s) == "SELECT" else s
     s = _DB2_ISOLATION.sub("", s.strip().rstrip(";"))
+    s = _DB2_SPECIAL_REGISTER.sub(lambda m: "CURRENT_" + m.group(1).upper(), s)
     try:
         tree = sqlglot.parse_one(s, read=_sqlglot_dialect(dialect))
         if tree is None or isinstance(tree, exp.Command):

@@ -37,6 +37,9 @@ _XML_PARAM = re.compile(
 _HOST_KEY = re.compile(r"(^|[._-])(host|hostname|server)$", re.I)
 _PORT_KEY = re.compile(r"(^|[._-])port$", re.I)
 _QUEUE_KEY = re.compile(r"queue", re.I)
+OWNED_INPUTS = ("audit-inputs/autosys/", "audit-inputs/mq/", "audit-inputs/cft/",
+                "audit-inputs/crontab/", "audit-inputs/ddl/")  # fmt: skip
+_NOT_QUEUE_KEY = re.compile(r"manager|mgr|factory|depth|size|timeout|count|max|min", re.I)
 _QUEUE_VALUE = re.compile(r"^[A-Z0-9][A-Z0-9._]{2,47}$")
 _CFT_KEY = re.compile(r"cft", re.I)
 _PLACEHOLDER = re.compile(r"^\s*(\$\{.*\}|@\w+@|%\w+%|<[^>]+>)?\s*$")
@@ -102,6 +105,8 @@ class ConfigAnalyzer:
     version: ClassVar[str] = "1"
 
     def supports(self, file: FileRecord) -> bool:
+        if file.path.lower().startswith(OWNED_INPUTS):
+            return False  # scheduler, MQ and CFT exports have their own analyzers
         return file.language in ("properties", "yaml", "ini", "xml", "json") and file.category in (
             "config",
             "source",
@@ -152,6 +157,8 @@ class ConfigAnalyzer:
         hosts: dict[str, tuple[int, str]] = {}
         ports: dict[str, str] = {}
         bundle = bool(_MESSAGE_BUNDLE.search(file.path.rsplit("/", 1)[-1]))
+        # Spring bean files are read by the spring analyzer, which knows what each bean is.
+        spring_xml = file.language == "xml" and bool(re.search(r"<(\w+:)?beans\b", text))
         for no, key, value in pairs:
             if (
                 SECRET_KEY.search(key)
@@ -163,11 +170,17 @@ class ConfigAnalyzer:
                 facts.add("findings", credential_finding(file.path, no, key))
                 continue
             prefix = re.sub(r"[._-]?(host|hostname|server|port)$", "", key, flags=re.I)
+            if spring_xml:
+                continue
             if _HOST_KEY.search(key) and value and not _PLACEHOLDER.match(value):
                 hosts[prefix] = (no, value)
             elif _PORT_KEY.search(key) and value.isdigit():
                 ports[prefix] = value
-            elif _QUEUE_KEY.search(key) and _QUEUE_VALUE.match(value):
+            elif (
+                _QUEUE_KEY.search(key)
+                and not _NOT_QUEUE_KEY.search(key)
+                and _QUEUE_VALUE.match(value)
+            ):
                 facts.add(
                     "integrations",
                     integration(

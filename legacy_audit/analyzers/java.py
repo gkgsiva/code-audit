@@ -45,6 +45,13 @@ TEMPLATE_METHODS = {
     "execute",
     "call",
 }
+JMS_TEMPLATE_METHODS = {
+    "send": "producer",
+    "convertAndSend": "producer",
+    "receive": "consumer",
+    "receiveAndConvert": "consumer",
+    "receiveSelected": "consumer",
+}
 HQL_METHODS = {"createQuery": "hql", "find": "hql", "iterate": "hql", "bulkUpdate": "hql"}
 NATIVE_METHODS = {"createSQLQuery": "native", "createNativeQuery": "native"}
 
@@ -600,6 +607,25 @@ class _Visitor:
                     file=self.path,
                     line=line,
                     role=self._jms_role(),
+                    protocol="JMS",
+                ),
+            )
+        elif (
+            name in JMS_TEMPLATE_METHODS
+            and re.search(r"(?i)jms", obj)
+            and first is not None
+            and not first.dynamic
+            and re.match(r"^[\w.]+$", first.text)
+        ):
+            self.facts.add(
+                "integrations",
+                integration(
+                    type="MQ",
+                    target=first.text.split("///")[-1],
+                    direction="unknown",
+                    file=self.path,
+                    line=line,
+                    role=JMS_TEMPLATE_METHODS[name],
                     protocol="JMS",
                 ),
             )

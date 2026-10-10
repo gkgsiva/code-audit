@@ -5,8 +5,8 @@ from __future__ import annotations
 import bisect
 import re
 import xml.etree.ElementTree as ET
-from xml.parsers import expat
 from collections.abc import Iterator
+from xml.parsers import expat
 
 LINE_ATTR = "__line__"
 NS_ATTR = "__ns__"

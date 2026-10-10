@@ -151,7 +151,7 @@ class SqlStatement(Fact):
     source: str = Field(
         "unknown",
         description="jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, "
-        "spring-data, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+        "spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
     )
     text: str = Field("", description="Statement text (bind variables as written), max 4000")
     tables: list[str] = Field(default_factory=list)

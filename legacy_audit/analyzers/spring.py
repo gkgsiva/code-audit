@@ -15,7 +15,7 @@ from typing import ClassVar
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import classify_url, integration
-from legacy_audit.analyzers.sqltools import sql_fact
+from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
 from legacy_audit.analyzers.textutil import attrs, child_text, line_of, ns_of, parse_xml, text_of
 from legacy_audit.model import BatchJob, Evidence, FileRecord, Service, make_id
 
@@ -27,6 +27,8 @@ VIEW_RESOLVERS = (
     "TilesViewResolver",
     "ResourceBundleViewResolver",
 )
+# Bean properties holding SQL (JdbcCursorItemReader, JdbcPagingItemReader, MappingSqlQuery...).
+SQL_PROPERTIES = {"sql", "query", "queryString", "selectSql", "updateSql", "insertSql"}
 VIEW_PROPERTIES = {"formView", "successView", "viewName", "cancelView", "errorView", "pages"}
 LISTENER_CONTAINERS = ("DefaultMessageListenerContainer", "SimpleMessageListenerContainer")
 DYNAMIC_TAGS = {
@@ -219,6 +221,19 @@ class SpringAnalyzer:
             if bid.startswith("/") or (a.get("name", "").startswith("/")):
                 url = a.get("name") if a.get("name", "").startswith("/") else bid
                 self._handler(path, url or bid, b, facts)
+            for pname in SQL_PROPERTIES & set(props):
+                kind, value, el = props[pname]
+                if kind == "value" and looks_like_sql(value):
+                    facts.add(
+                        "sql_statements",
+                        sql_fact(
+                            file=path,
+                            line=line_of(el) or line or 1,
+                            text=value,
+                            source="spring-xml",
+                            dialect=ctx.config.sql.dialect,
+                        ),
+                    )
             for pname in VIEW_PROPERTIES & set(props):
                 kind, value, el = props[pname]
                 if kind == "value" and value and not value.startswith("redirect:"):

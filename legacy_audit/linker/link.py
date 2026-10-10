@@ -191,6 +191,8 @@ class _Linker:
         cands = self.ix.symbols.get((kind, name)) or self.ix.symbols_ci.get((kind, name.lower()))
         if not cands:
             return None
+        owned = [c for c in cands if c.owner]  # a fact (service, job, ...) beats a bare mention
+        cands = owned or cands
         best = self._pick([c.file for c in cands], near)
         return next(c for c in cands if c.file == best)
 
@@ -212,9 +214,11 @@ class _Linker:
                 return s.owner
             rec = self.by_path.get(ref.file)
             return _file_id(rec) if rec else src
-        if kind in ("service", "screen", "batch_job"):
+        if kind in ("service", "screen", "batch_job") and rest.startswith(kind + ":"):
             return rest
-        return src
+        name = rest if kind == "service" else src  # a service named by its handler
+        s = self._symbol("service", name, ref.file)
+        return s.owner if s and s.owner else src
 
     def _resolve(self, ref: Ref) -> str | None:
         target = ref.target
@@ -280,8 +284,17 @@ class _Linker:
         ent = self.entities
         libraries = resolve_versions(list(_typed(ent, "libraries", Library)), self.symbols)
         libraries = merge_libraries(libraries)
+        modules = {s.name for s in self.symbols if s.kind == "maven-pom"}
+        libraries = [lib for lib in libraries if f"{lib.group}:{lib.artifact}" not in modules]
         tech = merge_tech([*_typed(ent, "tech_stack", TechItem), *techs_from_libraries(libraries)])
         integrations = merge_integrations(_typed(ent, "integrations", Integration))
+        partners = {s.name: s.data for s in self.symbols if s.kind == "cft-partner"}
+        for it in integrations:
+            p = partners.get(it.details.get("partner", ""))
+            if it.type == "CFT" and p:
+                for key in ("host", "nspart"):
+                    if p.get(key):
+                        it.details.setdefault(key, p[key])
         jobs = merge_batch_jobs(_typed(ent, "batch_jobs", BatchJob))
         db_objects = merge_db_objects(_typed(ent, "db_objects", DbObject))
         services = dedupe(_typed(ent, "services", Service))
@@ -543,10 +556,15 @@ class _Linker:
         for svc in services:
             start = job_service.get(svc.id, svc.id)
             files: set[str] = set()
-            if svc.file and svc.kind != "batch-job":
-                files.add(svc.file)
-            seen = {start}
             queue = deque([(start, 0)])
+            seen = {start}
+            job = jobs_by_id.get(start)
+            in_source = job is None or job.scheduler in ("spring-batch", "jcl")
+            rec = self.by_path.get(svc.file or "") if in_source else None
+            if rec is not None:
+                files.add(rec.path)
+                seen.add(rec.id)
+                queue.append((rec.id, 0))
             while queue:
                 node, depth = queue.popleft()
                 if node != start and node in node_file:

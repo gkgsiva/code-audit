@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans">
+
+  <bean id="mqConnectionFactory" class="com.ibm.mq.jms.MQQueueConnectionFactory">
+    <property name="queueManager" value="QMBILL"/>
+    <property name="hostName" value="mqbill01.acme.local"/>
+    <property name="port" value="1414"/>
+    <property name="channel" value="BILLING.SVRCONN"/>
+    <property name="transportType" value="1"/>
+  </bean>
+
+  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="mqConnectionFactory"/>
+    <property name="defaultDestinationName" value="BILLING.INVOICE.PAID"/>
+  </bean>
+</beans>
