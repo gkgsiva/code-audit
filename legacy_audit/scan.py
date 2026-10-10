@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 import os
+import shutil
+import threading
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -12,15 +14,16 @@ from pathlib import Path
 from typing import Any
 
 from legacy_audit import __version__
-from legacy_audit.analyzers import Analyzer, AnalyzerContext, Facts, registered, version_key
+from legacy_audit.analyzers import Facts, version_key
 from legacy_audit.assess import assess, team_dir
 from legacy_audit.config import GitSource, LoadedConfig
 from legacy_audit.enrich.status import carry_over
 from legacy_audit.inventory.cache import CacheEntry, FileCache
 from legacy_audit.inventory.components import detect_components
-from legacy_audit.inventory.files import INVENTORY_VERSION, analyze_file, skip_by_extension
+from legacy_audit.inventory.files import INVENTORY_VERSION, skip_by_extension
 from legacy_audit.inventory.inputs import coverage_line, input_coverage
 from legacy_audit.inventory.walker import Filters, WalkedFile, anchored_excludes, walk
+from legacy_audit.inventory.worker import Job, process, setup
 from legacy_audit.linker import classify_components, link
 from legacy_audit.metrics.compute import compute as compute_metrics
 from legacy_audit.model import (
@@ -35,8 +38,10 @@ from legacy_audit.model import (
     make_id,
 )
 from legacy_audit.overrides import apply_component_overrides, load_overrides
+from legacy_audit.parallel import Cancelled, check, ordered_map, worker_count
 from legacy_audit.rules.packs import rules_key, text_rules
 from legacy_audit.source import resolve_sources
+from legacy_audit.store.lock import ScanLock
 from legacy_audit.store.runs import LATEST_FILE, new_run_id, runs_dir, set_latest
 from legacy_audit.store.summary import build_summary
 from legacy_audit.store.writer import FactSet, write_facts, write_json
@@ -90,32 +95,6 @@ def _load_facts(path: str, payload: dict[str, Any]) -> list[tuple[str, str, Fact
     return [(name, path, Facts.load(data)) for name, data in payload.get("facts", {}).items()]
 
 
-def _analyze(a: Analyzer, rec: FileRecord, ctx: AnalyzerContext, text: str | None) -> Facts:
-    """Run one analyzer; a crash is a coverage gap and a finding, never a failed scan."""
-    try:
-        return a.analyze(rec, ctx)
-    except Exception as err:
-        log.warning("Analyzer %s failed on %s: %s: %s", a.name, rec.path, type(err).__name__, err)
-        facts = Facts()
-        lines = text.count("\n") + 1 if text else 1
-        facts.coverage.lines = lines
-        facts.coverage.gap(1, lines, f"analyzer error: {type(err).__name__}")
-        facts.add(
-            "findings",
-            Finding(
-                id=make_id("finding", "analyzer-error", a.name, rec.path),
-                rule_id="analyzer-error",
-                severity=Severity.LOW,
-                category="coverage",
-                file=rec.path,
-                message=f"The {a.name} analyzer could not read this file ({type(err).__name__}); "
-                "it is reported as not parsed.",
-                evidence=[Evidence(file=rec.path)],
-            ),
-        )
-        return facts
-
-
 def _analyzer_coverage(file_facts: list[tuple[str, str, Facts]]) -> dict[str, AnalyzerCoverage]:
     out: dict[str, AnalyzerCoverage] = {}
     for name, path, facts in file_facts:
@@ -137,10 +116,60 @@ def _analyzer_coverage(file_facts: list[tuple[str, str, Facts]]) -> dict[str, An
     return dict(sorted(out.items()))
 
 
+def _stage(name: str, progress: Progress | None, cancel: threading.Event | None) -> None:
+    check(cancel)
+    if progress:
+        progress(name, 0, 0)
+
+
+def _limit_findings(
+    records: list[FileRecord], unreadable: list[tuple[str, str]], max_bytes: int
+) -> list[Finding]:
+    """Files the scan could not read in full: too large (inventoried, not analysed) or unreadable
+    (permissions, path too long, vanished). Both are coverage gaps, never a failed scan."""
+    out = []
+    for rec in records:
+        if rec.size > max_bytes and rec.category != "binary" and rec.language != "archive":
+            out.append(
+                Finding(
+                    id=make_id("finding", "file-too-large", rec.path),
+                    rule_id="file-too-large",
+                    severity=Severity.LOW,
+                    category="coverage",
+                    file=rec.path,
+                    message=f"{rec.size / 1048576:.1f} MB is above inventory.max_file_size_mb: "
+                    "hashed and counted as a file, but not read for LOC or analysed.",
+                    evidence=[Evidence(file=rec.path)],
+                )
+            )
+    for path, why in unreadable:
+        log.warning("Cannot read %s: %s", path, why)
+        out.append(
+            Finding(
+                id=make_id("finding", "file-unreadable", path),
+                rule_id="file-unreadable",
+                severity=Severity.LOW,
+                category="coverage",
+                file=path,
+                message=f"The file could not be read ({why}); it is not in the inventory.",
+                evidence=[Evidence(file=path)],
+            )
+        )
+    return out
+
+
 def _previous_run(out_dir: Path) -> Path | None:
     latest = runs_dir(out_dir) / LATEST_FILE
     run_id = latest.read_text(encoding="utf-8").strip() if latest.exists() else ""
     return runs_dir(out_dir) / run_id if run_id else None
+
+
+def _clean_interrupted(rd: Path) -> None:
+    """Remove run folders an earlier scan left unfinished (no run.json); its cache is kept."""
+    for d in sorted(rd.iterdir()):
+        if d.is_dir() and not (d / "run.json").exists():
+            log.info("Removing unfinished run %s", d.name)
+            shutil.rmtree(d, ignore_errors=True)
 
 
 def run_scan(
@@ -149,27 +178,41 @@ def run_scan(
     full: bool = False,
     output_dir: Path | None = None,
     progress: Progress | None = None,
+    cancel: threading.Event | None = None,
 ) -> ScanResult:
+    """Scan into a new run folder. Raises ``ScanBusy`` when another scan holds the output
+    folder and ``Cancelled`` when ``cancel`` is set (the unfinished run is removed)."""
     out_dir = (output_dir or loaded.output_dir).resolve()
-    started = datetime.now(UTC)
     rd = runs_dir(out_dir)
-    rd.mkdir(parents=True, exist_ok=True)
-    run_id = new_run_id(loaded.hash, started, rd)
-    run_dir = rd / run_id
-    (run_dir / "logs").mkdir(parents=True)
+    with ScanLock(rd):
+        _clean_interrupted(rd)
+        started = datetime.now(UTC)
+        run_id = new_run_id(loaded.hash, started, rd)
+        run_dir = rd / run_id
+        (run_dir / "logs").mkdir(parents=True)
 
-    handler = logging.FileHandler(run_dir / "logs" / "scan.log", encoding="utf-8")
-    handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
-    handler.addFilter(SecretFilter(_secrets(loaded)))
-    log.addHandler(handler)
-    prev_level = log.level
-    log.setLevel(logging.INFO)
-    try:
-        return _run(loaded, out_dir, run_id, run_dir, started, full, progress)
-    finally:
-        log.removeHandler(handler)
-        log.setLevel(prev_level)
-        handler.close()
+        handler = logging.FileHandler(run_dir / "logs" / "scan.log", encoding="utf-8")
+        handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+        handler.addFilter(SecretFilter(_secrets(loaded)))
+        log.addHandler(handler)
+        prev_level = log.level
+        log.setLevel(logging.INFO)
+        cancelled = False
+        try:
+            return _run(loaded, out_dir, run_id, run_dir, started, full, progress, cancel)
+        except (Cancelled, KeyboardInterrupt):
+            cancelled = True
+            raise
+        except Exception as err:
+            # The folder has no run.json, so it is not a run; its log stays until the next scan.
+            log.error("Run %s failed: %s: %s", run_id, type(err).__name__, err)
+            raise
+        finally:
+            log.removeHandler(handler)
+            log.setLevel(prev_level)
+            handler.close()
+            if cancelled:
+                shutil.rmtree(run_dir, ignore_errors=True)
 
 
 def _run(
@@ -180,8 +223,10 @@ def _run(
     started: datetime,
     full: bool,
     progress: Progress | None,
+    cancel: threading.Event | None,
 ) -> ScanResult:
     cfg = loaded.config
+    unreadable: list[tuple[str, str]] = []  # (path, why)
     timings: dict[str, float] = {}
     warnings: list[str] = []
     log.info("Run %s for '%s' (legacy-audit %s)", run_id, cfg.application.name, __version__)
@@ -228,72 +273,82 @@ def _run(
         f"rules={rules_key(patterns)}"
     )
     cache = FileCache(out_dir / "cache" / "file-cache.sqlite", cache_version)
-    analyzers = registered()
     max_bytes = int(cfg.inventory.max_file_size_mb * 1024 * 1024)
-    records: list[FileRecord] = []
-    file_facts: list[tuple[str, str, Facts]] = []  # (analyzer, path, facts)
+    # Pass 1 (this process): what the cache already holds. Pass 2 (worker pool): the rest.
+    slots: list[dict[str, Any] | None] = []  # cache payload per walked file, in walk order
+    todo: list[tuple[int, Job, CacheEntry | None]] = []
     analyzed = cached = skipped = 0
     total = len(walked)
     for n, (wf, path, origin) in enumerate(walked, 1):
+        check(cancel)
         if progress:
             progress("inventory", n, total)
+        slots.append(None)
         if skip_by_extension(wf.rel, cfg.inventory.include_binaries):
             skipped += 1
             continue
-        root_key = wf.root
-        st = wf.abs_path.stat()
-        entry = None if full else cache.get(root_key, path)
-        if entry and entry.size == st.st_size and entry.mtime_ns == st.st_mtime_ns:
-            rec_data = entry.payload.get("record")
-            cached += 1
-            if rec_data is None:
-                skipped += 1
-            else:
-                records.append(FileRecord.model_validate(rec_data))
-                file_facts.extend(_load_facts(path, entry.payload))
+        try:
+            st = wf.abs_path.stat()
+        except OSError as err:
+            unreadable.append((path, f"{type(err).__name__}: {err.strerror or err}"))
             continue
-        result = analyze_file(
-            wf.abs_path, path, root_key, origin, cfg.inventory.include_binaries, max_bytes
-        )
-        rec = result.record
-        if entry and rec and entry.sha256 == rec.sha256:
+        entry = None if full else cache.get(wf.root, path)
+        if entry and entry.size == st.st_size and entry.mtime_ns == st.st_mtime_ns:
+            cached += 1
+            skipped += entry.payload.get("record") is None
+            slots[-1] = entry.payload
+            continue
+        todo.append((n - 1, Job(str(wf.abs_path), path, wf.root, origin.value), entry))
+
+    workers = worker_count(cfg.inventory.workers)
+    log.info("Analysing %d file(s) with %d worker(s)", len(todo), workers)
+    results = ordered_map(
+        process,
+        [job for _, job, _ in todo],
+        workers,
+        initializer=setup,
+        initargs=(cfg, patterns, max_bytes),
+        cancel=cancel,
+    )
+    for k, ((slot, job, entry), done) in enumerate(zip(todo, results, strict=True), 1):
+        if progress:
+            progress("analysis", k, len(todo))
+        for w in done.warnings:
+            log.warning(w)
+        if done.error is not None:
+            unreadable.append((job.path, done.error))
+            continue
+        if entry and done.sha256 and entry.sha256 == done.sha256:
             # Touched but unchanged: refresh the stat fields, keep the cached analysis.
             cached += 1
-            entry.size, entry.mtime_ns = st.st_size, st.st_mtime_ns
-            cache.put(root_key, path, entry)
-            records.append(FileRecord.model_validate(entry.payload["record"]))
-            file_facts.extend(_load_facts(path, entry.payload))
+            entry.size, entry.mtime_ns = done.size, done.mtime_ns
+            cache.put(job.root, job.path, entry)
+            slots[slot] = entry.payload
             continue
         analyzed += 1
-        per_analyzer: dict[str, Facts] = {}
-        if rec is not None and (result.text is not None or rec.language == "archive"):
-            ctx = AnalyzerContext(
-                config=cfg, abs_path=wf.abs_path, text=result.text, text_rules=patterns
-            )
-            for a in analyzers:
-                if a.supports(rec):
-                    per_analyzer[a.name] = _analyze(a, rec, ctx, result.text)
-        if rec is None:
-            skipped += 1
         cache.put(
-            root_key,
-            path,
-            CacheEntry(
-                size=st.st_size,
-                mtime_ns=st.st_mtime_ns,
-                sha256=rec.sha256 if rec else "",
-                version=cache.version,
-                payload={
-                    "record": rec.model_dump(mode="json") if rec else None,
-                    "facts": {name: f.dump() for name, f in per_analyzer.items()},
-                },
-            ),
+            job.root,
+            job.path,
+            CacheEntry(done.size, done.mtime_ns, done.sha256, cache.version, done.payload),
         )
-        if rec is not None:
-            records.append(rec)
-            file_facts.extend((name, path, f) for name, f in per_analyzer.items())
+        slots[slot] = done.payload
+        if done.payload["record"] is None:
+            skipped += 1
+        if k % 500 == 0:
+            cache.commit()  # an interrupted run keeps what it analysed (the next run resumes)
+
+    records: list[FileRecord] = []
+    file_facts: list[tuple[str, str, Facts]] = []  # (analyzer, path, facts)
+    for (_, path, _), payload in zip(walked, slots, strict=True):
+        if payload is None:
+            continue
+        if payload.get("record") is None:  # binary skipped by content
+            continue
+        records.append(FileRecord.model_validate(payload["record"]))
+        file_facts.extend(_load_facts(path, payload))
     removed = cache.prune()
     cache.close()
+    limits = _limit_findings(records, unreadable, max_bytes)
     timings["inventory"] = round(time.perf_counter() - t, 3)
     log.info(
         "Inventory: %d files, %d analyzed, %d from cache, %d skipped binaries, %d removed",
@@ -305,6 +360,7 @@ def _run(
     )
 
     # ---- Components and overrides -------------------------------------------------------------
+    _stage("components", progress, cancel)
     t = time.perf_counter()
     source_records = [r for r in records if r.origin == Origin.SOURCE]
     components, file_to_comp = detect_components(
@@ -319,14 +375,17 @@ def _run(
     timings["components"] = round(time.perf_counter() - t, 3)
 
     # ---- Linking and classification -----------------------------------------------------------
+    _stage("link", progress, cancel)
     t = time.perf_counter()
     linked = link(records, (f for _, _, f in file_facts), cfg.cobol.copybook_paths)
+    linked.entities.setdefault("findings", []).extend(limits)
     fixed_types = set(overrides.components.type) | {c.name for c in cfg.components if c.type}
     classify_components(components, linked.entities, source_records, fixed_types)
     timings["link"] = round(time.perf_counter() - t, 3)
     log.info("Linked: %d edges, %d unresolved references", linked.edges, linked.unresolved)
 
     # ---- Metrics ------------------------------------------------------------------------------
+    _stage("metrics", progress, cancel)
     t = time.perf_counter()
     units = {path: f.units for name, path, f in file_facts if name == "metrics"}
     windows = {path: f.windows for name, path, f in file_facts if name == "metrics"}
@@ -334,6 +393,7 @@ def _run(
     timings["metrics"] = round(time.perf_counter() - t, 3)
 
     # ---- Assess: PostgreSQL grades, dependency security, rules, effort --------------------------
+    _stage("assess", progress, cancel)
     t = time.perf_counter()
     hits = [
         (path, str(h[0]), int(h[1]), str(h[2]))
@@ -352,6 +412,7 @@ def _run(
         hits,
         [r.path for r in roots],
         {path: wf.abs_path for wf, path, _ in walked},
+        cancel,
     )
     timings["assess"] = round(time.perf_counter() - t, 3)
     log.info("Assessed: %d findings", len(assessed.findings))
@@ -400,6 +461,7 @@ def _run(
         unresolved_references=linked.unresolved,
         vulnerability_sources=assessed.sources,
     )
+    _stage("export", progress, cancel)
     t = time.perf_counter()
     data_dir = run_dir / "data"
     write_facts(data_dir, facts)

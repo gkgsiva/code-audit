@@ -2,8 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
+import json
 import re
+import sqlite3
+import threading
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 import sqlglot
@@ -11,6 +16,11 @@ from sqlglot.errors import ErrorLevel
 
 from legacy_audit.analyzers.sqltools import MAX_TEXT, prepare, sqlglot_dialect, strip_comments
 from legacy_audit.model import DbObject, PgGrade, SqlStatement
+from legacy_audit.parallel import ordered_map
+
+_SQLGLOT = getattr(sqlglot, "__version__", "?")
+GRADER_VERSION = "1"  # bump when grading logic changes, so cached grades are recomputed
+Graded = tuple[PgGrade, str | None, str | None]
 
 MANUAL_OBJECTS = ("package", "procedure", "function", "trigger")
 
@@ -77,7 +87,7 @@ def _grade_text(
     return (PgGrade.REVIEW if found else PgGrade.AUTO), reasons, pg_text
 
 
-def grade(st: SqlStatement, rules: list[Construct]) -> tuple[PgGrade, str | None, str | None]:
+def grade(st: SqlStatement, rules: list[Construct]) -> Graded:
     """(grade, reason, suggested PostgreSQL text).
 
     Dynamic SQL rebuilt from Java (or MyBatis/iBATIS tags) is graded on its full text and on
@@ -116,20 +126,114 @@ def grade(st: SqlStatement, rules: list[Construct]) -> tuple[PgGrade, str | None
     return g, "; ".join(dict.fromkeys(reasons)) or None, pg_text
 
 
+def _key(st: SqlStatement) -> tuple[Any, ...]:
+    return (st.text, st.dialect, st.source, st.dynamic, st.parsed, st.type,
+            st.structural_holes, st.fragments, st.optional_fragments, st.value_holes,
+            tuple(st.variants))  # fmt: skip
+
+
+_worker_rules: list[Construct] = []
+
+
+def _setup(rules: list[Construct]) -> None:
+    global _worker_rules
+    _worker_rules = rules
+
+
+def _grade_one(st: SqlStatement) -> Graded:
+    return grade(st, _worker_rules)
+
+
+class GradeCache:
+    """Grades of earlier runs, by statement and rule set: a re-run grades only new SQL.
+
+    Kept next to the file cache (``<output>/cache/grade-cache.sqlite``); entries not used by a
+    run are dropped at the end of it, so the file does not grow without bound."""
+
+    def __init__(self, path: Path, rules_key: str) -> None:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        self.conn = sqlite3.connect(path)
+        self.conn.execute(
+            "CREATE TABLE IF NOT EXISTS grades (key TEXT PRIMARY KEY, grade TEXT NOT NULL, "
+            "reason TEXT, pg_text TEXT)"
+        )
+        self.rules_key = rules_key
+        self.seen: set[str] = set()
+
+    def hash(self, key: tuple[Any, ...]) -> str:
+        raw = json.dumps([self.rules_key, *key], ensure_ascii=False, default=str)
+        return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+    def get(self, h: str) -> Graded | None:
+        self.seen.add(h)
+        row = self.conn.execute(
+            "SELECT grade, reason, pg_text FROM grades WHERE key=?", (h,)
+        ).fetchone()
+        return (PgGrade(row[0]), row[1], row[2]) if row else None
+
+    def put(self, h: str, result: Graded) -> None:
+        self.seen.add(h)
+        self.conn.execute(
+            "INSERT OR REPLACE INTO grades VALUES (?, ?, ?, ?)", (h, str(result[0]), *result[1:])
+        )
+
+    def close(self) -> None:
+        rows = self.conn.execute("SELECT key FROM grades").fetchall()
+        self.conn.executemany(
+            "DELETE FROM grades WHERE key=?", [r for r in rows if r[0] not in self.seen]
+        )
+        self.conn.commit()
+        self.conn.close()
+
+
+def rules_key(data: dict[str, Any]) -> str:
+    raw = json.dumps(data.get("constructs", []), sort_keys=True, default=str)
+    return hashlib.sha256(f"{GRADER_VERSION}|{_SQLGLOT}|{raw}".encode()).hexdigest()[:16]
+
+
 def grade_all(
-    statements: list[SqlStatement], objects: list[DbObject], data: dict[str, Any]
+    statements: list[SqlStatement],
+    objects: list[DbObject],
+    data: dict[str, Any],
+    *,
+    workers: int = 1,
+    cache_file: Path | None = None,
+    cancel: threading.Event | None = None,
 ) -> None:
-    """Grade in place. Identical statements are graded once."""
+    """Grade in place. Identical statements are graded once, statements graded by an earlier
+    run come from ``cache_file``, and the rest are graded across ``workers`` processes."""
     rules = constructs(data)
-    memo: dict[tuple[Any, ...], tuple[PgGrade, str | None, str | None]] = {}
+    unique: dict[tuple[Any, ...], SqlStatement] = {}
     for st in statements:
-        key = (st.text, st.dialect, st.source, st.dynamic, st.parsed, st.type,
-               st.structural_holes, st.fragments, st.optional_fragments,
-               tuple(st.variants))  # fmt: skip
-        result = memo.get(key)
-        if result is None:
-            result = memo[key] = grade(st, rules)
-        st.pg_grade, st.reason, st.pg_text = result
+        unique.setdefault(_key(st), st)
+    cache = GradeCache(cache_file, rules_key(data)) if cache_file else None
+    results: dict[tuple[Any, ...], Graded] = {}
+    todo: list[tuple[tuple[Any, ...], str]] = []
+    for key in unique:
+        h = cache.hash(key) if cache else ""
+        hit = cache.get(h) if cache else None
+        if hit is not None:
+            results[key] = hit
+        else:
+            todo.append((key, h))
+    try:
+        graded = ordered_map(
+            _grade_one,
+            [unique[k] for k, _ in todo],
+            workers,
+            initializer=_setup,
+            initargs=(rules,),
+            cancel=cancel,
+        )
+        for (key, h), result in zip(todo, graded, strict=True):
+            results[key] = result
+            if cache:
+                cache.put(h, result)
+    finally:
+        if cache:
+            cache.close()
+    for st in statements:
+        st.pg_grade, st.reason, st.pg_text = results[_key(st)]
     for obj in objects:
         if obj.object_type in MANUAL_OBJECTS:
             obj.pg_grade = PgGrade.MANUAL

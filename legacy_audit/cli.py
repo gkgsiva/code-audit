@@ -1,5 +1,5 @@
 """Command-line interface: ``legacy-audit init | scan | report | validate | facts | mcp | diff |
-purge-cache | version``."""
+serve | doctor | purge-cache | version``."""
 
 from __future__ import annotations
 
@@ -403,6 +403,49 @@ def mcp(
         if reconfigure is not None:
             reconfigure(encoding="utf-8")
     Server(Facts(latest)).serve()
+
+
+@app.command()
+def doctor(
+    config: Annotated[
+        Path | None, typer.Option("--config", "-c", help="audit.yaml (tool paths, output folder)")
+    ] = None,
+) -> None:
+    """Check Python, Node, pptxgenjs, Mermaid CLI, Dependency-Check, OSV-Scanner, JDK and Git."""
+    from legacy_audit.doctor import run_checks
+
+    cfg, out_dir = None, None
+    path = config or Path("audit.yaml")
+    if path.exists():
+        try:
+            loaded = load_config(path)
+        except ConfigError as err:
+            raise _fail(str(err)) from None
+        cfg, out_dir = loaded.config, loaded.output_dir
+    elif config is not None:
+        raise _fail(f"{config} not found")
+    checks = run_checks(cfg, out_dir)
+    table = Table("check", "status", "", "detail", "needed for")
+    colours = {"ok": "green", "missing": "yellow", "old": "red", "error": "red"}
+    for c in checks:
+        colour = colours[c.status] if c.required or c.ok else "yellow"
+        table.add_row(
+            c.name,
+            f"[{colour}]{c.status}[/{colour}]",
+            "required" if c.required else "optional",
+            c.detail,
+            c.needed_for,
+        )
+    console.print(table)
+    broken = [c.name for c in checks if c.required and not c.ok]
+    missing = [c.name for c in checks if not c.required and not c.ok]
+    if broken:
+        console.print(f"[red]Not ready:[/red] {', '.join(broken)}")
+        raise typer.Exit(code=1)
+    console.print(
+        "[green]Ready to scan.[/green]"
+        + (f" Optional, not available: {', '.join(missing)}." if missing else "")
+    )
 
 
 @app.command("purge-cache")

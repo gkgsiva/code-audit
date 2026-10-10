@@ -126,6 +126,7 @@ branding:
 inventory:
   include_binaries: false        # images/objects/executables; jar/war/ear/zip are always listed
   max_file_size_mb: 20           # larger files are hashed but not read
+  workers: 0                     # analysis processes; 0 = one per CPU less one (max 8)
   use_default_excludes: true
 
 # Dialect of SQL embedded in code and scripts (oracle, db2, sqlserver, sybase, mysql, postgresql).
