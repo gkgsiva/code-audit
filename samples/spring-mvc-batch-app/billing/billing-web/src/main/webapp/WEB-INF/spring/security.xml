@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans">
+
+  <http auto-config="true">
+    <intercept-url pattern="/health" access="permitAll"/>
+    <intercept-url pattern="/**" access="hasRole('ROLE_BILLING')"/>
+    <form-login login-page="/login" default-target-url="/invoices"/>
+  </http>
+
+  <ldap-server url="ldap://ldap.acme.local:389/dc=acme,dc=com"/>
+
+  <authentication-manager>
+    <ldap-authentication-provider user-dn-pattern="uid={0},ou=people" group-search-base="ou=groups"/>
+  </authentication-manager>
+</beans:beans>

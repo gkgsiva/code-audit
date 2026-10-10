@@ -1,0 +1,71 @@
+/*
+ * settle_load: loads the day's card transactions into SETTLEMENT_LINES
+ * and computes the totals per merchant.
+ */
+#include <stdio.h>
+#include <string.h>
+#include "settle_util.h"
+
+EXEC SQL INCLUDE SQLCA;
+
+EXEC SQL BEGIN DECLARE SECTION;
+    char   merchant_id[13];
+    double amount;
+    char   run_date[9];
+    char   dyn_sql[1024];
+EXEC SQL END DECLARE SECTION;
+
+EXEC SQL DECLARE txn_cur CURSOR FOR
+    SELECT t.merchant_id, SUM(t.amount)
+      FROM card_transactions t, merchants m
+     WHERE t.merchant_id = m.merchant_id
+       AND t.txn_date = TO_DATE(:run_date, 'YYYYMMDD')
+       AND m.status = 'A'
+     GROUP BY t.merchant_id;
+
+static int load_lines(void)
+{
+    EXEC SQL OPEN txn_cur;
+    for (;;) {
+        EXEC SQL FETCH txn_cur INTO :merchant_id, :amount;
+        if (sqlca.sqlcode == 1403) {
+            break;
+        }
+        EXEC SQL INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on)
+                 VALUES (:merchant_id, TO_DATE(:run_date, 'YYYYMMDD'), :amount, SYSDATE);
+    }
+    EXEC SQL CLOSE txn_cur;
+    return 0;
+}
+
+static int close_day(void)
+{
+    EXEC SQL EXECUTE
+        BEGIN
+            pkg_settlement.close_day(TO_DATE(:run_date, 'YYYYMMDD'));
+            UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(:run_date, 'YYYYMMDD');
+        END;
+    END-EXEC;
+    return 0;
+}
+
+static int purge_old(const char *table)
+{
+    /* Table name comes from the caller: dynamic SQL. */
+    sprintf(dyn_sql, "DELETE FROM %s WHERE run_date < ADD_MONTHS(SYSDATE, -13)", table);
+    EXEC SQL PREPARE purge_stmt FROM :dyn_sql;
+    EXEC SQL EXECUTE purge_stmt;
+    return 0;
+}
+
+int main(int argc, char **argv)
+{
+    strcpy(run_date, argc > 1 ? argv[1] : settle_run_date());
+    EXEC SQL CONNECT :argv;
+    load_lines();
+    close_day();
+    purge_old("settlement_lines");
+    EXEC SQL COMMIT WORK RELEASE;
+    settle_log("settle_load done");
+    return 0;
+}

@@ -92,6 +92,18 @@
       "title": "Fields Count",
       "type": "integer"
     },
+    "file": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "File"
+    },
     "id": {
       "title": "Id",
       "type": "string"
@@ -104,6 +116,14 @@
       "default": false,
       "title": "Partial",
       "type": "boolean"
+    },
+    "targeted_by": {
+      "description": "Services or pages that forward to / include it",
+      "items": {
+        "type": "string"
+      },
+      "title": "Targeted By",
+      "type": "array"
     },
     "technology": {
       "title": "Technology",

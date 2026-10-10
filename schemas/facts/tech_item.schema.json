@@ -45,6 +45,7 @@
   "additionalProperties": false,
   "properties": {
     "category": {
+      "description": "language, framework, library, database, runtime, build, scheduler, middleware, auth, upgrade-signal",
       "title": "Category",
       "type": "string"
     },
@@ -74,6 +75,11 @@
     "name": {
       "title": "Name",
       "type": "string"
+    },
+    "usages": {
+      "default": 1,
+      "title": "Usages",
+      "type": "integer"
     },
     "version": {
       "anyOf": [

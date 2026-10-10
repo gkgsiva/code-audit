@@ -93,6 +93,12 @@
       "title": "File",
       "type": "string"
     },
+    "fingerprint": {
+      "default": "",
+      "description": "Hash of the normalized text; equal = distinct",
+      "title": "Fingerprint",
+      "type": "string"
+    },
     "id": {
       "title": "Id",
       "type": "string"
@@ -113,6 +119,11 @@
       "default": null,
       "title": "Normalized"
     },
+    "parsed": {
+      "default": true,
+      "title": "Parsed",
+      "type": "boolean"
+    },
     "pg_grade": {
       "anyOf": [
         {
@@ -123,6 +134,14 @@
         }
       ],
       "default": null
+    },
+    "procedures": {
+      "description": "Procedures it calls",
+      "items": {
+        "type": "string"
+      },
+      "title": "Procedures",
+      "type": "array"
     },
     "reason": {
       "anyOf": [
@@ -136,6 +155,12 @@
       "default": null,
       "title": "Reason"
     },
+    "source": {
+      "default": "unknown",
+      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string",
+      "title": "Source",
+      "type": "string"
+    },
     "tables": {
       "items": {
         "type": "string"
@@ -143,9 +168,23 @@
       "title": "Tables",
       "type": "array"
     },
+    "text": {
+      "default": "",
+      "description": "Statement text (bind variables as written), max 4000",
+      "title": "Text",
+      "type": "string"
+    },
     "type": {
+      "description": "SELECT, INSERT, UPDATE, DELETE, MERGE, CALL, ...",
       "title": "Type",
       "type": "string"
+    },
+    "vendor_features": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Vendor Features",
+      "type": "array"
     }
   },
   "required": [

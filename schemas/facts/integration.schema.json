@@ -44,7 +44,30 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "consumers": {
+      "description": "Files that receive/read",
+      "items": {
+        "type": "string"
+      },
+      "title": "Consumers",
+      "type": "array"
+    },
+    "details": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Details",
+      "type": "object"
+    },
     "direction": {
+      "description": "outbound, inbound, both, defined or unknown",
       "title": "Direction",
       "type": "string"
     },
@@ -58,6 +81,14 @@
     "id": {
       "title": "Id",
       "type": "string"
+    },
+    "producers": {
+      "description": "Files that send/write",
+      "items": {
+        "type": "string"
+      },
+      "title": "Producers",
+      "type": "array"
     },
     "protocol": {
       "anyOf": [
@@ -83,6 +114,7 @@
       "type": "string"
     },
     "type": {
+      "description": "HTTP, SOAP, MQ, MQ-CHANNEL, MQ-QMGR, JMS, FTP, SFTP, SCP, CFT, SMTP, LDAP, SOCKET, FILE, DB",
       "title": "Type",
       "type": "string"
     },

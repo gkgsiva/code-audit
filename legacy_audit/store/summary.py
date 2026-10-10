@@ -7,7 +7,18 @@ from collections import defaultdict
 from typing import Any
 
 from legacy_audit.inventory.inputs import coverage_line
-from legacy_audit.model import ENTITIES, Component, FileRecord, InputCoverage, RunInfo
+from legacy_audit.model import (
+    ENTITIES,
+    Component,
+    DbObject,
+    FileRecord,
+    InputCoverage,
+    Integration,
+    RunInfo,
+    Service,
+    TechItem,
+)
+from legacy_audit.store.counts import counts
 from legacy_audit.store.writer import FactSet
 
 MAX_BYTES = 30_000
@@ -31,6 +42,15 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
     source = [f for f in files if f.origin == "source"]
     comps = [c for c in facts.get("components", []) if isinstance(c, Component)]
     coverage = [c for c in facts.get("input_coverage", []) if isinstance(c, InputCoverage)]
+    services = [s for s in facts.get("services", []) if isinstance(s, Service)]
+    integrations = [i for i in facts.get("integrations", []) if isinstance(i, Integration)]
+    tables = [
+        o
+        for o in facts.get("db_objects", [])
+        if isinstance(o, DbObject) and o.object_type == "table"
+    ]
+    tech = [t for t in facts.get("tech_stack", []) if isinstance(t, TechItem)]
+    headline = counts(facts)
 
     def build(n: int) -> dict[str, Any]:
         return {
@@ -50,6 +70,11 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
                 "components": len(comps),
                 **{e: len(facts.get(e, [])) for e in ENTITIES if e not in ("inventory",)},
             },
+            "counts": headline,
+            "tech_stack": [
+                {"name": t.name, "version": t.version, "category": t.category}
+                for t in tech[: n * 4]
+            ],
             "by_language": _by(source, "language"),
             "by_category": _by(source, "category"),
             "components": [
@@ -60,7 +85,24 @@ def build_summary(run: RunInfo, facts: FactSet, top_n: int = 15) -> dict[str, An
                 {"path": f.path, "language": f.language, "loc_code": f.loc_code}
                 for f in sorted(source, key=lambda f: (-f.loc_code, f.path))[:n]
             ],
+            "top_services": [
+                {"name": s.name, "kind": s.kind, "component": s.component, "tables": len(s.tables)}
+                for s in sorted(services, key=lambda s: (-len(s.tables), s.name))[:n]
+            ],
+            "top_tables": [
+                {"name": t.name, "references": len(t.referenced_by), "crud": sorted(t.crud)}
+                for t in sorted(tables, key=lambda t: (-len(t.referenced_by), t.name))[:n]
+            ],
+            "integrations": [
+                {"type": i.type, "target": i.target, "direction": i.direction, "usages": i.usages}
+                for i in sorted(integrations, key=lambda i: (-i.usages, i.type, i.target))[:n]
+            ],
             "coverage": {c.kind: coverage_line(c) for c in coverage},
+            "analyzer_coverage": {
+                name: {"files": a.files, "coverage_pct": a.coverage_pct}
+                for name, a in run.analyzers.items()
+            },
+            "unresolved_references": run.unresolved_references,
             "counting_rules": run.counting_rules,
         }
 

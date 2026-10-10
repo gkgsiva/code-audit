@@ -8,6 +8,7 @@ import yaml
 
 from legacy_audit.config import load_config
 from legacy_audit.scan import run_scan
+from legacy_audit.store.counts import counts
 from tests.conftest import SAMPLES
 
 SAMPLE_DIRS = sorted(p.parent for p in SAMPLES.glob("*/expected.yaml"))
@@ -46,3 +47,27 @@ def test_sample_counts(sample: Path, tmp_path: Path):
     ]
     assert comps == expected["components"]
     assert {c.kind: c.status for c in result.run.coverage} == expected["coverage"]
+
+    # Phase 2: headline counts and the named services, screens, integrations and jobs.
+    facts = result.facts
+    assert summary["counts"] == counts(facts)
+    assert counts(facts) == expected["counts"]
+    assert sorted(f"{s.kind}: {s.name}" for s in facts["services"]) == expected["services"]  # type: ignore[attr-defined]
+    assert (
+        sorted(s.name + (" (partial)" if s.partial else "") for s in facts["screens"])  # type: ignore[attr-defined]
+        == expected["screens"]
+    )
+    assert (
+        sorted(f"{i.type} {i.target} [{i.direction}]" for i in facts["integrations"])  # type: ignore[attr-defined]
+        == expected["integrations"]
+    )
+    assert (
+        sorted(f"{j.scheduler} {j.kind}: {j.name}" for j in facts["batch_jobs"])  # type: ignore[attr-defined]
+        == expected["batch_jobs"]
+    )
+    assert result.run.unresolved_references == expected["unresolved_references"]
+    # Every analyzer that ran reports its coverage.
+    run_json = json.loads((result.run_dir / "run.json").read_text())
+    assert run_json["analyzers"]
+    for cov in run_json["analyzers"].values():
+        assert cov["files"] > 0 and 0 <= cov["coverage_pct"] <= 100

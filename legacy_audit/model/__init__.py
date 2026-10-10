@@ -3,6 +3,7 @@
 from legacy_audit.model.facts import (
     ENTITIES,
     SCHEMA_MODELS,
+    AnalyzerCoverage,
     BatchJob,
     Category,
     CodeEdge,
@@ -28,12 +29,14 @@ from legacy_audit.model.facts import (
     SourceInfo,
     SqlStatement,
     TechItem,
+    UnparsedRegion,
     make_id,
 )
 
 __all__ = [
     "ENTITIES",
     "SCHEMA_MODELS",
+    "AnalyzerCoverage",
     "BatchJob",
     "Category",
     "CodeEdge",
@@ -59,5 +62,6 @@ __all__ = [
     "SourceInfo",
     "SqlStatement",
     "TechItem",
+    "UnparsedRegion",
     "make_id",
 ]

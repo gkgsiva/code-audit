@@ -1,0 +1,12 @@
+# Sample: COBOL order system on z/OS: CICS online transactions with BMS maps, DB2 embedded SQL,
+# and a nightly JCL batch chain.
+application:
+  name: "Orders (COBOL/CICS/DB2 sample)"
+source:
+  type: local
+  paths: ["mainframe"]
+sql:
+  dialect: db2
+cobol:
+  sql_dialect: db2
+  copybook_paths: ["mainframe/copybook"]

@@ -55,6 +55,19 @@
       "title": "Crud",
       "type": "object"
     },
+    "defined_in": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "File holding its DDL, if scanned",
+      "title": "Defined In"
+    },
     "evidence": {
       "items": {
         "$ref": "#/$defs/Evidence"
@@ -66,11 +79,20 @@
       "title": "Id",
       "type": "string"
     },
+    "members": {
+      "description": "Package procedures",
+      "items": {
+        "type": "string"
+      },
+      "title": "Members",
+      "type": "array"
+    },
     "name": {
       "title": "Name",
       "type": "string"
     },
     "object_type": {
+      "description": "table, view, sequence, index, synonym, package, procedure, function, trigger, type",
       "title": "Object Type",
       "type": "string"
     },
