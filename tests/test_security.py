@@ -257,6 +257,28 @@ def test_running_tools(tmp_path: Path) -> None:
     assert os.access(fake, os.X_OK)
 
 
+@pytest.mark.skipif(sys.platform == "win32", reason="uses a POSIX script as the fake tool")
+def test_osv_scanner_command_line(tmp_path: Path) -> None:
+    """OSV-Scanner 2.x flags: --offline, jar files via java/archive, database folder from env."""
+    fake = tmp_path / "osv-scanner"
+    fake.write_text(
+        "#!/bin/sh\n"
+        f'echo "$@ DB=$OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY" > "{tmp_path}/args.txt"\n'
+        'while [ $# -gt 0 ]; do [ "$1" = "--output" ] && out="$2"; shift; done\n'
+        f'cp "{OSV_REPORT}" "$out"\n'
+        "exit 1\n"  # 1 = vulnerabilities found
+    )
+    fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
+    report, source = vulns.run_osv_scanner(
+        OsvScannerConfig(path=str(fake), data_dir=str(tmp_path / "db")), [tmp_path], tmp_path / "o"
+    )
+    assert report and source.status == "ran"
+    args = (tmp_path / "args.txt").read_text()
+    assert "--offline " in args and "--experimental-plugins java/archive" in args
+    assert "experimental-offline" not in args and "local-db-path" not in args
+    assert args.strip().endswith(f"DB={tmp_path / 'db'}")
+
+
 # ---- jdeps / jdeprscan parsing -------------------------------------------------------------------
 def test_jdk_tool_output_parsing() -> None:
     line = "   org.apache.axis.{}   -> sun.misc.BASE64Encoder   JDK internal API (JDK removed)"
