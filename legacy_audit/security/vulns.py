@@ -2,7 +2,7 @@
 
 Reports are imported from ``audit-inputs/security/*.json`` (the kind is detected from the
 content) or produced by running the tools when they are installed. Both work offline: the
-Dependency-Check run uses ``--noupdate`` and OSV-Scanner ``--offline`` unless the config says
+Dependency-Check run uses ``--noupdate`` and OSV-Scanner (2.x) ``--offline`` unless the config says
 otherwise. A tool that is not installed, fails or has no database is a coverage gap
 (:class:`VulnerabilitySource` with status ``missing``/``failed``), never a crash and never a
 silent "no vulnerabilities".
@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import re
 import shutil
 import subprocess
@@ -238,22 +239,31 @@ def run_osv_scanner(
         return None, VulnerabilitySource(name=OSV, status="missing", detail="not installed")
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "osv-scanner-report.json"
+    # OSV-Scanner 2.x: --offline uses the downloaded databases; java/archive adds jar files to
+    # the build files it reads by default. Exit code 1 means vulnerabilities were found.
     cmd = [exe, "--format", "json", "--output", str(out), "--recursive"]
+    cmd += ["--experimental-plugins", "java/archive"]
     if cfg.offline:
-        cmd += ["--offline", "--experimental-offline-vulnerabilities"]
-    if cfg.data_dir:
-        cmd += ["--experimental-local-db-path", cfg.data_dir]
+        cmd.append("--offline")
+    env = None
+    if cfg.data_dir:  # 2.x takes the database folder from the environment only
+        env = {**os.environ, "OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY": cfg.data_dir}
     cmd += [str(d) for d in scan_dirs]
-    return _run(cmd, cfg.timeout_minutes, OSV, out, ok_codes=(0, 1))
+    return _run(cmd, cfg.timeout_minutes, OSV, out, ok_codes=(0, 1), env=env)
 
 
 def _run(
-    cmd: list[str], minutes: int, tool: str, out: Path, ok_codes: tuple[int, ...] = (0,)
+    cmd: list[str],
+    minutes: int,
+    tool: str,
+    out: Path,
+    ok_codes: tuple[int, ...] = (0,),
+    env: dict[str, str] | None = None,
 ) -> tuple[Report | None, VulnerabilitySource]:
     log.info("Running %s", " ".join(cmd))
     try:
         proc = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=minutes * 60, check=False
+            cmd, capture_output=True, text=True, timeout=minutes * 60, check=False, env=env
         )
     except (OSError, subprocess.TimeoutExpired) as err:
         return None, VulnerabilitySource(name=tool, status="failed", detail=type(err).__name__)

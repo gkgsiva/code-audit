@@ -161,6 +161,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
     <li><a href="#gui">10. The nine screens of the app</a></li>
     <li><a href="#reports">11. Reading the reports</a></li>
     <li><a href="#rerun">12. New files arrived: re-run</a></li>
+    <li><a href="#vuln">Vulnerability checks (optional)</a></li>
     <li><a href="#copilot">13. AI enrichment with Copilot</a></li>
     <li class="group">Reference</li>
     <li><a href="#tasks">14. The VS Code task list</a></li>
@@ -232,7 +233,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
 <div class="callout note"><p><span class="label">Optional extras.</span> You can add these later. The tool tells you what each one adds and works without them.</p>
 <ul>
   <li><strong>Node.js</strong> (version 18 or newer): needed only for the PowerPoint file.</li>
-  <li><strong>OWASP Dependency-Check</strong> or <strong>OSV-Scanner</strong>: to look up known security problems in libraries. Your admin may give you their reports instead.</li>
+  <li><strong>OWASP Dependency-Check</strong> or <strong>OSV-Scanner</strong>: to look up known security problems in libraries. Your admin may give you their reports instead. How to install them: <a href="#vuln">Vulnerability checks</a>.</li>
   <li><strong>GitHub Copilot</strong> in VS Code: for the optional AI explanations (<a href="#copilot">section 13</a>).</li>
 </ul>
 <p class="only-wsl">On WSL2, Node.js and these scanners are installed <strong>inside Linux</strong>, not on Windows.</p></div>
@@ -394,7 +395,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <li>A table appears. Rows marked <strong>required</strong> must say <strong>ok</strong>. Rows marked <strong>optional</strong> can say <strong>missing</strong>; the last column says what you lose without them.</li>
   <li>The last line should say <strong>Ready to scan.</strong> That's all you need.</li>
 </ol>
-<p>Example: Node.js and pptxgenjs <em>missing</em> means no PowerPoint file (the HTML slides still work). Dependency-Check <em>missing</em> means no automatic security lookup for libraries.</p>
+<p>Example: Node.js and pptxgenjs <em>missing</em> means no PowerPoint file (the HTML slides still work). Dependency-Check <em>missing</em> means no automatic security lookup for libraries; <a href="#vuln">Vulnerability checks</a> explains how to add it.</p>
 <div class="callout wsl only-wsl"><p><span class="label">On WSL2.</span> The doctor checks what is installed <strong>inside Linux</strong>, so it shows Linux paths such as <code>/home/you/code-audit/.venv/bin/python3</code>. Programs installed on Windows (for example Node.js for Windows) count as <em>missing</em> here.</p></div>
 
 <h3>b. The automatic tests (optional)</h3>
@@ -541,7 +542,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>Database DDL</td><td>Scripts that create the tables, views and procedures</td><td>DBA</td></tr>
   <tr><td>Crontab entries</td><td>Scheduled jobs from Unix servers</td><td>Operations team</td></tr>
   <tr><td>Server configuration</td><td>Application server settings files</td><td>Operations team</td></tr>
-  <tr><td>Vulnerability reports</td><td>Dependency-Check or OSV-Scanner JSON reports</td><td>Security team or CI pipeline</td></tr>
+  <tr><td>Vulnerability reports</td><td>Dependency-Check or OSV-Scanner JSON reports (see <a href="#vuln">Vulnerability checks</a>)</td><td>Security team or CI pipeline</td></tr>
 </table></div>
 <ul>
   <li>To add a file, use the file picker on the card (<em>Choose Files</em> or <em>Browse</em>, depending on your browser) and pick one or more files. The card's badge turns from <span class="pill">missing</span> to <span class="pill">present</span>.</li>
@@ -713,6 +714,118 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <p>If the code itself changed, update it where it lives (for example <code>git pull</code> in <code>~/git/billing</code>) before <span class="menu">Re-run</span>.</p></div>
 <div class="callout tip"><p><span class="label">Corrections.</span> If the tool gets something wrong (for example it counts a folder you want left out), use the Components screen, or ask the tool's admin to add a correction to <code>audit-overrides.yaml</code>. Corrections are applied again on every run, so you never lose them.</p></div>
 
+<!-- ============================================================ VULN -->
+<h2 id="vuln">Vulnerability checks: OWASP Dependency-Check and OSV-Scanner (optional)</h2>
+<p>The <strong>Libraries</strong> and <strong>Security</strong> pages can show which third-party libraries have <strong>known security problems</strong> (CVEs). legacy-audit doesn't look these up itself. It reads the results of one of two free scanners. You need <strong>only one</strong> of them:</p>
+<div class="table-wrap"><table>
+  <tr><th></th><th>OWASP Dependency-Check</th><th>OSV-Scanner</th></tr>
+  <tr><td>Good at</td><td>Old applications full of <code>.jar</code> files, and build files (Maven, Gradle)</td><td>Build files (Maven, Gradle, npm and more) and <code>.jar</code> files</td></tr>
+  <tr><td>Needs</td><td>Java 11 or newer, and a free NVD API key to download its database</td><td>Nothing; it's a single program file</td></tr>
+  <tr><td>Database</td><td>Large (a few GB); the first download takes 10 to 30 minutes or more</td><td>Smaller; downloads in a few minutes</td></tr>
+  <tr><td>Our suggestion</td><td>The most thorough for legacy Java</td><td>The quickest to set up</td></tr>
+</table></div>
+
+<h3>How legacy-audit uses them</h3>
+<ul>
+  <li><strong>During a scan it never goes on the internet.</strong> It runs the scanner in offline mode against a database you downloaded beforehand. You refresh that database yourself, for example once a week (the "Keep it up to date" steps below).</li>
+  <li>It finds the scanner through the <strong>path you put in <code>audit.yaml</code></strong>, or, if that is empty, on your PATH. <span class="menu">Project setup &gt; Tools on this computer</span> (the doctor) then shows it as <strong>ok</strong>.</li>
+  <li>Reports print the <strong>database date</strong>, so readers can see how fresh the data is.</li>
+  <li>If neither scanner is installed and no reports are supplied, the reports show a <strong>coverage gap</strong> ("dependency-check: missing"). That means "not checked", not "no vulnerabilities".</li>
+</ul>
+<div class="callout tip"><p><span class="label">No install at all: use reports from your security team.</span> If another team already runs Dependency-Check or OSV-Scanner (for example in a build pipeline), ask them for the <strong>JSON</strong> report and add it on <span class="menu">2. Inputs &gt; Vulnerability reports</span> (it goes into <code>audit-inputs/security/</code>). Any file name ending in <code>.json</code> works; the tool recognises which scanner made it. When a report from a scanner is there, that scanner is not run for this application.</p></div>
+
+<h3>Option 1: install OWASP Dependency-Check</h3>
+<div class="only-win">
+<h4>Windows</h4>
+<ol class="steps">
+  <li><strong>Check Java.</strong> In a terminal type <code>java -version</code>. You need 11 or higher (17 or 21 are fine). If it's missing or older, install <strong>Microsoft Build of OpenJDK 17</strong> or <strong>Eclipse Temurin 17</strong> from your company software portal, or from their websites (the <code>.msi</code> installer). In the installer, switch on <em>Add to PATH</em> and <em>Set JAVA_HOME</em>. Close and reopen VS Code, then check again.</li>
+  <li><strong>Download Dependency-Check.</strong> In your browser go to <strong>github.com/dependency-check/DependencyCheck/releases</strong> (the OWASP Dependency-Check project page links to it). Under the newest release, download <code>dependency-check-<em>version</em>-release.zip</code>.</li>
+  <li><strong>Unzip it</strong> to <code>C:\Tools</code>: right-click the zip &gt; <span class="menu">Extract All...</span> &gt; type <code>C:\Tools</code> &gt; <span class="menu">Extract</span>. You should now have <code>C:\Tools\dependency-check\bin\dependency-check.bat</code>.</li>
+  <li><strong>Get a free NVD API key.</strong> Go to <strong>nvd.nist.gov/developers/request-an-api-key</strong>, enter your work email and follow the link in the email. Without a key the download is extremely slow. Keep the key private: don't put it in <code>audit.yaml</code> or send it in chat.</li>
+  <li><strong>Download the database</strong> (needs internet; the first time takes a while). In a terminal, replace <code>YOUR-KEY</code> and run:
+<pre><code>C:\Tools\dependency-check\bin\dependency-check.bat --updateonly --nvdApiKey YOUR-KEY</code></pre>
+  It ends with a line saying the update is complete. The database is stored in <code>C:\Tools\dependency-check\data</code>. If your company has its own NVD copy (a "mirror"), your admin gives you a line to add, such as <code>--nvdDatafeed https://...</code>. If it fails with a proxy or connection error, ask IT.</li>
+  <li><strong>Tell legacy-audit where it is.</strong> In the app, open <span class="menu">1. Project setup &gt; Advanced: edit audit.yaml as text</span>. Find the <code>security:</code> part and, under <code>dependency_check:</code>, change <code>path: null</code> to the program's path (use forward slashes):
+<pre><code>security:
+  dependency_check:
+    enabled: true
+    path: "C:/Tools/dependency-check/bin/dependency-check.bat"</code></pre>
+  Click <span class="menu">Check and save</span>. Do this in each application's settings, or add <code>C:\Tools\dependency-check\bin</code> to your Windows PATH once instead (Start menu &gt; type <em>environment variables</em> &gt; <em>Edit environment variables for your account</em> &gt; <em>Path</em> &gt; <em>Edit</em> &gt; <em>New</em>), then restart VS Code.</li>
+  <li><strong>Check.</strong> <span class="menu">Tools on this computer</span>, at the bottom of Project setup, shows <em>OWASP Dependency-Check</em> as <strong>ok</strong>.</li>
+  <li><strong>Re-run</strong> the scan. It takes a few minutes longer than before. The Dashboard's <em>vulnerable libraries</em> tile and the report's <strong>Security</strong> page now have data.</li>
+</ol>
+<p><strong>Keep it up to date:</strong> run the command from step 5 again, for example every Monday, then <span class="menu">Re-run</span> your audits.</p>
+</div>
+<div class="callout wsl only-wsl">
+<p><span class="label">On WSL2: install it inside Linux.</span> A copy installed on Windows isn't visible to the tool in WSL2.</p>
+<ol class="steps">
+  <li><strong>Java and unzip:</strong> type <code>java -version</code>. If it's missing or older than 11:
+<pre><code>sudo apt update
+sudo apt install -y openjdk-17-jre-headless unzip</code></pre></li>
+  <li><strong>Download</strong> <code>dependency-check-<em>version</em>-release.zip</code> in your Windows browser from <strong>github.com/dependency-check/DependencyCheck/releases</strong>. It lands in your Windows <em>Downloads</em> folder.</li>
+  <li><strong>Unzip it into Linux</strong> (change <code>you</code> to your Windows user name):
+<pre><code>mkdir -p ~/tools
+unzip /mnt/c/Users/you/Downloads/dependency-check-*-release.zip -d ~/tools</code></pre>
+  You now have <code>~/tools/dependency-check/bin/dependency-check.sh</code>.</li>
+  <li><strong>Get a free NVD API key</strong> at <strong>nvd.nist.gov/developers/request-an-api-key</strong>, as on Windows. Keep it private.</li>
+  <li><strong>Download the database</strong> (replace <code>YOUR-KEY</code>):
+<pre><code>~/tools/dependency-check/bin/dependency-check.sh --updateonly --nvdApiKey YOUR-KEY</code></pre></li>
+  <li><strong>Tell legacy-audit where it is:</strong> in <span class="menu">Project setup &gt; Advanced: edit audit.yaml as text</span>, set the full path (type <code>whoami</code> in the terminal for your Linux user name; <code>~</code> doesn't work here):
+<pre><code>security:
+  dependency_check:
+    enabled: true
+    path: "/home/you/tools/dependency-check/bin/dependency-check.sh"</code></pre>
+  Click <span class="menu">Check and save</span>, check <span class="menu">Tools on this computer</span> says <strong>ok</strong>, and <span class="menu">Re-run</span>.</li>
+</ol>
+<p><strong>Keep it up to date:</strong> run the command from step 5 again, for example weekly.</p>
+</div>
+
+<h3>Option 2: install OSV-Scanner</h3>
+<p>legacy-audit needs <strong>OSV-Scanner version 2</strong> or newer (the current version).</p>
+<div class="only-win">
+<h4>Windows</h4>
+<ol class="steps">
+  <li><strong>Download it.</strong> In your browser go to <strong>github.com/google/osv-scanner/releases</strong> and, under the newest release, download <code>osv-scanner_windows_amd64.exe</code>.</li>
+  <li><strong>Put it in place.</strong> Create the folder <code>C:\Tools\osv-scanner</code>, move the file there and rename it to <code>osv-scanner.exe</code>. If Windows or your antivirus blocks it, ask IT to allow it.</li>
+  <li><strong>Check the version:</strong>
+<pre><code>C:\Tools\osv-scanner\osv-scanner.exe --version</code></pre>
+  The first line should say <code>osv-scanner version: 2.</code> followed by more numbers.</li>
+  <li><strong>Download the database</strong> (needs internet, a few minutes). Point it at your application's code folder, so it fetches the databases that code needs (Java, for example):
+<pre><code>C:\Tools\osv-scanner\osv-scanner.exe scan source --offline-vulnerabilities --download-offline-databases --experimental-plugins java/archive -r "C:\Users\you\git\billing"</code></pre>
+  It also prints a list of findings; you can ignore it. The database is kept in your user profile, where legacy-audit finds it automatically.</li>
+  <li><strong>Tell legacy-audit where it is.</strong> In <span class="menu">Project setup &gt; Advanced: edit audit.yaml as text</span>, under <code>osv_scanner:</code>, change <code>path: null</code> and leave <code>data_dir</code> empty:
+<pre><code>security:
+  osv_scanner:
+    enabled: true
+    path: "C:/Tools/osv-scanner/osv-scanner.exe"</code></pre>
+  Click <span class="menu">Check and save</span>. (Or add <code>C:\Tools\osv-scanner</code> to your PATH, as for Dependency-Check.)</li>
+  <li><strong>Check</strong> that <span class="menu">Tools on this computer</span> shows <em>OSV-Scanner</em> as <strong>ok</strong>, then <span class="menu">Re-run</span>.</li>
+</ol>
+<p><strong>Keep it up to date:</strong> run the command from step 4 again, for example weekly.</p>
+</div>
+<div class="callout wsl only-wsl">
+<p><span class="label">On WSL2: install it inside Linux.</span></p>
+<ol class="steps">
+  <li><strong>Download it into Linux and make it runnable:</strong>
+<pre><code>mkdir -p ~/tools
+curl -L -o ~/tools/osv-scanner https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64
+chmod +x ~/tools/osv-scanner</code></pre></li>
+  <li><strong>Check the version:</strong> <code>~/tools/osv-scanner --version</code> should start with <code>osv-scanner version: 2.</code></li>
+  <li><strong>Download the database</strong> for your application's code:
+<pre><code>~/tools/osv-scanner scan source --offline-vulnerabilities --download-offline-databases --experimental-plugins java/archive -r ~/git/billing</code></pre>
+  It's stored in <code>~/.cache</code>, where legacy-audit finds it automatically.</li>
+  <li><strong>Tell legacy-audit where it is</strong> (full path, not <code>~</code>):
+<pre><code>security:
+  osv_scanner:
+    enabled: true
+    path: "/home/you/tools/osv-scanner"</code></pre>
+  Click <span class="menu">Check and save</span>, check <span class="menu">Tools on this computer</span> says <strong>ok</strong>, and <span class="menu">Re-run</span>.</li>
+</ol>
+<p><strong>Keep it up to date:</strong> run the command from step 3 again, for example weekly.</p>
+</div>
+
+<div class="callout note"><p><span class="label">For admins.</span> A shared database folder, a company NVD mirror and the exact options are described in <code>docs/admin-guide.md</code> &gt; <em>Vulnerability database</em>. If you set <code>data_dir</code> for OSV-Scanner, download the database into the same folder by setting the environment variable <code>OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY</code> to it before running the download command.</p></div>
+
 <!-- ============================================================ 13 -->
 <h2 id="copilot">13. AI enrichment with GitHub Copilot (optional)</h2>
 <p>The scan produces numbers and lists. To add written explanations (what the application does, how data flows, the main risks, a migration plan), analysts use <strong>GitHub Copilot Chat in VS Code</strong> with a custom agent called <strong>legacy-auditor</strong>. The tool installed its files into your audit folder when you clicked <em>Create audit.yaml</em>.</p>
@@ -813,7 +926,10 @@ legacy-audit version               # the tool's version</code></pre>
   <tr><td>The scan finds 0 files or very few</td><td>On <span class="menu">Project setup</span>, check <em>Folders</em> points at the code, and that <em>exclude</em> isn't too broad. Then <span class="menu">Re-run</span>.</td></tr>
   <tr><td>A folder I don't want is counted</td><td>Untick it on <span class="menu">Components</span>, <span class="menu">Save choices</span>, <span class="menu">Re-run</span>.</td></tr>
   <tr><td>"PPTX skipped"</td><td>Node.js or the PPTX builder is missing. Do section 7c. The HTML deck works anyway.</td></tr>
-  <tr><td>"Vulnerability check not done"</td><td>No Dependency-Check or OSV-Scanner, and no reports in <em>Vulnerability reports</em>. It's a coverage gap; ask the security team for reports.</td></tr>
+  <tr><td>"Vulnerability check not done"</td><td>No Dependency-Check or OSV-Scanner, and no reports in <em>Vulnerability reports</em>. It's a coverage gap: install one scanner or ask the security team for reports (<a href="#vuln">Vulnerability checks</a>).</td></tr>
+  <tr><td>Coverage shows "dependency-check (failed ...)"</td><td>Usually its database hasn't been downloaded yet, or Java is missing. Run the <code>--updateonly</code> command (<a href="#vuln">Option 1, step 5</a>) and check <code>java -version</code>. The full message is in the run's <code>logs/scan.log</code>.</td></tr>
+  <tr><td>Coverage shows "osv-scanner (failed: ... flag provided but not defined)"</td><td>An old OSV-Scanner (version 1). Download the current version 2 (<a href="#vuln">Option 2</a>).</td></tr>
+  <tr><td>Coverage shows "osv-scanner (failed: exit code 128 ...)"</td><td>OSV-Scanner found no build files or <code>.jar</code> files in the code folders. Use Dependency-Check instead, or check <em>Folders</em> on Project setup.</td></tr>
   <tr class="only-win"><td>The VS Code link in a report does nothing</td><td>The browser asks the first time whether to open VS Code; allow it. VS Code must be installed on the same laptop.</td></tr>
   <tr><td>A scan was interrupted (laptop closed, Cancel)</td><td>Nothing is broken: the unfinished run is discarded. Click <span class="menu">Re-run</span>.</td></tr>
   <tr class="only-wsl"><td>🐧 Tasks fail with <code>.venv\Scripts</code> errors</td><td>You're in a plain Windows window, not a WSL window. Check the bottom-left corner and reopen the folder as in section 5.</td></tr>
@@ -860,6 +976,7 @@ legacy-audit version               # the tool's version</code></pre>
   <dt>DDL</dt><dd>Database scripts that create tables, views and procedures.</dd>
   <dt>Dynamic SQL</dt><dd>A database query that the program assembles from pieces while it runs, instead of writing it out in full. The tool rebuilds it where it can.</dd>
   <dt>Enrichment / stage</dt><dd>The written analysis Copilot adds, in parts called stages (overview, architecture, flows, risks, plan and so on).</dd>
+  <dt>NVD API key</dt><dd>A free personal code from the US National Vulnerability Database that lets Dependency-Check download its database quickly. Keep it private.</dd>
   <dt>EOL (end of life)</dt><dd>A library or product version that its makers no longer support or patch.</dd>
   <dt>Evidence</dt><dd>The file and line number a number or item came from. Every count has it.</dd>
   <dt>Finding</dt><dd>An issue a rule found in the code, with a severity (critical, high, medium, low, info).</dd>
