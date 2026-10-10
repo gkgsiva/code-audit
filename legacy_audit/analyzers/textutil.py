@@ -5,6 +5,7 @@ from __future__ import annotations
 import bisect
 import re
 import xml.etree.ElementTree as ET
+from xml.parsers import expat
 from collections.abc import Iterator
 
 LINE_ATTR = "__line__"
@@ -21,38 +22,37 @@ class LineIndex:
         return bisect.bisect_right(self.starts, offset)
 
 
-class _Builder(ET.TreeBuilder):
-    def __init__(self) -> None:
-        super().__init__()
-        self.parser: ET.XMLParser | None = None
-
-    def start(self, tag: str, attrs: dict[str, str]) -> ET.Element:
-        ns = ""
-        if tag.startswith("{"):
-            ns, tag = tag[1:].split("}", 1)
-        clean = {k.split("}", 1)[-1]: v for k, v in attrs.items()}
-        if self.parser is not None:
-            clean[LINE_ATTR] = str(self.parser.parser.CurrentLineNumber)
-        if ns:
-            clean[NS_ATTR] = ns
-        return super().start(tag, clean)
-
-    def end(self, tag: str) -> ET.Element:
-        return super().end(tag.split("}", 1)[-1])
-
-
 def parse_xml(text: str) -> ET.Element:
     """Parse XML without fetching DTDs; tags lose namespaces, elements carry their line."""
-    builder = _Builder()
-    parser = ET.XMLParser(target=builder)
-    builder.parser = parser
     # Unknown HTML entities (&nbsp;) are common in legacy XML; neutralise them.
     text = re.sub(r"&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)", "&amp;", text)
     text = text.lstrip("\ufeff")
     # Drop the declaration (its encoding no longer applies) but keep line numbers.
     text = re.sub(r"^\s*<\?xml[^>]*\?>", lambda m: "\n" * m.group(0).count("\n"), text)
-    parser.feed(text)
-    return parser.close()
+    builder = ET.TreeBuilder()
+    parser = expat.ParserCreate(namespace_separator="}")
+
+    def start(tag: str, attributes: dict[str, str]) -> None:
+        ns = ""
+        if "}" in tag:
+            ns, tag = tag.split("}", 1)
+        clean = {k.split("}", 1)[-1]: v for k, v in attributes.items()}
+        clean[LINE_ATTR] = str(parser.CurrentLineNumber)
+        if ns:
+            clean[NS_ATTR] = ns
+        builder.start(tag, clean)
+
+    def end(tag: str) -> None:
+        builder.end(tag.split("}", 1)[-1])
+
+    parser.StartElementHandler = start
+    parser.EndElementHandler = end
+    parser.CharacterDataHandler = builder.data
+    try:
+        parser.Parse(text, True)
+    except expat.ExpatError as err:
+        raise ET.ParseError(str(err)) from None
+    return builder.close()
 
 
 def line_of(el: ET.Element) -> int | None:

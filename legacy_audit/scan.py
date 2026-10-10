@@ -13,20 +13,26 @@ from pathlib import Path
 from typing import Any
 
 from legacy_audit import __version__
-from legacy_audit.analyzers import AnalyzerContext, Facts, registered, version_key
+from legacy_audit.analyzers import Analyzer, AnalyzerContext, Facts, registered, version_key
 from legacy_audit.config import GitSource, LoadedConfig
 from legacy_audit.inventory.cache import CacheEntry, FileCache
 from legacy_audit.inventory.components import detect_components
 from legacy_audit.inventory.files import INVENTORY_VERSION, analyze_file, skip_by_extension
 from legacy_audit.inventory.inputs import coverage_line, input_coverage
 from legacy_audit.inventory.walker import Filters, WalkedFile, anchored_excludes, walk
+from legacy_audit.linker import classify_components, link
 from legacy_audit.model import (
+    AnalyzerCoverage,
     Category,
     Component,
+    Evidence,
     FileRecord,
+    Finding,
     Metric,
     Origin,
     RunInfo,
+    Severity,
+    UnparsedRegion,
     make_id,
 )
 from legacy_audit.overrides import apply_component_overrides, load_overrides
@@ -94,6 +100,57 @@ def _metrics(records: list[FileRecord], components: list[Component]) -> list[Met
             )
         )
     return out
+
+
+def _load_facts(path: str, payload: dict[str, Any]) -> list[tuple[str, str, Facts]]:
+    return [(name, path, Facts.load(data)) for name, data in payload.get("facts", {}).items()]
+
+
+def _analyze(a: Analyzer, rec: FileRecord, ctx: AnalyzerContext, text: str | None) -> Facts:
+    """Run one analyzer; a crash is a coverage gap and a finding, never a failed scan."""
+    try:
+        return a.analyze(rec, ctx)
+    except Exception as err:
+        log.warning("Analyzer %s failed on %s: %s: %s", a.name, rec.path, type(err).__name__, err)
+        facts = Facts()
+        lines = text.count("\n") + 1 if text else 1
+        facts.coverage.lines = lines
+        facts.coverage.gap(1, lines, f"analyzer error: {type(err).__name__}")
+        facts.add(
+            "findings",
+            Finding(
+                id=make_id("finding", "analyzer-error", a.name, rec.path),
+                rule_id="analyzer-error",
+                severity=Severity.LOW,
+                category="coverage",
+                file=rec.path,
+                message=f"The {a.name} analyzer could not read this file ({type(err).__name__}); "
+                "it is reported as not parsed.",
+                evidence=[Evidence(file=rec.path)],
+            ),
+        )
+        return facts
+
+
+def _analyzer_coverage(file_facts: list[tuple[str, str, Facts]]) -> dict[str, AnalyzerCoverage]:
+    out: dict[str, AnalyzerCoverage] = {}
+    for name, path, facts in file_facts:
+        cov = out.setdefault(name, AnalyzerCoverage())
+        cov.files += 1
+        lines = max(facts.coverage.lines, 0)
+        cov.lines += lines
+        covered: set[int] = set()
+        for u in facts.coverage.unparsed:
+            covered.update(range(max(u.start, 1), min(u.end, lines) + 1))
+            if len(cov.regions) < 50:
+                cov.regions.append(
+                    UnparsedRegion(file=path, start=u.start, end=u.end, reason=u.reason)
+                )
+        cov.unparsed_lines += len(covered)
+    for cov in out.values():
+        if cov.lines:
+            cov.coverage_pct = round(100.0 * (cov.lines - cov.unparsed_lines) / cov.lines, 1)
+    return dict(sorted(out.items()))
 
 
 def run_scan(
@@ -179,10 +236,10 @@ def _run(
         f"max_mb={inv.max_file_size_mb}"
     )
     cache = FileCache(out_dir / "cache" / "file-cache.sqlite", cache_version)
-    ctx = AnalyzerContext(cfg.application.name, {r.name: r.path.as_posix() for r in roots})
     analyzers = registered()
     max_bytes = int(cfg.inventory.max_file_size_mb * 1024 * 1024)
     records: list[FileRecord] = []
+    file_facts: list[tuple[str, str, Facts]] = []  # (analyzer, path, facts)
     analyzed = cached = skipped = 0
     total = len(walked)
     for n, (wf, path, origin) in enumerate(walked, 1):
@@ -201,6 +258,7 @@ def _run(
                 skipped += 1
             else:
                 records.append(FileRecord.model_validate(rec_data))
+                file_facts.extend(_load_facts(path, entry.payload))
             continue
         result = analyze_file(
             wf.abs_path, path, root_key, origin, cfg.inventory.include_binaries, max_bytes
@@ -212,15 +270,15 @@ def _run(
             entry.size, entry.mtime_ns = st.st_size, st.st_mtime_ns
             cache.put(root_key, path, entry)
             records.append(FileRecord.model_validate(entry.payload["record"]))
+            file_facts.extend(_load_facts(path, entry.payload))
             continue
         analyzed += 1
-        file_facts = Facts()
-        if rec is not None and result.text is not None:
+        per_analyzer: dict[str, Facts] = {}
+        if rec is not None and (result.text is not None or rec.language == "archive"):
+            ctx = AnalyzerContext(config=cfg, abs_path=wf.abs_path, text=result.text)
             for a in analyzers:
                 if a.supports(rec):
-                    for entity, items in a.analyze(rec, result.text, ctx).items.items():
-                        for item in items:
-                            file_facts.add(entity, item)
+                    per_analyzer[a.name] = _analyze(a, rec, ctx, result.text)
         if rec is None:
             skipped += 1
         cache.put(
@@ -233,12 +291,13 @@ def _run(
                 version=cache.version,
                 payload={
                     "record": rec.model_dump(mode="json") if rec else None,
-                    "facts": file_facts.items,
+                    "facts": {name: f.dump() for name, f in per_analyzer.items()},
                 },
             ),
         )
         if rec is not None:
             records.append(rec)
+            file_facts.extend((name, path, f) for name, f in per_analyzer.items())
     removed = cache.prune()
     cache.close()
     timings["inventory"] = round(time.perf_counter() - t, 3)
@@ -265,6 +324,14 @@ def _run(
     )
     timings["components"] = round(time.perf_counter() - t, 3)
 
+    # ---- Linking and classification -----------------------------------------------------------
+    t = time.perf_counter()
+    linked = link(records, (f for _, _, f in file_facts))
+    fixed_types = set(overrides.components.type) | {c.name for c in cfg.components if c.type}
+    classify_components(components, linked.entities, source_records, fixed_types)
+    timings["link"] = round(time.perf_counter() - t, 3)
+    log.info("Linked: %d edges, %d unresolved references", linked.edges, linked.unresolved)
+
     # ---- Coverage, metrics, export --------------------------------------------------------------
     coverage = input_coverage(inputs_dir, INPUTS_ROOT)
     for c in coverage:
@@ -273,6 +340,7 @@ def _run(
     facts: FactSet = {
         "inventory": records,
         "components": components,
+        **linked.entities,
         "metrics": _metrics(source_records, components),
         "input_coverage": coverage,
     }
@@ -294,6 +362,8 @@ def _run(
         overrides=override_report,
         counting_rules=cfg.counting,
         warnings=warnings,
+        analyzers=_analyzer_coverage(file_facts),
+        unresolved_references=linked.unresolved,
     )
     t = time.perf_counter()
     data_dir = run_dir / "data"

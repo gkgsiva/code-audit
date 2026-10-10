@@ -9,6 +9,7 @@
         "report",
         "library",
         "db",
+        "online-mainframe",
         "unknown"
       ],
       "title": "ComponentType",

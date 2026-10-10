@@ -1,5 +1,41 @@
 {
   "$defs": {
+    "AnalyzerCoverage": {
+      "additionalProperties": false,
+      "description": "How much of the files an analyzer handled it could actually parse.",
+      "properties": {
+        "coverage_pct": {
+          "default": 100.0,
+          "title": "Coverage Pct",
+          "type": "number"
+        },
+        "files": {
+          "default": 0,
+          "title": "Files",
+          "type": "integer"
+        },
+        "lines": {
+          "default": 0,
+          "title": "Lines",
+          "type": "integer"
+        },
+        "regions": {
+          "description": "First 50 unparsed regions",
+          "items": {
+            "$ref": "#/$defs/UnparsedRegion"
+          },
+          "title": "Regions",
+          "type": "array"
+        },
+        "unparsed_lines": {
+          "default": 0,
+          "title": "Unparsed Lines",
+          "type": "integer"
+        }
+      },
+      "title": "AnalyzerCoverage",
+      "type": "object"
+    },
     "CoverageStatus": {
       "enum": [
         "present",
@@ -151,6 +187,35 @@
       ],
       "title": "SourceInfo",
       "type": "object"
+    },
+    "UnparsedRegion": {
+      "additionalProperties": false,
+      "properties": {
+        "end": {
+          "title": "End",
+          "type": "integer"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "start": {
+          "title": "Start",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "file",
+        "start",
+        "end",
+        "reason"
+      ],
+      "title": "UnparsedRegion",
+      "type": "object"
     }
   },
   "$id": "legacy-audit/facts/run_info.schema.json",
@@ -158,6 +223,13 @@
   "additionalProperties": false,
   "description": "Describes one scan run; written as ``run.json``. Not part of the compared facts.",
   "properties": {
+    "analyzers": {
+      "additionalProperties": {
+        "$ref": "#/$defs/AnalyzerCoverage"
+      },
+      "title": "Analyzers",
+      "type": "object"
+    },
     "application": {
       "title": "Application",
       "type": "string"
@@ -251,6 +323,11 @@
     "tool_version": {
       "title": "Tool Version",
       "type": "string"
+    },
+    "unresolved_references": {
+      "default": 0,
+      "title": "Unresolved References",
+      "type": "integer"
     },
     "warnings": {
       "items": {

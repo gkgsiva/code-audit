@@ -56,6 +56,42 @@
       "default": null,
       "title": "Box"
     },
+    "command": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Command"
+    },
+    "component": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component"
+    },
+    "condition": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Condition"
+    },
     "datasets": {
       "items": {
         "type": "string"
@@ -73,6 +109,24 @@
     "id": {
       "title": "Id",
       "type": "string"
+    },
+    "kind": {
+      "default": "job",
+      "description": "job, box (container, not counted), file-watcher",
+      "title": "Kind",
+      "type": "string"
+    },
+    "machine": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Machine"
     },
     "name": {
       "title": "Name",
@@ -105,6 +159,7 @@
       "title": "Schedule"
     },
     "scheduler": {
+      "description": "autosys, jcl, cron, spring-batch",
       "title": "Scheduler",
       "type": "string"
     },

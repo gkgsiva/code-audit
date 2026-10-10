@@ -19,6 +19,12 @@ from legacy_audit.analyzers.integrations import (
 from legacy_audit.model import Evidence, FileRecord, Finding, Severity, make_id
 
 SECRET_KEY = re.compile(r"(passw(or)?d|pwd|passphrase|secret|api[_-]?key|token|credential)", re.I)
+# Message/label bundles (ApplicationResources.properties, messages_fr.properties): their
+# "password" keys are UI labels, not credentials.
+_MESSAGE_BUNDLE = re.compile(
+    r"(?i)(^|[_.-])(messages?|\w*resources?|labels?|i18n|strings?|text)(_[a-z]{2}(_[a-z]{2})?)?"
+    r"\.properties$"
+)
 _KV = re.compile(r"^\s*([\w.\-\[\]/]+)\s*[=:]\s*(.*?)\s*$")
 _XML_PROP = re.compile(
     r"<(?:property|entry|add|param|init-param|context-param|env-entry)\b[^>]*?"
@@ -145,8 +151,15 @@ class ConfigAnalyzer:
 
         hosts: dict[str, tuple[int, str]] = {}
         ports: dict[str, str] = {}
+        bundle = bool(_MESSAGE_BUNDLE.search(file.path.rsplit("/", 1)[-1]))
         for no, key, value in pairs:
-            if SECRET_KEY.search(key) and not _PLACEHOLDER.match(value):
+            if (
+                SECRET_KEY.search(key)
+                and value
+                and not _PLACEHOLDER.match(value)
+                and not bundle
+                and not re.search(r"\s", value)  # UI text such as "Password is required"
+            ):
                 facts.add("findings", credential_finding(file.path, no, key))
                 continue
             prefix = re.sub(r"[._-]?(host|hostname|server|port)$", "", key, flags=re.I)
