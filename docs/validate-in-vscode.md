@@ -10,7 +10,7 @@ configurations and recommended extensions, so no typing of commands is needed.
    folder when asked).
 2. Accept the recommended extensions (Python, Python Debugger, Ruff, SQLite Viewer).
 3. **Terminal > Run Task... > `audit: 1. set up (venv + install)`** (Python 3.11+ must be on
-   PATH as `python`). Then **Ctrl+Shift+P > Python: Select Interpreter** and pick `.venv`.
+   PATH as `python` on Windows, `python3` on Linux, macOS and WSL2). Then **Ctrl+Shift+P > Python: Select Interpreter** and pick `.venv`.
 4. **Terminal > Run Task... > `audit: 2. tests (pytest)`**: every test passes. The **Testing**
    view (flask icon) shows the same tests; you can run or debug any single one there.
 5. **Terminal > Run Task... > `audit: 3. lint + type check`**: no errors.
