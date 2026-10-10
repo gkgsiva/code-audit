@@ -7,7 +7,7 @@ Update this file at the end of every phase, and whenever a session stops mid-pha
 | 0 – Planning | Done | `docs/plan.md`, `docs/decisions.md`, prompts written 2026-10-10 |
 | 1 – Foundations | Done | Package, config, local + git sources, inventory, components, coverage, runs, file cache, overrides, diff, summary, CLI, fact model + schemas, `struts-oracle-app` inventory sample (2026-10-10) |
 | 2 – Core analyzers | Done | 15 analyzers (build, deps, config, java, web, spring, sql, shell, c_cpp, proc, cobol/BMS, jcl, autosys, mq, cft), linker (edges, merges, Maven versions, screen/partial and COBOL sub-program rules, service reach, component classification), headline counts, analyzer coverage in `run.json`, 3 new samples with `expected.yaml`, re-run and 200k LOC stress tests (2026-10-10) |
-| 3 – Rules, metrics, dependency security | Done | Code units and cyclomatic complexity, duplication, fan-in/out, dead-code candidates, test ratio, complexity bands; rule engine with 4 YAML packs (19 risk rules, PostgreSQL constructs, dependency rules, EOL) and config switches; PostgreSQL grading with sqlglot; Dependency-Check/OSV import or run, EOL, upgrade advice, CycloneDX SBOM, optional jdeps/jdeprscan; effort model; 4 samples extended (2026-10-10) |
+| 3 – Rules, metrics, dependency security | Done | Code units and cyclomatic complexity, duplication, fan-in/out, dead-code candidates, test ratio, complexity bands; rule engine with 4 YAML packs (19 risk rules, PostgreSQL constructs, dependency rules, EOL) and config switches; PostgreSQL grading with sqlglot; Dependency-Check/OSV import or run, EOL, upgrade advice, CycloneDX SBOM, optional jdeps/jdeprscan; effort model; 4 samples extended (2026-10-10). Added after review: dynamic SQL rebuilt in Java, C/ODBC/OCI, Pro*C and COBOL with holes, variants and grading; VS Code tasks and `docs/validate-in-vscode.md` (2026-10-10) |
 | 4 – Technical HTML report | Not started | |
 | 5 – Copilot agent, enrichment, management outputs | Not started | |
 | 6 – GUI and hardening | Not started | |
@@ -24,6 +24,15 @@ Acceptance criteria (from `docs/prompts/phase-3-rules-metrics-security.md`), all
    (`tests/test_metrics.py::test_changing_weights_rebands_without_reanalysis`); disabling or
    re-grading a rule works the same way (`tests/test_rules.py`).
 4. `sbom.cdx.json` validates against the vendored CycloneDX 1.5 schema (`tests/test_security.py`).
+
+Added after the first review (Siva, 2026-10-10): SQL built at run time is rebuilt in Java
+(builders, `+=`, `String.format`, ternaries), C/C++ (`strcpy`/`strcat`/`sprintf` buffers; ODBC,
+DB2 CLI, OCI, libpq, MySQL, SQLite calls), Pro*C (`PREPARE`/`EXECUTE IMMEDIATE` from a buffer) and
+COBOL (`VALUE`/`MOVE`/`STRING` into a host variable), with fragments, optional parts, value and
+structural holes and variants (`tests/analyzers/test_dynamic_sql.py`, decisions 55–60). Rules
+`sql-concatenation` (value holes) and `sql-runtime-structure` (structural holes); grading per
+decision 58. VS Code validation steps are in `docs/validate-in-vscode.md`, with tasks in
+`.vscode/` (decision 61).
 
 New outputs in `data/`: `findings.*`, `metrics.*` (bands, duplication, test ratio, dead code,
 fan-in/out), graded `sql_statements.*` (`pg_grade`, `reason`, `pg_text`), `libraries.*` (CVEs,
@@ -65,3 +74,6 @@ one place headline counts come from; counting rules and complexity/effort weight
   or callers outside the scanned estate; the agent confirms them.
 - Undeclared jars without a group get no package URL, so OSV results (by package) cannot match
   them; Dependency-Check matches them by SHA-1 or file name.
+- Dynamic SQL is followed within one file and in source order: text filled in another file, by a
+  called function's return value, through pointers/aliases, `memcpy`, COBOL `UNSTRING`/`INSPECT`,
+  or a C++ `std::string` is a hole (or a `DYNAMIC` statement); at most 5 variants are kept.

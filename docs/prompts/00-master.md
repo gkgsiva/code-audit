@@ -21,6 +21,7 @@ Do one phase per session if possible. Each phase must leave `main` working: test
 - `ruff check`, `mypy legacy_audit`, `pytest` pass.
 - `docs/progress.md` updated; new decisions appended to `docs/decisions.md`.
 - `README.md` "Usage" section reflects what now works.
+- `docs/validate-in-vscode.md` has a section for the phase: the VS Code tasks (`.vscode/tasks.json`) or debug configurations to run and what to look at in the outputs, so the team can validate the phase themselves; the end-of-phase summary repeats those steps.
 
 ## Fact model (shared by all phases)
 
