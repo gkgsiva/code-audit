@@ -202,18 +202,21 @@ def diff(
         console.print(f"Diff written to {json_out}")
 
 
-REPORT_TYPES = ("tech", "mgmt", "pptx", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "all")
 
 
 @app.command()
 def report(
-    type_: Annotated[str, typer.Option("--type", "-t", help="tech, mgmt, pptx or all")] = "tech",
+    type_: Annotated[
+        str, typer.Option("--type", "-t", help="tech, functional, mgmt, pptx or all")
+    ] = "tech",
     run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
     config: ConfigOpt = Path("audit.yaml"),
     output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
     open_: Annotated[bool, typer.Option("--open", help="Open the report in the browser")] = False,
 ) -> None:
     """Build reports from a run (default: the latest) into <run>/reports/."""
+    from legacy_audit.report.functional import build_functional_report
     from legacy_audit.report.mgmt import build_mgmt_report
     from legacy_audit.report.pptx import build_pptx
     from legacy_audit.report.tech import build_tech_report
@@ -234,6 +237,10 @@ def report(
         index = build_tech_report(run_dir, loaded.inputs_dir)
         console.print(f"[bold green]Technical report[/bold green] -> {index}")
         to_open = index
+    if type_ in ("functional", "all"):
+        fn_index = build_functional_report(run_dir, loaded.inputs_dir)
+        console.print(f"[bold green]Functional document[/bold green] -> {fn_index}")
+        to_open = to_open or fn_index
     if type_ in ("mgmt", "all"):
         deck = build_mgmt_report(run_dir, branding, config_dir)
         console.print(f"[bold green]Management deck[/bold green] -> {deck}")
@@ -248,7 +255,7 @@ def report(
             console.print(f"[yellow]{result.message}[/yellow]")
             if type_ == "pptx":
                 raise typer.Exit(code=1)
-    if type_ in ("mgmt", "pptx", "all"):
+    if type_ in ("functional", "mgmt", "pptx", "all"):
         from legacy_audit.enrich.status import compute_status
 
         status = compute_status(run_dir)

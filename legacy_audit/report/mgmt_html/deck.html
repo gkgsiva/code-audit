@@ -36,6 +36,42 @@
 {%- elif b.type == "diagram" -%}
 <figure class="blk diagram"><figcaption>{{ b.title }}</figcaption>
 {%- if b.mermaid %}<pre class="mermaid">{{ b.mermaid }}</pre>{% else %}<p class="muted">{{ b.note or "No diagram." }}</p>{% endif %}</figure>
+{%- elif b.type == "gauges" -%}
+<div class="blk gauges">
+  {%- for g in b["items"] %}
+  <div class="gauge"><div class="ring" style="--p:{{ g.pct }};--c:var(--{{ g.color }})" role="img" aria-label="{{ g.label }}: {{ g.pct }}%"><span>{{ g.pct }}%</span></div><div class="gl">{{ g.label }}</div>{% if g.sub %}<div class="gs">{{ g.sub }}</div>{% endif %}</div>
+  {%- endfor %}
+</div>
+{%- elif b.type == "capmap" -%}
+<div class="blk capmap">
+  {%- for d in b.domains %}
+  <div class="domain" style="--c:var(--{{ d.color }})"><h3>{{ d.name }}</h3>{% for c in d.caps %}<div class="cap">{{ c }}</div>{% endfor %}</div>
+  {%- endfor %}
+</div>
+{%- elif b.type == "heatmap" -%}
+<div class="blk tbl">{% if b.title %}<h3>{{ b.title }}</h3>{% endif %}
+<table class="heat {{ b.scale }}"><thead><tr><th></th>{% for c in b.columns %}<th>{{ c }}</th>{% endfor %}</tr></thead>
+<tbody>{% for r in b.rows %}<tr><th>{{ r.label }}</th>{% for c in r.cells %}<td class="{{ 'r' if b.scale == 'risk' else 'h' }}{{ c.level }}">{{ c.text }}</td>{% endfor %}</tr>{% else %}<tr><td colspan="{{ (b.columns | length) + 1 }}" class="muted">None.</td></tr>{% endfor %}</tbody></table>
+{%- if b.legend %}<p class="note">{{ b.legend }}</p>{% endif %}</div>
+{%- elif b.type == "flow" -%}
+<figure class="blk diagram flow"><figcaption>{{ b.title }}</figcaption>
+{%- if b.mermaid %}<pre class="mermaid">{{ b.mermaid }}</pre>{% endif %}
+<ul class="sr">{% for e in b.edges %}<li>{{ e.from }} {{ e.label }} {{ e.to }}</li>{% endfor %}</ul>
+<p class="legend">{% for k, t in [("screen", "Screen"), ("service", "Service"), ("table", "Table"), ("system", "Other system"), ("trigger", "Trigger"), ("job", "Job")] %}<span><i class="k-{{ k }}"></i>{{ t }}</span>{% endfor %}</p></figure>
+{%- elif b.type == "gantt" -%}
+<div class="blk gantt">
+  {%- set span = [b.months, 1] | max %}
+  {%- for g in b.bars %}
+  <div class="gn">{{ g.name }}</div><div class="track"><div class="bar" style="left:{{ (100 * g.start / span) | round(2) }}%;width:{{ (100 * (g.end - g.start) / span) | round(2) }}%;--c:var(--{{ g.color }})" title="{{ g.goal }}"><span>M{{ g.start }} to M{{ g.end }}</span></div></div>
+  {%- endfor %}
+  <div></div><div class="months">{% for m in range(0, span + 1, 1 if span <= 12 else 3 if span <= 36 else 6) %}<span style="left:{{ (100 * m / span) | round(2) }}%">M{{ m }}</span>{% endfor %}</div>
+</div>
+{%- elif b.type == "layers" -%}
+<div class="blk layers">
+  {%- for l in b.layers %}
+  <div class="layer" style="--c:var(--{{ l.color }})"><div class="ln">{{ l.name }}</div><div class="li">{% for it in l["items"] %}<span class="chip">{{ it }}</span>{% endfor %}{% if l.note %}<span class="lnote">{{ l.note }}</span>{% endif %}</div></div>
+  {%- endfor %}
+</div>
 {%- elif b.type == "placeholder" -%}
 <div class="blk placeholder"><strong>Not enriched yet.</strong> {{ b.text }}</div>
 {%- endif -%}
@@ -43,7 +79,7 @@
 <main id="deck">
 {%- for s in deck.slides %}
 {%- set n = loop.index %}
-<section class="slide {{ s.type }}" id="s{{ n }}" data-section="{{ s.section }}" aria-label="Slide {{ n }}: {{ s.title }}"{% if n > 1 %} hidden{% endif %}>
+<section class="slide {{ s.type }}" id="s{{ n }}" data-section="{{ s.section }}" aria-label="Slide {{ n }}: {{ s.title }}"{% if s.color %} style="--sc:var(--{{ s.color }})"{% endif %}{% if n > 1 %} hidden{% endif %}>
   <header>
     <div class="kicker">{{ s.section }} · <span>for {{ s.audience }}</span></div>
     <h1>{{ s.title }}</h1>
@@ -54,7 +90,7 @@
   {%- set rest = s.blocks | rejectattr("type", "equalto", "kpis") | list %}
   <div class="body">
     {%- for b in kp %}{{ block(b, "c" ~ n ~ "k" ~ loop.index) }}{% endfor %}
-    {%- if rest %}<div class="cols n{{ rest | length }}">{% for b in rest %}{{ block(b, "c" ~ n ~ "b" ~ loop.index) }}{% endfor %}</div>{% endif %}
+    {%- if rest %}<div class="cols n{{ rest | length }}{% if s.layout %} {{ s.layout }}{% endif %}">{% for b in rest %}{{ block(b, "c" ~ n ~ "b" ~ loop.index) }}{% endfor %}</div>{% endif %}
   </div>
   <footer><span>{{ deck.application }} · run {{ deck.run_id }}</span>{% if s.stale %}<span class="stale">Enrichment out of date: {{ s.stale | join(", ") }}</span>{% endif %}<span>{{ n }} / {{ deck.slides | length }}</span></footer>
   <aside class="notes"><h2>Speaker notes</h2><p>{{ s.notes or "No notes." }}</p></aside>

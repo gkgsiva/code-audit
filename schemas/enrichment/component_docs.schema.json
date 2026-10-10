@@ -1,0 +1,243 @@
+{
+  "$defs": {
+    "BuiltFrom": {
+      "additionalProperties": false,
+      "properties": {
+        "facts_hash_by_input": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "sha256 of each fact file (and 'stage:<name>' of each upstream stage)",
+          "title": "Facts Hash By Input",
+          "type": "object"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "facts_hash_by_input"
+      ],
+      "title": "BuiltFrom",
+      "type": "object"
+    },
+    "ComponentDoc": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "component": {
+          "title": "Component",
+          "type": "string"
+        },
+        "db_object_ids": {
+          "description": "Tables it reads/writes",
+          "items": {
+            "type": "string"
+          },
+          "title": "Db Object Ids",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "inputs": {
+          "description": "Requests, files, messages in",
+          "items": {
+            "type": "string"
+          },
+          "title": "Inputs",
+          "type": "array"
+        },
+        "key_elements": {
+          "items": {
+            "$ref": "#/$defs/KeyElement"
+          },
+          "title": "Key Elements",
+          "type": "array"
+        },
+        "migration_notes": {
+          "default": "",
+          "title": "Migration Notes",
+          "type": "string"
+        },
+        "outputs": {
+          "description": "Pages, files, messages out",
+          "items": {
+            "type": "string"
+          },
+          "title": "Outputs",
+          "type": "array"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "responsibilities": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Responsibilities",
+          "type": "array"
+        },
+        "tech_debt": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Tech Debt",
+          "type": "array"
+        }
+      },
+      "required": [
+        "component",
+        "purpose"
+      ],
+      "title": "ComponentDoc",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "KeyElement": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "name": {
+          "description": "Class, program, script or file",
+          "title": "Name",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "role"
+      ],
+      "title": "KeyElement",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "default": "copilot-agent",
+          "title": "Author",
+          "type": "string"
+        },
+        "built_from": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BuiltFrom"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stamped by `legacy-audit validate`; leave it out when (re)writing"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        },
+        "overrides_noted": {
+          "description": "Overrides from audit-overrides.yaml (run.json > overrides) this stage took into account",
+          "items": {
+            "type": "string"
+          },
+          "title": "Overrides Noted",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Meta",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/enrichment/component_docs.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "components": {
+      "items": {
+        "$ref": "#/$defs/ComponentDoc"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    }
+  },
+  "required": [
+    "meta",
+    "components"
+  ],
+  "title": "ComponentDocs",
+  "type": "object"
+}

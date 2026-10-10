@@ -49,7 +49,7 @@ SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._ -]{0,120}$")
 UPLOAD_KINDS = {**INPUT_KINDS, "security": "Vulnerability reports (JSON)"}
 MAX_UPLOAD = 200 * 1024 * 1024
 DIFF_LIST = 200
-REPORT_TYPES = ("tech", "mgmt", "pptx", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "all")
 FIELDS = ("application", "source", "target", "include", "exclude")
 
 
@@ -633,7 +633,12 @@ def create_app(
     @app.get("/api/runs/{run}/reports")
     def reports(run: str) -> dict[str, Any]:
         rd = ws.run_dir(run) / "reports"
-        found = {"tech": "tech/index.html", "mgmt": "mgmt/deck.html", "pptx": "deck.pptx"}
+        found = {
+            "tech": "tech/index.html",
+            "functional": "functional/index.html",
+            "mgmt": "mgmt/index.html",
+            "pptx": "deck.pptx",
+        }
         return {
             "run_id": rd.parent.name,
             "reports": {
@@ -644,6 +649,7 @@ def create_app(
 
     @app.post("/api/runs/{run}/reports")
     def build_reports(run: str, body: ReportBody) -> dict[str, Any]:
+        from legacy_audit.report.functional import build_functional_report
         from legacy_audit.report.mgmt import build_mgmt_report
         from legacy_audit.report.pptx import build_pptx
         from legacy_audit.report.tech import build_tech_report
@@ -658,6 +664,9 @@ def create_app(
             if body.type in ("tech", "all"):
                 job.emit("progress", stage="technical report", n=0, total=0)
                 build_tech_report(run_dir, loaded.inputs_dir)
+            if body.type in ("functional", "all"):
+                job.emit("progress", stage="functional document", n=0, total=0)
+                build_functional_report(run_dir, loaded.inputs_dir)
             if body.type in ("mgmt", "all"):
                 job.emit("progress", stage="management deck", n=0, total=0)
                 build_mgmt_report(run_dir, branding, config_dir)

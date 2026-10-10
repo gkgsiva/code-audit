@@ -97,11 +97,22 @@ CLI: `legacy-audit validate`.
 
 ## 8. Reports
 
-Build the technical report, the management deck (HTML) and the PowerPoint for the selected run,
-then **Open** them. **Download data pack (ZIP)** gives `run.json`, every fact file (JSON, CSV,
+Build the technical report, the functional document, the management deck (HTML) and the
+PowerPoint for the selected run, then **Open** them.
+
+- **Technical report**: for architects and developers. Coloured overview with readiness gauges,
+  one page per component, catalogues, the **Flows** page (every screen and batch drawn from the
+  scan) and the **Data model** page (who creates, reads, updates and deletes each table).
+- **Functional document**: for business and functional teams, in plain language. Capability map,
+  users and use cases, a flow for every screen (the services behind it and the tables they use)
+  and every batch (what starts it, its steps, tables and files, what happens when it fails, a
+  week calendar), business rules, data, interfaces and a glossary. The pictures are there straight
+  after a scan; the explanations appear once Copilot has run `/audit-enrich functional`.
+- **Management deck and PowerPoint**: a coloured slide opens each section; graphics (gauges,
+  flows, heat maps, roadmap) are real PowerPoint charts, tables and shapes, so you can edit them. **Download data pack (ZIP)** gives `run.json`, every fact file (JSON, CSV,
 SQLite), the SBOM and the enrichment, for Excel users or another tool.
 
-CLI: `legacy-audit report --type tech|mgmt|pptx|all --open`.
+CLI: `legacy-audit report --type tech|functional|mgmt|pptx|all --open`.
 
 ## 9. Compare runs
 

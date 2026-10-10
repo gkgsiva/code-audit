@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+<p class="lead">The work the application does on its own, on a schedule or when a file arrives. Open a batch for its flow: what starts it, its steps, the data it reads and writes, and what happens when it fails.</p>
+{% if gaps %}<div class="placeholder-box">Scheduler inputs not provided: {{ gaps | join(", ") }}. Batches started by them cannot be seen; add the exports under <code>audit-inputs/</code> and scan again.</div>{% endif %}
+{% include "_batch_cards.html" %}
+{% endblock %}

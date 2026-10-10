@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">The main journeys through the application, end to end, in business words. For the detail of one screen or one batch, see <a href="{{ base }}screens.html">Screens</a> and <a href="{{ base }}batch.html">Batch</a>.</p>
+{% if missing %}<div class="placeholder-box"><strong>No business flows yet.</strong> Run <code>/audit-enrich flows</code> in Copilot, then <code>legacy-audit validate</code> and rebuild.</div>{% endif %}
+{% for f in flows_ %}
+<h2>{{ f.name }} <span class="pill c4" style="font-size:12px;font-weight:400">{{ f.kind }}</span></h2>
+<div class="lead-box"><p>{{ f.summary }}</p>{% if f.trigger %}<p class="muted" style="margin-top:4px">Starts when: {{ f.trigger }}</p>{% endif %}</div>
+{{ m.diagram(f.diagram) }}
+<ol class="steps">{% for st in f.steps %}<li>{{ st.description }}{% if st.facts %} <span class="muted">({{ st.facts | join(", ") }})</span>{% endif %}</li>{% endfor %}</ol>
+<p class="note">{% for l in f.links %}{{ m.ev(l) }} {% endfor %}{% if f.assumption %}assumption{% endif %}</p>
+{% endfor %}
+{% endblock %}

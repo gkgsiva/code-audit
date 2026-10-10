@@ -44,6 +44,7 @@
 </tbody></table>{% endif %}
 
 {% if risks %}<h2>Risks</h2>
+{% if risk_matrix %}<div class="panel"><h3>Risk heat map</h3>{{ m.risk_matrix(risk_matrix) }}<p class="note">Number of risks per severity and likelihood, with their ids; hover a cell for all of them.</p></div>{% endif %}
 <div class="table-wrap"><table class="data"><thead><tr><th>ID</th><th>Risk</th><th>Severity</th><th>Likelihood</th><th>Mitigation</th><th>Owner</th><th>Evidence</th></tr></thead><tbody>
 {% for r in risks %}<tr><td>{{ r.id }}</td><td><strong>{{ r.title }}</strong><br><span class="muted">{{ r.description }}</span>{% if r.accepted %} <span class="chip info">accepted</span>{% endif %}</td><td><span class="chip {{ r.severity }}">{{ r.severity }}</span></td><td>{{ r.likelihood }}</td><td>{{ r.mitigation }}</td><td>{{ r.owner }}</td><td class="ev">{{ cites(r) }}</td></tr>{% endfor %}
 </tbody></table></div>{% endif %}
@@ -61,6 +62,7 @@
 {% for d in target_diagrams %}{{ m.diagram(d) }}{% endfor %}{% endif %}
 
 {% if e.plan %}<h2>Plan</h2><p>{{ e.plan.approach }}</p>
+{% if gantt and gantt.bars %}<div class="panel"><h3>Roadmap</h3>{{ m.gantt(gantt) }}</div>{% endif %}
 <table class="data"><thead><tr><th>Wave</th><th>Goal</th><th>Components</th><th class="num">Start month</th><th class="num">Months</th><th>Effort</th></tr></thead><tbody>
 {% for w in e.plan.waves | sort(attribute="order") %}<tr><td>{{ w.name }}</td><td>{{ w.goal }}</td><td>{{ w.components | join(", ") }}</td><td class="num">{{ w.start_month }}</td><td class="num">{{ w.duration_months }}</td><td>{% for f in w.effort %}{{ f.label }}: {{ f.value }} {{ f.unit }}{% if f.estimate %} <span class="muted">(estimate)</span>{% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}</td></tr>{% endfor %}
 </tbody></table>

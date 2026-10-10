@@ -653,14 +653,14 @@
     var run = currentRun();
     var running = state.job && state.job.state === "running";
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("reports", v); })])]));
-    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["all", "Build all"]].map(function (b) {
+    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["all", "Build all"]].map(function (b) {
       return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0] })); } });
     })));
     var host = el("div");
     node.appendChild(host);
     jobListeners = [function (ev) { if (ev.type === "end" && ev.result && ev.result.messages) ev.result.messages.forEach(function (m) { toast(m, !/written/.test(m)); }); }];
     api("GET", "/api/runs/" + run + "/reports").then(function (d) {
-      var names = { tech: "Technical report (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" };
+      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" };
       host.appendChild(table([
         { label: "Report", value: function (r) { return names[r.k]; } },
         { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: r.k === "pptx" ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }

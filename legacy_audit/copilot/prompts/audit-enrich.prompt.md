@@ -42,6 +42,39 @@ from the facts (`service:…`, `library:…`, `db_object:…`), component names 
 | 9 | `target_architecture` | architecture, service_mapping, target-mapping.json | target components on GCP, diagrams, principles |
 | 10 | `plan` | effort.json, components, risks, dependency_plan, target_architecture | approach, waves, effort figures, team, decisions needed, next steps |
 | 11 | `narratives` | all stages above | executive, architect, functional and developer texts |
+| 12 | `functional` | everything: components, services, screens, batch_jobs, integrations, db_objects, sql_statements, dependencies, classification, flows | business summary, domains and capabilities, actors, use cases, business rules (each citing the code line), business data entities, one story per screen and per batch, interfaces, glossary |
+| 13 | `component_docs` | per component: services, screens, SQL, tables, integrations, dependencies, metrics, findings, libraries | purpose, responsibilities, key classes/programs, inputs and outputs, tables, technical debt, migration notes |
+
+## Read everything (stages 12 and 13)
+
+The functional document and the component pages are only as good as what you read. Before
+writing `functional` or `component_docs`, go through every fact file below and tick it off in
+`audit-output/latest/enrichment/_working-summary.md` (one line per file: read, rows, what you
+took from it). On a large estate do it one component at a time with
+`legacy-audit facts <entity> --filter component=<name>`.
+
+- [ ] `audit-summary.json` and `run.json` (coverage gaps become open questions)
+- [ ] `components.json`, `entry_points.json`, `metrics.json`
+- [ ] `services.json` (each service's `screens`, `tables`, `sql` and `external_calls`)
+- [ ] `screens.json` and the `submits` / `links` / `forwards` edges in `dependencies.json`
+- [ ] `sql_statements.json` and `db_objects.json` (CRUD per table)
+- [ ] `batch_jobs.json` (boxes, conditions, schedules, `on_failure`) and the `runs` /
+      `invokes` / `triggers` edges
+- [ ] `integrations.json`, `libraries.json`, `findings.json`, `tech_stack.json`
+- [ ] the source lines you cite (open them: rules and calculations live in the code)
+
+For `functional`:
+
+- `screens`: one entry per screen that is not a partial, with `screen_id`, what the user does
+  there, what is shown and where the user goes next. The report draws the flow (screen,
+  services, tables, next screens) from the scan; you write the words.
+- `batches`: one entry per batch: an Autosys box, or a job that is not in a box (cron, JCL,
+  Spring Batch). `job_id` is the box's or job's id; say why it exists, when it runs in
+  business words, its steps (citing job, program and file ids), inputs, outputs, what happens
+  when it fails and the business impact if it does not run.
+- `business_rules`: validations, calculations, eligibility, status changes and limits you
+  can point to in the code (`evidence` with file and line).
+- Write for business readers: no class names in `summary`, `purpose` or rule text.
 
 For `plan`, copy `effort.low`, `effort.likely` and `effort.high` as figures, and give each wave
 the effort of its components from `effort.by_component.<component>.likely`; a split of one

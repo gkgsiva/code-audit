@@ -11,6 +11,7 @@
   {{ m.chart(severity_chart) }}
   {{ m.chart(action_chart) }}
 </div>
+{% if bubble_chart.has_data %}<div style="margin-top:16px">{{ m.chart(bubble_chart) }}</div>{% endif %}
 <h2>Riskiest libraries</h2>
 {% if risky %}<div class="table-wrap"><table class="data">
 <thead><tr><th>Library</th><th>Version</th><th>Max severity</th><th class="num">CVEs</th><th>End of life</th><th>Action</th><th>Recommended</th><th>Evidence</th></tr></thead>

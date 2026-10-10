@@ -285,3 +285,131 @@ class Narratives(StageFile):
     architect: Narrative
     functional: Narrative
     developer: Narrative
+
+
+# ---- 12 Functional -------------------------------------------------------------------------------
+class Capability(Claim):
+    name: str
+    description: str = Field(description="What the business does here, in business words")
+    service_ids: list[str] = Field(default_factory=list)
+    screen_ids: list[str] = Field(default_factory=list)
+    job_ids: list[str] = Field(default_factory=list, description="batch_job ids")
+
+
+class Domain(_Base):
+    name: str = Field(description="Business domain, e.g. Orders, Billing, Settlement")
+    description: str = ""
+    components: list[str] = Field(default_factory=list)
+    capabilities: list[Capability] = Field(default_factory=list)
+
+
+class Actor(_Base):
+    name: str = Field(description="A user role, an external system, a scheduler or an operator")
+    kind: Literal["user", "external-system", "scheduler", "operator"]
+    description: str = ""
+    screen_ids: list[str] = Field(default_factory=list)
+    integration_ids: list[str] = Field(default_factory=list)
+
+
+class UseCase(Claim):
+    id: str = Field(description="UC-01, UC-02...")
+    name: str = Field(description="Verb + object, e.g. 'Search orders'")
+    actor: str = Field(description="Name of an actor above")
+    goal: str
+    domain: str = ""
+    screen_ids: list[str] = Field(default_factory=list)
+    service_ids: list[str] = Field(default_factory=list)
+    steps: list[str] = Field(default_factory=list, description="What the user does, in order")
+    outcome: str = ""
+
+
+class BusinessRule(Claim):
+    id: str = Field(description="BR-01, BR-02...")
+    name: str
+    description: str = Field(description="The rule in business words: when..., then...")
+    kind: Literal[
+        "validation", "calculation", "eligibility", "status-change", "limit", "notification",
+        "other",
+    ]  # fmt: skip
+    domain: str = ""
+    fact_ids: list[str] = Field(default_factory=list, description="Services, screens, SQL...")
+
+
+class DataEntity(Claim):
+    name: str = Field(description="Business name, e.g. 'Customer invoice'")
+    description: str = ""
+    db_object_ids: list[str] = Field(default_factory=list, description="Tables that hold it")
+    domain: str = ""
+
+
+class ScreenStory(Claim):
+    screen_id: str
+    purpose: str = Field(description="What the user does on this screen, in plain words")
+    user_actions: list[str] = Field(default_factory=list)
+    data_shown: str = ""
+    next_steps: str = Field("", description="Where the user goes next and why")
+
+
+class BatchStep(_Base):
+    order: int
+    description: str = Field(description="What the step does, in business words")
+    fact_ids: list[str] = Field(default_factory=list)
+
+
+class BatchStory(Claim):
+    job_id: str = Field(description="The box or job id (batch_job:...)")
+    purpose: str = Field(description="Why the batch exists, in business words")
+    when: str = Field("", description="When it runs, in business words")
+    steps: list[BatchStep] = Field(default_factory=list)
+    inputs: list[str] = Field(default_factory=list, description="Data it reads, business words")
+    outputs: list[str] = Field(default_factory=list, description="Data it produces")
+    on_failure: str = Field("", description="What happens and who acts when it fails")
+    business_impact: str = Field("", description="What the business feels if it does not run")
+
+
+class Interface(Claim):
+    integration_id: str
+    partner: str = Field(description="Who is on the other side, in business words")
+    purpose: str
+    data_exchanged: str = ""
+
+
+class GlossaryTerm(_Base):
+    term: str
+    meaning: str
+
+
+class Functional(StageFile):
+    summary: str = Field(description="What the application does for the business, one paragraph")
+    domains: list[Domain] = Field(default_factory=list)
+    actors: list[Actor] = Field(default_factory=list)
+    use_cases: list[UseCase] = Field(default_factory=list)
+    business_rules: list[BusinessRule] = Field(default_factory=list)
+    data_entities: list[DataEntity] = Field(default_factory=list)
+    screens: list[ScreenStory] = Field(default_factory=list)
+    batches: list[BatchStory] = Field(default_factory=list)
+    interfaces: list[Interface] = Field(default_factory=list)
+    glossary: list[GlossaryTerm] = Field(default_factory=list)
+
+
+# ---- 13 Component documentation ------------------------------------------------------------------
+class KeyElement(_Base):
+    name: str = Field(description="Class, program, script or file")
+    role: str
+    file: str | None = None
+
+
+class ComponentDoc(Claim):
+    component: str
+    purpose: str
+    responsibilities: list[str] = Field(default_factory=list)
+    key_elements: list[KeyElement] = Field(default_factory=list)
+    inputs: list[str] = Field(default_factory=list, description="Requests, files, messages in")
+    outputs: list[str] = Field(default_factory=list, description="Pages, files, messages out")
+    db_object_ids: list[str] = Field(default_factory=list, description="Tables it reads/writes")
+    tech_debt: list[str] = Field(default_factory=list)
+    migration_notes: str = ""
+
+
+class ComponentDocs(StageFile):
+    components: list[ComponentDoc]

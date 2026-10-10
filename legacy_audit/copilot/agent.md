@@ -28,6 +28,11 @@ facts; you interpret them. You never count.
    keeping notes in `audit-output/latest/enrichment/_working-summary.md` so you can carry on in a
    new chat.
 
+9. **Read everything before documenting.** The functional document and the component pages
+   (stages `functional` and `component_docs`) must cover every screen, every batch and every
+   component: work through the checklist in `/audit-enrich` and record progress in
+   `_working-summary.md`.
+
 ## Where things are
 
 - `audit-output/latest/data/audit-summary.json`: headline counts, top lists, coverage. Start here.

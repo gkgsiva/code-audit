@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "stage": "component_docs",
+    "author": "copilot-agent"
+  },
+  "components": [
+    {
+      "component": "orders-web",
+      "purpose": "The Struts 1 web application customer service uses to find, view and price orders.",
+      "responsibilities": [
+        "Sign agents in",
+        "Search orders",
+        "Show one order with its lines and price",
+        "Call the central pricing service",
+        "Hold the order SQL and the PL/SQL pricing package"
+      ],
+      "key_elements": [
+        {
+          "name": "LoginAction",
+          "role": "Checks the user name and password",
+          "file": "src/com/acme/orders/action/LoginAction.java"
+        },
+        {
+          "name": "OrderService",
+          "role": "Business logic: search, find and price orders",
+          "file": "src/com/acme/orders/service/OrderService.java"
+        },
+        {
+          "name": "OrderDao",
+          "role": "All JDBC access to the order tables",
+          "file": "src/com/acme/orders/dao/OrderDao.java"
+        },
+        {
+          "name": "PricingSoapClient",
+          "role": "SOAP client of the pricing service",
+          "file": "src/com/acme/orders/client/PricingSoapClient.java"
+        },
+        {
+          "name": "PKG_ORDER_PRICING",
+          "role": "PL/SQL package that totals an order with tax",
+          "file": "sql/pkg_order_pricing.pkb"
+        }
+      ],
+      "inputs": [
+        "HTTP requests from agents' browsers",
+        "Pricing replies (SOAP)"
+      ],
+      "outputs": [
+        "JSP pages",
+        "SOAP pricing requests"
+      ],
+      "db_object_ids": [
+        "db_object:02d5a98eab0474e2",
+        "db_object:ef97536d0298e878",
+        "db_object:7d8347f08ff6057d",
+        "db_object:cdef501d9f4785bd"
+      ],
+      "tech_debt": [
+        "Struts 1.2.9 is end of life",
+        "SQL built by string concatenation in OrderDao",
+        "Pricing logic split between PL/SQL and Java"
+      ],
+      "migration_notes": "Rebuild as a Spring Boot 4 REST service with an Angular 21 front-end; move the PL/SQL pricing into Java; replace the SOAP client with a generated client.",
+      "evidence": [
+        {
+          "file": "WebContent/WEB-INF/struts-config.xml",
+          "line": 17
+        }
+      ]
+    }
+  ]
+}

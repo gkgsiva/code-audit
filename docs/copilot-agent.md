@@ -20,7 +20,7 @@ legacy-audit scan
 | `.github/copilot-instructions.md` | Always-on rules: numbers only from the scan, cite evidence, write only to `audit-output/latest/enrichment/` |
 | `.github/prompts/audit-scan.prompt.md` | `/audit-scan`: run or resume the scan and summarise coverage |
 | `.github/prompts/audit-enrich.prompt.md` | `/audit-enrich all \| stale \| <stage>`: write the enrichment, stage by stage |
-| `.github/prompts/audit-report.prompt.md` | `/audit-report`: validate and build the HTML site, HTML deck and PPTX |
+| `.github/prompts/audit-report.prompt.md` | `/audit-report`: validate and build the technical site, the functional document, the HTML deck and the PPTX |
 | `.github/prompts/audit-qa.prompt.md` | `/audit-qa`: cross-check the enrichment against the facts |
 | `.github/legacy-audit/schemas/*.schema.json` | JSON Schema of each enrichment file |
 | `.vscode/mcp.json` | Registers the read-only `legacy-audit` MCP server |
@@ -44,6 +44,22 @@ the `tools:` line and the agent gets every tool.
    `audit-output/latest/enrichment/` and runs `legacy-audit validate --stage <name> --restamp`
    after each; it fixes errors before moving on.
 4. `/audit-report` builds the reports (or `legacy-audit report --type all`).
+
+### The functional and component documentation (stages 12 and 13)
+
+`/audit-enrich functional` writes `functional.json`: the business domains and capabilities, who
+uses the application, use cases, business rules, data entities, one story per screen (purpose,
+what the user does, what it shows, where it leads) and per batch (purpose, when, steps, inputs and
+outputs, what happens on failure, business impact), the interfaces and a glossary.
+`/audit-enrich component_docs` writes `component_docs.json`: what each component does, its key
+classes or programs, inputs and outputs, tables, technical debt and migration notes.
+
+Before writing, the agent reads everything the scan found for the application (services, screens,
+SQL and tables, batch jobs, integrations, libraries, metrics, findings) and opens the source of
+the main screens, services and jobs. The diagrams in the functional document (one flow per screen
+and per batch) come from the scan, not from the agent: the agent's words appear beside them, so a
+missing or wrong story never changes a flow. Build the document with `legacy-audit report --type
+functional` (or `all`); it is in `audit-output/latest/reports/functional/index.html`.
 
 After a re-scan (new inputs, code changes), run `/audit-enrich stale`: `status.json` lists the
 stages whose facts changed, and only those are redone.

@@ -18,6 +18,9 @@ command: /opt/billing/scripts/run_invoice_job.sh
 machine: bilbatch01
 condition: s(BIL_USAGE_WAIT)
 std_out_file: /var/log/billing/invoice.out
+description: "Price the day's usage and write the invoices"
+alarm_if_fail: 1
+n_retrys: 1
 
 insert_job: BIL_ARCHIVE   job_type: CMD
 box_name: BIL_NIGHTLY_BOX
