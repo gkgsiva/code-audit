@@ -35,7 +35,7 @@
     {
       "label": "audit: 1. set up (venv + install)",
       "type": "shell",
-      "command": "python -m venv .venv && .venv/bin/python -m pip install -e \".[dev]\"",
+      "command": "python3 -m venv .venv && .venv/bin/python -m pip install -e \".[dev]\"",
       "windows": {
         "command": "python -m venv .venv; .venv\\Scripts\\python -m pip install -e \".[dev]\""
       },
