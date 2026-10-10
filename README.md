@@ -15,13 +15,20 @@ candidates, complexity bands), YAML rule packs and findings, PostgreSQL grading,
 security (Dependency-Check / OSV-Scanner, EOL, upgrade advice, CycloneDX SBOM) and an effort
 estimate. Phase 4 adds the technical HTML report (offline, one folder per run). Phase 5 adds the
 GitHub Copilot agent and prompt files (installed by `init`), validated enrichment with staleness
-tracking, a read-only MCP server, the management HTML deck and the editable PPTX. See
-`docs/progress.md`.
+tracking, a read-only MCP server, the management HTML deck and the editable PPTX. Phase 6 adds
+the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (2M lines in
+3 to 4 minutes on 4 CPUs) and hardening for interrupted runs, odd files and long Windows paths. See
+`docs/progress.md` and `CHANGELOG.md`.
 
 ## Documents
 
 - `docs/plan.md` — full specification
 - `docs/decisions.md` — decisions and open questions
+- `docs/user-guide.md` — an audit end to end with the GUI
+- `docs/admin-guide.md` — install (pipx, offline), vulnerability database, branding, rule packs
+- `docs/rules.md` — how to add, change or switch off rules
+- `docs/performance.md` — scan times on a generated 2M-line estate
+- `docs/copilot-agent.md` — the Copilot agent for analysts
 - `docs/prompts/` — build prompts, one per phase
 - `CLAUDE.md` — rules and conventions for Claude Code
 
@@ -35,10 +42,16 @@ python -m venv .venv
 pip install -e ".[dev]"
 ```
 
+For analysts: `pipx install legacy_audit-<version>-py3-none-any.whl` (build it with
+`python -m pip wheel . --no-deps -w dist`). Offline installs are in
+[`docs/admin-guide.md`](docs/admin-guide.md).
+
 ## Usage
 
 ```
 cd <legacy workspace>
+legacy-audit serve                # local GUI on http://127.0.0.1:8765 (setup, inputs, run, results)
+legacy-audit doctor               # which optional tools (Node, Dependency-Check, ...) are installed
 legacy-audit init                 # audit.yaml, audit-overrides.yaml, audit-inputs/<kind>/, Copilot files
 legacy-audit scan                 # new run under audit-output/runs/<run-id>/, latest -> newest
 legacy-audit scan --full          # ignore the file cache and re-analyse everything
@@ -123,7 +136,7 @@ interprets: numbers are copied from the scan as figures, claims cite `file:line`
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
 `3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
 `7. build and open the technical report`, `8`–`12` for phase 5 (PPTX builder, Copilot files, demo
-enrichment, decks, facts); **Run and
+enrichment, decks, facts), `13`–`15` for phase 6 (GUI, doctor, performance test); **Run and
 Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
 [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 

@@ -58,9 +58,13 @@ class Facts:
         filters: dict[str, Any] | None = None,
         limit: int = 50,
         fields: list[str] | None = None,
+        *,
+        offset: int = 0,
+        search: str | None = None,
     ) -> dict[str, Any]:
         """Rows of one entity. A filter value matches a column exactly; ``~text`` matches rows
-        whose column contains the text (for list columns such as ``tables``)."""
+        whose column contains the text (for list columns such as ``tables``). ``search`` keeps
+        rows where any column contains the text; ``offset`` pages through the rest."""
         if kind not in ENTITIES:
             raise FactsError(f"Unknown kind '{kind}'; one of: {', '.join(ENTITIES)}")
         columns = list(ENTITIES[kind].model_fields)
@@ -75,17 +79,22 @@ class Facts:
             else:
                 where.append(f'"{col}" = ?')
                 args.append(value)
+        if search:
+            where.append("(" + " OR ".join(f'"{c}" LIKE ?' for c in columns) + ")")
+            args += [f"%{search}%"] * len(columns)
         sql_where = f" WHERE {' AND '.join(where)}" if where else ""
         select = ", ".join(f'"{c}"' for c in fields) if fields else "*"
         limit = max(1, min(int(limit), MAX_LIMIT))
+        offset = max(0, int(offset))
         with self._db() as conn:
             total = conn.execute(f'SELECT COUNT(*) FROM "{kind}"{sql_where}', args).fetchone()[0]
             rows = conn.execute(
-                f'SELECT {select} FROM "{kind}"{sql_where} LIMIT {limit}', args
+                f'SELECT {select} FROM "{kind}"{sql_where} LIMIT {limit} OFFSET {offset}', args
             ).fetchall()
         return {
             "kind": kind,
             "total": total,
+            "offset": offset,
             "returned": len(rows),
             "rows": [{k: _cell(v) for k, v in dict(r).items()} for r in rows],
         }

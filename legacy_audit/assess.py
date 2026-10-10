@@ -7,6 +7,7 @@ results, so a changed weight, severity or disabled rule takes effect without re-
 from __future__ import annotations
 
 import logging
+import threading
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
@@ -31,6 +32,7 @@ from legacy_audit.model import (
     VulnerabilitySource,
     make_id,
 )
+from legacy_audit.parallel import worker_count
 from legacy_audit.rules.engine import apply_config, evaluate
 from legacy_audit.rules.packs import Pack, load_pack
 from legacy_audit.rules.pg import grade_all
@@ -202,6 +204,7 @@ def assess(
     hits: list[tuple[str, str, int, str]],
     scan_dirs: list[Path],
     abs_paths: dict[str, Path],
+    cancel: threading.Event | None = None,
 ) -> Assessment:
     cfg = loaded.config
     tdir = team_dir(loaded)
@@ -209,7 +212,14 @@ def assess(
 
     statements = [s for s in entities.get("sql_statements", []) if isinstance(s, SqlStatement)]
     objects = [o for o in entities.get("db_objects", []) if isinstance(o, DbObject)]
-    grade_all(statements, objects, load_pack("postgresql", tdir).data)
+    grade_all(
+        statements,
+        objects,
+        load_pack("postgresql", tdir).data,
+        workers=worker_count(cfg.inventory.workers),
+        cache_file=run_dir.parent.parent / "cache" / "grade-cache.sqlite",
+        cancel=cancel,
+    )
 
     libraries = [lib for lib in entities.get("libraries", []) if isinstance(lib, Library)]
     tech = [t for t in entities.get("tech_stack", []) if isinstance(t, TechItem)]

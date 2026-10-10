@@ -72,6 +72,9 @@ class FileCache:
         self.conn.executemany("DELETE FROM files WHERE root=? AND path=?", gone)
         return len(gone)
 
+    def commit(self) -> None:
+        self.conn.commit()
+
     def close(self) -> None:
         self.conn.commit()
         self.conn.close()

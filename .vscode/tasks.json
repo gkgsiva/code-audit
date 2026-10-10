@@ -22,6 +22,13 @@
       "description": "Kind of facts",
       "options": ["services", "screens", "sql_statements", "integrations", "batch_jobs", "libraries", "findings", "components"],
       "default": "services"
+    },
+    {
+      "id": "lines",
+      "type": "pickString",
+      "description": "Lines of code to generate for the performance test",
+      "options": ["200000", "500000", "2000000"],
+      "default": "500000"
     }
   ],
   "tasks": [
@@ -126,6 +133,34 @@
       "command": ".venv/bin/python -m legacy_audit facts ${input:kind} --limit 5 -c samples/${input:sample}/audit.yaml",
       "windows": {
         "command": ".venv\\Scripts\\python -m legacy_audit facts ${input:kind} --limit 5 -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 13. start the GUI on a sample (legacy-audit serve)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit serve --workspace samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit serve --workspace samples\\${input:sample}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 14. check installed tools (doctor)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit doctor -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit doctor -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 15. performance test (generated estate)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/perf.py ${input:lines}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\perf.py ${input:lines}"
       },
       "problemMatcher": []
     }
