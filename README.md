@@ -62,6 +62,7 @@ legacy-audit report --run <id>    # report of an older run (default: latest)
 legacy-audit report --type functional  # functional document: screen and batch flows, use cases, rules
 legacy-audit report --type all    # technical site + functional document + management deck (HTML) + deck.pptx
 legacy-audit validate             # check Copilot's enrichment against the scan; mark stale stages
+legacy-audit enrich               # write the enrichment with the model in audit.yaml > ai (--check, --stale)
 legacy-audit facts services -f kind=servlet   # query facts as JSON (what the agent reads)
 legacy-audit mcp                  # read-only MCP server for Copilot (stdio)
 legacy-audit purge-cache          # delete cloned Git sources (~/.legacy-audit/cache)
@@ -133,13 +134,19 @@ Copilot Chat and run `/audit-scan`, `/audit-enrich all`, `/audit-report`. The ag
 interprets: numbers are copied from the scan as figures, claims cite `file:line`, and
 `legacy-audit validate` rejects anything else. See [`docs/copilot-agent.md`](docs/copilot-agent.md).
 
+**Any other model**: set the `ai:` section of `audit.yaml` (`openai` for any OpenAI-compatible
+endpoint, `azure-openai`, `anthropic` or `ollama`, plus `model`; the API key comes from an
+environment variable) and run `legacy-audit enrich` (or the GUI's AI enrichment screen). The same
+validator checks the result.
+
 ## Validating from VS Code
 
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
 `3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
 `7. build and open the technical report`, `8`–`12` for phase 5 (PPTX builder, Copilot files, demo
 enrichment, decks, facts), `13`–`15` for phase 6 (GUI, doctor, performance test), `16`–`17` for phase 7 (demo functional
-enrichment, functional document); **Run and
+enrichment, functional document), `18` (scan without scheduler inputs), `19`–`20` (AI model check and
+enrichment with any model); **Run and
 Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
 [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 

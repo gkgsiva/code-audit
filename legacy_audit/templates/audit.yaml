@@ -136,3 +136,22 @@ sql:
 cobol:
   copybook_paths: []             # folders searched first for COPY members, e.g. ["copybooks"]
   sql_dialect: db2
+
+# AI enrichment. By default analysts run /audit-enrich in VS Code Copilot Chat and pick the model
+# there (copilot_model pins one in the agent file). To use any other model, set provider and
+# model, then run `legacy-audit enrich`. Scans never call a model. The API key is read from the
+# environment variable named in api_key_env (never write the key here).
+ai:
+  provider: copilot              # copilot | openai | anthropic | azure-openai | ollama
+  model: null                    # e.g. gpt-4.1, claude-sonnet-4-5, llama3.1; Azure: deployment
+  base_url: null                 # OpenAI-compatible gateway, Gemini, LM Studio, vLLM...; Azure: https://<resource>.openai.azure.com
+  api_key_env: null              # default OPENAI_API_KEY, ANTHROPIC_API_KEY or AZURE_OPENAI_API_KEY
+  api_version: "2024-10-21"      # azure-openai only
+  temperature: 0.1               # null leaves the model's default
+  max_output_tokens: 16000
+  json_mode: true                # false if the endpoint rejects response_format
+  context_chars: 150000          # facts and source sent per stage (about 4 characters per token)
+  timeout_seconds: 600
+  repair_rounds: 2               # times the validator's errors are sent back to the model
+  ca_bundle: null                # corporate CA certificates (PEM) for a TLS-inspecting proxy
+  copilot_model: null            # e.g. "Claude Sonnet 4.5 (copilot)"; empty = picked in the chat

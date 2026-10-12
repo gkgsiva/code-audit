@@ -611,7 +611,7 @@
 
   // ---------------------------------------------------------------- 7. enrichment
   function screenEnrichment(node) {
-    add(node, heading("AI enrichment", "Copilot writes the enrichment in VS Code (the GUI never calls a model). Each stage is checked against the scan: numbers must match, claims need evidence."));
+    add(node, heading("AI enrichment", "An AI model writes the enrichment: Copilot in VS Code by default, or any model set under ai: in audit.yaml. Each stage is checked against the scan: numbers must match, claims need evidence."));
     if (needConfig(node) || needRun(node)) return;
     var run = currentRun();
     var host = el("div");
@@ -622,9 +622,18 @@
     node.appendChild(host);
     function draw(d) {
       clear(host);
+      var ai = d.ai || { provider: "copilot" };
+      if (ai.provider !== "copilot") {
+        var running = !!(state.job && state.job.state === "running");
+        host.appendChild(el("div", { class: "panel" }, [el("h3", { text: "Run here with " + ai.label }),
+          ai.problem ? el("p", { class: "hint", text: ai.problem }) : el("p", { class: "hint", text: "The tool sends the facts of each stage to this model, checks the answer and sends any errors back to fix. The API key is read from an environment variable." }),
+          el("div", { class: "controls" }, [
+            el("button", { class: "btn primary", text: "Run missing and stale stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/enrich", { stale: true })); } }),
+            el("button", { class: "btn", text: "Run all stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/enrich", { stale: false })); } })])]));
+      }
       if (d.next_prompt) {
         var code = el("code", { text: d.next_prompt });
-        host.appendChild(el("div", { class: "panel" }, [el("h3", { text: "Next step in Copilot Chat (legacy-auditor agent)" }),
+        host.appendChild(el("div", { class: "panel" }, [el("h3", { text: (ai.provider !== "copilot" ? "Or in " : "Next step in ") + "Copilot Chat (legacy-auditor agent)" }),
           el("div", { class: "prompt" }, [code, el("button", { class: "btn small", text: "Copy", onclick: function () {
             (navigator.clipboard ? navigator.clipboard.writeText(d.next_prompt) : Promise.reject(new Error("Clipboard not available"))).then(function () { toast("Copied. Paste it into Copilot Chat."); }).catch(fail);
           } })]),

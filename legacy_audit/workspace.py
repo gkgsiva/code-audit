@@ -61,8 +61,20 @@ def init_workspace(
             d.mkdir(parents=True)
             (d / ".gitkeep").touch()
             out.append(Created(f"audit-inputs/{kind}/", "created"))
-    out += [Created(i.path, i.action) for i in install(folder, copilot_layout)]
+    out += [
+        Created(i.path, i.action) for i in install(folder, copilot_layout, _copilot_model(folder))
+    ]
     return out
+
+
+def _copilot_model(folder: Path) -> str | None:
+    """``ai.copilot_model`` from the workspace's audit.yaml, if it loads."""
+    from legacy_audit.config import ConfigError, load_config
+
+    try:
+        return load_config(folder / CONFIG_FILE).config.ai.copilot_model
+    except (ConfigError, OSError):
+        return None
 
 
 # ---- audit.yaml edits ---------------------------------------------------------------------------
