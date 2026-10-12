@@ -9,6 +9,7 @@ from typing import Any
 from legacy_audit.model import (
     BatchJob,
     CodeEdge,
+    Component,
     DbObject,
     EntryPoint,
     Finding,
@@ -17,6 +18,7 @@ from legacy_audit.model import (
     Screen,
     Service,
     SqlStatement,
+    make_id,
 )
 from legacy_audit.store.writer import FactSet
 
@@ -25,6 +27,43 @@ PROCEDURE_TYPES = ("package", "procedure", "function")
 
 def _sorted(c: Counter[str]) -> dict[str, int]:
     return {k: c[k] for k in sorted(c)}
+
+
+RUN_EDGES = ("invokes", "runs", "triggers", "calls", "includes")
+
+
+def unscheduled_batches(facts: FactSet) -> list[str]:
+    """Components doing batch work that no scheduler definition covers (decision 116). Each is
+    one batch, however many scripts and programs it holds: its ksh scripts are parts of it. A
+    component is covered when a job is defined in it or a job runs something in it (directly
+    or through the scripts and programs it starts)."""
+    jobs = [j for j in facts.get("batch_jobs", []) if isinstance(j, BatchJob)]
+    covered = {j.component for j in jobs if j.component}
+    owner: dict[str, str] = {}
+    for kind in ("inventory", "services", "entry_points"):
+        for f in facts.get(kind, []):
+            comp = getattr(f, "component", None)
+            if comp:
+                owner[f.id] = comp
+    outgoing: dict[str, list[str]] = {}
+    for e in facts.get("dependencies", []):
+        if isinstance(e, CodeEdge) and e.resolved and e.kind in RUN_EDGES:
+            outgoing.setdefault(e.source, []).append(e.target)
+    seen = {j.id for j in jobs} | {make_id("service", "batch-job", j.id) for j in jobs}
+    todo = list(seen)
+    while todo:
+        node = todo.pop()
+        if node in owner:
+            covered.add(owner[node])
+        for t in outgoing.get(node, []):
+            if t not in seen:
+                seen.add(t)
+                todo.append(t)
+    return sorted(
+        c.name
+        for c in facts.get("components", [])
+        if isinstance(c, Component) and "batch" in c.roles and c.name not in covered
+    )
 
 
 def counts(facts: FactSet) -> dict[str, Any]:
@@ -40,6 +79,7 @@ def counts(facts: FactSet) -> dict[str, Any]:
     findings = [f for f in facts.get("findings", []) if isinstance(f, Finding)]
     real_screens = [s for s in screens if not s.partial]
     counted_jobs = [j for j in jobs if j.kind != "box"]
+    unscheduled = unscheduled_batches(facts)
     return {
         "services": {"total": len(services), "by_kind": _sorted(Counter(s.kind for s in services))},
         "screens": {
@@ -62,7 +102,9 @@ def counts(facts: FactSet) -> dict[str, Any]:
             "by_type": _sorted(Counter(i.type for i in integrations)),
         },
         "batch_jobs": {
-            "total": len(counted_jobs),
+            "total": len(counted_jobs) + len(unscheduled),
+            "scheduled": len(counted_jobs),
+            "unscheduled": len(unscheduled),
             "boxes": len(jobs) - len(counted_jobs),
             "by_scheduler": _sorted(Counter(j.scheduler for j in counted_jobs)),
         },

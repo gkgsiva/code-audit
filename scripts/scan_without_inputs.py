@@ -5,9 +5,9 @@
 Real estates often arrive without the Autosys JIL, JCL or crontab. This copies the sample to
 ``build/no-inputs/<sample>/`` without its ``audit-inputs/`` folder (the sample itself is not
 touched), scans the copy and builds the functional document and the technical report. The
-Batch pages should still list every batch script, program and listener, marked
-"no schedule found", with what their code comments say. ``--open`` opens the functional
-document's Batch page.
+Batch pages should still list every batch (one per batch component, its scripts and programs
+as steps) and listener, marked "no schedule found", with what their code comments say.
+``--open`` opens the functional document's Batch page.
 """
 
 from __future__ import annotations

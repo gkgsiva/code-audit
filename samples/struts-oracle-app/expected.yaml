@@ -34,6 +34,11 @@ inventory:
 components:
   - {name: orders-web, type: web, files: 35, detected_by: build-file}
 
+# Every kind of work found in each component (web, batch, db, ...); type is the main one.
+component_roles:
+  orders-web: [db, script, web]
+unscheduled_batches: []
+
 coverage:
   autosys: missing
   mq: missing
@@ -70,6 +75,8 @@ counts:
     by_type: {DB: 1, SMTP: 1, SOAP: 2}
   batch_jobs:
     total: 0
+    scheduled: 0
+    unscheduled: 0
     boxes: 0
     by_scheduler: {}
   libraries: {total: 5, declared: 0, undeclared: 5}

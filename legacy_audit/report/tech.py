@@ -394,7 +394,8 @@ class _Pages:
                 "counts.batch_jobs.total",
                 "Batch jobs",
                 "batch-jobs.html",
-                f"{_fmt(_get(c, 'batch_jobs.boxes'))} boxes",
+                f"{_fmt(_get(c, 'batch_jobs.scheduled'))} scheduled, "
+                f"{_fmt(_get(c, 'batch_jobs.unscheduled'))} with no schedule found",
             ),
             self._tile(
                 "counts.libraries.total",

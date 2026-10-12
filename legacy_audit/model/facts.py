@@ -81,6 +81,7 @@ class ComponentType(StrEnum):
     REPORT = "report"
     LIBRARY = "library"
     DB = "db"
+    CONFIG = "config"
     ONLINE_MAINFRAME = "online-mainframe"
     UNKNOWN = "unknown"
 
@@ -92,6 +93,16 @@ class Component(Fact):
     path: str = Field(description="Component folder relative to the source root ('' = root)")
     build_files: list[str] = Field(default_factory=list)
     technology: list[str] = Field(default_factory=list)
+    roles: list[str] = Field(
+        default_factory=list,
+        description="Every kind of work found in the component (web, batch, online-mainframe, "
+        "cft, db, config, script, library); ``type`` is the main one. A Struts web module with "
+        "batch scripts has roles [batch, web]",
+    )
+    composition: dict[str, int] = Field(
+        default_factory=dict,
+        description="Files by category (source, screen, script, config, sql, job, ...)",
+    )
     files: int = 0
     loc_code: int = 0
     entry_points: list[str] = Field(default_factory=list)

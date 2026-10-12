@@ -129,6 +129,10 @@ inventory:
   max_file_size_mb: 20           # larger files are hashed but not read
   workers: 0                     # analysis processes; 0 = one per CPU less one (max 8)
   use_default_excludes: true
+  # Leave out compiler and IDE output: bin/, classes/, obj/, Debug/, Release/ folders holding
+  # compiled files and no source or script, Eclipse output folders (.classpath), and files a
+  # precompiler generated next to their source (foo.c beside foo.pc). Each one is reported.
+  skip_build_output: true
 
 # Dialect of SQL embedded in code and scripts (oracle, db2, sqlserver, sybase, mysql, postgresql).
 sql:

@@ -22,7 +22,13 @@ from legacy_audit.inventory.cache import CacheEntry, FileCache
 from legacy_audit.inventory.components import detect_components
 from legacy_audit.inventory.files import INVENTORY_VERSION, skip_by_extension
 from legacy_audit.inventory.inputs import coverage_line, input_coverage
-from legacy_audit.inventory.walker import Filters, WalkedFile, anchored_excludes, walk
+from legacy_audit.inventory.walker import (
+    Filters,
+    SkippedPath,
+    WalkedFile,
+    anchored_excludes,
+    walk,
+)
 from legacy_audit.inventory.worker import Job, process, setup
 from legacy_audit.linker import classify_components, link
 from legacy_audit.metrics.compute import compute as compute_metrics
@@ -120,6 +126,28 @@ def _stage(name: str, progress: Progress | None, cancel: threading.Event | None)
     check(cancel)
     if progress:
         progress(name, 0, 0)
+
+
+def _skipped_findings(skipped: list[SkippedPath], multi: bool) -> list[Finding]:
+    """Build output and precompiler-generated files the walker left out (decision 113)."""
+    out = []
+    for sk in skipped:
+        path = f"{sk.root}/{sk.rel}" if multi else sk.rel
+        what = f"{sk.files} file(s)" if sk.rel.endswith("/") else "the file"
+        log.info("Left out %s: %s (%s)", path, sk.reason, what)
+        out.append(
+            Finding(
+                id=make_id("finding", "build-output-skipped", path),
+                rule_id="build-output-skipped",
+                severity=Severity.INFO,
+                category="coverage",
+                file=path.rstrip("/"),
+                message=f"Left out of the scan: {sk.reason}; {what}. Set "
+                "inventory.skip_build_output: false in audit.yaml to scan it.",
+                evidence=[Evidence(file=path.rstrip("/"))],
+            )
+        )
+    return out
 
 
 def _limit_findings(
@@ -250,14 +278,16 @@ def _run(
     exclude = [*cfg.exclude, *overrides.files.exclude, *(f"!{p}" for p in overrides.files.include)]
     multi = len(roots) > 1
     walked: list[tuple[WalkedFile, str, Origin]] = []
+    left_out: list[SkippedPath] = []
     for root in roots:
         filters = Filters.build(
             cfg.include,
             exclude,
             cfg.inventory.use_default_excludes,
             anchored_excludes(root.path, tool_owned),
+            cfg.inventory.skip_build_output,
         )
-        for wf in walk(root.name, root.path, filters, root.subpaths):
+        for wf in walk(root.name, root.path, filters, root.subpaths, left_out):
             walked.append((wf, f"{root.name}/{wf.rel}" if multi else wf.rel, Origin.SOURCE))
     inputs_dir = loaded.inputs_dir
     if inputs_dir.is_dir():
@@ -348,7 +378,7 @@ def _run(
         file_facts.extend(_load_facts(path, payload))
     removed = cache.prune()
     cache.close()
-    limits = _limit_findings(records, unreadable, max_bytes)
+    limits = _limit_findings(records, unreadable, max_bytes) + _skipped_findings(left_out, multi)
     timings["inventory"] = round(time.perf_counter() - t, 3)
     log.info(
         "Inventory: %d files, %d analyzed, %d from cache, %d skipped binaries, %d removed",

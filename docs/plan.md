@@ -139,7 +139,7 @@ One normalized fact model feeds every output. JSON is the source of truth, CSV i
 | File | One row per | Key fields |
 | --- | --- | --- |
 | `inventory.csv/json` | file | path, language, category, LOC code/comment/blank, size, hash, encoding, component |
-| `components.json` | module/component | id, name, type (web, batch, CFT, script, report, library, DB), technology, files, LOC, entry points |
+| `components.json` | module/component | id, name, type (web, batch, online-mainframe, CFT, script, config, report, library, DB), roles (every kind of work it holds), composition (files by category), technology, files, LOC, entry points |
 | `services.csv/json` | service unit | id, name, kind (Struts action, Spring handler, servlet, EJB, SOAP op, COBOL program, batch job, C daemon), component, inputs/outputs, complexity, tables used, external calls |
 | `screens.csv/json` | screen | id, name, technology (JSP, JSF, BMS, form), action, fields count, component, complexity |
 | `sql_statements.csv/json` | SQL statement | id, file, line, type (SELECT/INSERT/…/PROC/DYNAMIC), source, text, tables, dialect, dynamic yes/no, built_with, fragments, optional_fragments, value_holes, structural_holes, variants, PG grade auto/review/manual, reason |
@@ -221,7 +221,7 @@ Published in every report and configurable.
 | DB query | One distinct SQL statement after normalizing whitespace and bind variables; SQL built at run time counts once per execution site, rebuilt to its full text (fragments are not statements) | Report total, distinct, by type, by PG grade; dynamic SQL flagged with its holes and variants |
 | Stored procedure | One package/procedure/function | Counted separately; graded manual or review |
 | Integration | One unique (type, target, direction) | Same FTP host used by 10 scripts = 1 integration, 10 usages |
-| Batch job | One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job) | Steps listed under it; Autosys boxes are containers, not jobs |
+| Batch job | One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job); without a scheduler definition, one per batch component (decision 116) | Steps listed under it; Autosys boxes are containers, not jobs; the ksh scripts of a batch component are its steps, not batches |
 | Library | One distinct (group, artifact, version) | Undeclared jars identified by manifest / hash |
 
 **Complexity per item** (Simple / Medium / Complex / Very complex): weighted score from LOC, cyclomatic complexity, tables, integrations, vendor-specific SQL and fan-out; weights in `audit.yaml`.

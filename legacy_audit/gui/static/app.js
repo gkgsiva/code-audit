@@ -359,7 +359,7 @@
   }
 
   // ---------------------------------------------------------------- 3. components
-  var TYPES = ["web", "batch", "cft", "script", "report", "library", "db", "unknown"];
+  var TYPES = ["web", "batch", "online-mainframe", "cft", "script", "config", "report", "library", "db", "unknown"];
   function screenComponents(node) {
     add(node, heading("Components", "Detected from build files and folders without reading any file; the type is the last scan's when there is one. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
     if (needConfig(node)) return;
@@ -384,6 +384,9 @@
         { label: "Languages", value: function (c) { return Object.keys(c.languages).map(function (l) { return l + " " + c.languages[l]; }).join(", "); } },
         { key: "detected_by", label: "Detected by" }
       ], rows));
+      if (data.skipped && data.skipped.length) {
+        host.appendChild(el("p", { class: "hint", text: "Left out as build output or generated files: " + data.skipped.map(function (k) { return k.path + " (" + fmt(k.files) + " files)"; }).join(", ") + ". Set inventory.skip_build_output: false in audit.yaml to scan them." }));
+      }
       host.appendChild(el("div", { class: "row" }, [
         el("button", { class: "btn primary", text: "Save choices", onclick: function () {
           var inc = {}, ty = {};

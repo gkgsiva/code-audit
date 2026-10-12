@@ -100,6 +100,9 @@ FILENAMES: dict[str, str] = {
     "crontab": "crontab",
     "manifest.mf": "manifest",
     "dockerfile": "dockerfile",
+    ".project": "xml",
+    ".classpath": "xml",
+    "cmakelists.txt": "make",
 }
 
 BUILD_FILES = {
@@ -141,6 +144,8 @@ def detect_language(rel_path: str, head: str | None) -> str:
         return "archive" if ext in ARCHIVE_EXTENSIONS else "binary"
     if name in FILENAMES:
         return FILENAMES[name]
+    if name.startswith("makefile.") and ext not in EXTENSIONS:  # makefile.aix, Makefile.unix
+        return "make"
     lang = EXTENSIONS.get(ext)
     if head is None:
         return lang or "binary"

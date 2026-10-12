@@ -43,8 +43,14 @@ on every report, never an error. After adding one, re-run the scan.
 
 ## 3. Components
 
-A fast pre-scan (file names only) shows the components a scan will find: one per build file or
-top folder. Untick a folder to leave it out, or pick a type to override the detection, then
+A fast pre-scan (file names only) shows the components a scan will find: one per build or
+project file (`pom.xml`, `build.xml`, `Makefile*`, Eclipse `.project`, ...), and without build
+files one per application folder: folders such as `src`, `WebContent`, `java`, `ksh`,
+`properties` or `conf` are parts of the application around them (a Struts module keeps its Java
+and JSPs together, a batch its Java, ksh and properties), a folder holding only applications is
+not a component itself, and a shared `config/` folder becomes a `config` component. Build output
+(`bin/` or `classes/` full of `.class` files, `obj/`, Pro*C-generated `.c`) is left out and
+listed under the table. Untick a folder to leave it out, or pick a type to override the detection, then
 **Save choices**. The choices go to `audit-overrides.yaml` (`files.exclude`, `components.type`)
 and are applied on every run, with a warning when one no longer matches anything.
 

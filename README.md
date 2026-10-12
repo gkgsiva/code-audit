@@ -71,7 +71,7 @@ legacy-audit version
 
 `--config/-c` points at another `audit.yaml` (default: `./audit.yaml`); `scan -o DIR` overrides
 the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-oracle-app/audit.yaml`
-(also `spring-mvc-batch-app`, `c-proc-batch`, `cobol-cics-db2`).
+(also `spring-mvc-batch-app`, `c-proc-batch`, `cobol-cics-db2`, `legacy-layout-app`).
 
 **What a run writes** (`audit-output/runs/<run-id>/`):
 

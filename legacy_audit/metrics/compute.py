@@ -233,6 +233,12 @@ def compute(
     for r in records:
         if r.language not in CODE_LANGUAGES or r.category in (Category.CONFIG, Category.BUILD):
             roots.add(r.id)
+    # The scripts nothing calls in a batch component are where its batch starts (decision 116).
+    batch_comps = {c.name for c in components if "batch" in c.roles}
+    called = {e.target for edges in graph.out.values() for e in edges}
+    for r in records:
+        if r.category == Category.SCRIPT and r.component in batch_comps and r.id not in called:
+            roots.add(r.id)
     live = graph.reach(roots, None, None)
     for r in records:
         if (

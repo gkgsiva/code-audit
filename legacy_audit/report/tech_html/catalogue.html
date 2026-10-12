@@ -6,7 +6,7 @@
 {% if loop.first and unscheduled %}<div class="panel" style="margin-bottom:12px"><h3>Batch work with no scheduler definition ({{ unscheduled | length }})</h3>
 <p class="muted">Scripts, batch programs and listeners found in the code that no Autosys JIL, JCL or crontab entry in the inputs starts. They are not counted as batch jobs (counting rules) but each has its flow; add the scheduler export under <code>audit-inputs/</code> to see when they run.</p>
 <table class="data"><thead><tr><th>Name</th><th>Kind</th><th>Component</th><th>What the code says</th></tr></thead><tbody>
-{% for f in unscheduled %}<tr><td><a href="{{ base }}flows/{{ f.slug }}.html">{{ f.name }}</a></td><td>{{ f.steps[0].kind if f.steps else "" }}</td><td>{{ f.component or "" }}</td><td>{{ said.get(f.id, "") }}</td></tr>{% endfor %}
+{% for f in unscheduled %}<tr><td><a href="{{ base }}flows/{{ f.slug }}.html">{{ f.name }}</a></td><td>{{ "batch component" if f.id.startswith("component:") else (f.steps[0].kind if f.steps else "") }}</td><td>{{ f.component or "" }}</td><td>{{ said.get(f.id, "") }}</td></tr>{% endfor %}
 </tbody></table></div>{% endif %}
 {{ m.catalogue(cat.name) }}
 {% endfor %}

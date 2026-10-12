@@ -6,7 +6,7 @@
       "id": "sample",
       "type": "pickString",
       "description": "Sample application to scan",
-      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2"],
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app"],
       "default": "struts-oracle-app"
     }
   ],

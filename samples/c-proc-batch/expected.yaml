@@ -18,6 +18,11 @@ inventory:
   by_category: {build: 1, script: 2, source: 4, sql: 1}
 components:
 - {name: settlement, type: batch, files: 8, detected_by: build-file}
+# Every kind of work found in each component (web, batch, db, ...); type is the main one.
+component_roles:
+  settlement: [batch, db]
+unscheduled_batches: []
+
 coverage:
   autosys: missing
   mq: missing
@@ -52,6 +57,8 @@ counts:
     by_type: {CFT: 2, FILE: 2, MQ: 1, MQ-QMGR: 1, SCP: 1}
   batch_jobs:
     total: 2
+    scheduled: 2
+    unscheduled: 0
     boxes: 0
     by_scheduler: {cron: 2}
   libraries: {total: 0, declared: 0, undeclared: 0}

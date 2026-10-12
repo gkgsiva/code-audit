@@ -239,3 +239,24 @@ the reports page, and keep the PPT strictly on those templates.
 - Known gaps: text fitting is estimated (PowerPoint does not shrink text it was not asked to), so a
   very long bullet list can still run past a box; the font is the template's embedded
   Renault Group font, which LibreOffice previews with a substitute.
+
+## Component classification and batch count (2026-10-12)
+
+Asked for by Siva: Eclipse `bin/` folders were scanned, Struts web and batch components were
+split by language folder, there was no configuration component, each ksh script was taken as a
+batch, and the batch count showed 0 without scheduler inputs.
+
+- Done: build output left out and reported (decision 113, `inventory.skip_build_output`);
+  layout-based components with project files (`.project`, `Makefile.*`, ...), part folders and
+  containers (decision 114); `config` component type, `Component.roles` and
+  `Component.composition` (decision 115), shown as "Also holds" / "Made of" in the technical
+  report and in the GUI type list; one batch per batch component, counted in
+  `counts.batch_jobs` (`scheduled` + `unscheduled`) and drawn as one "no schedule found" flow
+  with its scripts and programs as steps (decision 116). New sample `legacy-layout-app`, VS Code
+  task 21, `component_roles`/`unscheduled_batches` in every sample's `expected.yaml`.
+- Known gaps: the part-folder and batch-folder name lists are English/Java/Unix centred; a
+  mainframe library laid out by type (`cobol/`, `jcl/`, `copybook/` at the top) still gives one
+  component per library, as before. Wrong groupings are fixed with `components:` in
+  `audit.yaml` or on the GUI's Components screen.
+- Next: run task 21 and a scan on a real estate and adjust the name lists if a folder is
+  grouped wrongly.

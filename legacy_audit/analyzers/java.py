@@ -143,6 +143,10 @@ COND_STATEMENTS = {
 BUILDER_TYPES = {"StringBuilder", "StringBuffer", "StringJoiner"}
 
 
+def _span(e: _Expr) -> tuple[int, int]:
+    return (e.node.start_byte, e.node.end_byte)
+
+
 def _hole(node: Node, before: str) -> _Expr:
     kind = hole_kind(before)
     line = node.start_point[0] + 1
@@ -199,7 +203,7 @@ def _txt(node: Node | None) -> str:
 
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
-    version: ClassVar[str] = "3"
+    version: ClassVar[str] = "4"  # 4: fragments keyed by position (deterministic)
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -244,7 +248,10 @@ class _Visitor:
         self.var_keys: dict[str, int] = {}  # local variable -> key of its value in exprs
         # Values used only as a piece of a larger statement (a constant prefix, a literal in a
         # concatenation) are not statements of their own unless a SQL call uses them directly.
-        self.used_as_fragment: set[int] = set()
+        # (start, end) bytes of expressions used inside a larger one. Keyed by position, not
+        # id(): the parts of a concatenation are freed right away, and a reused id made the
+        # result depend on memory layout.
+        self.used_as_fragment: set[tuple[int, int]] = set()
         self.type_names: set[str] = set()
         self.dialect = ctx.config.sql.dialect
 
@@ -597,7 +604,7 @@ class _Visitor:
                 return None
             for part in (le, re_):
                 if part is not None:
-                    self.used_as_fragment.add(id(part))
+                    self.used_as_fragment.add(_span(part))
             if le is None:
                 le = _hole(left or node, "")
             if re_ is None:
@@ -631,7 +638,7 @@ class _Visitor:
                 first = self._eval(argv[0], local) if argv and typ != "StringJoiner" else None
                 if first is None:
                     return _Expr(node, "", False, line, fragments=0, how={"string-builder"})
-                self.used_as_fragment.add(id(first))
+                self.used_as_fragment.add(_span(first))
                 return replace(first, node=node, line=line, how=first.how | {"string-builder"},
                                lines=first.lines | {line})  # fmt: skip
             return None
@@ -1030,7 +1037,7 @@ class _Visitor:
     def _emit_sql(self) -> None:
         soap = any(i.startswith(SOAP_IMPORTS) for i in self.imports)
         for e in sorted(self.exprs.values(), key=lambda e: e.node.start_byte):
-            if id(e) in self.used_as_fragment and e.source is None:
+            if _span(e) in self.used_as_fragment and e.source is None:
                 continue
             text = e.text.strip()
             if e.hql or (e.source == "hql" and looks_like_hql(text)):

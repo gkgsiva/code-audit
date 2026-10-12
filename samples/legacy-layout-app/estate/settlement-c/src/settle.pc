@@ -1,0 +1,11 @@
+/* Daily settlement: marks the day's payments as settled. */
+#include <stdio.h>
+EXEC SQL INCLUDE SQLCA;
+
+int main(int argc, char **argv)
+{
+    EXEC SQL CONNECT :argv[1];
+    EXEC SQL UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE';
+    EXEC SQL COMMIT WORK RELEASE;
+    return 0;
+}

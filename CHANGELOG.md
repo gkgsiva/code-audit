@@ -6,6 +6,25 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Component classification and batch count (2026-10-12)
+
+- Build output is no longer scanned: Eclipse `bin/` and other `bin/`, `classes/`, `obj/`,
+  `Debug/`, `Release/` folders holding compiled files, Eclipse output folders from
+  `.classpath`, and `.c` files generated from Pro*C (`.cob` from Pro*COBOL, `.java` from SQLJ).
+  Each is reported as a `build-output-skipped` finding; `inventory.skip_build_output: false`
+  turns it off. A Unix `bin/` of ksh scripts is still scanned.
+- Components follow the application layout when there is no build file: `src`, `WebContent`,
+  `java`, `ksh`, `properties`, `conf`, ... are parts of the component around them (a Struts
+  module keeps Java and JSP together, a batch its Java, ksh and properties); folders that only
+  hold applications are containers; Eclipse `.project`, `Makefile.*`, `CMakeLists.txt` and
+  Visual Studio projects mark components.
+- New component type `config`; components list every kind of work they hold (`roles`, shown as
+  "Also holds") and their files by category (`composition`, "Made of").
+- The batch count includes batch components no scheduler definition covers: one per component,
+  however many ksh scripts it has (they are its steps). The Batch pages show one "no schedule
+  found" batch per such component instead of one per script.
+- New sample `legacy-layout-app`; VS Code task 21 shows components and the batch count.
+
 ### Corporate PowerPoint templates (2026-10-12)
 
 - The PPTX is built on the corporate templates in `templates/` (Renault Group Blue, Orange and

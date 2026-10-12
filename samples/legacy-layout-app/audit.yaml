@@ -1,0 +1,10 @@
+# Sample: a legacy estate laid out the way Eclipse and Unix teams left it, with no Maven or Ant
+# build at the top: an Eclipse Struts project whose compiled classes sit in bin/, a batch made
+# of Java, ksh and properties in plain folders, a Pro*C batch with its precompiled .c and
+# objects checked in, a shared configuration folder and a folder of deployment scripts.
+# No scheduler export is provided (a coverage gap): the batch count must still say 2.
+application:
+  name: "Legacy layout (Eclipse, ksh and Pro*C sample)"
+source:
+  type: local
+  paths: ["estate"]
