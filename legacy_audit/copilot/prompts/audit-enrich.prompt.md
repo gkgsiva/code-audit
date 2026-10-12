@@ -72,9 +72,11 @@ For `functional`:
   services, tables, next screens) from the scan; you write the words.
 - `batches`: one entry per batch on the **Flows** page of the technical report: an Autosys
   box, a job that is not in a box (cron, JCL, Spring Batch), and also batch work that no
-  scheduler definition starts (a top-level script, a batch program, a message listener;
-  marked "no schedule found"). `job_id` is the flow's id: the box's or job's `batch_job:` id,
-  or the script's `file:` id, the program's `service:` id or the listener's `entry:` id.
+  scheduler definition starts (marked "no schedule found": one per batch component, whose
+  ksh scripts, programs and Java mains are its entry points, not batches of their own; and
+  message listeners). `job_id` is the flow's id: the box's or job's `batch_job:` id, the
+  batch component's `component:` id, a program outside any component's `service:` id or the
+  listener's `entry:` id.
   Say why it exists, when it runs in business words (when no schedule was found, say so and
   give what the code or its comments suggest, as an assumption), its steps (citing job,
   program and file ids), inputs, outputs, what happens when it fails and the business impact

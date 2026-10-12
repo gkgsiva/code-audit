@@ -9,6 +9,7 @@
         "report",
         "library",
         "db",
+        "config",
         "online-mainframe",
         "unknown"
       ],
@@ -66,6 +67,14 @@
       "title": "Build Files",
       "type": "array"
     },
+    "composition": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Files by category (source, screen, script, config, sql, job, ...)",
+      "title": "Composition",
+      "type": "object"
+    },
     "detected_by": {
       "description": "build-file, folder, root, config or override",
       "title": "Detected By",
@@ -107,6 +116,14 @@
       "description": "Component folder relative to the source root ('' = root)",
       "title": "Path",
       "type": "string"
+    },
+    "roles": {
+      "description": "Every kind of work found in the component (web, batch, online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with batch scripts has roles [batch, web]",
+      "items": {
+        "type": "string"
+      },
+      "title": "Roles",
+      "type": "array"
     },
     "root": {
       "description": "Source root name",

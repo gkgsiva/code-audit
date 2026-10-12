@@ -412,13 +412,14 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <!-- ============================================================ 8 -->
 <h2 id="sample">8. Practice on a sample application</h2>
-<p>The project includes four small made-up applications in the <code>samples</code> folder, so you can try everything safely:</p>
+<p>The project includes five small made-up applications in the <code>samples</code> folder, so you can try everything safely:</p>
 <div class="table-wrap"><table>
   <tr><th>Sample</th><th>What it is like</th></tr>
   <tr><td><code>struts-oracle-app</code></td><td>A Java web application (Struts, JSP pages) on an Oracle database</td></tr>
   <tr><td><code>spring-mvc-batch-app</code></td><td>A Java Spring application with batch jobs, Autosys schedules and IBM MQ</td></tr>
   <tr><td><code>c-proc-batch</code></td><td>C and Pro*C batch programs with shell scripts</td></tr>
   <tr><td><code>cobol-cics-db2</code></td><td>A mainframe COBOL application (CICS screens, DB2, JCL)</td></tr>
+  <tr><td><code>legacy-layout-app</code></td><td>An estate with no top-level build: an Eclipse web project with its compiled <code>bin</code> folder, a batch of Java, ksh and properties, a Pro*C batch, a shared config folder</td></tr>
 </table></div>
 
 <h3>Scan it and open the report</h3>
@@ -558,10 +559,18 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <div class="callout note"><p><span class="label">Missing is fine.</span> A missing input is not an error. Every report lists it as a <strong>coverage gap</strong> ("Autosys JIL: not provided"), so readers know what the numbers don't include yet.</p></div>
 
 <h3 id="gui-components">3. Components</h3>
-<p>A <strong>component</strong> is one part of the application, such as a web module or a batch module. The tool finds them by itself (one per build file or top-level folder) and shows the list here before you scan.</p>
+<p>A <strong>component</strong> is one part of the application, such as a web module or a batch module. The tool finds them by itself and shows the list here before you scan:</p>
+<ul>
+  <li>Every folder with a build or project file (<code>pom.xml</code>, <code>build.xml</code>, <code>Makefile</code>, an Eclipse <code>.project</code>, …) is a component.</li>
+  <li>Without build files, the tool looks at the folder names. Folders such as <code>src</code>, <code>WebContent</code>, <code>java</code>, <code>ksh</code>, <code>scripts</code>, <code>properties</code>, <code>conf</code> or <code>sql</code> are <em>parts</em> of the application around them, not components of their own. So a Struts web module keeps its Java <em>and</em> its JSP pages together, and a batch module keeps its Java, its ksh scripts and its properties together.</li>
+  <li>A folder that only holds other applications (for example <code>apps/</code>) is not a component itself: each application inside it is.</li>
+  <li>A folder of shared settings next to the applications (for example <code>config/</code> or <code>properties/</code>) becomes a <strong>config</strong> component.</li>
+</ul>
+<p>The <strong>Type</strong> column gives the main kind of each component. When a component holds several kinds of work (for example a web module that also has a nightly batch), the reports list the others under <strong>Also holds</strong>, and <strong>Made of</strong> says how many Java, screen, script and configuration files it has.</p>
+<p>Folders the compiler or Eclipse wrote (for example <code>bin</code> or <code>classes</code> full of <code>.class</code> files, <code>obj</code>, <code>Debug</code>, <code>Release</code>) and <code>.c</code> files generated from a Pro*C <code>.pc</code> file are <strong>left out</strong>, so nothing is counted twice. They are listed under the table. A Unix <code>bin</code> folder with ksh scripts in it is kept, because scripts are source.</p>
 <ul>
   <li><strong>Untick</strong> a folder to leave it out of the audit, for example an old copy or a test-data folder.</li>
-  <li>Pick a different <strong>type</strong> (web, batch, cft, script, report, library, db) if the guess is wrong.</li>
+  <li>Pick a different <strong>type</strong> (web, batch, online-mainframe, cft, script, config, report, library, db) if the guess is wrong.</li>
   <li>Click <strong>Save choices</strong>. Your choices are saved in <code>audit-overrides.yaml</code> and applied on every future run.</li>
 </ul>
 
@@ -637,7 +646,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>SQL</td><td>Every database query found in the code, including queries the code builds while running, with its PostgreSQL grade.</td></tr>
   <tr><td>Database</td><td>Tables, views and procedures, and the <strong>CRUD matrix</strong>: which component Creates, Reads, Updates or Deletes each table.</td></tr>
   <tr><td>Integrations</td><td>Connections to other systems: message queues (MQ), file transfers (CFT, FTP), web services called, emails and more.</td></tr>
-  <tr><td>Batch jobs</td><td>Scheduled and batch programs (Autosys, JCL, cron, shell) and what they run. A second list, <strong>Batch work with no scheduler definition</strong>, shows batch scripts and programs that none of the scheduler files you provided starts.</td></tr>
+  <tr><td>Batch jobs</td><td>Scheduled and batch programs (Autosys, JCL, cron, shell) and what they run. A second list, <strong>Batch work with no scheduler definition</strong>, shows the batches that none of the scheduler files you provided starts: one line per batch component, with its ksh scripts and programs as its steps.</td></tr>
   <tr><td>Libraries</td><td>Third-party components used, their versions, known vulnerabilities, end-of-life dates and the recommended upgrade.</td></tr>
   <tr><td>Findings</td><td>Issues the rules found, each with a severity and the exact place in the code.</td></tr>
   <tr><td>PostgreSQL</td><td>How ready the SQL is for PostgreSQL, statement by statement, with a suggested PostgreSQL version.</td></tr>
@@ -668,7 +677,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>Users and use cases</td><td>Who uses the application and what each of them does with it.</td></tr>
   <tr><td>Business flows</td><td>The main end-to-end flows, step by step.</td></tr>
   <tr><td>Screens</td><td>Every screen, with a picture: where the user comes from, the services the screen calls, the tables they read or change (C create, R read, U update, D delete), other systems, and where the user goes next.</td></tr>
-  <tr><td>Batch</td><td>Every batch, with a calendar of when it runs and a picture: what starts it (a time, a file arriving, another job), its steps in order, the tables and files it uses, and what happens when it fails (alarms, retries, steps that run anyway).<br>Batch scripts and programs are listed <strong>even when you did not provide the Autosys, JCL or crontab files</strong>: they show a grey <strong>no schedule found</strong> label (a listener that waits for messages shows <strong>on message</strong>). Under each batch, <strong>What the code says</strong> quotes the comment at the top of its source files, word for word (passwords are hidden). After Copilot has run, each batch also says what each program does, the checks the code makes and how to restart it after a failure.</td></tr>
+  <tr><td>Batch</td><td>Every batch, with a calendar of when it runs and a picture: what starts it (a time, a file arriving, another job), its steps in order, the tables and files it uses, and what happens when it fails (alarms, retries, steps that run anyway).<br>Batches are listed <strong>even when you did not provide the Autosys, JCL or crontab files</strong>. A batch is a batch <em>component</em> (for example Java, ksh scripts and properties together), not each ksh script: its scripts and programs are its steps. Such batches show a grey <strong>no schedule found</strong> label and are included in the <strong>Batch jobs</strong> number on the dashboard (a listener that waits for messages shows <strong>on message</strong>). Under each batch, <strong>What the code says</strong> quotes the comment at the top of its source files, word for word (passwords are hidden). After Copilot has run, each batch also says what each program does, the checks the code makes and how to restart it after a failure.</td></tr>
   <tr><td>Business rules</td><td>The rules the code applies (checks, calculations, status changes) that the new system must keep.</td></tr>
   <tr><td>Data</td><td>The main business data and the tables that hold it.</td></tr>
   <tr><td>Interfaces</td><td>The other systems the application talks to and what is exchanged.</td></tr>
@@ -921,6 +930,7 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <tr><td><code>audit: 18. scan a sample without its scheduler inputs</code></td><td>Scans a copy of a sample as if the Autosys/JCL/crontab files were missing, and opens the Batch page.</td><td>Practice</td></tr>
   <tr><td><code>audit: 19. test the AI model settings</code></td><td>Sends a tiny test to the model set in a sample's <code>audit.yaml</code> or the <code>LEGACY_AUDIT_AI_*</code> variables.</td><td>Anyone using another model</td></tr>
   <tr><td><code>audit: 20. AI enrichment with the configured model</code></td><td>Writes the missing and out-of-date stages for a sample with that model.</td><td>Anyone using another model</td></tr>
+  <tr><td><code>audit: 21. show components and the batch count</code></td><td>Scans a sample and prints its components (type, what else they hold, what they are made of), the folders left out as build output, and the batch count.</td><td>Practice</td></tr>
 </table></div>
 
 <!-- ============================================================ 15 -->
@@ -1029,9 +1039,9 @@ legacy-audit version               # the tool's version</code></pre>
   <dt>audit.yaml</dt><dd>The settings file for an audit: application name, where the code is, what to include, target versions. Written by the Project setup screen.</dd>
   <dt>audit-overrides.yaml</dt><dd>Corrections to what the tool detected (folders to leave out, component types). Applied again on every run.</dd>
   <dt>bash</dt><dd>The Linux terminal you type commands into on WSL2.</dd>
-  <dt>Batch job</dt><dd>A program that runs on a schedule or in the background, without a user (Autosys jobs, JCL, cron, shell scripts).</dd>
+  <dt>Batch job</dt><dd>A program that runs on a schedule or in the background, without a user (Autosys jobs, JCL, cron, Spring Batch). When no scheduler file is provided, each batch component counts as one batch, however many ksh scripts it has.</dd>
   <dt>Cache</dt><dd>Saved results from earlier runs, so files that haven't changed don't have to be read again.</dd>
-  <dt>Component</dt><dd>One part of the application, such as a web module or a batch module; usually one build file or top folder.</dd>
+  <dt>Component</dt><dd>One part of the application, such as a web module, a batch module or a shared configuration folder; usually one build file or one application folder (with its <code>src</code>, <code>WebContent</code>, scripts and properties inside).</dd>
   <dt>Coverage gap</dt><dd>An input or tool that was missing for a run. It means "not checked", not "nothing found".</dd>
   <dt>CRUD matrix</dt><dd>A table showing which component Creates, Reads, Updates or Deletes each database table.</dd>
   <dt>CSV</dt><dd>A simple table file that Excel opens.</dd>

@@ -20,6 +20,14 @@ components:
 - {name: billing-batch, type: batch, files: 5, detected_by: build-file}
 - {name: billing-common, type: library, files: 7, detected_by: build-file}
 - {name: billing-web, type: web, files: 15, detected_by: build-file}
+# Every kind of work found in each component (web, batch, db, ...); type is the main one.
+component_roles:
+  billing: []
+  billing-batch: [batch]
+  billing-common: [library]
+  billing-web: [web]
+unscheduled_batches: []
+
 coverage:
   autosys: present
   mq: present
@@ -56,6 +64,8 @@ counts:
     by_type: {DB: 1, FILE: 1, LDAP: 1, MQ: 2, MQ-CHANNEL: 2, MQ-QMGR: 1, SMTP: 1}
   batch_jobs:
     total: 4
+    scheduled: 4
+    unscheduled: 0
     boxes: 1
     by_scheduler: {autosys: 3, spring-batch: 1}
   libraries: {total: 10, declared: 10, undeclared: 0}

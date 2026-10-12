@@ -1,0 +1,6 @@
+# AIX build of the settlement batch
+settle: src/settle.c
+	cc -o settle src/settle.c -lclntsh
+
+src/settle.c: src/settle.pc
+	proc iname=src/settle.pc

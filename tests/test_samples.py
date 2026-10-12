@@ -50,6 +50,11 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
         for c in result.facts["components"]  # type: ignore[attr-defined]
     ]
     assert comps == expected["components"]
+    if "component_roles" in expected:  # every kind of work found in each component
+        roles = {c.name: c.roles for c in result.facts["components"]}  # type: ignore[attr-defined]
+        assert roles == expected["component_roles"]
+    if "unscheduled_batches" in expected:  # batch components no scheduler definition covers
+        assert summary["unscheduled_batches"] == expected["unscheduled_batches"]
     assert {c.kind: c.status for c in result.run.coverage} == expected["coverage"]
 
     # Phase 2: headline counts and the named services, screens, integrations and jobs.

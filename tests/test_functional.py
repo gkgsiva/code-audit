@@ -176,24 +176,31 @@ def test_batch_without_scheduler_inputs_is_still_listed(sample_copy, tmp_path: P
     run_dir = _scan_copy(app_dir, tmp_path / "out")
     rd = RunData.load(run_dir)
     by_name = {f.name: f for f in flows.batch_flows(rd)}
-    assert list(by_name) == ["run_settlement.ksh"]
-    flow = by_name["run_settlement.ksh"]
+    # one batch per component: the ksh wrapper and its programs are parts of "settlement"
+    assert list(by_name) == ["settlement"]
+    flow = by_name["settlement"]
     assert flow.schedule["scheduler"] == "none" and flow.schedule["unscheduled"]
+    assert flow.schedule["counted"]
     names = [s["name"] for s in flow.steps]
     assert names[0] == "run_settlement.ksh"
     assert {"settle_report.sql", "settle_load", "settle_send"} <= set(names)
     assert len(flow.tables) == 4
     said = flows.code_comments(rd, flow)
     assert said and said[0]["file"].endswith("run_settlement.ksh")
+    # the batch count says 1 (the settlement batch), not 0 and not one per script
+    assert rd.summary["counts"]["batch_jobs"] == {
+        "total": 1, "scheduled": 0, "unscheduled": 1, "boxes": 0, "by_scheduler": {}
+    }  # fmt: skip
+    assert rd.summary["unscheduled_batches"] == ["settlement"]
     # both documents list it, with what its code says
     fn = build_functional_report(run_dir).parent
     text = (fn / "batch.html").read_text(encoding="utf-8")
-    assert "run_settlement.ksh" in text and "no schedule found" in text and "The code says" in text
+    assert "settlement" in text and "no schedule found" in text and "The code says" in text
     tech = build_tech_report(run_dir).parent
     cat = (tech / "batch-jobs.html").read_text(encoding="utf-8")
     assert "Batch work with no scheduler definition" in cat
-    page = next((tech / "flows").glob("batch-run_settlement*.html")).read_text(encoding="utf-8")
-    assert "What the code says about itself" in page
+    page = next((tech / "flows").glob("batch-settlement*.html")).read_text(encoding="utf-8")
+    assert "What the code says about itself" in page and "run_settlement.ksh" in page
 
 
 def test_listener_and_unscheduled_job_show_up(tmp_path: Path) -> None:
@@ -202,6 +209,24 @@ def test_listener_and_unscheduled_job_show_up(tmp_path: Path) -> None:
     assert {"BIL_NIGHTLY_BOX", "invoiceJob", "PaymentListener"} <= set(by_name)
     assert by_name["PaymentListener"].schedule["scheduler"] == "event"
     assert by_name["BIL_NIGHTLY_BOX"].schedule["scheduler"] == "autosys"
+
+
+def test_one_batch_per_component_not_per_script(tmp_path: Path) -> None:
+    """A batch made of Java, ksh and properties is one batch; its scripts are its steps."""
+    run_dir = _scan("legacy-layout-app", tmp_path)
+    rd = RunData.load(run_dir)
+    by_name = {f.name: f for f in flows.batch_flows(rd)}
+    assert sorted(by_name) == ["billing-batch", "settlement-c"]
+    billing = by_name["billing-batch"]
+    assert billing.schedule["counted"] and billing.id.startswith("component:")
+    steps = [s["name"] for s in billing.steps]
+    assert steps[0] == "run_invoices.ksh" and "InvoiceRun" in " ".join(steps)
+    assert "billing_env.ksh" not in [n.label for _, col in billing.columns[:3] for n in col]
+    assert [t["name"] for t in billing.tables] == ["INVOICES", "USAGE_RECORDS"]
+    assert rd.summary["counts"]["batch_jobs"]["total"] == 2
+    tech = build_tech_report(run_dir).parent
+    comps = (tech / "components.html").read_text(encoding="utf-8")
+    assert "config 1, script 2, source 1" in comps  # what billing-batch is made of
 
 
 @pytest.mark.parametrize(

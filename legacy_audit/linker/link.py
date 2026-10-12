@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from typing import Any, TypeVar
 
 from legacy_audit.analyzers.base import Facts, Ref, Symbol
+from legacy_audit.inventory.components import in_batch_folder
 from legacy_audit.linker.aggregate import (
     dedupe,
     merge_batch_jobs,
@@ -756,13 +757,58 @@ def _crud(stype: str, table: str, target: str | None) -> list[str]:
     return ["R"]
 
 
+SCRIPT_SUFFIXES = (".sh", ".ksh", ".bash", ".csh", ".zsh", ".pl", ".py", ".bat", ".cmd")
+
+
+def batch_scripts(
+    entities: dict[str, list[Fact]], records: list[FileRecord]
+) -> dict[str, set[str]]:
+    """Per component, the shell scripts that do batch work: they sit in a batch-like folder
+    (batch, jobs, cron, ...), run SQL, or start a program, a Java class or a SQL file. A script
+    that only calls other scripts, copies files or deploys is a utility, not batch work."""
+    scripts = {r.path: r for r in records if r.category == "script" and r.component}
+    node_path: dict[str, str] = {}
+    for r in scripts.values():
+        node_path[r.id] = r.path
+        node_path[f"file:{r.path}"] = r.path
+    by_id = {r.id: r for r in records}
+    out: dict[str, set[str]] = defaultdict(set)
+
+    def mark(path: str) -> None:
+        rec = scripts[path]
+        out[str(rec.component)].add(path)
+
+    for path in scripts:
+        if in_batch_folder(path):
+            mark(path)
+    for st in entities.get("sql_statements", []):
+        if isinstance(st, SqlStatement) and st.file in scripts:
+            mark(st.file)
+    for e in entities.get("dependencies", []):
+        if not isinstance(e, CodeEdge) or e.kind not in ("invokes", "runs", "triggers"):
+            continue
+        src = node_path.get(e.source)
+        if src is None:
+            continue
+        target = by_id.get(e.target)
+        if target is not None and target.category == "script":
+            continue
+        if target is None and e.target.lower().endswith(SCRIPT_SUFFIXES):
+            continue
+        mark(src)
+    return out
+
+
 def classify_components(
     components: list[Component],
     entities: dict[str, list[Fact]],
     records: list[FileRecord],
     fixed: set[str],
 ) -> None:
-    """Refine each component's type from what was found in it (overridden types are kept)."""
+    """Refine each component's type from what was found in it (overridden types are kept) and
+    list every kind of work it holds in ``roles`` (decision 115). A component can be web *and*
+    batch (a Struts module with its nightly ksh), batch with Java, ksh and properties, or only
+    configuration."""
     services: dict[str, set[str]] = defaultdict(set)
     for s in entities.get("services", []):
         if isinstance(s, Service) and s.component:
@@ -788,6 +834,7 @@ def classify_components(
     for r in records:
         if r.component:
             cats[r.component].add(str(r.category))
+    batchy = batch_scripts(entities, records)
     for c in components:
         names = [
             str(ep.name)
@@ -795,29 +842,58 @@ def classify_components(
             if isinstance(ep, EntryPoint) and ep.component == c.name
         ]
         c.entry_points = sorted(set(names))
-        if c.name in fixed:
-            continue
         kinds = services.get(c.name, set())
         techs = screens.get(c.name, set())
+        ccats = cats.get(c.name, set())
+        roles: set[str] = set()
         if kinds & WEB_SERVICE_KINDS or techs & PAGE_TECH:
-            c.type = ComponentType.WEB
-        elif "cics-transaction" in kinds or "BMS" in techs:
-            c.type = ComponentType.ONLINE_MAINFRAME
-        elif (
+            roles.add(ComponentType.WEB)
+        if "cics-transaction" in kinds or "BMS" in techs:
+            roles.add(ComponentType.ONLINE_MAINFRAME)
+        program_batch = (
             c.name in jobs
             or kinds & {"cobol-program", "c-executable", "batch-job"}
             or entries.get(c.name, set()) & {"main", "scheduler", "spring-batch"}
+        )
+        scripts = batchy.get(c.name, set())
+        if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME}:
+            # in an online application, only scripts filed as batch are batch work (deploy and
+            # admin scripts often run SQL too)
+            scripts = {p for p in scripts if in_batch_folder(p)}
+        if program_batch or scripts:
+            roles.add(ComponentType.BATCH)
+        if c.name in cft and ccats <= {"script", "config", "doc", "other", "job"}:
+            roles.add(ComponentType.CFT)
+        if "sql" in ccats:
+            roles.add(ComponentType.DB)
+        if "script" in ccats and not roles & {ComponentType.BATCH, ComponentType.CFT}:
+            roles.add(ComponentType.SCRIPT)
+        if "source" in ccats and not roles - {ComponentType.DB, ComponentType.SCRIPT}:
+            roles.add(ComponentType.LIBRARY)
+        if ccats and ccats <= {"config", "doc", "other", "build", "binary"} and "config" in ccats:
+            roles.add(ComponentType.CONFIG)
+        if c.name in fixed:
+            roles.add(str(c.type))
+            c.roles = sorted(str(r) for r in roles)
+            continue
+        if ComponentType.WEB in roles:
+            c.type = ComponentType.WEB
+        elif ComponentType.ONLINE_MAINFRAME in roles:
+            c.type = ComponentType.ONLINE_MAINFRAME
+        elif program_batch or (
+            ComponentType.BATCH in roles
+            and c.type in (ComponentType.SCRIPT, ComponentType.BATCH, ComponentType.LIBRARY)
         ):
             c.type = ComponentType.BATCH
-        elif c.name in cft and cats.get(c.name, set()) <= {
-            "script",
-            "config",
-            "doc",
-            "other",
-            "job",
-        }:
+        elif ComponentType.CFT in roles:
             c.type = ComponentType.CFT
         # Otherwise the inventory-based type from phase 1 stands.
+        if c.type == ComponentType.BATCH:
+            roles.discard(ComponentType.SCRIPT)
+            roles.discard(ComponentType.LIBRARY)
+        if c.type != ComponentType.UNKNOWN:
+            roles.add(c.type)
+        c.roles = sorted(str(r) for r in roles)
 
 
 def link(
