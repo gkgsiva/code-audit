@@ -103,3 +103,38 @@ Servers**). If `legacy-audit` is installed in a virtual environment, put the ful
 `legacy-audit` (`.venv\Scripts\legacy-audit.exe` on Windows) in `command`. Without the server
 the agent uses `legacy-audit facts <kind> --filter field=value` in the terminal, which returns the
 same rows.
+
+## Using another model
+
+The enrichment is model agnostic: the same stages, schemas and validator apply whoever writes
+them.
+
+- **Copilot with another model.** Pick the model in Copilot Chat's model picker. To pin one for
+  the agent, set `ai.copilot_model` in `audit.yaml` (the name as the picker shows it, e.g.
+  `"Claude Sonnet 4.5 (copilot)"`) and run `legacy-audit init` again: the agent file gets a
+  `model:` line.
+- **Any model without Copilot.** Set `ai.provider` (`openai` for any OpenAI-compatible endpoint
+  such as OpenAI, Gemini, Mistral, LM Studio, vLLM or a LiteLLM gateway; `azure-openai`;
+  `anthropic`; `ollama` for a local model) and `ai.model`, put the API key in the environment
+  variable named by `ai.api_key_env` (defaults: `OPENAI_API_KEY`, `AZURE_OPENAI_API_KEY`,
+  `ANTHROPIC_API_KEY`), then:
+
+  ```
+  legacy-audit enrich --check          # tiny test request
+  legacy-audit enrich                  # every stage; --stale for missing/stale ones; -s functional for one
+  legacy-audit enrich --provider ollama --model qwen2.5:14b   # one-off override
+  ```
+
+  `LEGACY_AUDIT_AI_PROVIDER`, `LEGACY_AUDIT_AI_MODEL`, `LEGACY_AUDIT_AI_BASE_URL` and
+  `LEGACY_AUDIT_AI_API_KEY_ENV` override the config. The GUI's **AI enrichment** screen has
+  **Run missing and stale stages** / **Run all stages** buttons when a provider other than
+  Copilot is set.
+
+How it works: a model called over an API has no tools, so for each stage the tool packs into
+the prompt what Copilot would read: this agent's rules, the `/audit-enrich` instructions, the
+stage's JSON Schema, `audit-summary.json`, the fact files the stage reads, the earlier stages it
+builds on and, for `functional` and `component_docs`, the first lines of every batch script and
+program (comments included, credentials masked). Long lists are cut to `ai.context_chars` with a
+note saying how many rows were left out. The answer is written to `enrichment/<stage>.json`,
+validated, and the errors are sent back for `ai.repair_rounds` rounds. `meta.author` records the
+model (`anthropic:claude-sonnet-4-5`). The scan itself never calls a model.

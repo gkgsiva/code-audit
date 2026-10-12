@@ -202,3 +202,21 @@ their comments to explain each batch.
   a script started only from an unscanned scheduler can still show up beside the job that runs
   it once the export arrives (it then becomes a step and its own card disappears). Comments are
   read only when the source tree is on disk at report time.
+
+## Model-agnostic AI enrichment (2026-10-12)
+
+Asked for by Siva: "make it model agnostic so that I can use any model for AI enrichment".
+
+- Done: `legacy-audit enrich` (and the GUI's AI enrichment screen) writes the enrichment with any
+  model set in `audit.yaml > ai`: OpenAI-compatible endpoints (OpenAI, Gemini, gateways, LM
+  Studio, vLLM), Azure OpenAI, Anthropic and Ollama; `--check` tests the settings, `doctor` shows
+  the model. Copilot stays the default and `ai.copilot_model` pins its model. VS Code tasks 19
+  and 20. Decisions 105–109.
+- Tested with a local fake OpenAI-compatible endpoint (request shapes for every provider, a
+  repair round, the CLI and the GUI). Not yet run against real cloud models from this
+  environment (no keys here): the first real run should start with `enrich --check`, then one
+  stage (`-s overview`).
+- Known gaps: a model without tools sees a packed, possibly cut, view of the facts (a note says
+  how many rows were left out), so on a large estate Copilot (which queries the facts itself) or
+  a large-context model gives better results; small local models may need several repair rounds
+  or a smaller `context_chars`. Per-component looping for large estates is not done yet.

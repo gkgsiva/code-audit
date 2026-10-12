@@ -354,6 +354,47 @@ class CobolConfig(Strict):
         return [_norm_path(p).strip("/") for p in v]
 
 
+AiProvider = Literal["copilot", "openai", "anthropic", "azure-openai", "ollama"]
+
+
+class AiConfig(Strict):
+    """Which model writes the enrichment. Only `legacy-audit enrich` uses it; scans never do."""
+
+    provider: AiProvider = Field(
+        "copilot",
+        description="copilot (VS Code chat, model picked there), openai (any OpenAI-compatible "
+        "endpoint), anthropic, azure-openai or ollama (local)",
+    )
+    model: str | None = Field(
+        None, description="Model name, or the deployment name for azure-openai"
+    )
+    base_url: str | None = Field(
+        None, description="Endpoint; default per provider (OpenAI, Anthropic, Ollama on localhost)"
+    )
+    api_key_env: str | None = Field(
+        None,
+        description="Name of the environment variable holding the API key (never the key); "
+        "default OPENAI_API_KEY, ANTHROPIC_API_KEY or AZURE_OPENAI_API_KEY",
+    )
+    api_version: str = Field("2024-10-21", description="azure-openai API version")
+    temperature: float | None = Field(0.1, description="null leaves the model's default")
+    max_output_tokens: int = Field(16000, ge=256)
+    json_mode: bool = Field(True, description="Ask the endpoint for JSON output when it can")
+    context_chars: int = Field(
+        150_000,
+        ge=10_000,
+        description="Facts and source sent per stage (characters, about 4 per token)",
+    )
+    timeout_seconds: int = Field(600, ge=10)
+    repair_rounds: int = Field(2, ge=0, le=5, description="Retries with the validator's errors")
+    ca_bundle: str | None = Field(None, description="Corporate CA certificates file (PEM)")
+    copilot_model: str | None = Field(
+        None,
+        description="Model the Copilot agent asks for (agent file `model:`), e.g. 'Claude "
+        "Sonnet 4.5 (copilot)'; empty = whatever is picked in the chat",
+    )
+
+
 class AuditConfig(Strict):
     application: Application
     source: Source = Field(default_factory=LocalSource)
@@ -374,6 +415,7 @@ class AuditConfig(Strict):
     metrics: MetricsConfig = Field(default_factory=MetricsConfig)
     effort: EffortConfig = Field(default_factory=EffortConfig)
     security: SecurityConfig = Field(default_factory=SecurityConfig)
+    ai: AiConfig = Field(default_factory=AiConfig)
 
     @model_validator(mode="before")
     @classmethod

@@ -162,7 +162,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
     <li><a href="#reports">11. Reading the reports</a></li>
     <li><a href="#rerun">12. New files arrived: re-run</a></li>
     <li><a href="#vuln">Vulnerability checks (optional)</a></li>
-    <li><a href="#copilot">13. AI enrichment with Copilot</a></li>
+    <li><a href="#copilot">13. AI enrichment with Copilot or any model</a></li>
     <li class="group">Reference</li>
     <li><a href="#tasks">14. The VS Code task list</a></li>
     <li><a href="#cli">15. Commands (optional)</a></li>
@@ -234,7 +234,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
 <ul>
   <li><strong>Node.js</strong> (version 18 or newer): needed only for the PowerPoint file.</li>
   <li><strong>OWASP Dependency-Check</strong> or <strong>OSV-Scanner</strong>: to look up known security problems in libraries. Your admin may give you their reports instead. How to install them: <a href="#vuln">Vulnerability checks</a>.</li>
-  <li><strong>GitHub Copilot</strong> in VS Code: for the optional AI explanations (<a href="#copilot">section 13</a>).</li>
+  <li><strong>GitHub Copilot</strong> in VS Code, or an API key for another AI model (OpenAI, Azure OpenAI, Claude, Gemini) or Ollama on your laptop: for the optional AI explanations (<a href="#copilot">section 13</a>).</li>
 </ul>
 <p class="only-wsl">On WSL2, Node.js and these scanners are installed <strong>inside Linux</strong>, not on Windows.</p></div>
 
@@ -602,7 +602,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <li><span class="pill">stale</span> written, but the scan has changed since, so it should be redone,</li>
   <li><span class="pill">invalid</span> written but failed the check (for example, a number differs from the scan).</li>
 </ul>
-<p>It shows the next instruction to give Copilot with a <strong>Copy</strong> button, and <strong>Validate now</strong> to check Copilot's work. See <a href="#copilot">section 13</a>.</p>
+<p>It shows the next instruction to give Copilot with a <strong>Copy</strong> button, and <strong>Validate now</strong> to check Copilot's work. When <code>audit.yaml</code> names another AI model (<a href="#any-model">Use a different AI model</a>), it also has <strong>Run missing and stale stages</strong> and <strong>Run all stages</strong>, which ask that model directly. See <a href="#copilot">section 13</a>.</p>
 
 <h3 id="gui-reports">8. Reports</h3>
 <ul>
@@ -848,7 +848,7 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
 <div class="callout note"><p><span class="label">For admins.</span> A shared database folder, a company NVD mirror and the exact options are described in <code>docs/admin-guide.md</code> &gt; <em>Vulnerability database</em>. If you set <code>data_dir</code> for OSV-Scanner, download the database into the same folder by setting the environment variable <code>OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY</code> to it before running the download command.</p></div>
 
 <!-- ============================================================ 13 -->
-<h2 id="copilot">13. AI enrichment with GitHub Copilot (optional)</h2>
+<h2 id="copilot">13. AI enrichment with GitHub Copilot or any other model (optional)</h2>
 <p>The scan produces numbers and lists. To add written explanations (what the application does, how data flows, the main risks, a migration plan), analysts use <strong>GitHub Copilot Chat in VS Code</strong> with a custom agent called <strong>legacy-auditor</strong>. The tool installed its files into your audit folder when you clicked <em>Create audit.yaml</em>.</p>
 <div class="callout note"><p><span class="label">Numbers stay honest.</span> Copilot may only copy numbers from the scan and must point to the file and line for every claim. The tool's validator rejects anything else.</p></div>
 <ol class="steps">
@@ -863,6 +863,35 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
 <p>To get only the business explanations for the functional document, type <code>/audit-enrich functional</code> (and <code>/audit-enrich component_docs</code> for a description of each component). Copilot first reads everything the scan found, then writes. Then build the reports again.</p>
 <p>Other instructions you can give the agent: <code>/audit-scan</code> (run the scan and summarise), <code>/audit-enrich stale</code> (redo only stages that are out of date after a re-run), <code>/audit-report</code> (check and build all reports), <code>/audit-qa</code> (double-check the analysis against the scan).</p>
 <div class="callout warn"><p><span class="label">Copilot needs the tool too.</span> The agent runs <code>legacy-audit</code> commands in its terminal. If it says the command isn't found, give it the full path: <span class="only-win"><code>C:\Users\you\code-audit\.venv\Scripts\legacy-audit.exe</code></span><span class="only-wsl"> 🐧 WSL2: <code>/home/you/code-audit/.venv/bin/legacy-audit</code></span>. Put the same path as <code>"command"</code> in the audit folder's <code>.vscode/mcp.json</code> if you use the MCP server. More detail for analysts is in <code>docs/copilot-agent.md</code>.</p></div>
+
+<h3 id="any-model">Use a different AI model</h3>
+<p>The enrichment works with any AI model. The checks are the same whichever model writes it: numbers must match the scan and every claim must point to a file and line. There are two ways to choose the model.</p>
+<p><strong>A. Stay in Copilot and pick its model.</strong> In Copilot Chat, click the model name at the bottom of the chat box (for example <em>GPT-4.1</em>) and choose another one (Claude, Gemini, GPT...). Your company decides which models Copilot offers. To make the legacy-auditor agent always ask for one model, open <code>audit.yaml</code>, find the <code>ai:</code> section at the end and set <code>copilot_model</code> to the name exactly as the picker shows it, for example <code>copilot_model: "Claude Sonnet 4.5 (copilot)"</code>. Then run <code>legacy-audit init</code> again in the audit folder (it keeps your other files).</p>
+<p><strong>B. Let the tool call a model directly</strong>, without Copilot: OpenAI, Azure OpenAI, Anthropic Claude, Google Gemini, your company's AI gateway, or a model running on your own laptop with Ollama.</p>
+<div class="callout warn"><p><span class="label">Check your company's rules first.</span> With a cloud model, the scan's facts and parts of the source code (the batch scripts and programs) are sent to that provider. Use only a provider your company has approved. With <strong>Ollama</strong>, nothing leaves your laptop.</p></div>
+<ol class="steps">
+  <li>Open <code>audit.yaml</code> in the audit folder and go to the <code>ai:</code> section at the end. Set <code>provider</code> and <code>model</code> (and <code>base_url</code> where the table says so):
+  <div class="table-wrap"><table>
+    <tr><th>You use</th><th>provider</th><th>model</th><th>base_url</th><th>Key variable</th></tr>
+    <tr><td>OpenAI</td><td><code>openai</code></td><td>e.g. <code>gpt-4.1</code></td><td>leave empty</td><td><code>OPENAI_API_KEY</code></td></tr>
+    <tr><td>Azure OpenAI</td><td><code>azure-openai</code></td><td>your <strong>deployment</strong> name</td><td><code>https://&lt;resource&gt;.openai.azure.com</code></td><td><code>AZURE_OPENAI_API_KEY</code></td></tr>
+    <tr><td>Anthropic Claude</td><td><code>anthropic</code></td><td>e.g. <code>claude-sonnet-4-5</code></td><td>leave empty</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+    <tr><td>Google Gemini</td><td><code>openai</code></td><td>e.g. <code>gemini-2.5-pro</code></td><td><code>https://generativelanguage.googleapis.com/v1beta/openai</code></td><td>set <code>api_key_env: GEMINI_API_KEY</code></td></tr>
+    <tr><td>Company AI gateway (LiteLLM, Vertex AI, Bedrock proxy...)</td><td><code>openai</code></td><td>the name the gateway gives</td><td>the gateway address</td><td>ask the gateway team</td></tr>
+    <tr><td>Ollama on your laptop</td><td><code>ollama</code></td><td>e.g. <code>qwen2.5:14b</code></td><td>leave empty</td><td>none</td></tr>
+  </table></div>
+  For example:
+  <pre><code>ai:
+  provider: anthropic
+  model: claude-sonnet-4-5</code></pre></li>
+  <li>Give the tool your API key as an <strong>environment variable</strong> (never type it into <code>audit.yaml</code>). <span class="only-win">In PowerShell: <code>setx ANTHROPIC_API_KEY "your-key"</code>, then close and reopen VS Code so it sees the new variable.</span><span class="only-wsl"> 🐧 WSL2: <code>echo 'export ANTHROPIC_API_KEY="your-key"' &gt;&gt; ~/.bashrc</code>, then open a new terminal.</span> Use the variable name from the table. Ollama needs no key.</li>
+  <li>Test the settings: <code>legacy-audit enrich --check</code> in the audit folder (or task <code>audit: 19</code>). It should say <em>answered correctly</em>. If not, the message says what is wrong (key not set, address unreachable, unknown model).</li>
+  <li>Run it. In the app, open <span class="menu">7. AI enrichment</span> and click <span class="menu">Run missing and stale stages</span> (or <span class="menu">Run all stages</span>). Or type <code>legacy-audit enrich</code>. Each stage takes from a few seconds to a few minutes. When the model makes a mistake, the tool sends it the validator's errors and asks it to fix them.</li>
+  <li>Build the reports again (<span class="menu">8. Reports &gt; Build all</span>). Each stage records which model wrote it.</li>
+</ol>
+<p>To try another model once without editing <code>audit.yaml</code>: <code>legacy-audit enrich --provider openai --model gpt-4.1</code>. The variables <code>LEGACY_AUDIT_AI_PROVIDER</code>, <code>LEGACY_AUDIT_AI_MODEL</code> and <code>LEGACY_AUDIT_AI_BASE_URL</code> do the same for every command.</p>
+<div class="callout note"><p><span class="label">Ollama tips.</span> Install Ollama<span class="only-wsl"> (inside Linux on WSL2, or on Windows: both work from WSL2 at <code>http://localhost:11434</code>)</span>, run <code>ollama pull qwen2.5:14b</code>, and start it with a larger memory for text: <span class="only-win"><code>setx OLLAMA_CONTEXT_LENGTH 32768</code> and restart Ollama</span><span class="only-wsl"><code>OLLAMA_CONTEXT_LENGTH=32768 ollama serve</code></span>. Small local models write shorter, plainer text; set <code>context_chars: 60000</code> in the <code>ai:</code> section if answers get cut off.</p></div>
+<div class="callout note"><p><span class="label">Behind a company proxy?</span> The tool uses the same proxy settings as other programs (<code>HTTPS_PROXY</code>). If you get a certificate error, ask IT for the company certificate file and set <code>ca_bundle</code> in the <code>ai:</code> section to its path.</p></div>
 
 <!-- ============================================================ 14 -->
 <h2 id="tasks">14. The VS Code task list</h2>
@@ -884,6 +913,11 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <tr><td><code>audit: 13. start the GUI on a sample</code></td><td>Starts the app on a sample (stop with <kbd>Ctrl</kbd>+<kbd>C</kbd>). <span class="only-wsl">🐧 Open <code>http://localhost:8765</code> yourself if needed.</span></td><td>Practice</td></tr>
   <tr><td><code>audit: 14. check installed tools (doctor)</code></td><td>Shows which optional tools are installed.</td><td>Everyone</td></tr>
   <tr><td><code>audit: 15. performance test</code></td><td>Generates a large fake application and times a scan.</td><td>Admins</td></tr>
+  <tr><td><code>audit: 16. load demo functional enrichment (Billing sample)</code></td><td>Loads a ready-made functional analysis into the Billing sample.</td><td>Demo</td></tr>
+  <tr><td><code>audit: 17. build and open the functional document</code></td><td>Builds a sample's functional document and opens it.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 18. scan a sample without its scheduler inputs</code></td><td>Scans a copy of a sample as if the Autosys/JCL/crontab files were missing, and opens the Batch page.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 19. test the AI model settings</code></td><td>Sends a tiny test to the model set in a sample's <code>audit.yaml</code> or the <code>LEGACY_AUDIT_AI_*</code> variables.</td><td>Anyone using another model</td></tr>
+  <tr><td><code>audit: 20. AI enrichment with the configured model</code></td><td>Writes the missing and out-of-date stages for a sample with that model.</td><td>Anyone using another model</td></tr>
 </table></div>
 
 <!-- ============================================================ 15 -->
@@ -901,6 +935,8 @@ legacy-audit report --type all --open   # build technical report, functional doc
 legacy-audit report --type functional --open   # only the functional document
 legacy-audit diff previous latest  # what changed between the last two runs
 legacy-audit validate              # check Copilot's analysis against the scan
+legacy-audit enrich --check        # test the AI model set in audit.yaml (ai:)
+legacy-audit enrich                # write the AI analysis with that model (--stale: only what is missing or out of date)
 legacy-audit facts services        # print the services as JSON
 legacy-audit serve                 # start the app for this folder
 legacy-audit doctor                # which optional tools are installed

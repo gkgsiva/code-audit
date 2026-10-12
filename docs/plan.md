@@ -208,6 +208,8 @@ A custom agent defined in the workspace, driven by prompt files, runs the scanne
 
 **Enrichment stages:** 1 Orient (`overview.json`) · 2 Classify · 3 Architecture (`architecture.json`, with Mermaid) · 4 Flows (`flows.json`) · 5 Services (`service_mapping.json`) · 6 Data (`data_migration.json`) · 7 Dependencies (`dependency_plan.json`: group upgrades into themes, link to waves) · 8 Risks & assumptions (`risks.json`, `assumptions.json`) · 9 Target architecture (`target_architecture.json`) · 10 Plan (`plan.json`) · 11 Narratives (`narratives.json`: executive, architect, functional, developer) · 12 Functional (`functional.json`: business domains and capabilities, actors, use cases, business rules, data entities, one story per screen and per batch, interfaces, glossary) · 13 Component documentation (`component_docs.json`: what each component does, key elements, inputs/outputs, tech debt, migration notes). Stages 12 and 13 read everything the scan found for the application (services, screens, SQL, tables, batch, integrations, libraries, metrics, findings) before writing. For large estates stages loop per component with a carried summary file.
 
+**Model choice:** the enrichment is model agnostic. Copilot in VS Code is the default (any model Copilot offers; `ai.copilot_model` pins one in the agent file). `legacy-audit enrich` writes the same stages with any other model set in `audit.yaml > ai` (OpenAI-compatible endpoints, Azure OpenAI, Anthropic, Ollama), packing the facts and batch sources into the prompt and sending the validator's errors back for repair. The scan never calls a model.
+
 ## Counting rules
 
 Published in every report and configurable.

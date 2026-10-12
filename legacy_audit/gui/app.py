@@ -81,6 +81,11 @@ class ScanBody(BaseModel):
     full: bool = False
 
 
+class EnrichBody(BaseModel):
+    stale: bool = True
+    stages: list[str] = []
+
+
 class ReportBody(BaseModel):
     type: str = "tech"
 
@@ -612,7 +617,51 @@ def create_app(
                     "why": why,
                 }
             )
-        return {"run_id": run_dir.name, "stages": rows, "next_prompt": _next_prompt(status)}
+        return {
+            "run_id": run_dir.name,
+            "stages": rows,
+            "next_prompt": _next_prompt(status),
+            "ai": _ai_info(),
+        }
+
+    def _ai_info() -> dict[str, Any]:
+        from legacy_audit.ai.providers import AiError, settings
+
+        try:
+            s = settings(ws.loaded().config.ai)
+        except AiError as err:
+            return {"provider": "?", "label": "?", "problem": str(err)}
+        return {"provider": s.provider, "label": s.label, "problem": None}
+
+    @app.post("/api/runs/{run}/enrich")
+    def run_enrichment(run: str, body: EnrichBody) -> dict[str, Any]:
+        from legacy_audit.ai.providers import AiError, Client, settings
+        from legacy_audit.ai.runner import enrich, pick_stages
+
+        run_dir = ws.run_dir(run)
+        try:
+            s = settings(ws.loaded().config.ai)
+            client = Client(s)
+            stages = pick_stages(run_dir, body.stages or None, body.stale)
+        except AiError as err:
+            raise HTTPException(400, str(err)) from None
+
+        def work(job: Job) -> dict[str, Any]:
+            def say(text: str) -> None:
+                job.emit("progress", stage=text, n=0, total=0)
+
+            results = enrich(run_dir, s, stages, client, progress=say)
+            invalid_stages[run_dir.name] = {r.stage for r in results if not r.ok}
+            failed = [r for r in results if not r.ok]
+            if failed and not any(r.ok for r in results):
+                raise RuntimeError(f"{failed[0].stage}: {failed[0].errors[0]}")
+            return {
+                "run_id": run_dir.name,
+                "valid": [r.stage for r in results if r.ok],
+                "invalid": [r.stage for r in failed],
+            }
+
+        return _start("enrich", f"AI enrichment with {s.label}", work)
 
     @app.post("/api/runs/{run}/validate")
     def validate(run: str) -> dict[str, Any]:

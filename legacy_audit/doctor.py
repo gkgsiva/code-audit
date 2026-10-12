@@ -189,4 +189,32 @@ def run_checks(cfg: AuditConfig | None = None, output_dir: Path | None = None) -
             "Git sources (source.type: git)",
         )
     )
+    out.append(_ai(cfg))
     return out
+
+
+def _ai(cfg: AuditConfig) -> Check:
+    """The model `legacy-audit enrich` would use; the key's variable is checked, not its value."""
+    import os
+
+    from legacy_audit.ai.providers import AiError, settings
+
+    name, needed = "AI model", "AI enrichment outside Copilot (legacy-audit enrich)"
+    try:
+        s = settings(cfg.ai)
+    except AiError as err:
+        return Check(name, "error", False, str(err), needed)
+    if s.provider == "copilot":
+        pin = f" ({cfg.ai.copilot_model})" if cfg.ai.copilot_model else ""
+        return Check(name, "ok", False, f"Copilot in VS Code{pin}", needed)
+    if not s.model:
+        return Check(name, "missing", False, f"{s.provider}: set ai.model", needed)
+    env = s.key_env
+    keyless = s.provider == "ollama" or (s.provider == "openai" and s.base_url)
+    if env and not os.environ.get(env) and not (keyless and not s.api_key_env):
+        return Check(
+            name, "missing", False, f"{s.label}: environment variable {env} not set", needed
+        )
+    return Check(
+        name, "ok", False, f"{s.label} at {s.url} (test: legacy-audit enrich --check)", needed
+    )

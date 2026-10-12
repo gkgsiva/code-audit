@@ -6,6 +6,17 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Model-agnostic AI enrichment (2026-10-12)
+
+- `legacy-audit enrich`: write the enrichment with any model (OpenAI-compatible endpoints such as
+  OpenAI, Gemini or a company gateway, Azure OpenAI, Anthropic, Ollama), set in the new `ai:`
+  section of `audit.yaml` or `LEGACY_AUDIT_AI_*` variables; `--check` tests the settings. The
+  validator's errors are sent back to the model to fix.
+- GUI: **Run missing and stale stages** / **Run all stages** on the AI enrichment screen when a
+  model other than Copilot is set; `doctor` shows the model.
+- Copilot stays the default; `ai.copilot_model` pins its model in the agent file.
+- VS Code tasks 19 (test the model settings) and 20 (enrichment with the configured model).
+
 ### Phase 7 follow-up: batches without scheduler inputs (2026-10-12)
 
 - The Batch pages list every batch script, program and listener even when no Autosys JIL, JCL

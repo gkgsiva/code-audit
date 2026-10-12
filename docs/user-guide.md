@@ -86,14 +86,17 @@ CLI: `legacy-audit facts <kind> -f field=value`.
 
 ## 7. AI enrichment
 
-The interpretation (architecture, flows, risks, plan, narratives) is written by GitHub Copilot in
-VS Code with the **legacy-auditor** agent; the GUI never calls a model. This screen shows each
+The interpretation (architecture, flows, risks, plan, narratives) is written by an AI model: by
+default GitHub Copilot in VS Code with the **legacy-auditor** agent (pick any model Copilot
+offers), or any other model set in the `ai:` section of `audit.yaml` (OpenAI-compatible, Azure
+OpenAI, Anthropic, Ollama). With another model, **Run missing and stale stages** and **Run all
+stages** ask it directly; the API key comes from an environment variable. This screen shows each
 stage as missing, valid, stale (its inputs changed since it was written) or invalid, and the next
 prompt to paste into Copilot Chat (**Copy**). After Copilot has written a stage, press
 **Validate now**: numbers that differ from the scan, claims without evidence and unknown ids are
 listed. See [copilot-agent.md](copilot-agent.md).
 
-CLI: `legacy-audit validate`.
+CLI: `legacy-audit validate`, `legacy-audit enrich` (another model; `--check` tests the settings).
 
 ## 8. Reports
 

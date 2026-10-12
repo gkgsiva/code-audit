@@ -15,14 +15,15 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 ## What the tool is
 
 - A deterministic **Python 3.11+ scan engine** (`legacy_audit/`) that walks a legacy codebase and writes facts (JSON, CSV, SQLite, CycloneDX SBOM).
-- **GitHub Copilot custom-agent files** that `legacy-audit init` installs into the *legacy* workspace, so analysts can run AI enrichment (architecture, flows, risks, plan) in VS Code. The analysts use Copilot; Claude Code is only used to *build* this tool.
+- **GitHub Copilot custom-agent files** that `legacy-audit init` installs into the *legacy* workspace, so analysts can run AI enrichment (architecture, flows, risks, plan) in VS Code. The analysts use Copilot by default; Claude Code is only used to *build* this tool.
+- **Model-agnostic enrichment** (`legacy-audit enrich`, `legacy_audit/ai/`): the same stages written by any model (OpenAI-compatible, Azure OpenAI, Anthropic, Ollama) chosen in `audit.yaml > ai`, checked by the same validator. It is an explicit, optional command; the scan engine and the reports never call a model.
 - **Report generators**: technical HTML site, management HTML deck, and an editable PPTX (Node + pptxgenjs).
 - A **local web GUI** (FastAPI) to pick components, run and re-run scans, and view results.
 
 ## Non-negotiable rules
 
 1. **Scripts count, AI interprets.** Every number in any output comes from deterministic code and carries `evidence: [{file, line}]`. Nothing in the engine calls an LLM.
-2. **No external network at scan time.** No cloud APIs, no telemetry, no CDN links in generated HTML — vendor all JS/CSS. The only optional network use is cloning a Git source and syncing the vulnerability database, both explicit.
+2. **No external network at scan time.** No cloud APIs, no telemetry, no CDN links in generated HTML — vendor all JS/CSS. The only optional network use is cloning a Git source, syncing the vulnerability database and `legacy-audit enrich` with a remote model, all explicit.
 3. **Never write into the scanned source.** Outputs go to `audit-output/`, inputs come from the source tree and `audit-inputs/`.
 4. **Re-runnable.** Every run is a snapshot under `audit-output/runs/<run-id>/` with `latest` pointing to the newest; unchanged files are skipped via a hash cache; linking, metrics, rules and totals are always recomputed; `audit-overrides.yaml` is re-applied every run.
 5. **Missing inputs are coverage gaps, not errors.** Report them (e.g. "Autosys JIL: not provided") and continue.
