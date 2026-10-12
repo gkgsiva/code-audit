@@ -240,11 +240,22 @@ class _Deck:
                 if story.get("when"):
                     items.append("When: " + story["when"])
                 items += [st["description"] for st in story.get("steps", [])][:4]
+                if not story.get("steps"):
+                    items += [
+                        f"{pg['name']}: {pg['what_it_does']}" for pg in story.get("programs", [])
+                    ][:4]
                 if story.get("on_failure"):
                     items.append("If it fails: " + story["on_failure"])
             words = {"type": "bullets", "stage": "functional", "items": items}
         else:
-            words = {"type": "bullets", "items": [f.summary]}
+            said = [
+                f"{c['file'].rsplit('/', 1)[-1]}: {' '.join(c['lines'])}"
+                for c in flows.code_comments(self.rd, f, limit=3)
+            ]
+            words = {
+                "type": "bullets",
+                "items": [f.summary, *[f"The code says: {x}" for x in said]],
+            }
         self.add(
             f"fn-{f.kind}-{f.slug}",
             f"{what} flow: {f.name}",
@@ -756,7 +767,20 @@ class _Deck:
                 self.chart("bar", "Batch jobs by scheduler", sl, [sched[k] for k in sl], "jobs")
             ]
         else:
-            batch = [{"type": "text", "text": "The scan found no batch jobs."}]
+            batch = [{"type": "text", "text": "The scan found no scheduled batch jobs."}]
+        loose = [
+            f
+            for f in flows.batch_flows(self.rd)
+            if f.schedule.get("scheduler") in ("none", "event")
+        ]
+        if loose:
+            batch.append(
+                {
+                    "type": "bullets",
+                    "title": "Batch work with no scheduler definition",
+                    "items": [f"{f.name}: {f.summary}" for f in loose[:MAX_ROWS]],
+                }
+            )
         if gaps:
             batch.append({"type": "bullets", "title": "Inputs not provided", "items": gaps})
         self.add("tech-batch", "Batch landscape", batch)

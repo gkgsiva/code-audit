@@ -86,6 +86,14 @@
           "title": "Business Impact",
           "type": "string"
         },
+        "controls": {
+          "description": "Checks, totals, reconciliations and error exits found in the code",
+          "items": {
+            "type": "string"
+          },
+          "title": "Controls",
+          "type": "array"
+        },
         "evidence": {
           "items": {
             "$ref": "#/$defs/Evidence"
@@ -102,7 +110,7 @@
           "type": "array"
         },
         "job_id": {
-          "description": "The box or job id (batch_job:...)",
+          "description": "The batch flow's id: the box or job (batch_job:...), or for batch work no scheduler starts, the script (file:...), program (service:...) or listener (entry:...)",
           "title": "Job Id",
           "type": "string"
         },
@@ -120,9 +128,23 @@
           "title": "Outputs",
           "type": "array"
         },
+        "programs": {
+          "description": "What each program or script it runs does",
+          "items": {
+            "$ref": "#/$defs/ProgramNote"
+          },
+          "title": "Programs",
+          "type": "array"
+        },
         "purpose": {
           "description": "Why the batch exists, in business words",
           "title": "Purpose",
+          "type": "string"
+        },
+        "restart": {
+          "default": "",
+          "description": "How it is re-run after a failure, if the code says",
+          "title": "Restart",
           "type": "string"
         },
         "steps": {
@@ -508,6 +530,40 @@
         "stage"
       ],
       "title": "Meta",
+      "type": "object"
+    },
+    "ProgramNote": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Its service, file or entry-point id",
+          "title": "Fact Id"
+        },
+        "name": {
+          "description": "Program, script or SQL file the batch runs",
+          "title": "Name",
+          "type": "string"
+        },
+        "what_it_does": {
+          "description": "What it does in business words, from its code and its comments",
+          "title": "What It Does",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "what_it_does"
+      ],
+      "title": "ProgramNote",
       "type": "object"
     },
     "ScreenStory": {

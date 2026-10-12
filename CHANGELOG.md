@@ -6,6 +6,16 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Phase 7 follow-up: batches without scheduler inputs (2026-10-12)
+
+- The Batch pages list every batch script, program and listener even when no Autosys JIL, JCL
+  or crontab was provided, marked "no schedule found", with its steps, tables and files.
+- "What the code says": each batch shows the header comments of its source files (credentials
+  masked).
+- Copilot stage 12 reads the batch sources and comments; batch stories gain what each program
+  does, the controls in the code and how to restart.
+- VS Code task 18: scan a sample without its scheduler inputs.
+
 ### Phase 7: functional documentation and graphics (2026-10-10)
 
 - Functional document (`legacy-audit report --type functional`, also in `all`, the GUI and VS

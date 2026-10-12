@@ -59,7 +59,9 @@ took from it). On a large estate do it one component at a time with
 - [ ] `screens.json` and the `submits` / `links` / `forwards` edges in `dependencies.json`
 - [ ] `sql_statements.json` and `db_objects.json` (CRUD per table)
 - [ ] `batch_jobs.json` (boxes, conditions, schedules, `on_failure`) and the `runs` /
-      `invokes` / `triggers` edges
+      `invokes` / `triggers` edges; scripts and batch programs that no job runs (they are
+      batches too when the scheduler export is missing)
+- [ ] the source of every batch script and program, comments included
 - [ ] `integrations.json`, `libraries.json`, `findings.json`, `tech_stack.json`
 - [ ] the source lines you cite (open them: rules and calculations live in the code)
 
@@ -68,10 +70,27 @@ For `functional`:
 - `screens`: one entry per screen that is not a partial, with `screen_id`, what the user does
   there, what is shown and where the user goes next. The report draws the flow (screen,
   services, tables, next screens) from the scan; you write the words.
-- `batches`: one entry per batch: an Autosys box, or a job that is not in a box (cron, JCL,
-  Spring Batch). `job_id` is the box's or job's id; say why it exists, when it runs in
-  business words, its steps (citing job, program and file ids), inputs, outputs, what happens
-  when it fails and the business impact if it does not run.
+- `batches`: one entry per batch on the **Flows** page of the technical report: an Autosys
+  box, a job that is not in a box (cron, JCL, Spring Batch), and also batch work that no
+  scheduler definition starts (a top-level script, a batch program, a message listener;
+  marked "no schedule found"). `job_id` is the flow's id: the box's or job's `batch_job:` id,
+  or the script's `file:` id, the program's `service:` id or the listener's `entry:` id.
+  Say why it exists, when it runs in business words (when no schedule was found, say so and
+  give what the code or its comments suggest, as an assumption), its steps (citing job,
+  program and file ids), inputs, outputs, what happens when it fails and the business impact
+  if it does not run.
+- **Read each batch's source, not only the facts.** Open every script, program and SQL file
+  the batch runs (the flow page lists them under "What the code says about itself", with the
+  header comment the scan found) and read:
+  - the comments: the header, and the comments above each paragraph, function or step; they
+    usually say what the program does in business words;
+  - the main flow: what is read, what is checked, what is computed, what is written, in order;
+  - the controls: record counts, totals, reconciliations, `exit` / `RETURN-CODE` / `abend`
+    paths, restart and checkpoint logic.
+  Then fill `programs` (one line per program or script: what it does in business words,
+  with its `fact_id`), `controls` (checks, totals and error exits you found) and `restart`
+  (how to re-run after a failure, if the code or its comments say). Cite the lines in
+  `evidence`. When a comment and the code disagree, trust the code and say so.
 - `business_rules`: validations, calculations, eligibility, status changes and limits you
   can point to in the code (`evidence` with file and line).
 - Write for business readers: no class names in `summary`, `purpose` or rule text.

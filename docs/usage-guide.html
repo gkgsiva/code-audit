@@ -634,7 +634,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>SQL</td><td>Every database query found in the code, including queries the code builds while running, with its PostgreSQL grade.</td></tr>
   <tr><td>Database</td><td>Tables, views and procedures, and the <strong>CRUD matrix</strong>: which component Creates, Reads, Updates or Deletes each table.</td></tr>
   <tr><td>Integrations</td><td>Connections to other systems: message queues (MQ), file transfers (CFT, FTP), web services called, emails and more.</td></tr>
-  <tr><td>Batch jobs</td><td>Scheduled and batch programs (Autosys, JCL, cron, shell) and what they run.</td></tr>
+  <tr><td>Batch jobs</td><td>Scheduled and batch programs (Autosys, JCL, cron, shell) and what they run. A second list, <strong>Batch work with no scheduler definition</strong>, shows batch scripts and programs that none of the scheduler files you provided starts.</td></tr>
   <tr><td>Libraries</td><td>Third-party components used, their versions, known vulnerabilities, end-of-life dates and the recommended upgrade.</td></tr>
   <tr><td>Findings</td><td>Issues the rules found, each with a severity and the exact place in the code.</td></tr>
   <tr><td>PostgreSQL</td><td>How ready the SQL is for PostgreSQL, statement by statement, with a suggested PostgreSQL version.</td></tr>
@@ -665,7 +665,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>Users and use cases</td><td>Who uses the application and what each of them does with it.</td></tr>
   <tr><td>Business flows</td><td>The main end-to-end flows, step by step.</td></tr>
   <tr><td>Screens</td><td>Every screen, with a picture: where the user comes from, the services the screen calls, the tables they read or change (C create, R read, U update, D delete), other systems, and where the user goes next.</td></tr>
-  <tr><td>Batch</td><td>Every batch, with a calendar of when it runs and a picture: what starts it (a time, a file arriving, another job), its steps in order, the tables and files it uses, and what happens when it fails (alarms, retries, steps that run anyway).</td></tr>
+  <tr><td>Batch</td><td>Every batch, with a calendar of when it runs and a picture: what starts it (a time, a file arriving, another job), its steps in order, the tables and files it uses, and what happens when it fails (alarms, retries, steps that run anyway).<br>Batch scripts and programs are listed <strong>even when you did not provide the Autosys, JCL or crontab files</strong>: they show a grey <strong>no schedule found</strong> label (a listener that waits for messages shows <strong>on message</strong>). Under each batch, <strong>What the code says</strong> quotes the comment at the top of its source files, word for word (passwords are hidden). After Copilot has run, each batch also says what each program does, the checks the code makes and how to restart it after a failure.</td></tr>
   <tr><td>Business rules</td><td>The rules the code applies (checks, calculations, status changes) that the new system must keep.</td></tr>
   <tr><td>Data</td><td>The main business data and the tables that hold it.</td></tr>
   <tr><td>Interfaces</td><td>The other systems the application talks to and what is exchanged.</td></tr>
