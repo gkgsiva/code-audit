@@ -24,6 +24,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from legacy_audit.model import make_id
+from legacy_audit.report.comments import header_comment
 from legacy_audit.report.data import RunData, slug
 from legacy_audit.report.diagrams import _COND_LABEL, _CONDITION, _RUN_EDGES, _label
 
@@ -99,6 +100,7 @@ class Flow:
     on_failure: list[str] = field(default_factory=list)
     evidence: tuple[str | None, int | None] = (None, None)
     note: str = ""
+    files: list[str] = field(default_factory=list)  # batch: source files it runs, in order
 
     @property
     def mermaid(self) -> str:
@@ -547,6 +549,7 @@ def batch_flows(rd: RunData) -> list[Flow]:
         for p in j.get("predecessors") or []:
             successors[p].append(j["name"])
     watched = _watched_files(rd)
+    file_ids = {f["path"]: f["id"] for f in rd.items("inventory") if f.get("id")}
 
     def run_targets(jid: str) -> list[tuple[str, str]]:
         """(label, kind) of what a job runs, one hop on through scripts."""
@@ -559,6 +562,26 @@ def batch_flows(rd: RunData) -> list[Flow]:
             for t2 in runs.get(t, []):
                 kind = "job" if t2.startswith("batch_job:") else "run"
                 out.append((rd.label(t2).rsplit("/", 1)[-1], kind))
+        return list(dict.fromkeys(out))
+
+    def files_run(start: str) -> list[str]:
+        """Source files a job or script runs, two hops on (a script, then its programs)."""
+        out: list[str] = []
+        frontier = [start]
+        for _ in range(3):
+            nxt: list[str] = []
+            for n in frontier:
+                for t in runs.get(n, []):
+                    if t.startswith("batch_job:"):
+                        continue
+                    item = rd.by_id.get(t) or {}
+                    p = item.get("path") or item.get("file")
+                    if p:
+                        out.append(str(p))
+                    nxt.append(t)
+                    if item.get("file") and item["file"] in file_ids:
+                        nxt.append(file_ids[item["file"]])
+            frontier = nxt
         return list(dict.fromkeys(out))
 
     callers: dict[str, list[str]] = defaultdict(list)
@@ -617,7 +640,9 @@ def batch_flows(rd: RunData) -> list[Flow]:
             else []
         )
         prev: str | None = None
+        flow_files: list[str] = []
         for i, j in enumerate(steps_src, 1):
+            flow_files += files_run(j["id"])
             jkey = "job:" + j["name"]
             kind = j.get("kind") or "job"
             if kind == "file-watcher":
@@ -763,6 +788,317 @@ def batch_flows(rd: RunData) -> list[Flow]:
                 on_failure=list(dict.fromkeys(failure)),
                 evidence=rd.first_evidence(unit),
                 note=" ".join(note),
+                files=list(dict.fromkeys(flow_files)),
+            )
+        )
+    flows += _unscheduled_flows(rd, ix, runs, callers, jobs)
+    return flows
+
+
+# ---- batch programs that no scheduler definition starts -------------------------------------
+_PROGRAM_SERVICES = {"c-executable", "cobol-program"}
+_BATCH_COMPONENTS = {"batch", "script"}
+_EVENT_ENTRY = {"message-listener", "listener", "jms-listener", "mq-listener"}
+_NO_SCHEDULE = (
+    "No schedule found: no Autosys JIL, JCL or crontab entry in the inputs starts it. "
+    "It may be run by hand or by a scheduler whose export was not provided."
+)
+
+
+def _unscheduled_flows(
+    rd: RunData,
+    ix: _Index,
+    runs: dict[str, list[str]],
+    callers: dict[str, list[str]],
+    jobs: list[dict[str, Any]],
+) -> list[Flow]:
+    """Batch work the scan found but no scheduler definition covers: top-level scripts and
+    batch programs in batch components, stand-alone C/COBOL batch programs, and message
+    listeners. Without them the Batch pages would say "no batch" whenever the JIL, JCL or
+    crontab export is missing (a coverage gap, not an absence of batches)."""
+    covered: set[str] = set()
+    todo = [j["id"] for j in jobs]
+    while todo:
+        n = todo.pop()
+        for t in runs.get(n, []):
+            if t not in covered:
+                covered.add(t)
+                todo.append(t)
+    files = {f["path"]: f for f in rd.items("inventory")}
+    file_ids = {f["path"]: f["id"] for f in files.values() if f.get("id")}
+    covered_files = {
+        (rd.by_id.get(c) or {}).get("path") or (rd.by_id.get(c) or {}).get("file") for c in covered
+    }
+    batch_comps = {c["name"] for c in rd.items("components") if c.get("type") in _BATCH_COMPONENTS}
+
+    def comp_of(path: str) -> str | None:
+        return rd.file_component.get(path)
+
+    units: list[dict[str, Any]] = []  # {id, name, kind, file, line, component}
+    seen_files: set[str] = set()
+    for f in sorted(files.values(), key=lambda f: f["path"]):
+        path = f["path"]
+        if f.get("language") != "shell" or comp_of(path) not in batch_comps:
+            continue
+        fid = f.get("id") or ""
+        if fid in covered or callers.get(fid):
+            continue  # started by a job, or run by another script or program
+        units.append(
+            {"id": fid, "name": path.rsplit("/", 1)[-1], "kind": "script", "file": path,
+             "line": None, "component": comp_of(path)}
+        )  # fmt: skip
+        seen_files.add(path)
+    run_by_script = {
+        t for u in units for t in runs.get(u["id"], [])
+    }  # programs a top-level script runs are its steps, not units of their own
+    for svc in sorted(ix.services.values(), key=lambda s: s["name"]):
+        if svc.get("kind") not in _PROGRAM_SERVICES or svc["id"] in covered:
+            continue
+        if svc["id"] in run_by_script or svc.get("file") in covered_files:
+            continue
+        units.append(
+            {"id": svc["id"], "name": svc["name"], "kind": "program", "file": svc.get("file"),
+             "line": rd.first_evidence(svc)[1], "component": svc.get("component"),
+             "service_id": svc["id"]}
+        )  # fmt: skip
+        seen_files.add(svc.get("file") or "")
+    run_files = {
+        (rd.by_id.get(t) or {}).get("file") or (rd.by_id.get(t) or {}).get("path")
+        for t in run_by_script
+    }
+    for ep in sorted(rd.items("entry_points"), key=lambda e: e["name"]):
+        kind = ep.get("kind") or ""
+        if ep.get("file") in seen_files | covered_files | run_files:
+            continue
+        if ep.get("component") not in batch_comps:
+            continue
+        if kind in _EVENT_ENTRY or kind == "main":
+            units.append(
+                {"id": ep["id"], "name": ep["name"].rsplit(".", 1)[-1],
+                 "kind": "listener" if kind in _EVENT_ENTRY else "program",
+                 "file": ep.get("file"), "line": ep.get("line"), "component": ep.get("component")}
+            )  # fmt: skip
+            seen_files.add(ep.get("file") or "")
+
+    sql_by_file: dict[str, list[str]] = defaultdict(list)
+    for q in rd.items("sql_statements"):
+        if q.get("file"):
+            sql_by_file[q["file"]].append(q["id"])
+    integ_by_file: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for i in rd.items("integrations"):
+        for ev in i.get("evidence") or []:
+            if ev.get("file"):
+                integ_by_file[ev["file"]].append(i)
+
+    def tables_of_file(path: str) -> dict[str, set[str]]:
+        out: dict[str, set[str]] = defaultdict(set)
+        for q in sql_by_file.get(path, []):
+            ops = ix.sql_ops.get(q)
+            st = ix.sql.get(q) or {}
+            if ops:
+                for t, letters in ops.items():
+                    out[t] |= letters
+            else:
+                letters = set(SQL_CRUD.get(str(st.get("type") or "").upper(), ""))
+                for t in st.get("tables") or []:
+                    out[t.upper()] |= letters
+        return out
+
+    def systems_of_file(path: str) -> list[dict[str, Any]]:
+        return [
+            {"type": i["type"], "target": i["target"],
+             "direction": i.get("direction") or "unknown", "id": i.get("id")}
+            for i in integ_by_file.get(path, [])
+            if i["type"] != "DB"
+        ]  # fmt: skip
+
+    def path_of(node: str) -> str:
+        item = rd.by_id.get(node) or {}
+        return str(item.get("path") or item.get("file") or "")
+
+    flows: list[Flow] = []
+    for u in units:
+        note: list[str] = []
+        ukey = "unit:" + u["name"]
+        listener = u["kind"] == "listener"
+        trig = [
+            Node(
+                "trigger:" + ("message" if listener else "none"),
+                "when a message arrives (listener)" if listener else "no schedule found",
+                "trigger" if listener else "muted",
+            )
+        ]
+        head = Node(ukey, u["name"], "job", u["kind"])
+        edges: list[tuple[str, str, str]] = [(trig[0].key, ukey, "")]
+        run_nodes: list[Node] = []
+        table_acc: dict[str, set[str]] = defaultdict(set)
+        sys_acc: dict[str, dict[str, Any]] = {}
+        sids: list[str] = []
+        steps: list[dict[str, Any]] = []
+        own_paths = [u.get("file") or ""]
+
+        def add_tables(
+            src: str,
+            tabs: dict[str, set[str]],
+            table_acc: dict[str, set[str]] = table_acc,
+            edges: list[tuple[str, str, str]] = edges,
+        ) -> None:
+            for t, letters in tabs.items():
+                table_acc[t] |= letters
+                edges.append((src, "t:" + t, _crud(letters)))
+
+        def add_systems(
+            src: str,
+            systems: list[dict[str, Any]],
+            sys_acc: dict[str, dict[str, Any]] = sys_acc,
+            edges: list[tuple[str, str, str]] = edges,
+        ) -> None:
+            for x in systems:
+                key = "x:" + x["type"] + x["target"]
+                sys_acc.setdefault(key, x)
+                if x["direction"] == "inbound":
+                    edges.append((key, src, "in"))
+                else:
+                    edges.append((src, key, "out" if x["direction"] == "outbound" else ""))
+
+        if u.get("service_id"):
+            sids.append(u["service_id"])
+            add_tables(ukey, ix.tables_of([u["service_id"]]))
+            add_systems(ukey, ix.systems_of([u["service_id"]]))
+        else:
+            add_tables(ukey, tables_of_file(u.get("file") or ""))
+            add_systems(ukey, systems_of_file(u.get("file") or ""))
+        # what it runs: the script's commands, or what the program's file reaches (2 hops)
+        start = [u["id"]] + ([file_ids[u["file"]]] if u.get("file") in file_ids else [])
+        reached: list[str] = []
+        for s0 in start:
+            for t in runs.get(s0, []):
+                reached.append(t)
+                if t.startswith("file:"):
+                    reached += [t2 for t2 in runs.get(t, []) if not t2.startswith("service:")]
+        order = 0
+        for t in dict.fromkeys(reached):
+            item = rd.by_id.get(t) or {}
+            if t.startswith("file:") and item.get("category") == "source" and u["kind"] != "script":
+                own_paths.append(path_of(t))  # a helper module of the program: part of it
+                add_systems(ukey, systems_of_file(path_of(t)))
+                continue
+            order += 1
+            label = rd.label(t).rsplit("/", 1)[-1]
+            rkey = "run:" + label
+            if t.startswith("batch_job:"):
+                rkind = "job"
+            elif t.startswith("service:"):
+                rkind = "service"
+            else:
+                rkind = "run"
+            if rkey not in {n.key for n in run_nodes}:
+                run_nodes.append(Node(rkey, label, rkind))
+            edges.append((ukey, rkey, "runs"))
+            sid = make_id("service", "batch-job", t) if t.startswith("batch_job:") else t
+            if sid in ix.services:
+                sids.append(sid)
+                add_tables(rkey, ix.tables_of([sid]))
+                add_systems(rkey, ix.systems_of([sid]))
+            elif t.startswith("file:"):
+                add_tables(rkey, tables_of_file(path_of(t)))
+                add_systems(rkey, systems_of_file(path_of(t)))
+            steps.append(
+                {
+                    "order": order,
+                    "name": label,
+                    "kind": {"job": "job", "service": "program"}.get(rkind, "script or file"),
+                    "id": t,
+                    "description": "",
+                    "command": "",
+                    "condition": "",
+                    "runs": [],
+                    "steps": [],
+                    "programs": [],
+                    "datasets": [],
+                    "machine": "",
+                    "service_id": sid if sid in ix.services else None,
+                    "evidence": rd.first_evidence(item) if item else (None, None),
+                }
+            )
+        steps.insert(
+            0,
+            {
+                "order": 0,
+                "name": u["name"],
+                "kind": u["kind"],
+                "id": u["id"],
+                "description": "",
+                "command": "",
+                "condition": "",
+                "runs": [n.label for n in run_nodes],
+                "steps": [],
+                "programs": [],
+                "datasets": [],
+                "machine": "",
+                "service_id": u.get("service_id"),
+                "evidence": (u.get("file"), u.get("line")),
+            },
+        )
+        table_rows = ix.table_rows(table_acc)
+        table_nodes = [Node("t:" + t["name"], t["name"], "table", t["crud"]) for t in table_rows]
+        systems = sorted(sys_acc.values(), key=lambda x: (x["type"], x["target"]))
+        sys_nodes = [
+            Node("x:" + x["type"] + x["target"], _system_label(x), "system", x["direction"])
+            for x in systems
+        ]
+        what = {"script": "Script", "program": "Batch program", "listener": "Listener"}[u["kind"]]
+        columns = [
+            ("Starts when", trig),
+            (what, [head]),
+            ("Runs", _cap(run_nodes, note, "programs and files")),
+            ("Tables", _cap(table_nodes, note, "tables")),
+            ("Files and systems", _cap(sys_nodes, note, "files and systems")),
+        ]
+        columns = [c for c in columns if c[1]]
+        when = (
+            "Starts when a message arrives on the queue it listens to."
+            if listener
+            else _NO_SCHEDULE
+        )
+        summary = (
+            f"{what} {u['name']}"
+            + (f" runs {len(run_nodes)} program(s) or file(s)." if run_nodes else ".")
+            + (f" It touches {len(table_rows)} table(s)." if table_rows else "")
+            + ("" if listener else " No scheduler definition starts it.")
+        )
+        flows.append(
+            Flow(
+                id=u["id"],
+                kind="batch",
+                name=u["name"],
+                slug=slug(f"batch-{u['name']}-{u['id'][-6:]}"),
+                component=u.get("component"),
+                summary=summary,
+                columns=columns,
+                edges=list(dict.fromkeys(edges)),
+                tables=table_rows,
+                systems=systems,
+                services=[{"id": s, "name": ix.services[s].get("name")} for s in sids],
+                steps=steps,
+                schedule={
+                    "days": [],
+                    "times": [],
+                    "text": when,
+                    "raw": "",
+                    "scheduler": "event" if listener else "none",
+                    "description": "",
+                    "unscheduled": not listener,
+                },
+                on_failure=[],
+                evidence=(u.get("file"), u.get("line")),
+                note=" ".join(note),
+                files=list(
+                    dict.fromkeys(
+                        [p for p in own_paths if p]
+                        + [str(e[0]) for st in steps[1:] if (e := st["evidence"])[0]]
+                    )
+                ),
             )
         )
     return flows
@@ -888,3 +1224,38 @@ def _hour(t: str) -> float | None:
 
 
 DAY_NAMES = _DAY_NAMES
+
+
+_COMMENT_LANGS = {
+    "shell",
+    "sql",
+    "plsql",
+    "c",
+    "cpp",
+    "proc",
+    "java",
+    "cobol",
+    "jcl",
+    "perl",
+    "python",
+}
+
+
+def code_comments(rd: RunData, f: Flow, limit: int = 6) -> list[dict[str, Any]]:
+    """The header comment of each source file a batch runs (``{file, lines}``), read from the
+    scanned source when it is on this machine; what the programs say about themselves."""
+    langs = {i["path"]: i.get("language") or "" for i in rd.items("inventory")}
+    out: list[dict[str, Any]] = []
+    for path in f.files:
+        lang = langs.get(path, "")
+        if lang not in _COMMENT_LANGS:
+            continue
+        p = rd.abs_path(path)
+        if p is None or not p.is_file():
+            continue
+        lines = header_comment(p, lang)
+        if lines:
+            out.append({"file": path, "lines": lines})
+        if len(out) >= limit:
+            break
+    return out

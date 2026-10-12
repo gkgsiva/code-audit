@@ -218,3 +218,29 @@ Works the same on Windows and on WSL2 (the tasks pick `.venv\Scripts\python` or
    boxes and arrows can be moved and recoloured.
 7. **Dark mode**: the theme button in each report switches light/dark; colours stay readable and
    every value is still printed as text.
+
+## Phase 7 follow-up: batches without scheduler inputs
+
+Same on Windows and WSL2. On WSL2, if the browser does not open, run
+`explorer.exe build/no-inputs/c-proc-batch/audit-output/latest/reports/functional/batch.html`
+in the terminal.
+
+1. Run `audit: 2. tests (pytest)`: everything passes.
+2. Run `audit: 18. scan a sample without its scheduler inputs (Batch page)` and pick
+   `c-proc-batch`. It copies the sample to `build/no-inputs/c-proc-batch` without its
+   `audit-inputs` folder (no crontab, no CFT), scans it and opens the functional **Batch** page:
+   - one card, **run_settlement.ksh**, with a grey **no schedule found** pill and
+     "The code says: Nightly settlement …" (the comment at the top of the script);
+   - click it: the diagram starts at "no schedule found", runs settle_report.sql, settle_load
+     and settle_send, and touches 4 tables; **What the code says about itself** quotes the
+     comments of each file.
+3. Open `build/no-inputs/c-proc-batch/audit-output/latest/reports/tech/batch-jobs.html`: the
+   panel **Batch work with no scheduler definition** lists run_settlement.ksh. The batch-job
+   count on the dashboard stays 0, because no job definition was provided.
+4. Run task 18 again with `spring-mvc-batch-app`: invoiceJob, run_invoice_job.sh and
+   PaymentListener (pill **on message**) are listed even without the Autosys files.
+5. **Copilot's batch reading**: run `audit: 4. scan a sample` with `spring-mvc-batch-app`, then
+   `audit: 16. load demo functional enrichment (Billing sample)` and `audit: 17. build and open
+   the functional document`. Open **Batch** > **BIL_NIGHTLY_BOX**: the AI box now lists what
+   each program does, the controls found in the code and how to restart. With a real Copilot
+   run, `/audit-enrich functional` writes these from the batch sources.

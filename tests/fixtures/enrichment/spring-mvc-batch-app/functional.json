@@ -239,6 +239,67 @@
         {
           "file": "audit-inputs/autosys/billing.jil",
           "line": 2
+        },
+        {
+          "file": "billing-batch/scripts/run_invoice_job.sh",
+          "line": 9
+        },
+        {
+          "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+          "line": 19
+        }
+      ],
+      "programs": [
+        {
+          "name": "run_invoice_job.sh",
+          "fact_id": "file:86c5a9cd6b7f33e6",
+          "what_it_does": "Starts the invoicing job for today's date and e-mails billing operations if it fails."
+        },
+        {
+          "name": "InvoiceWriter",
+          "fact_id": "file:56e3f187c7988bcd",
+          "what_it_does": "Writes one open invoice per customer, due in one month, and records it in the audit trail."
+        }
+      ],
+      "controls": [
+        "The launch script checks the job's return code and e-mails billing operations when it is not zero."
+      ],
+      "restart": "Autosys retries the invoice job once; after that the job is re-run by hand for the same date."
+    },
+    {
+      "job_id": "entry:8b73a66b154c7377",
+      "purpose": "Marks invoices as paid when the bank confirms a payment.",
+      "when": "Whenever the bank sends a payment notification; no schedule.",
+      "steps": [
+        {
+          "order": 1,
+          "description": "Read the payment notification and settle the matching payment.",
+          "fact_ids": [
+            "file:d4092875766572a1"
+          ]
+        }
+      ],
+      "inputs": [
+        "Payment notifications from the bank"
+      ],
+      "outputs": [
+        "Settled payments"
+      ],
+      "on_failure": "The message is not acknowledged and the error is raised; the queue keeps the notification.",
+      "business_impact": "Paid invoices stay open and customers may be chased for money they paid.",
+      "programs": [
+        {
+          "name": "PaymentListener",
+          "fact_id": "entry:8b73a66b154c7377",
+          "what_it_does": "Takes the payment number from each message and settles that payment."
+        }
+      ],
+      "controls": [],
+      "restart": "",
+      "evidence": [
+        {
+          "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+          "line": 19
         }
       ]
     }

@@ -7,11 +7,12 @@ Goal: business and functional readers understand what the application does, scre
 - Facts: `Service.sql` (ids of the SQL statements a service reaches) so screens and batches can be joined to tables; `BatchJob.description` and `BatchJob.on_failure` (Autosys `description`, `alarm_if_fail`, `n_retrys`, `max_run_alarm`, `term_run_time`, `box_failure`, `send_notification`, ...).
 - `report/flows.py` builds, from facts only:
   - one **screen flow** per screen: screens it comes from, the screen, services that load it or that it submits to / opens, the tables those services touch with C/R/U/D, other systems called, screens it leads to;
-  - one **batch flow** per Autosys box or stand-alone job: what starts it (schedule, file watcher, the job that runs it), steps in predecessor order with success/failure conditions, what each step runs, tables, files and systems, failure handling in plain words, and a week calendar of start times.
+  - one **batch flow** per Autosys box or stand-alone job: what starts it (schedule, file watcher, the job that runs it), steps in predecessor order with success/failure conditions, what each step runs, tables, files and systems, failure handling in plain words, and a week calendar of start times;
+  - one **batch flow** per batch script, C/COBOL program or listener that no scheduler fact starts ("no schedule found"), so missing scheduler inputs never empty the Batch page; every batch shows the header comments of its sources.
 
 ## Agent side (Copilot, validated by `legacy-audit validate`)
 
-- Stage 12 **Functional** (`functional.json`): summary, domains and capabilities, actors, use cases, business rules, data entities, one story per screen and per batch (purpose, user actions or steps, inputs/outputs, on failure, business impact), interfaces, glossary. Every claim cites evidence or is marked as an assumption; every id must exist.
+- Stage 12 **Functional** (`functional.json`): summary, domains and capabilities, actors, use cases, business rules, data entities, one story per screen and per batch (purpose, user actions or steps, inputs/outputs, on failure, business impact; for batches also what each program does, controls in the code and restart, read from the sources and their comments), interfaces, glossary. Every claim cites evidence or is marked as an assumption; every id must exist.
 - Stage 13 **Component documentation** (`component_docs.json`): purpose, responsibilities, key elements, inputs/outputs, tables, tech debt, migration notes per component.
 - The agent reads everything the scan found before writing (checklist in the prompt file).
 

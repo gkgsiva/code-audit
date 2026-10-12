@@ -356,8 +356,19 @@ class BatchStep(_Base):
     fact_ids: list[str] = Field(default_factory=list)
 
 
+class ProgramNote(_Base):
+    name: str = Field(description="Program, script or SQL file the batch runs")
+    fact_id: str | None = Field(None, description="Its service, file or entry-point id")
+    what_it_does: str = Field(
+        description="What it does in business words, from its code and its comments"
+    )
+
+
 class BatchStory(Claim):
-    job_id: str = Field(description="The box or job id (batch_job:...)")
+    job_id: str = Field(
+        description="The batch flow's id: the box or job (batch_job:...), or for batch work no "
+        "scheduler starts, the script (file:...), program (service:...) or listener (entry:...)"
+    )
     purpose: str = Field(description="Why the batch exists, in business words")
     when: str = Field("", description="When it runs, in business words")
     steps: list[BatchStep] = Field(default_factory=list)
@@ -365,6 +376,14 @@ class BatchStory(Claim):
     outputs: list[str] = Field(default_factory=list, description="Data it produces")
     on_failure: str = Field("", description="What happens and who acts when it fails")
     business_impact: str = Field("", description="What the business feels if it does not run")
+    programs: list[ProgramNote] = Field(
+        default_factory=list, description="What each program or script it runs does"
+    )
+    controls: list[str] = Field(
+        default_factory=list,
+        description="Checks, totals, reconciliations and error exits found in the code",
+    )
+    restart: str = Field("", description="How it is re-run after a failure, if the code says")
 
 
 class Interface(Claim):

@@ -23,13 +23,22 @@
       {% if story.inputs %}<div><strong>Reads</strong><ul class="compact">{% for x in story.inputs %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
       {% if story.outputs %}<div><strong>Produces</strong><ul class="compact">{% for x in story.outputs %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
     </div>
+    {% if story.programs %}<h3>What each program does</h3><table class="data"><tbody>{% for pg in story.programs %}<tr><td><code>{{ pg.name }}</code></td><td>{{ pg.what_it_does }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+    {% if story.controls %}<p><strong>Checks and controls in the code:</strong></p><ul class="compact">{% for x in story.controls %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
     {% if story.on_failure %}<p><strong>When it fails:</strong> {{ story.on_failure }}</p>{% endif %}
+    {% if story.restart %}<p><strong>Re-running it:</strong> {{ story.restart }}</p>{% endif %}
     {% if story.business_impact %}<p><strong>If it does not run:</strong> {{ story.business_impact }}</p>{% endif %}
   {% endif %}
   <p class="note">{% for l in story.links %}{{ m.ev(l) }} {% endfor %}{% if story.assumption %}assumption{% endif %}</p>
 </div>
 {% endif %}
 
+{% if f.kind == "batch" and comments %}
+<div class="panel" style="margin-top:16px"><h3>What the code says about itself</h3>
+<p class="note">Copied from the header comment of each program or script this batch runs (not checked: comments can be out of date).</p>
+{% for c in comments %}<p><code>{{ c.file.rsplit("/", 1)[-1] }}</code> <span class="note">{{ m.ev(c.link) }}</span><br>{{ c.lines | join(" ") }}</p>{% endfor %}
+</div>
+{% endif %}
 {% if f.kind == "batch" %}
 <div class="grid2" style="margin-top:16px">
 <div class="panel"><h3>When it runs</h3>
@@ -40,7 +49,7 @@
   {% if f.after %}<p><strong>Followed by:</strong> {{ f.after | join(", ") }}</p>{% endif %}
 </div>
 <div class="panel"><h3>When it fails</h3>
-  {% if f.on_failure %}<ul class="compact">{% for x in f.on_failure %}<li>{{ x }}</li>{% endfor %}</ul>{% else %}<p class="muted">No failure handling found in the scheduler definition (no alarm, retry or failure condition). Check the scripts and the operations runbook.</p>{% endif %}
+  {% if f.on_failure %}<ul class="compact">{% for x in f.on_failure %}<li>{{ x }}</li>{% endfor %}</ul>{% elif f.schedule.scheduler in ("none", "event") %}<p class="muted">No scheduler definition, so no alarm or retry is known. Check the script's exit codes and the operations runbook.</p>{% else %}<p class="muted">No failure handling found in the scheduler definition (no alarm, retry or failure condition). Check the scripts and the operations runbook.</p>{% endif %}
 </div>
 </div>
 <h2>Steps</h2>

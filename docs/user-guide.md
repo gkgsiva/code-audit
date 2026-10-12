@@ -108,6 +108,9 @@ PowerPoint for the selected run, then **Open** them.
   and every batch (what starts it, its steps, tables and files, what happens when it fails, a
   week calendar), business rules, data, interfaces and a glossary. The pictures are there straight
   after a scan; the explanations appear once Copilot has run `/audit-enrich functional`.
+  Batch scripts and programs are listed even when no scheduler export (Autosys, JCL, crontab) was
+  provided: they show **no schedule found**, and **What the code says** quotes the comments at
+  the top of their source files.
 - **Management deck and PowerPoint**: a coloured slide opens each section; graphics (gauges,
   flows, heat maps, roadmap) are real PowerPoint charts, tables and shapes, so you can edit them. **Download data pack (ZIP)** gives `run.json`, every fact file (JSON, CSV,
 SQLite), the SBOM and the enrichment, for Excel users or another tool.

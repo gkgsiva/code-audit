@@ -390,6 +390,7 @@ class _FnPages(_Pages):
             "Batch",
             batch_flows=self.batch_flows,
             stories=self.batch_story,
+            said=self.batch_said,
             week=flows.week_grid(self.batch_flows),
             days=flows.DAY_NAMES,
             gaps=[
