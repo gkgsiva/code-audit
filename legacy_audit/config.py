@@ -312,7 +312,11 @@ class Branding(Strict):
     primary_color: str = "#1f4e79"
     accent_color: str = "#2e75b6"
     font: str = "Segoe UI, Arial, sans-serif"
-    pptx_template: str | None = None
+    pptx_template: str | None = Field(
+        None,
+        description="PowerPoint template: a name from templates/ (blue, orange, purple), a file "
+        "name or a .potx path relative to audit.yaml; None means the first template found",
+    )
 
 
 class InventoryConfig(Strict):

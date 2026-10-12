@@ -194,7 +194,7 @@ def test_doctor_without_node_or_dependency_check(
     import legacy_audit.report.pptx as pptx
 
     monkeypatch.setattr(pptx, "_node", lambda: None)
-    monkeypatch.setattr(pptx, "_mmdc", lambda pdir: None)
+    monkeypatch.setattr(pptx, "_mmdc", lambda: None)
     monkeypatch.setattr(doctor.shutil, "which", lambda name: None)
     checks = {c.name: c for c in doctor.run_checks(output_dir=tmp_path / "out")}
     assert checks["Node.js"].status == "missing" and not checks["Node.js"].required

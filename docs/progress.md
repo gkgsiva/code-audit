@@ -183,8 +183,8 @@ Copilot agent in VS Code once.
   screens shows all its tables on each of them (decision 97). Flows of very large boxes are
   readable in HTML (Mermaid) but crowded on a PPTX slide; the deck shows the 3 largest screens and
   batches only.
-- PPTX: diagrams are pictures only when Mermaid CLI is installed; the corporate master
-  (`branding.pptx_template`) is not applied yet; long tables are cut to 10 rows per slide.
+- PPTX: diagrams are pictures only when Mermaid CLI is installed; long tables are cut to 10 rows
+  per slide. (The corporate template is applied since 2026-10-12, see below.)
 
 ## Phase 7 follow-up: batches without scheduler inputs (2026-10-12)
 
@@ -220,3 +220,22 @@ Asked for by Siva: "make it model agnostic so that I can use any model for AI en
   how many rows were left out), so on a large estate Copilot (which queries the facts itself) or
   a large-context model gives better results; small local models may need several repair rounds
   or a smaller `context_chars`. Per-component looping for large estates is not done yet.
+
+## Corporate PowerPoint templates (2026-10-12)
+
+Asked for by Siva: use the three corporate templates added in `templates/`, let people choose one on
+the reports page, and keep the PPT strictly on those templates.
+
+- Done: the PPTX is built by Python (`python-pptx`) on the chosen `.potx`: cover, contents,
+  chapter pages and the closing page are the template's own layouts, content slides use its
+  `TEXT`/`TEXT_DOUBLE` layouts, and every chart, table and shape uses its theme colours and font.
+  Node and `pptxgenjs` are no longer needed (Node only for Mermaid pictures). The reports page has
+  a template picker with previews (remembered per browser); `report --template blue|orange|purple`;
+  `branding.pptx_template` sets the default. VS Code task 8 now builds the PPTX on a chosen
+  template. Decisions 110–112.
+- Checked: tests build the Struts deck on all three templates (template theme and layouts kept,
+  no sample text left, every deck title present, native charts and tables); the slides were
+  rendered and reviewed.
+- Known gaps: text fitting is estimated (PowerPoint does not shrink text it was not asked to), so a
+  very long bullet list can still run past a box; the font is the template's embedded
+  Renault Group font, which LibreOffice previews with a substitute.

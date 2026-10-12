@@ -88,6 +88,7 @@ class EnrichBody(BaseModel):
 
 class ReportBody(BaseModel):
     type: str = "tech"
+    template: str | None = None  # PowerPoint template id; None: audit.yaml, else the first
 
 
 class OpenBody(BaseModel):
@@ -688,13 +689,57 @@ def create_app(
             "mgmt": "mgmt/index.html",
             "pptx": "deck.pptx",
         }
+        deck = _read_json(rd / "mgmt" / "deck.json") or {}
+        used = deck.get("pptx_template") or {}
         return {
             "run_id": rd.parent.name,
             "reports": {
                 k: f"/runs/{rd.parent.name}/reports/{p}" if (rd / p).is_file() else None
                 for k, p in found.items()
             },
+            "pptx_template": used.get("label") if (rd / "deck.pptx").is_file() else None,
         }
+
+    @app.get("/api/pptx-templates")
+    def pptx_templates() -> dict[str, Any]:
+        from legacy_audit.report.pptx_templates import (
+            TemplateError,
+            list_templates,
+            resolve_template,
+        )
+
+        found = list_templates()
+        default = found[0].id if found else None
+        if ws.config_path.exists():
+            with contextlib.suppress(HTTPException, TemplateError):
+                loaded = ws.loaded()
+                default = resolve_template(
+                    loaded.config.branding.pptx_template, loaded.path.parent
+                ).id
+        return {
+            "templates": [
+                {
+                    "id": t.id,
+                    "label": t.label,
+                    "file": t.path.name,
+                    "thumbnail": f"/api/pptx-templates/{t.id}/thumbnail.jpg",
+                }
+                for t in found
+            ],
+            "default": default,
+        }
+
+    @app.get("/api/pptx-templates/{template_id}/thumbnail.jpg")
+    def pptx_template_thumbnail(template_id: str) -> Response:
+        from legacy_audit.report.pptx_templates import list_templates, thumbnail
+
+        for t in list_templates():
+            if t.id == template_id:
+                data = thumbnail(t.path)
+                if data is None:
+                    break
+                return Response(data, media_type="image/jpeg")
+        raise HTTPException(404, f"No preview for template '{template_id}'")
 
     @app.post("/api/runs/{run}/reports")
     def build_reports(run: str, body: ReportBody) -> dict[str, Any]:
@@ -721,7 +766,7 @@ def create_app(
                 build_mgmt_report(run_dir, branding, config_dir)
             if body.type in ("pptx", "all"):
                 job.emit("progress", stage="PowerPoint", n=0, total=0)
-                res = build_pptx(run_dir, branding, config_dir)
+                res = build_pptx(run_dir, branding, config_dir, body.template)
                 out["messages"].append(res.message)
             out.update(reports(run_dir.name))
             return out

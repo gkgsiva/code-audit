@@ -655,21 +655,53 @@
     api("GET", "/api/runs/" + run + "/enrichment").then(draw).catch(fail);
   }
 
+  // The PowerPoint template picked on the Reports page: remembered in this browser, else the
+  // one audit.yaml names (branding.pptx_template), else the first in templates/.
+  var TPL_KEY = "legacy-audit.pptx-template";
+  var templateChoice = null;
+  function chosenTemplate() { return templateChoice; }
+  function drawTemplates(host) {
+    api("GET", "/api/pptx-templates").then(function (d) {
+      if (!d.templates.length) {
+        host.appendChild(el("p", { class: "hint", text: "No template found: put the corporate .potx files in the templates folder. The PowerPoint is skipped until then." }));
+        return;
+      }
+      var saved = null;
+      try { saved = localStorage.getItem(TPL_KEY); } catch (e) { saved = null; }
+      var ids = d.templates.map(function (t) { return t.id; });
+      templateChoice = ids.indexOf(saved) >= 0 ? saved : (d["default"] || ids[0]);
+      var grid = el("div", { class: "tpl-grid", role: "radiogroup", "aria-label": "PowerPoint template" });
+      d.templates.forEach(function (t) {
+        var input = el("input", { type: "radio", name: "pptx-template", value: t.id, checked: t.id === templateChoice,
+          onchange: function () { templateChoice = t.id; try { localStorage.setItem(TPL_KEY, t.id); } catch (e) { /* private window */ } } });
+        grid.appendChild(el("label", { class: "tpl", title: t.file }, [
+          el("img", { src: t.thumbnail, alt: t.label + " template preview", loading: "lazy" }),
+          el("span", null, [input, " " + t.label])
+        ]));
+      });
+      host.appendChild(grid);
+      host.appendChild(el("p", { class: "hint", text: "Every slide of the PowerPoint uses this template's own layouts, colours and fonts. Your choice is remembered in this browser." }));
+    }).catch(fail);
+  }
+
   // ---------------------------------------------------------------- 8. reports
   function screenReports(node) {
-    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint needs Node.js and pptxgenjs (see Project setup > Tools)."));
+    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint is built on the corporate template you pick below."));
     if (needConfig(node) || needRun(node)) return;
     var run = currentRun();
     var running = state.job && state.job.state === "running";
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("reports", v); })])]));
+    var tplHost = el("fieldset", { class: "templates" }, [el("legend", { text: "PowerPoint template" })]);
+    node.appendChild(tplHost);
     node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["all", "Build all"]].map(function (b) {
-      return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0] })); } });
+      return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0], template: chosenTemplate() })); } });
     })));
+    drawTemplates(tplHost);
     var host = el("div");
     node.appendChild(host);
     jobListeners = [function (ev) { if (ev.type === "end" && ev.result && ev.result.messages) ev.result.messages.forEach(function (m) { toast(m, !/written/.test(m)); }); }];
     api("GET", "/api/runs/" + run + "/reports").then(function (d) {
-      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" };
+      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : "") };
       host.appendChild(table([
         { label: "Report", value: function (r) { return names[r.k]; } },
         { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: r.k === "pptx" ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }
