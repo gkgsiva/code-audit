@@ -6,7 +6,6 @@ pictures, vulnerability data, JDK checks, Git sources) and its absence is report
 
 from __future__ import annotations
 
-import json
 import shutil
 import subprocess
 import sys
@@ -56,7 +55,9 @@ def _python() -> Check:
 
 
 def _packages() -> Check:
-    names = ("typer", "pydantic", "sqlglot", "tree-sitter", "Jinja2", "fastapi", "uvicorn")
+    names = (
+        "typer", "pydantic", "sqlglot", "tree-sitter", "Jinja2", "fastapi", "uvicorn", "python-pptx"
+    )  # fmt: skip
     missing = []
     for n in names:
         try:
@@ -80,7 +81,7 @@ def _node() -> Check:
     exe = node_path()
     if exe is None:
         return Check(
-            "Node.js", "missing", False, "not on PATH", "PowerPoint deck and diagram pictures"
+            "Node.js", "missing", False, "not on PATH", "diagram pictures in the PowerPoint"
         )
     raw = _version([exe, "--version"]) or ""
     try:
@@ -91,30 +92,28 @@ def _node() -> Check:
     detail = f"{raw or 'unknown version'} at {exe}" + (
         "" if status == "ok" else f" (need {MIN_NODE}+)"
     )
-    return Check("Node.js", status, False, detail, "PowerPoint deck and diagram pictures")
+    return Check("Node.js", status, False, detail, "diagram pictures in the PowerPoint")
 
 
-def _pptxgenjs() -> Check:
-    from legacy_audit.report.pptx import builder_dir
+def _templates() -> Check:
+    from legacy_audit.report.pptx_templates import list_templates, template_dirs
 
-    pdir = builder_dir()
-    if pdir is None:
-        return Check("pptxgenjs", "missing", False, "PPTX builder not found", "PowerPoint deck")
-    pkg = pdir / "node_modules" / "pptxgenjs" / "package.json"
-    if not pkg.is_file():
+    found = list_templates()
+    if not found:
+        where = " or ".join(str(d) for d in template_dirs())
         return Check(
-            "pptxgenjs", "missing", False, f"run 'npm install' in {pdir}", "PowerPoint deck"
+            "PowerPoint templates", "missing", False, f"no .potx file in {where}", "PowerPoint deck"
         )
-    version = json.loads(pkg.read_text(encoding="utf-8")).get("version", "?")
-    return Check("pptxgenjs", "ok", False, f"{version} in {pdir}", "PowerPoint deck")
+    names = ", ".join(t.label for t in found)
+    return Check(
+        "PowerPoint templates", "ok", False, f"{names} in {found[0].path.parent}", "PowerPoint deck"
+    )
 
 
 def _mmdc() -> Check:
     from legacy_audit.report.pptx import _mmdc as mmdc_path
-    from legacy_audit.report.pptx import builder_dir
 
-    pdir = builder_dir()
-    exe = mmdc_path(pdir) if pdir else shutil.which("mmdc")
+    exe = mmdc_path()
     return Check(
         "Mermaid CLI (mmdc)",
         "ok" if exe else "missing",
@@ -152,7 +151,7 @@ def run_checks(cfg: AuditConfig | None = None, output_dir: Path | None = None) -
     if output_dir is not None:
         out.append(_writable(output_dir))
     node = _node()
-    out += [node, _pptxgenjs(), _mmdc()]
+    out += [_templates(), node, _mmdc()]
     dc = find_tool(
         sec.dependency_check.path,
         ("dependency-check", "dependency-check.sh", "dependency-check.bat"),

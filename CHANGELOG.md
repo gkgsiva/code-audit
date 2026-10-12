@@ -6,6 +6,15 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Corporate PowerPoint templates (2026-10-12)
+
+- The PPTX is built on the corporate templates in `templates/` (Renault Group Blue, Orange and
+  Purple): the template's cover, contents, chapter and closing pages, its content layouts, theme
+  colours and font on every slide. Pick one on the GUI's reports page (with previews), with
+  `legacy-audit report --template`, or with `branding.pptx_template`.
+- The PPTX no longer needs Node.js or `npm install`: it is built in Python (`python-pptx`). Node
+  is only for diagram pictures (Mermaid CLI). `doctor` lists the templates found.
+
 ### Model-agnostic AI enrichment (2026-10-12)
 
 - `legacy-audit enrich`: write the enrichment with any model (OpenAI-compatible endpoints such as

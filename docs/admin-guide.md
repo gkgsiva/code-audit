@@ -11,8 +11,8 @@ each missing tool costs.
 | Tool | Needed for | Without it |
 | --- | --- | --- |
 | Python 3.11+ | everything | — |
-| Node.js 18+ and `npm install` in the PPTX builder | `deck.pptx` | the PPTX is skipped with a message; the HTML deck still works |
-| Mermaid CLI (`mmdc`) | diagram pictures inside the PPTX | the PPTX slide carries the Mermaid text in its notes |
+| Corporate `.potx` templates in `templates/` (shipped with the tool) | `deck.pptx` | the PPTX is skipped with a message; the HTML deck still works |
+| Node.js 18+ and Mermaid CLI (`mmdc`) | diagram pictures inside the PPTX | the PPTX slide carries the Mermaid text in its notes |
 | OWASP Dependency-Check or OSV-Scanner | vulnerability data during the scan | import their JSON reports into `audit-inputs/security/` instead |
 | JDK 17+ (`jdeps`) | Java 25 internal-API checks on jars (`security.jdk_tools.enabled`) | the check is skipped and listed as a coverage gap |
 | Git | Git sources (`source.type: git`) | use local folders |
@@ -41,10 +41,9 @@ On a machine with access, collect everything once:
 
 ```
 pip wheel legacy_audit-<version>-py3-none-any.whl -w wheelhouse
-cd <site-packages>/legacy_audit/_pptx  (or pptx/ in a checkout)  &&  npm ci  &&  cd ..
 ```
 
-Copy `wheelhouse/` (and, for the PPTX, the `_pptx/node_modules` folder) to the offline machine:
+Copy `wheelhouse/` to the offline machine (the PowerPoint templates are inside the wheel):
 
 ```
 pip install --no-index --find-links wheelhouse legacy-audit
@@ -94,11 +93,22 @@ branding:
   primary_color: "#1f4e79"
   accent_color: "#2e75b6"
   font: "Segoe UI, Arial, sans-serif"
-  pptx_template: null              # reserved: pptxgenjs cannot load a corporate master yet
+  pptx_template: blue              # PowerPoint template: blue, orange, purple or a .potx path
 ```
 
 Share one `branding:` block across teams by copying it into each `audit.yaml`. Colours and font
 are checked before they reach the HTML (no CSS can be injected through them).
+
+### PowerPoint templates
+
+The PPTX is always built on a corporate template, never on a generic design. The three Renault
+Group templates (`RG_TEMPLATE_PPT_HD_BLUE/ORANGE/PURPLE.potx`) live in `templates/` and are packaged
+into the wheel; the reports page and `--template` offer them as Blue, Orange and Purple. To add or
+replace a template, drop the `.potx` into `templates/` (or point `LEGACY_AUDIT_TEMPLATES_DIR` at a
+folder of them). A template must have the slide layouts `COVER_1`, `SUMMARY`, `CHAPTER_1` to
+`CHAPTER_4`, `TEXT`, `TEXT_DOUBLE` and `END` with the same placeholders as the Renault Group ones;
+otherwise the PPTX fails with a message naming what is missing. `branding.logo`, colours and font do
+not apply to the PPTX: the template's own logo, theme colours and fonts are used.
 
 ## Rule packs
 

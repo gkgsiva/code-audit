@@ -91,9 +91,9 @@ the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-orac
   new run; stages whose facts changed are marked stale.
 - `reports/mgmt/` and `reports/deck.pptx` – written by `legacy-audit report --type mgmt|pptx|all`:
   `deck.json` (the slides as data), an offline HTML deck (arrow keys, `N` for notes, print to PDF)
-  and an editable PowerPoint with native charts. The PPTX needs Node.js 18+ and `npm install` once
-  in `pptx/`; without them it is skipped with a message. Slides whose enrichment is missing show
-  a placeholder.
+  and an editable PowerPoint with native charts, built on a corporate template from `templates/`
+  (Blue, Orange or Purple: `--template`, `branding.pptx_template` or the GUI's reports page). Slides
+  whose enrichment is missing show a placeholder.
 - `reports/tech/` – written by `legacy-audit report`: `index.html` (overview), one page per
   component, architecture diagrams, catalogues (services, screens, SQL, DB objects, CRUD matrix,
   integrations, batch jobs, libraries, findings) with search, filters, sorting and paging,
