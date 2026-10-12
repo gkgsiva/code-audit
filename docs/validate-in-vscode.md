@@ -244,3 +244,38 @@ in the terminal.
    the functional document`. Open **Batch** > **BIL_NIGHTLY_BOX**: the AI box now lists what
    each program does, the controls found in the code and how to restart. With a real Copilot
    run, `/audit-enrich functional` writes these from the batch sources.
+
+## Model-agnostic AI enrichment
+
+Same on Windows and WSL2. Set environment variables in the terminal VS Code opens tasks in:
+Windows PowerShell `setx NAME "value"` then restart VS Code; WSL2
+`echo 'export NAME="value"' >> ~/.bashrc` then open a new terminal (or close and reopen the WSL
+window).
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_ai.py` (it runs a
+   fake OpenAI-compatible model locally, so no key is needed).
+2. Run `audit: 14. check installed tools (doctor)`: the last row, **AI model**, says
+   "Copilot in VS Code" (the default).
+3. **Pick a model.** Either:
+   - a cloud model: set `LEGACY_AUDIT_AI_PROVIDER=anthropic`, `LEGACY_AUDIT_AI_MODEL=<model>`
+     and `ANTHROPIC_API_KEY` (or `openai` + `OPENAI_API_KEY`; Azure needs
+     `LEGACY_AUDIT_AI_BASE_URL` and `AZURE_OPENAI_API_KEY`, with the deployment as the model);
+   - or a local one: install Ollama, `ollama pull qwen2.5:14b`, start it with
+     `OLLAMA_CONTEXT_LENGTH=32768`, and set `LEGACY_AUDIT_AI_PROVIDER=ollama`,
+     `LEGACY_AUDIT_AI_MODEL=qwen2.5:14b`.
+   Restart VS Code (Windows) or open a new WSL terminal so tasks see the variables.
+4. Run `audit: 14` again: **AI model** shows the provider, model and address (or which key
+   variable is missing). Then run `audit: 19. test the AI model settings (enrich --check)` with
+   any sample: it prints "... answered correctly".
+5. Run `audit: 4. scan a sample` with `spring-mvc-batch-app`, then
+   `audit: 20. AI enrichment with the configured model (missing and stale stages)` with the same
+   sample. Each stage prints "valid after N round(s)" (or the errors left). Then run
+   `audit: 17. build and open the functional document`: the Batch page carries the model's
+   stories, and each enrichment file's `meta.author` names the model.
+6. **In the GUI**: run `audit: 13. start the GUI on a sample`, open **7. AI enrichment**: with a
+   provider set, the panel "Run here with <model>" has **Run missing and stale stages** and
+   **Run all stages**; progress shows in the top bar.
+7. **Copilot with a pinned model**: in a sample's `audit.yaml` set
+   `ai: {copilot_model: "Claude Sonnet 4.5 (copilot)"}` (keep `provider: copilot`), run
+   `audit: 9. install Copilot files into a sample (init)`, and open
+   `.github/agents/legacy-auditor.agent.md`: its header has the `model:` line.

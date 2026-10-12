@@ -330,6 +330,70 @@ def validate(
 
 
 @app.command()
+def enrich(
+    stage: Annotated[
+        list[str] | None, typer.Option("--stage", "-s", help="Only these stages (repeatable)")
+    ] = None,
+    stale: Annotated[
+        bool, typer.Option("--stale", help="Only the stages that are missing or stale")
+    ] = False,
+    provider: Annotated[
+        str | None,
+        typer.Option(help="copilot, openai, anthropic, azure-openai or ollama (else ai.provider)"),
+    ] = None,
+    model: Annotated[str | None, typer.Option(help="Model name (else ai.model)")] = None,
+    base_url: Annotated[str | None, typer.Option("--base-url", help="Endpoint URL")] = None,
+    check: Annotated[
+        bool, typer.Option("--check", help="Only test the model settings with a tiny request")
+    ] = False,
+    run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
+    config: ConfigOpt = Path("audit.yaml"),
+    output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
+) -> None:
+    """Write the AI enrichment with any model (OpenAI-compatible, Anthropic, Azure, Ollama).
+
+    Copilot in VS Code stays the default (/audit-enrich); this runs the same stages from the
+    command line with the model set in audit.yaml (ai:) or LEGACY_AUDIT_AI_* variables. The
+    API key is read from an environment variable, never from the config.
+    """
+    from legacy_audit.ai.providers import AiError, Client, settings
+    from legacy_audit.ai.runner import check as check_model
+    from legacy_audit.ai.runner import enrich as run_enrich
+    from legacy_audit.ai.runner import pick_stages
+
+    try:
+        loaded = load_config(config)
+    except ConfigError as err:
+        raise _fail(str(err)) from None
+    try:
+        s = settings(loaded.config.ai, provider=provider, model=model, base_url=base_url)
+        client = Client(s)  # fails early on copilot, a missing model or key settings
+        if check:
+            console.print(check_model(s, client))
+            return
+        run_dir, _ = _resolve(config, run, output_dir)
+        stages = pick_stages(run_dir, stage, stale)
+        if not stages:
+            console.print("Nothing to do: every stage is present and up to date.")
+            return
+        console.print(f"Enriching {run_dir.name} with {s.label}: {len(stages)} stage(s).")
+        results = run_enrich(run_dir, s, stages, client, progress=console.print)
+    except AiError as err:
+        raise _fail(str(err)) from None
+    for res in results:
+        for e in res.errors[:10]:
+            console.print(f"[red]{res.stage}: {e}[/red]")
+    failed = [r.stage for r in results if not r.ok]
+    console.print(
+        f"{len(results) - len(failed)} stage(s) valid, {len(failed)} with errors"
+        + (f" ({', '.join(failed)})" if failed else "")
+        + ". Build the reports with 'legacy-audit report --type all'."
+    )
+    if failed:
+        raise typer.Exit(code=1)
+
+
+@app.command()
 def facts(
     kind: Annotated[str, typer.Argument(help="services, screens, sql_statements, ...")],
     filter_: Annotated[

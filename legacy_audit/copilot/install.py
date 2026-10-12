@@ -52,15 +52,16 @@ def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
-def assets(layout: str) -> dict[str, str]:
-    """Relative path -> content for a layout."""
+def assets(layout: str, model: str | None = None) -> dict[str, str]:
+    """Relative path -> content for a layout; ``model`` pins the agent's chat model."""
     if layout not in LAYOUTS:
         raise ValueError(f"layout must be one of {', '.join(LAYOUTS)}")
     out: dict[str, str] = {}
     if layout == "none":
         return out
     body = _asset("agent.md")
-    head = f"---\ndescription: {DESCRIPTION}\ntools: {TOOLS}\n---\n\n"
+    pin = f"model: {json.dumps(model)}\n" if model else ""
+    head = f"---\ndescription: {DESCRIPTION}\ntools: {TOOLS}\n{pin}---\n\n"
     if layout in ("agents", "both"):
         out[f".github/agents/{AGENT}.agent.md"] = head + body
     if layout in ("chatmodes", "both"):
@@ -81,7 +82,7 @@ def assets(layout: str) -> dict[str, str]:
     return out
 
 
-def install(folder: Path, layout: str = "both") -> list[Installed]:
+def install(folder: Path, layout: str = "both", model: str | None = None) -> list[Installed]:
     manifest_path = folder / MANIFEST
     try:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -89,7 +90,7 @@ def install(folder: Path, layout: str = "both") -> list[Installed]:
         manifest = {}
     recorded: dict[str, str] = manifest.get("files", {})
     done: list[Installed] = []
-    for rel, content in assets(layout).items():
+    for rel, content in assets(layout, model).items():
         target = folder / rel
         new_sha = _sha(content)
         if not target.exists():

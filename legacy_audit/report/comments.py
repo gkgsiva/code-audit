@@ -27,9 +27,14 @@ _USERINFO = re.compile(r"(\w+)/[^\s@/]+@")  # user/password@db (sqlplus)
 _CLASS = re.compile(r"^\s*(public\s+|abstract\s+|final\s+)*(class|interface|enum)\s")
 
 
-def _clean(text: str) -> str:
+def mask_secrets(text: str) -> str:
+    """Hide passwords, tokens and user/password@db credentials in a line of source."""
     text = _SECRET.sub(lambda m: m.group(1) + "****", text)
-    text = _USERINFO.sub(lambda m: m.group(1) + "/****@", text)
+    return _USERINFO.sub(lambda m: m.group(1) + "/****@", text)
+
+
+def _clean(text: str) -> str:
+    text = mask_secrets(text)
     text = " ".join(text.split())
     return text if len(text) <= MAX_WIDTH else text[: MAX_WIDTH - 1] + "…"
 

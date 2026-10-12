@@ -190,6 +190,24 @@
         "command": ".venv\\Scripts\\python scripts\\scan_without_inputs.py samples\\${input:sample} --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 19. test the AI model settings (enrich --check)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit enrich --check -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit enrich --check -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 20. AI enrichment with the configured model (missing and stale stages)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit enrich --stale -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit enrich --stale -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
     }
   ]
 }
