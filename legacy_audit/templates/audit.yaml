@@ -114,14 +114,15 @@ security:
     enabled: false               # true: run jdeps / jdeprscan on jars (needs a JDK; slow)
     java_home: null
 
-# Report branding; the neutral default theme is used until a corporate template is added.
+# Report branding for the HTML reports. The PowerPoint always uses a corporate template from
+# templates/ (its own colours, fonts and logo); pptx_template picks which: blue, orange or purple.
 branding:
   theme: neutral
   logo: null
   primary_color: "#1f4e79"
   accent_color: "#2e75b6"
   font: "Segoe UI, Arial, sans-serif"
-  pptx_template: null
+  pptx_template: null           # null: the first template (Blue); or blue, orange, purple, a .potx path
 
 inventory:
   include_binaries: false        # images/objects/executables; jar/war/ear/zip are always listed

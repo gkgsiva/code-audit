@@ -214,6 +214,14 @@ def report(
     config: ConfigOpt = Path("audit.yaml"),
     output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
     open_: Annotated[bool, typer.Option("--open", help="Open the report in the browser")] = False,
+    template: Annotated[
+        str | None,
+        typer.Option(
+            "--template",
+            help="PowerPoint template: blue, orange, purple (the files in templates/) or a "
+            ".potx path; default: branding.pptx_template, else the first template",
+        ),
+    ] = None,
 ) -> None:
     """Build reports from a run (default: the latest) into <run>/reports/."""
     from legacy_audit.report.functional import build_functional_report
@@ -246,11 +254,14 @@ def report(
         console.print(f"[bold green]Management deck[/bold green] -> {deck}")
         to_open = to_open or deck
     if type_ in ("pptx", "all"):
-        result = build_pptx(run_dir, branding, config_dir)
+        result = build_pptx(run_dir, branding, config_dir, template)
         if result.path is not None:
-            console.print(f"[bold green]PowerPoint[/bold green] -> {result.path}")
-            if result.message != "PPTX written.":
-                console.print(f"  {result.message.removeprefix('PPTX written. ')}")
+            console.print(
+                f"[bold green]PowerPoint[/bold green] ({result.template} template) -> {result.path}"
+            )
+            extra = result.message.split(" template).", 1)[-1].strip()
+            if extra:
+                console.print(f"  {extra}")
         else:
             console.print(f"[yellow]{result.message}[/yellow]")
             if type_ == "pptx":

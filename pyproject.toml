@@ -24,6 +24,7 @@ dependencies = [
     "Jinja2>=3.1",
     "fastapi>=0.115",
     "uvicorn>=0.30",
+    "python-pptx>=1.0",
 ]
 
 [project.optional-dependencies]
@@ -33,7 +34,6 @@ dev = [
     "mypy>=1.10",
     "types-PyYAML",
     "jsonschema>=4.21",
-    "python-pptx>=1.0",
     "httpx>=0.27",
 ]
 
@@ -49,10 +49,8 @@ packages = ["legacy_audit"]
 # Rule packs ship inside the package (legacy_audit/_rules) so an installed tool finds them.
 [tool.hatch.build.targets.wheel.force-include]
 "rules" = "legacy_audit/_rules"
-# The PPTX builder too (Node packages are installed with `npm install` in that folder).
-"pptx/build-pptx.js" = "legacy_audit/_pptx/build-pptx.js"
-"pptx/package.json" = "legacy_audit/_pptx/package.json"
-"pptx/package-lock.json" = "legacy_audit/_pptx/package-lock.json"
+# The corporate PowerPoint templates the PPTX is built on.
+"templates" = "legacy_audit/_pptx_templates"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -75,8 +73,13 @@ module = "legacy_audit.*"
 strict = true
 
 [[tool.mypy.overrides]]
+module = "pptx.*"  # python-pptx's own hints are partial; treat it as untyped
+follow_imports = "skip"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
 module = "tests.*"
 disallow_untyped_defs = false
 
 [tool.ruff.lint.isort]
-known-third-party = ["pptx"]  # python-pptx, not the pptx/ Node folder at the repo root
+known-third-party = ["pptx"]  # python-pptx

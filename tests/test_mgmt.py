@@ -16,9 +16,11 @@ from legacy_audit.cli import app
 from legacy_audit.config import Branding, load_config
 from legacy_audit.enrich.validate import validate_run
 from legacy_audit.report import pptx as pptx_mod
+from legacy_audit.report import pptx_templates
 from legacy_audit.report.deck_builder import SECTIONS, build_deck
 from legacy_audit.report.mgmt import build_mgmt_report
-from legacy_audit.report.pptx import build_pptx, builder_dir, render_diagrams
+from legacy_audit.report.pptx import build_pptx, render_diagrams
+from legacy_audit.report.pptx_templates import TemplateError, list_templates, resolve_template
 from legacy_audit.scan import run_scan
 from legacy_audit.security import vulns
 from tests.conftest import SAMPLES
@@ -115,33 +117,63 @@ def test_render_diagrams_sets_png(enriched: Path, monkeypatch: pytest.MonkeyPatc
     assert n == len(pngs) == 2 and all((mgmt / p).is_file() for p in pngs)
 
 
-def test_pptx_is_skipped_with_a_message_without_node(
-    enriched: Path, monkeypatch: pytest.MonkeyPatch
+def test_pptx_is_skipped_with_a_message_without_templates(
+    enriched: Path, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    monkeypatch.setattr(pptx_mod, "_node", lambda: None)
+    monkeypatch.setattr(pptx_templates, "template_dirs", lambda: [tmp_path / "none"])
     result = build_pptx(enriched)
-    assert result.path is None and "Node.js" in result.message
+    assert result.path is None and "no PowerPoint template found" in result.message
     assert (enriched / "reports" / "mgmt" / "deck.json").is_file()  # the deck data is still there
 
 
-def _pptx_ready() -> bool:
-    d = builder_dir()
-    return (
-        bool(shutil.which("node")) and d is not None and (d / "node_modules" / "pptxgenjs").is_dir()
-    )
+def test_the_three_corporate_templates_are_offered() -> None:
+    found = list_templates()
+    assert [t.label for t in found] == ["Blue", "Orange", "Purple"]
+    assert resolve_template(None).label == "Blue"  # the default
+    assert resolve_template("orange").id == "RG_TEMPLATE_PPT_HD_ORANGE"
+    assert resolve_template("RG_TEMPLATE_PPT_HD_PURPLE.potx").label == "Purple"
+    with pytest.raises(TemplateError, match="available: Blue, Orange, Purple"):
+        resolve_template("green")
+    assert all(pptx_templates.thumbnail(t.path) for t in found)  # previews for the GUI
 
 
-@pytest.mark.skipif(not _pptx_ready(), reason="Node.js or pptx/node_modules not installed")
-def test_pptx_has_native_charts_and_tables(enriched: Path) -> None:
+def _theme_xml(prs: Any) -> bytes:
+    master = prs.slide_masters[0].part
+    rel = next(r for r in master.rels.values() if r.reltype.endswith("/theme"))
+    return bytes(rel.target_part.blob)
+
+
+@pytest.mark.parametrize("choice", ["blue", "orange", "purple"])
+def test_pptx_is_built_strictly_on_the_chosen_template(enriched: Path, choice: str) -> None:
     from pptx import Presentation
     from pptx.enum.chart import XL_CHART_TYPE
     from pptx.enum.shapes import MSO_SHAPE_TYPE
 
-    result = build_pptx(enriched)
+    result = build_pptx(enriched, template=choice)
     assert result.path is not None, result.message
+    assert result.template == choice.title() and f"({choice.title()} template)" in result.message
     deck = json.loads((enriched / "reports" / "mgmt" / "deck.json").read_text(encoding="utf-8"))
+    assert deck["pptx_template"]["label"] == choice.title()
     prs = Presentation(str(result.path))
-    assert len(prs.slides) == len(deck["slides"])
+    tpl = Presentation(pptx_templates.template_bytes(resolve_template(choice).path))
+    # the template's own master, theme and layouts, and none of its sample slides
+    assert _theme_xml(prs) == _theme_xml(tpl)
+    assert [lay.name for lay in prs.slide_layouts] == [lay.name for lay in tpl.slide_layouts]
+    assert (prs.slide_width, prs.slide_height) == (tpl.slide_width, tpl.slide_height)
+    layouts = [s.slide_layout.name for s in prs.slides]
+    sections = [s for s in deck["slides"] if s["type"] == "section"]
+    content = [s for s in deck["slides"] if s["type"] == "content"]
+    assert layouts[:3] == ["COVER_1", "SUMMARY", "TEXT"]  # cover, contents, overview
+    assert layouts[-1] == "END"
+    assert len(prs.slides) == len(deck["slides"]) + 3
+    assert sum(n.startswith("CHAPTER_") for n in layouts) == len(sections)
+    assert sum(n in ("TEXT", "TEXT_DOUBLE") for n in layouts) == len(content) + 1
+    text = " ".join(
+        sh.text_frame.text for s in prs.slides for sh in s.shapes if sh.has_text_frame
+    ).lower()
+    assert "lorem" not in text and "chapter title" not in text and "main title" not in text
+    titles = [s["title"] for s in deck["slides"]]
+    assert all(t.lower() in text for t in titles)
     charts, tables, pictures = [], 0, 0
     for slide in prs.slides:
         for shape in slide.shapes:
@@ -151,15 +183,25 @@ def test_pptx_has_native_charts_and_tables(enriched: Path) -> None:
                 tables += 1
             elif shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
                 pictures += 1
+            if shape.has_text_frame:  # every run in the template's heading font or inherited
+                for p in shape.text_frame.paragraphs:
+                    assert all(r.font.name in (None, "+mj-lt") for r in p.runs)
     expected = [b for b in _blocks(deck, "chart") if b["values"]]
     gauges = sum(len(b["items"]) for b in _blocks(deck, "gauges"))  # one doughnut per gauge
     assert gauges and len(charts) == len(expected) + gauges
     assert {XL_CHART_TYPE.COLUMN_CLUSTERED, XL_CHART_TYPE.DOUGHNUT} <= set(charts)
-    assert XL_CHART_TYPE.LINE_MARKERS in charts or XL_CHART_TYPE.LINE in charts
+    assert XL_CHART_TYPE.LINE_MARKERS in charts
     assert tables == len(_blocks(deck, "table")) + len(_blocks(deck, "heatmap"))
     assert pictures == len([b for b in _blocks(deck, "diagram") if b.get("png")])  # no chart images
-    notes = prs.slides[0].notes_slide.notes_text_frame.text
-    assert notes  # speaker notes carried over
+    assert prs.slides[0].notes_slide.notes_text_frame.text  # speaker notes carried over
+
+
+def test_pptx_template_comes_from_audit_yaml(enriched: Path) -> None:
+    result = build_pptx(enriched, Branding(pptx_template="purple"))
+    assert result.template == "Purple"
+    assert build_pptx(enriched, Branding(pptx_template="purple"), template="orange").template == (
+        "Orange"
+    )  # the reports page / --template wins
 
 
 def test_report_all_command(enriched: Path) -> None:
@@ -168,10 +210,14 @@ def test_report_all_command(enriched: Path) -> None:
     assert res.exit_code == 0, res.output
     assert "Technical report" in res.output and "Management deck" in res.output
     assert (enriched / "reports" / "mgmt" / "index.html").is_file()
-    if _pptx_ready():
-        assert (enriched / "reports" / "deck.pptx").is_file()
-    else:
-        assert "PPTX skipped" in res.output
+    assert (enriched / "reports" / "deck.pptx").is_file()
+    assert "PowerPoint (Blue template)" in res.output
+    res = CliRunner().invoke(
+        app, ["report", "-c", str(cfg), "--type", "pptx", "--template", "purple"]
+    )
+    assert res.exit_code == 0 and "PowerPoint (Purple template)" in res.output, res.output
+    res = CliRunner().invoke(app, ["report", "-c", str(cfg), "--type", "pptx", "--template", "red"])
+    assert res.exit_code == 1 and "'red' not found" in res.output, res.output
 
 
 def test_tech_report_analysis_page_shows_enrichment(enriched: Path) -> None:

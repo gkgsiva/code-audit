@@ -207,7 +207,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
 <div class="cards">
   <div class="card"><h4>Technical report</h4><p>A website on your laptop with every count, list and finding. Each number links to the exact file and line it came from.</p></div>
   <div class="card"><h4>Management deck</h4><p>A slide show in the browser for managers: size, risks, readiness and effort. You can print it to PDF.</p></div>
-  <div class="card"><h4>PowerPoint file</h4><p>The same slides as an editable <code>.pptx</code>, with real charts you can change.</p></div>
+  <div class="card"><h4>PowerPoint file</h4><p>The same slides as an editable <code>.pptx</code> on your company template (Blue, Orange or Purple), with real charts you can change.</p></div>
   <div class="card"><h4>Data files</h4><p>Spreadsheet-friendly CSV files (open in Excel) and other formats for anyone who wants the raw lists.</p></div>
 </div>
 
@@ -232,7 +232,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
 </ul>
 <div class="callout note"><p><span class="label">Optional extras.</span> You can add these later. The tool tells you what each one adds and works without them.</p>
 <ul>
-  <li><strong>Node.js</strong> (version 18 or newer): needed only for the PowerPoint file.</li>
+  <li><strong>Node.js</strong> (version 18 or newer) with Mermaid CLI: only to put diagram pictures inside the PowerPoint file. The PowerPoint itself works without it.</li>
   <li><strong>OWASP Dependency-Check</strong> or <strong>OSV-Scanner</strong>: to look up known security problems in libraries. Your admin may give you their reports instead. How to install them: <a href="#vuln">Vulnerability checks</a>.</li>
   <li><strong>GitHub Copilot</strong> in VS Code, or an API key for another AI model (OpenAI, Azure OpenAI, Claude, Gemini) or Ollama on your laptop: for the optional AI explanations (<a href="#copilot">section 13</a>).</li>
 </ul>
@@ -395,18 +395,20 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <li>A table appears. Rows marked <strong>required</strong> must say <strong>ok</strong>. Rows marked <strong>optional</strong> can say <strong>missing</strong>; the last column says what you lose without them.</li>
   <li>The last line should say <strong>Ready to scan.</strong> That's all you need.</li>
 </ol>
-<p>Example: Node.js and pptxgenjs <em>missing</em> means no PowerPoint file (the HTML slides still work). Dependency-Check <em>missing</em> means no automatic security lookup for libraries; <a href="#vuln">Vulnerability checks</a> explains how to add it.</p>
+<p>Example: Node.js <em>missing</em> means the PowerPoint has no diagram pictures (everything else is there). <em>PowerPoint templates</em> should say <strong>ok</strong> with <em>Blue, Orange, Purple</em>. Dependency-Check <em>missing</em> means no automatic security lookup for libraries; <a href="#vuln">Vulnerability checks</a> explains how to add it.</p>
 <div class="callout wsl only-wsl"><p><span class="label">On WSL2.</span> The doctor checks what is installed <strong>inside Linux</strong>, so it shows Linux paths such as <code>/home/you/code-audit/.venv/bin/python3</code>. Programs installed on Windows (for example Node.js for Windows) count as <em>missing</em> here.</p></div>
 
 <h3>b. The automatic tests (optional)</h3>
 <p>Run task <code>audit: 2. tests (pytest)</code>. It takes a minute or two and ends with a line such as <em>NNN passed</em>. If anything says <em>failed</em>, send the last 30 lines of the panel to the person who looks after the tool.</p>
 
-<h3>c. If you want the PowerPoint file</h3>
+<h3>c. The PowerPoint file</h3>
+<p>Nothing to install: the PowerPoint is made by the tool itself on the company templates in the <code>templates</code> folder. To try it on a sample:</p>
 <ol class="steps">
-  <li><span class="only-win">Install <strong>Node.js</strong> (the LTS version) from nodejs.org or your company software portal. Restart VS Code afterwards.</span><span class="only-wsl"> 🐧 WSL2: install Node.js inside Ubuntu: <code>sudo apt install -y nodejs npm</code>, then check with <code>node --version</code>. You need 18 or higher (Ubuntu 24.04 gives 18). On older Ubuntu, ask your admin for a newer Node.js.</span></li>
-  <li>Run task <code>audit: 8. install the PPTX builder (npm, once)</code>. It needs internet once.</li>
-  <li>Run the doctor task again: <em>pptxgenjs</em> now says <strong>ok</strong>.</li>
+  <li>Run task <code>audit: 4. scan a sample</code> and press <kbd>Enter</kbd> to keep <code>struts-oracle-app</code>.</li>
+  <li>Run task <code>audit: 8. build the PowerPoint on a corporate template</code>. Keep the same sample, then pick <strong>blue</strong>, <strong>orange</strong> or <strong>purple</strong>.</li>
+  <li>The panel ends with <em>PowerPoint (Blue template) -&gt; …/reports/deck.pptx</em>. Open that file in PowerPoint: the cover, the contents page, the chapter pages and the last <em>Thank you</em> page are the template's own.</li>
 </ol>
+<p class="only-wsl">🐧 WSL2: copy the file to Windows to open it, for example <code>cp samples/struts-oracle-app/audit-output/latest/reports/deck.pptx /mnt/c/Users/you/Desktop/</code>.</p>
 
 <!-- ============================================================ 8 -->
 <h2 id="sample">8. Practice on a sample application</h2>
@@ -607,7 +609,8 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <h3 id="gui-reports">8. Reports</h3>
 <ul>
   <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, or <strong>Build all</strong> (recommended).</li>
-  <li>When a report is built, <strong>Open</strong> appears next to it (and <strong>Download</strong> for the PowerPoint). Until then it says <em>not built yet</em>.</li>
+  <li><strong>PowerPoint template</strong>: click the picture of the template you want (Blue, Orange or Purple) before you press <strong>Build PowerPoint</strong> or <strong>Build all</strong>. The app remembers your choice next time.</li>
+  <li>When a report is built, <strong>Open</strong> appears next to it (and <strong>Download</strong> for the PowerPoint, with the template it used, for example <em>PowerPoint (PPTX), Orange template</em>). Until then it says <em>not built yet</em>.</li>
   <li><strong>Download data pack (ZIP)</strong>: one ZIP file with every list (CSV for Excel, JSON, a SQLite database), the run details and the AI analysis. Send this to someone who wants the raw data.</li>
   <li><strong>Open run folder</strong>: opens the folder where this run's files are, in File Explorer.</li>
 </ul>
@@ -674,7 +677,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <div class="callout note"><p><span class="label">Pictures first, words after Copilot.</span> The pictures, tables and calendars come from the scan and are there straight away. The explanations (purpose, what the user does, business impact, rules) come from Copilot: until you run <code>/audit-enrich functional</code> (section 13), those boxes say <em>Not enriched yet</em>.</p></div>
 
 <h3>The management deck and PowerPoint</h3>
-<p>Each section starts with a coloured slide. Look for the readiness gauges, the capability map, a flow slide for the main screens and batches, the batch calendar and the roadmap. In PowerPoint every chart, table and box is editable: click a chart and choose <strong>Edit Data</strong>, or move and recolour the flow boxes.</p>
+<p>In the browser deck, each section starts with a coloured slide; in PowerPoint, with one of the template's chapter pages. Look for the readiness gauges, the capability map, a flow slide for the main screens and batches, the batch calendar and the roadmap. In PowerPoint every chart, table and box is editable: click a chart and choose <strong>Edit Data</strong>, or move and recolour the flow boxes.</p>
 
 <h3>How to read the key labels</h3>
 <h4>Finding severity</h4>
@@ -711,7 +714,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <p class="only-wsl">🐧 WSL2: open it from the app (<span class="menu">8. Reports &gt; Open</span>) or with <code>explorer.exe ~/audits/billing/audit-output/latest/reports/mgmt</code>.</p>
 
 <h3>The PowerPoint file</h3>
-<p><code>reports/deck.pptx</code>, built only if Node.js is installed (section 7c). Open it in PowerPoint and change anything. The charts are real PowerPoint charts: click one and choose <strong>Edit Data</strong> to see or change the numbers.</p>
+<p><code>reports/deck.pptx</code>, built on the company template you picked (section 7c, or <span class="menu">8. Reports</span> in the app). Every slide uses one of the template's own layouts, colours and fonts, so it is ready to present. Open it in PowerPoint and change anything. The charts are real PowerPoint charts: click one and choose <strong>Edit Data</strong> to see or change the numbers.</p>
 <p class="only-wsl">🐧 WSL2: get it from the app (<span class="menu">8. Reports &gt; Download</span>), which saves it to your Windows <em>Downloads</em>, or copy it out with <code>cp ~/audits/billing/audit-output/latest/reports/deck.pptx /mnt/c/Users/you/Desktop/</code>. Save edited copies on Windows.</p>
 
 <h3>The data files (for Excel)</h3>
@@ -905,7 +908,7 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <tr><td><code>audit: 5. scan all samples</code></td><td>Scans all four samples.</td><td>Practice</td></tr>
   <tr><td><code>audit: 6. show dynamic SQL of the latest run</code></td><td>Lists the SQL a sample builds while running, rebuilt as text.</td><td>Curious analysts</td></tr>
   <tr><td><code>audit: 7. build and open the technical report</code></td><td>Builds a sample's technical report and opens it. <span class="only-wsl">🐧 The browser may not open: see section 8.</span></td><td>Practice</td></tr>
-  <tr><td><code>audit: 8. install the PPTX builder (npm, once)</code></td><td>Lets the tool make PowerPoint files (needs Node.js<span class="only-wsl">, inside Linux on WSL2</span>).</td><td>Anyone wanting PPTX</td></tr>
+  <tr><td><code>audit: 8. build the PowerPoint on a corporate template</code></td><td>Builds a sample's PowerPoint on the template you pick (blue, orange or purple). Scan the sample first.</td><td>Anyone wanting PPTX</td></tr>
   <tr><td><code>audit: 9. install Copilot files into a sample (init)</code></td><td>Adds the Copilot agent files to a sample.</td><td>Copilot practice</td></tr>
   <tr><td><code>audit: 10. load demo enrichment and validate</code></td><td>Loads a ready-made AI analysis into the Struts sample to see the result without Copilot.</td><td>Demo</td></tr>
   <tr><td><code>audit: 11. build management deck and PPTX</code></td><td>Builds all reports for a sample and opens them. <span class="only-wsl">🐧 The browser may not open: see section 8.</span></td><td>Practice</td></tr>
@@ -984,7 +987,8 @@ legacy-audit version               # the tool's version</code></pre>
   <tr><td>An error about the address or port being in use (port 8765)</td><td>The app is already running in another terminal: use that one, or stop it with <kbd>Ctrl</kbd>+<kbd>C</kbd>. Or pick another port by adding <code>--port 8766</code> to the command, and open that port in the browser.</td></tr>
   <tr><td>The scan finds 0 files or very few</td><td>On <span class="menu">Project setup</span>, check <em>Folders</em> points at the code, and that <em>exclude</em> isn't too broad. Then <span class="menu">Re-run</span>.</td></tr>
   <tr><td>A folder I don't want is counted</td><td>Untick it on <span class="menu">Components</span>, <span class="menu">Save choices</span>, <span class="menu">Re-run</span>.</td></tr>
-  <tr><td>"PPTX skipped"</td><td>Node.js or the PPTX builder is missing. Do section 7c. The HTML deck works anyway.</td></tr>
+  <tr><td>"PPTX skipped: no PowerPoint template found"</td><td>The <code>templates</code> folder with the <code>.potx</code> files is missing. Get the latest project version (or ask your admin). The HTML deck works anyway.</td></tr>
+  <tr><td>"PowerPoint template 'x' not found"</td><td>The name is misspelt: use blue, orange or purple (in <code>audit.yaml</code> under <code>branding: pptx_template:</code>, or in the task).</td></tr>
   <tr><td>"Vulnerability check not done"</td><td>No Dependency-Check or OSV-Scanner, and no reports in <em>Vulnerability reports</em>. It's a coverage gap: install one scanner or ask the security team for reports (<a href="#vuln">Vulnerability checks</a>).</td></tr>
   <tr><td>Coverage shows "dependency-check (failed ...)"</td><td>Usually its database hasn't been downloaded yet, or Java is missing. Run the <code>--updateonly</code> command (<a href="#vuln">Option 1, step 5</a>) and check <code>java -version</code>. The full message is in the run's <code>logs/scan.log</code>.</td></tr>
   <tr><td>Coverage shows "osv-scanner (failed: ... flag provided but not defined)"</td><td>An old OSV-Scanner (version 1). Download the current version 2 (<a href="#vuln">Option 2</a>).</td></tr>

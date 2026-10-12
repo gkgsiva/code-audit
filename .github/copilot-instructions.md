@@ -17,7 +17,7 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 - A deterministic **Python 3.11+ scan engine** (`legacy_audit/`) that walks a legacy codebase and writes facts (JSON, CSV, SQLite, CycloneDX SBOM).
 - **GitHub Copilot custom-agent files** that `legacy-audit init` installs into the *legacy* workspace, so analysts can run AI enrichment (architecture, flows, risks, plan) in VS Code. The analysts use Copilot by default.
 - **Model-agnostic enrichment** (`legacy-audit enrich`, `legacy_audit/ai/`): the same stages written by any model (OpenAI-compatible, Azure OpenAI, Anthropic, Ollama) chosen in `audit.yaml > ai`, checked by the same validator. It is an explicit, optional command; the scan engine and the reports never call a model.
-- **Report generators**: technical HTML site, management HTML deck, and an editable PPTX (Node + pptxgenjs).
+- **Report generators**: technical HTML site, management HTML deck, and an editable PPTX (`python-pptx`) built strictly on the corporate templates in `templates/`.
 - A **local web GUI** (FastAPI) to pick components, run and re-run scans, and view results.
 
 ## Non-negotiable rules
@@ -33,7 +33,7 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 ## Tech choices
 
 - Python 3.11+, packaged with `pyproject.toml` (hatchling), CLI with `typer`, models with `pydantic` v2, templates with `jinja2`, SQL parsing with `sqlglot`, Java parsing with `javalang` or `tree-sitter` (pick one per analyzer and note why), GUI with `fastapi` + `uvicorn` and a plain HTML/JS front-end (no build step).
-- Node 18+ only for `pptx/` (`pptxgenjs`) and Mermaid rendering (`@mermaid-js/mermaid-cli`), both optional at runtime: if Node is missing, PPTX/PNG generation is skipped with a clear message.
+- Node 18+ only for Mermaid rendering (`@mermaid-js/mermaid-cli`), optional at runtime: if Node is missing, diagram PNGs are skipped with a clear message.
 - OWASP Dependency-Check / OSV-Scanner are external optional tools, detected on PATH or configured paths.
 - Keep runtime dependencies small; every new dependency needs a one-line reason in `docs/decisions.md`.
 

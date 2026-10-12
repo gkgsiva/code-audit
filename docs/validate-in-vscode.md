@@ -108,8 +108,8 @@ The steps below are for looking at the results yourself.
 
 ## Phase 5: Copilot agent, enrichment, management deck and PPTX
 
-1. Run task `audit: 1. set up` again (adds `python-pptx` for the tests), then
-   `audit: 8. install the PPTX builder (npm, once)` (needs Node.js 18+).
+1. Run task `audit: 1. set up` again (installs `python-pptx`). Since 2026-10-12 the PPTX needs no
+   Node.js; see *Corporate PowerPoint templates* at the end.
 2. **Copilot files**: run `audit: 9. install Copilot files into a sample (init)`. The sample now
    has `.github/agents/legacy-auditor.agent.md`, `.github/chatmodes/…`, `.github/prompts/audit-*.prompt.md`,
    `.github/copilot-instructions.md`, `.github/legacy-audit/schemas/` and `.vscode/mcp.json`.
@@ -279,3 +279,38 @@ window).
    `ai: {copilot_model: "Claude Sonnet 4.5 (copilot)"}` (keep `provider: copilot`), run
    `audit: 9. install Copilot files into a sample (init)`, and open
    `.github/agents/legacy-auditor.agent.md`: its header has the `model:` line.
+
+## Corporate PowerPoint templates
+
+Same on Windows and WSL2. To open a `.pptx` from WSL2, copy it to Windows first, for example
+`cp samples/struts-oracle-app/audit-output/latest/reports/deck.pptx /mnt/c/Users/<you>/Desktop/`,
+or use **Download** in the GUI.
+
+1. Run `audit: 1. set up (venv + install)` (installs `python-pptx`, now required), then
+   `audit: 2. tests (pytest)`: everything passes, including the three
+   `test_pptx_is_built_strictly_on_the_chosen_template[blue|orange|purple]` tests.
+2. Run `audit: 14. check installed tools (doctor)`: **PowerPoint templates** says ok with
+   "Blue, Orange, Purple in …/templates". There is no pptxgenjs row any more.
+3. Run `audit: 4. scan a sample` with `struts-oracle-app`, then
+   `audit: 10. load demo enrichment and validate (Struts sample)` with an empty option.
+4. Run `audit: 8. build the PowerPoint on a corporate template`, keep `struts-oracle-app` and pick
+   `orange`. The panel prints `PowerPoint (Orange template) -> …/reports/deck.pptx`. Open it:
+   - slide 1 is the template's orange cover with the application name; slide 2 **Contents** lists
+     the 7 sections numbered 01–07; each section starts with a template chapter page (02, 03 …);
+     the last slide is the template's **Thank you** page;
+   - content slides have the template's title, footer (application · run), page number and RG
+     logo; prose uses the template's heading style (blue capitals) and bullets;
+   - charts, tables and boxes use the template's theme colours: click a bar and look at
+     **Shape Fill**, the colour is one of the theme row, not a custom colour;
+   - no "Lorem ipsum" or "Chapter title" sample text is left.
+5. Run task 8 again with `blue` and `purple`: same slides on the other templates. Try a wrong
+   name in a terminal, `legacy-audit report --type pptx --template green -c samples/struts-oracle-app/audit.yaml`:
+   it stops with "PowerPoint template 'green' not found (available: Blue, Orange, Purple)".
+6. **Default from audit.yaml**: in `samples/struts-oracle-app/audit.yaml` set
+   `branding: {pptx_template: purple}` and run `audit: 11. build management deck and PPTX`: the
+   terminal says Purple. Undo the change afterwards.
+7. **In the GUI**: run `audit: 13. start the GUI on a sample`, open **8. Reports**. The
+   **PowerPoint template** box shows the three template previews; the one from `audit.yaml` (or
+   Blue) is selected. Click **Orange**, then **Build PowerPoint**: the toast says "PPTX written
+   (Orange template)" and the table shows "PowerPoint (PPTX), Orange template" with **Download**.
+   Reload the page: Orange is still selected.

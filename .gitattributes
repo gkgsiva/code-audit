@@ -3,3 +3,5 @@
 *.gif binary
 # Sample apps are test fixtures: keep them byte-for-byte on every platform.
 samples/** -text
+*.potx binary
+*.pptx binary

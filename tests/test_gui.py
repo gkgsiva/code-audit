@@ -103,6 +103,19 @@ def test_clean_workspace_init_scan_dashboard_report(tmp_path: Path) -> None:
     page = client.get(reports["tech"])
     assert page.status_code == 200 and "<html" in page.text.lower()
 
+    tpl = _ok(client.get("/api/pptx-templates"))
+    assert [t["label"] for t in tpl["templates"]] == ["Blue", "Orange", "Purple"]
+    assert tpl["default"] == "RG_TEMPLATE_PPT_HD_BLUE"  # audit.yaml names none
+    thumb = client.get(tpl["templates"][1]["thumbnail"])
+    assert thumb.status_code == 200 and thumb.headers["content-type"] == "image/jpeg"
+    assert client.get("/api/pptx-templates/nope/thumbnail.jpg").status_code == 404
+    body = {"type": "pptx", "template": "RG_TEMPLATE_PPT_HD_ORANGE"}
+    _ok(client.post("/api/runs/latest/reports", json=body, headers=H))
+    done = _wait(client)
+    assert any("Orange template" in m for m in done["result"]["messages"]), done
+    built = _ok(client.get("/api/runs/latest/reports"))
+    assert built["reports"]["pptx"] and built["pptx_template"] == "Orange"
+
 
 def test_explorer_evidence_and_traversal(sample_copy) -> None:  # type: ignore[no-untyped-def]
     ws = sample_copy("struts-oracle-app")
@@ -234,7 +247,9 @@ def test_jobs_events_busy_cancel_and_open(sample_copy) -> None:  # type: ignore[
     assert client.post("/api/open", json={"target": "/etc"}, headers=H).status_code == 400
 
     checks = _ok(client.get("/api/doctor"))
-    assert {c["name"] for c in checks} >= {"Python", "Node.js", "OWASP Dependency-Check"}
+    assert {c["name"] for c in checks} >= {
+        "Python", "Node.js", "PowerPoint templates", "OWASP Dependency-Check"
+    }  # fmt: skip
     spec = _ok(client.get("/api/openapi.json"))
     assert "/api/scan" in spec["paths"] and "/api/runs/{run}/dashboard" in spec["paths"]
     assert client.get("/").status_code == 200
