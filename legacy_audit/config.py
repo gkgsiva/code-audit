@@ -59,7 +59,9 @@ DEFAULT_COUNTING_RULES: dict[str, str] = {
     ),
     "batch_job": (
         "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch "
-        "job). Steps are listed under it; Autosys boxes are containers, not jobs."
+        "job). Steps are listed under it; Autosys boxes are containers, not jobs. A component "
+        "doing batch work that no scheduler definition covers counts as one batch, however "
+        "many ksh scripts and programs it holds (they are its steps)."
     ),
     "library": "One distinct (group, artifact, version). Undeclared jars identified by "
     "manifest or hash.",
@@ -329,6 +331,13 @@ class InventoryConfig(Strict):
         20.0, description="Larger files are inventoried (hash, size) but not read for LOC"
     )
     use_default_excludes: bool = True
+    skip_build_output: bool = Field(
+        True,
+        description="Leave out compiler and IDE output: bin/, classes/, obj/, Debug/, Release/ "
+        "folders holding compiled files and no source or script, Eclipse output folders "
+        "(.classpath), and files a precompiler generated next to their source (foo.c beside "
+        "foo.pc, foo.cob beside foo.pco, Foo.java beside Foo.sqlj). Each is reported.",
+    )
     workers: int = Field(
         0,
         ge=0,

@@ -2,9 +2,9 @@
 {% block content %}
 <p class="lead">One page per component (a deployable or buildable unit found from build files and folders).</p>
 <div class="table-wrap"><table class="data">
-  <thead><tr><th>Component</th><th>Type</th><th>Detected by</th><th class="num">Files</th><th class="num">Code lines</th><th class="num">Services</th><th class="num">Screens</th><th class="num">SQL</th><th class="num">Findings</th></tr></thead>
+  <thead><tr><th>Component</th><th>Type</th><th>Also holds</th><th>Made of</th><th>Detected by</th><th class="num">Files</th><th class="num">Code lines</th><th class="num">Services</th><th class="num">Screens</th><th class="num">SQL</th><th class="num">Findings</th></tr></thead>
   <tbody>{% for c in components %}<tr>
-    <td><a href="{{ base }}components/{{ c.slug }}.html">{{ c.name }}</a></td><td>{{ c.type }}</td><td>{{ c.detected_by }}</td>
+    <td><a href="{{ base }}components/{{ c.slug }}.html">{{ c.name }}</a></td><td>{{ c.type }}</td><td>{{ (c.roles or []) | reject("equalto", c.type) | join(", ") }}</td><td>{% for k, v in (c.composition or {}).items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{{ c.detected_by }}</td>
     <td class="num">{{ c.files }}</td><td class="num">{{ c.loc_code }}</td><td class="num">{{ c.n_services }}</td>
     <td class="num">{{ c.n_screens }}</td><td class="num">{{ c.n_sql }}</td><td class="num">{{ c.n_findings }}</td></tr>{% endfor %}
   </tbody>

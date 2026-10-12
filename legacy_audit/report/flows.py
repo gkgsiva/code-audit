@@ -795,14 +795,16 @@ def batch_flows(rd: RunData) -> list[Flow]:
     return flows
 
 
-# ---- batch programs that no scheduler definition starts -------------------------------------
+# ---- batch work that no scheduler definition starts ------------------------------------------
 _PROGRAM_SERVICES = {"c-executable", "cobol-program"}
-_BATCH_COMPONENTS = {"batch", "script"}
 _EVENT_ENTRY = {"message-listener", "listener", "jms-listener", "mq-listener"}
+_PROGRAM_ENTRY = {"main", "scheduler", "spring-batch"}
+_ONLINE = {"web", "online-mainframe"}
 _NO_SCHEDULE = (
     "No schedule found: no Autosys JIL, JCL or crontab entry in the inputs starts it. "
     "It may be run by hand or by a scheduler whose export was not provided."
 )
+_UNIT_WORD = {"script": "Script", "program": "Batch program", "listener": "Listener"}
 
 
 def _unscheduled_flows(
@@ -812,10 +814,18 @@ def _unscheduled_flows(
     callers: dict[str, list[str]],
     jobs: list[dict[str, Any]],
 ) -> list[Flow]:
-    """Batch work the scan found but no scheduler definition covers: top-level scripts and
-    batch programs in batch components, stand-alone C/COBOL batch programs, and message
-    listeners. Without them the Batch pages would say "no batch" whenever the JIL, JCL or
+    """Batch work the scan found but no scheduler definition covers (decisions 102 and 116).
+
+    A batch is a *component* doing batch work, not each script in it: the top-level scripts and
+    programs of one batch component (its ksh wrappers, its C/COBOL programs, its Java ``main``)
+    are the entry points of one batch flow named after the component, so a batch made of Java,
+    ksh and properties shows once. The batch-job count adds one per such component that no job
+    covers (``summary.unscheduled_batches``), so the pages and the count agree. Message
+    listeners stay flows of their own (they start on a message, not on a schedule) and are not
+    counted. Without these flows the Batch pages would say "no batch" whenever the JIL, JCL or
     crontab export is missing (a coverage gap, not an absence of batches)."""
+    from legacy_audit.inventory.components import in_batch_folder
+
     covered: set[str] = set()
     todo = [j["id"] for j in jobs]
     while todo:
@@ -829,7 +839,11 @@ def _unscheduled_flows(
     covered_files = {
         (rd.by_id.get(c) or {}).get("path") or (rd.by_id.get(c) or {}).get("file") for c in covered
     }
-    batch_comps = {c["name"] for c in rd.items("components") if c.get("type") in _BATCH_COMPONENTS}
+    comps = {c["name"]: c for c in rd.items("components")}
+    roles = {n: {*(c.get("roles") or []), str(c.get("type") or "")} for n, c in comps.items()}
+    batch_comps = {n for n, r in roles.items() if "batch" in r}
+    online = {n for n, r in roles.items() if r & _ONLINE}
+    counted = set(rd.summary.get("unscheduled_batches") or [])
 
     def comp_of(path: str) -> str | None:
         return rd.file_component.get(path)
@@ -838,19 +852,22 @@ def _unscheduled_flows(
     seen_files: set[str] = set()
     for f in sorted(files.values(), key=lambda f: f["path"]):
         path = f["path"]
-        if f.get("language") != "shell" or comp_of(path) not in batch_comps:
+        comp = comp_of(path)
+        if f.get("language") != "shell" or comp not in batch_comps:
             continue
+        if comp in online and not in_batch_folder(path):
+            continue  # deploy and admin scripts of an online application
         fid = f.get("id") or ""
         if fid in covered or callers.get(fid):
             continue  # started by a job, or run by another script or program
         units.append(
             {"id": fid, "name": path.rsplit("/", 1)[-1], "kind": "script", "file": path,
-             "line": None, "component": comp_of(path)}
+             "line": None, "component": comp}
         )  # fmt: skip
         seen_files.add(path)
     run_by_script = {
         t for u in units for t in runs.get(u["id"], [])
-    }  # programs a top-level script runs are its steps, not units of their own
+    }  # programs a top-level script runs are its steps, not entry points of their own
     for svc in sorted(ix.services.values(), key=lambda s: s["name"]):
         if svc.get("kind") not in _PROGRAM_SERVICES or svc["id"] in covered:
             continue
@@ -872,7 +889,7 @@ def _unscheduled_flows(
             continue
         if ep.get("component") not in batch_comps:
             continue
-        if kind in _EVENT_ENTRY or kind == "main":
+        if kind in _EVENT_ENTRY or kind in _PROGRAM_ENTRY:
             units.append(
                 {"id": ep["id"], "name": ep["name"].rsplit(".", 1)[-1],
                  "kind": "listener" if kind in _EVENT_ENTRY else "program",
@@ -916,43 +933,37 @@ def _unscheduled_flows(
         item = rd.by_id.get(node) or {}
         return str(item.get("path") or item.get("file") or "")
 
-    flows: list[Flow] = []
-    for u in units:
+    def build(
+        fid: str,
+        name: str,
+        component: str | None,
+        members: list[dict[str, Any]],
+        head: Node | None,
+        trigger: Node,
+        when: str,
+        scheduler: str,
+        is_counted: bool,
+    ) -> Flow:
+        """One flow: ``head`` (the batch component) starts each member (script, program,
+        listener), which runs files and programs and touches tables and systems."""
         note: list[str] = []
-        ukey = "unit:" + u["name"]
-        listener = u["kind"] == "listener"
-        trig = [
-            Node(
-                "trigger:" + ("message" if listener else "none"),
-                "when a message arrives (listener)" if listener else "no schedule found",
-                "trigger" if listener else "muted",
-            )
-        ]
-        head = Node(ukey, u["name"], "job", u["kind"])
-        edges: list[tuple[str, str, str]] = [(trig[0].key, ukey, "")]
+        edges: list[tuple[str, str, str]] = []
+        unit_nodes: list[Node] = []
         run_nodes: list[Node] = []
         table_acc: dict[str, set[str]] = defaultdict(set)
         sys_acc: dict[str, dict[str, Any]] = {}
         sids: list[str] = []
         steps: list[dict[str, Any]] = []
-        own_paths = [u.get("file") or ""]
+        own_paths: list[str] = []
+        if head is not None:
+            edges.append((trigger.key, head.key, ""))
 
-        def add_tables(
-            src: str,
-            tabs: dict[str, set[str]],
-            table_acc: dict[str, set[str]] = table_acc,
-            edges: list[tuple[str, str, str]] = edges,
-        ) -> None:
+        def add_tables(src: str, tabs: dict[str, set[str]]) -> None:
             for t, letters in tabs.items():
                 table_acc[t] |= letters
                 edges.append((src, "t:" + t, _crud(letters)))
 
-        def add_systems(
-            src: str,
-            systems: list[dict[str, Any]],
-            sys_acc: dict[str, dict[str, Any]] = sys_acc,
-            edges: list[tuple[str, str, str]] = edges,
-        ) -> None:
+        def add_systems(src: str, systems: list[dict[str, Any]]) -> None:
             for x in systems:
                 key = "x:" + x["type"] + x["target"]
                 sys_acc.setdefault(key, x)
@@ -961,85 +972,95 @@ def _unscheduled_flows(
                 else:
                     edges.append((src, key, "out" if x["direction"] == "outbound" else ""))
 
-        if u.get("service_id"):
-            sids.append(u["service_id"])
-            add_tables(ukey, ix.tables_of([u["service_id"]]))
-            add_systems(ukey, ix.systems_of([u["service_id"]]))
-        else:
-            add_tables(ukey, tables_of_file(u.get("file") or ""))
-            add_systems(ukey, systems_of_file(u.get("file") or ""))
-        # what it runs: the script's commands, or what the program's file reaches (2 hops)
-        start = [u["id"]] + ([file_ids[u["file"]]] if u.get("file") in file_ids else [])
-        reached: list[str] = []
-        for s0 in start:
-            for t in runs.get(s0, []):
-                reached.append(t)
-                if t.startswith("file:"):
-                    reached += [t2 for t2 in runs.get(t, []) if not t2.startswith("service:")]
         order = 0
-        for t in dict.fromkeys(reached):
-            item = rd.by_id.get(t) or {}
-            if t.startswith("file:") and item.get("category") == "source" and u["kind"] != "script":
-                own_paths.append(path_of(t))  # a helper module of the program: part of it
-                add_systems(ukey, systems_of_file(path_of(t)))
-                continue
-            order += 1
-            label = rd.label(t).rsplit("/", 1)[-1]
-            rkey = "run:" + label
-            if t.startswith("batch_job:"):
-                rkind = "job"
-            elif t.startswith("service:"):
-                rkind = "service"
+        for u in members:
+            ukey = "unit:" + u["name"]
+            if ukey not in {n.key for n in unit_nodes}:
+                unit_nodes.append(Node(ukey, u["name"], "job", u["kind"]))
+            edges.append(((head or trigger).key, ukey, "starts" if head else ""))
+            own_paths.append(u.get("file") or "")
+            if u.get("service_id"):
+                sids.append(u["service_id"])
+                add_tables(ukey, ix.tables_of([u["service_id"]]))
+                add_systems(ukey, ix.systems_of([u["service_id"]]))
             else:
-                rkind = "run"
-            if rkey not in {n.key for n in run_nodes}:
-                run_nodes.append(Node(rkey, label, rkind))
-            edges.append((ukey, rkey, "runs"))
-            sid = make_id("service", "batch-job", t) if t.startswith("batch_job:") else t
-            if sid in ix.services:
-                sids.append(sid)
-                add_tables(rkey, ix.tables_of([sid]))
-                add_systems(rkey, ix.systems_of([sid]))
-            elif t.startswith("file:"):
-                add_tables(rkey, tables_of_file(path_of(t)))
-                add_systems(rkey, systems_of_file(path_of(t)))
-            steps.append(
-                {
-                    "order": order,
-                    "name": label,
-                    "kind": {"job": "job", "service": "program"}.get(rkind, "script or file"),
-                    "id": t,
-                    "description": "",
-                    "command": "",
-                    "condition": "",
-                    "runs": [],
-                    "steps": [],
-                    "programs": [],
-                    "datasets": [],
-                    "machine": "",
-                    "service_id": sid if sid in ix.services else None,
-                    "evidence": rd.first_evidence(item) if item else (None, None),
-                }
-            )
-        steps.insert(
-            0,
-            {
-                "order": 0,
+                add_tables(ukey, tables_of_file(u.get("file") or ""))
+                add_systems(ukey, systems_of_file(u.get("file") or ""))
+            # what it runs: the script's commands, or what the program's file reaches (2 hops)
+            start = [u["id"]] + ([file_ids[u["file"]]] if u.get("file") in file_ids else [])
+            reached: list[str] = []
+            for s0 in start:
+                for t in runs.get(s0, []):
+                    reached.append(t)
+                    if t.startswith("file:"):
+                        reached += [t2 for t2 in runs.get(t, []) if not t2.startswith("service:")]
+            unit_step = {
+                "order": order,
                 "name": u["name"],
                 "kind": u["kind"],
                 "id": u["id"],
                 "description": "",
                 "command": "",
                 "condition": "",
-                "runs": [n.label for n in run_nodes],
+                "runs": [],
                 "steps": [],
                 "programs": [],
                 "datasets": [],
                 "machine": "",
                 "service_id": u.get("service_id"),
                 "evidence": (u.get("file"), u.get("line")),
-            },
-        )
+            }
+            steps.append(unit_step)
+            for t in dict.fromkeys(reached):
+                item = rd.by_id.get(t) or {}
+                if (
+                    t.startswith("file:")
+                    and item.get("category") == "source"
+                    and u["kind"] != "script"
+                ):
+                    own_paths.append(path_of(t))  # a helper module of the program: part of it
+                    add_systems(ukey, systems_of_file(path_of(t)))
+                    continue
+                order += 1
+                label = rd.label(t).rsplit("/", 1)[-1]
+                rkey = "run:" + label
+                if t.startswith("batch_job:"):
+                    rkind = "job"
+                elif t.startswith("service:"):
+                    rkind = "service"
+                else:
+                    rkind = "run"
+                if rkey not in {n.key for n in run_nodes}:
+                    run_nodes.append(Node(rkey, label, rkind))
+                edges.append((ukey, rkey, "runs"))
+                unit_step["runs"].append(label)
+                sid = make_id("service", "batch-job", t) if t.startswith("batch_job:") else t
+                if sid in ix.services:
+                    sids.append(sid)
+                    add_tables(rkey, ix.tables_of([sid]))
+                    add_systems(rkey, ix.systems_of([sid]))
+                elif t.startswith("file:"):
+                    add_tables(rkey, tables_of_file(path_of(t)))
+                    add_systems(rkey, systems_of_file(path_of(t)))
+                steps.append(
+                    {
+                        "order": order,
+                        "name": label,
+                        "kind": {"job": "job", "service": "program"}.get(rkind, "script or file"),
+                        "id": t,
+                        "description": "",
+                        "command": "",
+                        "condition": "",
+                        "runs": [],
+                        "steps": [],
+                        "programs": [],
+                        "datasets": [],
+                        "machine": "",
+                        "service_id": sid if sid in ix.services else None,
+                        "evidence": rd.first_evidence(item) if item else (None, None),
+                    }
+                )
+            order += 1
         table_rows = ix.table_rows(table_acc)
         table_nodes = [Node("t:" + t["name"], t["name"], "table", t["crud"]) for t in table_rows]
         systems = sorted(sys_acc.values(), key=lambda x: (x["type"], x["target"]))
@@ -1047,60 +1068,102 @@ def _unscheduled_flows(
             Node("x:" + x["type"] + x["target"], _system_label(x), "system", x["direction"])
             for x in systems
         ]
-        what = {"script": "Script", "program": "Batch program", "listener": "Listener"}[u["kind"]]
+        run_paths = [
+            str(e[0]) for st in steps if st["kind"] not in _UNIT_WORD and (e := st["evidence"])[0]
+        ]
+        kinds = {u["kind"] for u in members}
+        unit_title = (
+            _UNIT_WORD[next(iter(kinds))]
+            if len(kinds) == 1 and len(members) == 1
+            else "Scripts and programs"
+        )
         columns = [
-            ("Starts when", trig),
-            (what, [head]),
+            ("Starts when", [trigger]),
+            *([("Batch", [head])] if head is not None else []),
+            (unit_title, _cap(unit_nodes, note, "scripts and programs")),
             ("Runs", _cap(run_nodes, note, "programs and files")),
             ("Tables", _cap(table_nodes, note, "tables")),
             ("Files and systems", _cap(sys_nodes, note, "files and systems")),
         ]
         columns = [c for c in columns if c[1]]
-        when = (
-            "Starts when a message arrives on the queue it listens to."
-            if listener
-            else _NO_SCHEDULE
-        )
-        summary = (
-            f"{what} {u['name']}"
-            + (f" runs {len(run_nodes)} program(s) or file(s)." if run_nodes else ".")
-            + (f" It touches {len(table_rows)} table(s)." if table_rows else "")
-            + ("" if listener else " No scheduler definition starts it.")
-        )
-        flows.append(
-            Flow(
-                id=u["id"],
-                kind="batch",
-                name=u["name"],
-                slug=slug(f"batch-{u['name']}-{u['id'][-6:]}"),
-                component=u.get("component"),
-                summary=summary,
-                columns=columns,
-                edges=list(dict.fromkeys(edges)),
-                tables=table_rows,
-                systems=systems,
-                services=[{"id": s, "name": ix.services[s].get("name")} for s in sids],
-                steps=steps,
-                schedule={
-                    "days": [],
-                    "times": [],
-                    "text": when,
-                    "raw": "",
-                    "scheduler": "event" if listener else "none",
-                    "description": "",
-                    "unscheduled": not listener,
-                },
-                on_failure=[],
-                evidence=(u.get("file"), u.get("line")),
-                note=" ".join(note),
-                files=list(
-                    dict.fromkeys(
-                        [p for p in own_paths if p]
-                        + [str(e[0]) for st in steps[1:] if (e := st["evidence"])[0]]
-                    )
-                ),
+        listener = scheduler == "event"
+        if listener:
+            summary = f"Listener {name}" + (
+                f" runs {len(run_nodes)} program(s) or file(s)." if run_nodes else "."
             )
+        else:
+            entry = ", ".join(u["name"] for u in members[:4]) + (
+                f" and {len(members) - 4} more" if len(members) > 4 else ""
+            )
+            summary = (
+                f"Batch {name}"
+                + (f" starts with {entry}" if members else " (no entry script or program found)")
+                + (f" and runs {len(run_nodes)} program(s) or file(s)." if run_nodes else ".")
+            )
+        summary += (f" It touches {len(table_rows)} table(s)." if table_rows else "") + (
+            "" if listener else " No scheduler definition starts it."
         )
+        return Flow(
+            id=fid,
+            kind="batch",
+            name=name,
+            slug=slug(f"batch-{name}-{fid[-6:]}"),
+            component=component,
+            summary=summary,
+            columns=columns,
+            edges=list(dict.fromkeys(edges)),
+            tables=table_rows,
+            systems=systems,
+            services=[{"id": s, "name": ix.services[s].get("name")} for s in dict.fromkeys(sids)],
+            steps=steps,
+            schedule={
+                "days": [],
+                "times": [],
+                "text": when,
+                "raw": "",
+                "scheduler": scheduler,
+                "description": "",
+                "unscheduled": not listener,
+                "counted": is_counted,
+            },
+            on_failure=[],
+            evidence=(members[0].get("file"), members[0].get("line")) if members else (None, None),
+            note=" ".join(note),
+            files=list(dict.fromkeys([p for p in own_paths if p] + run_paths)),
+        )
+
+    flows: list[Flow] = []
+    no_schedule = Node("trigger:none", "no schedule found", "muted")
+    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for u in units:
+        if u["kind"] != "listener":
+            groups[u.get("component") or ""].append(u)
+    for name in sorted(counted - set(groups)):
+        groups[name] = []  # counted batch components with no entry found: still listed
+    for comp_name in sorted(groups):
+        members = groups[comp_name]
+        info = comps.get(comp_name)
+        if info is None:  # programs outside any component: one flow each, as before
+            for u in members:
+                flows.append(
+                    build(u["id"], u["name"], None, [u], None, no_schedule, _NO_SCHEDULE,
+                          "none", False)
+                )  # fmt: skip
+            continue
+        is_counted = comp_name in counted
+        name = comp_name if is_counted else f"{comp_name}: not started by any job"
+        head = Node("batch:" + comp_name, comp_name, "job", "batch component")
+        flows.append(
+            build(info["id"], name, comp_name, members, head, no_schedule, _NO_SCHEDULE,
+                  "none", is_counted)
+        )  # fmt: skip
+    for u in units:
+        if u["kind"] == "listener":
+            trig = Node("trigger:message", "when a message arrives (listener)", "trigger")
+            flows.append(
+                build(u["id"], u["name"], u.get("component"), [u], None, trig,
+                      "Starts when a message arrives on the queue it listens to.", "event", False)
+            )  # fmt: skip
     return flows
 
 

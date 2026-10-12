@@ -123,6 +123,12 @@ confirm).
   CPU less one, at most 8. `1` runs in a single process (useful on a shared build server).
 - `inventory.max_file_size_mb` (default 20): larger files are hashed and counted but not read;
   each becomes a `file-too-large` finding.
+- `inventory.skip_build_output` (default `true`): compiler and IDE output is left out so nothing
+  is counted twice: `bin/`, `classes/`, `obj/`, `Debug/`, `Release/` (and similar) folders that
+  hold compiled files (`.class`, `.o`, executables) and no source or script, Eclipse output
+  folders declared in `.classpath`, and `.c`/`.cob`/`.java` files generated next to a Pro*C
+  `.pc`, Pro*COBOL `.pco` or SQLJ `.sqlj` source. Each becomes an `info` `build-output-skipped`
+  finding. A Unix `bin/` of ksh scripts is kept.
 - Re-runs reuse `audit-output/cache/` (per-file results and SQL grades). `legacy-audit
   purge-cache -c audit.yaml` clears it; the next run is a full scan.
 - Measured numbers are in [performance.md](performance.md).

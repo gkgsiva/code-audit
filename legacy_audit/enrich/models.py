@@ -367,7 +367,8 @@ class ProgramNote(_Base):
 class BatchStory(Claim):
     job_id: str = Field(
         description="The batch flow's id: the box or job (batch_job:...), or for batch work no "
-        "scheduler starts, the script (file:...), program (service:...) or listener (entry:...)"
+        "scheduler starts, the batch component (component:...), a program outside any "
+        "component (service:...) or a listener (entry:...)"
     )
     purpose: str = Field(description="Why the batch exists, in business words")
     when: str = Field("", description="When it runs, in business words")

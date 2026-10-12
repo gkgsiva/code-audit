@@ -21,7 +21,7 @@ from legacy_audit.model import (
     Service,
     TechItem,
 )
-from legacy_audit.store.counts import counts
+from legacy_audit.store.counts import counts, unscheduled_batches
 from legacy_audit.store.writer import FactSet
 
 MAX_BYTES = 30_000
@@ -82,6 +82,7 @@ def build_summary(
                 **{e: len(facts.get(e, [])) for e in ENTITIES if e not in ("inventory",)},
             },
             "counts": headline,
+            "unscheduled_batches": unscheduled_batches(facts),
             "tech_stack": [
                 {"name": t.name, "version": t.version, "category": t.category, "eol": t.eol}
                 for t in tech[: n * 4]

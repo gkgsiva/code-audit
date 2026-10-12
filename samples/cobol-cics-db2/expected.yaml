@@ -21,6 +21,16 @@ components:
 - {name: ddl, type: db, files: 1, detected_by: folder}
 - {name: jcl, type: batch, files: 1, detected_by: folder}
 - {name: proclib, type: batch, files: 1, detected_by: folder}
+# Every kind of work found in each component (web, batch, db, ...); type is the main one.
+component_roles:
+  bms: [online-mainframe]
+  cobol: [batch, online-mainframe]
+  copybook: [library]
+  ddl: [db]
+  jcl: [batch]
+  proclib: [batch]
+unscheduled_batches: []
+
 coverage:
   autosys: missing
   mq: missing
@@ -55,6 +65,8 @@ counts:
     by_type: {FILE: 3}
   batch_jobs:
     total: 1
+    scheduled: 1
+    unscheduled: 0
     boxes: 0
     by_scheduler: {jcl: 1}
   libraries: {total: 0, declared: 0, undeclared: 0}

@@ -17,7 +17,7 @@ from legacy_audit.config import INPUT_KINDS, LoadedConfig, parse_config
 from legacy_audit.inventory.components import detect_components
 from legacy_audit.inventory.files import skip_by_extension
 from legacy_audit.inventory.language import detect_category, detect_language
-from legacy_audit.inventory.walker import Filters, anchored_excludes, walk
+from legacy_audit.inventory.walker import Filters, SkippedPath, anchored_excludes, walk
 from legacy_audit.model import FileRecord, Origin, make_id
 from legacy_audit.overrides import Overrides, load_overrides
 
@@ -206,14 +206,16 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
     ]
     multi = len(roots) > 1
     records: list[FileRecord] = []
+    left_out: list[SkippedPath] = []
     for root in roots:
         filters = Filters.build(
             cfg.include,
             [*cfg.exclude, *(f"!{p}" for p in ov.files.include)],
             cfg.inventory.use_default_excludes,
             anchored_excludes(root.path, tool_owned),
+            cfg.inventory.skip_build_output,
         )
-        for wf in walk(root.name, root.path, filters, root.subpaths):
+        for wf in walk(root.name, root.path, filters, root.subpaths, left_out):
             if skip_by_extension(wf.rel, cfg.inventory.include_binaries):
                 continue
             path = f"{root.name}/{wf.rel}" if multi else wf.rel
@@ -261,4 +263,12 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
         "files": len(records),
         "components": out,
         "excludes": sorted(excludes),
+        "skipped": [
+            {
+                "path": f"{sk.root}/{sk.rel}" if multi else sk.rel,
+                "reason": sk.reason,
+                "files": sk.files,
+            }
+            for sk in left_out
+        ],
     }

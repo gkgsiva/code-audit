@@ -1,0 +1,92 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# What it pins down (decisions 113-116):
+# - compiled output is left out and reported (4 build-output-skipped findings): the Eclipse
+#   output folder apps/orders-web/bin (declared in .classpath; its copy of
+#   ApplicationResources.properties is not counted twice), apps/billing-batch/classes,
+#   settlement-c/obj, and settlement-c/src/settle.c (generated from settle.pc by Pro*C);
+# - apps/ only holds applications, so it is a container, not a component;
+# - orders-web (Eclipse .project) is one web component with its Java, JSP and properties;
+# - billing-batch has no build file: java/, ksh/ and properties/ are its parts, so it is one
+#   batch component, not a library plus scripts;
+# - settlement-c is found by Makefile.aix; config/ is a configuration component; scripts/ only
+#   copies files, so it stays a script component, not a batch;
+# - no scheduler export: the batch count is 2 (billing-batch, settlement-c), one per batch
+#   component, not one per ksh script.
+
+inventory:
+  files: 19
+  input_files: 0
+  loc: {code: 135, comment: 15, blank: 11}
+  by_language:
+    java: {files: 4, code: 62, comment: 2, blank: 9}
+    jsp: {files: 1, code: 10, comment: 0, blank: 0}
+    make: {files: 1, code: 4, comment: 1, blank: 1}
+    proc: {files: 1, code: 9, comment: 1, blank: 1}
+    properties: {files: 3, code: 6, comment: 3, blank: 0}
+    shell: {files: 4, code: 9, comment: 8, blank: 0}
+    xml: {files: 5, code: 35, comment: 0, blank: 0}
+  by_category: {build: 1, config: 8, screen: 1, script: 4, source: 5}
+components:
+- {name: billing-batch, type: batch, files: 4, detected_by: folder}
+- {name: config, type: config, files: 2, detected_by: folder}
+- {name: orders-web, type: web, files: 9, detected_by: build-file}
+- {name: scripts, type: script, files: 1, detected_by: folder}
+- {name: settlement-c, type: batch, files: 3, detected_by: build-file}
+component_roles:
+  billing-batch: [batch]
+  config: [config]
+  orders-web: [web]
+  scripts: [script]
+  settlement-c: [batch]
+unscheduled_batches: [billing-batch, settlement-c]
+coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
+  security: missing}
+counts:
+  services:
+    total: 2
+    by_kind: {c-executable: 1, struts-action: 1}
+  screens:
+    total: 1
+    partials: 0
+    by_technology: {jsp: 1}
+  sql:
+    total: 3
+    distinct: 3
+    by_type: {INSERT: 1, SELECT: 1, UPDATE: 1}
+    by_source: {embedded: 1, jdbc: 2}
+    dynamic: 0
+    not_parsed: 0
+  stored_procedures: 0
+  db_objects: {table: 4}
+  integrations:
+    total: 2
+    by_type: {DB: 1, SMTP: 1}
+  batch_jobs:
+    total: 2
+    scheduled: 0
+    unscheduled: 2
+    boxes: 0
+    by_scheduler: {}
+  libraries: {total: 0, declared: 0, undeclared: 0}
+  entry_points: {main: 2}
+  dependencies: {resolved: 8, unresolved: 0}
+  findings: {build-output-skipped: 4, dead-code-candidate: 1, eol-technology: 1, no-tests: 4}
+services: ['c-executable: settle', 'struts-action: /orderList']
+screens: [apps/orders-web/WebContent/jsp/orderList.jsp]
+integrations: ['DB oracle://billdb:1521/BILL [outbound]', 'SMTP mail.acme.local [outbound]']
+batch_jobs: []
+unresolved_references: 0
+assessment:
+  findings_by_severity: {info: 5, low: 4, medium: 1}
+  pg_grades: {auto: 3}
+  complexity:
+    services: {Simple: 2}
+    screens: {Simple: 1}
+    batch_jobs: {}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}
+
