@@ -185,3 +185,20 @@ Copilot agent in VS Code once.
   batches only.
 - PPTX: diagrams are pictures only when Mermaid CLI is installed; the corporate master
   (`branding.pptx_template`) is not applied yet; long tables are cut to 10 rows per slide.
+
+## Phase 7 follow-up: batches without scheduler inputs (2026-10-12)
+
+Asked for by Siva: the Components page showed batch components, but the Batch tab said "no
+batch" when the JIL/JCL files were missing; the AI enrichment should read the batch files and
+their comments to explain each batch.
+
+- Done: batch scripts, programs and listeners that no scheduler fact starts get their own flow
+  ("no schedule found" or "on message") on the functional Batch page, the technical Flows and
+  Batch jobs pages and the deck (decision 102). Each batch page shows "What the code says about
+  itself": header comments copied from its source files, credentials masked (decision 103).
+  Stage 12 now reads the batch sources and comments and fills `programs`, `controls` and
+  `restart` (decision 104). New VS Code task 18 scans a sample without its `audit-inputs`.
+- Known gaps: which scripts and programs are "top level" is a heuristic (nothing calls them);
+  a script started only from an unscanned scheduler can still show up beside the job that runs
+  it once the export arrives (it then becomes a step and its own card disappears). Comments are
+  read only when the source tree is on disk at report time.

@@ -31,7 +31,9 @@ facts; you interpret them. You never count.
 9. **Read everything before documenting.** The functional document and the component pages
    (stages `functional` and `component_docs`) must cover every screen, every batch and every
    component: work through the checklist in `/audit-enrich` and record progress in
-   `_working-summary.md`.
+   `_working-summary.md`. For batches, read the source of every script and program they run,
+   comments included: that is where the business purpose, the controls and the restart rules
+   are written down. A batch with no scheduler definition is still a batch.
 
 ## Where things are
 

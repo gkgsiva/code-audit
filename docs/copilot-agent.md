@@ -56,7 +56,11 @@ classes or programs, inputs and outputs, tables, technical debt and migration no
 
 Before writing, the agent reads everything the scan found for the application (services, screens,
 SQL and tables, batch jobs, integrations, libraries, metrics, findings) and opens the source of
-the main screens, services and jobs. The diagrams in the functional document (one flow per screen
+the main screens, services and jobs. For every batch (scheduled or not) it opens the scripts
+and programs it runs, reads their comments and main flow, and adds to the story what each program
+does, the controls in the code (counts, checks, reconciliations, error handling) and how to
+restart after a failure. A script or program that no scheduler export starts is still a batch:
+its story points at the script's file id or the program's service id. The diagrams in the functional document (one flow per screen
 and per batch) come from the scan, not from the agent: the agent's words appear beside them, so a
 missing or wrong story never changes a flow. Build the document with `legacy-audit report --type
 functional` (or `all`); it is in `audit-output/latest/reports/functional/index.html`.

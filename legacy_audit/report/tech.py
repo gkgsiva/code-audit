@@ -282,6 +282,10 @@ class _Pages:
         self.e = load_enrichment(rd.run_dir)
         self.screen_flows = flows.screen_flows(rd)
         self.batch_flows = flows.batch_flows(rd)
+        self.batch_comments = {f.id: flows.code_comments(rd, f) for f in self.batch_flows}
+        self.batch_said = {  # first line of the code's own comment, for the batch cards
+            fid: c[0]["lines"][0] for fid, c in self.batch_comments.items() if c
+        }
         run = rd.run
         self.common = {
             "app": run.get("application") or s.get("run", {}).get("application") or "application",
@@ -756,6 +760,10 @@ class _Pages:
                 for t in f.tables
             ],
             "link": self._link(*f.evidence),
+            "comments": [
+                {**c, "link": self._link(c["file"], None)}
+                for c in self.batch_comments.get(f.id, [])
+            ],
             "story": story,
             "component_slug": slug(f.component) if f.component else "",
         }
@@ -780,6 +788,7 @@ class _Pages:
             audience="technical",
             screen_flows=self.screen_flows,
             batch_flows=self.batch_flows,
+            said=self.batch_said,
             week=flows.week_grid(self.batch_flows),
             days=flows.DAY_NAMES,
         )
@@ -825,6 +834,11 @@ class _Pages:
         return list(out.items())
 
     def catalogue(self, page_id: str, cats: list[cat.Catalogue]) -> None:
+        unscheduled = (
+            [f for f in self.batch_flows if f.schedule.get("scheduler") in ("none", "event")]
+            if page_id == "batch-jobs"
+            else []
+        )
         self._render(
             "catalogue.html",
             f"{page_id}.html",
@@ -832,6 +846,8 @@ class _Pages:
             cats[0].title,
             catalogues=cats,
             data_scripts=[c.name for c in cats],
+            unscheduled=unscheduled,
+            said=self.batch_said,
         )
 
     def postgresql(self) -> None:

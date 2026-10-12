@@ -11,3 +11,5 @@ samples/*/audit-output/
 node_modules/
 samples/*/.github/
 samples/*/.vscode/
+# scratch copies made by scripts/scan_without_inputs.py
+build/

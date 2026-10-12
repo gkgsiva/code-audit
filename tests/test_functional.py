@@ -164,3 +164,82 @@ def test_report_command_builds_the_functional_document(sample_copy) -> None:  # 
     assert res.exit_code == 0, res.output
     assert "Functional document" in res.output
     assert list((app_dir / "audit-output").rglob("reports/functional/batch.html"))
+
+
+def _scan_copy(app_dir: Path, out: Path) -> Path:
+    return run_scan(load_config(app_dir / "audit.yaml"), output_dir=out).run_dir
+
+
+def test_batch_without_scheduler_inputs_is_still_listed(sample_copy, tmp_path: Path) -> None:  # type: ignore[no-untyped-def]
+    app_dir = sample_copy("c-proc-batch")
+    shutil.rmtree(app_dir / "audit-inputs")  # no crontab, no CFT: a coverage gap, not "no batch"
+    run_dir = _scan_copy(app_dir, tmp_path / "out")
+    rd = RunData.load(run_dir)
+    by_name = {f.name: f for f in flows.batch_flows(rd)}
+    assert list(by_name) == ["run_settlement.ksh"]
+    flow = by_name["run_settlement.ksh"]
+    assert flow.schedule["scheduler"] == "none" and flow.schedule["unscheduled"]
+    names = [s["name"] for s in flow.steps]
+    assert names[0] == "run_settlement.ksh"
+    assert {"settle_report.sql", "settle_load", "settle_send"} <= set(names)
+    assert len(flow.tables) == 4
+    said = flows.code_comments(rd, flow)
+    assert said and said[0]["file"].endswith("run_settlement.ksh")
+    # both documents list it, with what its code says
+    fn = build_functional_report(run_dir).parent
+    text = (fn / "batch.html").read_text(encoding="utf-8")
+    assert "run_settlement.ksh" in text and "no schedule found" in text and "The code says" in text
+    tech = build_tech_report(run_dir).parent
+    cat = (tech / "batch-jobs.html").read_text(encoding="utf-8")
+    assert "Batch work with no scheduler definition" in cat
+    page = next((tech / "flows").glob("batch-run_settlement*.html")).read_text(encoding="utf-8")
+    assert "What the code says about itself" in page
+
+
+def test_listener_and_unscheduled_job_show_up(tmp_path: Path) -> None:
+    rd = RunData.load(_scan("spring-mvc-batch-app", tmp_path))
+    by_name = {f.name: f for f in flows.batch_flows(rd)}
+    assert {"BIL_NIGHTLY_BOX", "invoiceJob", "PaymentListener"} <= set(by_name)
+    assert by_name["PaymentListener"].schedule["scheduler"] == "event"
+    assert by_name["BIL_NIGHTLY_BOX"].schedule["scheduler"] == "autosys"
+
+
+@pytest.mark.parametrize(
+    ("language", "text", "expected"),
+    [
+        ("shell", "#!/bin/ksh\n# Nightly load of usage\n# runs at 2am\nset -e\n", "Nightly load of usage"),  # noqa: E501
+        ("sql", "-- Settlement report\nselect 1 from dual;\n", "Settlement report"),
+        ("c", "/* Copyright ACME 1999 */\n/*\n * Sends the file to the bank\n */\nint x;\n", "Sends the file to the bank"),  # noqa: E501
+        ("java", "package a;\n/** Not this. */\nimport b;\n/**\n * Writes invoices.\n */\n@Component\npublic class W {}\n", "Writes invoices."),  # noqa: E501
+        ("cobol", "000100 IDENTIFICATION DIVISION.\n000200* Monthly order report\n000300 PROGRAM-ID. X.\n", "Monthly order report"),  # noqa: E501
+        ("jcl", "//JOB1 JOB\n//* Runs the order batch\n//S1 EXEC PGM=X\n", "Runs the order batch"),
+    ],
+)  # fmt: skip
+def test_header_comment_per_language(
+    language: str, text: str, expected: str, tmp_path: Path
+) -> None:
+    from legacy_audit.report.comments import header_comment
+
+    src = tmp_path / "src.txt"
+    src.write_text(text, encoding="utf-8")
+    assert header_comment(src, language)[0] == expected
+
+
+def test_header_comment_masks_credentials(tmp_path: Path) -> None:
+    from legacy_audit.report.comments import header_comment
+
+    src = tmp_path / "load.sh"
+    src.write_text("# Loads usage\n# sqlplus scott/tiger@ORCL password=Secr3t\n", encoding="utf-8")
+    lines = " ".join(header_comment(src, "shell"))
+    assert "tiger" not in lines and "Secr3t" not in lines and "scott/****@" in lines
+
+
+def test_batch_story_programs_check_their_ids(tmp_path: Path) -> None:
+    run_dir = _enriched("spring-mvc-batch-app", tmp_path)
+    path = run_dir / "enrichment" / "functional.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    story = next(b for b in data["batches"] if b.get("programs"))
+    story["programs"][0]["fact_id"] = "file:nope"
+    path.write_text(json.dumps(data), encoding="utf-8")
+    texts = " ".join(e.text for e in validate_run(run_dir, ["functional"]).errors)
+    assert "file:nope" in texts
