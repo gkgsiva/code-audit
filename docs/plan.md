@@ -267,6 +267,8 @@ All generated from the same facts + enrichment, so numbers never disagree.
 - **Flow per batch** (drawn from the scan): what starts it (schedule, file arrival, another job), its steps in order with success/failure conditions, what each step runs, tables and files read and written, what happens when it fails (alarms, retries, steps that run anyway), plus a week calendar of when every batch runs. Batch scripts, programs and listeners that no scheduler input starts still get a flow, marked "no schedule found", so a missing JIL/JCL/crontab never empties the Batch page; each batch shows the header comments of its source files (copied, credentials masked).
 - The Copilot agent's stage 12 adds the words: purpose, user actions, business impact, rules. The diagrams, tables and schedules come from the scan and are always present; missing words show a placeholder naming `/audit-enrich functional`.
 
+**2c. Summary report** – one offline page (`reports/summary/index.html`) in four sections: 1 Project (short description, technology stack, modules with description, technology, complexity and lines of code), 2 Database and queries, 3 Integrations, 4 Batches; each with KPI tiles, charts and tables, every table also as CSV. Its **PowerPoint (PPTX)** button downloads `summary.pptx`, built on the corporate `.potx` like the management PPTX (decision 124).
+
 Both HTML sites use one colour system (8 series colours, a sequential blue ramp, status colours, light and dark): icon tiles, gauges, doughnuts, stacked bars, radar per component, bubble chart for vulnerable libraries, CRUD and risk heat maps, Gantt roadmap, coloured Mermaid flows with a legend.
 
 **3. Management presentation** – one slide definition (`deck.json`) rendered twice:
@@ -369,7 +371,7 @@ Legacy workspace after `legacy-audit init`:
   audit-inputs/   autosys/ mq/ cft/ ddl/ crontab/ server-config/
   audit-output/
     runs/<run-id>/  latest/
-      data/  enrichment/  reports/tech/  reports/mgmt/  reports/deck.pptx  logs/
+      data/  enrichment/  reports/tech/  reports/mgmt/  reports/summary/  reports/deck.pptx  logs/
 ```
 
 ## Build plan

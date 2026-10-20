@@ -299,3 +299,20 @@ no JIL is given.
   path or key are not recognised; schedule hints take the first match only.
 - Next: run tasks 22 and 23 on a real estate and check the purposes and hints.
 
+
+## Summary report (2026-10-20)
+
+Asked for by Siva in the same thread: a report in four sections (project with technology
+stack and modules, database and queries, integrations, batches), each a consolidated summary
+with graphics and data, as HTML with a button to get a PowerPoint. Siva chose to build the
+PowerPoint on the corporate template rather than in the browser with pptxgenjs.
+
+- Done: `report/summary.py` and `report/summary_html/summary.html` write
+  `reports/summary/` (index.html, summary.json, deck.json, data/*.csv, summary.pptx);
+  `report --type summary` and `--type all`, GUI **Build summary report** and the page's
+  **Rebuild PowerPoint** with a template choice when opened from the GUI (decision 124).
+  Tests in `tests/test_summary.py`; VS Code task 24.
+- Known gaps: module descriptions come from the Copilot component docs when present, else a
+  scan sentence listing the module's contents; table slides show the first 10 rows (the page
+  and CSVs have all of them).
+- Next: build it on a real estate and check the slide layouts with the team.

@@ -49,7 +49,7 @@ SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._ -]{0,120}$")
 UPLOAD_KINDS = {**INPUT_KINDS, "security": "Vulnerability reports (JSON)"}
 MAX_UPLOAD = 200 * 1024 * 1024
 DIFF_LIST = 200
-REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "all")
 FIELDS = ("application", "source", "target", "include", "exclude")
 
 
@@ -688,6 +688,8 @@ def create_app(
             "functional": "functional/index.html",
             "mgmt": "mgmt/index.html",
             "pptx": "deck.pptx",
+            "summary": "summary/index.html",
+            "summary_pptx": "summary/summary.pptx",
         }
         deck = _read_json(rd / "mgmt" / "deck.json") or {}
         used = deck.get("pptx_template") or {}
@@ -764,6 +766,12 @@ def create_app(
             if body.type in ("mgmt", "all"):
                 job.emit("progress", stage="management deck", n=0, total=0)
                 build_mgmt_report(run_dir, branding, config_dir)
+            if body.type in ("summary", "all"):
+                from legacy_audit.report.summary import build_summary_report
+
+                job.emit("progress", stage="summary report", n=0, total=0)
+                sres = build_summary_report(run_dir, branding, config_dir, body.template)
+                out["messages"].append(sres.message)
             if body.type in ("pptx", "all"):
                 job.emit("progress", stage="PowerPoint", n=0, total=0)
                 res = build_pptx(run_dir, branding, config_dir, body.template)

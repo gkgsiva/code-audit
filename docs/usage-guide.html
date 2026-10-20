@@ -617,7 +617,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <h3 id="gui-reports">8. Reports</h3>
 <ul>
-  <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, or <strong>Build all</strong> (recommended).</li>
+  <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, <strong>Build summary report</strong>, or <strong>Build all</strong> (recommended).</li>
   <li><strong>PowerPoint template</strong>: click the picture of the template you want (Blue, Orange or Purple) before you press <strong>Build PowerPoint</strong> or <strong>Build all</strong>. The app remembers your choice next time.</li>
   <li>When a report is built, <strong>Open</strong> appears next to it (and <strong>Download</strong> for the PowerPoint, with the template it used, for example <em>PowerPoint (PPTX), Orange template</em>). Until then it says <em>not built yet</em>.</li>
   <li><strong>Download data pack (ZIP)</strong>: one ZIP file with every list (CSV for Excel, JSON, a SQLite database), the run details and the AI analysis. Send this to someone who wants the raw data.</li>
@@ -631,6 +631,18 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <!-- ============================================================ 11 -->
 <h2 id="reports">11. Reading the reports</h2>
+
+<h3 id="summary-report">The summary report (start here)</h3>
+<p>One page that sums up the whole application in four numbered parts, each with tiles of key numbers, charts and tables. It is saved in the run's folder as <code>reports/summary/index.html</code> and opens with no internet.</p>
+<ol>
+  <li><strong>Project</strong>: a short description of the application, its technology stack, and its modules, each with a description, the technologies it uses, its complexity and its lines of code.</li>
+  <li><strong>Database and queries</strong>: the SQL found in the code, the tables it uses (C create, R read, U update, D delete), how ready it is for PostgreSQL, and the databases it connects to.</li>
+  <li><strong>Integrations</strong>: every other system, once, with what it is for (for example <em>login / authentication</em> for Okta) and a description.</li>
+  <li><strong>Batches</strong>: every batch, with what it does and when it runs.</li>
+</ol>
+<p><strong>How to get it:</strong> in the app, <span class="menu">8. Reports &gt; Build summary report</span> (or <strong>Build all</strong>), then <strong>Open</strong>. In VS Code, run the task <code>audit: 24. build and open the summary report (HTML and PowerPoint)</code>.</p>
+<p><strong>Getting it as PowerPoint:</strong> click the blue <strong>PowerPoint (PPTX)</strong> button at the top right of the page. The file <code>summary.pptx</code> downloads; it is built on the company template (Blue unless you chose another), with real PowerPoint charts and tables you can edit. When you opened the page from the app, you can also pick another template next to the button and click <strong>Rebuild PowerPoint</strong>.</p>
+<p>Under every table, <strong>Download CSV</strong> gives the same rows for Excel. Descriptions marked <em>AI</em> come from the Copilot analysis (section 13); the others, and every number, come from the scan.</p>
 
 <h3>The technical report</h3>
 <p>A website made of files, saved in the run's folder (<code>reports/tech/index.html</code>). It opens from disk with no internet, so you can zip the folder and send it. The menu has these pages:</p>
@@ -931,6 +943,9 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <tr><td><code>audit: 19. test the AI model settings</code></td><td>Sends a tiny test to the model set in a sample's <code>audit.yaml</code> or the <code>LEGACY_AUDIT_AI_*</code> variables.</td><td>Anyone using another model</td></tr>
   <tr><td><code>audit: 20. AI enrichment with the configured model</code></td><td>Writes the missing and out-of-date stages for a sample with that model.</td><td>Anyone using another model</td></tr>
   <tr><td><code>audit: 21. show components and the batch count</code></td><td>Scans a sample and prints its components (type, what else they hold, what they are made of), the folders left out as build output, and the batch count.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 22. show lines of code by language and the integrations</code></td><td>Scans a sample and prints its lines of code per language and its integrations, one line per system.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 23. show all batches with what they do and when they run</code></td><td>Scans a sample and prints every batch with what it does and when it runs.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 24. build and open the summary report (HTML and PowerPoint)</code></td><td>Builds a sample's summary report and its PowerPoint, and opens the page. Scan the sample first.</td><td>Everyone</td></tr>
 </table></div>
 
 <!-- ============================================================ 15 -->
@@ -974,6 +989,7 @@ legacy-audit version               # the tool's version</code></pre>
    │  └─ 20261010-165123-779f7e/     one folder per run, named by date and time
    │     ├─ run.json                 run details: inputs, coverage, timings, counting rules
    │     ├─ data/                    the lists: CSV (Excel), JSON, facts.sqlite, SBOM, effort.json
+   │     ├─ reports/summary/         summary report (index.html) and its PowerPoint (summary.pptx)
    │     ├─ reports/tech/index.html  technical report
    │     ├─ reports/mgmt/index.html  management deck
    │     ├─ reports/deck.pptx        PowerPoint

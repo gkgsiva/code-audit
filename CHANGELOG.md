@@ -6,6 +6,15 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Summary report (2026-10-20)
+
+- New `legacy-audit report --type summary` (also in `--type all` and a GUI button): one page
+  in four parts (project and modules, database and queries, integrations, batches) with
+  key numbers, charts, tables and a CSV per table.
+- Its **PowerPoint (PPTX)** button downloads `summary.pptx`, built on the corporate template;
+  from the GUI the page can rebuild it with another template.
+- VS Code task 24 builds and opens it.
+
 ### Integration purposes and one batch list (2026-10-20)
 
 - Every integration has a purpose and a one-sentence description; Okta and other identity

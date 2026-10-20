@@ -412,7 +412,7 @@ Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
      **Description**;
    - **Batch jobs**: **All batches** first, with **Download this list as CSV** (opens in
      Excel), then **Scheduler job details**.
-5. Run `audit: 16. build and open the functional document`: the **Batch** page opens with
+5. Run `audit: 17. build and open the functional document`: the **Batch** page opens with
    **All batches at a glance**; **Interfaces** shows the scan's description where Copilot has
    not written one yet.
 6. **With Copilot** (optional): run the enrichment (`/audit-enrich`, or task 20). Stage 12
@@ -420,3 +420,35 @@ Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
    short `purpose` and `when` per batch; rebuild the report and the Description, What it
    does and When it runs columns show Copilot's words marked "AI (Copilot)" / "(AI)".
 
+
+## Summary report (HTML and PowerPoint)
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_summary.py`.
+2. Run `audit: 4. scan a sample` with `legacy-layout-app`, then
+   `audit: 24. build and open the summary report (HTML and PowerPoint)` with the same sample.
+   The terminal prints `Summary report -> ...reports/summary/index.html` and
+   `PowerPoint written (Blue template).` The page opens in the browser (on WSL2 open the
+   printed path from Windows Explorer if it does not).
+3. On the page, check the four numbered sections in the bar at the top:
+   - **1 Project**: a short description, tiles (148 lines of code, 5 modules), charts of lines
+     by language, lines by module and modules by complexity, then **Technology stack** and
+     **Modules** (description, technology, complexity, lines of code);
+   - **2 Database and queries**: 3 SQL statements on 4 tables, the PostgreSQL readiness
+     ring, statements by type, most used tables, and the tables with their CRUD;
+   - **3 Integrations**: 5 systems, with Okta as **login / authentication**;
+   - **4 Batches**: billing-batch and settlement-c with what they do and when they run.
+   Each table has **Download CSV** (opens in Excel). Long tables have a filter box.
+4. Click **PowerPoint (PPTX)** at the top right: `summary.pptx` downloads. Open it in
+   PowerPoint: the corporate cover, contents, one chapter slide per section, "at a glance"
+   and figures slides with native charts, table slides, and the closing slide.
+5. Other template: run in the terminal
+   `python -m legacy_audit report --type summary --template purple -c samples/legacy-layout-app/audit.yaml`
+   (Windows: `.venv\Scripts\python`, WSL2: `.venv/bin/python`): the message says Purple.
+6. From the GUI: run `audit: 13. start the GUI on a sample`, open the run, click **Build
+   summary report**, then open it. The page now also shows a template list and **Rebuild
+   PowerPoint**; pick Orange, click it, and the page reloads with "Built on the Orange
+   template".
+7. With Copilot (optional): after the enrichment, rebuild; the project description, module
+   descriptions, integration stories and batch purposes show Copilot's words marked AI.
