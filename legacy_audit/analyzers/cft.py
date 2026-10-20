@@ -49,14 +49,17 @@ def cftutil_integration(args: str, file: str, line: int) -> Integration | None:
 
 class CftAnalyzer:
     name: ClassVar[str] = "cft"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def supports(self, file: FileRecord) -> bool:
         p = file.path.lower()
         return (
             p.startswith("audit-inputs/cft/")
             or p.endswith((".cft", ".cfg.cft"))
-            or (file.language in ("text", "unknown", "ini") and "/cft" in p)
+            or (
+                (file.language in ("text", "ini", "data") or file.language.startswith("other ("))
+                and "/cft" in p
+            )
         )
 
     def analyze(self, file: FileRecord, ctx: AnalyzerContext) -> Facts:

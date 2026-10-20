@@ -29,3 +29,10 @@ def test_binary():
     assert is_binary(b"GIF89a\x01\x00\x00\x00")
     assert not is_binary(b"text only")
     assert not is_binary("hi".encode("utf-16"))
+
+
+def test_binary_without_nul_bytes():
+    # Packed or compiled content with no NUL byte is still binary; EBCDIC text is not.
+    assert is_binary(bytes(range(1, 32)) * 40)
+    assert not is_binary("       DISPLAY 'HELLO'.\n".encode("cp037") * 20)
+    assert not is_binary(b"col1\tcol2\r\n\x0cpage two\x1a")

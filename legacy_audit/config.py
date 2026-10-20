@@ -54,8 +54,11 @@ DEFAULT_COUNTING_RULES: dict[str, str] = {
         "One package/procedure/function, counted separately and graded manual or review."
     ),
     "integration": (
-        "One unique (type, target, direction). The same FTP host used by 10 scripts is "
-        "1 integration with 10 usages."
+        "One interface per (type, target), whatever direction or spelling each usage has: "
+        "the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both "
+        "read and written is one row with direction both; host case, a default port, a "
+        "trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP "
+        "calls to the same URL are one SOAP integration."
     ),
     "batch_job": (
         "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch "
@@ -67,7 +70,11 @@ DEFAULT_COUNTING_RULES: dict[str, str] = {
     "manifest or hash.",
     "loc": (
         "Lines of code per file split into code, comment and blank using the language's "
-        "comment syntax. A line holding both code and a comment counts as code."
+        "comment syntax. A line holding both code and a comment counts as code. Every text "
+        "file is counted under the language its extension names; a text extension no rule "
+        "knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly "
+        "control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and "
+        "backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines."
     ),
 }
 

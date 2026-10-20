@@ -220,7 +220,7 @@ Published in every report and configurable.
 | Screen | One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form | JSP fragments/tiles counted separately as "partials" |
 | DB query | One distinct SQL statement after normalizing whitespace and bind variables; SQL built at run time counts once per execution site, rebuilt to its full text (fragments are not statements) | Report total, distinct, by type, by PG grade; dynamic SQL flagged with its holes and variants |
 | Stored procedure | One package/procedure/function | Counted separately; graded manual or review |
-| Integration | One unique (type, target, direction) | Same FTP host used by 10 scripts = 1 integration, 10 usages |
+| Integration | One interface per (type, target), whatever the direction or spelling of each usage (decision 119) | Same FTP host used by 10 scripts = 1 integration, 10 usages; read and written = one row, direction both |
 | Batch job | One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job); without a scheduler definition, one per batch component (decision 116) | Steps listed under it; Autosys boxes are containers, not jobs; the ksh scripts of a batch component are its steps, not batches |
 | Library | One distinct (group, artifact, version) | Undeclared jars identified by manifest / hash |
 

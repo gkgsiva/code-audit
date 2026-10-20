@@ -227,6 +227,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_components.py samples\\${input:sample}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 22. show lines of code by language and the integrations",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_loc_integrations.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_loc_integrations.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
     }
   ]
 }

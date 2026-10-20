@@ -7,6 +7,7 @@ import re
 from collections.abc import Iterable
 from typing import TypeVar
 
+from legacy_audit.analyzers.integrations import consolidation_key, merge_directions
 from legacy_audit.model import (
     BatchJob,
     DbObject,
@@ -78,15 +79,55 @@ def merge_integrations(items: Iterable[Integration]) -> list[Integration]:
     out = list(by_id.values())
     for it in out:
         if it.type in ("MQ", "JMS"):
-            if it.producers and it.consumers:
-                it.direction = "both"
-            elif it.producers:
-                it.direction = "outbound"
-            elif it.consumers:
-                it.direction = "inbound"
+            _queue_direction(it, it.id in defined)
+    return _consolidate(_merge_cft(out))
+
+
+def _queue_direction(it: Integration, defined: bool) -> None:
+    if it.producers and it.consumers:
+        it.direction = "both"
+    elif it.producers:
+        it.direction = "outbound"
+    elif it.consumers:
+        it.direction = "inbound"
+    else:
+        it.direction = "defined" if defined else "unknown"
+
+
+def _consolidate(items: list[Integration]) -> list[Integration]:
+    """One row per interface: usages of the same target found with different directions,
+    spellings (host case, default port, trailing slash, ``queue:///``), or as HTTP and SOAP fold
+    into one integration whose direction is the union (inbound + outbound = both)."""
+    groups: dict[tuple[str, str], list[tuple[Integration, str]]] = {}
+    for it in items:
+        family, key, display = consolidation_key(it.type, it.target)
+        groups.setdefault((family, key), []).append((it, display))
+    out: list[Integration] = []
+    for members in groups.values():
+        # The most detailed spelling names the row (QM1@host:1414 over QM1); then most used.
+        members.sort(key=lambda m: (-len(m[1]), -m[0].usages, m[1], m[0].id))
+        head, display = members[0]
+        merged = head.model_copy(deep=True)
+        merged.target = display
+        if len(members) > 1:
+            directions = {m.direction for m, _ in members}
+            for m, _ in members[1:]:
+                merged.usages += m.usages
+                merged.source_files = _union(merged.source_files, m.source_files)
+                merged.producers = _union(merged.producers, m.producers)
+                merged.consumers = _union(merged.consumers, m.consumers)
+                merged.evidence = _evidence(merged.evidence, m.evidence)
+                merged.protocol = merged.protocol or m.protocol
+                for k, v in m.details.items():
+                    merged.details.setdefault(k, v)
+            if any(m.type == "SOAP" for m, _ in members):
+                merged.type = "SOAP"
+            if merged.type in ("MQ", "JMS") and (merged.producers or merged.consumers):
+                _queue_direction(merged, False)
             else:
-                it.direction = "defined" if it.id in defined else "unknown"
-    return _merge_cft(out)
+                merged.direction = merge_directions(directions)
+        out.append(merged)
+    return out
 
 
 def _merge_cft(items: list[Integration]) -> list[Integration]:

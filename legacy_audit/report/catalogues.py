@@ -209,7 +209,8 @@ def build(rd: RunData, root: Path) -> dict[str, Catalogue]:
         Catalogue(
             "integrations",
             "Integrations",
-            "One row per (type, target, direction); usages counts the code places that use it.",
+            "One row per interface (type and target); a target both read and written shows "
+            "direction both; usages counts the code places that use it.",
             [
                 Column("type", "Type", filter=True),
                 Column("target", "Target", "code"),

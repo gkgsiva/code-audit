@@ -1,6 +1,6 @@
-"""Building ``Integration`` facts. One integration is one unique (type, target, direction);
-MQ/JMS queues are one integration per queue, their direction derived from producers and
-consumers when everything is merged."""
+"""Building ``Integration`` facts. Each usage is recorded per (type, target, direction); MQ/JMS
+queues per queue, their direction derived from producers and consumers when everything is
+merged. The merge then keeps one integration per interface (``consolidation_key``)."""
 
 from __future__ import annotations
 
@@ -132,3 +132,96 @@ def classify_url(url: str, soap_hint: bool = False) -> tuple[str, str] | None:
     if kind is None:
         return None
     return kind, f"{scheme}://{host}{port}"
+
+
+# ---- one row per interface ---------------------------------------------------------------------
+
+# Types whose target is a host (and port): ftp://h, h:21 and FTP h all name one server.
+_HOST_TYPES = {"FTP", "SFTP", "SCP", "SMTP", "LDAP", "SOCKET"}
+_DEFAULT_PORTS = {
+    "http": "80",
+    "https": "443",
+    "ftp": "21",
+    "ftps": "990",
+    "sftp": "22",
+    "scp": "22",
+    "smtp": "25",
+    "ldap": "389",
+    "ldaps": "636",
+}
+_TYPE_SCHEME = {"FTP": "ftp", "SFTP": "sftp", "SCP": "scp", "SMTP": "smtp", "LDAP": "ldap"}
+_QUEUE_URI = re.compile(r"^queue://[^/]*/", re.I)
+
+
+def _host_port(type: str, target: str) -> tuple[str, str] | None:
+    """(display, key) for a host target, the key without a default port; None when the target
+    is not a host (``mail (mailx)``)."""
+    scheme = ""
+    rest = target.strip()
+    if "://" in rest:
+        parts = urlsplit(rest)
+        scheme = parts.scheme.lower()
+        host = (parts.hostname or "").lower()
+        try:
+            port = str(parts.port) if parts.port else ""
+        except ValueError:
+            return None
+    else:
+        rest = rest.rsplit("@", 1)[-1]  # user@host
+        host, _, port = rest.partition(":")
+        host = host.lower()
+        if port and not port.isdigit():
+            port = port if type == "SOCKET" else ""  # host:/path (scp) keeps the host only
+    if not host or not re.match(r"^[\w.*?-]+$", host):
+        return None
+    shown = f"{host}:{port}" if port else host
+    if port and port == _DEFAULT_PORTS.get(scheme or _TYPE_SCHEME.get(type, ""), ""):
+        port = ""
+    return (f"{scheme}://{shown}" if scheme else shown), f"{host}:{port}" if port else host
+
+
+def consolidation_key(type: str, target: str) -> tuple[str, str, str]:
+    """(family, key, display target): integrations with the same family and key are one
+    interface, whatever direction, spelling or default port each usage was written with."""
+    if type in ("HTTP", "SOAP"):
+        parts = urlsplit(target)
+        scheme = parts.scheme.lower()
+        host = (parts.hostname or "").lower()
+        try:
+            port = str(parts.port) if parts.port else ""
+        except ValueError:
+            port = ""
+        if not host:
+            return "HTTP", target, target
+        path = parts.path.rstrip("/")
+        shown = f"{scheme}://{host}{':' + port if port else ''}{path}"
+        if port == _DEFAULT_PORTS.get(scheme):
+            port = ""
+        return "HTTP", f"{scheme}://{host}{':' + port if port else ''}{path}", shown
+    if type in _HOST_TYPES:
+        hp = _host_port(type, target)
+        if hp:
+            return type, hp[1], hp[0]
+        return type, target.strip().lower(), target.strip()
+    if type == "DB":
+        shown = re.sub(r"^(\w+://)([^:/]+)", lambda m: m.group(1) + m.group(2).lower(), target)
+        return type, target.lower(), shown
+    if type == "MQ-QMGR":
+        return type, target.split("@", 1)[0].strip(), target
+    if type in ("MQ", "JMS", "MQ-CHANNEL"):
+        name = _QUEUE_URI.sub("", target.strip()).split("?", 1)[0]
+        return type, name, name
+    if type == "FILE":
+        path = target.replace("\\", "/")
+        return type, path, path
+    return type, target, target
+
+
+def merge_directions(directions: set[str]) -> str:
+    """inbound + outbound is both; a concrete direction wins over defined and unknown."""
+    concrete = directions - {"defined", "unknown"}
+    if "both" in concrete or {"inbound", "outbound"} <= concrete:
+        return "both"
+    if concrete:
+        return concrete.pop()
+    return "defined" if "defined" in directions else "unknown"

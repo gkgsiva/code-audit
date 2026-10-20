@@ -6,6 +6,19 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Lines of code and consolidated integrations (2026-10-20)
+
+- No language is "unknown": about 50 more extensions are recognised (SQL*Loader `.ctl`, DB2
+  and Informix embedded SQL, more PL/SQL, awk, sed, Tcl, PowerShell, VBScript, Kotlin, Scala,
+  SQLJ, C#, ...); any other text extension shows as `other (.ext)`.
+- Binary files are left out of the lines of code by content too (NUL byte or mostly control
+  bytes), whatever their extension; backup copies (`.bak`, `.old`, `~`, `.ksh_old`, dated
+  copies) and data files (`.dat`, `.csv`) are listed with no lines.
+- Integrations are one row per interface: directions merge into `both`, and host case, default
+  ports, trailing slashes, `queue:///` and `QM@host` spellings no longer give duplicates.
+- VS Code task 22 prints lines of code by language and the integrations
+  (`scripts/show_loc_integrations.py`).
+
 ### Component classification and batch count (2026-10-12)
 
 - Build output is no longer scanned: Eclipse `bin/` and other `bin/`, `classes/`, `obj/`,

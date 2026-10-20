@@ -226,7 +226,7 @@ def test_one_batch_per_component_not_per_script(tmp_path: Path) -> None:
     assert rd.summary["counts"]["batch_jobs"]["total"] == 2
     tech = build_tech_report(run_dir).parent
     comps = (tech / "components.html").read_text(encoding="utf-8")
-    assert "config 1, script 2, source 1" in comps  # what billing-batch is made of
+    assert "config 2, other 1, script 2, source 1" in comps  # what billing-batch is made of
 
 
 @pytest.mark.parametrize(

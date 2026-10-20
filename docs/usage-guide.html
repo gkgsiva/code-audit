@@ -636,7 +636,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <p>A website made of files, saved in the run's folder (<code>reports/tech/index.html</code>). It opens from disk with no internet, so you can zip the folder and send it. The menu has these pages:</p>
 <div class="table-wrap"><table>
   <tr><th>Page</th><th>What it tells you</th></tr>
-  <tr><td>Overview</td><td>The headline numbers, which inputs were present or missing, and the effort estimate.</td></tr>
+  <tr><td>Overview</td><td>The headline numbers, which inputs were present or missing, and the effort estimate. The <strong>Code lines by language</strong> chart names every language by its file extension: a file the tool has no rule for shows as, for example, <em>other (.tpl)</em>, never "unknown". Compiled and binary files (<code>.class</code>, <code>.o</code>, <code>.exe</code>, images) are not counted; backup copies (<code>.bak</code>, <code>.old</code>, <code>file.c~</code>) and data files (<code>.dat</code>, <code>.csv</code>) are listed in the inventory but add no lines.</td></tr>
   <tr><td>Components</td><td>The parts of the application, with a page for each listing its services, screens, SQL and findings.</td></tr>
   <tr><td>Architecture</td><td>Diagrams drawn from the scan: how components connect, the map of connections to other systems, and chains of batch jobs.</td></tr>
   <tr><td>Flows</td><td>One picture per screen (the services behind it and the tables they use) and per batch (what starts it, its steps, tables and files, what happens if it fails), plus a week calendar of when batches run.</td></tr>
@@ -645,7 +645,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <tr><td>Screens</td><td>Every user screen (JSP pages, mainframe maps), with its fields.</td></tr>
   <tr><td>SQL</td><td>Every database query found in the code, including queries the code builds while running, with its PostgreSQL grade.</td></tr>
   <tr><td>Database</td><td>Tables, views and procedures, and the <strong>CRUD matrix</strong>: which component Creates, Reads, Updates or Deletes each table.</td></tr>
-  <tr><td>Integrations</td><td>Connections to other systems: message queues (MQ), file transfers (CFT, FTP), web services called, emails and more.</td></tr>
+  <tr><td>Integrations</td><td>Connections to other systems: message queues (MQ), file transfers (CFT, FTP), web services called, emails and more. Each system appears <strong>once</strong>: if the code both reads and writes it, the direction says <em>both</em>, and the <em>Usages</em> column counts every place in the code that uses it.</td></tr>
   <tr><td>Batch jobs</td><td>Scheduled and batch programs (Autosys, JCL, cron, shell) and what they run. A second list, <strong>Batch work with no scheduler definition</strong>, shows the batches that none of the scheduler files you provided starts: one line per batch component, with its ksh scripts and programs as its steps.</td></tr>
   <tr><td>Libraries</td><td>Third-party components used, their versions, known vulnerabilities, end-of-life dates and the recommended upgrade.</td></tr>
   <tr><td>Findings</td><td>Issues the rules found, each with a severity and the exact place in the code.</td></tr>

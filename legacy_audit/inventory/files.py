@@ -17,7 +17,7 @@ from legacy_audit.inventory.loc import count_loc
 from legacy_audit.model import Category, Evidence, FileRecord, Origin, make_id
 
 # Bump when inventory logic changes so cached results are recomputed.
-INVENTORY_VERSION = "2"  # 2: makefile.*, .project, CMakeLists.txt languages
+INVENTORY_VERSION = "3"  # 3: more languages, other (.ext), backup, data, control-byte binaries
 _HEAD = 16 * 1024
 
 
@@ -61,8 +61,11 @@ def analyze_file(
 
     binary = is_binary(head_bytes) or PurePosixPath(path).suffix.lower() in BINARY_EXTENSIONS
     if binary:
-        language = detect_language(path, None)
-        if language == "binary" and not include_binaries:
+        # Whatever its extension says, a binary file has no lines to count: it is listed as
+        # binary (or archive), and only with inventory.include_binaries.
+        is_archive = PurePosixPath(path).suffix.lower() in ARCHIVE_EXTENSIONS
+        language = "archive" if is_archive else "binary"
+        if not is_archive and not include_binaries:
             return FileResult(None)
         rec = FileRecord(
             id=make_id("file", root, path),

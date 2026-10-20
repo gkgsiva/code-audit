@@ -355,3 +355,34 @@ WSL2, open reports with `explorer.exe <file>` if the browser does not open by it
    need was left out as build output, set `inventory: {skip_build_output: false}` in
    `audit.yaml`; if a component is split or grouped wrongly, fix it on the GUI's Components
    screen or with `components:` in `audit.yaml`.
+
+## Lines of code by language and consolidated integrations
+
+Same on Windows and WSL2 (the tasks pick `.venv\Scripts\python` or `.venv/bin/python`). On
+WSL2, open reports with `explorer.exe <file>` if the browser does not open by itself.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/test_language.py`, `tests/test_loc.py`, `tests/test_encoding.py`,
+   `test_merge_integrations_one_row_per_interface` and the `legacy-layout-app` sample.
+2. Run `audit: 22. show lines of code by language and the integrations` and pick
+   `legacy-layout-app`. The terminal shows:
+   - **Lines of code by language (11)** with no `unknown` row: `sqlloader` (the SQL*Loader
+     file `invoices.ctl`), `other (.tpl)` (a template no rule knows, named by its extension),
+     and `backup` and `data` with 0 lines (`run_invoices.ksh.bak`, `rates.dat`). Total 23 files,
+     144 code lines. The binary `settlement-c/data/rates.pak` (no NUL byte) and the `.class`
+     files are not in the list at all;
+   - **Integrations, one row per interface (2)**: `DB oracle://billdb:1521/BILL` and
+     `SMTP smtp://mail.acme.local:25`, each with **2 usages**: two spellings of the same
+     database and of the same mail server are one row each.
+3. Run task 22 with `spring-mvc-batch-app` and `struts-oracle-app`: the same integrations as
+   before, each once.
+4. Run `audit: 7. build and open the technical report` with `legacy-layout-app`:
+   - **Overview**: the chart **Code lines by language** shows `sqlloader` and no `unknown`
+     (the two smallest languages, `make` and `other (.tpl)`, are grouped as `other`);
+   - **Integrations**: two rows; the description says "One row per interface (type and
+     target)"; a target that is both read and written shows direction `both`;
+   - **Appendix > Counting rules**: the Integration and LOC rules describe the above.
+5. **On your own estate**: run `legacy-audit scan` (or task 22 with a folder that has an
+   `audit.yaml`: `python scripts/show_loc_integrations.py <folder>`, `python3` on WSL2). The
+   first scan after this update re-reads every file once. Files listed under **Not recognised,
+   named by extension** tell us which extension rules to add; send the list to the team.

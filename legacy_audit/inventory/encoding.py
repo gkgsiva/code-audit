@@ -22,11 +22,23 @@ _LATIN = {"latin_1", "iso8859_1", "iso8859_15", "cp1250", "cp1252", "windows-125
 _JAPANESE = {"shift_jis", "cp932", "shift_jis_2004", "shift_jisx0213"}
 
 
+# Control bytes that never appear in text (tab, newlines, form feed, ESC, the DOS end-of-file
+# mark and the EBCDIC newline 0x15 are allowed).
+_TEXT_CONTROLS = (0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x15, 0x1A, 0x1B)
+_CONTROL = bytes(b for b in range(0x20) if b not in _TEXT_CONTROLS)
+_CONTROL_SHARE = 0.10
+
+
 def is_binary(data: bytes) -> bool:
     sample = data[:8192]
     if sample.startswith((b"\xff\xfe", b"\xfe\xff")):
         return False  # UTF-16 text
-    return b"\x00" in sample
+    if b"\x00" in sample:
+        return True
+    # No NUL byte, but mostly control bytes: a compiled or packed file all the same.
+    return bool(sample) and len(sample.translate(None, _CONTROL)) < len(sample) * (
+        1 - _CONTROL_SHARE
+    )
 
 
 def _looks_ebcdic(sample: bytes) -> bool:

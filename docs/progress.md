@@ -260,3 +260,23 @@ batch, and the batch count showed 0 without scheduler inputs.
   `audit.yaml` or on the GUI's Components screen.
 - Next: run task 21 and a scan on a real estate and adjust the name lists if a folder is
   grouped wrongly.
+
+## Lines of code and consolidated integrations (2026-10-20)
+
+Asked for by Siva: the integrations list showed the same system several times, and the lines of
+code by language had many "unknown" entries, including binaries such as `.class` files.
+
+- Done: no language is "unknown" any more: about 50 more extensions recognised with their
+  comment syntax, anything else named `other (.ext)` (decision 118); one integration per
+  interface, directions merged into `both` and spellings of one target folded together
+  (decision 119); binaries left out by content as well as by extension (decision 120); backup
+  copies and data files listed with no lines (decision 121). `legacy-layout-app` gained a
+  SQL*Loader file, a template, a backup, a data file, a binary without NUL bytes and two
+  spellings of its SMTP host and database. VS Code task 22 prints lines of code by language and
+  the integrations. Inventory version 3: the first scan after upgrading re-reads every file.
+- Known gaps: integration ids of merged rows change, so an AI enrichment written before this
+  change shows its interface stories as stale until stage 12 is re-run. Two DB URLs to one host
+  with and without a database name stay two rows. MQ names are compared case-sensitively (as MQ
+  does).
+- Next: run task 22 on a real estate; any `other (.ext)` it lists is a candidate for a new
+  extension rule in `legacy_audit/inventory/language.py`.
