@@ -70,6 +70,11 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
         sorted(f"{i.type} {i.target} [{i.direction}]" for i in facts["integrations"])  # type: ignore[attr-defined]
         == expected["integrations"]
     )
+    if "integration_purposes" in expected:
+        assert {
+            f"{i.type} {i.target}": i.purpose  # type: ignore[attr-defined]
+            for i in facts["integrations"]
+        } == expected["integration_purposes"]
     assert (
         sorted(f"{j.scheduler} {j.kind}: {j.name}" for j in facts["batch_jobs"])  # type: ignore[attr-defined]
         == expected["batch_jobs"]

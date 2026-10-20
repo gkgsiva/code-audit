@@ -9,6 +9,7 @@ the copy gets its own build so its relative links stay right.
 
 from __future__ import annotations
 
+import csv
 import json
 import re
 import shutil
@@ -20,8 +21,8 @@ from typing import Any
 
 from jinja2 import ChainableUndefined, Environment, PackageLoader, select_autoescape
 
+from legacy_audit.report import batches, diagrams, flows
 from legacy_audit.report import catalogues as cat
-from legacy_audit.report import diagrams, flows
 from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData, slug
 
@@ -66,7 +67,7 @@ CATALOGUE_PAGES = {
     "sql": ["sql"],
     "db-objects": ["db-objects", "crud"],
     "integrations": ["integrations"],
-    "batch-jobs": ["batch-jobs"],
+    "batch-jobs": ["batches", "batch-jobs"],
     "libraries": ["libraries"],
 }
 GLOSSARY = [
@@ -175,12 +176,19 @@ def _build_into(rd: RunData, out: Path) -> None:
         shutil.rmtree(out)
     (out / "data").mkdir(parents=True)
     _copy_assets(out / "assets")
-    cats = cat.build(rd, out)
+    from legacy_audit.report.deck_builder import load_enrichment
+
+    fn = load_enrichment(rd.run_dir).get("functional") or {}
+    stories = {i["integration_id"]: i for i in fn.get("interfaces", []) or []}
+    cats = cat.build(rd, out, stories)
     for c in cats.values():
         _write_data_js(out / "data" / f"{c.name}.js", c.name, c.payload())
     if rd.has_sbom:
         shutil.copyfile(rd.run_dir / "data" / "sbom.cdx.json", out / "sbom.cdx.json")
     page = _Pages(rd, out, cats, _env())
+    cats["batches"] = cat.batches(rd, out, page.batch_rows)
+    _write_data_js(out / "data" / "batches.js", "batches", cats["batches"].payload())
+    _write_batches_csv(out / "data" / "batches.csv", page.batch_rows)
     page.overview()
     page.components()
     page.architecture()
@@ -206,6 +214,17 @@ def _copy_assets(dest: Path) -> None:
                     (dest / item.name / f.name).write_bytes(f.read_bytes())
         elif item.is_file():
             (dest / item.name).write_bytes(item.read_bytes())
+
+
+def _write_batches_csv(path: Path, rows: list[dict[str, Any]]) -> None:
+    """The consolidated batch list for Excel (UTF-8 with BOM so Excel reads accents)."""
+    cols = ["name", "kind", "component", "what", "what_from", "when", "when_from", "scheduler",
+            "steps", "when_file", "when_line"]  # fmt: skip
+    with path.open("w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(cols)
+        for r in rows:
+            w.writerow(["" if r.get(c) is None else r.get(c) for c in cols])
 
 
 def _write_data_js(path: Path, name: str, payload: Any) -> None:
@@ -286,6 +305,10 @@ class _Pages:
         self.batch_said = {  # first line of the code's own comment, for the batch cards
             fid: c[0]["lines"][0] for fid, c in self.batch_comments.items() if c
         }
+        stories = {
+            b["job_id"]: b for b in (self.e.get("functional") or {}).get("batches", []) or []
+        }
+        self.batch_rows = batches.batch_list(rd, self.batch_flows, self.batch_said, stories)
         run = rd.run
         self.common = {
             "app": run.get("application") or s.get("run", {}).get("application") or "application",
@@ -835,20 +858,15 @@ class _Pages:
         return list(out.items())
 
     def catalogue(self, page_id: str, cats: list[cat.Catalogue]) -> None:
-        unscheduled = (
-            [f for f in self.batch_flows if f.schedule.get("scheduler") in ("none", "event")]
-            if page_id == "batch-jobs"
-            else []
-        )
+        title = "Batch jobs" if page_id == "batch-jobs" else cats[0].title
         self._render(
             "catalogue.html",
             f"{page_id}.html",
             page_id,
-            cats[0].title,
+            title,
             catalogues=cats,
             data_scripts=[c.name for c in cats],
-            unscheduled=unscheduled,
-            said=self.batch_said,
+            batch_csv=page_id == "batch-jobs",
         )
 
     def postgresql(self) -> None:

@@ -11,6 +11,8 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from legacy_audit.inventory.language import NO_LOC_LANGUAGES
+
 C_BLOCK = ("/*", "*/")
 
 
@@ -38,6 +40,20 @@ SYNTAX: dict[str, Syntax] = {
     "yaml": Syntax(("#",)),
     "crontab": Syntax(("#",)),
     "dockerfile": Syntax(("#",)),
+    "awk": Syntax(("#",)),
+    "sed": Syntax(("#",)),
+    "tcl": Syntax(("#",)),
+    "ruby": Syntax(("#",)),
+    "powershell": Syntax(("#",), (("<#", "#>"),)),
+    "vbscript": Syntax(("'",)),
+    "vb": Syntax(("'",)),
+    "sqlloader": Syntax(("--",)),
+    "kotlin": Syntax(("//",), (C_BLOCK,)),
+    "scala": Syntax(("//",), (C_BLOCK,)),
+    "sqlj": Syntax(("//",), (C_BLOCK,)),
+    "csharp": Syntax(("//",), (C_BLOCK,)),
+    "go": Syntax(("//",), (C_BLOCK,)),
+    "php": Syntax(("//", "#"), (C_BLOCK,)),
     "properties": Syntax(("#", "!")),
     "ini": Syntax(("#", ";")),
     "jil": Syntax(("#",), (C_BLOCK,)),
@@ -156,6 +172,8 @@ def _star(raw: str) -> str:
 
 
 def count_loc(text: str, language: str) -> Loc:
+    if language in NO_LOC_LANGUAGES:
+        return Loc()  # data files and backup copies are listed, not measured
     lines = text.splitlines()
     if language in ("cobol", "procobol"):
         return _cobol(lines)

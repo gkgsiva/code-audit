@@ -494,6 +494,9 @@ def _cron_days(dow: str) -> list[int]:
     if dow in ("*", "?"):
         return list(range(7))
     days: set[int] = set()
+    names = [d[:3].lower() for d in _DAY_NAMES]  # Monday first
+    for i, n in enumerate(names):  # MON-FRI -> 1-5 (cron numbers, Sunday = 0)
+        dow = re.sub(rf"(?i)\b{n}\b", str((i + 1) % 7), dow)
     for part in dow.split(","):
         rng = part.split("/")[0]
         try:

@@ -282,3 +282,17 @@ def test_secrets_are_masked_in_every_output(sample_copy) -> None:  # type: ignor
         if p.is_file() and SECRET.encode() in p.read_bytes()
     ]
     assert hits == []
+
+
+def test_gui_builds_the_summary_report_on_a_chosen_template(sample_copy) -> None:  # type: ignore[no-untyped-def]
+    client = _client(sample_copy("c-proc-batch"))
+    _scan(client)
+    body = {"type": "summary", "template": "RG_TEMPLATE_PPT_HD_PURPLE"}
+    _ok(client.post("/api/runs/latest/reports", json=body, headers=H))
+    done = _wait(client)
+    assert done["state"] == "done", done
+    reports = _ok(client.get("/api/runs/latest/reports"))["reports"]
+    page = client.get(reports["summary"])
+    assert page.status_code == 200 and "Built on the Purple template" in page.text
+    pptx = client.get(reports["summary_pptx"])
+    assert pptx.status_code == 200 and pptx.content[:2] == b"PK"

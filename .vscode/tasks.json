@@ -227,6 +227,33 @@
         "command": ".venv\\Scripts\\python scripts\\show_components.py samples\\${input:sample}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 22. show lines of code by language and the integrations",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_loc_integrations.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_loc_integrations.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 23. show all batches with what they do and when they run",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_batches.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_batches.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 24. build and open the summary report (HTML and PowerPoint)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type summary --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type summary --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
     }
   ]
 }

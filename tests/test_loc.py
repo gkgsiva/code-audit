@@ -75,8 +75,19 @@ def test_docs_are_comment():
     assert loc("Title\n\ntext\n", "text") == (0, 2, 1)
 
 
-def test_unknown_language_counts_nonblank_as_code():
-    assert loc("a\n\nb\n", "unknown") == (2, 0, 1)
+def test_unrecognised_language_counts_nonblank_as_code():
+    assert loc("a\n\nb\n", "other (.xyz)") == (2, 0, 1)
+
+
+def test_data_and_backup_copies_are_not_measured():
+    assert loc("1;2\n3;4\n", "data") == (0, 0, 0)
+    assert loc("class A {}\n", "backup") == (0, 0, 0)
+
+
+def test_more_script_languages():
+    assert loc("# fix\n{ print $1 }\n", "awk") == (1, 1, 0)
+    assert loc("' note\nWScript.Echo 1\n", "vbscript") == (1, 1, 0)
+    assert loc("-- load\nLOAD DATA\n", "sqlloader") == (1, 1, 0)
 
 
 def test_windows_line_endings():

@@ -355,3 +355,100 @@ WSL2, open reports with `explorer.exe <file>` if the browser does not open by it
    need was left out as build output, set `inventory: {skip_build_output: false}` in
    `audit.yaml`; if a component is split or grouped wrongly, fix it on the GUI's Components
    screen or with `components:` in `audit.yaml`.
+
+## Lines of code by language and consolidated integrations
+
+Same on Windows and WSL2 (the tasks pick `.venv\Scripts\python` or `.venv/bin/python`). On
+WSL2, open reports with `explorer.exe <file>` if the browser does not open by itself.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/test_language.py`, `tests/test_loc.py`, `tests/test_encoding.py`,
+   `test_merge_integrations_one_row_per_interface` and the `legacy-layout-app` sample.
+2. Run `audit: 22. show lines of code by language and the integrations` and pick
+   `legacy-layout-app`. The terminal shows:
+   - **Lines of code by language (11)** with no `unknown` row: `sqlloader` (the SQL*Loader
+     file `invoices.ctl`), `other (.tpl)` (a template no rule knows, named by its extension),
+     and `backup` and `data` with 0 lines (`run_invoices.ksh.bak`, `rates.dat`). Total 23 files,
+     144 code lines. The binary `settlement-c/data/rates.pak` (no NUL byte) and the `.class`
+     files are not in the list at all;
+   - **Integrations, one row per interface (2)**: `DB oracle://billdb:1521/BILL` and
+     `SMTP smtp://mail.acme.local:25`, each with **2 usages**: two spellings of the same
+     database and of the same mail server are one row each.
+3. Run task 22 with `spring-mvc-batch-app` and `struts-oracle-app`: the same integrations as
+   before, each once.
+4. Run `audit: 7. build and open the technical report` with `legacy-layout-app`:
+   - **Overview**: the chart **Code lines by language** shows `sqlloader` and no `unknown`
+     (the two smallest languages, `make` and `other (.tpl)`, are grouped as `other`);
+   - **Integrations**: two rows; the description says "One row per interface (type and
+     target)"; a target that is both read and written shows direction `both`;
+   - **Appendix > Counting rules**: the Integration and LOC rules describe the above.
+5. **On your own estate**: run `legacy-audit scan` (or task 22 with a folder that has an
+   `audit.yaml`: `python scripts/show_loc_integrations.py <folder>`, `python3` on WSL2). The
+   first scan after this update re-reads every file once. Files listed under **Not recognised,
+   named by extension** tell us which extension rules to add; send the list to the team.
+
+## Integration purposes and the consolidated batch list
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_batch_list.py`.
+2. Run `audit: 22. show lines of code by language and the integrations` with
+   `legacy-layout-app`. Under **Integrations** each row now has a purpose and a sentence:
+   - `HTTP https://acme.okta.com/oauth2/default`: **login / authentication**, "Login /
+     authentication with Okta (OAuth 2.0 / OpenID Connect) at acme.okta.com";
+   - `HTTP https://pricing.acme.local/api/v2/prices`: **HTTP API**, "Calls the HTTPS endpoint
+     /api/v2/prices on pricing.acme.local";
+   - `FTP files.acme.local:21`: **file transfer**; DB, SMTP likewise.
+3. Run `audit: 23. show all batches with what they do and when they run`:
+   - `legacy-layout-app` (no JIL): **billing-batch** "Monthly invoicing batch..." / "Monthly,
+     says a comment in the code" with the file and line; **settlement-c** "Daily settlement
+     run." / "Daily, says a comment in the code";
+   - `spring-mvc-batch-app` (with JIL): BIL_NIGHTLY_BOX "Billing nightly cycle" (scheduler) /
+     "Runs every weekday (Mon to Fri) at 01:30." (autosys); PaymentListener "On each message
+     received";
+   - `cobol-cics-db2`: ORDNIGHT "No schedule found (Autosys JIL, crontab not provided)."
+4. Run `audit: 7. build and open the technical report` with `legacy-layout-app`:
+   - **Integrations**: new columns **Purpose** (filter it on `login / authentication`) and
+     **Description**;
+   - **Batch jobs**: **All batches** first, with **Download this list as CSV** (opens in
+     Excel), then **Scheduler job details**.
+5. Run `audit: 17. build and open the functional document`: the **Batch** page opens with
+   **All batches at a glance**; **Interfaces** shows the scan's description where Copilot has
+   not written one yet.
+6. **With Copilot** (optional): run the enrichment (`/audit-enrich`, or task 20). Stage 12
+   now asks for an interface story for every HTTP, SOAP, FTP, SFTP, SCP and CFT row and a
+   short `purpose` and `when` per batch; rebuild the report and the Description, What it
+   does and When it runs columns show Copilot's words marked "AI (Copilot)" / "(AI)".
+
+
+## Summary report (HTML and PowerPoint)
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_summary.py`.
+2. Run `audit: 4. scan a sample` with `legacy-layout-app`, then
+   `audit: 24. build and open the summary report (HTML and PowerPoint)` with the same sample.
+   The terminal prints `Summary report -> ...reports/summary/index.html` and
+   `PowerPoint written (Blue template).` The page opens in the browser (on WSL2 open the
+   printed path from Windows Explorer if it does not).
+3. On the page, check the four numbered sections in the bar at the top:
+   - **1 Project**: a short description, tiles (148 lines of code, 5 modules), charts of lines
+     by language, lines by module and modules by complexity, then **Technology stack** and
+     **Modules** (description, technology, complexity, lines of code);
+   - **2 Database and queries**: 3 SQL statements on 4 tables, the PostgreSQL readiness
+     ring, statements by type, most used tables, and the tables with their CRUD;
+   - **3 Integrations**: 5 systems, with Okta as **login / authentication**;
+   - **4 Batches**: billing-batch and settlement-c with what they do and when they run.
+   Each table has **Download CSV** (opens in Excel). Long tables have a filter box.
+4. Click **PowerPoint (PPTX)** at the top right: `summary.pptx` downloads. Open it in
+   PowerPoint: the corporate cover, contents, one chapter slide per section, "at a glance"
+   and figures slides with native charts, table slides, and the closing slide.
+5. Other template: run in the terminal
+   `python -m legacy_audit report --type summary --template purple -c samples/legacy-layout-app/audit.yaml`
+   (Windows: `.venv\Scripts\python`, WSL2: `.venv/bin/python`): the message says Purple.
+6. From the GUI: run `audit: 13. start the GUI on a sample`, open the run, click **Build
+   summary report**, then open it. The page now also shows a template list and **Rebuild
+   PowerPoint**; pick Orange, click it, and the page reloads with "Built on the Orange
+   template".
+7. With Copilot (optional): after the enrichment, rebuild; the project description, module
+   descriptions, integration stories and batch purposes show Copilot's words marked AI.

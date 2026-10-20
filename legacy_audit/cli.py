@@ -202,13 +202,13 @@ def diff(
         console.print(f"Diff written to {json_out}")
 
 
-REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "all")
 
 
 @app.command()
 def report(
     type_: Annotated[
-        str, typer.Option("--type", "-t", help="tech, functional, mgmt, pptx or all")
+        str, typer.Option("--type", "-t", help="tech, functional, mgmt, pptx, summary or all")
     ] = "tech",
     run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
     config: ConfigOpt = Path("audit.yaml"),
@@ -253,6 +253,13 @@ def report(
         deck = build_mgmt_report(run_dir, branding, config_dir)
         console.print(f"[bold green]Management deck[/bold green] -> {deck}")
         to_open = to_open or deck
+    if type_ in ("summary", "all"):
+        from legacy_audit.report.summary import build_summary_report
+
+        res = build_summary_report(run_dir, branding, config_dir, template)
+        console.print(f"[bold green]Summary report[/bold green] -> {res.page}")
+        console.print(f"  {res.message}" + (f" -> {res.pptx}" if res.pptx else ""))
+        to_open = to_open or res.page
     if type_ in ("pptx", "all"):
         result = build_pptx(run_dir, branding, config_dir, template)
         if result.path is not None:
@@ -266,7 +273,7 @@ def report(
             console.print(f"[yellow]{result.message}[/yellow]")
             if type_ == "pptx":
                 raise typer.Exit(code=1)
-    if type_ in ("functional", "mgmt", "pptx", "all"):
+    if type_ in ("functional", "mgmt", "pptx", "summary", "all"):
         from legacy_audit.enrich.status import compute_status
 
         status = compute_status(run_dir)

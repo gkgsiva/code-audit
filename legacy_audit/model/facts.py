@@ -239,6 +239,16 @@ class Integration(Fact):
     consumers: list[str] = Field(default_factory=list, description="Files that receive/read")
     components: list[str] = Field(default_factory=list)
     details: dict[str, str] = Field(default_factory=dict)
+    purpose: str | None = Field(
+        None,
+        description="What the interface is for: login / authentication, web service, "
+        "HTTP API, file transfer, messaging, database, email, directory, socket or file",
+    )
+    description: str | None = Field(
+        None,
+        description="One sentence written by the scan from the type, target and usages; the "
+        "Copilot enrichment (stage 12, interfaces) adds the business words",
+    )
 
 
 class CodeEdge(Fact):
