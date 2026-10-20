@@ -236,6 +236,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_loc_integrations.py samples\\${input:sample}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 23. show all batches with what they do and when they run",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_batches.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_batches.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
     }
   ]
 }

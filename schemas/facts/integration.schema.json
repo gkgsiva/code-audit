@@ -59,6 +59,19 @@
       "title": "Consumers",
       "type": "array"
     },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "One sentence written by the scan from the type, target and usages; the Copilot enrichment (stage 12, interfaces) adds the business words",
+      "title": "Description"
+    },
     "details": {
       "additionalProperties": {
         "type": "string"
@@ -101,6 +114,19 @@
       ],
       "default": null,
       "title": "Protocol"
+    },
+    "purpose": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "What the interface is for: login / authentication, web service, HTTP API, file transfer, messaging, database, email, directory, socket or file",
+      "title": "Purpose"
     },
     "source_files": {
       "items": {

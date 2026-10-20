@@ -280,3 +280,22 @@ code by language had many "unknown" entries, including binaries such as `.class`
   does).
 - Next: run task 22 on a real estate; any `other (.ext)` it lists is a candidate for a new
   extension rule in `legacy_audit/inventory/language.py`.
+
+## Integration purposes and consolidated batch list (2026-10-20)
+
+Asked for by Siva in the same thread: Okta integrations should read as login /
+authentication, HTTP/HTTPS/FTP integrations need a description (enrichable by Copilot), and
+the batches need one consolidated list with a short description and the schedule, also when
+no JIL is given.
+
+- Done: `Integration.purpose` and `description` (decision 122), Purpose and Description
+  columns in the Integrations catalogue, scan description on the functional Interfaces page;
+  `report/batches.py` consolidated batch list with schedule hints from the code (decision
+  123), first on the Batch jobs page with `data/batches.csv`, and on the functional Batch
+  page; stage 12 prompt asks for interface stories and short batch `purpose`/`when`. VS Code
+  task 23 (`scripts/show_batches.py`); `legacy-layout-app` gained an Okta issuer, a REST URL
+  and an FTP host.
+- Known gaps: identity providers on a custom domain with no okta/sso/auth word in the host,
+  path or key are not recognised; schedule hints take the first match only.
+- Next: run tasks 22 and 23 on a real estate and check the purposes and hints.
+

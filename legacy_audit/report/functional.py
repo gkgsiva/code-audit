@@ -389,6 +389,7 @@ class _FnPages(_Pages):
             "batch",
             "Batch",
             batch_flows=self.batch_flows,
+            batch_rows=self.batch_rows,
             stories=self.batch_story,
             said=self.batch_said,
             week=flows.week_grid(self.batch_flows),

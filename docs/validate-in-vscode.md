@@ -386,3 +386,37 @@ WSL2, open reports with `explorer.exe <file>` if the browser does not open by it
    `audit.yaml`: `python scripts/show_loc_integrations.py <folder>`, `python3` on WSL2). The
    first scan after this update re-reads every file once. Files listed under **Not recognised,
    named by extension** tell us which extension rules to add; send the list to the team.
+
+## Integration purposes and the consolidated batch list
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_batch_list.py`.
+2. Run `audit: 22. show lines of code by language and the integrations` with
+   `legacy-layout-app`. Under **Integrations** each row now has a purpose and a sentence:
+   - `HTTP https://acme.okta.com/oauth2/default`: **login / authentication**, "Login /
+     authentication with Okta (OAuth 2.0 / OpenID Connect) at acme.okta.com";
+   - `HTTP https://pricing.acme.local/api/v2/prices`: **HTTP API**, "Calls the HTTPS endpoint
+     /api/v2/prices on pricing.acme.local";
+   - `FTP files.acme.local:21`: **file transfer**; DB, SMTP likewise.
+3. Run `audit: 23. show all batches with what they do and when they run`:
+   - `legacy-layout-app` (no JIL): **billing-batch** "Monthly invoicing batch..." / "Monthly,
+     says a comment in the code" with the file and line; **settlement-c** "Daily settlement
+     run." / "Daily, says a comment in the code";
+   - `spring-mvc-batch-app` (with JIL): BIL_NIGHTLY_BOX "Billing nightly cycle" (scheduler) /
+     "Runs every weekday (Mon to Fri) at 01:30." (autosys); PaymentListener "On each message
+     received";
+   - `cobol-cics-db2`: ORDNIGHT "No schedule found (Autosys JIL, crontab not provided)."
+4. Run `audit: 7. build and open the technical report` with `legacy-layout-app`:
+   - **Integrations**: new columns **Purpose** (filter it on `login / authentication`) and
+     **Description**;
+   - **Batch jobs**: **All batches** first, with **Download this list as CSV** (opens in
+     Excel), then **Scheduler job details**.
+5. Run `audit: 16. build and open the functional document`: the **Batch** page opens with
+   **All batches at a glance**; **Interfaces** shows the scan's description where Copilot has
+   not written one yet.
+6. **With Copilot** (optional): run the enrichment (`/audit-enrich`, or task 20). Stage 12
+   now asks for an interface story for every HTTP, SOAP, FTP, SFTP, SCP and CFT row and a
+   short `purpose` and `when` per batch; rebuild the report and the Description, What it
+   does and When it runs columns show Copilot's words marked "AI (Copilot)" / "(AI)".
+

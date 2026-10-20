@@ -93,6 +93,15 @@ For `functional`:
   with its `fact_id`), `controls` (checks, totals and error exits you found) and `restart`
   (how to re-run after a failure, if the code or its comments say). Cite the lines in
   `evidence`. When a comment and the code disagree, trust the code and say so.
+- `batches` feed the **All batches** list (technical report, Batch jobs page, and
+  `data/batches.csv`): keep `purpose` to one short sentence (it is shown as "What it does")
+  and `when` to one short phrase (shown as "When it runs" when no scheduler definition says).
+- `interfaces`: one entry per integration in `integrations.json`, at least every `HTTP`,
+  `SOAP`, `FTP`, `SFTP`, `SCP` and `CFT` row. `integration_id` is its id. `partner` names the
+  system on the other side in business words, `purpose` says in one sentence what the
+  application uses it for (it replaces the scan's `description` in the Integrations list),
+  `data_exchanged` what goes across. Rows whose `purpose` field is `login / authentication`
+  (Okta and other identity providers) are user sign-in: say who signs in and to what.
 - `business_rules`: validations, calculations, eligibility, status changes and limits you
   can point to in the code (`evidence` with file and line).
 - Write for business readers: no class names in `summary`, `purpose` or rule text.

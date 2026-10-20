@@ -5,8 +5,10 @@ its integrations.
 
 Prints the lines of code per language (no "unknown": a text extension no rule knows shows as
 "other (.ext)", with its files listed so a rule can be added), the backup copies and data files
-listed with no lines, and the integrations, one row per interface with its direction and
-usages. Writes to the folder's own ``audit-output/`` like ``legacy-audit scan``.
+listed with no lines, and the integrations, one row per interface with its direction,
+usages, its purpose (Okta and other identity providers are "login / authentication") and the
+scan's one-sentence description. Writes to the folder's own ``audit-output/`` like
+``legacy-audit scan``.
 """
 
 from __future__ import annotations
@@ -57,9 +59,10 @@ def main(argv: list[str]) -> int:
                 print(f"  ... and {len(paths) - SHOW_FILES} more (see inventory.csv)")
     integ = result.facts["integrations"]
     print(f"\nIntegrations, one row per interface ({len(integ)}):\n")
-    print(f"  {'Type':<12} {'Direction':<10} {'Usages':>6}  Target")
+    print(f"  {'Type':<12} {'Purpose':<23} {'Direction':<10} {'Usages':>6}  Target")
     for i in sorted(integ, key=lambda i: (i.type, i.target)):  # type: ignore[attr-defined]
-        print(f"  {i.type:<12} {i.direction:<10} {i.usages:>6}  {i.target}")  # type: ignore[attr-defined]
+        print(f"  {i.type:<12} {i.purpose or '':<23} {i.direction:<10} {i.usages:>6}  {i.target}")  # type: ignore[attr-defined]
+        print(f"  {'':<12} {i.description or ''}")  # type: ignore[attr-defined]
     return 0
 
 

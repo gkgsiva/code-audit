@@ -58,13 +58,16 @@ DEFAULT_COUNTING_RULES: dict[str, str] = {
         "the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both "
         "read and written is one row with direction both; host case, a default port, a "
         "trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP "
-        "calls to the same URL are one SOAP integration."
+        "calls to the same URL are one SOAP integration. Calls to an identity provider "
+        "(Okta, Entra ID, ...) have purpose 'login / authentication'."
     ),
     "batch_job": (
         "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch "
         "job). Steps are listed under it; Autosys boxes are containers, not jobs. A component "
         "doing batch work that no scheduler definition covers counts as one batch, however "
-        "many ksh scripts and programs it holds (they are its steps)."
+        "many ksh scripts and programs it holds (they are its steps). The All batches list "
+        "shows each once, with when it runs from the scheduler or, without one, from what the "
+        "code states (cron expressions, @Scheduled, comments)."
     ),
     "library": "One distinct (group, artifact, version). Undeclared jars identified by "
     "manifest or hash.",

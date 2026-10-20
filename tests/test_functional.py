@@ -198,7 +198,9 @@ def test_batch_without_scheduler_inputs_is_still_listed(sample_copy, tmp_path: P
     assert "settlement" in text and "no schedule found" in text and "The code says" in text
     tech = build_tech_report(run_dir).parent
     cat = (tech / "batch-jobs.html").read_text(encoding="utf-8")
-    assert "Batch work with no scheduler definition" in cat
+    assert "All batches" in cat and "batches.csv" in cat
+    rows = (tech / "data" / "batches.csv").read_text(encoding="utf-8-sig").splitlines()
+    assert len(rows) == 2 and rows[1].startswith("settlement,batch component,")
     page = next((tech / "flows").glob("batch-settlement*.html")).read_text(encoding="utf-8")
     assert "What the code says about itself" in page and "run_settlement.ksh" in page
 

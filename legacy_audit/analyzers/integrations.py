@@ -225,3 +225,141 @@ def merge_directions(directions: set[str]) -> str:
     if concrete:
         return concrete.pop()
     return "defined" if "defined" in directions else "unknown"
+
+
+# ---- what each interface is for ----------------------------------------------------------------
+
+# Identity providers: a call to one is a login / authentication interface, whatever its type.
+_IDENTITY = [
+    (re.compile(r"(^|\.)okta(preview|-emea)?\.com$|(^|\.)okta\.", re.I), "Okta"),
+    (re.compile(r"(^|\.)auth0\.com$", re.I), "Auth0"),
+    (re.compile(r"^login\.(microsoftonline|windows)\.(com|net)$|^sts\.windows\.net$", re.I),
+     "Microsoft Entra ID"),
+    (re.compile(r"(^|\.)(pingidentity|pingone)\.(com|eu|asia)$", re.I), "PingIdentity"),
+    (re.compile(r"(^|\.)(onelogin|forgerock)\.(com|io)$", re.I), "Identity provider"),
+    (re.compile(r"(^|[.-])(keycloak|sso|idp|adfs|login|auth|oauth|cas|iam)[.-]", re.I),
+     "Identity provider"),
+]  # fmt: skip
+_IDENTITY_PATH = re.compile(
+    r"/(oauth2?|openid-connect|\.well-known/openid-configuration|saml2?|sso|adfs|"
+    r"auth/realms|realms/[^/]+/protocol|cas/login|idp|authorize|token)(/|$)",
+    re.I,
+)
+
+PURPOSES = {
+    "HTTP": "HTTP API",
+    "SOAP": "web service",
+    "FTP": "file transfer",
+    "SFTP": "file transfer",
+    "SCP": "file transfer",
+    "CFT": "file transfer",
+    "MQ": "messaging",
+    "JMS": "messaging",
+    "MQ-CHANNEL": "messaging",
+    "MQ-QMGR": "messaging",
+    "DB": "database",
+    "SMTP": "email",
+    "LDAP": "directory",
+    "SOCKET": "socket",
+    "FILE": "file",
+}
+LOGIN = "login / authentication"
+
+_VERB = {
+    ("outbound", "HTTP"): "Calls",
+    ("inbound", "HTTP"): "Is called on",
+    ("both", "HTTP"): "Calls and is called on",
+    ("outbound", "file transfer"): "Sends files to",
+    ("inbound", "file transfer"): "Receives files from",
+    ("both", "file transfer"): "Sends and receives files with",
+    ("outbound", "messaging"): "Puts messages on",
+    ("inbound", "messaging"): "Reads messages from",
+    ("both", "messaging"): "Puts and reads messages on",
+    ("outbound", "file"): "Writes",
+    ("inbound", "file"): "Reads",
+    ("both", "file"): "Reads and writes",
+}
+
+
+def _host_and_path(target: str) -> tuple[str, str]:
+    if "://" in target:
+        parts = urlsplit(target)
+        return (parts.hostname or "").lower(), parts.path
+    return target.split(":", 1)[0].lower(), ""
+
+
+def identity_provider(it: Integration) -> str | None:
+    """The identity provider an integration calls (Okta, Entra ID, ...), or None."""
+    if it.type not in ("HTTP", "SOAP", "LDAP"):
+        return None
+    host, path = _host_and_path(it.target)
+    for rx, name in _IDENTITY:
+        if host and rx.search(host):
+            return name
+    keys = " ".join(it.details.values()).lower()
+    if "okta" in keys:
+        return "Okta"
+    if it.type != "LDAP" and _IDENTITY_PATH.search(path):
+        return "Identity provider"
+    return None
+
+
+def describe(it: Integration) -> tuple[str, str]:
+    """(purpose, one-sentence description) of a consolidated integration, from its facts only."""
+    idp = identity_provider(it)
+    host, path = _host_and_path(it.target)
+    where = f"{it.usages} place{'s' if it.usages != 1 else ''} in the code"
+    if it.usages == 0:
+        where = "defined in the inputs, not used by the code"
+    if idp:
+        what = "OAuth 2.0 / OpenID Connect" if "/oauth" in path.lower() else "single sign-on"
+        if it.type == "LDAP":
+            what = "LDAP"
+        return LOGIN, f"Login / authentication with {idp} ({what}) at {host or it.target}; {where}."
+    purpose = PURPOSES.get(it.type, it.type.lower())
+    d = it.direction if it.direction in ("outbound", "inbound", "both") else ""
+    if it.type in ("HTTP", "SOAP"):
+        scheme = "HTTPS" if it.target.lower().startswith("https:") else "HTTP"
+        name = path.rstrip("/").rsplit("/", 1)[-1] if path.strip("/") else ""
+        thing = (
+            f"the {name} web service" if it.type == "SOAP" and name
+            else "a SOAP web service" if it.type == "SOAP"
+            else f"the {scheme} endpoint {path}" if path.strip("/")
+            else f"an {scheme} service"
+        )  # fmt: skip
+        verb = _VERB.get((d or "outbound", "HTTP"), "Calls")
+        tail = "" if scheme in thing else f" ({scheme})"
+        on = " at" if verb.startswith("Is") else " on"
+        return purpose, f"{verb} {thing}{on} {host}{tail}; {where}."
+    if purpose == "file transfer":
+        proto = it.type if it.type != "CFT" else "CFT"
+        # A host found in configuration says where, not which way the files go.
+        verb = "Transfers files with" if "key" in it.details else _VERB.get((d, purpose), "")
+        verb = verb or "Transfers files with"
+        extra = ""
+        if it.type == "CFT":
+            if it.details.get("idf"):
+                extra = f", flow {it.details['idf']}"
+            if it.details.get("host"):
+                extra += f", partner host {it.details['host']}"
+        return purpose, f"{verb} {it.target} by {proto}{extra}; {where}."
+    if purpose == "messaging":
+        if it.type == "MQ-QMGR":
+            return purpose, f"Connects to the MQ queue manager {it.target}; {where}."
+        if it.type == "MQ-CHANNEL":
+            return purpose, f"Uses the MQ channel {it.target}; {where}."
+        verb = _VERB.get((d, purpose), "Uses")
+        return purpose, f"{verb} the queue {it.target}; {where}."
+    if purpose == "database":
+        return purpose, f"Connects to the database {it.target}; {where}."
+    if purpose == "email":
+        return purpose, f"Sends email through {it.target}; {where}."
+    if purpose == "directory":
+        return purpose, f"Looks up users or groups in the directory {it.target}; {where}."
+    if purpose == "socket":
+        verb = "Listens on" if d == "inbound" else "Opens a socket to"
+        return purpose, f"{verb} {it.target}; {where}."
+    if purpose == "file":
+        verb = _VERB.get((d, purpose), "Uses")
+        return purpose, f"{verb} the file {it.target}; {where}."
+    return purpose, f"{it.type} {it.target}; {where}."

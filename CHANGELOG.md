@@ -6,6 +6,16 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Integration purposes and one batch list (2026-10-20)
+
+- Every integration has a purpose and a one-sentence description; Okta and other identity
+  providers are "login / authentication". Copilot's interface stories replace the
+  description once written.
+- The Batch jobs page starts with **All batches**: each batch once with what it does and when
+  it runs (from the scheduler, Copilot, or what the code states when no JIL/crontab is given),
+  also as `data/batches.csv`; the functional Batch page has the same list.
+- VS Code task 23 prints the batch list (`scripts/show_batches.py`).
+
 ### Lines of code and consolidated integrations (2026-10-20)
 
 - No language is "unknown": about 50 more extensions are recognised (SQL*Loader `.ctl`, DB2

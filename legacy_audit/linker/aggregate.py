@@ -7,7 +7,7 @@ import re
 from collections.abc import Iterable
 from typing import TypeVar
 
-from legacy_audit.analyzers.integrations import consolidation_key, merge_directions
+from legacy_audit.analyzers.integrations import consolidation_key, describe, merge_directions
 from legacy_audit.model import (
     BatchJob,
     DbObject,
@@ -80,7 +80,10 @@ def merge_integrations(items: Iterable[Integration]) -> list[Integration]:
     for it in out:
         if it.type in ("MQ", "JMS"):
             _queue_direction(it, it.id in defined)
-    return _consolidate(_merge_cft(out))
+    merged = _consolidate(_merge_cft(out))
+    for it in merged:
+        it.purpose, it.description = describe(it)
+    return merged
 
 
 def _queue_direction(it: Integration, defined: bool) -> None:

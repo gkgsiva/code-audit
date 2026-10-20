@@ -66,9 +66,21 @@ def _library_name(lib: dict[str, Any]) -> str:
     return f"{lib['group']}:{lib['artifact']}" if lib.get("group") else str(lib.get("artifact"))
 
 
-def build(rd: RunData, root: Path) -> dict[str, Catalogue]:
-    """Every catalogue of the run; ``root`` is the report folder (evidence links are relative)."""
+def _ai_or(description: str | None, story: dict[str, Any] | None) -> str:
+    """The Copilot interface story (stage 12) when there is one, else the scan's sentence."""
+    if story and story.get("purpose"):
+        partner = f"{story['partner']}: " if story.get("partner") else ""
+        return f"{partner}{story['purpose']} (AI)"
+    return description or ""
+
+
+def build(
+    rd: RunData, root: Path, stories: dict[str, dict[str, Any]] | None = None
+) -> dict[str, Catalogue]:
+    """Every catalogue of the run; ``root`` is the report folder (evidence links are relative).
+    ``stories`` are the Copilot interface stories by integration id, when the stage exists."""
     ev: Callable[[dict[str, Any]], dict[str, Any]] = lambda item: _ev(rd, root, item)  # noqa: E731
+    stories = stories or {}
     cats: list[Catalogue] = []
 
     cats.append(
@@ -210,10 +222,15 @@ def build(rd: RunData, root: Path) -> dict[str, Catalogue]:
             "integrations",
             "Integrations",
             "One row per interface (type and target); a target both read and written shows "
-            "direction both; usages counts the code places that use it.",
+            "direction both; usages counts the code places that use it. Calls to an identity "
+            "provider (Okta, Entra ID, ...) are 'login / authentication'. The description is "
+            "the scan's; once the Copilot analysis has run, its business purpose (AI) replaces "
+            "it.",
             [
                 Column("type", "Type", filter=True),
+                Column("purpose", "Purpose", filter=True),
                 Column("target", "Target", "code"),
+                Column("description", "Description"),
                 Column("direction", "Direction", filter=True),
                 Column("protocol", "Protocol", filter=True),
                 Column("usages", "Usages", "num"),
@@ -225,7 +242,9 @@ def build(rd: RunData, root: Path) -> dict[str, Catalogue]:
             [
                 [
                     i["type"],
+                    i.get("purpose") or "",
                     i["target"],
+                    _ai_or(i.get("description"), stories.get(i["id"])),
                     i.get("direction") or "",
                     i.get("protocol") or "",
                     i.get("usages", 0),
@@ -242,9 +261,9 @@ def build(rd: RunData, root: Path) -> dict[str, Catalogue]:
     cats.append(
         Catalogue(
             "batch-jobs",
-            "Batch jobs",
-            "Autosys, JCL, cron and Spring Batch jobs; boxes group jobs and are not counted as "
-            "jobs.",
+            "Scheduler job details",
+            "Every job of the scheduler definitions provided (Autosys, JCL, cron, Spring Batch), "
+            "one row per job; boxes group jobs and are not counted as jobs.",
             [
                 Column("name", "Job", "code"),
                 Column("scheduler", "Scheduler", filter=True),
@@ -381,4 +400,53 @@ def _crud_matrix(rd: RunData) -> Catalogue:
         "SQL statements found in its code.",
         cols,
         rows,
+    )
+
+
+def batches(rd: RunData, root: Path, rows: list[dict[str, Any]]) -> Catalogue:
+    """The consolidated batch list (``report/batches.py``): one row per batch, scheduled or
+    not, with what it does and when it runs, and where each came from."""
+
+    def when_ev(r: dict[str, Any]) -> dict[str, Any] | str:
+        if r.get("when_file"):
+            return rd.evidence_links(root, r["when_file"], r.get("when_line"))
+        return ""
+
+    return Catalogue(
+        "batches",
+        "All batches",
+        "Every batch once: scheduled boxes and jobs, and the batch components, programs and "
+        "listeners no scheduler definition starts. 'What it does' comes from the Copilot "
+        "analysis when present, else the scheduler's description, else the code's own header "
+        "comment, else the scan; 'When it runs' from the scheduler, else the Copilot analysis, "
+        "else what the code states (cron expressions, @Scheduled, comments).",
+        [
+            Column("name", "Batch", "link"),
+            Column("kind", "Kind", filter=True),
+            Column("component", "Component", "link", True),
+            Column("what", "What it does"),
+            Column("what_from", "Described by", filter=True),
+            Column("when", "When it runs"),
+            Column("when_from", "Schedule from", filter=True),
+            Column("scheduler", "Scheduler", filter=True),
+            Column("steps", "Steps", "num"),
+            Column("when_evidence", "Schedule evidence", "evidence"),
+            Column("evidence", "Evidence", "evidence"),
+        ],
+        [
+            [
+                {"text": r["name"], "href": f"flows/{r['slug']}.html"},
+                r["kind"],
+                _comp(r.get("component")),
+                r["what"],
+                r["what_from"],
+                r["when"],
+                r["when_from"],
+                r["scheduler"],
+                r["steps"],
+                when_ev(r),
+                rd.evidence_links(root, *r["evidence"]) if r["evidence"][0] else "",
+            ]
+            for r in rows
+        ],
     )
