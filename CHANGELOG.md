@@ -14,6 +14,9 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
 - Its **PowerPoint (PPTX)** button downloads `summary.pptx`, built on the corporate template;
   from the GUI the page can rebuild it with another template.
 - VS Code task 24 builds and opens it.
+- After the Copilot analysis, the Database section adds business data names, a migration
+  approach per table and procedure and the overall migration approach, and Copilot's batch
+  words are marked AI.
 
 ### Integration purposes and one batch list (2026-10-20)
 

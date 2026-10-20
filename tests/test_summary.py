@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import csv
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -18,7 +19,7 @@ from legacy_audit.report.summary import SECTIONS, build_summary_report
 from legacy_audit.scan import run_scan
 from legacy_audit.security import vulns
 from tests.conftest import SAMPLES
-from tests.test_functional import _valid_offline
+from tests.test_functional import ENRICHMENT, _valid_offline
 from tests.test_report import SAMPLE_NAMES
 
 
@@ -106,3 +107,41 @@ def test_cli_builds_the_summary_report(tmp_path: Path) -> None:
     assert r.exit_code == 0, r.output
     assert "Summary report" in r.output and "Blue template" in r.output
     assert len(list(out.glob("runs/*/reports/summary/summary.pptx"))) == 1
+
+
+def test_summary_shows_the_copilot_words_marked_ai(tmp_path: Path) -> None:
+    run_dir = _scan("struts-oracle-app", tmp_path / "out")
+    shutil.copytree(ENRICHMENT / "struts-oracle-app", run_dir / "enrichment")
+    res = build_summary_report(run_dir)
+    data = json.loads((res.page.parent / "summary.json").read_text(encoding="utf-8"))
+    sec = {s["key"]: s for s in data["sections"]}["data"]
+    assert any(p.startswith("Migration approach (AI): ") for p in sec["intro"])
+    tables = {t["key"]: t for t in sec["tables"]}
+    cols = tables["tables"]["columns"]
+    assert cols[3:] == ["Business data (AI)", "Migration (AI)"]
+    orders = next(r for r in tables["tables"]["rows"] if r[0] == "ORDERS")
+    assert orders[3] == "Order" and orders[4] == "auto"
+    plan = {r[0]: r for r in tables["migration-plan"]["rows"]}
+    assert plan["PKG_ORDER_PRICING"][1:3] == ["package", "rewrite"]
+    assert "Migration plan per object (AI)" in res.page.read_text(encoding="utf-8")
+
+
+def test_summary_marks_copilot_batch_words(tmp_path: Path) -> None:
+    run_dir = _scan("spring-mvc-batch-app", tmp_path / "out")
+    shutil.copytree(ENRICHMENT / "spring-mvc-batch-app", run_dir / "enrichment")
+    data = json.loads(
+        (build_summary_report(run_dir).page.parent / "summary.json").read_text(encoding="utf-8")
+    )
+    sec = {s["key"]: s for s in data["sections"]}["batch"]
+    rows = {r[0]: r for r in sec["tables"][0]["rows"]}
+    assert rows["BIL_NIGHTLY_BOX"][3].endswith("(AI)")
+    assert not rows["invoiceJob"][3].endswith("(AI)")  # the scheduler's own description
+    assert "Copilot analysis" in sec["source_note"]
+
+
+def test_summary_without_enrichment_has_no_ai_columns(tmp_path: Path) -> None:
+    res = build_summary_report(_scan("struts-oracle-app", tmp_path / "out"))
+    data = json.loads((res.page.parent / "summary.json").read_text(encoding="utf-8"))
+    sec = {s["key"]: s for s in data["sections"]}["data"]
+    assert [t["key"] for t in sec["tables"]].count("migration-plan") == 0
+    assert sec["tables"][0]["columns"] == ["Table", "SQL statements", "CRUD"]
