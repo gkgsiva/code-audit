@@ -19,12 +19,21 @@ EXTENSIONS: dict[str, str] = {
     ".wsdl": "xml",
     ".xsl": "xml",
     ".xslt": "xml",
+    ".dtd": "xml",
+    ".xmi": "xml",
+    ".xjb": "xml",
+    ".wsdd": "xml",
+    ".jrxml": "xml",
+    ".bpmn": "xml",
+    ".tagx": "jsp",
     ".properties": "properties",
+    ".policy": "properties",
     ".yml": "yaml",
     ".yaml": "yaml",
     ".ini": "ini",
     ".cfg": "ini",
     ".conf": "ini",
+    ".toml": "ini",
     ".json": "json",
     ".c": "c",
     ".h": "c",
@@ -35,12 +44,16 @@ EXTENSIONS: dict[str, str] = {
     ".hh": "cpp",
     ".hxx": "cpp",
     ".pc": "proc",
+    ".sqc": "proc",  # DB2 embedded SQL in C
+    ".ec": "proc",  # Informix ESQL/C
+    ".sqb": "procobol",  # DB2 embedded SQL in COBOL
     ".pco": "procobol",
     ".cbl": "cobol",
     ".cob": "cobol",
     ".cobol": "cobol",
     ".cpy": "cobol",
     ".copy": "cobol",
+    ".cbk": "cobol",
     ".jcl": "jcl",
     ".proc": "jcl",
     ".bms": "bms",
@@ -49,6 +62,13 @@ EXTENSIONS: dict[str, str] = {
     ".bash": "shell",
     ".csh": "shell",
     ".zsh": "shell",
+    ".env": "shell",
+    ".profile": "shell",
+    ".awk": "awk",
+    ".sed": "sed",
+    ".tcl": "tcl",
+    ".ps1": "powershell",
+    ".vbs": "vbscript",
     ".pl": "perl",
     ".pm": "perl",
     ".py": "python",
@@ -63,17 +83,41 @@ EXTENSIONS: dict[str, str] = {
     ".prc": "plsql",
     ".fnc": "plsql",
     ".trg": "plsql",
+    ".pkg": "plsql",
+    ".pck": "plsql",
+    ".spc": "plsql",
+    ".bdy": "plsql",
+    ".tps": "plsql",
+    ".tpb": "plsql",
+    ".typ": "plsql",
+    ".vw": "sql",
+    ".ctl": "sqlloader",
     ".jil": "jil",
     ".mqsc": "mqsc",
     ".mqs": "mqsc",
     ".js": "javascript",
+    ".mjs": "javascript",
+    ".cjs": "javascript",
+    ".jsx": "javascript",
     ".ts": "typescript",
+    ".tsx": "typescript",
+    ".kt": "kotlin",
+    ".scala": "scala",
+    ".sqlj": "sqlj",
+    ".cs": "csharp",
+    ".vb": "vb",
+    ".bas": "vb",
+    ".php": "php",
+    ".rb": "ruby",
+    ".go": "go",
     ".html": "html",
     ".htm": "html",
     ".xhtml": "html",
     ".vm": "velocity",
     ".ftl": "freemarker",
     ".css": "css",
+    ".scss": "css",
+    ".less": "css",
     ".gradle": "groovy",
     ".groovy": "groovy",
     ".mk": "make",
@@ -81,8 +125,15 @@ EXTENSIONS: dict[str, str] = {
     ".md": "markdown",
     ".txt": "text",
     ".rst": "text",
-    ".csv": "text",
     ".log": "text",
+    ".lst": "text",
+    ".lis": "text",
+    ".out": "text",
+    ".csv": "data",
+    ".tsv": "data",
+    ".psv": "data",
+    ".dat": "data",
+    ".del": "data",
     ".mf": "manifest",
 }
 
@@ -91,6 +142,9 @@ BINARY_EXTENSIONS = ARCHIVE_EXTENSIONS | {
     ".class", ".o", ".obj", ".so", ".dll", ".exe", ".a", ".lib", ".dylib",
     ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".tif", ".tiff",
     ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+    ".pyc", ".pyo", ".ser", ".jks", ".keystore", ".p12", ".pfx", ".der", ".jasper",
+    ".gnt", ".int", ".idy", ".lbr", ".pdb", ".ilk",
+    ".z", ".bz2", ".xz", ".7z", ".dmp", ".db", ".sqlite", ".mdb",
     ".ttf", ".woff", ".woff2", ".eot", ".mp3", ".mp4", ".avi",
 }  # fmt: skip
 
@@ -103,7 +157,23 @@ FILENAMES: dict[str, str] = {
     ".project": "xml",
     ".classpath": "xml",
     "cmakelists.txt": "make",
+    ".profile": "shell",
+    ".kshrc": "shell",
+    ".bashrc": "shell",
+    ".bash_profile": "shell",
+    ".env": "shell",
 }
+
+# Copies kept beside the real file (foo.java.bak, run.ksh.old, foo.c~, x.sql.20190312): listed,
+# but their lines are not counted, so the estate is not measured twice.
+BACKUP_EXTENSIONS = {
+    ".bak", ".bkp", ".backup", ".old", ".orig", ".sav", ".save", ".prev", ".tmp", ".swp",
+    ".rej", ".copy_of",
+}  # fmt: skip
+_DATED = re.compile(r"^\.\d+$")
+
+# Languages listed in the inventory whose lines are not code: data files and backup copies.
+NO_LOC_LANGUAGES = {"data", "backup"}
 
 BUILD_FILES = {
     "pom.xml",
@@ -117,10 +187,12 @@ BUILD_FILES = {
 }
 
 SCREEN_LANGUAGES = {"jsp", "html", "bms", "velocity", "freemarker"}
-SCRIPT_LANGUAGES = {"shell", "perl", "python", "batch"}
+SCRIPT_LANGUAGES = {
+    "shell", "perl", "python", "batch", "awk", "sed", "tcl", "powershell", "vbscript",
+}  # fmt: skip
 JOB_LANGUAGES = {"jcl", "jil", "crontab"}
 SQL_LANGUAGES = {"sql", "plsql"}
-CONFIG_LANGUAGES = {"xml", "properties", "yaml", "ini", "json", "mqsc", "manifest"}
+CONFIG_LANGUAGES = {"xml", "properties", "yaml", "ini", "json", "mqsc", "manifest", "sqlloader"}
 DOC_LANGUAGES = {"markdown", "text"}
 
 _SHEBANG_LANG = {
@@ -149,14 +221,40 @@ def detect_language(rel_path: str, head: str | None) -> str:
     lang = EXTENSIONS.get(ext)
     if head is None:
         return lang or "binary"
+    if is_backup(name):
+        return "backup"
     # Content sniffing refines or replaces the extension guess.
     if lang == "c" and ext == ".c" and _EXEC_SQL.search(head):
         return "proc"
-    if lang in (None, "text"):
+    if lang in (None, "text", "data"):
         sniffed = sniff(head)
         if sniffed:
             return sniffed
-    return lang or "unknown"
+    return lang or other_language(ext)
+
+
+def other_language(ext: str) -> str:
+    """Label for a text file no rule recognises: named by its extension, never "unknown"."""
+    return f"other ({ext})" if ext else "other (no extension)"
+
+
+def is_other(language: str) -> bool:
+    return language.startswith("other (")
+
+
+def is_backup(name: str) -> bool:
+    """``name`` is the lower-case file name."""
+    if name.endswith("~"):
+        return True
+    p = PurePosixPath(name)
+    if p.suffix in BACKUP_EXTENSIONS:
+        return True
+    # run.ksh_old, Foo.java-bak: a known extension with a backup word after it.
+    m = re.match(r"^(\.\w+)[_-](\w+)$", p.suffix)
+    if m and m.group(1) in EXTENSIONS and "." + m.group(2) in BACKUP_EXTENSIONS:
+        return True
+    # x.sql.20190312, foo.c.1: a known extension followed by a date or a number.
+    return bool(_DATED.match(p.suffix)) and PurePosixPath(p.stem).suffix in EXTENSIONS
 
 
 def sniff(head: str) -> str | None:
@@ -210,6 +308,6 @@ def detect_category(rel_path: str, language: str, head: str | None) -> Category:
         return Category.CONFIG
     if language in DOC_LANGUAGES:
         return Category.DOC
-    if language == "unknown":
+    if language in NO_LOC_LANGUAGES or is_other(language):
         return Category.OTHER
     return Category.SOURCE

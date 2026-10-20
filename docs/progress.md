@@ -260,3 +260,59 @@ batch, and the batch count showed 0 without scheduler inputs.
   `audit.yaml` or on the GUI's Components screen.
 - Next: run task 21 and a scan on a real estate and adjust the name lists if a folder is
   grouped wrongly.
+
+## Lines of code and consolidated integrations (2026-10-20)
+
+Asked for by Siva: the integrations list showed the same system several times, and the lines of
+code by language had many "unknown" entries, including binaries such as `.class` files.
+
+- Done: no language is "unknown" any more: about 50 more extensions recognised with their
+  comment syntax, anything else named `other (.ext)` (decision 118); one integration per
+  interface, directions merged into `both` and spellings of one target folded together
+  (decision 119); binaries left out by content as well as by extension (decision 120); backup
+  copies and data files listed with no lines (decision 121). `legacy-layout-app` gained a
+  SQL*Loader file, a template, a backup, a data file, a binary without NUL bytes and two
+  spellings of its SMTP host and database. VS Code task 22 prints lines of code by language and
+  the integrations. Inventory version 3: the first scan after upgrading re-reads every file.
+- Known gaps: integration ids of merged rows change, so an AI enrichment written before this
+  change shows its interface stories as stale until stage 12 is re-run. Two DB URLs to one host
+  with and without a database name stay two rows. MQ names are compared case-sensitively (as MQ
+  does).
+- Next: run task 22 on a real estate; any `other (.ext)` it lists is a candidate for a new
+  extension rule in `legacy_audit/inventory/language.py`.
+
+## Integration purposes and consolidated batch list (2026-10-20)
+
+Asked for by Siva in the same thread: Okta integrations should read as login /
+authentication, HTTP/HTTPS/FTP integrations need a description (enrichable by Copilot), and
+the batches need one consolidated list with a short description and the schedule, also when
+no JIL is given.
+
+- Done: `Integration.purpose` and `description` (decision 122), Purpose and Description
+  columns in the Integrations catalogue, scan description on the functional Interfaces page;
+  `report/batches.py` consolidated batch list with schedule hints from the code (decision
+  123), first on the Batch jobs page with `data/batches.csv`, and on the functional Batch
+  page; stage 12 prompt asks for interface stories and short batch `purpose`/`when`. VS Code
+  task 23 (`scripts/show_batches.py`); `legacy-layout-app` gained an Okta issuer, a REST URL
+  and an FTP host.
+- Known gaps: identity providers on a custom domain with no okta/sso/auth word in the host,
+  path or key are not recognised; schedule hints take the first match only.
+- Next: run tasks 22 and 23 on a real estate and check the purposes and hints.
+
+
+## Summary report (2026-10-20)
+
+Asked for by Siva in the same thread: a report in four sections (project with technology
+stack and modules, database and queries, integrations, batches), each a consolidated summary
+with graphics and data, as HTML with a button to get a PowerPoint. Siva chose to build the
+PowerPoint on the corporate template rather than in the browser with pptxgenjs.
+
+- Done: `report/summary.py` and `report/summary_html/summary.html` write
+  `reports/summary/` (index.html, summary.json, deck.json, data/*.csv, summary.pptx);
+  `report --type summary` and `--type all`, GUI **Build summary report** and the page's
+  **Rebuild PowerPoint** with a template choice when opened from the GUI (decision 124).
+  Tests in `tests/test_summary.py`; VS Code task 24.
+- Known gaps: module descriptions come from the Copilot component docs when present, else a
+  scan sentence listing the module's contents; table slides show the first 10 rows (the page
+  and CSVs have all of them).
+- Next: build it on a real estate and check the slide layouts with the team.

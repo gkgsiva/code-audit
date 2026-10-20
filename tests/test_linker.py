@@ -186,6 +186,45 @@ def test_merge_integrations_definitions_are_not_usages() -> None:
     assert merged.source_files == ["a.mqsc", "b.c"]
 
 
+def test_merge_integrations_one_row_per_interface() -> None:
+    from legacy_audit.analyzers.integrations import integration
+
+    def use(type: str, target: str, direction: str, file: str, role: str | None = None):
+        return integration(
+            type=type, target=target, direction=direction, file=file, line=1, role=role
+        )
+
+    merged = merge_integrations(
+        [
+            use("HTTP", "http://Pricing.acme.local:80/api/", "outbound", "a.java"),
+            use("SOAP", "http://pricing.acme.local/api", "outbound", "b.xml"),
+            use("HTTP", "http://pricing.acme.local/api", "inbound", "c.java"),
+            use("SMTP", "smtp.acme.local", "outbound", "app.properties"),
+            use("SMTP", "smtp://SMTP.acme.local:25", "unknown", "mail.java"),
+            use("FTP", "ftp://files.acme.local", "outbound", "a.java"),
+            use("FTP", "files.acme.local:21", "outbound", "ftp.properties"),
+            use("FTP", "files.acme.local:2121", "outbound", "other.properties"),
+            use("MQ-QMGR", "QMBILL", "outbound", "a.java"),
+            use("MQ-QMGR", "QMBILL@mq01.acme.local:1414", "outbound", "mq.properties"),
+            use("MQ", "queue:///ORDERS.IN", "unknown", "a.java", role="consumer"),
+            use("MQ", "ORDERS.IN", "unknown", "b.c", role="producer"),
+            use("FILE", "/data/in/x.csv", "inbound", "load.ksh"),
+            use("FILE", "/data/in/x.csv", "outbound", "make.ksh"),
+        ]
+    )
+    rows = sorted((m.type, m.target, m.direction, m.usages) for m in merged)
+    assert rows == [
+        ("FILE", "/data/in/x.csv", "both", 2),
+        ("FTP", "files.acme.local:2121", "outbound", 1),
+        ("FTP", "ftp://files.acme.local", "outbound", 2),
+        ("MQ", "ORDERS.IN", "both", 2),
+        ("MQ-QMGR", "QMBILL@mq01.acme.local:1414", "outbound", 2),
+        ("SMTP", "smtp://smtp.acme.local:25", "outbound", 2),
+        ("SOAP", "http://pricing.acme.local:80/api", "both", 3),
+    ]
+    assert len({m.id for m in merged}) == len(merged)
+
+
 def test_merge_libraries_folds_file_named_jars_into_declared_ones() -> None:
     declared = Library(
         id="library:a", language="java", group="commons-io", artifact="commons-io",

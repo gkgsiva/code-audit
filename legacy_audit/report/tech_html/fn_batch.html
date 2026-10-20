@@ -3,5 +3,9 @@
 {% include "_fn_missing.html" %}
 <p class="lead">The work the application does on its own, on a schedule or when a file arrives. Open a batch for its flow: what starts it, its steps, the data it reads and writes, and what happens when it fails.</p>
 {% if gaps %}<div class="placeholder-box">Scheduler inputs not provided: {{ gaps | join(", ") }}. The batches below marked <em>no schedule found</em> were found in the code (scripts, batch programs), but when they run is unknown; add the scheduler exports under <code>audit-inputs/</code> and scan again.</div>{% endif %}
+{% if batch_rows %}<h2>All batches at a glance ({{ batch_rows | length }})</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Batch</th><th>What it does</th><th>When it runs</th></tr></thead><tbody>
+{% for r in batch_rows %}<tr><td><a href="{{ base }}flows/{{ r.slug }}.html">{{ r.name }}</a></td><td>{{ r.what }}</td><td>{{ r.when }}{% if r.when_from == "code" %} <span class="muted">(from the code)</span>{% endif %}</td></tr>
+{% endfor %}</tbody></table></div>{% endif %}
 {% include "_batch_cards.html" %}
 {% endblock %}

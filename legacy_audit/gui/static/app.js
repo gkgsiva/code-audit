@@ -696,7 +696,7 @@
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("reports", v); })])]));
     var tplHost = el("fieldset", { class: "templates" }, [el("legend", { text: "PowerPoint template" })]);
     node.appendChild(tplHost);
-    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["all", "Build all"]].map(function (b) {
+    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["summary", "Build summary report"], ["all", "Build all"]].map(function (b) {
       return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0], template: chosenTemplate() })); } });
     })));
     drawTemplates(tplHost);
@@ -704,10 +704,10 @@
     node.appendChild(host);
     jobListeners = [function (ev) { if (ev.type === "end" && ev.result && ev.result.messages) ev.result.messages.forEach(function (m) { toast(m, !/written/.test(m)); }); }];
     api("GET", "/api/runs/" + run + "/reports").then(function (d) {
-      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : "") };
+      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : ""), summary: "Summary report (HTML)", summary_pptx: "Summary PowerPoint (PPTX)" };
       host.appendChild(table([
         { label: "Report", value: function (r) { return names[r.k]; } },
-        { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: r.k === "pptx" ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }
+        { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: /pptx$/.test(r.k) ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }
       ], Object.keys(names).map(function (k) { return { k: k, url: d.reports[k] }; })));
       host.appendChild(el("div", { class: "row" }, [
         el("a", { class: "btn", href: "/api/runs/" + run + "/datapack.zip", text: "Download data pack (ZIP)" }),

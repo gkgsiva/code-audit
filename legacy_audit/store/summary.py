@@ -106,7 +106,13 @@ def build_summary(
                 for t in sorted(tables, key=lambda t: (-len(t.referenced_by), t.name))[:n]
             ],
             "integrations": [
-                {"type": i.type, "target": i.target, "direction": i.direction, "usages": i.usages}
+                {
+                    "type": i.type,
+                    "purpose": i.purpose,
+                    "target": i.target,
+                    "direction": i.direction,
+                    "usages": i.usages,
+                }
                 for i in sorted(integrations, key=lambda i: (-i.usages, i.type, i.target))[:n]
             ],
             "top_findings": [
