@@ -510,7 +510,8 @@ where Windows uses `.venv\Scripts\python`.
      text**), under `security:` set
      `dependency_check: enabled: false` and, under `osv_scanner:`, `enabled: true`,
      `path: "C:/Tools/osv-scanner/osv-scanner.exe"` (WSL2: `"/home/<you>/tools/osv-scanner"`,
-     full path) and `offline: false`.
+     full path). `offline: false` is already there in a new `audit.yaml` (the default); an older
+     `audit.yaml` may still say `offline: true`, change it.
    - **Tools on this computer** shows OSV-Scanner **ok**. Scan, then task 24 (or **Build summary
      report** in the GUI): part 5 says "Checked with OSV-Scanner", "Not used: Dependency-Check
      (turned off in audit.yaml)", and the **Vulnerability checks** table shows OSV-Scanner

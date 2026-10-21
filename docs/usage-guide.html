@@ -214,7 +214,7 @@ body[data-platform="wsl"] .only-win { display: none !important; }
 <h3>Three promises the tool keeps</h3>
 <ul>
   <li><strong>It never changes your code.</strong> It only reads it. Results go into a separate folder called <code>audit-output</code>.</li>
-  <li><strong>It works offline.</strong> Nothing is sent over the internet while it scans, unless you choose the quick online mode of OSV-Scanner (<a href="#vuln">Vulnerability checks</a>), which sends only library names and versions. The reports open without internet too.</li>
+  <li><strong>It works offline.</strong> Nothing is sent over the internet while it scans, except when OSV-Scanner is installed: by default it asks the free osv.dev service about the libraries found, sending only their names and versions, never your code. Set <code>offline: true</code> to stop that (<a href="#vuln">Vulnerability checks</a>). The reports open without internet too.</li>
   <li><strong>Every number is counted, not guessed.</strong> A program counts; it does not use AI. AI (GitHub Copilot) is an optional extra step that adds written explanations, and the tool checks that the AI didn't change any number.</li>
 </ul>
 
@@ -765,7 +765,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <!-- ============================================================ VULN -->
 <h2 id="vuln">Vulnerability checks: OWASP Dependency-Check and OSV-Scanner (optional)</h2>
 <p>The <strong>Libraries</strong> and <strong>Security</strong> pages can show which third-party libraries have <strong>known security problems</strong> (CVEs). legacy-audit doesn't look these up itself. It reads the results of one of two free scanners. You need <strong>only one</strong> of them.</p>
-<div class="callout tip"><p><span class="label">Quickest start: OSV-Scanner in online mode.</span> Download one file (about 30 MB), and set <code>offline: false</code> in <code>audit.yaml</code>. Nothing else to download: during the scan it asks the free <strong>osv.dev</strong> service about the libraries it finds, in a few seconds. Only library names and versions are sent, never your code. Steps: <a href="#osv-online">Option 1</a>. Dependency-Check is optional; add it later if you want a second opinion.</p></div>
+<div class="callout tip"><p><span class="label">Quickest start: OSV-Scanner in online mode.</span> Download one file (about 30 MB) and tell legacy-audit where it is. New <code>audit.yaml</code> files already have <code>offline: false</code>, so there is nothing else to download: during the scan it asks the free <strong>osv.dev</strong> service about the libraries it finds, in a few seconds. Only library names and versions are sent, never your code. Steps: <a href="#osv-online">Option 1</a>. Dependency-Check is optional; add it later if you want a second opinion.</p></div>
 <div class="table-wrap"><table>
   <tr><th></th><th>OWASP Dependency-Check</th><th>OSV-Scanner</th></tr>
   <tr><td>Good at</td><td>Old applications full of <code>.jar</code> files, and build files (Maven, Gradle)</td><td>Build files (Maven, Gradle, npm and more) and <code>.jar</code> files</td></tr>
@@ -776,7 +776,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <h3>How legacy-audit uses them</h3>
 <ul>
-  <li><strong>Online or offline.</strong> With <code>offline: false</code>, OSV-Scanner asks osv.dev during the scan (needs internet, always up to date, nothing to download first). With <code>offline: true</code> (the setting when you create <code>audit.yaml</code>), the scanners never go on the internet during a scan: they use a database you downloaded beforehand and refresh yourself, for example once a week. Dependency-Check always uses its own downloaded database.</li>
+  <li><strong>Online or offline.</strong> With <code>offline: false</code>, OSV-Scanner asks osv.dev during the scan (needs internet, always up to date, nothing to download first). This is the setting in a new <code>audit.yaml</code>. With <code>offline: true</code>, the scanners never go on the internet during a scan: they use a database you downloaded beforehand and refresh yourself, for example once a week. Dependency-Check always uses its own downloaded database.</li>
   <li>It finds the scanner through the <strong>path you put in <code>audit.yaml</code></strong>, or, if that is empty, on your PATH. <span class="menu">Project setup &gt; Tools on this computer</span> (the doctor) then shows it as <strong>ok</strong>.</li>
   <li>Reports print the <strong>database date</strong>, so readers can see how fresh the data is.</li>
   <li>If neither scanner is installed and no reports are supplied, the reports show a <strong>coverage gap</strong> ("dependency-check: missing"), and part 5 of the summary report shows a yellow box. That means "not checked", not "no vulnerabilities". With only one scanner, the reports name the other as "not used"; that is fine.</li>
@@ -800,7 +800,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   osv_scanner:
     enabled: true
     path: "C:/Tools/osv-scanner/osv-scanner.exe"
-    offline: false        # ask osv.dev during the scan: no database to download</code></pre>
+    offline: false        # already set in new audit.yaml files: ask osv.dev, no database to download</code></pre>
   Click <span class="menu">Check and save</span>. (Instead of <code>path</code>, you can add <code>C:\Tools\osv-scanner</code> to your Windows PATH once: Start menu &gt; type <em>environment variables</em> &gt; <em>Edit environment variables for your account</em> &gt; <em>Path</em> &gt; <em>Edit</em> &gt; <em>New</em>, then restart VS Code.)</li>
   <li><strong>Check</strong> that <span class="menu">Tools on this computer</span>, at the bottom of Project setup, shows <em>OSV-Scanner</em> as <strong>ok</strong>.</li>
   <li><strong>Re-run</strong> the scan, then build the summary report. Part 5, <em>Dependency vulnerabilities</em>, says "Checked with OSV-Scanner" and lists the problems found, worst first.</li>
@@ -829,14 +829,14 @@ chmod +x ~/tools/osv-scanner</code></pre>
 </div>
 
 <h3 id="osv-offline">Option 2: OSV-Scanner in offline mode (no internet during the scan)</h3>
-<p>Use this when the scan must not go on the internet, or osv.dev is blocked. Install OSV-Scanner as in Option 1 (steps 1 to 3), keep <code>offline: true</code>, and download its database beforehand.</p>
+<p>Use this when the scan must not go on the internet, or osv.dev is blocked. Install OSV-Scanner as in Option 1 (steps 1 to 3), change <code>offline: false</code> to <code>offline: true</code>, and download its database beforehand.</p>
 <div class="only-win">
 <h4>Windows</h4>
 <ol class="steps">
   <li><strong>Download the database</strong> (needs internet, a few minutes). Point it at your application's code folder, so it fetches the databases that code needs (Java, for example):
 <pre><code>C:\Tools\osv-scanner\osv-scanner.exe scan source --offline-vulnerabilities --download-offline-databases --experimental-plugins java/archive -r "C:\Users\you\git\billing"</code></pre>
   It also prints a list of findings; you can ignore it. The database is kept in your user profile, where legacy-audit finds it automatically.</li>
-  <li><strong>Tell legacy-audit where it is.</strong> In <span class="menu">Project setup &gt; Advanced: edit audit.yaml as text</span>, under <code>osv_scanner:</code>, set the path, keep <code>offline: true</code> and leave <code>data_dir</code> empty:
+  <li><strong>Tell legacy-audit where it is.</strong> In <span class="menu">Project setup &gt; Advanced: edit audit.yaml as text</span>, under <code>osv_scanner:</code>, set the path, set <code>offline: true</code> and leave <code>data_dir</code> empty:
 <pre><code>security:
   osv_scanner:
     enabled: true

@@ -270,13 +270,19 @@ def test_osv_scanner_command_line(tmp_path: Path) -> None:
     )
     fake.chmod(fake.stat().st_mode | stat.S_IEXEC)
     report, source = vulns.run_osv_scanner(
-        OsvScannerConfig(path=str(fake), data_dir=str(tmp_path / "db")), [tmp_path], tmp_path / "o"
+        OsvScannerConfig(path=str(fake), data_dir=str(tmp_path / "db"), offline=True),
+        [tmp_path],
+        tmp_path / "o",
     )
     assert report and source.status == "ran"
     args = (tmp_path / "args.txt").read_text()
     assert "--offline " in args and "--experimental-plugins java/archive" in args
     assert "experimental-offline" not in args and "local-db-path" not in args
     assert args.strip().endswith(f"DB={tmp_path / 'db'}")
+    # The default asks osv.dev (decision 127): no --offline, no database folder needed.
+    vulns.run_osv_scanner(OsvScannerConfig(path=str(fake)), [tmp_path], tmp_path / "o2")
+    args = (tmp_path / "args.txt").read_text()
+    assert "--offline" not in args and "--experimental-plugins java/archive" in args
 
 
 # ---- jdeps / jdeprscan parsing -------------------------------------------------------------------
