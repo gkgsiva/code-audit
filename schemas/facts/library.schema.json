@@ -334,7 +334,7 @@
       "title": "Sha1"
     },
     "source": {
-      "description": "maven, gradle, ivy, jar, npm, js-file",
+      "description": "maven, gradle, ivy, jar, npm, js-file, nuget, com (VB6 references)",
       "title": "Source",
       "type": "string"
     },

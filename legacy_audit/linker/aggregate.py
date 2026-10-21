@@ -15,6 +15,7 @@ from legacy_audit.model import (
     Fact,
     Integration,
     Library,
+    Screen,
     TechItem,
     make_id,
 )
@@ -54,6 +55,28 @@ def dedupe(items: Iterable[F]) -> list[F]:
             by_id[item.id] = item
         else:
             prev.evidence = _evidence(prev.evidence, item.evidence)
+    return list(by_id.values())
+
+
+def merge_screens(items: Iterable[Screen]) -> list[Screen]:
+    """One screen per id. A Windows Forms form is written in two files (``MainForm.vb`` and
+    ``MainForm.Designer.vb``): the code file names it, the designer file holds its controls."""
+    by_id: dict[str, Screen] = {}
+    for item in items:
+        prev = by_id.get(item.id)
+        if prev is None:
+            by_id[item.id] = item
+            continue
+        fields = max(prev.fields_count, item.fields_count)
+        if (
+            ".designer." in (prev.file or "").lower()
+            and ".designer." not in (item.file or "").lower()
+        ):
+            item.evidence = _evidence(item.evidence, prev.evidence)
+            by_id[item.id] = prev = item
+        else:
+            prev.evidence = _evidence(prev.evidence, item.evidence)
+        prev.fields_count = fields
     return list(by_id.values())
 
 
@@ -317,12 +340,47 @@ _NPM_TECH: list[tuple[re.Pattern[str], str, str]] = [
 ]  # fmt: skip
 
 
+# NuGet packages (language dotnet): .NET frameworks and libraries, with their versions.
+_NUGET_TECH: list[tuple[re.Pattern[str], str, str]] = [
+    (re.compile(r"^microsoft\.entityframeworkcore(\.(sqlserver|sqlite|relational|cosmos))?$"),
+     "Entity Framework Core", "framework"),
+    (re.compile(r"^entityframework$"), "Entity Framework", "framework"),
+    (re.compile(r"^dapper$"), "Dapper", "library"),
+    (re.compile(r"^nhibernate$"), "NHibernate", "framework"),
+    (re.compile(r"^microsoft\.aspnet\.mvc$"), "ASP.NET MVC", "framework"),
+    (re.compile(r"^microsoft\.aspnet\.webapi(\.core)?$"), "ASP.NET Web API", "framework"),
+    (re.compile(r"^hangfire(\.core)?$"), "Hangfire", "scheduler"),
+    (re.compile(r"^quartz$"), "Quartz.NET", "scheduler"),
+    (re.compile(r"^log4net$"), "log4net", "library"),
+    (re.compile(r"^nlog$"), "NLog", "library"),
+    (re.compile(r"^serilog$"), "Serilog", "library"),
+    (re.compile(r"^newtonsoft\.json$"), "Json.NET", "library"),
+    (re.compile(r"^automapper$"), "AutoMapper", "library"),
+    (re.compile(r"^(oracle\.manageddataaccess(\.core)?|oracle\.dataaccess)$"),
+     "Oracle .NET driver", "database"),
+    (re.compile(r"^(system|microsoft)\.data\.sqlclient$"), "SQL Server .NET driver", "database"),
+    (re.compile(r"^(npgsql|npgsql\.entityframeworkcore\.postgresql)$"),
+     "PostgreSQL .NET driver (Npgsql)", "database"),
+    (re.compile(r"^(mysql\.data|mysqlconnector)$"), "MySQL .NET driver", "database"),
+    (re.compile(r"^ibm\.data\.db2(\.core)?$"), "DB2 .NET driver", "database"),
+    (re.compile(r"^ibmmqdotnet$|^ibmxmsdotnetclient$"), "IBM MQ client", "middleware"),
+    (re.compile(r"^rabbitmq\.client$"), "RabbitMQ client", "middleware"),
+    (re.compile(r"^confluent\.kafka$"), "Kafka client (Confluent)", "middleware"),
+    (re.compile(r"^microsoft\.identity\.client$"), "Microsoft MSAL", "auth"),
+    (re.compile(r"^okta\."), "Okta SDK", "auth"),
+    (re.compile(r"^devexpress\.|^telerik\.|^infragistics"), "Commercial UI controls", "library"),
+    (re.compile(r"^crystaldecisions\."), "Crystal Reports", "library"),
+]  # fmt: skip
+
+
 def techs_from_libraries(libs: Iterable[Library]) -> list[TechItem]:
     out: list[TechItem] = []
     for lib in libs:
-        if lib.language == "javascript" and lib.scope == "transitive":
+        if lib.language in ("javascript", "dotnet") and lib.scope == "transitive":
             continue  # what the application uses directly, not what its packages pull in
-        rules = _NPM_TECH if lib.language == "javascript" else _LIB_TECH
+        if lib.source == "com":
+            continue  # VB6 references are mapped by the analyzer
+        rules = {"javascript": _NPM_TECH, "dotnet": _NUGET_TECH}.get(lib.language, _LIB_TECH)
         for rx, name, category in rules:
             if rx.match(lib.artifact.lower()):
                 out.append(TechItem(id=make_id("tech", name, lib.version or ""), name=name,

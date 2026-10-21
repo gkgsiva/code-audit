@@ -15,8 +15,8 @@ rules:
     message: "Hard-coded IP address: {match}"
     remediation: Move the address to configuration (Spring properties, Secret Manager) or use a DNS name.
     pattern:
-      regex: '(?<![\w.])(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)(?![\w.])'
-      languages: [java, jsp, javascript, c, cpp, proc, cobol, procobol, shell, perl, python, batch, sql, plsql]
+      regex: '(?<![\w.])(?<!Version\(")(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)(?![\w.])'
+      languages: [java, jsp, javascript, c, cpp, proc, cobol, procobol, shell, perl, python, batch, sql, plsql, csharp, vbnet, vb6]
       ignore: '^(?:127\.0\.0\.1|0\.0\.0\.0|255\.255\.255\.\d+)$'
 
   - id: hardcoded-endpoint
@@ -26,8 +26,8 @@ rules:
     remediation: Read the endpoint from configuration so each environment can set it.
     pattern:
       regex: '"(?:(?:https?|ftp|sftp|ldaps?)://(?:[^"\s/@:]+:(?P<secret>[^@"\s/]+)@)?[^"\s]+|jdbc:[a-z0-9]+:(?:thin:)?(?:[\w.$]+/(?P<secret2>[^@"\s]+)@)?[^"\s]*)"'
-      languages: [java, jsp, javascript, c, cpp, proc]
-      ignore: 'java\.sun\.com|jakarta\.ee|xmlns\.jcp\.org|www\.w3\.org|springframework\.org/(?:schema|tags)|struts\.apache\.org|apache\.org/(?:dtds|struts)|localhost|127\.0\.0\.1|example\.(?:com|org)'
+      languages: [java, jsp, javascript, c, cpp, proc, csharp, vbnet, vb6]
+      ignore: 'java\.sun\.com|jakarta\.ee|xmlns\.jcp\.org|www\.w3\.org|springframework\.org/(?:schema|tags)|struts\.apache\.org|apache\.org/(?:dtds|struts)|localhost|127\.0\.0\.1|example\.(?:com|org)|tempuri\.org|schemas\.(?:microsoft\.com|xmlsoap\.org)|go\.microsoft\.com|nuget\.org'
 
   - id: hardcoded-credential
     severity: high
@@ -36,7 +36,7 @@ rules:
     remediation: Remove the value from the code and read it from a secret store (Secret Manager); rotate it.
     pattern:
       regex: '(?i)\b[\w.]*(?:password|passwd|pwd|secret|api[_-]?key|token)\w*\s*[:=]\s*"(?P<secret>[^"\s$%{}]{3,})"'
-      languages: [java, jsp, javascript, c, cpp, proc]
+      languages: [java, jsp, javascript, c, cpp, proc, csharp, vbnet, vb6]
 
   - id: hardcoded-credential-script
     severity: high
@@ -83,6 +83,52 @@ rules:
     pattern:
       regex: '\b(?:fork|vfork|ioctl|shmget|shmat|semget|semop|msgget|msgsnd|msgrcv|dlopen|sigaction)\s*\('
       languages: [c, cpp, proc]
+
+  - id: windows-path
+    severity: low
+    category: portability
+    message: "Windows drive or network-share path in code: {match}"
+    remediation: Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume instead of drive letters and shares.
+    pattern:
+      regex: '@?"(?:[A-Za-z]:\\|\\\\)[^"\r\n]*"'
+      languages: [csharp, vbnet, vb6]
+
+  - id: win32-api
+    severity: medium
+    category: portability
+    message: "Windows API call (native DLL): {match}"
+    remediation: Replace the Windows API call with a Java library or a service; there is no Windows API in a GCP container.
+    pattern:
+      regex: '(?i)\bDeclare\s+(?:PtrSafe\s+)?(?:Function|Sub)\s+\w+\s+Lib\s+"[^"]+"|\[\s*DllImport\s*\(\s*"[^"]+"'
+      languages: [vb6, vbnet, csharp]
+
+  - id: com-late-binding
+    severity: medium
+    category: portability
+    message: "COM object created at run time: {match}"
+    remediation: Find what the COM component does (Office automation, a vendor library) and replace it with a Java library or a service.
+    pattern:
+      regex: '(?i)\b(?:CreateObject|GetObject)\s*\(\s*"[^"]+"|\bType\.GetTypeFromProgID\s*\('
+      languages: [vb6, vbnet, csharp]
+
+  - id: windows-registry
+    severity: medium
+    category: portability
+    message: "Windows registry used for settings: {match}"
+    remediation: Move the settings to Spring configuration (application.yaml) or Secret Manager.
+    pattern:
+      regex: '(?i)\b(?:GetSetting|SaveSetting|DeleteSetting|GetAllSettings)\b|\bMy\.Computer\.Registry\b|\bRegistry(?:Key)?\.(?:LocalMachine|CurrentUser|GetValue|SetValue|OpenSubKey)\b|\bReg(?:Open|Query|Set|Create)Key\w*\b'
+      languages: [vb6, vbnet, csharp]
+
+  - id: on-error-resume-next
+    severity: low
+    category: quality
+    message: "Errors are silently ignored: {match}"
+    remediation: Replace with explicit error handling (try/catch) when the code is rewritten; check what the code does when a step fails.
+    pattern:
+      regex: '(?im)^\s*On\s+Error\s+Resume\s+Next\b'
+      multiline: true
+      languages: [vb6, vbnet]
 
   - id: ebcdic-packed-decimal
     severity: medium

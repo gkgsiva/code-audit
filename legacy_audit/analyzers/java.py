@@ -20,7 +20,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.dynsql import fill
 from legacy_audit.analyzers.integrations import classify_url, integration, parse_jdbc
 from legacy_audit.analyzers.sqltools import hole_kind, looks_like_hql, looks_like_sql, sql_fact
-from legacy_audit.model import EntryPoint, Evidence, FileRecord, Service, make_id
+from legacy_audit.model import EntryPoint, Evidence, FileRecord, Screen, Service, make_id
 
 _LANG = Language(tree_sitter_java.language())
 
@@ -95,6 +95,17 @@ SOAP_IMPORTS = (
     "org.apache.cxf",
 )
 MQ_IMPORTS = ("com.ibm.mq", "javax.jms", "jakarta.jms", "org.springframework.jms")
+# Java desktop windows (decision 141): a top-level window is a screen, a panel a partial.
+SWING_WINDOWS = {"JFrame", "JDialog", "JInternalFrame", "JWindow", "JApplet", "JRibbonFrame"}
+AWT_WINDOWS = {"Frame", "Dialog", "Applet", "Window"}
+SWING_PANELS = {"JPanel", "JComponent", "JScrollPane", "JLayeredPane", "JDesktopPane"}
+AWT_PANELS = {"Panel", "Canvas"}
+DESKTOP_INPUTS = re.compile(
+    r"^(JTextField|JTextArea|JPasswordField|JFormattedTextField|JComboBox|JCheckBox|"
+    r"JRadioButton|JList|JTable|JSpinner|JSlider|JTree|JEditorPane|JTextPane|JDateChooser|"
+    r"TextField|TextArea|Choice|Checkbox|List|ComboBox|CheckBox|RadioButton|DatePicker|"
+    r"ListView|TableView|PasswordField|Spinner|Slider|ChoiceBox)$"
+)
 JAVAX_EE = re.compile(
     r"^javax\.(servlet|ejb|persistence|jms|mail|faces|ws|xml\.ws|xml\.bind|annotation|"
     r"transaction|validation|inject|enterprise|resource|security\.jacc|websocket)\b"
@@ -203,7 +214,7 @@ def _txt(node: Node | None) -> str:
 
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
-    version: ClassVar[str] = "4"  # 4: fragments keyed by position (deterministic)
+    version: ClassVar[str] = "5"  # 5: Swing, AWT and JavaFX windows
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -313,6 +324,7 @@ class _Visitor:
         self.classes.append(info)
         self.facts.symbol("java-class", fqn, self.path, info.line)
         self._class_level(info)
+        self._desktop(info, node)
         body = node.child_by_field_name("body")
         if body is None:
             return
@@ -400,6 +412,70 @@ class _Visitor:
         if sup & {"HttpServlet", "GenericServlet"}:
             self.facts.symbol("servlet-class", info.fqn, self.path, line)
 
+    def _desktop(self, info: _ClassInfo, node: Node) -> None:
+        """Swing, AWT and JavaFX windows as screens; the windows they open as navigation."""
+        sup = {s.rsplit(".", 1)[-1] for s in info.supertypes}
+        swing = any(i.startswith("javax.swing") for i in self.imports)
+        javafx = any(i.startswith("javafx.") for i in self.imports)
+        awt = any(i.startswith("java.awt") for i in self.imports)
+        if "Application" in sup and javafx:
+            self._entry(info.fqn, "desktop-app", info.line, "JavaFX Application")
+            self.facts.add("tech_stack", tech("JavaFX", None, "framework", self.path, info.line))
+            return
+        windows = SWING_WINDOWS | (AWT_WINDOWS if awt or not swing else set())
+        panels = SWING_PANELS | (AWT_PANELS if awt else set())
+        if not sup & (windows | panels):
+            return
+        technology = "swing" if sup & (SWING_WINDOWS | SWING_PANELS) else "awt"
+        fields = 0
+        targets: set[str] = set()
+        stack = [node.child_by_field_name("body")]
+        while stack:
+            n = stack.pop()
+            if n is None:
+                continue
+            if n.type == "object_creation_expression":
+                t = _txt(n.child_by_field_name("type")).split("<")[0].rsplit(".", 1)[-1]
+                if DESKTOP_INPUTS.match(t):
+                    fields += 1
+                elif (
+                    t[:1].isupper()
+                    and t != info.name
+                    and not t.startswith(("J", "Grid", "Border", "Flow"))
+                ):
+                    targets.add(t)
+            if n.type == "class_declaration":
+                continue
+            stack.extend(n.children)
+        sid = make_id("screen", "java-desktop", info.fqn)
+        self.facts.add(
+            "screens",
+            Screen(
+                id=sid,
+                name=info.name,
+                technology=technology,
+                file=self.path,
+                fields_count=fields,
+                partial=not sup & windows,
+                evidence=[Evidence(file=self.path, line=info.line,
+                                   snippet=f"{info.name} extends {', '.join(sorted(sup))}")],
+            ),
+        )  # fmt: skip
+        self.facts.symbol("desktop-form", info.name, self.path, info.line, owner=sid)
+        name = "Java Swing" if technology == "swing" else "Java AWT"
+        self.facts.add("tech_stack", tech(name, None, "framework", self.path, info.line))
+        for t in sorted(targets):
+            self.facts.ref(
+                kind="forwards",
+                source=f"screen:{sid}",
+                source_label=info.name,
+                target=t,
+                target_kinds=["desktop-form"],
+                file=self.path,
+                line=info.line,
+                report_unresolved=False,
+            )
+
     def _entry(self, name: str, kind: str, line: int, detail: str | None = None) -> None:
         self.facts.add(
             "entry_points",
@@ -439,7 +515,13 @@ class _Visitor:
         mods_text = _txt(mods) if mods is not None else ""
         params = _txt(node.child_by_field_name("parameters"))
         if name == "main" and "static" in mods_text and "String" in params:
-            self._entry(cls.fqn, "main", line)
+            # A main() that opens a window starts a desktop application, not a batch program.
+            ui = re.search(
+                r"setVisible\(\s*true|SwingUtilities\.invoke|EventQueue\.invoke|"
+                r"\blaunch\(",
+                _txt(node.child_by_field_name("body")),
+            )
+            self._entry(cls.fqn, "desktop-app" if ui else "main", line)
             self.facts.symbol("java-main", cls.fqn, self.path, line)
         if "Scheduled" in ann:
             self._entry(f"{cls.fqn}.{name}", "scheduler", line, "@Scheduled")

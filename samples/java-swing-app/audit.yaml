@@ -1,0 +1,8 @@
+# Sample: a Java 8 Swing desktop application (teller-desk) with a JavaFX rates view. The main
+# frame opens a customer search dialog that builds its SQL from the fields typed in; the
+# account panel is part of the main frame; the rates view calls a REST API.
+application:
+  name: "Teller desk, Java Swing (sample)"
+source:
+  type: local
+  paths: ["estate"]

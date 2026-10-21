@@ -24,6 +24,8 @@ IGNORED_HOSTS = re.compile(
     r"json\.schemastore\.org|(registry\.)?npmjs\.(org|com)|registry\.yarnpkg\.com|"
     r"angular\.io|angular\.dev|angularjs\.org|docs\.angularjs\.org|nodejs\.org|"
     r"typescriptlang\.org|nestjs\.com|docs\.nestjs\.com|expressjs\.com|"
+    r"tempuri\.org|go\.microsoft\.com|(docs|learn|msdn)\.microsoft\.com|aka\.ms|"
+    r"(api\.)?nuget\.org|"
     r"goo\.gl|bit\.ly|xmlns\.jcp\.org|java\.sun\.com|xmlns\.jboss\.org|www\.jboss\.org|"
     r"www\.bea\.com|www\.ibm\.com|websphere\.ibm\.com|tomcat\.apache\.org|"
     r"www\.eclipse\.org|glassfish\.org|payara\.fish)$",
@@ -125,7 +127,12 @@ def classify_url(url: str, soap_hint: bool = False) -> tuple[str, str] | None:
     port = f":{parts.port}" if parts.port else ""
     path = parts.path.rstrip("/")
     if scheme in ("http", "https"):
-        soap = soap_hint or "/services/" in path.lower() or "wsdl" in (parts.query or "").lower()
+        soap = (
+            soap_hint
+            or "/services/" in path.lower()
+            or "wsdl" in (parts.query or "").lower()
+            or path.lower().endswith((".asmx", ".svc"))  # ASP.NET web service, WCF service
+        )
         return ("SOAP" if soap else "HTTP"), f"{scheme}://{host}{port}{path}"
     kind = {
         "ftp": "FTP",

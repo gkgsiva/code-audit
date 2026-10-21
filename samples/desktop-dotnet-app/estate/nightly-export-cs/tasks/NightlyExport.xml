@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>Exports the day's invoices to the file server for the ledger team.</Description>
+    <URI>\Billing\NightlyExport</URI>
+  </RegistrationInfo>
+  <Triggers>
+    <CalendarTrigger>
+      <StartBoundary>2015-01-01T01:30:00</StartBoundary>
+      <ScheduleByDay>
+        <DaysInterval>1</DaysInterval>
+      </ScheduleByDay>
+    </CalendarTrigger>
+  </Triggers>
+  <Actions Context="Author">
+    <Exec>
+      <Command>C:\Billing\NightlyExport\NightlyExport.exe</Command>
+    </Exec>
+  </Actions>
+</Task>

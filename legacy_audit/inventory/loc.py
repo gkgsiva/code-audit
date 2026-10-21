@@ -46,7 +46,8 @@ SYNTAX: dict[str, Syntax] = {
     "ruby": Syntax(("#",)),
     "powershell": Syntax(("#",), (("<#", "#>"),)),
     "vbscript": Syntax(("'",)),
-    "vb": Syntax(("'",)),
+    "vb6": Syntax(("'",)),
+    "vbnet": Syntax(("'",)),
     "sqlloader": Syntax(("--",)),
     "kotlin": Syntax(("//",), (C_BLOCK,)),
     "scala": Syntax(("//",), (C_BLOCK,)),
@@ -59,6 +60,12 @@ SYNTAX: dict[str, Syntax] = {
     "jil": Syntax(("#",), (C_BLOCK,)),
     "xml": Syntax((), (("<!--", "-->"),)),
     "html": Syntax((), (("<!--", "-->"),)),
+    "msbuild": Syntax((), (("<!--", "-->"),)),
+    "xaml": Syntax((), (("<!--", "-->"),)),
+    "fxml": Syntax((), (("<!--", "-->"),)),
+    "aspx": Syntax((), (("<%--", "--%>"), ("<!--", "-->"))),
+    "aspnet": Syntax((), (("<%--", "--%>"),)),
+    "razor": Syntax((), (("@*", "*@"), ("<!--", "-->"))),
     "jsp": Syntax((), (("<%--", "--%>"), ("<!--", "-->"))),
     "velocity": Syntax(("##",), (("#*", "*#"), ("<!--", "-->"))),
     "freemarker": Syntax((), (("<#--", "-->"), ("<!--", "-->"))),
@@ -164,6 +171,16 @@ def _batch(raw: str) -> str:
     return "code"
 
 
+def _basic(raw: str) -> str:
+    """Visual Basic 6 and VB.NET: a line starting with ``'`` or ``REM`` is a comment (a ``'``
+    after code leaves the line code; ``'`` inside a string is not a comment)."""
+    s = raw.strip()
+    if not s:
+        return "blank"
+    low = s.lower()
+    return "comment" if s.startswith("'") or low == "rem" or low.startswith("rem ") else "code"
+
+
 def _star(raw: str) -> str:
     s = raw.strip()
     if not s:
@@ -183,6 +200,8 @@ def count_loc(text: str, language: str) -> Loc:
         return _count_by_line(lines, _batch)
     if language in ("mqsc", "bms"):
         return _count_by_line(lines, _star)
+    if language in ("vb6", "vbnet"):
+        return _count_by_line(lines, _basic)
     if language in ("markdown", "text"):
         # Documentation: every non-blank line is prose, counted as comment.
         return _count_by_line(lines, lambda raw: "comment" if raw.strip() else "blank")

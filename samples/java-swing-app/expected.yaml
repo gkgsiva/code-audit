@@ -1,0 +1,77 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# A Java 8 Swing teller desk with one JavaFX view (teller-desk).
+#
+# Checked by hand:
+# - Screens: MainFrame (JFrame), CustomerDialog (JDialog), Rates (JavaFX, Rates.fxml with its
+#   controller RatesController); AccountPanel (JPanel) is a partial.
+# - Two desktop-app entry points: TellerApp.main (opens MainFrame) and RatesView (a JavaFX
+#   Application).
+# - SQL: the customer search built with + in CustomerDao.
+inventory:
+  files: 10
+  input_files: 0
+  loc: {code: 175, comment: 1, blank: 21}
+  by_language:
+    fxml: {files: 1, code: 9, comment: 0, blank: 0}
+    java: {files: 7, code: 134, comment: 0, blank: 21}
+    properties: {files: 1, code: 3, comment: 1, blank: 0}
+    xml: {files: 1, code: 29, comment: 0, blank: 0}
+  by_category: {build: 1, config: 1, screen: 1, source: 7}
+components:
+- {name: teller-desk, type: desktop, files: 10, detected_by: build-file}
+component_roles:
+  teller-desk: [desktop]
+unscheduled_batches: []
+coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
+  security: missing, dependency-check: missing, osv-scanner: missing}
+counts:
+  services:
+    total: 0
+    by_kind: {}
+  screens:
+    total: 3
+    partials: 1
+    by_technology: {javafx: 1, swing: 2}
+  sql:
+    total: 1
+    distinct: 1
+    by_type: {SELECT: 1}
+    by_source: {jdbc: 1}
+    dynamic: 1
+    not_parsed: 0
+  stored_procedures: 0
+  db_objects: {table: 1}
+  integrations:
+    total: 2
+    by_type: {DB: 1, HTTP: 1}
+  batch_jobs:
+    total: 0
+    scheduled: 0
+    unscheduled: 0
+    boxes: 0
+    by_scheduler: {}
+  libraries: {total: 3, declared: 3, undeclared: 0}
+  entry_points: {desktop-app: 2}
+  dependencies: {resolved: 7, unresolved: 0}
+  findings: {eol-library: 1, eol-technology: 2, hardcoded-endpoint: 2, no-tests: 1, sql-concatenation: 1}
+services: []
+screens: [AccountPanel (partial), CustomerDialog, MainFrame, Rates]
+integrations: ['DB oracle://tellerdb.acme.local:1521/TELLER [outbound]', 'HTTP https://rates.acme.local/api/fx [outbound]']
+integration_purposes: {'DB oracle://tellerdb.acme.local:1521/TELLER': database, 'HTTP https://rates.acme.local/api/fx': HTTP
+    API}
+batch_jobs: []
+unresolved_references: 0
+assessment:
+  findings_by_severity: {high: 1, low: 1, medium: 5}
+  pg_grades: {review: 1}
+  complexity:
+    services: {}
+    screens: {Simple: 3}
+    batch_jobs: {}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 1
+  recommendations: {keep: 1, replace: 2}
+

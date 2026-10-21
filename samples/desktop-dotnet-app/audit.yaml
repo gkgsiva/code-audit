@@ -1,0 +1,14 @@
+# Sample: a Windows desktop estate before migration. billing-desk-vb6 is a Visual Basic 6
+# application (forms, a module, a class, a user control, ActiveX controls, ADO and a Data
+# control); orders-winforms-vbnet is a VB.NET Windows Forms application on .NET Framework 4.5.2
+# (packages.config, App.config, ADO.NET and Dapper); inventory-wpf-cs is a C# WPF application
+# on .NET 6 (Entity Framework Core, Dapper, a stored procedure); billing-api-cs is an ASP.NET
+# Core Web API with an MVC page and a Hangfire job; legacy-webforms is an ASP.NET Web Forms
+# site with an ASMX web service; nightly-export-cs is a console program scheduled by the
+# Windows Task Scheduler; invoice-mailer-svc is a Windows service. Each project keeps its
+# bin/ and obj/ folders, which the scan leaves out.
+application:
+  name: "Billing desktop and .NET estate (sample)"
+source:
+  type: local
+  paths: ["estate"]
