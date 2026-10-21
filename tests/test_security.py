@@ -257,6 +257,18 @@ def test_running_tools(tmp_path: Path) -> None:
     assert os.access(fake, os.X_OK)
 
 
+def test_known_scanner_failures_are_explained() -> None:
+    osv = (
+        "Error during extraction: (extracting as vulnmatch/osvlocal) unable to fetch OSV "
+        "database: no offline version of the OSV database is available"
+    )
+    assert "set security.osv_scanner.offline: false" in (vulns.failure_hint(vulns.OSV, osv) or "")
+    dc = "[ERROR] No documents exist"
+    assert "NVD database is not downloaded" in (vulns.failure_hint(vulns.DC, dc) or "")
+    assert vulns.failure_hint(vulns.DC, osv) is None  # each hint belongs to its own tool
+    assert vulns.failure_hint(vulns.OSV, "something else") is None
+
+
 @pytest.mark.skipif(sys.platform == "win32", reason="uses a POSIX script as the fake tool")
 def test_osv_scanner_command_line(tmp_path: Path) -> None:
     """OSV-Scanner 2.x flags: --offline, jar files via java/archive, database folder from env."""

@@ -252,6 +252,38 @@ def run_osv_scanner(
     return _run(cmd, cfg.timeout_minutes, OSV, out, ok_codes=(0, 1), env=env)
 
 
+# Known scanner failures, in plain words with the fix (searched in the tool's whole output).
+FAILURE_HINTS: tuple[tuple[str, str, str], ...] = (
+    (
+        OSV,
+        "no offline version of the OSV database",
+        "offline mode but no OSV database downloaded: set security.osv_scanner.offline: false "
+        "to ask osv.dev, or download the database",
+    ),
+    (
+        OSV,
+        "flag provided but not defined",
+        "OSV-Scanner 1.x is too old: install version 2",
+    ),
+    (
+        OSV,
+        "no package sources found",
+        "no build files (pom.xml, Gradle) or .jar files found in the code folders",
+    ),
+    (
+        DC,
+        "No documents exist",
+        "its NVD database is not downloaded yet: run dependency-check --updateonly with an NVD "
+        "API key once, or set security.dependency_check.enabled: false",
+    ),
+)
+
+
+def failure_hint(tool: str, output: str) -> str | None:
+    low = output.lower()
+    return next((h for t, needle, h in FAILURE_HINTS if t == tool and needle.lower() in low), None)
+
+
 def _run(
     cmd: list[str],
     minutes: int,
@@ -268,8 +300,12 @@ def _run(
     except (OSError, subprocess.TimeoutExpired) as err:
         return None, VulnerabilitySource(name=tool, status="failed", detail=type(err).__name__)
     if proc.returncode not in ok_codes or not out.is_file():
+        text = f"{proc.stderr or ''}\n{proc.stdout or ''}"
         tail = (proc.stderr or proc.stdout or "").strip().splitlines()[-1:] or [""]
         detail = re.sub(r"\s+", " ", f"exit code {proc.returncode}: {tail[0]}")[:200]
+        hint = failure_hint(tool, text)
+        if hint:
+            detail = f"{hint} ({detail})"
         return None, VulnerabilitySource(name=tool, status="failed", detail=detail)
     report = load_report(out, out.name)
     if report is None:
