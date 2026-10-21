@@ -452,3 +452,10 @@ Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
    template".
 7. With Copilot (optional): after the enrichment, rebuild; the project description, module
    descriptions, integration stories and batch purposes show Copilot's words marked AI.
+8. Without Copilot, see the AI text with the demo analysis: run `audit: 4. scan a sample`
+   with `struts-oracle-app`, then `audit: 10. load demo enrichment and validate (Struts
+   sample)` (pick the empty option, not `--break`), then task 24 with `struts-oracle-app`. In **2 Database and queries** the intro ends with "Migration approach
+   (AI): ...", **Tables** has the columns **Business data (AI)** (ORDERS = Order) and
+   **Migration (AI)** (ORDERS = auto), and **Migration plan per object (AI)** lists
+   PKG_ORDER_PRICING as rewrite. For batches: task 4 with `spring-mvc-batch-app`, task 16 (Billing
+   demo analysis), then task 24 with `spring-mvc-batch-app`: BIL_NIGHTLY_BOX's *What it does* ends with "(AI)".
