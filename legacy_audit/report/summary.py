@@ -83,6 +83,13 @@ class Section:
     source_note: str = ""
 
 
+def _plan_text(plan: dict[str, Any] | None) -> str:
+    """A migration plan cell: the approach, then the notes."""
+    if not plan:
+        return ""
+    return ": ".join(x for x in (plan.get("approach") or "", plan.get("notes") or "") if x)
+
+
 def _pct(part: float, whole: float) -> str:
     return f"{round(100 * part / whole)}%" if whole else "0%"
 
@@ -356,8 +363,19 @@ class _Summary:
             f"{_pct(grades.get('manual', 0), total)} a manual rewrite"
             + (f"; {_plural(procs, 'stored procedure')} to migrate." if procs else "."),
         ]
+        # The Copilot analysis adds words only: business data names (functional stage) and a
+        # migration approach per object (data_migration stage); every count stays the scan's.
+        dm = self.e.get("data_migration") or {}
+        plans = {p["db_object_id"]: p for p in dm.get("objects", []) or []}
+        entities: dict[str, list[str]] = defaultdict(list)
+        for ent in self.fn.get("data_entities", []) or []:
+            for oid in ent.get("db_object_ids") or []:
+                entities[oid].append(ent["name"])
+        if dm.get("strategy"):
+            intro.append(f"Migration approach (AI): {dm['strategy']}")
         types = Counter(sql.get("by_type", {}))
         tl, tv = _top(types, 8)
+        crud_cols = ["Table", "SQL statements", "CRUD"]
         crud_rows = [
             [
                 o["name"],
@@ -366,6 +384,24 @@ class _Summary:
             ]
             for o in tables
         ]
+        if any(o["id"] in entities for o in tables):
+            crud_cols.append("Business data (AI)")
+            for row, o in zip(crud_rows, tables, strict=True):
+                row.append(", ".join(entities.get(o["id"], [])))
+        if any(o["id"] in plans for o in tables):
+            crud_cols.append("Migration (AI)")
+            for row, o in zip(crud_rows, tables, strict=True):
+                row.append(_plan_text(plans.get(o["id"])))
+        plan_rows = [
+            [
+                str((self.rd.by_id.get(oid) or {}).get("name") or oid),
+                str((self.rd.by_id.get(oid) or {}).get("object_type") or ""),
+                p.get("approach") or "",
+                p.get("notes") or "",
+            ]
+            for oid, p in plans.items()
+        ]
+        plan_rows.sort(key=lambda r: (r[1], r[0]))
         comp_rows = [
             [
                 k,
@@ -418,9 +454,14 @@ class _Summary:
                 Table(
                     "tables",
                     "Tables",
-                    ["Table", "SQL statements", "CRUD"],
+                    crud_cols,
                     crud_rows,
-                    "CRUD: Create, Read, Update, Delete seen in the code.",
+                    "CRUD: Create, Read, Update, Delete seen in the code."
+                    + (
+                        " Columns marked (AI) come from the Copilot analysis."
+                        if len(crud_cols) > 3
+                        else ""
+                    ),
                 ),
                 Table(
                     "sql-by-module",
@@ -450,7 +491,24 @@ class _Summary:
                     ["Kind", "Count"],
                     [[k, v] for k, v in sorted(objects.items())],
                 ),
+                *(
+                    [
+                        Table(
+                            "migration-plan",
+                            "Migration plan per object (AI)",
+                            ["Object", "Kind", "Approach", "Notes"],
+                            plan_rows,
+                            "Written by the Copilot analysis (data migration stage): auto, "
+                            "convert, rewrite or retire.",
+                        )
+                    ]
+                    if plan_rows
+                    else []
+                ),
             ],
+            "Text marked AI comes from the Copilot analysis; every number comes from the scan."
+            if plans or entities or dm.get("strategy")
+            else "",
         )
 
     # ---- 3 integrations --------------------------------------------------------------------------
@@ -598,8 +656,8 @@ class _Summary:
                 r["name"],
                 r["kind"],
                 r.get("component") or "",
-                r["what"],
-                r["when"],
+                r["what"] + (" (AI)" if r["what_from"] == "AI (Copilot)" else ""),
+                r["when"] + (" (AI)" if r["when_from"] == "AI (Copilot)" else ""),
                 source_words.get(
                     {
                         "autosys": "scheduler",
@@ -669,10 +727,13 @@ class _Summary:
                         "Steps",
                     ],
                     table_rows,
-                    "What it does: Copilot analysis, else the scheduler's description, else "
-                    "the code's header comment, else the scan.",
+                    "What it does: Copilot analysis (marked AI), else the scheduler's "
+                    "description, else the code's header comment, else the scan.",
                 ),
             ],
+            "Text marked AI comes from the Copilot analysis; every number comes from the scan."
+            if "AI (Copilot)" in {r["what_from"] for r in rows} | {r["when_from"] for r in rows}
+            else "",
         )
 
 

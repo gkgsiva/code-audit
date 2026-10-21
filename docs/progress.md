@@ -316,3 +316,6 @@ PowerPoint on the corporate template rather than in the browser with pptxgenjs.
   scan sentence listing the module's contents; table slides show the first 10 rows (the page
   and CSVs have all of them).
 - Next: build it on a real estate and check the slide layouts with the team.
+- Follow-up (same day): the Database section now uses the Copilot analysis (business data
+  names, migration approach per object, overall strategy) and Copilot's batch text is marked
+  AI (decision 125).
