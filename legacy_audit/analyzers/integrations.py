@@ -24,6 +24,8 @@ IGNORED_HOSTS = re.compile(
     r"json\.schemastore\.org|(registry\.)?npmjs\.(org|com)|registry\.yarnpkg\.com|"
     r"angular\.io|angular\.dev|angularjs\.org|docs\.angularjs\.org|nodejs\.org|"
     r"typescriptlang\.org|nestjs\.com|docs\.nestjs\.com|expressjs\.com|"
+    r"tempuri\.org|go\.microsoft\.com|(docs|learn|msdn)\.microsoft\.com|aka\.ms|"
+    r"(api\.)?nuget\.org|"
     r"goo\.gl|bit\.ly|xmlns\.jcp\.org|java\.sun\.com|xmlns\.jboss\.org|www\.jboss\.org|"
     r"www\.bea\.com|www\.ibm\.com|websphere\.ibm\.com|tomcat\.apache\.org|"
     r"www\.eclipse\.org|glassfish\.org|payara\.fish)$",

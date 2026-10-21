@@ -35,6 +35,7 @@ End Sub
 
 Public Function PostToLedger(ByVal invoiceId As Long) As Boolean
     Dim http As Object
+    On Error Resume Next
     Set http = CreateObject("MSXML2.ServerXMLHTTP")
     http.Open "POST", "http://ledger.acme.local/api/postings", False
     http.send "<posting invoice='" & invoiceId & "'/>"
