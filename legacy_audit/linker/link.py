@@ -56,7 +56,7 @@ from legacy_audit.model import (
 
 NAV_EDGES = {"forwards", "renders", "submits", "links"}
 REACH_EDGES = {"calls", "uses", "invokes", "runs", "triggers", "includes"}
-PAGE_TECH = {"jsp", "jsf", "html", "velocity", "freemarker"}
+PAGE_TECH = {"jsp", "jsf", "html", "velocity", "freemarker", "aspx", "razor"}
 WEB_SERVICE_KINDS = {
     "struts-action",
     "spring-handler",
@@ -66,12 +66,16 @@ WEB_SERVICE_KINDS = {
     "ejb-method",
     "webflow",
     "remoting",
+    "aspnet-mvc",
 }
 VIEW_EXTENSIONS = (".jsp", ".jspx", ".xhtml", ".html", ".vm", ".ftl")
 # Single-page application templates (decision 130): a screen when a route reaches it.
 SPA_TECH = {"angular", "angularjs"}
 API_SERVICE_KINDS = {"node-route", "nest-route"}
 SPA_ENTRY_KINDS = {"angular-app", "angularjs-app"}
+# Desktop applications (decisions 134-137): VB6 forms, Windows Forms, WPF, Java Swing/AWT/JavaFX.
+DESKTOP_TECH = {"vb6", "winforms", "wpf", "swing", "awt", "javafx"}
+DESKTOP_ENTRY_KINDS = {"desktop-app"}
 MODULE_EXTENSIONS = (
     ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", "/index.ts", "/index.js", "",
 )  # fmt: skip
@@ -669,8 +673,13 @@ class _Linker:
         entities = {
             s.name: s.data.get("table", s.name).upper()
             for s in self.symbols
-            if s.kind == "jpa-entity"
+            if s.kind == "jpa-entity" and "entity" not in s.data
         }
+        # Entity Framework DbSet<T> properties name the entity class, whose own mapping
+        # ([Table("X")]) may be in another file.
+        for s in self.symbols:
+            if s.kind == "jpa-entity" and "entity" in s.data:
+                entities[s.name] = entities.get(s.data["entity"], s.data.get("table", s.name)).upper()
         procs: dict[str, DbObject] = {}
         for o in objects:
             if o.object_type in ("package", "procedure", "function"):
@@ -983,14 +992,20 @@ def classify_components(
             roles.add(ComponentType.API)
         if "cics-transaction" in kinds or "BMS" in techs:
             roles.add(ComponentType.ONLINE_MAINFRAME)
+        if techs & DESKTOP_TECH or entries.get(c.name, set()) & DESKTOP_ENTRY_KINDS:
+            roles.add(ComponentType.DESKTOP)
+        # The main() of a desktop application opens its windows: not batch work.
+        batch_entries = {"scheduler", "spring-batch", "windows-service"}
+        if ComponentType.DESKTOP not in roles:
+            batch_entries.add("main")
         program_batch = (
             c.name in jobs
             or kinds & {"cobol-program", "c-executable", "batch-job"}
-            or entries.get(c.name, set()) & {"main", "scheduler", "spring-batch"}
+            or entries.get(c.name, set()) & batch_entries
         )
         scripts = batchy.get(c.name, set())
         if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME, ComponentType.API,
-                    ComponentType.FRONTEND}:  # fmt: skip
+                    ComponentType.FRONTEND, ComponentType.DESKTOP}:  # fmt: skip
             # in an online application, only scripts filed as batch are batch work (deploy and
             # admin scripts often run SQL too)
             scripts = {p for p in scripts if in_batch_folder(p)}
@@ -1016,6 +1031,8 @@ def classify_components(
             c.type = ComponentType.FRONTEND
         elif ComponentType.API in roles:
             c.type = ComponentType.API
+        elif ComponentType.DESKTOP in roles:
+            c.type = ComponentType.DESKTOP
         elif ComponentType.ONLINE_MAINFRAME in roles:
             c.type = ComponentType.ONLINE_MAINFRAME
         elif program_batch or (

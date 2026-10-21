@@ -804,6 +804,11 @@ class _Visitor:
             add_connection(self.facts, s, self.path, line, "ado.net")
         if sql and looks_like_sql(s.strip(), strict=True):
             p = node.parent
+            call = p.parent.parent if p is not None and p.parent is not None else None
+            if call is not None and call.type == "invocation_expression" and _callee(call)[1] in (
+                "Format", "Concat", "Append", "AppendLine", "AppendFormat", "Join"
+            ):
+                return  # part of a text built elsewhere (reported where it is used)
             if p is not None and p.type in ("argument", "return_statement",
                                             "arrow_expression_clause"):  # fmt: skip
                 b = self._eval(node) or lit(s, line)

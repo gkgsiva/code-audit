@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.acme.teller.ui.RatesController">
+    <ComboBox fx:id="currency" />
+    <DatePicker fx:id="asOf" />
+    <TableView fx:id="rates" />
+    <Button text="Refresh" onAction="#refresh" />
+</VBox>

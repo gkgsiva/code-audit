@@ -308,7 +308,8 @@ _RAZOR_INPUT = re.compile(
 )
 _XAML_INPUT = re.compile(
     r"<(?:\w+:)?(TextBox|PasswordBox|ComboBox|CheckBox|RadioButton|DatePicker|ListBox|Slider|"
-    r"RichTextBox|DataGrid|TextField|TextArea|ChoiceBox|DateTimePicker|NumberBox)\b"
+    r"RichTextBox|DataGrid|TextField|TextArea|ChoiceBox|DateTimePicker|NumberBox|TableView|"
+    r"ListView|Spinner)\b"
 )
 _ASP_SQL = re.compile(
     r"\b(Select|Insert|Update|Delete)Command\s*=\s*\"([^\"]+)\"", re.I
@@ -661,7 +662,8 @@ def _layout(path: str, language: str, text: str, facts: Facts) -> None:
         technology = "javafx"
         partial = False
         facts.add("tech_stack", tech("JavaFX", None, "framework", path, line_of(root)))
-    name = cls.rsplit(".", 1)[-1] if cls else stem
+    # a JavaFX view is named after its file (Rates.fxml), its controller is a separate class
+    name = cls.rsplit(".", 1)[-1] if cls and language == "xaml" else stem
     sid = make_id("screen", path)
     facts.add(
         "screens",
