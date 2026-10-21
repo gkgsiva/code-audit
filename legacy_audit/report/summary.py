@@ -642,6 +642,7 @@ class _Summary:
                 "cron": "scheduler",
                 "jcl": "scheduler",
                 "spring-batch": "scheduler",
+                "node-cron": "scheduler",
             }.get(r["when_from"], r["when_from"])
             for r in rows
         )
@@ -687,6 +688,7 @@ class _Summary:
                         "cron": "scheduler",
                         "jcl": "scheduler",
                         "spring-batch": "scheduler",
+                        "node-cron": "scheduler",
                     }.get(r["when_from"], r["when_from"]),
                     r["when_from"],
                 ),

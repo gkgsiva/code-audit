@@ -67,6 +67,7 @@ _SCHEDULER_WORD = {
     "cron": "Cron job",
     "jcl": "JCL job",
     "spring-batch": "Spring Batch job",
+    "node-cron": "Node.js scheduled job",
 }
 _DAYS = ["mo", "tu", "we", "th", "fr", "sa", "su"]
 _DAY_NAMES = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -447,7 +448,10 @@ def parse_schedule(schedule: str | None, scheduler: str) -> dict[str, Any]:
             "definitions were not provided)."
         )
         return out
-    if scheduler == "cron":
+    if scheduler == "node-cron" and schedule.startswith("every "):
+        out["text"] = f"Runs {schedule}."
+        return out
+    if scheduler in ("cron", "node-cron"):
         parts = schedule.split()
         if len(parts) >= 5:
             minute, hour, dom, mon, dow = parts[:5]
@@ -802,7 +806,7 @@ def batch_flows(rd: RunData) -> list[Flow]:
 _PROGRAM_SERVICES = {"c-executable", "cobol-program"}
 _EVENT_ENTRY = {"message-listener", "listener", "jms-listener", "mq-listener"}
 _PROGRAM_ENTRY = {"main", "scheduler", "spring-batch"}
-_ONLINE = {"web", "online-mainframe"}
+_ONLINE = {"web", "online-mainframe", "frontend", "api"}
 _NO_SCHEDULE = (
     "No schedule found: no Autosys JIL, JCL or crontab entry in the inputs starts it. "
     "It may be run by hand or by a scheduler whose export was not provided."

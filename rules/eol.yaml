@@ -28,6 +28,13 @@ data:
     - {name: AngularJS, artifact: 'angular', versions: '<2', eol_date: '2021-12-31', replacement: 'Angular 21'}
     - {name: jQuery before 3.5, artifact: 'jquery', versions: '<3.5', eol_date: '2020-04-10', replacement: 'Angular 21 (or jQuery 3.7+)'}
     - {name: Oracle JDBC ojdbc14, artifact: 'ojdbc14', versions: '*', eol_date: '2013-07-31', replacement: 'org.postgresql:postgresql (target database)'}
+    # Angular: each major is supported for 18 months (angular.dev/reference/releases).
+    - {name: Angular before 15, artifact: '@angular/core', versions: '>=2,<15', eol_date: '2023-11-18', replacement: 'Angular 21'}
+    - {name: Angular 15, artifact: '@angular/core', versions: '>=15,<16', eol_date: '2024-05-18', replacement: 'Angular 21'}
+    - {name: Angular 16, artifact: '@angular/core', versions: '>=16,<17', eol_date: '2024-11-08', replacement: 'Angular 21'}
+    - {name: Angular 17, artifact: '@angular/core', versions: '>=17,<18', eol_date: '2025-05-15', replacement: 'Angular 21'}
+    - {name: Angular 18, artifact: '@angular/core', versions: '>=18,<19', eol_date: '2025-11-21', replacement: 'Angular 21'}
+    - {name: Angular 19, artifact: '@angular/core', versions: '>=19,<20', eol_date: '2026-05-19', replacement: 'Angular 21'}
 
   technologies:
     - {name: 'Struts 1', versions: '*', eol_date: '2013-04-05', replacement: 'Spring MVC (Spring Boot 4)'}
@@ -40,6 +47,25 @@ data:
     - {name: 'Spring Batch', versions: '<5', eol_date: '2023-11-18', replacement: 'Spring Batch 6'}
     - {name: 'Hibernate', versions: '<6', eol_date: '2022-12-31', replacement: 'Hibernate ORM 7'}
     - {name: 'Servlet API', versions: '<3', eol_date: '2013-06-12', replacement: 'Jakarta Servlet 6.1'}
+    # Angular and Node.js (versions found in package.json, lock files, .nvmrc, Dockerfiles).
+    - {name: 'Angular', versions: '>=2,<15', eol_date: '2023-11-18', replacement: 'Angular 21'}
+    - {name: 'Angular', versions: '>=15,<16', eol_date: '2024-05-18', replacement: 'Angular 21'}
+    - {name: 'Angular', versions: '>=16,<17', eol_date: '2024-11-08', replacement: 'Angular 21'}
+    - {name: 'Angular', versions: '>=17,<18', eol_date: '2025-05-15', replacement: 'Angular 21'}
+    - {name: 'Angular', versions: '>=18,<19', eol_date: '2025-11-21', replacement: 'Angular 21'}
+    - {name: 'Angular', versions: '>=19,<20', eol_date: '2026-05-19', replacement: 'Angular 21'}
+    - {name: 'Node.js', versions: '<16', eol_date: '2023-04-30', replacement: 'Node.js 24 LTS, or Spring Boot 4 (Java 25)'}
+    - {name: 'Node.js', versions: '>=16,<18', eol_date: '2023-09-11', replacement: 'Node.js 24 LTS, or Spring Boot 4 (Java 25)'}
+    - {name: 'Node.js', versions: '>=18,<20', eol_date: '2025-04-30', replacement: 'Node.js 24 LTS, or Spring Boot 4 (Java 25)'}
+    - {name: 'Node.js', versions: '>=20,<22', eol_date: '2026-04-30', replacement: 'Node.js 24 LTS, or Spring Boot 4 (Java 25)'}
+    # Application and web servers: the target is Spring Boot 4 (embedded Tomcat) on GKE or
+    # Cloud Run, so every server is replaced; these are the releases out of vendor support.
+    - {name: 'Oracle WebLogic Server', versions: '<12.2.1', replacement: 'Spring Boot 4 executable jar on GKE / Cloud Run'}
+    - {name: 'IBM WebSphere Application Server', versions: '<8.5', eol_date: '2018-04-30', replacement: 'Spring Boot 4 executable jar on GKE / Cloud Run'}
+    - {name: 'JBoss / WildFly', versions: '<7', replacement: 'Spring Boot 4 executable jar on GKE / Cloud Run'}
+    - {name: 'Apache Tomcat', versions: '<8.5', eol_date: '2021-03-31', replacement: 'Spring Boot 4 (embedded Tomcat 11)'}
+    - {name: 'Apache Tomcat', versions: '>=8.5,<9', eol_date: '2024-03-31', replacement: 'Spring Boot 4 (embedded Tomcat 11)'}
+    - {name: 'Apache HTTP Server', versions: '<2.4', eol_date: '2017-07-11', replacement: 'Cloud Load Balancing (static files on Cloud Storage + Cloud CDN)'}
     # Java: public updates ended on these dates; the target is Java 25.
     - {name: 'Java', versions: '<1.6', eol_date: '2009-10-30', replacement: 'Java 25'}
     - {name: 'Java', versions: '>=1.6,<1.7', eol_date: '2013-02-28', replacement: 'Java 25'}

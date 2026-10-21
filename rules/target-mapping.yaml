@@ -10,6 +10,22 @@ data:
       legacy: JSP / JSF / Struts screen, Spring MVC view, BMS map
       applies_to: {entity: screens}
       target: Angular 21 component (route per screen, shared components for repeated forms)
+    - id: spa-screen
+      legacy: Angular or AngularJS screen (routed component or view)
+      applies_to: {entity: screens, technologies: [angular, angularjs]}
+      target: Angular 21 standalone component; AngularJS views are rewritten, Angular apps are brought up with ng update
+    - id: node-service
+      legacy: Node.js API route (Express, NestJS, Fastify, Koa, hapi)
+      applies_to: {entity: services, kinds: [node-route, nest-route]}
+      target: Spring Boot 4 REST controller + service, or kept on Node.js 24 in Cloud Run where the team chooses (record the exception)
+    - id: app-server
+      legacy: Application server (WebSphere, WebLogic, JBoss / WildFly, Tomcat, GlassFish, ...)
+      applies_to: {entity: tech_stack, categories: [app-server]}
+      target: Spring Boot 4 executable jar (embedded Tomcat) on GKE or Cloud Run; server data sources, JMS and security settings move to Spring configuration + Secret Manager
+    - id: web-server
+      legacy: Web server (Apache HTTP Server, IBM HTTP Server, Oracle HTTP Server, Nginx, IIS)
+      applies_to: {entity: tech_stack, categories: [web-server]}
+      target: Cloud Load Balancing with Cloud CDN; the Angular build served from Cloud Storage or an Nginx container on Cloud Run
     - id: online-service
       legacy: Struts action, Spring MVC handler, servlet, EJB, SOAP operation
       applies_to: {entity: services, kinds: [struts-action, spring-mvc, servlet, ejb, soap-operation, jax-rs]}

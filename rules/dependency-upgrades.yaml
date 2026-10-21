@@ -40,6 +40,7 @@ data:
     - {artifact: 'jquery(-ui)?', action: remove, target: 'Angular 21', effort: medium, reason: 'DOM scripting is replaced by Angular components'}
     - {artifact: 'bootstrap', action: replace, target: 'Angular Material or Bootstrap 5', effort: low, reason: 'Use a design system supported by Angular 21'}
     - {artifact: 'dojo(-core)?', action: rewrite, target: 'Angular 21', effort: high, reason: 'Dojo widgets are rewritten as Angular components'}
+    - {artifact: '@angular/core', action: upgrade, target: 'Angular 21', effort: medium, reason: 'Run ng update one major version at a time up to Angular 21'}
 
   jakarta:
     - {artifact: 'servlet-api|javax\.servlet-api', group: 'javax\.servlet', target: 'jakarta.servlet:jakarta.servlet-api:6.1.0'}

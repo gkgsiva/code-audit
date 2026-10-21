@@ -2,7 +2,8 @@
 
 Rules, per source root:
 1. Every folder holding a build or project file (pom.xml, build.xml, build.gradle, Makefile,
-   an Eclipse .project, CMakeLists.txt, a Visual Studio project, ...) is a component root.
+   an Eclipse .project, CMakeLists.txt, a Visual Studio project, package.json, angular.json,
+   bower.json, ...) is a component root.
 2. If the source root itself has no build file, the folder layout decides (decision 114):
    - folders named like the *parts* of an application (src, WebContent, conf, properties,
      scripts, ksh, sql, jcl, ...) are never components on their own while they sit next to
@@ -41,7 +42,9 @@ _TECH_CATEGORIES = {
 
 
 # Files that make their folder a component root, besides BUILD_FILES.
-PROJECT_FILES = {".project", "cmakelists.txt", "configure.ac", "configure.in", "imakefile"}
+PROJECT_FILES = {
+    ".project", "cmakelists.txt", "configure.ac", "configure.in", "imakefile", "bower.json",
+}  # fmt: skip
 PROJECT_SUFFIXES = (".vcxproj", ".vcproj", ".dsp")
 
 # Folder names that hold an application's code: their parent is the application.
@@ -118,9 +121,16 @@ def infer_type(files: list[FileRecord], name: str = "") -> ComponentType:
     web; Java or C + ksh + properties is batch when a script or folder says so."""
     langs = {f.language for f in files}
     cats = {f.category for f in files}
-    if any(f.path.lower().endswith("web-inf/web.xml") for f in files) or (
-        Category.SCREEN in cats and langs & {"jsp", "html", "bms", "velocity", "freemarker"}
+    names = {f.path.rsplit("/", 1)[-1].lower() for f in files}
+    java_web = any(f.path.lower().endswith("web-inf/web.xml") for f in files) or (
+        Category.SCREEN in cats and langs & {"jsp", "bms", "velocity", "freemarker"}
+    )
+    script_langs = langs & {"typescript", "javascript"}
+    if not java_web and (
+        "angular.json" in names or (script_langs and Category.SCREEN in cats and "html" in langs)
     ):
+        return ComponentType.FRONTEND  # Angular, AngularJS or another single-page app
+    if java_web or (Category.SCREEN in cats and "html" in langs):
         return ComponentType.WEB
     batchy = in_batch_folder(name + "/x") or any(
         f.category == Category.SCRIPT and in_batch_folder(f.path) for f in files

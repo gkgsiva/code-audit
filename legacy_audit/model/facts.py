@@ -75,6 +75,8 @@ class FileRecord(Fact):
 
 class ComponentType(StrEnum):
     WEB = "web"
+    FRONTEND = "frontend"  # single-page application (Angular, AngularJS, React, ...)
+    API = "api"  # Node.js service exposing HTTP endpoints (Express, NestJS, ...)
     BATCH = "batch"
     CFT = "cft"
     SCRIPT = "script"
@@ -95,8 +97,8 @@ class Component(Fact):
     technology: list[str] = Field(default_factory=list)
     roles: list[str] = Field(
         default_factory=list,
-        description="Every kind of work found in the component (web, batch, online-mainframe, "
-        "cft, db, config, script, library); ``type`` is the main one. A Struts web module with "
+        description="Every kind of work found in the component (web, frontend, api, batch, "
+        "online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with "
         "batch scripts has roles [batch, web]",
     )
     composition: dict[str, int] = Field(
@@ -121,7 +123,8 @@ class Service(Fact):
     name: str
     kind: str = Field(
         description="struts-action, spring-handler, servlet, soap-operation, rest-operation, "
-        "ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow"
+        "ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow, "
+        "node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS)"
     )
     component: str | None = None
     file: str | None = None
@@ -263,7 +266,10 @@ class CodeEdge(Fact):
 
 class BatchJob(Fact):
     name: str
-    scheduler: str = Field(description="autosys, jcl, cron, spring-batch")
+    scheduler: str = Field(
+        description="autosys, jcl, cron, spring-batch, node-cron (node-cron, node-schedule, "
+        "NestJS @Cron/@Interval, Agenda)"
+    )
     kind: str = Field("job", description="job, box (container, not counted), file-watcher")
     description: str | None = Field(None, description="Description from the scheduler, if any")
     schedule: str | None = None
@@ -332,7 +338,8 @@ class TechItem(Fact):
     version: str | None = None
     category: str = Field(
         description="language, framework, library, database, runtime, build, scheduler, "
-        "middleware, auth, upgrade-signal"
+        "middleware, auth, upgrade-signal, app-server (WebSphere, WebLogic, JBoss, Tomcat, "
+        "...), web-server (Apache HTTP Server, IBM HTTP Server, Nginx, IIS, ...)"
     )
     usages: int = 1
     eol: bool | None = None

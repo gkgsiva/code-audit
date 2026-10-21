@@ -20,7 +20,13 @@ IGNORED_HOSTS = re.compile(
     r"hibernate\.org|hibernate\.sourceforge\.net|www\.hibernate\.org|jboss\.org|"
     r"www\.oracle\.com|java\.oracle\.com|schemas\.xmlsoap\.org|schemas\.microsoft\.com|"
     r"www\.apache\.org|apache\.org|tiles\.apache\.org|jcp\.org|example\.com|example\.org|"
-    r"localhost|127\.0\.0\.1|purl\.org|www\.opensymphony\.com|dtd\.\w+)$",
+    r"localhost|127\.0\.0\.1|purl\.org|www\.opensymphony\.com|dtd\.\w+|"
+    r"json\.schemastore\.org|(registry\.)?npmjs\.(org|com)|registry\.yarnpkg\.com|"
+    r"angular\.io|angular\.dev|angularjs\.org|docs\.angularjs\.org|nodejs\.org|"
+    r"typescriptlang\.org|nestjs\.com|docs\.nestjs\.com|expressjs\.com|"
+    r"goo\.gl|bit\.ly|xmlns\.jcp\.org|java\.sun\.com|xmlns\.jboss\.org|www\.jboss\.org|"
+    r"www\.bea\.com|www\.ibm\.com|websphere\.ibm\.com|tomcat\.apache\.org|"
+    r"www\.eclipse\.org|glassfish\.org|payara\.fish)$",
     re.I,
 )
 

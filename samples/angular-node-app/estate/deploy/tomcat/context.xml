@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+  <Resource name="jdbc/PortalDS" auth="Container" type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.OracleDriver"
+            url="jdbc:oracle:thin:@portaldb.acme.local:1521:PORTAL"
+            maxTotal="20" />
+</Context>

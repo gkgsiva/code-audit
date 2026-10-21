@@ -1,0 +1,12 @@
+<h1>Order {{ id }}</h1>
+<form [formGroup]="form" (ngSubmit)="save()">
+  <label>Customer <input formControlName="customerId" type="number"></label>
+  <label>Status
+    <mat-select formControlName="status">
+      <mat-option value="OPEN">Open</mat-option>
+      <mat-option value="SHIPPED">Shipped</mat-option>
+    </mat-select>
+  </label>
+  <label>Total <input formControlName="total" type="number"></label>
+  <button type="submit">Save</button>
+</form>

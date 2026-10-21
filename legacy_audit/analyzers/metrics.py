@@ -12,10 +12,17 @@ from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.cobol import source_lines
 from legacy_audit.analyzers.embedded import blank_spans, extract
 from legacy_audit.metrics.tokens import strip_comments, windows
-from legacy_audit.metrics.units import cobol_units, plsql_units, script_unit, tree_units
+from legacy_audit.metrics.units import (
+    cobol_units,
+    plsql_units,
+    script_unit,
+    tree_units,
+    ts_units,
+)
 from legacy_audit.model import Category, FileRecord
 
 TREE = {"java", "c", "cpp", "proc"}
+SCRIPT_TREE = {"typescript", "javascript"}
 SCRIPTS = {"shell", "perl", "python", "batch"}
 SQL = {"sql", "plsql"}
 DUPLICATION = TREE | SCRIPTS | SQL | {"cobol", "procobol", "jsp", "javascript", "typescript"}
@@ -23,7 +30,7 @@ DUPLICATION = TREE | SCRIPTS | SQL | {"cobol", "procobol", "jsp", "javascript", 
 
 class MetricsAnalyzer:
     name: ClassVar[str] = "metrics"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: TypeScript/JavaScript units
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in DUPLICATION and file.category not in (
@@ -46,6 +53,8 @@ class MetricsAnalyzer:
                 code = blank_spans(code, sql.spans)
             if lang in TREE:
                 facts.units = tree_units(code, lang)
+            elif lang in SCRIPT_TREE and "node_modules/" not in file.path:
+                facts.units = ts_units(text, file.path)  # tree-sitter skips comments
             elif lang in SQL:
                 facts.units = plsql_units(code)
             elif lang in SCRIPTS:

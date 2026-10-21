@@ -1,0 +1,19 @@
+// Billing data model.
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Invoice {
+  id       Int      @id @default(autoincrement())
+  orderId  Int      @map("ORDER_ID")
+  amount   Decimal
+  status   String
+  issuedAt DateTime @map("ISSUED_AT")
+
+  @@map("INVOICES")
+}
