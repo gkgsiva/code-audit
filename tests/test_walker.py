@@ -119,3 +119,16 @@ def test_build_output_can_be_kept(tmp_path: Path):
     rels = [w.rel for w in walk("r", tmp_path, filters, None, skipped)]
     assert "eclipse/bin/b.properties" in rels and "cprog/src/load.c" in rels
     assert skipped == []
+
+
+def test_minified_javascript_is_skipped(tmp_path: Path):
+    write(tmp_path / "web/src/app.js", "function a() {\n  return 1;\n}\n")
+    write(tmp_path / "web/src/vendor/chart.min.js", "!function(){}();")
+    write(tmp_path / "web/src/vendor/bundle.js", "var a=1;" * 400 + "\n")
+    skipped: list = []
+    rels = [w.rel for w in walk("r", tmp_path, Filters.build(["**"], []), None, skipped)]
+    assert rels == ["web/src/app.js"]
+    assert {s.rel: s.reason for s in skipped} == {
+        "web/src/vendor/bundle.js": "minified or bundled code",
+        "web/src/vendor/chart.min.js": "minified or bundled code",
+    }

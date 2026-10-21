@@ -286,9 +286,8 @@ class _Linker:
                 node = self._node_for_file(p, page=True) if p else None
             elif kind == "module":  # a relative JavaScript/TypeScript import, no extension
                 for ext in MODULE_EXTENSIONS:
-                    p = self.ix.records.get(target + ext) and target + ext
-                    if p:
-                        node = self._node_for_file(p)
+                    if target + ext in self.ix.records:
+                        node = self._node_for_file(target + ext)
                         break
             elif kind == "file-name":
                 p = self._pick(self.ix.basename.get(target.lower(), []), ref.file, prefer)
@@ -552,7 +551,9 @@ class _Linker:
                     if e.kind in ("forwards", "links", "submits")
                 ]
                 boot = scr.id in shell_ids or any(
-                    e.kind == "bootstraps" for n in [scr.id, *renderers] for e in incoming.get(n, [])
+                    e.kind == "bootstraps"
+                    for n in [scr.id, *renderers]
+                    for e in incoming.get(n, [])
                 )
                 if srcs and not boot:
                     scr.partial = False

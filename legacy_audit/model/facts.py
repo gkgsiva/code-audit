@@ -98,8 +98,8 @@ class Component(Fact):
     roles: list[str] = Field(
         default_factory=list,
         description="Every kind of work found in the component (web, frontend, api, batch, "
-        "online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with "
-        "batch scripts has roles [batch, web]",
+        "online-mainframe, cft, db, config, script, library); ``type`` is the main one. "
+        "A Struts web module with batch scripts has roles [batch, web]",
     )
     composition: dict[str, int] = Field(
         default_factory=dict,

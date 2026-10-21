@@ -6,7 +6,7 @@
       "id": "sample",
       "type": "pickString",
       "description": "Sample application to scan",
-      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app"],
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app", "angular-node-app"],
       "default": "struts-oracle-app"
     },
     {
@@ -261,6 +261,15 @@
       "command": ".venv/bin/python scripts/show_dependency_vulns.py samples/spring-mvc-batch-app --both --open",
       "windows": {
         "command": ".venv\\Scripts\\python scripts\\show_dependency_vulns.py samples\\spring-mvc-batch-app --both --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 26. Angular, Node.js and servers (Angular and Node sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_web_stack.py samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_web_stack.py samples\\angular-node-app --open"
       },
       "problemMatcher": []
     }

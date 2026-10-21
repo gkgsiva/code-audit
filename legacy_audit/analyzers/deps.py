@@ -169,9 +169,7 @@ class DepsAnalyzer:
                 if not isinstance(deps, dict):
                     continue
                 for dep, ver in deps.items():
-                    line = next(
-                        (i for i, ln in enumerate(lines, 1) if f'"{dep}"' in ln), None
-                    )
+                    line = next((i for i, ln in enumerate(lines, 1) if f'"{dep}"' in ln), None)
                     facts.add(
                         "libraries",
                         library(

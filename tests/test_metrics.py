@@ -9,7 +9,13 @@ from legacy_audit.analyzers.metrics import MetricsAnalyzer
 from legacy_audit.config import load_config
 from legacy_audit.metrics.compute import band
 from legacy_audit.metrics.tokens import windows
-from legacy_audit.metrics.units import cobol_units, plsql_units, script_unit, tree_units
+from legacy_audit.metrics.units import (
+    cobol_units,
+    plsql_units,
+    script_unit,
+    tree_units,
+    ts_units,
+)
 from legacy_audit.scan import run_scan
 from tests.analyzers.helpers import config, run
 from tests.conftest import write
@@ -155,3 +161,18 @@ def test_changing_weights_rebands_without_reanalysis(sample_copy) -> None:  # ty
     e2 = json.loads((second.run_dir / "data" / "effort.json").read_text(encoding="utf-8"))
     assert e2["likely"] > e1["likely"]
     assert e2["label"] == "estimate — weights from config"
+
+
+TS = """export function grade(x: number): string {
+  if (x > 90 && x <= 100) { return 'A'; }
+  return x > 50 ? 'B' : 'C';
+}
+router.get('/orders', async (req, res) => {
+  for (const o of orders) { if (o.open) { res.write(o.id); } }
+});
+"""
+
+
+def test_typescript_units_name_functions_and_route_callbacks() -> None:
+    units = {u.name: u.cyclomatic for u in ts_units(TS, "a.ts")}
+    assert units == {"grade": 4, "get /orders": 3}

@@ -1,8 +1,8 @@
 """Application servers, web servers and runtimes, one row per product, for the reports.
 
 The rows come from the tech-stack items the scan found (categories ``app-server``,
-``web-server`` and ``runtime``, decision 131): every version seen, end of life, the components
-whose files name the product, the files themselves and the default target from
+``web-server``, and the Java and Node.js runtimes, decision 131): every version seen, end of
+life, the components whose files name the product, the files themselves and the default target from
 ``rules/target-mapping.yaml``. Nothing is counted here; it only groups the scan's items.
 """
 
@@ -36,7 +36,7 @@ def server_rows(rd: RunData) -> list[dict[str, Any]]:
     groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for t in rd.items("tech_stack"):
         cat = t.get("category") or ""
-        if cat in KINDS:
+        if cat in KINDS and (cat != "runtime" or t["name"] in _RUNTIME_TARGET):
             groups[(cat, t["name"])].append(t)
     rows = []
     for (cat, name), items in groups.items():
@@ -54,9 +54,11 @@ def server_rows(rd: RunData) -> list[dict[str, Any]]:
         eol = ""
         if eol_items:
             first = eol_items[0]
-            eol = "yes" + (f" (since {first['eol_date']})" if first.get("eol_date") else "")
             if len(versions) > 1:
-                eol += ": " + ", ".join(sorted({str(t.get("version") or "") for t in eol_items}))
+                old = sorted({str(t.get("version") or "") for t in eol_items}, key=_version_key)
+                eol = "yes: " + ", ".join(old)
+            else:
+                eol = "yes" + (f" (since {first['eol_date']})" if first.get("eol_date") else "")
         elif any(t.get("eol") is False for t in items):
             eol = "no"
         replacement = next((t["replacement"] for t in eol_items if t.get("replacement")), "")
@@ -77,5 +79,5 @@ def server_rows(rd: RunData) -> list[dict[str, Any]]:
                 "target": targets.get(_TARGET_ID.get(cat, ""), "") or _RUNTIME_TARGET.get(name, ""),
             }
         )
-    rows.sort(key=lambda r: (ORDER.index(r["category"]), r["name"].lower()))
+    rows.sort(key=lambda r: (ORDER.index(str(r["category"])), str(r["name"]).lower()))
     return rows

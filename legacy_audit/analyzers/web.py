@@ -103,7 +103,9 @@ def count_fields(text: str) -> int:
 def page_technology(path: str, language: str, text: str) -> str:
     """jsf, angular, angularjs or the file's language."""
     lower = path.lower()
-    if language in ("jsp", "html") and (lower.endswith((".xhtml", ".jsf")) or _JSF_MARK.search(text)):
+    if language in ("jsp", "html") and (
+        lower.endswith((".xhtml", ".jsf")) or _JSF_MARK.search(text)
+    ):
         return "jsf"
     if language == "html":
         if lower.endswith(".component.html") or _ANGULAR_MARK.search(text):
@@ -538,9 +540,7 @@ class WebAnalyzer:
         for m in _HREF_ACTION.finditer(text):
             self._nav(facts, source, path, m.group(1), lines.line(m.start()), "links")
 
-    def _spa_template(
-        self, path: str, sid: str, text: str, lines: LineIndex, facts: Facts
-    ) -> None:
+    def _spa_template(self, path: str, sid: str, text: str, lines: LineIndex, facts: Facts) -> None:
         """Angular/AngularJS template: the sub-components it places (``<app-order-form>``)
         and, for the page that starts the application (``ng-app``, ``ng-view``), a shell mark."""
         if _NG_APP.search(text):

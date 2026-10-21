@@ -57,48 +57,112 @@ _TSX = Language(tree_sitter_typescript.language_tsx())
 
 HTTP_VERBS = {"get", "post", "put", "delete", "patch", "head", "options", "all", "del"}
 NEST_VERBS = {
-    "Get": "GET", "Post": "POST", "Put": "PUT", "Delete": "DELETE", "Patch": "PATCH",
-    "Options": "OPTIONS", "Head": "HEAD", "All": "ANY",
-}  # fmt: skip
+    "Get": "GET",
+    "Post": "POST",
+    "Put": "PUT",
+    "Delete": "DELETE",
+    "Patch": "PATCH",
+    "Options": "OPTIONS",
+    "Head": "HEAD",
+    "All": "ANY",
+}
 # Receivers of Express-style route definitions: app.get(...), router.post(...), ...
 _ROUTER_OBJ = re.compile(r"^(app|api|server|router|\w*Router|routes|fastify|instance|r)$", re.I)
-_HTTP_CLIENT_OBJ = re.compile(r"(^|\.)(http|httpClient|\$http|axios|client|api|ky|got|superagent)$", re.I)
+_HTTP_CLIENT_OBJ = re.compile(
+    r"(^|\.)(http|httpClient|\$http|axios|client|api|ky|got|superagent)$", re.I
+)
 _HTTP_FUNCS = {"fetch", "axios", "got", "request", "needle", "ky"}
 _DB_CALLS = {
-    "query", "execute", "raw", "$queryRaw", "$executeRaw", "$queryRawUnsafe",
-    "$executeRawUnsafe", "none", "one", "oneOrNone", "many", "manyOrNone", "any", "result",
-}  # fmt: skip
+    "query",
+    "execute",
+    "raw",
+    "$queryRaw",
+    "$executeRaw",
+    "$queryRawUnsafe",
+    "$executeRawUnsafe",
+    "none",
+    "one",
+    "oneOrNone",
+    "many",
+    "manyOrNone",
+    "any",
+    "result",
+}
 _DB_TAGS = {"sql", "SQL", "$queryRaw", "$executeRaw", "raw"}
 _TYPEORM_OPS = {
-    "find": "SELECT", "findOne": "SELECT", "findBy": "SELECT", "findOneBy": "SELECT",
-    "findAndCount": "SELECT", "findOneOrFail": "SELECT", "findByIds": "SELECT",
-    "count": "SELECT", "countBy": "SELECT", "exist": "SELECT", "exists": "SELECT",
-    "save": "INSERT", "insert": "INSERT", "update": "UPDATE", "upsert": "MERGE",
-    "delete": "DELETE", "remove": "DELETE", "softDelete": "UPDATE", "increment": "UPDATE",
-    "decrement": "UPDATE", "createQueryBuilder": "SELECT",
-}  # fmt: skip
+    "find": "SELECT",
+    "findOne": "SELECT",
+    "findBy": "SELECT",
+    "findOneBy": "SELECT",
+    "findAndCount": "SELECT",
+    "findOneOrFail": "SELECT",
+    "findByIds": "SELECT",
+    "count": "SELECT",
+    "countBy": "SELECT",
+    "exist": "SELECT",
+    "exists": "SELECT",
+    "save": "INSERT",
+    "insert": "INSERT",
+    "update": "UPDATE",
+    "upsert": "MERGE",
+    "delete": "DELETE",
+    "remove": "DELETE",
+    "softDelete": "UPDATE",
+    "increment": "UPDATE",
+    "decrement": "UPDATE",
+    "createQueryBuilder": "SELECT",
+}
 _PRISMA_OPS = {
-    "findMany": "SELECT", "findUnique": "SELECT", "findFirst": "SELECT",
-    "findUniqueOrThrow": "SELECT", "findFirstOrThrow": "SELECT", "count": "SELECT",
-    "aggregate": "SELECT", "groupBy": "SELECT", "create": "INSERT", "createMany": "INSERT",
-    "update": "UPDATE", "updateMany": "UPDATE", "upsert": "MERGE", "delete": "DELETE",
+    "findMany": "SELECT",
+    "findUnique": "SELECT",
+    "findFirst": "SELECT",
+    "findUniqueOrThrow": "SELECT",
+    "findFirstOrThrow": "SELECT",
+    "count": "SELECT",
+    "aggregate": "SELECT",
+    "groupBy": "SELECT",
+    "create": "INSERT",
+    "createMany": "INSERT",
+    "update": "UPDATE",
+    "updateMany": "UPDATE",
+    "upsert": "MERGE",
+    "delete": "DELETE",
     "deleteMany": "DELETE",
-}  # fmt: skip
+}
 _SEQUELIZE_OPS = {
-    "findAll": "SELECT", "findByPk": "SELECT", "findAndCountAll": "SELECT",
-    "findOrCreate": "MERGE", "bulkCreate": "INSERT", "destroy": "DELETE",
-}  # fmt: skip
+    "findAll": "SELECT",
+    "findByPk": "SELECT",
+    "findAndCountAll": "SELECT",
+    "findOrCreate": "MERGE",
+    "bulkCreate": "INSERT",
+    "destroy": "DELETE",
+}
 _SEQUELIZE_WEAK_OPS = {
-    "findOne": "SELECT", "create": "INSERT", "update": "UPDATE", "count": "SELECT",
-    "upsert": "MERGE", "max": "SELECT", "min": "SELECT", "sum": "SELECT",
-}  # fmt: skip
+    "findOne": "SELECT",
+    "create": "INSERT",
+    "update": "UPDATE",
+    "count": "SELECT",
+    "upsert": "MERGE",
+    "max": "SELECT",
+    "min": "SELECT",
+    "sum": "SELECT",
+}
 _DB_TYPES = {
-    "postgres": "PostgreSQL", "postgresql": "PostgreSQL", "pg": "PostgreSQL",
-    "mysql": "MySQL", "mariadb": "MariaDB", "oracle": "Oracle", "oracledb": "Oracle",
-    "mssql": "SQL Server", "sqlserver": "SQL Server", "sqlite": "SQLite",
-    "better-sqlite3": "SQLite", "mongodb": "MongoDB", "cockroachdb": "CockroachDB",
+    "postgres": "PostgreSQL",
+    "postgresql": "PostgreSQL",
+    "pg": "PostgreSQL",
+    "mysql": "MySQL",
+    "mariadb": "MariaDB",
+    "oracle": "Oracle",
+    "oracledb": "Oracle",
+    "mssql": "SQL Server",
+    "sqlserver": "SQL Server",
+    "sqlite": "SQLite",
+    "better-sqlite3": "SQLite",
+    "mongodb": "MongoDB",
+    "cockroachdb": "CockroachDB",
     "db2": "DB2",
-}  # fmt: skip
+}
 _DB_URL = re.compile(
     r"\b(postgres(?:ql)?|mysql|mariadb|mongodb(?:\+srv)?|mssql|sqlserver|oracle|redis|rediss|"
     r"amqps?)://[^\s\"'`<>()\\]+",
@@ -107,16 +171,25 @@ _DB_URL = re.compile(
 _URL = re.compile(r"\b(?:https?|ftps?|sftp|ldaps?|smtp)://[^\s\"'`<>()\\]+", re.I)
 # NestJS CronExpression names in plain cron (minute hour day month weekday).
 NEST_CRON = {
-    "EVERY_MINUTE": "* * * * *", "EVERY_5_MINUTES": "*/5 * * * *",
-    "EVERY_10_MINUTES": "*/10 * * * *", "EVERY_30_MINUTES": "*/30 * * * *",
-    "EVERY_HOUR": "0 * * * *", "EVERY_DAY_AT_MIDNIGHT": "0 0 * * *",
-    "EVERY_DAY_AT_1AM": "0 1 * * *", "EVERY_DAY_AT_2AM": "0 2 * * *",
-    "EVERY_DAY_AT_3AM": "0 3 * * *", "EVERY_DAY_AT_4AM": "0 4 * * *",
-    "EVERY_DAY_AT_5AM": "0 5 * * *", "EVERY_DAY_AT_6AM": "0 6 * * *",
-    "EVERY_DAY_AT_NOON": "0 12 * * *", "EVERY_WEEK": "0 0 * * 0",
-    "EVERY_WEEKDAY": "0 0 * * 1-5", "EVERY_WEEKEND": "0 0 * * 6,0",
-    "EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT": "0 0 1 * *", "EVERY_YEAR": "0 0 1 1 *",
-}  # fmt: skip
+    "EVERY_MINUTE": "* * * * *",
+    "EVERY_5_MINUTES": "*/5 * * * *",
+    "EVERY_10_MINUTES": "*/10 * * * *",
+    "EVERY_30_MINUTES": "*/30 * * * *",
+    "EVERY_HOUR": "0 * * * *",
+    "EVERY_DAY_AT_MIDNIGHT": "0 0 * * *",
+    "EVERY_DAY_AT_1AM": "0 1 * * *",
+    "EVERY_DAY_AT_2AM": "0 2 * * *",
+    "EVERY_DAY_AT_3AM": "0 3 * * *",
+    "EVERY_DAY_AT_4AM": "0 4 * * *",
+    "EVERY_DAY_AT_5AM": "0 5 * * *",
+    "EVERY_DAY_AT_6AM": "0 6 * * *",
+    "EVERY_DAY_AT_NOON": "0 12 * * *",
+    "EVERY_WEEK": "0 0 * * 0",
+    "EVERY_WEEKDAY": "0 0 * * 1-5",
+    "EVERY_WEEKEND": "0 0 * * 6,0",
+    "EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT": "0 0 1 * *",
+    "EVERY_YEAR": "0 0 1 1 *",
+}
 _PRISMA_MODEL = re.compile(r"^\s*model\s+(\w+)\s*\{(.*?)^\s*\}", re.M | re.S)
 _PRISMA_MAP = re.compile(r"@@map\(\s*\"([^\"]+)\"")
 _PRISMA_PROVIDER = re.compile(r"datasource\s+\w+\s*\{[^}]*provider\s*=\s*\"(\w+)\"", re.S)
@@ -135,8 +208,9 @@ def _string_value(node: Node | None) -> str | None:
     if node is None:
         return None
     if node.type == "string":
-        return "".join(_txt(c) for c in node.named_children if c.type in ("string_fragment",
-                                                                           "escape_sequence"))  # fmt: skip
+        return "".join(
+            _txt(c) for c in node.named_children if c.type in ("string_fragment", "escape_sequence")
+        )
     if node.type == "template_string" and not any(
         c.type == "template_substitution" for c in node.named_children
     ):
@@ -348,17 +422,30 @@ class _Visitor:
         for module in sorted(self.modules):
             if module.startswith("."):  # the linker resolves it to a file (uses edge)
                 target = posixpath.normpath(posixpath.join(posixpath.dirname(self.path), module))
-                self.facts.ref(kind="uses", source=f"file:{self.path}", source_label=self.path,
-                               target=target, target_kinds=["module"], file=self.path,
-                               report_unresolved=False)  # fmt: skip
+                self.facts.ref(
+                    kind="uses",
+                    source=f"file:{self.path}",
+                    source_label=self.path,
+                    target=target,
+                    target_kinds=["module"],
+                    file=self.path,
+                    report_unresolved=False,
+                )
         self.soap = any(m in ("soap", "strong-soap") for m in self.modules)
         self.angularjs = "angular.module(" in self.text or "angular" in self.modules
 
     def _constants(self, root: Node) -> None:
         """File-level ``const X = '...'`` and class fields ``baseUrl = '...'`` (as
         ``this.baseUrl``), and TypeORM repositories (``Repository<Order>``)."""
-        for n in _iter(root, {"lexical_declaration", "variable_declaration",
-                              "public_field_definition", "required_parameter"}):  # fmt: skip
+        for n in _iter(
+            root,
+            {
+                "lexical_declaration",
+                "variable_declaration",
+                "public_field_definition",
+                "required_parameter",
+            },
+        ):
             if n.type in ("lexical_declaration", "variable_declaration"):
                 if _function_parent(n) is not None:
                     continue
@@ -464,8 +551,13 @@ class _Visitor:
         """Visit in source order. Function bodies get their own scope; code under if, loops,
         switch, catch and ``?:`` is conditional for SQL text built in pieces."""
         t = node.type
-        if t in ("function_declaration", "function_expression", "arrow_function",
-                 "method_definition", "generator_function_declaration"):  # fmt: skip
+        if t in (
+            "function_declaration",
+            "function_expression",
+            "arrow_function",
+            "method_definition",
+            "generator_function_declaration",
+        ):
             inner = _Scope()
             for c in node.children:
                 self._walk(c, inner, False)
@@ -488,18 +580,26 @@ class _Visitor:
             self._object(node)
         elif t == "public_field_definition":
             self._member_decorators(node)
-        elif t in ("string", "template_string", "binary_expression") and self._is_string_expr(
-            node
+        elif (
+            t in ("string", "template_string", "binary_expression")
+            and self._is_string_expr(node)
+            and node.start_byte not in self.done
         ):
-            if node.start_byte not in self.done:
-                b = self._eval(node, scope)
-                if b is not None:
-                    self._mark(node)
-                    self._text_found(b, None, strict=True)
-                    return
-        branch = cond or t in ("if_statement", "for_statement", "for_in_statement",
-                               "while_statement", "do_statement", "switch_case", "catch_clause",
-                               "ternary_expression")  # fmt: skip
+            b = self._eval(node, scope)
+            if b is not None:
+                self._mark(node)
+                self._text_found(b, None, strict=True)
+                return
+        branch = cond or t in (
+            "if_statement",
+            "for_statement",
+            "for_in_statement",
+            "while_statement",
+            "do_statement",
+            "switch_case",
+            "catch_clause",
+            "ternary_expression",
+        )
         for c in node.children:
             self._walk(c, scope, branch)
 
@@ -519,8 +619,10 @@ class _Visitor:
             name = _txt(name_node)
             if re.search(r"(^|\.)Router\(\)$|^express\.Router\b|^new (Koa)?Router\b", _txt(value)):
                 self.routers.add(name)
-            if name_node is not None and name_node.type == "identifier" and self._is_string_expr(
-                value
+            if (
+                name_node is not None
+                and name_node.type == "identifier"
+                and self._is_string_expr(value)
             ):
                 b = self._eval(value, scope)
                 if b is not None:
@@ -532,8 +634,10 @@ class _Visitor:
 
     def _assignment(self, node: Node, scope: _Scope, cond: bool) -> bool:
         expr = next((c for c in node.named_children), None)
-        if expr is None or expr.type not in ("assignment_expression",
-                                             "augmented_assignment_expression"):  # fmt: skip
+        if expr is None or expr.type not in (
+            "assignment_expression",
+            "augmented_assignment_expression",
+        ):
             return False
         left = expr.child_by_field_name("left")
         right = expr.child_by_field_name("right")
@@ -597,9 +701,17 @@ class _Visitor:
             product = {"mongodb+srv": "MongoDB", "rediss": "Redis", "redis": "Redis"}.get(
                 scheme, _DB_TYPES.get(scheme.replace("ql", ""), _DB_TYPES.get(scheme, ""))
             )
-            self.facts.add("integrations", integration(type=kind, target=target,
-                                                        direction="outbound", file=self.path,
-                                                        line=line, protocol=scheme))  # fmt: skip
+            self.facts.add(
+                "integrations",
+                integration(
+                    type=kind,
+                    target=target,
+                    direction="outbound",
+                    file=self.path,
+                    line=line,
+                    protocol=scheme,
+                ),
+            )
             if kind == "DB" and product:
                 self.facts.add("tech_stack", tech(product, None, "database", self.path, line))
         for m in _URL.finditer(text):
@@ -622,9 +734,7 @@ class _Visitor:
             "DELETE": f"DELETE /* {how} */ FROM {entity}",
             "MERGE": f"MERGE /* {how} */ INTO {entity}",
         }[verb]
-        fact = sql_fact(
-            file=self.path, line=line, text=text, source=source, dialect=None, hql=True
-        )
+        fact = sql_fact(file=self.path, line=line, text=text, source=source, dialect=None, hql=True)
         fact.type = verb
         fact.parsed = False
         fact.reason = f"{how}: the ORM generates the SQL at run time"
@@ -760,14 +870,20 @@ class _Visitor:
                     )
                 elif target in self.routers:
                     self.facts.symbol(
-                        "node-route-mount", f"{self.path}#{target}", self.path, line,
+                        "node-route-mount",
+                        f"{self.path}#{target}",
+                        self.path,
+                        line,
                         data={"prefix": fb.text},
-                    )  # fmt: skip
+                    )
         if name == "setGlobalPrefix" and fb is not None:
             self.facts.symbol("nest-global-prefix", fb.text.strip("/"), self.path, line)
         # Start-up
-        if name == "listen" and (obj in ("app", "server", "httpServer", "fastify")
-                                 or "express" in self.modules or "http" in self.modules):  # fmt: skip
+        if name == "listen" and (
+            obj in ("app", "server", "httpServer", "fastify")
+            or "express" in self.modules
+            or "http" in self.modules
+        ):
             self._entry(self.path, "node-server", line, f"{obj}.listen")
             self.facts.add("tech_stack", tech("Node.js", None, "runtime", self.path, line))
         if obj == "NestFactory" and name in ("create", "createApplicationContext"):
@@ -788,9 +904,14 @@ class _Visitor:
             and name in ("controller", "component", "directive", "service", "factory")
         ):
             self._angularjs(name, fb.text, args, line)
-        if name == "when" and fb is not None and len(args) >= 2 and args[1].type == "object":
-            if "$routeProvider" in _txt(n) or "routeProvider" in obj:
-                self._angularjs_route(fb.text, args[1], line)
+        if (
+            name == "when"
+            and fb is not None
+            and len(args) >= 2
+            and args[1].type == "object"
+            and ("$routeProvider" in _txt(n) or "routeProvider" in obj)
+        ):
+            self._angularjs_route(fb.text, args[1], line)
         if name == "state" and args and self.angularjs:
             if fb is not None and len(args) >= 2 and args[1].type == "object":
                 self._angularjs_route(fb.text, args[1], line, state=True)
@@ -807,16 +928,21 @@ class _Visitor:
             self._api_call(fb, verb, line)
             if first is not None:
                 self._mark(first)
-        elif not obj and name in ("$http", "axios") and first is not None and first.type == "object":
+        elif (
+            not obj and name in ("$http", "axios") and first is not None and first.type == "object"
+        ):
             p = _pairs(first)
             u = p.get("url")
             ub = self._eval(u, scope) if u is not None else None
             if ub is not None:
                 self._api_call(ub, _string_value(p.get("method")) or "GET", line)
-        if name == "createClientAsync" or (name == "createClient" and self.soap):
-            if fb is not None and first is not None:
-                self._urls(fb.text, line)
-                self._mark(first)
+        if (
+            (name == "createClientAsync" or (name == "createClient" and self.soap))
+            and fb is not None
+            and first is not None
+        ):
+            self._urls(fb.text, line)
+            self._mark(first)
         # Database: raw SQL
         if (name in _DB_CALLS or (not obj and name in _DB_TAGS)) and first is not None:
             b = fb
@@ -833,24 +959,25 @@ class _Visitor:
     def _route(self, verb: str, url: str, args: list[Node], line: int, obj: str) -> None:
         handler_node = args[-1] if args else None
         handler = ""
-        if handler_node is not None and handler_node.type in (
-            "identifier", "member_expression"
-        ):  # fmt: skip
+        if handler_node is not None and handler_node.type in ("identifier", "member_expression"):
             handler = _txt(handler_node)
         mount = f"{self.path}#{obj}" if obj in self.routers else ""
         self._route_service(verb.upper(), url, handler, line, mount)
 
-    def _route_service(
-        self, verb: str, url: str, handler: str, line: int, mount: str = ""
-    ) -> None:
+    def _route_service(self, verb: str, url: str, handler: str, line: int, mount: str = "") -> None:
         verb = {"DEL": "DELETE", "ALL": "ANY"}.get(verb, verb)
         url = "/" + url.strip("/") if url not in ("*", "") else "/*"
         handler = handler or f"{self.path}:{line}"
         sid_name = f"{verb} {url}"
         self._service(sid_name, "node-route", handler, url, line)
         if mount:
-            self.facts.symbol("node-router", mount, self.path, line,
-                              owner=make_id("service", "node-route", self.path, sid_name))  # fmt: skip
+            self.facts.symbol(
+                "node-router",
+                mount,
+                self.path,
+                line,
+                owner=make_id("service", "node-route", self.path, sid_name),
+            )
         if "express" in self.modules:
             self.facts.add("tech_stack", tech("Express", None, "framework", self.path, line))
 
@@ -910,8 +1037,9 @@ class _Visitor:
         kind = next((k for k in ("type", "dialect", "client") if k in p), None)
         if kind is not None:
             value = (_string_value(p[kind]) or "").lower()
-            if value in _DB_TYPES and ({"host", "database", "url", "connectString",
-                                        "connection", "storage"} & set(p)):  # fmt: skip
+            if value in _DB_TYPES and (
+                {"host", "database", "url", "connectString", "connection", "storage"} & set(p)
+            ):
                 self._db_config(obj, _line(obj))
 
     def _db_config(self, obj: Node, line: int) -> None:
@@ -929,15 +1057,28 @@ class _Visitor:
             cs = _string_value(p["connectString"])
             product = product or "Oracle"
             if cs and "?" not in cs:
-                self.facts.add("integrations", integration(
-                    type="DB", target=f"oracle://{cs.lstrip('/')}", direction="outbound",
-                    file=self.path, line=line, protocol="oracledb"))  # fmt: skip
+                self.facts.add(
+                    "integrations",
+                    integration(
+                        type="DB",
+                        target=f"oracle://{cs.lstrip('/')}",
+                        direction="outbound",
+                        file=self.path,
+                        line=line,
+                        protocol="oracledb",
+                    ),
+                )
         host = _string_value(p.get("host")) if "host" in p else None
         db = _string_value(p.get("database")) if "database" in p else None
         port = _txt(p.get("port")) if "port" in p and p["port"].type == "number" else ""
         if product is None:
-            for mod, prod in (("pg", "PostgreSQL"), ("mysql", "MySQL"), ("mysql2", "MySQL"),
-                              ("mssql", "SQL Server"), ("oracledb", "Oracle")):  # fmt: skip
+            for mod, prod in (
+                ("pg", "PostgreSQL"),
+                ("mysql", "MySQL"),
+                ("mysql2", "MySQL"),
+                ("mssql", "SQL Server"),
+                ("oracledb", "Oracle"),
+            ):
                 if mod in self.modules:
                     product = prod
                     break
@@ -948,9 +1089,17 @@ class _Visitor:
             target = f"{scheme}://{host.lower()}" + (f":{port}" if port else "")
             if db:
                 target += f"/{db}"
-            self.facts.add("integrations", integration(
-                type="DB", target=target, direction="outbound", file=self.path, line=line,
-                protocol=scheme))  # fmt: skip
+            self.facts.add(
+                "integrations",
+                integration(
+                    type="DB",
+                    target=target,
+                    direction="outbound",
+                    file=self.path,
+                    line=line,
+                    protocol=scheme,
+                ),
+            )
 
     def _orm_call(
         self, n: Node, obj: str, name: str, obj_node: Node | None, args: list[Node], line: int
@@ -965,8 +1114,10 @@ class _Visitor:
                 inner_args = _args(obj_node)
                 if inner == "getRepository" and inner_args:
                     entity = _txt(inner_args[0])
-            if entity is None and name not in ("update", "delete", "count") and (
-                obj.endswith(("manager", "Manager")) and args and args[0].type == "identifier"
+            if (
+                entity is None
+                and name not in ("update", "delete", "count")
+                and (obj.endswith(("manager", "Manager")) and args and args[0].type == "identifier")
             ):
                 entity = _txt(args[0])
             if entity:
@@ -998,16 +1149,27 @@ class _Visitor:
             inner_args = _args(obj_node)
             if not fn_obj and fn_name in ("knex", "db", "trx") and inner_args:
                 table = _string_value(inner_args[0])
-                verb = {"insert": "INSERT", "update": "UPDATE", "del": "DELETE",
-                        "delete": "DELETE"}.get(name, "SELECT")  # fmt: skip
+                verb = {
+                    "insert": "INSERT",
+                    "update": "UPDATE",
+                    "del": "DELETE",
+                    "delete": "DELETE",
+                }.get(name, "SELECT")
                 if table:
                     self._orm(verb, table, f"Knex {name}", line, "knex")
 
     def _schedule_call(
         self, obj: str, name: str, args: list[Node], fb: Built | None, line: int
     ) -> None:
-        handler_node = next((a for a in args[1:] if a.type in (
-            "identifier", "member_expression", "arrow_function", "function_expression")), None)  # fmt: skip
+        handler_node = next(
+            (
+                a
+                for a in args[1:]
+                if a.type
+                in ("identifier", "member_expression", "arrow_function", "function_expression")
+            ),
+            None,
+        )
         handler = (
             _txt(handler_node)
             if handler_node is not None and handler_node.type in ("identifier", "member_expression")
@@ -1025,9 +1187,10 @@ class _Visitor:
                 sched = _cron5(rb.text) if rb is not None else None
             else:
                 sched = _cron5(fb.text)
-            self._job(given or self._job_name(handler, line), sched, handler, line,
-                      "node-schedule")  # fmt: skip
-        elif name == "every" and re.search(r"agenda", obj, re.I) and fb is not None and len(args) > 1:
+            self._job(given or self._job_name(handler, line), sched, handler, line, "node-schedule")
+        elif (
+            name == "every" and re.search(r"agenda", obj, re.I) and fb is not None and len(args) > 1
+        ):
             job = self._eval(args[1], None)
             jname = job.text if job is not None else self._job_name("", line)
             sched = _cron5(fb.text) or f"every {fb.text}"
@@ -1035,7 +1198,9 @@ class _Visitor:
 
     def _job_name(self, handler: str, line: int) -> str:
         stem = self.path.rsplit("/", 1)[-1].rsplit(".", 1)[0]
-        return f"{stem}.{handler}" if handler and re.match(r"^[\w.]+$", handler) else f"{stem}:{line}"
+        return (
+            f"{stem}.{handler}" if handler and re.match(r"^[\w.]+$", handler) else f"{stem}:{line}"
+        )
 
     # ---- classes and decorators ---------------------------------------------------------------
     def _class(self, node: Node) -> None:
@@ -1053,26 +1218,42 @@ class _Visitor:
                 base = _string_value(dargs[0]) if dargs else ""
                 if dargs and dargs[0].type == "object":
                     base = _string_value(opts.get("path")) or ""
-                self.facts.symbol("nest-controller", name, self.path, line,
-                                  data={"path": base or ""})  # fmt: skip
+                self.facts.symbol(
+                    "nest-controller", name, self.path, line, data={"path": base or ""}
+                )
                 self._nest_routes(node, name, base or "")
                 self.facts.add("tech_stack", tech("NestJS", None, "framework", self.path, line))
             elif dn == "Entity":
                 table = _string_value(dargs[0]) if dargs else None
                 if dargs and dargs[0].type == "object":
                     table = _string_value(opts.get("name"))
-                self.facts.symbol("jpa-entity", name, self.path, line,
-                                  data={"table": (table or name).upper(), "orm": "typeorm"})  # fmt: skip
+                self.facts.symbol(
+                    "jpa-entity",
+                    name,
+                    self.path,
+                    line,
+                    data={"table": (table or name).upper(), "orm": "typeorm"},
+                )
             elif dn == "Table":  # sequelize-typescript
                 table = _string_value(opts.get("tableName")) if opts else None
-                self.facts.symbol("jpa-entity", name, self.path, line,
-                                  data={"table": (table or name).upper(), "orm": "sequelize"})  # fmt: skip
+                self.facts.symbol(
+                    "jpa-entity",
+                    name,
+                    self.path,
+                    line,
+                    data={"table": (table or name).upper(), "orm": "sequelize"},
+                )
             elif dn == "Injectable":
                 self.facts.symbol("injectable", name, self.path, line)
         heritage = _txt(next((c for c in node.children if c.type == "class_heritage"), None))
         if re.search(r"extends\s+Model\b", heritage):
-            self.facts.symbol("jpa-entity", name, self.path, line,
-                              data={"table": name.upper(), "orm": "sequelize"})  # fmt: skip
+            self.facts.symbol(
+                "jpa-entity",
+                name,
+                self.path,
+                line,
+                data={"table": name.upper(), "orm": "sequelize"},
+            )
 
     def _angular_component(self, name: str, opts: dict[str, Node], line: int) -> None:
         selector = _string_value(opts.get("selector")) or ""
@@ -1107,9 +1288,16 @@ class _Visitor:
             if html is not None:
                 self._mark(opts["template"])
                 for tag in sorted(set(re.findall(r"<([a-z][\w]*-[\w-]+)", html.text))):
-                    self.facts.ref(kind="includes", source=f"screen:{owner}", source_label=name,
-                                   target=tag, target_kinds=["angular-selector"], file=self.path,
-                                   line=line, report_unresolved=False)  # fmt: skip
+                    self.facts.ref(
+                        kind="includes",
+                        source=f"screen:{owner}",
+                        source_label=name,
+                        target=tag,
+                        target_kinds=["angular-selector"],
+                        file=self.path,
+                        line=line,
+                        report_unresolved=False,
+                    )
         self.facts.symbol("angular-component", name, self.path, line, owner=owner)
         for sel in [s.strip() for s in selector.split(",") if s.strip()]:
             self.facts.symbol("angular-selector", sel, self.path, line, owner=owner)
@@ -1141,8 +1329,9 @@ class _Visitor:
                     sub = _string_value(dargs[0]) if dargs else ""
                     url = "/" + "/".join(x.strip("/") for x in (base, sub or "") if x.strip("/"))
                     verb = NEST_VERBS[dn]
-                    self._service(f"{verb} {url}", "nest-route", f"{cls_name}.{mname}", url,
-                                  _line(m))  # fmt: skip
+                    self._service(
+                        f"{verb} {url}", "nest-route", f"{cls_name}.{mname}", url, _line(m)
+                    )
 
     def _member_decorators(self, node: Node) -> None:
         """NestJS ``@Cron``/``@Interval``/``@Timeout`` on a method."""
@@ -1158,6 +1347,7 @@ class _Visitor:
             given = _string_value(_pairs(opts).get("name")) if opts is not None else None
             if dn == "Interval" and len(dargs) > 1:  # @Interval('name', ms)
                 given, first = _string_value(dargs[0]), dargs[1]
+            sched: str | None
             if dn == "Cron":
                 raw = _string_value(first)
                 if raw is None:
@@ -1184,9 +1374,15 @@ class _Visitor:
                 if "templateUrl" in p:
                     tpl = _string_value(p["templateUrl"])
                     if tpl:
-                        self.facts.ref(kind="renders", source=f"file:{self.path}",
-                                       source_label=name, target=tpl, target_kinds=["path"],
-                                       file=self.path, line=_line(o))  # fmt: skip
+                        self.facts.ref(
+                            kind="renders",
+                            source=f"file:{self.path}",
+                            source_label=name,
+                            target=tpl,
+                            target_kinds=["path"],
+                            file=self.path,
+                            line=_line(o),
+                        )
                     break
         self.facts.add("tech_stack", tech("AngularJS", None, "framework", self.path, line))
 
@@ -1196,22 +1392,41 @@ class _Visitor:
         url = _string_value(p.get("url")) if state and "url" in p else route
         data = {"route": url or route}
         if tpl:
-            self.facts.ref(kind="forwards", source=f"file:{self.path}", source_label=self.path,
-                           target=tpl, target_kinds=["path"], file=self.path, line=line,
-                           data=data)  # fmt: skip
+            self.facts.ref(
+                kind="forwards",
+                source=f"file:{self.path}",
+                source_label=self.path,
+                target=tpl,
+                target_kinds=["path"],
+                file=self.path,
+                line=line,
+                data=data,
+            )
         elif "component" in p:
             comp = _string_value(p["component"])
             if comp:
-                self.facts.ref(kind="forwards", source=f"file:{self.path}",
-                               source_label=self.path, target=comp,
-                               target_kinds=["angularjs-component"], file=self.path, line=line,
-                               data=data)  # fmt: skip
+                self.facts.ref(
+                    kind="forwards",
+                    source=f"file:{self.path}",
+                    source_label=self.path,
+                    target=comp,
+                    target_kinds=["angularjs-component"],
+                    file=self.path,
+                    line=line,
+                    data=data,
+                )
         ctrl = _string_value(p.get("controller")) if "controller" in p else None
         if ctrl:
-            self.facts.ref(kind="uses", source=f"file:{self.path}", source_label=self.path,
-                           target=ctrl.split(" as ")[0].strip(),
-                           target_kinds=["angularjs-controller"], file=self.path, line=line,
-                           report_unresolved=False)  # fmt: skip
+            self.facts.ref(
+                kind="uses",
+                source=f"file:{self.path}",
+                source_label=self.path,
+                target=ctrl.split(" as ")[0].strip(),
+                target_kinds=["angularjs-controller"],
+                file=self.path,
+                line=line,
+                report_unresolved=False,
+            )
 
     # ---- file level ---------------------------------------------------------------------------
     def _file_level(self) -> None:
@@ -1254,8 +1469,13 @@ def _iter(node: Node | None, kinds: set[str]) -> list[Node]:
 def _function_parent(node: Node) -> Node | None:
     p = node.parent
     while p is not None:
-        if p.type in ("function_declaration", "function_expression", "arrow_function",
-                      "method_definition", "generator_function_declaration"):  # fmt: skip
+        if p.type in (
+            "function_declaration",
+            "function_expression",
+            "arrow_function",
+            "method_definition",
+            "generator_function_declaration",
+        ):
             return p
         p = p.parent
     return None
