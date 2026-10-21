@@ -14,6 +14,26 @@ data:
       legacy: Angular or AngularJS screen (routed component or view)
       applies_to: {entity: screens, technologies: [angular, angularjs]}
       target: Angular 21 standalone component; AngularJS views are rewritten, Angular apps are brought up with ng update
+    - id: desktop-screen
+      legacy: Desktop window or form (VB6 form, Windows Forms, WPF, Java Swing / AWT, JavaFX)
+      applies_to: {entity: screens, technologies: [vb6, winforms, wpf, swing, awt, javafx]}
+      target: Angular 21 component in a browser app (route per window, dialogs as Angular Material dialogs); logic in the form's event handlers moves to a Spring Boot 4 service
+    - id: aspnet-screen
+      legacy: ASP.NET Web Forms page or MVC / Razor view
+      applies_to: {entity: screens, technologies: [aspx, razor]}
+      target: Angular 21 component; code-behind and controller logic moves to a Spring Boot 4 REST controller + service
+    - id: dotnet-service
+      legacy: ASP.NET MVC / Web API controller action, WCF or ASMX operation
+      applies_to: {entity: services, kinds: [aspnet-mvc, rest-operation, soap-operation]}
+      target: Spring Boot 4 REST controller + service (Spring Web Services only where a SOAP contract must be kept)
+    - id: windows-service
+      legacy: Windows service, Windows Task Scheduler task, Hangfire / Quartz.NET job
+      applies_to: {entity: batch_jobs, schedulers: [windows-task, hangfire, quartz.net]}
+      target: Spring Batch job on Cloud Run jobs started by Cloud Scheduler; long-running Windows services become a Spring Boot 4 service on GKE or Cloud Run
+    - id: com-component
+      legacy: VB6 COM reference or ActiveX (OCX) control
+      applies_to: {entity: libraries, sources: [com]}
+      target: Replaced by an Angular 21 component (UI controls) or a Java library / Spring Boot service (COM logic); no COM on GCP
     - id: node-service
       legacy: Node.js API route (Express, NestJS, Fastify, Koa, hapi)
       applies_to: {entity: services, kinds: [node-route, nest-route]}

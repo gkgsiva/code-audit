@@ -6,6 +6,24 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Desktop and .NET: VB6, VB.NET, C# and Java Swing (2026-10-21)
+
+- VB6, VB.NET and C# programs and Java Swing/JavaFX desktop programs are audited like the rest
+  (new component type `desktop`): lines of code, screens (VB6 forms, Windows Forms, WPF
+  windows, Swing frames and dialogs, JavaFX views, ASP.NET pages and Razor views) with their
+  input fields and which screen opens which, SQL built in the code (ADO, DAO, ADO.NET, Dapper,
+  Entity Framework), database connections in code and configuration, file shares, MSMQ, mail,
+  HTTP and SOAP calls, ASP.NET controllers and ASMX/WCF services, Windows services, Windows
+  Task Scheduler, Hangfire and Quartz.NET jobs, and complexity.
+- NuGet packages (for OSV-Scanner) and VB6 COM references and ActiveX controls are listed as
+  libraries; Visual Basic 6 and old .NET Framework and .NET versions are marked end of life.
+- New findings: passwords in connection strings (masked), ActiveX controls, Windows API calls,
+  `CreateObject`, the Windows registry, `On Error Resume Next` and Windows drive and share
+  paths.
+- `.NET` build output (`bin/`, `obj/`, generated files) and NuGet `packages/` are skipped.
+- New samples `samples/desktop-dotnet-app` and `samples/java-swing-app`; VS Code task 28
+  (`scripts/show_desktop_stack.py`).
+
 ### Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
 
 - Angular and AngularJS front ends (component type `frontend`) and Node.js APIs with Express

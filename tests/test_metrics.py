@@ -11,10 +11,12 @@ from legacy_audit.metrics.compute import band
 from legacy_audit.metrics.tokens import windows
 from legacy_audit.metrics.units import (
     cobol_units,
+    cs_units,
     plsql_units,
     script_unit,
     tree_units,
     ts_units,
+    vb_units,
 )
 from legacy_audit.scan import run_scan
 from tests.analyzers.helpers import config, run
@@ -176,3 +178,72 @@ router.get('/orders', async (req, res) => {
 def test_typescript_units_name_functions_and_route_callbacks() -> None:
     units = {u.name: u.cyclomatic for u in ts_units(TS, "a.ts")}
     assert units == {"grade": 4, "get /orders": 3}
+
+
+CS = """
+class Grader {
+    public int Grade(int x, string s) {
+        if (x > 90 && s != null) return 1;
+        foreach (var c in s ?? "") { }
+        switch (x) { case 1: case 2: break; default: break; }
+        var y = x switch { 1 => "a", 2 => "b", _ => "c" };
+        int Local() => x > 0 ? 1 : 0;
+        try { } catch (Exception) { }
+        return 0;
+    }
+    public string Name { get { return name; } set; }
+    public Grader() { }
+}
+"""
+
+VB = """
+Private Declare Function GetTickCount Lib "kernel32" () As Long
+
+Public Function Grade(ByVal x As Integer) As Integer
+    ' If in a comment is not a decision
+    If x > 90 And x < 100 Then
+        Grade = 1
+    ElseIf x = 0 OrElse x = -1 Then
+        Grade = IIf(x = 0, 0, -1)
+    End If
+    For i = 1 To 3
+        Select Case i
+            Case 1, 2
+            Case Else
+        End Select
+    Next
+    Do While x > 0
+        x = x - 1
+    Loop
+End Function
+
+Public Property Get Title() As String
+    Title = "If this Then that"
+End Property
+"""
+
+
+def test_csharp_units_and_cyclomatic() -> None:
+    units = {u.name: (u.kind, u.cyclomatic) for u in cs_units(CS)}
+    # if + && + foreach + ?? + case 1 + case 2 + two switch arms (not _) + catch = 9 -> 10;
+    # the local function's ?: is its own.
+    assert units == {
+        "Grade": ("method", 10),
+        "Local": ("function", 2),
+        "Name.get": ("method", 1),
+        "Grader": ("method", 1),
+    }
+
+
+def test_vb_units_and_cyclomatic() -> None:
+    units = {u.name: (u.line, u.end_line, u.cyclomatic) for u in vb_units(VB)}
+    # If + And + ElseIf + OrElse + IIf + For + Case 1, 2 + While = 8 -> 9; Declare has no body.
+    assert units == {"Grade": (4, 20, 9), "Title.get": (22, 24, 1)}
+
+
+def test_metrics_analyzer_reads_vb6_and_csharp() -> None:
+    facts = run(MetricsAnalyzer(), "vb6/modGrade.bas", VB, language="vb6")
+    assert [u.name for u in facts.units] == ["Grade", "Title.get"]
+    assert facts.windows is not None
+    facts = run(MetricsAnalyzer(), "app/Grader.cs", CS)
+    assert "Grade" in {u.name for u in facts.units}

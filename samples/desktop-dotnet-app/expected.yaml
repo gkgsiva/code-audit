@@ -1,0 +1,118 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# A VB6 desktop app (billing-desk-vb6), a VB.NET Windows Forms app (orders-winforms-vbnet), a
+# C# WPF app with Entity Framework (inventory-wpf-cs), an ASP.NET Core API with Hangfire jobs
+# (billing-api-cs), an ASP.NET Web Forms site with an ASMX service (legacy-webforms), a console
+# program run by Windows Task Scheduler (nightly-export-cs) and a Windows service
+# (invoice-mailer-svc).
+#
+# Checked by hand:
+# - 48 files: bin/Debug and obj/Debug of the VB.NET app and the WPF app's generated
+#   MainWindow.g.cs are skipped (3 build-output-skipped findings); the .frx is binary.
+# - Screens: VB6 forms, Windows Forms forms (MainForm from its .Designer.vb, OrderDetailForm built
+#   in code), WPF windows; ctlAddress (VB6 UserControl), ItemCard (WPF UserControl), Site.master
+#   and _Layout.cshtml are partials.
+# - SQL rebuilt from string building in VB6 (& and _ continuations), VB.NET (StringBuilder,
+#   String.Format) and C# (+=, $"..." interpolation, StringBuilder); EF calls kept as readable
+#   text (not_parsed: 2); stored procedures are CALL statements.
+# - invoice-mailer-svc is a Windows service no scheduler starts: unscheduled batch.
+inventory:
+  files: 48
+  input_files: 0
+  loc: {code: 847, comment: 12, blank: 74}
+  by_language:
+    aspnet: {files: 1, code: 1, comment: 0, blank: 0}
+    aspx: {files: 3, code: 19, comment: 0, blank: 0}
+    batch: {files: 1, code: 2, comment: 1, blank: 0}
+    csharp: {files: 15, code: 268, comment: 8, blank: 35}
+    json: {files: 1, code: 6, comment: 0, blank: 0}
+    lockfile: {files: 1, code: 0, comment: 0, blank: 0}
+    msbuild: {files: 6, code: 99, comment: 0, blank: 0}
+    razor: {files: 2, code: 10, comment: 0, blank: 0}
+    vb6: {files: 5, code: 219, comment: 2, blank: 21}
+    vb6-project: {files: 1, code: 40, comment: 0, blank: 0}
+    vbnet: {files: 4, code: 97, comment: 1, blank: 18}
+    xaml: {files: 4, code: 37, comment: 0, blank: 0}
+    xml: {files: 4, code: 49, comment: 0, blank: 0}
+  by_category: {build: 9, config: 4, screen: 9, script: 1, source: 25}
+components:
+- {name: billing-api-cs, type: web, files: 9, detected_by: build-file}
+- {name: billing-desk-vb6, type: desktop, files: 6, detected_by: build-file}
+- {name: inventory-wpf-cs, type: desktop, files: 12, detected_by: build-file}
+- {name: invoice-mailer-svc, type: batch, files: 2, detected_by: build-file}
+- {name: legacy-webforms, type: web, files: 8, detected_by: build-file}
+- {name: nightly-export-cs, type: batch, files: 4, detected_by: build-file}
+- {name: orders-winforms-vbnet, type: desktop, files: 7, detected_by: build-file}
+component_roles:
+  billing-api-cs: [batch, web]
+  billing-desk-vb6: [desktop]
+  inventory-wpf-cs: [desktop]
+  invoice-mailer-svc: [batch]
+  legacy-webforms: [web]
+  nightly-export-cs: [batch]
+  orders-winforms-vbnet: [desktop]
+unscheduled_batches: [invoice-mailer-svc]
+coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
+  security: missing, dependency-check: missing, osv-scanner: missing}
+counts:
+  services:
+    total: 7
+    by_kind: {aspnet-mvc: 1, batch-job: 3, rest-operation: 2, soap-operation: 1}
+  screens:
+    total: 9
+    partials: 4
+    by_technology: {aspx: 2, razor: 1, vb6: 2, winforms: 2, wpf: 2}
+  sql:
+    total: 20
+    distinct: 20
+    by_type: {CALL: 2, DELETE: 1, INSERT: 3, SELECT: 12, UPDATE: 2}
+    by_source: {ado: 3, ado.net: 7, aspx-datasource: 1, dao: 1, dapper: 5, entity-framework: 2, vb-string: 1}
+    dynamic: 8
+    not_parsed: 2
+  stored_procedures: 0
+  db_objects: {table: 10}
+  integrations:
+    total: 13
+    by_type: {DB: 5, FILE: 3, HTTP: 2, MQ: 1, SMTP: 1, SOAP: 1}
+  batch_jobs:
+    total: 4
+    scheduled: 3
+    unscheduled: 1
+    boxes: 0
+    by_scheduler: {hangfire: 1, windows-task: 2}
+  libraries: {total: 15, declared: 14, undeclared: 1}
+  entry_points: {desktop-app: 3, main: 2, windows-service: 1}
+  dependencies: {resolved: 14, unresolved: 0}
+  findings: {build-output-skipped: 3, com-late-binding: 1, connection-string-password: 3, eol-library: 1, eol-technology: 7,
+    hardcoded-endpoint: 2, no-tests: 7, on-error-resume-next: 1, pg-manual-sql: 2, sql-concatenation: 7, sql-runtime-structure: 2,
+    vb6-activex-control: 2, win32-api: 1, windows-path: 4}
+services: ['aspnet-mvc: GET /Home/Index', 'batch-job: NightlyExport', 'batch-job: WeeklyPurge', 'batch-job: close-invoices',
+  'rest-operation: GET /api/Invoices/{id}', 'rest-operation: POST /api/Invoices', 'soap-operation: ASMX ContactService.GetContactName']
+screens: [Contact.aspx, Default.aspx, Index.cshtml, ItemCard (partial), MainForm, MainWindow, OrderDetailForm, Site.master
+    (partial), StockDialog, _Layout.cshtml (partial), ctlAddress (partial), frmCustomer, frmMain]
+integrations: ['DB access://regions.mdb [outbound]', 'DB oracle://crmprod [outbound]', 'DB sqlserver://billsrv01/BILLING
+    [outbound]', 'DB sqlserver://invsrv01/INVENTORY [outbound]', 'DB sqlserver://ordsrv02\sql2008/ORDERS [outbound]',
+  'FILE //fileserver/exports/invoices.csv [outbound]', 'FILE //fileserver/orders/archive.log [outbound]', 'FILE
+    C:/BillingDesk/export/customers.csv [outbound]', 'HTTP http://ledger.acme.local/api/postings [outbound]', 'HTTP
+    https://ledger.acme.local [outbound]', 'MQ .\private$\invoices-to-mail [unknown]', 'SMTP smtp.acme.local [outbound]',
+  'SOAP http://pricing.acme.local/PricingService.svc [outbound]']
+integration_purposes: {'DB access://regions.mdb': database, 'DB oracle://crmprod': database, 'DB sqlserver://billsrv01/BILLING': database,
+  'DB sqlserver://invsrv01/INVENTORY': database, 'DB sqlserver://ordsrv02\sql2008/ORDERS': database, FILE //fileserver/exports/invoices.csv: file,
+  FILE //fileserver/orders/archive.log: file, 'FILE C:/BillingDesk/export/customers.csv': file, 'HTTP http://ledger.acme.local/api/postings': HTTP
+    API, 'HTTP https://ledger.acme.local': HTTP API, MQ .\private$\invoices-to-mail: messaging, SMTP smtp.acme.local: email,
+  'SOAP http://pricing.acme.local/PricingService.svc': web service}
+batch_jobs: ['hangfire job: close-invoices', 'windows-task job: NightlyExport', 'windows-task job: WeeklyPurge']
+unresolved_references: 0
+assessment:
+  findings_by_severity: {high: 10, info: 3, low: 12, medium: 18}
+  pg_grades: {auto: 10, manual: 2, review: 8}
+  complexity:
+    services: {Simple: 7}
+    screens: {Simple: 9}
+    batch_jobs: {Simple: 3}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 1
+  recommendations: {keep: 14, replace: 1}
+

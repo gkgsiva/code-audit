@@ -2,7 +2,7 @@
 
 A tool for auditing legacy applications before migrating them to **Java 25, Spring Boot 4.x, Angular 21, PostgreSQL and Google Cloud**.
 
-It scans a codebase (Java/Struts/Spring, C/C++, Pro*C, COBOL, JCL, shell, Autosys JIL, IBM MQ, CFT), produces reproducible facts (JSON, CSV, SQLite, SBOM), lets analysts add AI interpretation with a GitHub Copilot agent in VS Code, and generates a technical HTML site, a management HTML deck and an editable PPTX. It can be re-run any number of times as new inputs arrive.
+It scans a codebase (Java/Struts/Spring, Java Swing, C/C++, Pro*C, COBOL, JCL, shell, Autosys JIL, IBM MQ, CFT, Angular/Node.js, VB6, VB.NET, C#/.NET), produces reproducible facts (JSON, CSV, SQLite, SBOM), lets analysts add AI interpretation with a GitHub Copilot agent in VS Code, and generates a technical HTML site, a management HTML deck and an editable PPTX. It can be re-run any number of times as new inputs arrive.
 
 ## Status
 
@@ -71,7 +71,8 @@ legacy-audit version
 
 `--config/-c` points at another `audit.yaml` (default: `./audit.yaml`); `scan -o DIR` overrides
 the output folder. Try it on a sample: `legacy-audit scan -c samples/struts-oracle-app/audit.yaml`
-(also `spring-mvc-batch-app`, `c-proc-batch`, `cobol-cics-db2`, `legacy-layout-app`).
+(also `spring-mvc-batch-app`, `c-proc-batch`, `cobol-cics-db2`, `legacy-layout-app`,
+`angular-node-app`, `desktop-dotnet-app`, `java-swing-app`).
 
 **What a run writes** (`audit-output/runs/<run-id>/`):
 

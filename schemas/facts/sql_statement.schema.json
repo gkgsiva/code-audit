@@ -192,7 +192,7 @@
     },
     "source": {
       "default": "unknown",
-      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, odbc, oci, libpq, mysql, sqlite (C API calls), c-string",
+      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, odbc, oci, libpq, mysql, sqlite (C API calls), c-string, ado, dao, rdo (VB6), ado.net, dapper, ef-raw, entity-framework (.NET), vb-string, cs-string, aspx-datasource",
       "title": "Source",
       "type": "string"
     },

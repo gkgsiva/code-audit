@@ -1,0 +1,13 @@
+<Window x:Class="InventoryApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:c="clr-namespace:InventoryApp.Controls"
+        Title="Inventory" Height="450" Width="800">
+    <StackPanel>
+        <TextBox x:Name="SearchBox" />
+        <ComboBox x:Name="WarehouseList" />
+        <Button Content="Search" Click="Search_Click" />
+        <DataGrid x:Name="Results" />
+        <c:ItemCard />
+    </StackPanel>
+</Window>

@@ -42,7 +42,17 @@ FOOTPRINT_EDGES = {"calls", "uses", "invokes", "runs", "triggers", "includes"}
 FOOTPRINT_DEPTH = 2
 # Files that can be dead code; screens, SQL and JavaScript are judged elsewhere or not at all.
 DEAD_CODE_LANGUAGES = {"java", "c", "cpp", "proc", "cobol", "procobol", "shell", "perl", "python"}
-CODE_LANGUAGES = DEAD_CODE_LANGUAGES | {"jsp", "sql", "plsql", "javascript", "typescript", "batch"}
+CODE_LANGUAGES = DEAD_CODE_LANGUAGES | {
+    "jsp",
+    "sql",
+    "plsql",
+    "javascript",
+    "typescript",
+    "batch",
+    "csharp",
+    "vb6",
+    "vbnet",
+}
 
 
 def band(score: float, thresholds: dict[str, float]) -> str:

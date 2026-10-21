@@ -45,7 +45,7 @@ _TECH_CATEGORIES = {
 PROJECT_FILES = {
     ".project", "cmakelists.txt", "configure.ac", "configure.in", "imakefile", "bower.json",
 }  # fmt: skip
-PROJECT_SUFFIXES = (".vcxproj", ".vcproj", ".dsp")
+PROJECT_SUFFIXES = (".vcxproj", ".vcproj", ".dsp", ".vbp", ".csproj", ".vbproj")
 
 # Folder names that hold an application's code: their parent is the application.
 CODE_FOLDERS = {
@@ -63,6 +63,8 @@ PART_FOLDERS = CODE_FOLDERS | {
     "data", "logs", "log", "test", "tests", "doc", "docs", "meta-inf", "images", "img", "css",
     "js", "static", "templates", "tmp", "temp", "jobs", "job", "cron", "batch-scripts",
     "com", "org", "net", "fr", "de", "it", "uk", "edu", "gov", "io",
+    "forms", "modules", "classes", "usercontrols", "controls", "designers", "views",
+    "controllers", "models", "viewmodels", "app_code", "app_data", "app_start",
 }  # fmt: skip
 _MAX_CONTAINER_DEPTH = 3
 
@@ -123,8 +125,11 @@ def infer_type(files: list[FileRecord], name: str = "") -> ComponentType:
     cats = {f.category for f in files}
     names = {f.path.rsplit("/", 1)[-1].lower() for f in files}
     java_web = any(f.path.lower().endswith("web-inf/web.xml") for f in files) or (
-        Category.SCREEN in cats and langs & {"jsp", "bms", "velocity", "freemarker"}
+        Category.SCREEN in cats
+        and langs & {"jsp", "bms", "velocity", "freemarker", "aspx", "razor"}
     )
+    if not java_web and _desktop(files, langs):
+        return ComponentType.DESKTOP  # VB6, Windows Forms, WPF, Java Swing/JavaFX
     script_langs = langs & {"typescript", "javascript"}
     if not java_web and (
         "angular.json" in names or (script_langs and Category.SCREEN in cats and "html" in langs)
@@ -146,6 +151,29 @@ def infer_type(files: list[FileRecord], name: str = "") -> ComponentType:
     if Category.CONFIG in cats:
         return ComponentType.CONFIG
     return ComponentType.UNKNOWN
+
+
+def _desktop(files: list[FileRecord], langs: set[str]) -> bool:
+    """A desktop application by its files: VB6 forms, Windows Forms designer files, WPF
+    windows. Java Swing is only seen in the code, so the linker decides it."""
+    for f in files:
+        low = f.path.lower()
+        if f.category == Category.TEST:
+            continue
+        if low.endswith(".frm") and f.language == "vb6":
+            return True
+        if low.endswith((".designer.cs", ".designer.vb")) and not low.endswith(
+            (
+                "resources.designer.cs",
+                "settings.designer.cs",
+                "resources.designer.vb",
+                "settings.designer.vb",
+            )
+        ):
+            return True
+        if f.language == "xaml" and not low.endswith(("app.xaml", "application.xaml")):
+            return True
+    return False
 
 
 def composition(files: list[FileRecord]) -> dict[str, int]:

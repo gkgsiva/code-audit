@@ -72,7 +72,7 @@
       "type": "string"
     },
     "kind": {
-      "description": "main, scheduler, filter, listener, spring-boot-app, ...",
+      "description": "main, scheduler, filter, listener, spring-boot-app, desktop-app, windows-service, ...",
       "title": "Kind",
       "type": "string"
     },

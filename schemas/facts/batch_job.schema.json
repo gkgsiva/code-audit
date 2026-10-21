@@ -204,7 +204,7 @@
       "title": "Schedule"
     },
     "scheduler": {
-      "description": "autosys, jcl, cron, spring-batch, node-cron (node-cron, node-schedule, NestJS @Cron/@Interval, Agenda)",
+      "description": "autosys, jcl, cron, spring-batch, node-cron (node-cron, node-schedule, NestJS @Cron/@Interval, Agenda), windows-task (Windows Task Scheduler), hangfire, quartz.net",
       "title": "Scheduler",
       "type": "string"
     },
