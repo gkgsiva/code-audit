@@ -497,6 +497,26 @@ where Windows uses `.venv\Scripts\python`.
    done ... This does not mean they are safe.", the tiles say "not done", and the tables say
    "Not checked" instead of "None found". (If you have the scanners installed, the scan runs
    them and you see their real results instead.)
-7. **On a real estate**: put the JSON reports of both tools in `audit-inputs/security/`
-   (any file name; the kind is detected from the content), or let the scan run the installed
-   tools, then scan and run task 24 (or **Build summary report** in the GUI).
+7. **On a real estate, quickest: OSV-Scanner alone in online mode** (one scanner is enough; no
+   database to download; needs internet to osv.dev during the scan):
+   - Windows: download only `osv-scanner_windows_amd64.exe` from
+     github.com/google/osv-scanner/releases, put it in `C:\Tools\osv-scanner\` and rename it
+     `osv-scanner.exe`. Check: `C:\Tools\osv-scanner\osv-scanner.exe --version` starts with
+     `osv-scanner version: 2.`
+   - WSL2: `mkdir -p ~/tools`, then
+     `curl -L -o ~/tools/osv-scanner https://github.com/google/osv-scanner/releases/latest/download/osv-scanner_linux_amd64`
+     and `chmod +x ~/tools/osv-scanner`. Check: `~/tools/osv-scanner --version`.
+   - In the application's `audit.yaml` (GUI: **1. Project setup > Advanced: edit audit.yaml as
+     text**), under `security:` set
+     `dependency_check: enabled: false` and, under `osv_scanner:`, `enabled: true`,
+     `path: "C:/Tools/osv-scanner/osv-scanner.exe"` (WSL2: `"/home/<you>/tools/osv-scanner"`,
+     full path). `offline: false` is already there in a new `audit.yaml` (the default); an older
+     `audit.yaml` may still say `offline: true`, change it.
+   - **Tools on this computer** shows OSV-Scanner **ok**. Scan, then task 24 (or **Build summary
+     report** in the GUI): part 5 says "Checked with OSV-Scanner", "Not used: Dependency-Check
+     (turned off in audit.yaml)", and the **Vulnerability checks** table shows OSV-Scanner
+     "ran during the scan".
+8. **Optional, later**: add Dependency-Check (get a free NVD API key first, so its one-time
+   database download takes 10 to 30 minutes instead of hours; usage guide, Vulnerability
+   checks, Option 3), or put a JSON report from your security team in `audit-inputs/security/`
+   (any file name; the kind is detected from the content).

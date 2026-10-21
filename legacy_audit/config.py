@@ -303,7 +303,9 @@ class OsvScannerConfig(Strict):
     enabled: bool = True
     path: str | None = Field(None, description="osv-scanner binary; found on PATH when empty")
     data_dir: str | None = Field(None, description="Local OSV database folder")
-    offline: bool = True
+    offline: bool = Field(
+        False, description="false: ask osv.dev during the scan; true: local database only"
+    )
     timeout_minutes: int = 15
 
 
