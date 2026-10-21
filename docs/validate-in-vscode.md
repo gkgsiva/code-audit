@@ -459,3 +459,44 @@ Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`.
    **Migration (AI)** (ORDERS = auto), and **Migration plan per object (AI)** lists
    PKG_ORDER_PRICING as rewrite. For batches: task 4 with `spring-mvc-batch-app`, task 16 (Billing
    demo analysis), then task 24 with `spring-mvc-batch-app`: BIL_NIGHTLY_BOX's *What it does* ends with "(AI)".
+
+
+## Dependency vulnerabilities in the summary report
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including the new tests at the end of
+   `tests/test_summary.py`.
+2. **Both scanners**: run `audit: 25. dependency vulnerabilities from both scanners (Billing
+   demo)`. It copies the Billing sample to `build/vulns/`, adds a demo Dependency-Check report
+   next to the sample's OSV-Scanner report, and prints part 5: 5 vulnerabilities in 4 of 10
+   libraries (3 critical, 2 high), "both: 2, Dependency-Check only: 2, OSV-Scanner only: 1",
+   then the list worst first with **Found by** (CVE-2019-17571 in log4j and CVE-2020-26945 in
+   mybatis are *both*; CVE-2020-25638 in hibernate-core is *OSV-Scanner* only). The page opens
+   at **5 Dependency vulnerabilities** (on WSL2, if it does not open, open the printed path
+   from Windows Explorer).
+3. On the page, check: tiles (10 libraries, 4 vulnerable, 5 vulnerabilities, 3 critical,
+   2 high, 4 fix known, 2 found by both scanners); four charts (by severity, which scanner
+   found them, most vulnerable libraries, by module); **Top vulnerabilities**, **Vulnerable
+   libraries** (with the suggested fix) and **Vulnerability checks** (both scanners "report
+   imported", Dependency-Check database 2026-10-15). Each has **Download CSV**.
+4. Click **PowerPoint (PPTX)**: after the four earlier parts comes chapter 05 "Dependency
+   vulnerabilities" with "at a glance" (tiles, summary, severity chart), "figures" (scanner and
+   library charts), and table slides for the top vulnerabilities, the vulnerable libraries and
+   the checks, all on the corporate template.
+5. **One scanner**: run `audit: 4. scan a sample` with `struts-oracle-app`, then task 24 with
+   the same sample. Part 5 says "Checked with Dependency-Check" and "Not used: OSV-Scanner
+   (not installed)" (or OSV-Scanner's own result if it is installed), and every row is found
+   by Dependency-Check.
+6. **No scanner**: in a terminal run
+   `python scripts/scan_without_inputs.py samples/struts-oracle-app` (Windows:
+   `.venv\Scripts\python`, WSL2: `.venv/bin/python`), then
+   `python -m legacy_audit report --type summary --open -c build/no-inputs/struts-oracle-app/audit.yaml`.
+   If neither scanner is installed, part 5 shows a yellow box "No vulnerability check was
+   done ... This does not mean they are safe.", the tiles say "not done", and the tables say
+   "Not checked" instead of "None found". (If you have the scanners installed, the scan runs
+   them and you see their real results instead.)
+7. **On a real estate**: put the JSON reports of both tools in `audit-inputs/security/`
+   (any file name; the kind is detected from the content), or let the scan run the installed
+   tools, then scan and run task 24 (or **Build summary report** in the GUI).

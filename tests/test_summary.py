@@ -1,5 +1,6 @@
-"""The summary report: four sections (project, database, integrations, batches) as one HTML page
-with charts, tables and CSVs, and a PowerPoint built on the corporate template."""
+"""The summary report: five sections (project, database, integrations, batches, dependency
+vulnerabilities) as one HTML page with charts, tables and CSVs, and a PowerPoint built on the
+corporate template."""
 
 from __future__ import annotations
 
@@ -18,7 +19,7 @@ from legacy_audit.report.pptx_templates import resolve_template
 from legacy_audit.report.summary import SECTIONS, build_summary_report
 from legacy_audit.scan import run_scan
 from legacy_audit.security import vulns
-from tests.conftest import SAMPLES
+from tests.conftest import REPO, SAMPLES
 from tests.test_functional import ENRICHMENT, _valid_offline
 from tests.test_report import SAMPLE_NAMES
 
@@ -33,13 +34,13 @@ def _scan(sample: str, out: Path) -> Path:
 
 
 @pytest.mark.parametrize("sample", SAMPLE_NAMES)
-def test_summary_page_has_four_sections_and_works_offline(sample: str, tmp_path: Path) -> None:
+def test_summary_page_has_five_sections_and_works_offline(sample: str, tmp_path: Path) -> None:
     run_dir = _scan(sample, tmp_path / "out")
     res = build_summary_report(run_dir)
     assert res.page.is_file() and res.pptx is not None, res.message
     _valid_offline(res.page.parent)
     html = res.page.read_text(encoding="utf-8")
-    assert [s[0] for s in SECTIONS] == ["project", "data", "integrations", "batch"]
+    assert [s[0] for s in SECTIONS] == ["project", "data", "integrations", "batch", "security"]
     for key, *_ in SECTIONS:
         assert f'id="{key}"' in html
     assert 'href="summary.pptx" download' in html
@@ -145,3 +146,96 @@ def test_summary_without_enrichment_has_no_ai_columns(tmp_path: Path) -> None:
     sec = {s["key"]: s for s in data["sections"]}["data"]
     assert [t["key"] for t in sec["tables"]].count("migration-plan") == 0
     assert sec["tables"][0]["columns"] == ["Table", "SQL statements", "CRUD"]
+
+
+# ---- 5 dependency vulnerabilities ---------------------------------------------------------------
+BOTH_DC = REPO / "tests/fixtures/security/billing-dependency-check-report.json"
+
+
+def _security(run_dir: Path) -> tuple[dict, dict, Path]:  # type: ignore[type-arg]
+    res = build_summary_report(run_dir)
+    data = json.loads((res.page.parent / "summary.json").read_text(encoding="utf-8"))
+    sec = {s["key"]: s for s in data["sections"]}["security"]
+    return sec, {t["key"]: t for t in sec["tables"]}, res.page
+
+
+def test_vulnerabilities_from_both_scanners_are_merged(sample_copy) -> None:  # type: ignore[no-untyped-def]
+    app_dir = sample_copy("spring-mvc-batch-app")  # OSV-Scanner report, plus Dependency-Check's
+    shutil.copy(BOTH_DC, app_dir / "audit-inputs" / "security")
+    run_dir = run_scan(load_config(app_dir / "audit.yaml")).run_dir
+    sec, tables, page = _security(run_dir)
+    kpis = dict(map(tuple, sec["kpis"]))
+    assert (kpis["Vulnerabilities"], kpis["Critical"], kpis["High"]) == (5, 3, 2)
+    assert kpis["Found by both scanners"] == 2 and kpis["Vulnerable libraries"] == 4
+    found = {(r[0], r[3]): r[6] for r in tables["vulnerabilities"]["rows"]}
+    assert found == {
+        ("CVE-2016-1000027", "org.springframework:spring-webmvc"): "Dependency-Check",
+        ("CVE-2019-17571", "log4j:log4j"): "both",  # GHSA-2qrg-x229-3v8q in OSV: one row
+        ("CVE-2022-23305", "log4j:log4j"): "Dependency-Check",
+        ("CVE-2020-26945", "org.mybatis:mybatis"): "both",
+        ("CVE-2020-25638", "org.hibernate:hibernate-core"): "OSV-Scanner",
+    }
+    assert tables["vulnerabilities"]["rows"][0][1] == "critical"  # worst first
+    log4j = next(r for r in tables["vulnerabilities"]["rows"] if r[0] == "CVE-2019-17571")
+    assert "GHSA-2qrg-x229-3v8q" in log4j[7]
+    scanners = {r[0]: r for r in tables["scanners"]["rows"]}
+    assert scanners["Dependency-Check"][2:] == [
+        "2026-10-15", "audit-inputs/security/billing-dependency-check-report.json", 4, 2,
+    ]  # fmt: skip
+    assert scanners["OSV-Scanner"][4:] == [3, 1]
+    by_scanner = {c["key"]: c for c in sec["charts"]}["by-scanner"]
+    assert dict(zip(by_scanner["labels"], by_scanner["values"], strict=True)) == {
+        "both": 2, "Dependency-Check": 2, "OSV-Scanner": 1,
+    }  # fmt: skip
+    assert "both: 2, Dependency-Check only: 2, OSV-Scanner only: 1" in " ".join(sec["intro"])
+    assert 'role="alert"' not in page.read_text(encoding="utf-8")
+
+
+def test_vulnerability_slides_in_the_pptx(sample_copy) -> None:  # type: ignore[no-untyped-def]
+    from pptx import Presentation
+
+    app_dir = sample_copy("spring-mvc-batch-app")
+    shutil.copy(BOTH_DC, app_dir / "audit-inputs" / "security")
+    res = build_summary_report(run_scan(load_config(app_dir / "audit.yaml")).run_dir)
+    assert res.pptx is not None, res.message
+    prs = Presentation(str(res.pptx))
+    titles = [sh.text_frame.text for s in prs.slides for sh in s.shapes if sh.has_text_frame]
+    for title in (
+        "Dependency vulnerabilities at a glance",
+        "Dependency vulnerabilities: figures",
+        "Top vulnerabilities",
+        "Vulnerable libraries",
+        "Vulnerability checks",
+    ):
+        assert title in titles, title
+
+
+def test_no_scanner_results_is_said_plainly(sample_copy) -> None:  # type: ignore[no-untyped-def]
+    app_dir = sample_copy("struts-oracle-app")
+    shutil.rmtree(app_dir / "audit-inputs" / "security")
+    sec, tables, page = _security(run_scan(load_config(app_dir / "audit.yaml")).run_dir)
+    assert sec["alert"].startswith("No vulnerability check was done")
+    assert "does not mean they are safe" in sec["alert"]
+    assert dict(map(tuple, sec["kpis"])) == {"Libraries": 5, "Vulnerability check": "not done"}
+    assert sec["charts"] == [] and tables["vulnerabilities"]["rows"] == []
+    assert tables["vulnerabilities"]["empty"].startswith("Not checked")
+    assert [r[1] for r in tables["scanners"]["rows"]] == ["not used (not installed)"] * 2
+    html = page.read_text(encoding="utf-8")
+    assert 'role="alert"' in html and "Not checked: no Dependency-Check" in html
+
+
+def test_one_scanner_names_the_other_as_a_gap(tmp_path: Path) -> None:
+    sec, tables, _ = _security(_scan("struts-oracle-app", tmp_path / "out"))
+    assert sec["alert"] == "" and "Found by both scanners" not in dict(map(tuple, sec["kpis"]))
+    intro = " ".join(sec["intro"])
+    assert "Checked with Dependency-Check;" in intro
+    assert "Not used: OSV-Scanner (not installed)." in intro
+    assert {r[6] for r in tables["vulnerabilities"]["rows"]} == {"Dependency-Check"}
+
+
+def test_no_libraries_means_nothing_to_check(tmp_path: Path) -> None:
+    sec, _, _ = _security(_scan("c-proc-batch", tmp_path / "out"))
+    assert sec["intro"][0].startswith("No third-party libraries were found")
+    assert sec["alert"] == "" and dict(map(tuple, sec["kpis"]))["Vulnerability check"] == (
+        "not needed"
+    )
