@@ -45,7 +45,7 @@
   "additionalProperties": false,
   "properties": {
     "category": {
-      "description": "language, framework, library, database, runtime, build, scheduler, middleware, auth, upgrade-signal",
+      "description": "language, framework, library, database, runtime, build, scheduler, middleware, auth, upgrade-signal, app-server (WebSphere, WebLogic, JBoss, Tomcat, ...), web-server (Apache HTTP Server, IBM HTTP Server, Nginx, IIS, ...)",
       "title": "Category",
       "type": "string"
     },

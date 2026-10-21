@@ -520,3 +520,45 @@ where Windows uses `.venv\Scripts\python`.
    database download takes 10 to 30 minutes instead of hours; usage guide, Vulnerability
    checks, Option 3), or put a JSON report from your security team in `audit-inputs/security/`
    (any file name; the kind is detected from the content).
+
+## Angular, AngularJS, Node.js and application servers
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`. If the new parser is missing, run
+`.venv\Scripts\python -m pip install -e .` (WSL2: `.venv/bin/python -m pip install -e .`) once.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/analyzers/test_typescript.py`, `test_servers.py`, `test_npm_deps.py` and the
+   `angular-node-app` sample check.
+2. Run `audit: 26. Angular, Node.js and servers (Angular and Node sample)`. The terminal shows:
+   - **Components**: `orders-web` and `legacy-portal` are `frontend`, `orders-api` and
+     `billing-api` are `api` (also `batch`), `deploy` is `config`.
+   - **Screens**: 3 Angular pages (order list, order detail, reports) and 2 AngularJS views
+     (accounts, account detail); the app shells, the header and the account summary are
+     partials.
+   - **API routes**: `GET /api/orders`, `POST /api/orders`, `GET /api/orders/:id`,
+     `DELETE /api/orders/:id`, `GET /api/customers/:id`, `GET /health` (Express) and three
+     `/api/invoices` routes (NestJS).
+   - **Front end calls**: `order.service.ts` calls four of those routes.
+   - **Scheduled jobs**: `purge-old-orders` (0 2 * * *) and `month-end-close` (30 1 1 * *).
+   - **Servers**: Tomcat, WebSphere, Liberty, JBoss / WildFly 4.2, WebLogic 8.1 and 12.2.1.4.0,
+     Apache HTTP Server, Nginx 1.25 and Node.js 18 and 20.11, each with the files it was found in.
+   Then the summary report opens (on WSL2, if it does not open, open the printed path from
+   Windows Explorer).
+3. In the summary report, part **1 Project**: the tile **App and web servers** says 7 and the
+   table **Application and web servers** lists them with version, end of life (WebLogic 8.1,
+   JBoss 4.2 and Node.js 18 are end of life), modules, files and the target. **Download CSV**
+   gives `servers.csv`. Part **2** lists the Prisma, TypeORM and raw SQL statements, part
+   **3** the payments, geocoding and Okta calls and the two databases, part **4** the two
+   Node.js jobs with their schedule.
+4. Click **PowerPoint (PPTX)**: the Project chapter has a table slide "Application and web
+   servers".
+5. Run `audit: 4. scan a sample` with `angular-node-app`, then `audit: 7. build and open the
+   technical report` with the same sample: in the technical report, **Overview** has a section **Application and web servers** with links to
+   each file (and **VS Code** links); **Findings** lists `server-specific-config` for each
+   descriptor and `build-output-skipped` for `chart.min.js`. Then `audit: 11. build management
+   deck and PPTX`: the deck has an "Application and web servers" slide after the technology
+   stack.
+6. **On your own Angular or Node application**: point `audit.yaml` at the folder that holds
+   `package.json` (the GUI's **1. Project setup**), scan, and check that `node_modules/` and
+   `dist/` do not appear in the lines of code and that each routed page is a screen.

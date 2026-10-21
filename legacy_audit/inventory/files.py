@@ -17,7 +17,7 @@ from legacy_audit.inventory.loc import count_loc
 from legacy_audit.model import Category, Evidence, FileRecord, Origin, make_id
 
 # Bump when inventory logic changes so cached results are recomputed.
-INVENTORY_VERSION = "3"  # 3: more languages, other (.ext), backup, data, control-byte binaries
+INVENTORY_VERSION = "4"  # 4: TypeScript/Angular files, npm lock files, spec tests
 _HEAD = 16 * 1024
 
 

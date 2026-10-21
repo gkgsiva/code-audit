@@ -1,0 +1,15 @@
+<h1>Orders</h1>
+<label>Status
+  <select [(ngModel)]="status" (change)="reload()">
+    <option value="">All</option>
+    <option value="OPEN">Open</option>
+    <option value="SHIPPED">Shipped</option>
+  </select>
+</label>
+<table>
+  <tr *ngFor="let o of orders$ | async">
+    <td><a [routerLink]="['/orders', o.id]">{{ o.id }}</a></td>
+    <td>{{ o.status }}</td>
+    <td>{{ o.total }}</td>
+  </tr>
+</table>

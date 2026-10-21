@@ -26,9 +26,16 @@ from legacy_audit.report.flows import Flow, parse_schedule
 
 MAX_FILES = 200  # files of one batch component read for schedule hints
 MAX_BYTES = 512 * 1024
-_HINT_LANGS = {"java", "xml", "properties", "yaml", "shell", "sql", "plsql", "c", "proc", "cobol"}
+_HINT_LANGS = {
+    "java", "xml", "properties", "yaml", "shell", "sql", "plsql", "c", "proc", "cobol",
+    "typescript", "javascript",
+}  # fmt: skip
 
 _SCHEDULED = re.compile(r"@Scheduled\s*\(([^)]*)\)")
+# Node.js: cron.schedule('0 2 * * *', ...), new CronJob('...'), @Cron('...'), scheduleJob('...')
+_NODE_CRON = re.compile(
+    r"(?:\bcron\.schedule|\bnew\s+CronJob|@Cron|\bscheduleJob)\s*\(\s*['\"`]([^'\"`]+)['\"`]"
+)
 _CRON_ARG = re.compile(r"cron\s*=\s*\"([^\"]+)\"")
 _RATE_ARG = re.compile(r"(fixedRate|fixedDelay)\s*=\s*(\d+)")
 _CRON_SETTING = re.compile(
@@ -69,6 +76,9 @@ def _hint_in_text(text: str, lang: str) -> tuple[str, int] | None:
             r = _RATE_ARG.search(args)
             if r:
                 return f"Runs every {int(r.group(2)) // 1000} s (@Scheduled {r.group(1)})", no
+        m = _NODE_CRON.search(line) if lang in ("typescript", "javascript") else None
+        if m and len(m.group(1).split()) >= 5:
+            return f'{_cron_text(m.group(1))} (cron "{m.group(1)}")', no
         m = _CRON_SETTING.search(line)
         if m and lang in ("xml", "properties", "yaml", "java"):
             expr = m.group(1).strip()

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<domain xmlns="http://xmlns.oracle.com/weblogic/domain">
+  <name>portal_domain</name>
+  <domain-version>12.2.1.4.0</domain-version>
+  <server>
+    <name>portal_server1</name>
+    <listen-port>7001</listen-port>
+  </server>
+  <app-deployment>
+    <name>legacy-portal</name>
+    <target>portal_server1</target>
+    <source-path>/u01/apps/legacy-portal.war</source-path>
+  </app-deployment>
+</domain>

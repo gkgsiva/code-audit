@@ -300,3 +300,42 @@ def test_maven_versions_resolve_through_the_parent_chain() -> None:
     assert libs == {("spring-webmvc", "3.2.18.RELEASE"), ("log4j", "1.2.17")}
     tech = {(t.name, t.version) for t in result.entities["tech_stack"]}  # type: ignore[attr-defined]
     assert {("Spring Framework", "3.2.18.RELEASE"), ("Log4j 1", "1.2.17")} <= tech
+
+
+SPA_SERVER = """import express from 'express';
+import { ordersRouter } from './orders';
+const app = express();
+app.use('/api/orders', ordersRouter);
+app.listen(3000);
+"""
+SPA_ORDERS = """import { Router } from 'express';
+export const ordersRouter = Router();
+ordersRouter.get('/:id', (req, res) => res.json({}));
+"""
+SPA_COMPONENT = """import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+@Component({ selector: 'app-order', templateUrl: './order.component.html' })
+export class OrderComponent {
+  constructor(private http: HttpClient) {}
+  load(id: string) { return this.http.get(`/api/orders/${id}`); }
+}
+export const routes = [{ path: 'order/:id', component: OrderComponent }];
+"""
+
+
+def test_spa_screens_and_calls_to_mounted_express_routes() -> None:
+    result = estate(
+        {
+            "api/src/server.ts": SPA_SERVER,
+            "api/src/orders.ts": SPA_ORDERS,
+            "web/src/app/order.component.ts": SPA_COMPONENT,
+            "web/src/app/order.component.html": '<div><input [(ngModel)]="id"></div>',
+        }
+    )
+    services = sorted(s.name for s in result.entities["services"])  # type: ignore[attr-defined]
+    assert services == ["GET /api/orders/:id"]
+    screens = {s.name: s.partial for s in result.entities["screens"]}  # type: ignore[attr-defined]
+    assert screens == {"web/src/app/order.component.html": False}
+    assert ("calls", "web/src/app/order.component.ts", "GET /api/orders/:id", True) in _edges(
+        result
+    )

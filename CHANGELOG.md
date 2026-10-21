@@ -6,6 +6,20 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
+
+- Angular and AngularJS front ends (component type `frontend`) and Node.js APIs with Express
+  or NestJS (type `api`) are audited like the Java parts: lines of code, screens (routed
+  pages), API routes, which page calls which route, SQL and ORM calls, database connections,
+  outbound HTTP calls, node-cron and NestJS scheduled jobs, complexity, npm libraries from
+  `package.json` and lock files (for OSV-Scanner) and the Node.js version.
+- Minified and bundled JavaScript is skipped and reported, like build output.
+- Application and web servers (WebLogic, WebSphere, Liberty, JBoss/WildFly, Tomcat, Apache,
+  IHS, Nginx, IIS...) are found in descriptors, server configuration, Dockerfiles and scripts,
+  with versions and end of life, and listed in the technical report, the summary report and
+  the management deck.
+- New sample `samples/angular-node-app`; VS Code task 26 (`scripts/show_web_stack.py`).
+
 ### Dependency vulnerabilities in the summary report (2026-10-21)
 
 - The summary report has a fifth part, **Dependency vulnerabilities**: tiles, charts (by

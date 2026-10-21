@@ -2,6 +2,9 @@
 complexity: 1 + the number of decision points, counted per language.
 
 - Java: ``if``, loops, ``case`` labels (not ``default``), ``catch``, ``?:``, ``&&``, ``||``.
+- TypeScript/JavaScript: per function, method or arrow function (a short arrow function used
+  as an argument, ``x => x.id``, is part of its enclosing unit): the same decision points as
+  Java, plus ``??``.
 - C/C++/Pro*C: the same, with ``case`` statements and range ``for``.
 - COBOL: per paragraph or section: ``IF``, ``WHEN`` (not ``WHEN OTHER``), ``UNTIL``, ``AND``,
   ``OR``, and the conditional phrases ``AT END``, ``INVALID KEY``, ``ON SIZE ERROR``,
@@ -20,6 +23,7 @@ from collections.abc import Iterator
 import tree_sitter_c
 import tree_sitter_cpp
 import tree_sitter_java
+import tree_sitter_typescript
 from tree_sitter import Language, Node, Parser
 
 from legacy_audit.model import CodeUnit
@@ -27,6 +31,8 @@ from legacy_audit.model import CodeUnit
 _JAVA = Language(tree_sitter_java.language())
 _C = Language(tree_sitter_c.language())
 _CPP = Language(tree_sitter_cpp.language())
+_TS = Language(tree_sitter_typescript.language_typescript())
+_TSX = Language(tree_sitter_typescript.language_tsx())
 _PARSERS: dict[str, Parser] = {}
 
 JAVA_UNITS = {"method_declaration", "constructor_declaration", "compact_constructor_declaration"}
@@ -51,10 +57,31 @@ C_DECISIONS = {
 }
 
 
+TS_UNITS = {
+    "function_declaration",
+    "generator_function_declaration",
+    "method_definition",
+    "function_expression",
+    "arrow_function",
+}
+TS_DECISIONS = {
+    "if_statement",
+    "for_statement",
+    "for_in_statement",
+    "while_statement",
+    "do_statement",
+    "catch_clause",
+    "ternary_expression",
+    "switch_case",
+}
+
+
 def _parser(lang: str) -> Parser:
     p = _PARSERS.get(lang)
     if p is None:
-        p = _PARSERS[lang] = Parser({"java": _JAVA, "c": _C, "cpp": _CPP}[lang])
+        p = _PARSERS[lang] = Parser(
+            {"java": _JAVA, "c": _C, "cpp": _CPP, "ts": _TS, "tsx": _TSX}[lang]
+        )
     return p
 
 
@@ -66,7 +93,7 @@ def _is_logical(node: Node) -> bool:
     if node.type != "binary_expression":
         return False
     op = node.child_by_field_name("operator")
-    return op is not None and op.type in ("&&", "||")
+    return op is not None and op.type in ("&&", "||", "??")
 
 
 def _decisions(node: Node, kinds: set[str], units: set[str]) -> int:
@@ -113,6 +140,85 @@ def _name(node: Node, text: bytes) -> str:
         return text[decl.start_byte : decl.end_byte].decode("utf-8", "replace") if decl else "?"
     name = node.child_by_field_name("name")
     return text[name.start_byte : name.end_byte].decode("utf-8", "replace") if name else "?"
+
+
+def _ts_name(node: Node, text: bytes) -> str | None:
+    """Name of a TypeScript/JavaScript unit; None for an anonymous function that is part of
+    its enclosing unit (a callback passed as an argument)."""
+    name = node.child_by_field_name("name")
+    if name is not None:
+        return text[name.start_byte : name.end_byte].decode("utf-8", "replace")
+    parent = node.parent
+    if parent is None:
+        return None
+    if parent.type in ("variable_declarator", "public_field_definition", "pair",
+                       "assignment_expression"):  # fmt: skip
+        key = (
+            parent.child_by_field_name("name")
+            or parent.child_by_field_name("key")
+            or parent.child_by_field_name("left")
+        )
+        if key is not None:
+            return text[key.start_byte : key.end_byte].decode("utf-8", "replace")
+    if parent.type == "array" and parent.parent is not None:  # ['$scope', function (...) {}]
+        parent = parent.parent
+    if parent.type == "arguments" and node.end_point[0] - node.start_point[0] >= 2:
+        # router.get('/x', async (req, res) => {...}) -> "get /x";
+        # .controller('AccountsCtrl', [...]) -> "controller AccountsCtrl"
+        call = parent.parent
+        fn = call.child_by_field_name("function") if call is not None else None
+        label = text[fn.start_byte : fn.end_byte].decode("utf-8", "replace") if fn else ""
+        label = label.rsplit(".", 1)[-1] or "callback"
+        first = next((c for c in parent.named_children), None)
+        if first is not None and first.type == "string" and first is not node:
+            value = text[first.start_byte + 1 : first.end_byte - 1].decode("utf-8", "replace")
+            return f"{label} {value}"
+        return f"{label} callback"
+    return None
+
+
+def ts_units(code: str, path: str) -> list[CodeUnit]:
+    """Units of TypeScript or JavaScript code: named functions, methods, and arrow functions
+    or function expressions that are assigned or are multi-line callbacks."""
+    tsx = not path.lower().endswith((".ts", ".mts", ".cts"))
+    data = code.encode("utf-8")
+    tree = _parser("tsx" if tsx else "ts").parse(data)
+    lines = code.splitlines()
+    named: list[tuple[Node, str]] = []
+    for node in _walk(tree.root_node, TS_UNITS):
+        name = _ts_name(node, data)
+        if name is not None:
+            named.append((node, name))
+    keep = {n.id for n, _ in named}
+    out = []
+    for node, name in named:
+        start, end = node.start_point[0] + 1, node.end_point[0] + 1
+        out.append(
+            CodeUnit(
+                name=name,
+                kind="method" if node.type == "method_definition" else "function",
+                line=start,
+                end_line=end,
+                loc=_nonblank(lines, start, end),
+                cyclomatic=1 + _ts_decisions(node, keep),
+            )
+        )
+    return sorted(out, key=lambda u: (u.line, u.name))
+
+
+def _ts_decisions(node: Node, units: set[int]) -> int:
+    """Decision points of a unit, not counting those of the units nested in it (anonymous
+    one-line callbacks are part of the unit)."""
+    count = 0
+    stack = list(node.children)
+    while stack:
+        n = stack.pop()
+        if n.id in units or n.type == "class_body":
+            continue
+        if n.type in TS_DECISIONS or _is_logical(n):
+            count += 1
+        stack.extend(n.children)
+    return count
 
 
 def tree_units(code: str, language: str) -> list[CodeUnit]:
