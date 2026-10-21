@@ -397,9 +397,8 @@ class _Visitor:
         t = node.child_by_field_name("type")
         name = _txt(node.child_by_field_name("name"))
         if t is not None and t.type == "generic_name" and _txt(t.children[0]) == "DbSet":
-            entity = _type_name(t.child_by_field_name("type_arguments") or
-                                next((c for c in t.children if c.type == "type_argument_list"),
-                                     None)).strip("<> ")  # fmt: skip
+            args = next((c for c in t.children if c.type == "type_argument_list"), None)
+            entity = _type_name(args.named_children[0]) if args and args.named_children else name
             self.facts.symbol("jpa-entity", name, self.path, _line(node),
                               data={"table": entity.upper(), "entity": entity, "orm": "ef"})  # fmt: skip
         for acc in node.named_children:

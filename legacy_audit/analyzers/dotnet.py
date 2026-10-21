@@ -454,7 +454,10 @@ def _project(path: str, name: str, text: str, facts: Facts) -> None:
     out = props.get("OutputType", ("Library" if sdk else "", None))
     assembly = props.get("AssemblyName", (posixpath.basename(path).rsplit(".", 1)[0], None))[0]
     kind = None
-    if out[0].lower() == "winexe" or (
+    ui = kinds.keys() & {"Windows Forms", "WPF", "WinUI"}
+    if "Windows Service" in kinds and not ui and out[0].lower() in ("winexe", "exe"):
+        kind = "windows-service"
+    elif out[0].lower() == "winexe" or (
         out[0].lower() == "exe" and kinds.keys() & {"Windows Forms", "WPF", "WinUI"}
     ):
         kind = "desktop-app"
@@ -680,6 +683,15 @@ def _layout(path: str, language: str, text: str, facts: Facts) -> None:
     facts.symbol("desktop-form", name, path, line_of(root), owner=sid)
     if cls and language == "fxml":
         facts.symbol("desktop-form", cls, path, line_of(root), owner=sid)
+        facts.ref(
+            kind="uses",
+            source=f"screen:{sid}",
+            source_label=name,
+            target=cls,
+            target_kinds=["java-class"],
+            file=path,
+            line=line_of(root),
+        )
 
 
 def _aspx(path: str, text: str, facts: Facts, dialect: str | None) -> None:

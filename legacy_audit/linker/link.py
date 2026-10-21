@@ -433,6 +433,7 @@ class _Linker:
         self._job_components(jobs, outgoing)
         self._reach(services, job_service, sql, integrations, outgoing)
         self._components(services, screens, sql, jobs, entry_points, integrations)
+        entry_points = _project_entries(entry_points)
 
         out: dict[str, list[Fact]] = {
             "entry_points": _sorted(entry_points, lambda x: (x.file, x.line or 0, x.name)),
@@ -855,6 +856,24 @@ class _Linker:
             ep.component = self.comp(ep.file)
         for it in integrations:
             it.components = sorted({c for f in it.source_files if (c := self.comp(f))})
+
+
+def _project_entries(entries: list[EntryPoint]) -> list[EntryPoint]:
+    """A .NET project file marks a desktop application or Windows service (OutputType); when its
+    code also names the start-up (App.xaml, Main, a ServiceBase class), that is the same entry."""
+    coded = {
+        (ep.component, ep.kind)
+        for ep in entries
+        if not ep.file.lower().endswith(PROJECT_FILES)
+    }
+    return [
+        ep
+        for ep in entries
+        if not (ep.file.lower().endswith(PROJECT_FILES) and (ep.component, ep.kind) in coded)
+    ]
+
+
+PROJECT_FILES = (".csproj", ".vbproj")
 
 
 def _typed(entities: dict[str, list[Fact]], name: str, model: type[F]) -> list[F]:
