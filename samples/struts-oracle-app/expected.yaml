@@ -71,8 +71,8 @@ counts:
   stored_procedures: 1
   db_objects: {package: 1, table: 4}
   integrations:
-    total: 4
-    by_type: {DB: 1, SMTP: 1, SOAP: 2}
+    total: 3
+    by_type: {DB: 1, SMTP: 1, SOAP: 1}
   batch_jobs:
     total: 0
     scheduled: 0
@@ -98,7 +98,6 @@ screens:
 integrations:
 - DB oracle://ordersdb01.acme.local:1521/ORDP [outbound]
 - SMTP smtp.acme.local [outbound]
-- SOAP http://pricing.acme.com [outbound]
 - SOAP http://pricing.acme.local:8080/axis/services/PricingService [outbound]
 batch_jobs: []
 unresolved_references: 1

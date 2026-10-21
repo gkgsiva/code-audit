@@ -29,6 +29,7 @@ from legacy_audit.analyzers.spring import SpringAnalyzer
 from legacy_audit.analyzers.sql import SqlAnalyzer
 from legacy_audit.analyzers.typescript import TypeScriptAnalyzer
 from legacy_audit.analyzers.web import WebAnalyzer
+from legacy_audit.analyzers.websvc import WebServicesAnalyzer
 
 for _analyzer in (
     BuildAnalyzer(),
@@ -48,6 +49,7 @@ for _analyzer in (
     MqAnalyzer(),
     CftAnalyzer(),
     ServersAnalyzer(),
+    WebServicesAnalyzer(),
     MetricsAnalyzer(),
     PatternsAnalyzer(),
 ):

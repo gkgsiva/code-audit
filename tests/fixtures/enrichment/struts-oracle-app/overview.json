@@ -27,12 +27,12 @@
     {
       "label": "Integrations",
       "metric": "counts.integrations.total",
-      "value": 4
+      "value": 3
     },
     {
       "label": "Effort (likely)",
       "metric": "effort.likely",
-      "value": 68.2,
+      "value": 64.2,
       "unit": "person-days"
     }
   ],

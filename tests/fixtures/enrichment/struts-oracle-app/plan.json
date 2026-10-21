@@ -69,19 +69,19 @@
     {
       "label": "Low",
       "metric": "effort.low",
-      "value": 36.5,
+      "value": 34.5,
       "unit": "person-days"
     },
     {
       "label": "Likely",
       "metric": "effort.likely",
-      "value": 68.2,
+      "value": 64.2,
       "unit": "person-days"
     },
     {
       "label": "High",
       "metric": "effort.high",
-      "value": 129.4,
+      "value": 121.4,
       "unit": "person-days"
     }
   ],

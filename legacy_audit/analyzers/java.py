@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field, replace
-from typing import ClassVar
+from typing import Any, ClassVar
 
 import tree_sitter_java
 from tree_sitter import Language, Node, Parser
@@ -20,6 +20,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.dynsql import fill
 from legacy_audit.analyzers.integrations import classify_url, integration, parse_jdbc
 from legacy_audit.analyzers.sqltools import hole_kind, looks_like_hql, looks_like_sql, sql_fact
+from legacy_audit.analyzers.websvc import called
 from legacy_audit.model import EntryPoint, Evidence, FileRecord, Service, make_id
 
 _LANG = Language(tree_sitter_java.language())
@@ -94,6 +95,40 @@ SOAP_IMPORTS = (
     "org.springframework.ws",
     "org.apache.cxf",
 )
+REST_VERBS = {"GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"}
+REST_TEMPLATE = {
+    "getForObject": "GET",
+    "getForEntity": "GET",
+    "postForObject": "POST",
+    "postForEntity": "POST",
+    "postForLocation": "POST",
+    "put": "PUT",
+    "delete": "DELETE",
+    "patchForObject": "PATCH",
+    "headForHeaders": "HEAD",
+    "optionsForAllow": "OPTIONS",
+    "exchange": "ANY",
+    "execute": "ANY",
+}
+WS_TEMPLATE_METHODS = {
+    "marshalSendAndReceive",
+    "sendSourceAndReceiveToResult",
+    "sendSourceAndReceive",
+    "sendAndReceive",
+}
+HTTP_CLIENT_TYPES = {
+    "HttpGet": "GET",
+    "HttpPost": "POST",
+    "HttpPut": "PUT",
+    "HttpDelete": "DELETE",
+    "HttpPatch": "PATCH",
+    "HttpHead": "HEAD",
+    "HttpOptions": "OPTIONS",
+    "GetMethod": "GET",
+    "PostMethod": "POST",
+    "PutMethod": "PUT",
+    "DeleteMethod": "DELETE",
+}
 MQ_IMPORTS = ("com.ibm.mq", "javax.jms", "jakarta.jms", "org.springframework.jms")
 JAVAX_EE = re.compile(
     r"^javax\.(servlet|ejb|persistence|jms|mail|faces|ws|xml\.ws|xml\.bind|annotation|"
@@ -201,6 +236,22 @@ def _txt(node: Node | None) -> str:
     return node.text.decode("utf-8", "replace") if node is not None and node.text else ""
 
 
+def _soap_framework(imports: list[str]) -> str:
+    for prefix, name in (
+        ("org.apache.axis2", "Apache Axis2"),
+        ("org.apache.axis", "Apache Axis"),
+        ("org.apache.cxf", "Apache CXF"),
+        ("org.springframework.ws", "Spring-WS"),
+    ):
+        if any(i.startswith(prefix) for i in imports):
+            return name
+    return "JAX-WS client"
+
+
+def _join_path(*parts: str) -> str:
+    return "/" + "/".join(p.strip("/") for p in parts if p.strip("/"))
+
+
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
     version: ClassVar[str] = "4"  # 4: fragments keyed by position (deterministic)
@@ -254,6 +305,13 @@ class _Visitor:
         self.used_as_fragment: set[tuple[int, int]] = set()
         self.type_names: set[str] = set()
         self.dialect = ctx.config.sql.dialect
+        # Web service clients: the class being walked, a base URL set on a client builder,
+        # SOAP calls whose address and operations are set on separate lines, and the
+        # namespace arguments of QName (namespaces, not endpoints).
+        self.cur_class: _ClassInfo | None = None
+        self.ws_base: str | None = None
+        self.ws_soap: list[dict[str, Any]] = []
+        self.qname_ns: set[int] = set()
 
     # ---- driving ------------------------------------------------------------------------------
     def _type_references(self, root: Node) -> None:
@@ -289,6 +347,7 @@ class _Visitor:
         self._type_references(root)
         self._imports_and_signals()
         self._emit_sql()
+        self._ws_finish()
         self._class_refs()
 
     # ---- classes ----------------------------------------------------------------------------
@@ -457,6 +516,7 @@ class _Visitor:
         if body is not None:
             local: dict[str, _Expr] = {}
             self.var_keys = {}
+            self.cur_class = cls
             self._scan(body, local, cls=cls)
 
     def _services(
@@ -471,31 +531,39 @@ class _Visitor:
         ca = cls.annotations
         public = "public" in mods_text or cls.is_interface
         handler = f"{cls.fqn}.{name}"
-        # Spring MVC
+        # Web service clients declared as interfaces (Feign, MicroProfile, Retrofit)
+        if self._client_interface(cls, name, line, ann, handler):
+            return
+        # Spring MVC (a REST operation when it returns data, not a view)
         if {"Controller", "RestController"} & set(ca):
+            rtype = _txt(node.child_by_field_name("type"))
+            rest = (
+                "RestController" in ca
+                or "ResponseBody" in ca
+                or "ResponseBody" in ann
+                or rtype.startswith(("ResponseEntity", "HttpEntity", "Mono", "Flux"))
+            )
             for a, verb in MAPPING_ANNOTATIONS.items():
                 if a in ann:
-                    base = ca.get("RequestMapping", {}).get("value") or ca.get(
-                        "RequestMapping", {}
-                    ).get("path", "")
                     sub = ann[a].get("value") or ann[a].get("path", "")
                     method = verb or ann[a].get("method", "").rsplit(".", 1)[-1] or "ANY"
-                    url = "/" + "/".join(p.strip("/") for p in (base, sub) if p.strip("/"))
-                    self._service(f"{method} {url}", "spring-handler", handler, url, line)
+                    url = _join_path(self._base_path(ca), sub)
+                    self._service(
+                        f"{method} {url}", "spring-handler", handler, url, line,
+                        protocol="REST" if rest else None,
+                        framework="Spring MVC" if rest else None,
+                        web_service=cls.name if rest else None,
+                    )  # fmt: skip
                     self._views(node, f"service:{handler}")
         # JAX-RS
         if "Path" in ca or "Path" in ann:
             verbs = JAXRS_METHODS & set(ann)
             if verbs:
-                url = "/" + "/".join(
-                    p.strip("/")
-                    for p in (
-                        ca.get("Path", {}).get("value", ""),
-                        ann.get("Path", {}).get("value", ""),
-                    )
-                    if p.strip("/")
-                )
-                self._service(f"{sorted(verbs)[0]} {url}", "rest-operation", handler, url, line)
+                url = _join_path(ca.get("Path", {}).get("value", ""),
+                                 ann.get("Path", {}).get("value", ""))  # fmt: skip
+                self._service(f"{sorted(verbs)[0]} {url}", "rest-operation", handler, url, line,
+                              protocol="REST", framework="JAX-RS",
+                              web_service=cls.name)  # fmt: skip
         # JAX-WS
         if (
             "WebService" in ca
@@ -504,7 +572,34 @@ class _Visitor:
             and ("WebMethod" in ann or not any("WebMethod" in str(x) for x in ca))
             and ann.get("WebMethod", {}).get("exclude") != "true"
         ):
-            self._service(f"{cls.name}.{name}", "soap-operation", handler, None, line)
+            ws = ca["WebService"]
+            self._service(f"{cls.name}.{name}", "soap-operation", handler, None, line,
+                          protocol="SOAP", framework="JAX-WS",
+                          web_service=ws.get("serviceName") or ws.get("name") or cls.name,
+                          )  # fmt: skip
+        # Spring Web Services endpoints
+        if "Endpoint" in ca and {"PayloadRoot", "SoapAction", "Action"} & set(ann) and any(
+            i.startswith("org.springframework.ws") for i in self.imports
+        ):
+            op = (
+                ann.get("PayloadRoot", {}).get("localPart")
+                or ann.get("SoapAction", {}).get("value", "").rsplit("/", 1)[-1]
+                or name
+            )
+            self._service(f"{cls.name}.{op}", "soap-operation", handler, None, line,
+                          protocol="SOAP", framework="Spring-WS", web_service=cls.name)  # fmt: skip
+        # Apache Axis instant deployment (.jws): every public method of the class
+        if (
+            self.path.lower().endswith(".jws")
+            and "public" in mods_text
+            and "static" not in mods_text
+            and name != cls.name
+            and cls is self.classes[0]
+        ):
+            stem = self.path.rsplit("/", 1)[-1].rsplit(".", 1)[0]
+            self._service(f"{stem}.{name}", "soap-operation", handler, f"/{stem}.jws", line,
+                          protocol="SOAP", framework="Apache Axis (JWS)",
+                          web_service=stem)  # fmt: skip
         # EJB (remote business methods)
         sup = {s.rsplit(".", 1)[-1] for s in cls.supertypes}
         if (
@@ -520,7 +615,62 @@ class _Visitor:
             url = ann["Action"].get("value", name)
             self._service(url, "struts-action", handler, url, line)
 
-    def _service(self, name: str, kind: str, handler: str, url: str | None, line: int) -> None:
+    @staticmethod
+    def _base_path(ca: dict[str, dict[str, str]]) -> str:
+        rm = ca.get("RequestMapping", {})
+        return rm.get("value") or rm.get("path", "")
+
+    def _client_interface(
+        self,
+        cls: _ClassInfo,
+        name: str,
+        line: int,
+        ann: dict[str, dict[str, str]],
+        handler: str,
+    ) -> bool:
+        """A method of a declarative REST client (Feign, MicroProfile REST Client, Retrofit):
+        an operation the application calls, never one it offers. True when it was one."""
+        ca = cls.annotations
+        if "FeignClient" in ca:
+            fc = ca["FeignClient"]
+            client = fc.get("name") or fc.get("value") or cls.name
+            for a, verb in MAPPING_ANNOTATIONS.items():
+                if a in ann:
+                    sub = ann[a].get("value") or ann[a].get("path", "")
+                    method = verb or ann[a].get("method", "").rsplit(".", 1)[-1] or "ANY"
+                    path = _join_path(fc.get("path", ""), self._base_path(ca), sub)
+                    self._ws_called("REST", client, "Feign", line, url=fc.get("url", "") + path,
+                                    method=method, handler=handler)  # fmt: skip
+            return True
+        if "RegisterRestClient" in ca:
+            rc = ca["RegisterRestClient"]
+            verbs = JAXRS_METHODS & set(ann)
+            if verbs:
+                path = _join_path(ca.get("Path", {}).get("value", ""),
+                                  ann.get("Path", {}).get("value", ""))  # fmt: skip
+                self._ws_called("REST", rc.get("configKey") or cls.name, "MicroProfile REST Client",
+                                line, url=rc.get("baseUri", "") + path, method=sorted(verbs)[0],
+                                handler=handler)  # fmt: skip
+            return True
+        if cls.is_interface and any(i.startswith("retrofit2") for i in self.imports):
+            for verb in sorted(JAXRS_METHODS & set(ann)):
+                self._ws_called("REST", cls.name, "Retrofit", line,
+                                url=ann[verb].get("value", ""), method=verb,
+                                handler=handler)  # fmt: skip
+            return True
+        return False
+
+    def _service(
+        self,
+        name: str,
+        kind: str,
+        handler: str,
+        url: str | None,
+        line: int,
+        protocol: str | None = None,
+        framework: str | None = None,
+        web_service: str | None = None,
+    ) -> None:
         sid = make_id("service", kind, self.path, name)
         self.facts.add(
             "services",
@@ -531,6 +681,9 @@ class _Visitor:
                 file=self.path,
                 handler=handler,
                 url=url,
+                protocol=protocol,
+                framework=framework,
+                web_service=web_service,
                 evidence=[Evidence(file=self.path, line=line)],
             ),
         )
@@ -893,6 +1046,7 @@ class _Visitor:
             elif name in JDBC_METHODS:
                 first.source = "jdbc"
         line = n.start_point[0] + 1
+        self._ws_call(n, name, obj, argv, local, line)
         if name == "accessQueue" and first is not None:
             opts = " ".join(_txt(a) for a in argv[1:2])
             role = (
@@ -958,6 +1112,283 @@ class _Visitor:
                 ),
             )
 
+    # ---- web service clients ----------------------------------------------------------------
+    def _ws_called(
+        self,
+        style: str,
+        name: str,
+        framework: str,
+        line: int,
+        url: str | None = None,
+        method: str | None = None,
+        op: str | None = None,
+        handler: str | None = None,
+        wsdl: str | None = None,
+        namespace: str | None = None,
+    ) -> None:
+        if url and "://" not in url and self.ws_base and style == "REST":
+            url = self.ws_base.rstrip("/") + "/" + url.lstrip("/")
+        self.facts.add(
+            "web_services",
+            called(style=style, name=name, framework=framework, file=self.path, line=line,
+                   url=url, op=op, method=method, handler=handler, wsdl=wsdl,
+                   namespace=namespace),
+        )  # fmt: skip
+
+    def _url_arg(self, node: Node | None, local: dict[str, _Expr]) -> str | None:
+        """The text of a URL argument: a string expression, ``new URL(x)``, ``new URI(x)`` or
+        ``URI.create(x)``; parts only known at run time are ``?``. None when not text."""
+        if node is None:
+            return None
+        if node.type == "object_creation_expression":
+            typ = _txt(node.child_by_field_name("type")).rsplit(".", 1)[-1]
+            args = node.child_by_field_name("arguments")
+            if typ in ("URL", "URI") and args is not None and args.named_children:
+                return self._url_arg(args.named_children[0], local)
+            return None
+        if node.type == "method_invocation" and _txt(node.child_by_field_name("name")) in (
+            "create",
+            "toURI",
+        ):
+            args = node.child_by_field_name("arguments")
+            if args is not None and args.named_children:
+                return self._url_arg(args.named_children[0], local)
+        e = self._arg_expr(node, local)
+        if e is not None:
+            return e.text.strip()
+        return "?" if node.type in ("identifier", "method_invocation", "field_access") else None
+
+    @staticmethod
+    def _chain_up(n: Node) -> list[tuple[str, list[Node]]]:
+        """Calls chained after ``n`` (``n.request().post(...)``): (name, arguments) in order."""
+        out: list[tuple[str, list[Node]]] = []
+        cur = n
+        while cur.parent is not None and cur.parent.type == "method_invocation" and (
+            cur.parent.child_by_field_name("object") == cur
+        ):
+            cur = cur.parent
+            args = cur.child_by_field_name("arguments")
+            out.append((_txt(cur.child_by_field_name("name")),
+                        list(args.named_children) if args is not None else []))  # fmt: skip
+        return out
+
+    @staticmethod
+    def _chain_down(n: Node) -> list[str]:
+        """Names of the calls ``n`` is chained on (``client.get().uri(...)`` -> [get])."""
+        out: list[str] = []
+        cur = n.child_by_field_name("object")
+        while cur is not None and cur.type == "method_invocation":
+            out.append(_txt(cur.child_by_field_name("name")))
+            cur = cur.child_by_field_name("object")
+        return out
+
+    def _verb(self, names: list[str], argvs: list[list[Node]] | None = None) -> str | None:
+        for i, nm in enumerate(names):
+            if nm.upper() in REST_VERBS and (nm.islower() or nm.isupper()):
+                return nm.upper()
+            if nm == "method" and argvs and argvs[i]:
+                v = _txt(argvs[i][0]).rsplit(".", 1)[-1].strip('"').upper()
+                if v in REST_VERBS:
+                    return v
+        return None
+
+    def _client_name(self) -> str:
+        return self.cur_class.name if self.cur_class else self.path.rsplit("/", 1)[-1]
+
+    def _ws_call(
+        self, n: Node, name: str, obj: str, argv: list[Node], local: dict[str, _Expr], line: int
+    ) -> None:
+        imports = self.imports
+        first = argv[0] if argv else None
+        handler = self.cur_class.fqn if self.cur_class else None
+        # Spring RestTemplate / RestOperations
+        if name in REST_TEMPLATE and re.search(r"(?i)rest", obj) and first is not None:
+            verb = REST_TEMPLATE[name]
+            if name == "exchange" and len(argv) > 1:
+                verb = _txt(argv[1]).rsplit(".", 1)[-1].upper()
+            url = self._url_arg(first, local)
+            if url is not None:
+                self._ws_called("REST", self._client_name(), "RestTemplate", line, url=url,
+                                method=verb if verb in REST_VERBS else None,
+                                handler=handler)  # fmt: skip
+            return
+        # Base URL of a client builder (WebClient, RestClient, RestTemplateBuilder, Retrofit)
+        if name in ("baseUrl", "rootUri") or (
+            name == "create" and obj in ("WebClient", "RestClient")
+        ):
+            url = self._url_arg(first, local)
+            if url and "://" in url:
+                self.ws_base = url
+            return
+        # Spring WebClient / RestClient: client.get().uri("/x")
+        if name == "uri" and first is not None and any(
+            i.startswith(("org.springframework.web.reactive", "org.springframework.web.client"))
+            for i in imports
+        ):
+            verb = self._verb(self._chain_down(n)) or "ANY"
+            url = self._url_arg(first, local)
+            if url is not None:
+                fw = "RestClient" if any(i.endswith("RestClient") for i in imports) else "WebClient"
+                self._ws_called("REST", self._client_name(), fw, line, url=url, method=verb,
+                                handler=handler)  # fmt: skip
+            return
+        # JAX-RS client: client.target("http://...").path("x").request().get()
+        if name == "target" and first is not None and any(
+            i.startswith(("javax.ws.rs.client", "jakarta.ws.rs.client")) for i in imports
+        ):
+            chain = self._chain_up(n)
+            url = self._url_arg(first, local) or "?"
+            for nm, a in chain:
+                if nm == "path" and a:
+                    url = url.rstrip("/") + "/" + (self._url_arg(a[0], local) or "?").lstrip("/")
+            verb = self._verb([c[0] for c in chain], [c[1] for c in chain]) or "ANY"
+            self._ws_called("REST", self._client_name(), "JAX-RS client", line, url=url,
+                            method=verb, handler=handler)  # fmt: skip
+            return
+        # java.net.http.HttpClient: HttpRequest.newBuilder(URI.create(u)) / .uri(URI.create(u))
+        if (
+            ((name == "newBuilder" and obj.endswith("HttpRequest")) or name == "uri")
+            and first is not None
+            and any(i.startswith("java.net.http") for i in imports)
+        ):
+            url = self._url_arg(first, local)
+            chain = self._chain_up(n)
+            if url is not None:
+                verb = self._verb([c[0] for c in chain], [c[1] for c in chain]) or "GET"
+                self._ws_called("REST", self._client_name(), "java.net.http.HttpClient", line,
+                                url=url, method=verb, handler=handler)  # fmt: skip
+            return
+        # OkHttp: new Request.Builder().url("...").post(body)
+        if name == "url" and first is not None and any("okhttp" in i for i in imports):
+            url = self._url_arg(first, local)
+            chain = self._chain_up(n)
+            if url is not None:
+                verb = self._verb([c[0] for c in chain], [c[1] for c in chain]) or "GET"
+                self._ws_called("REST", self._client_name(), "OkHttp", line, url=url,
+                                method=verb, handler=handler)  # fmt: skip
+            return
+        soap = any(i.startswith(SOAP_IMPORTS) for i in imports)
+        # Apache Axis dynamic call, CXF proxy factory, Spring WebServiceTemplate
+        if soap and name in ("setTargetEndpointAddress", "setAddress", "setDefaultUri"):
+            url = self._url_arg(first, local)
+            if url:
+                self.ws_soap.append({"url": url, "ops": [], "name": None, "line": line,
+                                     "fw": _soap_framework(imports)})  # fmt: skip
+            return
+        if soap and name == "setOperationName" and first is not None:
+            op = None
+            if first.type == "object_creation_expression":
+                args = first.child_by_field_name("arguments")
+                qa = list(args.named_children) if args is not None else []
+                if qa:
+                    e = self._arg_expr(qa[-1], local)
+                    op = e.text if e is not None else None
+            else:
+                e = self._arg_expr(first, local)
+                op = e.text if e is not None else None
+            if op:
+                if not self.ws_soap:
+                    self.ws_soap.append({"url": None, "ops": [], "name": None, "line": line,
+                                         "fw": _soap_framework(imports)})  # fmt: skip
+                self.ws_soap[-1]["ops"].append((op, line))
+            return
+        if soap and name == "setServiceClass" and first is not None:
+            cls = _txt(first).removesuffix(".class").rsplit(".", 1)[-1]
+            if self.ws_soap and self.ws_soap[-1]["name"] is None:
+                self.ws_soap[-1]["name"] = cls
+            else:
+                self.ws_soap.append({"url": None, "ops": [], "name": cls, "line": line,
+                                     "fw": _soap_framework(imports)})  # fmt: skip
+            return
+        if (
+            name in WS_TEMPLATE_METHODS
+            and re.search(r"(?i)template|webservice", obj)
+            and any(i.startswith("org.springframework.ws") for i in imports)
+        ):
+            url = self._url_arg(first, local) if len(argv) > 1 else None
+            if url and "://" in url:
+                self._ws_called("SOAP", url.rstrip("/").rsplit("/", 1)[-1], "Spring-WS", line,
+                                url=url, handler=handler)  # fmt: skip
+            else:
+                self.ws_soap.append({"url": None, "ops": [], "name": None, "line": line,
+                                     "fw": "Spring-WS", "use": True})  # fmt: skip
+            return
+        # JAX-WS generated client: new XService().getXPort() / service.getPort(X.class)
+        if soap and re.match(r"^get\w*Port$", name):
+            o = n.child_by_field_name("object")
+            svc = ""
+            if o is not None and o.type == "object_creation_expression":
+                svc = _txt(o.child_by_field_name("type")).rsplit(".", 1)[-1]
+            elif name == "getPort" and first is not None:
+                svc = _txt(first).removesuffix(".class").rsplit(".", 1)[-1]
+            else:
+                svc = name[3:]
+            if svc:
+                self._ws_called("SOAP", svc, "JAX-WS client", line, handler=handler)
+
+    def _ws_new(self, typ: str, argv: list[Node], vals: list[_Expr | None], line: int) -> None:
+        if typ == "QName" and len(argv) >= 2:
+            a = argv[0]
+            self.qname_ns.add(a.start_byte)
+            if a.type == "identifier" and _txt(a) in self.constants:
+                self.qname_ns.add(self.constants[_txt(a)].node.start_byte)
+            return
+        verb = HTTP_CLIENT_TYPES.get(typ)
+        if verb and argv:
+            url = self._url_arg(argv[0], {})
+            if url is not None and any(
+                i.startswith(("org.apache.http", "org.apache.hc", "org.apache.commons.httpclient"))
+                for i in self.imports
+            ):
+                self._ws_called("REST", self._client_name(), "Apache HttpClient", line, url=url,
+                                method=verb)  # fmt: skip
+            return
+        if typ == "URL" and argv and "openConnection" in (self.ctx.text or ""):
+            parent = argv[0].parent.parent if argv[0].parent is not None else None
+            gp = parent.parent if parent is not None else None
+            if gp is not None and gp.type == "argument_list":
+                return  # an argument (setTargetEndpointAddress(new URL(...)))
+            url = self._url_arg(argv[0], {})
+            if url and url.lower().startswith(("http://", "https://")):
+                m = re.search(r'setRequestMethod\(\s*"(\w+)"', self.ctx.text or "")
+                self._ws_called("REST", self._client_name(), "HttpURLConnection", line, url=url,
+                                method=m.group(1).upper() if m else None)  # fmt: skip
+
+    def _ws_classes(self) -> None:
+        """Generated SOAP client classes: JAX-WS ``@WebServiceClient`` services and Apache Axis
+        locators and stubs. Their address is the ``*_address`` constant of an Axis locator."""
+        for cls in self.classes:
+            ann = cls.annotations
+            sup = {s.rsplit(".", 1)[-1] for s in cls.supertypes}
+            imports = self.imports
+            if "WebServiceClient" in ann:
+                w = ann["WebServiceClient"]
+                loc = w.get("wsdlLocation") or None
+                self._ws_called("SOAP", w.get("name") or cls.name, "JAX-WS client", cls.line,
+                                url=loc if loc and "://" in loc else None, wsdl=loc,
+                                namespace=w.get("targetNamespace"))  # fmt: skip
+            elif "Service" in sup and any(i.startswith("org.apache.axis.client") for i in imports):
+                address = next(
+                    (e.text for k, e in self.constants.items() if k.endswith("_address")), None
+                )
+                self._ws_called("SOAP", cls.name, "Apache Axis", cls.line, url=address)
+            elif "Stub" in sup and any(i.startswith("org.apache.axis.client") for i in imports):
+                self._ws_called("SOAP", cls.name, "Apache Axis", cls.line)
+
+    def _ws_finish(self) -> None:
+        self._ws_classes()
+        for call in self.ws_soap:
+            url = call["url"]
+            if not url and not call["ops"] and not call["name"] and not call.get("use"):
+                continue
+            name = call["name"] or (
+                url.rstrip("/").rsplit("/", 1)[-1].split("?", 1)[0] if url and "/" in url else ""
+            ) or self._client_name()
+            if not call["ops"]:
+                self._ws_called("SOAP", name, call["fw"], call["line"], url=url)
+            for op, line in call["ops"]:
+                self._ws_called("SOAP", name, call["fw"], line, url=url, op=op)
+
     def _jms_role(self) -> str | None:
         text = self.ctx.text or ""
         prod = re.search(r"createProducer|createSender|\.send\(|convertAndSend", text)
@@ -974,6 +1405,7 @@ class _Visitor:
         argv = list(args.named_children) if args is not None else []
         line = n.start_point[0] + 1
         vals = [self._eval(a) for a in argv]
+        self._ws_new(typ, argv, vals, line)
         if typ == "Socket" and len(argv) >= 2:
             host = vals[0].text if vals[0] and not vals[0].dynamic else "?"
             port = _txt(argv[1]) if argv[1].type == "decimal_integer_literal" else "?"
@@ -1046,6 +1478,8 @@ class _Visitor:
                 self._sql(text, e.line, e.source or "java-string", e.dynamic, expr=e)
             elif e.source in ("hql",) and looks_like_hql(text):
                 self._sql(text, e.line, "hql", e.dynamic, hql=True, expr=e)
+            if e.node.start_byte in self.qname_ns:
+                continue  # a QName namespace, not an endpoint
             if "://" in text or text.lower().startswith("jdbc:"):
                 for m in re.finditer(r"(jdbc:[^\s\"']+|[a-z]+://[^\s\"'<>]+)", text, re.I):
                     url = m.group(1)

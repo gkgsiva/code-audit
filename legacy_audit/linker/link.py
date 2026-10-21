@@ -33,6 +33,7 @@ from legacy_audit.linker.aggregate import (
     techs_from_libraries,
 )
 from legacy_audit.linker.maven import resolve_versions
+from legacy_audit.linker.websvc import build_web_services
 from legacy_audit.model import (
     BatchJob,
     CodeEdge,
@@ -51,6 +52,7 @@ from legacy_audit.model import (
     Severity,
     SqlStatement,
     TechItem,
+    WebService,
     make_id,
 )
 
@@ -429,6 +431,16 @@ class _Linker:
         self._job_components(jobs, outgoing)
         self._reach(services, job_service, sql, integrations, outgoing)
         self._components(services, screens, sql, jobs, entry_points, integrations)
+        by_id = {r.id: r.path for r in self.records}
+        web_services = build_web_services(
+            dedupe(_typed(ent, "web_services", WebService)),
+            services,
+            integrations,
+            self.symbols,
+            edges,
+            self.comp,
+            lambda node: node[5:] if node.startswith("file:") else by_id.get(node),
+        )
 
         out: dict[str, list[Fact]] = {
             "entry_points": _sorted(entry_points, lambda x: (x.file, x.line or 0, x.name)),
@@ -437,6 +449,7 @@ class _Linker:
             "sql_statements": _sorted(sql, lambda x: (x.file, x.line, x.fingerprint)),
             "db_objects": _sorted(db_objects, lambda x: (x.object_type, x.name)),
             "integrations": _sorted(integrations, lambda x: (x.type, x.target, x.direction)),
+            "web_services": list(web_services),
             "dependencies": _sorted(edges, lambda x: (x.kind, x.source, x.target)),
             "batch_jobs": _sorted(jobs, lambda x: (x.scheduler, x.name)),
             "libraries": _sorted(

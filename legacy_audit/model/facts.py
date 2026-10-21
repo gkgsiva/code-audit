@@ -130,6 +130,18 @@ class Service(Fact):
     file: str | None = None
     handler: str | None = Field(None, description="Class, method or program implementing it")
     url: str | None = Field(None, description="URL pattern or path, when it has one")
+    protocol: str | None = Field(
+        None,
+        description="REST or SOAP when the service is a web service operation; rest-operation, "
+        "soap-operation, node-route and nest-route are web services whatever this says",
+    )
+    framework: str | None = Field(
+        None, description="Spring MVC, JAX-RS, JAX-WS, Apache Axis, Apache Axis2, Spring-WS, ..."
+    )
+    web_service: str | None = Field(
+        None, description="Web service the operation belongs to (JAX-WS service name, Axis "
+        "service, controller); operations with the same one are listed together",
+    )
     screens: list[str] = Field(default_factory=list, description="Screens it renders")
     inputs: list[str] = Field(default_factory=list)
     outputs: list[str] = Field(default_factory=list)
@@ -251,6 +263,54 @@ class Integration(Fact):
         None,
         description="One sentence written by the scan from the type, target and usages; the "
         "Copilot enrichment (stage 12, interfaces) adds the business words",
+    )
+
+
+class WebOperation(FactModel):
+    """One operation of a web service: an HTTP method and path, or a SOAP operation."""
+
+    name: str
+    method: str | None = Field(None, description="GET, POST, ... (REST); None for SOAP")
+    path: str | None = Field(None, description="URL path (REST) or endpoint, when known")
+    handler: str | None = Field(None, description="Class and method implementing or calling it")
+    service_id: str | None = Field(None, description="The Service fact (offered operations)")
+    file: str | None = None
+    line: int | None = None
+
+
+class WebService(Fact):
+    """A REST or SOAP web service the application offers, or one it calls (decision 133)."""
+
+    name: str
+    style: str = Field(description="REST or SOAP")
+    side: str = Field(
+        description="offered (the application exposes it), called (it calls another system's "
+        "service) or contract (a WSDL file not yet matched; analyzers only)"
+    )
+    frameworks: list[str] = Field(
+        default_factory=list,
+        description="How it is offered or called: Spring MVC, JAX-RS, JAX-WS, Apache Axis, "
+        "Apache Axis2, Apache CXF, Spring-WS, Express, NestJS, WSDL, RestTemplate, WebClient, "
+        "Feign, HttpClient, libcurl, gSOAP, CICS, ...",
+    )
+    url: str | None = Field(None, description="Base path (offered) or endpoint address (called)")
+    wsdl: str | None = Field(None, description="WSDL file that describes it, when scanned")
+    namespace: str | None = Field(None, description="SOAP target namespace")
+    component: str | None = Field(None, description="Main component (offered: where it runs)")
+    components: list[str] = Field(default_factory=list)
+    files: list[str] = Field(default_factory=list, description="Files that define or call it")
+    operations: list[WebOperation] = Field(default_factory=list)
+    callers: list[str] = Field(
+        default_factory=list,
+        description="Files that call it: front-end or other code calling an offered service, "
+        "the client code of a called one",
+    )
+    integrations: list[str] = Field(
+        default_factory=list, description="Ids of the integrations it is reached through"
+    )
+    description: str | None = Field(
+        None, description="One sentence written by the scan; the Copilot enrichment adds the "
+        "business words (stage 12, web_services)",
     )
 
 
@@ -508,6 +568,7 @@ ENTITIES: dict[str, type[Fact]] = {
     "sql_statements": SqlStatement,
     "db_objects": DbObject,
     "integrations": Integration,
+    "web_services": WebService,
     "dependencies": CodeEdge,
     "batch_jobs": BatchJob,
     "libraries": Library,
@@ -529,6 +590,8 @@ SCHEMA_MODELS: dict[str, type[BaseModel]] = {
     "sql_statement": SqlStatement,
     "db_object": DbObject,
     "integration": Integration,
+    "web_service": WebService,
+    "web_operation": WebOperation,
     "code_edge": CodeEdge,
     "batch_job": BatchJob,
     "library": Library,
