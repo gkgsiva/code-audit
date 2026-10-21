@@ -11,12 +11,15 @@ from legacy_audit.analyzers.base import (
     registered,
     version_key,
 )
+from legacy_audit.analyzers.basic import BasicAnalyzer
 from legacy_audit.analyzers.build import BuildAnalyzer
 from legacy_audit.analyzers.c_cpp import CAnalyzer
 from legacy_audit.analyzers.cft import CftAnalyzer
 from legacy_audit.analyzers.cobol import CobolAnalyzer
 from legacy_audit.analyzers.config import ConfigAnalyzer
+from legacy_audit.analyzers.csharp import CSharpAnalyzer
 from legacy_audit.analyzers.deps import DepsAnalyzer
+from legacy_audit.analyzers.dotnet import DotnetAnalyzer
 from legacy_audit.analyzers.java import JavaAnalyzer
 from legacy_audit.analyzers.jcl import JclAnalyzer
 from legacy_audit.analyzers.metrics import MetricsAnalyzer
@@ -37,6 +40,9 @@ for _analyzer in (
     JavaAnalyzer(),
     WebAnalyzer(),
     TypeScriptAnalyzer(),
+    DotnetAnalyzer(),
+    BasicAnalyzer(),
+    CSharpAnalyzer(),
     SpringAnalyzer(),
     SqlAnalyzer(),
     ShellAnalyzer(),

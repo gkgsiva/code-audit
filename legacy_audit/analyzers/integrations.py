@@ -125,7 +125,12 @@ def classify_url(url: str, soap_hint: bool = False) -> tuple[str, str] | None:
     port = f":{parts.port}" if parts.port else ""
     path = parts.path.rstrip("/")
     if scheme in ("http", "https"):
-        soap = soap_hint or "/services/" in path.lower() or "wsdl" in (parts.query or "").lower()
+        soap = (
+            soap_hint
+            or "/services/" in path.lower()
+            or "wsdl" in (parts.query or "").lower()
+            or path.lower().endswith((".asmx", ".svc"))  # ASP.NET web service, WCF service
+        )
         return ("SOAP" if soap else "HTTP"), f"{scheme}://{host}{port}{path}"
     kind = {
         "ftp": "FTP",

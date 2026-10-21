@@ -77,6 +77,7 @@ class ComponentType(StrEnum):
     WEB = "web"
     FRONTEND = "frontend"  # single-page application (Angular, AngularJS, React, ...)
     API = "api"  # Node.js service exposing HTTP endpoints (Express, NestJS, ...)
+    DESKTOP = "desktop"  # Windows or Java desktop application (VB6, WinForms, WPF, Swing)
     BATCH = "batch"
     CFT = "cft"
     SCRIPT = "script"
