@@ -438,8 +438,11 @@ class _Visitor:
                 t = _txt(n.child_by_field_name("type")).split("<")[0].rsplit(".", 1)[-1]
                 if DESKTOP_INPUTS.match(t):
                     fields += 1
-                elif t[:1].isupper() and t != info.name and not t.startswith(("J", "Grid",
-                                                                              "Border", "Flow")):
+                elif (
+                    t[:1].isupper()
+                    and t != info.name
+                    and not t.startswith(("J", "Grid", "Border", "Flow"))
+                ):
                     targets.add(t)
             if n.type == "class_declaration":
                 continue
@@ -513,8 +516,11 @@ class _Visitor:
         params = _txt(node.child_by_field_name("parameters"))
         if name == "main" and "static" in mods_text and "String" in params:
             # A main() that opens a window starts a desktop application, not a batch program.
-            ui = re.search(r"setVisible\(\s*true|SwingUtilities\.invoke|EventQueue\.invoke|"
-                           r"\blaunch\(", _txt(node.child_by_field_name("body")))
+            ui = re.search(
+                r"setVisible\(\s*true|SwingUtilities\.invoke|EventQueue\.invoke|"
+                r"\blaunch\(",
+                _txt(node.child_by_field_name("body")),
+            )
             self._entry(cls.fqn, "desktop-app" if ui else "main", line)
             self.facts.symbol("java-main", cls.fqn, self.path, line)
         if "Scheduled" in ann:

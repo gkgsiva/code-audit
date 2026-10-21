@@ -29,6 +29,7 @@ from legacy_audit.linker.aggregate import (
     merge_integrations,
     merge_libraries,
     merge_npm_versions,
+    merge_screens,
     merge_tech,
     techs_from_libraries,
 )
@@ -384,7 +385,7 @@ class _Linker:
         db_objects = merge_db_objects(_typed(ent, "db_objects", DbObject))
         services = dedupe(_typed(ent, "services", Service))
         self._mount_routes(services)
-        screens = dedupe(_typed(ent, "screens", Screen))
+        screens = merge_screens(_typed(ent, "screens", Screen))
         entry_points = dedupe(_typed(ent, "entry_points", EntryPoint))
         sql = dedupe(_typed(ent, "sql_statements", SqlStatement))
         self.findings = dedupe(_typed(ent, "findings", Finding))
@@ -680,7 +681,9 @@ class _Linker:
         # ([Table("X")]) may be in another file.
         for s in self.symbols:
             if s.kind == "jpa-entity" and "entity" in s.data:
-                entities[s.name] = entities.get(s.data["entity"], s.data.get("table", s.name)).upper()
+                entities[s.name] = entities.get(
+                    s.data["entity"], s.data.get("table", s.name)
+                ).upper()
         procs: dict[str, DbObject] = {}
         for o in objects:
             if o.object_type in ("package", "procedure", "function"):
@@ -862,9 +865,7 @@ def _project_entries(entries: list[EntryPoint]) -> list[EntryPoint]:
     """A .NET project file marks a desktop application or Windows service (OutputType); when its
     code also names the start-up (App.xaml, Main, a ServiceBase class), that is the same entry."""
     coded = {
-        (ep.component, ep.kind)
-        for ep in entries
-        if not ep.file.lower().endswith(PROJECT_FILES)
+        (ep.component, ep.kind) for ep in entries if not ep.file.lower().endswith(PROJECT_FILES)
     }
     return [
         ep

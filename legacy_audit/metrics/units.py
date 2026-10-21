@@ -299,12 +299,14 @@ def _cs_decisions(node: Node) -> int:
         n = stack.pop()
         if n.type in CS_UNITS or n.type in ("class_declaration", "struct_declaration"):
             continue
-        if n.type in CS_DECISIONS or _is_logical(n):
-            count += 1
-        elif n.type == "switch_section" and n.child_count and n.children[0].type == "case":
-            count += 1
-        elif n.type == "switch_expression_arm" and not (
-            n.named_child_count and n.named_children[0].type == "discard"
+        if (
+            n.type in CS_DECISIONS
+            or _is_logical(n)
+            or (n.type == "switch_section" and n.child_count and n.children[0].type == "case")
+            or (
+                n.type == "switch_expression_arm"
+                and not (n.named_child_count and n.named_children[0].type == "discard")
+            )
         ):
             count += 1
         stack.extend(n.children)
@@ -344,14 +346,16 @@ _VB_DECISION = re.compile(
     r"|\bCase\b(?!\s+Else\b)|\bCatch\b|\bIIf\s*\(|\bIf\s*\(|\bAndAlso\b|\bOrElse\b",
     re.I,
 )
-_VB_NOT = re.compile(r"^(?:End\s+(?:If|While|Select)|Exit\s+(?:For|While|Do)|Select\s+Case|Next|Wend)\b", re.I)
+_VB_NOT = re.compile(
+    r"^(?:End\s+(?:If|While|Select)|Exit\s+(?:For|While|Do)|Select\s+Case|Next|Wend)\b", re.I
+)
 _VB_CONDITION = re.compile(r"^(?:Else)?If\b|^(?:Do|Loop)\s+(?:While|Until)\b|^While\b", re.I)
 _VB_AND_OR = re.compile(r"\b(?:And|Or)\b", re.I)
 
 
 def vb_units(code: str) -> list[CodeUnit]:
     """Procedures of VB6 or VB.NET code (``Declare`` and abstract members have no body)."""
-    from legacy_audit.analyzers.basic import PROC, PROC_END, logical_lines  # noqa: PLC0415
+    from legacy_audit.analyzers.basic import PROC, PROC_END, logical_lines
 
     raw = code.split("\n")
     out = []

@@ -15,6 +15,7 @@ from legacy_audit.model import (
     Fact,
     Integration,
     Library,
+    Screen,
     TechItem,
     make_id,
 )
@@ -54,6 +55,28 @@ def dedupe(items: Iterable[F]) -> list[F]:
             by_id[item.id] = item
         else:
             prev.evidence = _evidence(prev.evidence, item.evidence)
+    return list(by_id.values())
+
+
+def merge_screens(items: Iterable[Screen]) -> list[Screen]:
+    """One screen per id. A Windows Forms form is written in two files (``MainForm.vb`` and
+    ``MainForm.Designer.vb``): the code file names it, the designer file holds its controls."""
+    by_id: dict[str, Screen] = {}
+    for item in items:
+        prev = by_id.get(item.id)
+        if prev is None:
+            by_id[item.id] = item
+            continue
+        fields = max(prev.fields_count, item.fields_count)
+        if (
+            ".designer." in (prev.file or "").lower()
+            and ".designer." not in (item.file or "").lower()
+        ):
+            item.evidence = _evidence(item.evidence, prev.evidence)
+            by_id[item.id] = prev = item
+        else:
+            prev.evidence = _evidence(prev.evidence, item.evidence)
+        prev.fields_count = fields
     return list(by_id.values())
 
 
@@ -319,7 +342,8 @@ _NPM_TECH: list[tuple[re.Pattern[str], str, str]] = [
 
 # NuGet packages (language dotnet): .NET frameworks and libraries, with their versions.
 _NUGET_TECH: list[tuple[re.Pattern[str], str, str]] = [
-    (re.compile(r"^microsoft\.entityframeworkcore(\.(sqlserver|sqlite|relational|cosmos))?$"), "Entity Framework Core", "framework"),
+    (re.compile(r"^microsoft\.entityframeworkcore(\.(sqlserver|sqlite|relational|cosmos))?$"),
+     "Entity Framework Core", "framework"),
     (re.compile(r"^entityframework$"), "Entity Framework", "framework"),
     (re.compile(r"^dapper$"), "Dapper", "library"),
     (re.compile(r"^nhibernate$"), "NHibernate", "framework"),
@@ -332,9 +356,11 @@ _NUGET_TECH: list[tuple[re.Pattern[str], str, str]] = [
     (re.compile(r"^serilog$"), "Serilog", "library"),
     (re.compile(r"^newtonsoft\.json$"), "Json.NET", "library"),
     (re.compile(r"^automapper$"), "AutoMapper", "library"),
-    (re.compile(r"^(oracle\.manageddataaccess(\.core)?|oracle\.dataaccess)$"), "Oracle .NET driver", "database"),
+    (re.compile(r"^(oracle\.manageddataaccess(\.core)?|oracle\.dataaccess)$"),
+     "Oracle .NET driver", "database"),
     (re.compile(r"^(system|microsoft)\.data\.sqlclient$"), "SQL Server .NET driver", "database"),
-    (re.compile(r"^(npgsql|npgsql\.entityframeworkcore\.postgresql)$"), "PostgreSQL .NET driver (Npgsql)", "database"),
+    (re.compile(r"^(npgsql|npgsql\.entityframeworkcore\.postgresql)$"),
+     "PostgreSQL .NET driver (Npgsql)", "database"),
     (re.compile(r"^(mysql\.data|mysqlconnector)$"), "MySQL .NET driver", "database"),
     (re.compile(r"^ibm\.data\.db2(\.core)?$"), "DB2 .NET driver", "database"),
     (re.compile(r"^ibmmqdotnet$|^ibmxmsdotnetclient$"), "IBM MQ client", "middleware"),

@@ -125,8 +125,8 @@ def infer_type(files: list[FileRecord], name: str = "") -> ComponentType:
     cats = {f.category for f in files}
     names = {f.path.rsplit("/", 1)[-1].lower() for f in files}
     java_web = any(f.path.lower().endswith("web-inf/web.xml") for f in files) or (
-        Category.SCREEN in cats and langs & {"jsp", "bms", "velocity", "freemarker", "aspx",
-                                              "razor"}  # fmt: skip
+        Category.SCREEN in cats
+        and langs & {"jsp", "bms", "velocity", "freemarker", "aspx", "razor"}
     )
     if not java_web and _desktop(files, langs):
         return ComponentType.DESKTOP  # VB6, Windows Forms, WPF, Java Swing/JavaFX
@@ -163,8 +163,12 @@ def _desktop(files: list[FileRecord], langs: set[str]) -> bool:
         if low.endswith(".frm") and f.language == "vb6":
             return True
         if low.endswith((".designer.cs", ".designer.vb")) and not low.endswith(
-            ("resources.designer.cs", "settings.designer.cs", "resources.designer.vb",
-             "settings.designer.vb")  # fmt: skip
+            (
+                "resources.designer.cs",
+                "settings.designer.cs",
+                "resources.designer.vb",
+                "settings.designer.vb",
+            )
         ):
             return True
         if f.language == "xaml" and not low.endswith(("app.xaml", "application.xaml")):

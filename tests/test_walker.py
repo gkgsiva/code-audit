@@ -132,3 +132,21 @@ def test_minified_javascript_is_skipped(tmp_path: Path):
         "web/src/vendor/bundle.js": "minified or bundled code",
         "web/src/vendor/chart.min.js": "minified or bundled code",
     }
+
+
+def test_dotnet_build_output_and_nuget_packages_are_skipped(tmp_path: Path):
+    write(tmp_path / "app/App.csproj", "<Project Sdk='Microsoft.NET.Sdk' />")
+    write(tmp_path / "app/Program.cs", "class P {}")
+    write(tmp_path / "app/bin/Debug/App.exe", "MZ")
+    write(tmp_path / "app/bin/Debug/App.exe.config", "<configuration/>")
+    write(tmp_path / "app/obj/Debug/App.AssemblyInfo.cs", "// generated")
+    write(tmp_path / "app/obj/Debug/MainWindow.g.cs", "// generated")
+    write(tmp_path / "packages/Dapper.1.50.2/Dapper.1.50.2.nupkg", "PK")
+    write(tmp_path / "packages/Dapper.1.50.2/lib/net451/Dapper.xml", "<doc/>")
+    write(tmp_path / "vb6/obj/notes.txt", "not .NET output: no project file beside it")
+    skipped: list = []
+    rels = [w.rel for w in walk("r", tmp_path, Filters.build(["**"], []), None, skipped)]
+    assert "app/Program.cs" in rels and "app/App.csproj" in rels
+    assert not any(r.startswith(("app/bin/", "app/obj/", "packages/")) for r in rels)
+    assert "vb6/obj/notes.txt" in rels
+    assert {s.rel for s in skipped} == {"app/bin/", "app/obj/", "packages/"}

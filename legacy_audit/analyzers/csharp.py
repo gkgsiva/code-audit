@@ -56,28 +56,93 @@ from legacy_audit.model import (
 
 _LANG = Language(tree_sitter_c_sharp.language())
 
-_ADO_VERBS = {"ExecuteReader", "ExecuteNonQuery", "ExecuteScalar", "ExecuteXmlReader",
-              "ExecuteReaderAsync", "ExecuteNonQueryAsync", "ExecuteScalarAsync"}  # fmt: skip
-_DAPPER = {"Query", "QueryFirst", "QueryFirstOrDefault", "QuerySingle", "QuerySingleOrDefault",
-           "QueryMultiple", "QueryAsync", "QueryFirstAsync", "QueryFirstOrDefaultAsync",
-           "QuerySingleAsync", "QuerySingleOrDefaultAsync", "QueryMultipleAsync", "Execute",
-           "ExecuteAsync", "ExecuteScalar", "ExecuteScalarAsync", "ExecuteReader"}  # fmt: skip
-_EF_RAW = {"FromSqlRaw", "FromSql", "FromSqlInterpolated", "ExecuteSqlRaw", "ExecuteSqlRawAsync",
-           "ExecuteSqlInterpolated", "ExecuteSqlInterpolatedAsync", "ExecuteSqlCommand",
-           "ExecuteSqlCommandAsync", "SqlQuery", "SqlQueryRaw", "ExecuteSql",
-           "ExecuteSqlAsync"}  # fmt: skip
-_EF_READ = {"Where", "First", "FirstOrDefault", "Single", "SingleOrDefault", "ToList",
-            "ToListAsync", "Find", "FindAsync", "Any", "AnyAsync", "Count", "CountAsync",
-            "Include", "OrderBy", "OrderByDescending", "Select", "AsNoTracking",
-            "FirstOrDefaultAsync", "SingleOrDefaultAsync", "ToArray", "Sum", "Max",
-            "Min"}  # fmt: skip
-_EF_WRITE = {"Add": "INSERT", "AddRange": "INSERT", "AddAsync": "INSERT", "Update": "UPDATE",
-             "UpdateRange": "UPDATE", "Remove": "DELETE", "RemoveRange": "DELETE",
-             "ExecuteDelete": "DELETE", "ExecuteDeleteAsync": "DELETE",
-             "ExecuteUpdate": "UPDATE", "ExecuteUpdateAsync": "UPDATE"}  # fmt: skip
+_ADO_VERBS = {
+    "ExecuteReader",
+    "ExecuteNonQuery",
+    "ExecuteScalar",
+    "ExecuteXmlReader",
+    "ExecuteReaderAsync",
+    "ExecuteNonQueryAsync",
+    "ExecuteScalarAsync",
+}
+_DAPPER = {
+    "Query",
+    "QueryFirst",
+    "QueryFirstOrDefault",
+    "QuerySingle",
+    "QuerySingleOrDefault",
+    "QueryMultiple",
+    "QueryAsync",
+    "QueryFirstAsync",
+    "QueryFirstOrDefaultAsync",
+    "QuerySingleAsync",
+    "QuerySingleOrDefaultAsync",
+    "QueryMultipleAsync",
+    "Execute",
+    "ExecuteAsync",
+    "ExecuteScalar",
+    "ExecuteScalarAsync",
+    "ExecuteReader",
+}
+_EF_RAW = {
+    "FromSqlRaw",
+    "FromSql",
+    "FromSqlInterpolated",
+    "ExecuteSqlRaw",
+    "ExecuteSqlRawAsync",
+    "ExecuteSqlInterpolated",
+    "ExecuteSqlInterpolatedAsync",
+    "ExecuteSqlCommand",
+    "ExecuteSqlCommandAsync",
+    "SqlQuery",
+    "SqlQueryRaw",
+    "ExecuteSql",
+    "ExecuteSqlAsync",
+}
+_EF_READ = {
+    "Where",
+    "First",
+    "FirstOrDefault",
+    "Single",
+    "SingleOrDefault",
+    "ToList",
+    "ToListAsync",
+    "Find",
+    "FindAsync",
+    "Any",
+    "AnyAsync",
+    "Count",
+    "CountAsync",
+    "Include",
+    "OrderBy",
+    "OrderByDescending",
+    "Select",
+    "AsNoTracking",
+    "FirstOrDefaultAsync",
+    "SingleOrDefaultAsync",
+    "ToArray",
+    "Sum",
+    "Max",
+    "Min",
+}
+_EF_WRITE = {
+    "Add": "INSERT",
+    "AddRange": "INSERT",
+    "AddAsync": "INSERT",
+    "Update": "UPDATE",
+    "UpdateRange": "UPDATE",
+    "Remove": "DELETE",
+    "RemoveRange": "DELETE",
+    "ExecuteDelete": "DELETE",
+    "ExecuteDeleteAsync": "DELETE",
+    "ExecuteUpdate": "UPDATE",
+    "ExecuteUpdateAsync": "UPDATE",
+}
 _CONTEXT_VAR = re.compile(r"^(?:this\.)?_?(db|ctx|context|dbContext|\w*Context|\w*Db)$", re.I)
-_COMMAND_TYPES = re.compile(r"^(Sql|OleDb|Odbc|Oracle|MySql|Npgsql|DB2|iDB2|SQLite|Sqlite|Ase)"
-                            r"(Command|DataAdapter)$")  # fmt: skip
+_COMMAND_TYPES = re.compile(
+    r"^(Sql|OleDb|Odbc|Oracle|MySql|Npgsql|DB2|iDB2|SQLite|Sqlite|Ase)"
+    r"(Command|DataAdapter)$"
+)
 _NEWLINE = re.compile(r"^(System\.)?Environment\.NewLine$")
 _INPUTS = re.compile(
     r"^(TextBox|ComboBox|CheckBox|RadioButton|ListBox|CheckedListBox|MaskedTextBox|"
@@ -96,14 +161,36 @@ _BASES = {
     "DbContext": "dbcontext",
     "IHostedService": "background-service",
 }
-_HTTP = {"HttpGet": "GET", "HttpPost": "POST", "HttpPut": "PUT", "HttpDelete": "DELETE",
-         "HttpPatch": "PATCH"}  # fmt: skip
-_COND = {"if_statement", "switch_section", "for_statement", "foreach_statement",
-         "while_statement", "do_statement", "catch_clause", "conditional_expression",
-         "switch_expression_arm", "lambda_expression"}  # fmt: skip
+_HTTP = {
+    "HttpGet": "GET",
+    "HttpPost": "POST",
+    "HttpPut": "PUT",
+    "HttpDelete": "DELETE",
+    "HttpPatch": "PATCH",
+}
+_COND = {
+    "if_statement",
+    "switch_section",
+    "for_statement",
+    "foreach_statement",
+    "while_statement",
+    "do_statement",
+    "catch_clause",
+    "conditional_expression",
+    "switch_expression_arm",
+    "lambda_expression",
+}
 _FILE_READ = {"ReadAllText", "ReadAllLines", "ReadAllBytes", "ReadLines", "OpenRead", "OpenText"}
-_FILE_WRITE = {"WriteAllText", "WriteAllLines", "WriteAllBytes", "AppendAllText", "AppendAllLines",
-               "OpenWrite", "Create", "AppendText"}  # fmt: skip
+_FILE_WRITE = {
+    "WriteAllText",
+    "WriteAllLines",
+    "WriteAllBytes",
+    "AppendAllText",
+    "AppendAllLines",
+    "OpenWrite",
+    "Create",
+    "AppendText",
+}
 _SP = re.compile(r"CommandType\.StoredProcedure|commandType:\s*CommandType\.StoredProcedure")
 _PROC_NAME = re.compile(r"^[A-Za-z_][\w$#]*(\.[A-Za-z_][\w$#]*){0,2}$")
 _URL = re.compile(r"\b(?:https?|ftps?|sftp|ldaps?|smtp)://[^\s\"'<>()\\{}]+", re.I)
@@ -127,8 +214,17 @@ def _string(node: Node) -> str | None:
                 out.append(_txt(c))
             elif c.type == "escape_sequence":
                 e = _txt(c)
-                out.append({"\\n": " ", "\\r": " ", "\\t": " ", "\\\\": "\\", '\\"': '"',
-                            "\\'": "'", "\\0": ""}.get(e, e))  # fmt: skip
+                out.append(
+                    {
+                        "\\n": " ",
+                        "\\r": " ",
+                        "\\t": " ",
+                        "\\\\": "\\",
+                        '\\"': '"',
+                        "\\'": "'",
+                        "\\0": "",
+                    }.get(e, e)
+                )
         return "".join(out)
     if t == "verbatim_string_literal":
         return _txt(node)[2:-1].replace('""', '"')
@@ -168,8 +264,10 @@ def _callee(call: Node) -> tuple[Node | None, str]:
         return None, ""
     if fn.type == "member_access_expression":
         name = fn.child_by_field_name("name")
-        n = _txt(name.children[0]) if name is not None and name.type == "generic_name" else _txt(
-            name
+        n = (
+            _txt(name.children[0])
+            if name is not None and name.type == "generic_name"
+            else _txt(name)
         )
         return fn.child_by_field_name("expression"), n
     if fn.type == "generic_name":
@@ -198,8 +296,7 @@ def _attributes(node: Node) -> list[tuple[str, str | None]]:
             args = next((c for c in at.children if c.type == "attribute_argument_list"), None)
             if args is not None:
                 for a in args.named_children:
-                    s = next((_string(x) for x in a.named_children if _string(x) is not None),
-                             None)  # fmt: skip
+                    s = next((_string(x) for x in a.named_children if _string(x) is not None), None)
                     if s is not None and "=" not in _txt(a).split('"', 1)[0]:
                         arg = s
                         break
@@ -219,8 +316,11 @@ def _cron_text(node: Node | None) -> str | None:
     if m:
         args = [a.strip() for a in m.group(2).split(",") if a.strip()]
         kind = m.group(1).lower()
-        at = f" at {int(args[0]):02d}:{int(args[1]) if len(args) > 1 else 0:02d}" if args and \
-            args[0].isdigit() and kind == "daily" else ""  # fmt: skip
+        at = (
+            f" at {int(args[0]):02d}:{int(args[1]) if len(args) > 1 else 0:02d}"
+            if args and args[0].isdigit() and kind == "daily"
+            else ""
+        )
         return f"{kind}{at}"
     return t[:80] or None
 
@@ -318,13 +418,20 @@ class _Visitor:
                 self._decls(body if body is not None else c)
             elif t == "declaration_list":
                 self._decls(c)
-            elif t in ("class_declaration", "struct_declaration", "record_declaration",
-                       "interface_declaration"):  # fmt: skip
+            elif t in (
+                "class_declaration",
+                "struct_declaration",
+                "record_declaration",
+                "interface_declaration",
+            ):
                 self._class(c)
 
     def _using(self, node: Node) -> None:
-        ns = _txt(next((c for c in node.named_children if c.type in ("qualified_name",
-                                                                       "identifier")), None))  # fmt: skip
+        ns = _txt(
+            next(
+                (c for c in node.named_children if c.type in ("qualified_name", "identifier")), None
+            )
+        )
         if not ns:
             return
         for prefix, name, category in NAMESPACE_TECH:
@@ -332,8 +439,9 @@ class _Visitor:
                 self.facts.add("tech_stack", tech(name, None, category, self.path, _line(node)))
                 break
         if ns in DB_NAMESPACES:
-            self.facts.add("tech_stack", tech(DB_NAMESPACES[ns], None, "database", self.path,
-                                              _line(node)))  # fmt: skip
+            self.facts.add(
+                "tech_stack", tech(DB_NAMESPACES[ns], None, "database", self.path, _line(node))
+            )
 
     # ---- classes ------------------------------------------------------------------------------
     def _class(self, node: Node) -> None:
@@ -346,13 +454,16 @@ class _Visitor:
             cls.kind = "interface"
         if any(a == "ApiController" for a, _ in cls.attrs):
             cls.kind = "api"
+        if not cls.kind and self.path.lower().endswith(".designer.cs") and _designer_fields(node):
+            cls.kind = "form"  # the designer half of a form: "partial class X" without its base
         line = _line(node)
         self.classes.append(cls)
         self.facts.symbol("dotnet-class", name, self.path, line)
         table = next((arg for a, arg in cls.attrs if a == "Table" and arg), None)
         if table:
-            self.facts.symbol("jpa-entity", name, self.path, line,
-                              data={"table": table.upper(), "orm": "ef"})  # fmt: skip
+            self.facts.symbol(
+                "jpa-entity", name, self.path, line, data={"table": table.upper(), "orm": "ef"}
+            )
         if cls.kind in ("form", "usercontrol"):
             self.screen_id = make_id("screen", "winforms", self.path.rsplit("/", 1)[0], name)
             self.facts.add(
@@ -364,8 +475,11 @@ class _Visitor:
                     file=self.path,
                     fields_count=_designer_fields(node),
                     partial=cls.kind == "usercontrol",
-                    evidence=[Evidence(file=self.path, line=line,
-                                       snippet=f"class {name} : {', '.join(bases)}")],  # fmt: skip
+                    evidence=[
+                        Evidence(
+                            file=self.path, line=line, snippet=f"class {name} : {', '.join(bases)}"
+                        )
+                    ],
                 ),
             )
             self.facts.symbol("desktop-form", name, self.path, line, owner=self.screen_id)
@@ -379,11 +493,19 @@ class _Visitor:
                 self._field(member)
             elif t == "property_declaration":
                 self._property(member, cls)
-            elif t in ("method_declaration", "constructor_declaration", "operator_declaration",
-                       "destructor_declaration"):  # fmt: skip
+            elif t in (
+                "method_declaration",
+                "constructor_declaration",
+                "operator_declaration",
+                "destructor_declaration",
+            ):
                 self._method_decl(member, cls)
-            elif t in ("class_declaration", "struct_declaration", "record_declaration",
-                       "interface_declaration"):  # fmt: skip
+            elif t in (
+                "class_declaration",
+                "struct_declaration",
+                "record_declaration",
+                "interface_declaration",
+            ):
                 self._class(member)
         self.classes.pop()
 
@@ -399,8 +521,13 @@ class _Visitor:
         if t is not None and t.type == "generic_name" and _txt(t.children[0]) == "DbSet":
             args = next((c for c in t.children if c.type == "type_argument_list"), None)
             entity = _type_name(args.named_children[0]) if args and args.named_children else name
-            self.facts.symbol("jpa-entity", name, self.path, _line(node),
-                              data={"table": entity.upper(), "entity": entity, "orm": "ef"})  # fmt: skip
+            self.facts.symbol(
+                "jpa-entity",
+                name,
+                self.path,
+                _line(node),
+                data={"table": entity.upper(), "entity": entity, "orm": "ef"},
+            )
         for acc in node.named_children:
             if acc.type == "accessor_list":
                 for a in acc.named_children:
@@ -418,8 +545,15 @@ class _Visitor:
         )
         if name == "Main" and "static" in mods and node.type == "method_declaration":
             b = _txt(body)
-            kind = "desktop-app" if re.search(r"Application\.Run\b|\.ShowDialog\(|\.Show\(|"
-                                              r"new\s+App\s*\(", b) else "main"  # fmt: skip
+            kind = (
+                "desktop-app"
+                if re.search(
+                    r"Application\.Run\b|\.ShowDialog\(|\.Show\(|"
+                    r"new\s+App\s*\(",
+                    b,
+                )
+                else "main"
+            )
             self._entry(f"{cls.name}.Main", kind, line, "static Main")
         self._service_for(name, cls, attrs, mods, line, node.type)
         if body is not None:
@@ -452,19 +586,26 @@ class _Visitor:
             svc = cls.name[1:] if how == "WCF" and re.match(r"^I[A-Z]", cls.name) else cls.name
             url = f"{svc}.{'asmx' if how == 'ASMX' else 'svc'}/{name}"
             self._service(f"{how} {svc}.{name}", "soap-operation", handler, url, line)
-            self.facts.add("tech_stack", tech("WCF" if how == "WCF" else
-                                              "ASP.NET Web Services (ASMX)", None, "framework",
-                                              self.path, line))  # fmt: skip
+            self.facts.add(
+                "tech_stack",
+                tech(
+                    "WCF" if how == "WCF" else "ASP.NET Web Services (ASMX)",
+                    None,
+                    "framework",
+                    self.path,
+                    line,
+                ),
+            )
             return
         if cls.kind not in ("mvc", "api") or node_type != "method_declaration":
             return
         if "public" not in mods or "static" in mods or "NonAction" in names:
             return
         verb = next((_HTTP[a] for a, _ in attrs if a in _HTTP), None)
-        route = next((arg for a, arg in attrs if (a in _HTTP or a == "Route") and arg is not None),
-                     None)  # fmt: skip
-        prefix = next((arg for a, arg in cls.attrs if a in ("Route", "RoutePrefix") and arg),
-                      None)  # fmt: skip
+        route = next(
+            (arg for a, arg in attrs if (a in _HTTP or a == "Route") and arg is not None), None
+        )
+        prefix = next((arg for a, arg in cls.attrs if a in ("Route", "RoutePrefix") and arg), None)
         ctrl = re.sub(r"Controller$", "", cls.name)
         if prefix is None:
             prefix = f"api/{ctrl}" if cls.kind == "api" else ctrl
@@ -476,12 +617,25 @@ class _Visitor:
             path = f"/{prefix.strip('/')}" + (f"/{tail}" if tail else "")
         path = path.replace("[action]", name)
         kind = "rest-operation" if cls.kind == "api" else "aspnet-mvc"
-        self._service(f"{verb or ('GET' if kind == 'aspnet-mvc' else 'ANY')} {path}", kind,
-                      handler, path, line)  # fmt: skip
-        self.facts.add("tech_stack", tech("ASP.NET Core" if re.search(r"Microsoft\.AspNetCore",
-                                                                       self.text) else
-                                          ("ASP.NET Web API" if kind == "rest-operation" else
-                                           "ASP.NET MVC"), None, "framework", self.path, line))  # fmt: skip
+        self._service(
+            f"{verb or ('GET' if kind == 'aspnet-mvc' else 'ANY')} {path}",
+            kind,
+            handler,
+            path,
+            line,
+        )
+        self.facts.add(
+            "tech_stack",
+            tech(
+                "ASP.NET Core"
+                if re.search(r"Microsoft\.AspNetCore", self.text)
+                else ("ASP.NET Web API" if kind == "rest-operation" else "ASP.NET MVC"),
+                None,
+                "framework",
+                self.path,
+                line,
+            ),
+        )
 
     # ---- statements ---------------------------------------------------------------------------
     def _cond(self, node: Node) -> bool:
@@ -489,8 +643,12 @@ class _Visitor:
         while p is not None and p.type not in ("method_declaration", "block_statement_root"):
             if p.type in _COND:
                 return True
-            if p.type in ("constructor_declaration", "accessor_declaration",
-                          "local_function_statement", "global_statement"):  # fmt: skip
+            if p.type in (
+                "constructor_declaration",
+                "accessor_declaration",
+                "local_function_statement",
+                "global_statement",
+            ):
                 return False
             p = p.parent
         return False
@@ -522,8 +680,12 @@ class _Visitor:
         if t == "object_creation_expression":
             self._creation(node)
             return
-        if t in ("string_literal", "verbatim_string_literal", "raw_string_literal",
-                 "interpolated_string_expression"):  # fmt: skip
+        if t in (
+            "string_literal",
+            "verbatim_string_literal",
+            "raw_string_literal",
+            "interpolated_string_expression",
+        ):
             self._literal(node)
             return
         for c in node.children:
@@ -563,8 +725,15 @@ class _Visitor:
         if as_value:
             for n in _iter(value, {"invocation_expression", "object_creation_expression"}):
                 (self._invocation if n.type == "invocation_expression" else self._creation)(n)
-            for n in _iter(value, {"string_literal", "verbatim_string_literal",
-                                   "raw_string_literal", "interpolated_string_expression"}):  # fmt: skip
+            for n in _iter(
+                value,
+                {
+                    "string_literal",
+                    "verbatim_string_literal",
+                    "raw_string_literal",
+                    "interpolated_string_expression",
+                },
+            ):
                 self._literal(n, sql=False)
         else:
             self._walk(value)
@@ -601,9 +770,10 @@ class _Visitor:
             return
         if op != "=":
             return
-        if right.type == "object_creation_expression" and _type_name(
-            right.child_by_field_name("type")
-        ) == "StringBuilder":
+        if (
+            right.type == "object_creation_expression"
+            and _type_name(right.child_by_field_name("type")) == "StringBuilder"
+        ):
             self.builders.add(name)
             args = _args(right)
             first = self._eval(args[0], consume=True) if args else None
@@ -688,8 +858,10 @@ class _Visitor:
                 else:
                     self._emit(b, source, line, strict=False, proc_ok=False)
                 handled = True
-        if recv is not None and recv.type == "member_access_expression" and (
-            name in _EF_READ or name in _EF_WRITE
+        if (
+            recv is not None
+            and recv.type == "member_access_expression"
+            and (name in _EF_READ or name in _EF_WRITE)
         ):
             ctx = _txt(recv.child_by_field_name("expression"))
             prop = _txt(recv.child_by_field_name("name"))
@@ -713,8 +885,9 @@ class _Visitor:
         if rtext == "File" and args and (name in _FILE_READ or name in _FILE_WRITE):
             b = self._eval(args[0])
             if b is not None and b.text.strip("? "):
-                self._file(b.text, "outbound" if name in _FILE_WRITE else "inbound", line,
-                           f"File.{name}")  # fmt: skip
+                self._file(
+                    b.text, "outbound" if name in _FILE_WRITE else "inbound", line, f"File.{name}"
+                )
         fn = node.child_by_field_name("function")
         if fn is not None and fn.type == "member_access_expression":
             self._walk(fn.child_by_field_name("expression") or fn)  # receivers: chained calls
@@ -736,10 +909,11 @@ class _Visitor:
                     self._emit(b, "ado.net", line, strict=False, proc_ok=True)
             init = next((c for c in node.children if c.type == "initializer_expression"), None)
             for a in init.named_children if init is not None else []:
-                if a.type == "assignment_expression" and _txt(
-                    a.child_by_field_name("left")
-                ) == "CommandText":
-                    b = self._eval(a.child_by_field_name("right"), consume=True)  # type: ignore[arg-type]
+                if (
+                    a.type == "assignment_expression"
+                    and _txt(a.child_by_field_name("left")) == "CommandText"
+                ):
+                    b = self._eval(a.child_by_field_name("right"), consume=True)
                     if b is not None:
                         self._emit(b, "ado.net", line, strict=False, proc_ok=True)
             for a in args:
@@ -747,27 +921,54 @@ class _Visitor:
             return
         if tname in ("StreamReader", "StreamWriter", "FileStream") and args:
             b = self._eval(args[0])
-            if b is not None and b.text.strip("? ") and ("\\" in b.text or "/" in b.text or
-                                                         "." in b.text):  # fmt: skip
-                out = tname == "StreamWriter" or (tname == "FileStream" and re.search(
-                    r"FileMode\.(Create|Append|OpenOrCreate|CreateNew)", _txt(node)))  # fmt: skip
+            if (
+                b is not None
+                and b.text.strip("? ")
+                and ("\\" in b.text or "/" in b.text or "." in b.text)
+            ):
+                out = tname == "StreamWriter" or (
+                    tname == "FileStream"
+                    and re.search(r"FileMode\.(Create|Append|OpenOrCreate|CreateNew)", _txt(node))
+                )
                 self._file(b.text, "outbound" if out else "inbound", line, f"new {tname}")
         if tname == "MessageQueue" and args:
             b = self._eval(args[0])
             if b is not None:
-                self.facts.add("integrations", integration(
-                    type="MQ", target=b.text, direction="unknown", file=self.path, line=line,
-                    protocol="MSMQ"))  # fmt: skip
+                self.facts.add(
+                    "integrations",
+                    integration(
+                        type="MQ",
+                        target=b.text,
+                        direction="unknown",
+                        file=self.path,
+                        line=line,
+                        protocol="MSMQ",
+                    ),
+                )
         if tname == "SmtpClient" and args:
             b = self._eval(args[0])
             if b is not None and re.match(r"^[\w.-]+$", b.text):
-                self.facts.add("integrations", integration(
-                    type="SMTP", target=b.text, direction="outbound", file=self.path, line=line))  # fmt: skip
-        if tname and tname not in ("StringBuilder", "List", "Dictionary", "Exception") and \
-                "." not in _txt(node.child_by_field_name("type")):  # fmt: skip
-            self.facts.ref(kind="uses", source=f"file:{self.path}", source_label=self.path,
-                           target=tname, target_kinds=["dotnet-class", "vb-class"],
-                           file=self.path, line=line, report_unresolved=False)  # fmt: skip
+                self.facts.add(
+                    "integrations",
+                    integration(
+                        type="SMTP", target=b.text, direction="outbound", file=self.path, line=line
+                    ),
+                )
+        if (
+            tname
+            and tname not in ("StringBuilder", "List", "Dictionary", "Exception")
+            and "." not in _txt(node.child_by_field_name("type"))
+        ):
+            self.facts.ref(
+                kind="uses",
+                source=f"file:{self.path}",
+                source_label=self.path,
+                target=tname,
+                target_kinds=["dotnet-class", "vb-class"],
+                file=self.path,
+                line=line,
+                report_unresolved=False,
+            )
         for c in node.children:
             if c.type in ("argument_list", "initializer_expression"):
                 self._walk(c)
@@ -777,8 +978,10 @@ class _Visitor:
         if arg.type == "identifier":
             name = _txt(arg).lower()
             v = self._tracker().get(name)
-            if v is not None and name not in self._consumed() and looks_like_sql(
-                v.text.strip(), strict=True
+            if (
+                v is not None
+                and name not in self._consumed()
+                and looks_like_sql(v.text.strip(), strict=True)
             ):
                 self._consume(name, v)
                 self._emit(v, "cs-string", line, strict=True, proc_ok=False)
@@ -797,19 +1000,29 @@ class _Visitor:
             for u in _URL.finditer(s):
                 c = classify_url(u.group(0), soap_hint=self.soap)
                 if c:
-                    self.facts.add("integrations", integration(
-                        type=c[0], target=c[1], direction="outbound", file=self.path, line=line))  # fmt: skip
+                    self.facts.add(
+                        "integrations",
+                        integration(
+                            type=c[0], target=c[1], direction="outbound", file=self.path, line=line
+                        ),
+                    )
         elif ";" in s and "=" in s:
             add_connection(self.facts, s, self.path, line, "ado.net")
         if sql and looks_like_sql(s.strip(), strict=True):
             p = node.parent
             call = p.parent.parent if p is not None and p.parent is not None else None
-            if call is not None and call.type == "invocation_expression" and _callee(call)[1] in (
-                "Format", "Concat", "Append", "AppendLine", "AppendFormat", "Join"
+            if (
+                call is not None
+                and call.type == "invocation_expression"
+                and _callee(call)[1]
+                in ("Format", "Concat", "Append", "AppendLine", "AppendFormat", "Join")
             ):
                 return  # part of a text built elsewhere (reported where it is used)
-            if p is not None and p.type in ("argument", "return_statement",
-                                            "arrow_expression_clause"):  # fmt: skip
+            if p is not None and p.type in (
+                "argument",
+                "return_statement",
+                "arrow_expression_clause",
+            ):
                 b = self._eval(node) or lit(s, line)
                 self._emit(b, "cs-string", line, strict=True, proc_ok=False)
 
@@ -828,12 +1041,23 @@ class _Visitor:
                 if c.type == "string_content":
                     out = concat(out, lit(_txt(c).replace("{{", "{").replace("}}", "}"), line))
                 elif c.type == "escape_sequence":
-                    out = concat(out, lit(" " if _txt(c) in ("\\n", "\\r", "\\t") else
-                                          _txt(c)[1:], line))  # fmt: skip
+                    out = concat(
+                        out, lit(" " if _txt(c) in ("\\n", "\\r", "\\t") else _txt(c)[1:], line)
+                    )
                 elif c.type == "interpolation":
-                    inner = next((x for x in c.named_children if x.type not in
-                                  ("interpolation_brace", "interpolation_alignment_clause",
-                                   "interpolation_format_clause")), None)  # fmt: skip
+                    inner = next(
+                        (
+                            x
+                            for x in c.named_children
+                            if x.type
+                            not in (
+                                "interpolation_brace",
+                                "interpolation_alignment_clause",
+                                "interpolation_format_clause",
+                            )
+                        ),
+                        None,
+                    )
                     v = self._eval(inner, consume) if inner is not None else None
                     out = concat(out, v if v is not None else hole(out.text, line))
             out.how.add("interpolation")
@@ -860,9 +1084,9 @@ class _Visitor:
             if x is not None and y is not None:
                 return choice(x, y)
             return x or y
-        if t == "identifier" or (t == "member_access_expression" and _txt(node).startswith(
-            "this."
-        )):
+        if t == "identifier" or (
+            t == "member_access_expression" and _txt(node).startswith("this.")
+        ):
             name = _txt(node).removeprefix("this.").lower()
             v = self._tracker().get(name)
             if v is not None and consume:
@@ -884,10 +1108,10 @@ class _Visitor:
             if name == "Concat" and r in ("string", "String"):
                 out = empty(line)
                 known = False
-                for a in _args(node):
-                    v = self._eval(a, consume)
-                    known = known or v is not None
-                    out = concat(out, v if v is not None else hole(out.text, line))
+                for arg in _args(node):
+                    part = self._eval(arg, consume)
+                    known = known or part is not None
+                    out = concat(out, part if part is not None else hole(out.text, line))
                 return out if known else None
         return None
 
@@ -922,8 +1146,12 @@ class _Visitor:
         force_proc: bool = False,
     ) -> None:
         text = b.text.strip()
-        if proc_ok and (self.stored_proc or force_proc) and _PROC_NAME.match(text) and not \
-                looks_like_sql(text):  # fmt: skip
+        if (
+            proc_ok
+            and (self.stored_proc or force_proc)
+            and _PROC_NAME.match(text)
+            and not looks_like_sql(text)
+        ):
             text = f"CALL {text}"
             b = Built(text, b.line, lines=set(b.lines))
         if not looks_like_sql(text, strict=strict):
@@ -932,8 +1160,14 @@ class _Visitor:
         if key in self.sql_seen:
             return
         self.sql_seen.add(key)
-        fact = sql_fact(file=self.path, line=line, text=text, source=source,
-                        dialect=self.dialect, dynamic=b.dynamic)  # fmt: skip
+        fact = sql_fact(
+            file=self.path,
+            line=line,
+            text=text,
+            source=source,
+            dialect=self.dialect,
+            dynamic=b.dynamic,
+        )
         fill(fact, b)
         self.facts.add("sql_statements", fact)
 
@@ -947,8 +1181,9 @@ class _Visitor:
         if (line, text) in self.sql_seen:
             return
         self.sql_seen.add((line, text))
-        fact = sql_fact(file=self.path, line=line, text=text, source="entity-framework",
-                        dialect=None, hql=True)  # fmt: skip
+        fact = sql_fact(
+            file=self.path, line=line, text=text, source="entity-framework", dialect=None, hql=True
+        )
         fact.type = verb
         fact.parsed = False
         fact.reason = f"Entity Framework {how}: the ORM generates the SQL at run time"
@@ -964,17 +1199,29 @@ class _Visitor:
         sid = make_id("service", kind, self.path, name)
         self.facts.add(
             "services",
-            Service(id=sid, name=name, kind=kind, file=self.path, handler=handler, url=url,
-                    evidence=[Evidence(file=self.path, line=line)]),  # fmt: skip
+            Service(
+                id=sid,
+                name=name,
+                kind=kind,
+                file=self.path,
+                handler=handler,
+                url=url,
+                evidence=[Evidence(file=self.path, line=line)],
+            ),
         )
         self.facts.symbol("service", handler, self.path, line, owner=sid)
 
     def _entry(self, name: str, kind: str, line: int, detail: str) -> None:
         self.facts.add(
             "entry_points",
-            EntryPoint(id=make_id("entry", self.path, name, kind), name=name, kind=kind,
-                       file=self.path, line=line,
-                       evidence=[Evidence(file=self.path, line=line, snippet=detail)]),  # fmt: skip
+            EntryPoint(
+                id=make_id("entry", self.path, name, kind),
+                name=name,
+                kind=kind,
+                file=self.path,
+                line=line,
+                evidence=[Evidence(file=self.path, line=line, snippet=detail)],
+            ),
         )
 
     def _navigate(self, target: str, line: int) -> None:
@@ -990,9 +1237,17 @@ class _Visitor:
         )
 
     def _file(self, target: str, direction: str, line: int, how: str) -> None:
-        self.facts.add("integrations", integration(
-            type="FILE", target=target.strip(), direction=direction, file=self.path, line=line,
-            protocol=how))  # fmt: skip
+        self.facts.add(
+            "integrations",
+            integration(
+                type="FILE",
+                target=target.strip(),
+                direction=direction,
+                file=self.path,
+                line=line,
+                protocol=how,
+            ),
+        )
 
     def _hangfire(self, node: Node, args: list[Node], line: int) -> None:
         name = _string(args[0]) if args and _string(args[0]) is not None else None
@@ -1008,8 +1263,14 @@ class _Visitor:
             stmt = stmt.parent
         ident = re.search(r"WithIdentity\(\s*\"([^\"]+)\"", _txt(stmt))
         cron = _cron_text(args[0]) if args else None
-        self._job(ident.group(1) if ident else f"quartz:{line}", cron, "", line,
-                  "Quartz.NET cron trigger", scheduler="quartz.net")  # fmt: skip
+        self._job(
+            ident.group(1) if ident else f"quartz:{line}",
+            cron,
+            "",
+            line,
+            "Quartz.NET cron trigger",
+            scheduler="quartz.net",
+        )
 
     def _job(
         self,

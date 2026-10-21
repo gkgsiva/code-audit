@@ -30,7 +30,11 @@ SCRIPTS = {"shell", "perl", "python", "batch"}
 SQL = {"sql", "plsql"}
 BASIC = {"vb6", "vbnet"}
 DUPLICATION = (
-    TREE | SCRIPTS | SQL | BASIC | {"cobol", "procobol", "jsp", "javascript", "typescript", "csharp"}
+    TREE
+    | SCRIPTS
+    | SQL
+    | BASIC
+    | {"cobol", "procobol", "jsp", "javascript", "typescript", "csharp"}
 )
 
 

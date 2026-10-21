@@ -276,7 +276,8 @@ class BatchJob(Fact):
     name: str
     scheduler: str = Field(
         description="autosys, jcl, cron, spring-batch, node-cron (node-cron, node-schedule, "
-        "NestJS @Cron/@Interval, Agenda), windows-task (Windows Task Scheduler), hangfire, quartz.net"
+        "NestJS @Cron/@Interval, Agenda), windows-task (Windows Task Scheduler), hangfire, "
+        "quartz.net"
     )
     kind: str = Field("job", description="job, box (container, not counted), file-watcher")
     description: str | None = Field(None, description="Description from the scheduler, if any")

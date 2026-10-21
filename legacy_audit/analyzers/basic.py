@@ -108,7 +108,7 @@ def logical_lines(text: str, start: int = 0) -> list[tuple[int, str]]:
             continue
         stripped = code.rstrip()
         if _CONTINUES.search(stripped) and not stripped.lstrip().startswith("#"):
-            pending = (first, stripped[:-1] if stripped.endswith("_") else stripped)
+            pending = (first, stripped[:-1].rstrip() if stripped.endswith("_") else stripped)
             continue
         out.append((first, code.strip()))
     if pending is not None:
@@ -131,8 +131,9 @@ def split_top(text: str, seps: str) -> list[tuple[str, str]]:
         elif ch in ")]}":
             depth -= 1
         elif depth == 0 and ch in seps:
-            if ch == "=" and (text[i - 1 : i] in ("<", ">", ":", "&", "+") or
-                              text[i + 1 : i + 2] in ("=",)):  # fmt: skip
+            if ch == "=" and (
+                text[i - 1 : i] in ("<", ">", ":", "&", "+") or text[i + 1 : i + 2] in ("=",)
+            ):
                 continue
             out.append((sep, text[start:i]))
             sep, start = ch, i + 1
@@ -190,12 +191,16 @@ PROC, PROC_END = _PROC, _PROC_END  # for the metrics units
 _LAMBDA_OPEN = re.compile(r"\b(?:Async\s+)?(Sub|Function)\s*\([^()]*\)\s*(As\s+[\w.]+\s*)?$", re.I)
 _TYPE = re.compile(rf"^{_MODIFIERS}(Class|Module|Structure|Interface|Namespace)\s+([\w.]+)", re.I)
 _TYPE_END = re.compile(r"^End\s+(Class|Module|Structure|Interface|Namespace)\b", re.I)
-_DECL = re.compile(r"^(?:(?:Dim|Private|Public|Protected|Friend|Static|Shared|Const|ReadOnly|"
-                   r"Global|WithEvents)\s+)+(?!Sub\b|Function\b|Property\b|Declare\b|Event\b|"
-                   r"Enum\b|Type\b|Class\b|Structure\b|Module\b|Interface\b|Delegate\b|Operator\b)"
-                   r"(.+)$", re.I)  # fmt: skip
-_ASSIGN = re.compile(r"^(?:(?:Let|Set)\s+)?([.\w]+(?:\([^()]*\))?(?:\.\w+)*)\s*(&=|\+=|=)\s*(.+)$",
-                     re.I)  # fmt: skip
+_DECL = re.compile(
+    r"^(?:(?:Dim|Private|Public|Protected|Friend|Static|Shared|Const|ReadOnly|"
+    r"Global|WithEvents)\s+)+(?!Sub\b|Function\b|Property\b|Declare\b|Event\b|"
+    r"Enum\b|Type\b|Class\b|Structure\b|Module\b|Interface\b|Delegate\b|Operator\b)"
+    r"(.+)$",
+    re.I,
+)
+_ASSIGN = re.compile(
+    r"^(?:(?:Let|Set)\s+)?([.\w]+(?:\([^()]*\))?(?:\.\w+)*)\s*(&=|\+=|=)\s*(.+)$", re.I
+)
 _ATTRIBUTE = re.compile(r"^<\s*([^<>]+?)\s*>\s*(.*)$")
 _IF_LINE = re.compile(r"^(?:Else)?If\b(.*?)\bThen\b\s*(.*)$", re.I)
 _DB_METHOD = re.compile(
@@ -222,8 +227,11 @@ _NEWLINES = re.compile(
 _CHR = re.compile(r"^ChrW?\$?\s*\(\s*(\d+)\s*\)$", re.I)
 _FORMAT_HOLE = re.compile(r"\{(\d+)(?:[,:][^}]*)?\}")
 _NAME = re.compile(r"^(?:Me\.)?([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*)$")
-_SHOW = re.compile(r"\b([A-Za-z_]\w*)\.Show(?:Dialog)?\b|^Load\s+([A-Za-z_]\w*)\s*$|"
-                   r"\bNew\s+([A-Za-z_]\w*)\s*(?:\(\s*\))?\s*(?:\.Show)", re.I)  # fmt: skip
+_SHOW = re.compile(
+    r"\b([A-Za-z_]\w*)\.Show(?:Dialog)?\b|^Load\s+([A-Za-z_]\w*)\s*$|"
+    r"\bNew\s+([A-Za-z_]\w*)\s*(?:\(\s*\))?\s*(?:\.Show)",
+    re.I,
+)
 _NEW_CLASS = re.compile(r"\bNew\s+([A-Za-z_][\w.]*)", re.I)
 _SP_MARK = re.compile(r"adCmdStoredProc|CommandType\.StoredProcedure|\b4\s*$", re.I)
 _PROC_NAME = re.compile(r"^[A-Za-z_][\w$#]*(\.[A-Za-z_][\w$#]*){0,2}$")
@@ -240,8 +248,7 @@ _MSMQ = re.compile(
 )
 _MQ_ACCESS = re.compile(r"\.AccessQueue\s*\(?", re.I)
 _WINSOCK = re.compile(r"\.(?:RemoteHost\s*=|Connect\s*\(?)", re.I)
-_SMTP = re.compile(r"\bNew\s+(?:System\.Net\.Mail\.)?SmtpClient\s*\(|\.Host\s*=|smtpserver",
-                   re.I)  # fmt: skip
+_SMTP = re.compile(r"\bNew\s+(?:System\.Net\.Mail\.)?SmtpClient\s*\(|\.Host\s*=|smtpserver", re.I)
 _INPUT_CONTROLS = re.compile(
     r"^(TextBox|ComboBox|CheckBox|OptionButton|RadioButton|ListBox|CheckedListBox|MaskEdBox|"
     r"MaskedTextBox|DTPicker|DateTimePicker|MonthView|MonthCalendar|RichTextBox|DataCombo|"
@@ -360,11 +367,17 @@ _COM_TECH: list[tuple[re.Pattern[str], str, str]] = [
     (re.compile(r"Remote Data Object|msrdo20", re.I), "RDO", "library"),
     (re.compile(r"Microsoft XML|msxml\d*\.dll", re.I), "MSXML", "library"),
     (re.compile(r"SOAP Type Library|mssoap\d*\.dll", re.I), "Microsoft SOAP Toolkit", "library"),
-    (re.compile(r"Crystal|crystl32\.ocx|craxdrt\.dll|crviewer\.dll", re.I), "Crystal Reports",
-     "library"),
+    (
+        re.compile(r"Crystal|crystl32\.ocx|craxdrt\.dll|crviewer\.dll", re.I),
+        "Crystal Reports",
+        "library",
+    ),
     (re.compile(r"Excel \d|Excel\.exe", re.I), "Microsoft Office automation (COM)", "library"),
-    (re.compile(r"Word \d+\.\d+ Object|msword", re.I), "Microsoft Office automation (COM)",
-     "library"),
+    (
+        re.compile(r"Word \d+\.\d+ Object|msword", re.I),
+        "Microsoft Office automation (COM)",
+        "library",
+    ),
     (re.compile(r"Outlook|msoutl", re.I), "Microsoft Office automation (COM)", "library"),
     (re.compile(r"Scripting Runtime|scrrun\.dll", re.I), "Windows Scripting Runtime", "library"),
     (re.compile(r"MQAX200|IBM MQSeries Automation|mqax", re.I), "IBM MQ client", "middleware"),
@@ -372,16 +385,28 @@ _COM_TECH: list[tuple[re.Pattern[str], str, str]] = [
     (re.compile(r"MSWINSCK\.OCX|Winsock", re.I), "Winsock control", "library"),
     (re.compile(r"MSINET\.OCX|Internet Transfer", re.I), "Internet Transfer control", "library"),
     (re.compile(r"MSCOMM32\.OCX", re.I), "MSComm serial control", "library"),
-    (re.compile(r"COMCTL32\.OCX|MSCOMCTL\.OCX|MSCOMCT2\.OCX|Common Controls", re.I),
-     "Windows Common Controls (OCX)", "library"),
+    (
+        re.compile(r"COMCTL32\.OCX|MSCOMCTL\.OCX|MSCOMCT2\.OCX|Common Controls", re.I),
+        "Windows Common Controls (OCX)",
+        "library",
+    ),
     (re.compile(r"MSFLXGRD\.OCX|MSHFLXGD\.OCX|FlexGrid", re.I), "MSFlexGrid", "library"),
-    (re.compile(r"MSDATGRD\.OCX|MSADODC\.OCX|MSDATLST\.OCX|DBGRID32\.OCX", re.I),
-     "Data-bound controls (OCX)", "library"),
-    (re.compile(r"TABCTL32\.OCX|COMDLG32\.OCX|RICHTX32\.OCX|MSMASK32\.OCX", re.I),
-     "Visual Basic controls (OCX)", "library"),
-    (re.compile(r"ThreeD|THREED32\.OCX|Sheridan|SSDW3B32|TrueDB|TDBG|vsflex|Spread|fpspr",
-                re.I), "Third-party ActiveX controls", "library"),
-]  # fmt: skip
+    (
+        re.compile(r"MSDATGRD\.OCX|MSADODC\.OCX|MSDATLST\.OCX|DBGRID32\.OCX", re.I),
+        "Data-bound controls (OCX)",
+        "library",
+    ),
+    (
+        re.compile(r"TABCTL32\.OCX|COMDLG32\.OCX|RICHTX32\.OCX|MSMASK32\.OCX", re.I),
+        "Visual Basic controls (OCX)",
+        "library",
+    ),
+    (
+        re.compile(r"ThreeD|THREED32\.OCX|Sheridan|SSDW3B32|TrueDB|TDBG|vsflex|Spread|fpspr", re.I),
+        "Third-party ActiveX controls",
+        "library",
+    ),
+]
 _STDOLE = re.compile(r"stdole2?\.tlb|OLE Automation", re.I)
 
 
@@ -447,8 +472,11 @@ def _vbp(path: str, text: str, facts: Facts) -> None:
                 kind=kind,
                 file=path,
                 line=ptype[1],
-                evidence=[Evidence(file=path, line=ptype[1],
-                                   snippet=f"Type={ptype[0]} Startup={startup}"[:120])],  # fmt: skip
+                evidence=[
+                    Evidence(
+                        file=path, line=ptype[1], snippet=f"Type={ptype[0]} Startup={startup}"[:120]
+                    )
+                ],
             ),
         )
         if startup and "sub main" not in startup.lower():
@@ -470,8 +498,16 @@ def _com(
     ver = version if version and re.match(r"^\d+(\.\d+)*$", version) else None
     facts.add(
         "libraries",
-        library(group=None, artifact=desc, version=ver, source="com", file=path, line=line,
-                scope=scope, language=VB6),  # fmt: skip
+        library(
+            group=None,
+            artifact=desc,
+            version=ver,
+            source="com",
+            file=path,
+            line=line,
+            scope=scope,
+            language=VB6,
+        ),
     )
     found = _com_tech(desc + " " + file)
     if found:
@@ -590,8 +626,10 @@ class _Reader:
                 self.classes.append(_Class(t.group(2), kind, line, attrs=self.pending_attrs))
                 self.facts.symbol(
                     "dotnet-module" if kind == "module" else "dotnet-class",
-                    t.group(2), self.path, line,
-                )  # fmt: skip
+                    t.group(2),
+                    self.path,
+                    line,
+                )
             self.pending_attrs = []
             return
         if _TYPE_END.match(code):
@@ -610,11 +648,14 @@ class _Reader:
                 self._end_proc()
             return
         p = _PROC.match(code)
-        if p and not (self.classes and self.classes[-1].kind == "interface"):
-            if self._proc_start(p, code, line, nxt):
-                return
-        if self.proc is None and not self.dotnet and low.startswith(("dim ", "private ", "public ",
-                                                                      "global ", "const ")):  # fmt: skip
+        in_interface = self.classes and self.classes[-1].kind == "interface"
+        if p and not in_interface and self._proc_start(p, code, line, nxt):
+            return
+        if (
+            self.proc is None
+            and not self.dotnet
+            and low.startswith(("dim ", "private ", "public ", "global ", "const "))
+        ):
             self._statement(code, line, cond=False)  # module-level constants
             return
         if self.proc is None:
@@ -629,10 +670,10 @@ class _Reader:
         kind = p.group(1).lower()
         if re.search(r"\bMustOverride\b|\bDeclare\b", code, re.I):
             return False
-        if kind == "property" and self.dotnet and not p.group(2):
-            # VB.NET: an auto-property has no body; a full one starts with Get/Set
-            if not re.match(r"^(?:(?:Private|Protected|Friend|Public)\s+)?(Get|Set)\b", nxt, re.I):
-                return False
+        # VB.NET: an auto-property has no body; a full one starts with Get/Set
+        accessor = re.match(r"^(?:(?:Private|Protected|Friend|Public)\s+)?(Get|Set)\b", nxt, re.I)
+        if kind == "property" and self.dotnet and not p.group(2) and not accessor:
+            return False
         self._end_proc()
         self.proc = _Proc(
             name=p.group(3),
@@ -730,8 +771,11 @@ class _Reader:
         self._calls(code, line)
 
     def _declarator(self, part: str, line: int, cond: bool) -> None:
-        m = re.match(r"^(\w+)\s*(?:\(\s*\))?\s*(?:As\s+(New\s+)?([\w.]+)\s*(\(.*\))?)?\s*(?:=\s*(.+))?$",
-                     part, re.I)  # fmt: skip
+        m = re.match(
+            r"^(\w+)\s*(?:\(\s*\))?\s*(?:As\s+(New\s+)?([\w.]+)\s*(\(.*\))?)?\s*(?:=\s*(.+))?$",
+            part,
+            re.I,
+        )
         if not m:
             return
         name = m.group(1).lower()
@@ -777,8 +821,9 @@ class _Reader:
         if tlow.endswith((".connectionstring", ".connect")):
             b = self._eval(value, line)
             if b is not None:
-                add_connection(self.facts, b.text, self.path, line, "ado" if self.lang == VB6 else
-                               "ado.net")  # fmt: skip
+                add_connection(
+                    self.facts, b.text, self.path, line, "ado" if self.lang == VB6 else "ado.net"
+                )
             return
         if not _NAME.match(target):
             self._calls(value, line)
@@ -850,8 +895,8 @@ class _Reader:
             verb = m.group(2).lower()
             rest = code[m.end() :].strip()
             if rest.startswith("("):
-                b = _balanced(rest, 0)
-                args = _args("(" + b[0] + ")") if b else []
+                bal = _balanced(rest, 0)
+                args = _args("(" + bal[0] + ")") if bal else []
             elif rest and not rest.startswith((".", ")")):
                 args = _args(rest)  # VB6: cn.Execute sql, , adCmdText
             else:
@@ -870,9 +915,15 @@ class _Reader:
                 continue
             if verb in ("openrecordset", "createquerydef", "openresultset"):
                 source = "dao" if verb != "openresultset" else "rdo"
-            elif verb in ("sqlquery", "executesqlcommand", "executesqlraw", "fromsqlraw",
-                          "executesqlinterpolated", "fromsqlinterpolated",
-                          "executesqlrawasync"):  # fmt: skip
+            elif verb in (
+                "sqlquery",
+                "executesqlcommand",
+                "executesqlraw",
+                "fromsqlraw",
+                "executesqlinterpolated",
+                "fromsqlinterpolated",
+                "executesqlrawasync",
+            ):
                 source = "ef-raw"
             elif verb.startswith(("query", "execute")) and self.dotnet:
                 source = "dapper"  # ADO.NET's Execute* take no SQL argument; Dapper's do
@@ -883,8 +934,8 @@ class _Reader:
             self._emit(b, source, line, strict=False, proc_ok=False)
             handled = True
         for m in _NEW_COMMAND.finditer(code):
-            b0 = _balanced(code, m.end() - 1)
-            args = _args("(" + b0[0] + ")") if b0 else []
+            bal = _balanced(code, m.end() - 1)
+            args = _args("(" + bal[0] + ")") if bal else []
             if args:
                 b = self._eval(args[0], line, consume=True)
                 if b is not None:
@@ -898,11 +949,22 @@ class _Reader:
                 self._navigate(target, line)
         for m in _NEW_CLASS.finditer(code):
             cls = m.group(1)
-            if "." not in cls and cls.lower() not in ("stringbuilder", "object", "collection",
-                                                      "with"):  # fmt: skip
-                self.facts.ref(kind="uses", source=f"file:{self.path}", source_label=self.path,
-                               target=cls, target_kinds=["vb-class", "dotnet-class"],
-                               file=self.path, line=line, report_unresolved=False)  # fmt: skip
+            if "." not in cls and cls.lower() not in (
+                "stringbuilder",
+                "object",
+                "collection",
+                "with",
+            ):
+                self.facts.ref(
+                    kind="uses",
+                    source=f"file:{self.path}",
+                    source_label=self.path,
+                    target=cls,
+                    target_kinds=["vb-class", "dotnet-class"],
+                    file=self.path,
+                    line=line,
+                    report_unresolved=False,
+                )
         if handled or not uses:
             return
         self._expr_uses(code, line)
@@ -914,10 +976,13 @@ class _Reader:
         for word in set(re.findall(r"(?<![.\w])([A-Za-z_]\w*)\b(?!\s*=[^=])", code)):
             name = word.lower()
             value = tr.get(name)
-            if value is not None and looks_like_sql(value.text.strip(), strict=True):
-                if name not in self._consumed():
-                    self._consume(name, value)
-                    self._emit(value, "vb-string", line, strict=True, proc_ok=False)
+            if (
+                value is not None
+                and looks_like_sql(value.text.strip(), strict=True)
+                and name not in self._consumed()
+            ):
+                self._consume(name, value)
+                self._emit(value, "vb-string", line, strict=True, proc_ok=False)
         for m in _STRING.finditer(code):
             s = _unquote(m.group(0))
             if looks_like_sql(s.strip(), strict=True):
@@ -967,8 +1032,11 @@ class _Reader:
         c = _CHR.match(a)
         if c:
             code = int(c.group(1))
-            return lit({39: "'", 34: '"'}.get(code, " "), line) if code in (39, 34, 9, 10, 13,
-                                                                             32) else None  # fmt: skip
+            return (
+                lit({39: "'", 34: '"'}.get(code, " "), line)
+                if code in (39, 34, 9, 10, 13, 32)
+                else None
+            )
         m = _NAME.match(a)
         if m:
             name = m.group(1).lower()
@@ -1034,8 +1102,14 @@ class _Reader:
         if key in self.sql_seen:
             return
         self.sql_seen.add(key)
-        fact = sql_fact(file=self.path, line=line, text=text, source=source,
-                        dialect=self.dialect, dynamic=b.dynamic)  # fmt: skip
+        fact = sql_fact(
+            file=self.path,
+            line=line,
+            text=text,
+            source=source,
+            dialect=self.dialect,
+            dynamic=b.dynamic,
+        )
         fill(fact, b)
         self.facts.add("sql_statements", fact)
 
@@ -1068,20 +1142,38 @@ class _Reader:
                 for u in _URL.finditer(s):
                     c = classify_url(u.group(0), soap_hint=self.soap)
                     if c:
-                        self.facts.add("integrations", integration(
-                            type=c[0], target=c[1], direction="outbound", file=self.path,
-                            line=line))  # fmt: skip
-            elif ";" in s and "=" in s and not re.search(r"\.(connectionstring|connect)\s*=",
-                                                         code, re.I):  # fmt: skip
-                add_connection(self.facts, s, self.path, line, "ado" if self.lang == VB6 else
-                               "ado.net")  # fmt: skip
+                        self.facts.add(
+                            "integrations",
+                            integration(
+                                type=c[0],
+                                target=c[1],
+                                direction="outbound",
+                                file=self.path,
+                                line=line,
+                            ),
+                        )
+            elif (
+                ";" in s
+                and "=" in s
+                and not re.search(r"\.(connectionstring|connect)\s*=", code, re.I)
+            ):
+                add_connection(
+                    self.facts, s, self.path, line, "ado" if self.lang == VB6 else "ado.net"
+                )
         f = _OPEN_FILE.match(code)
         if f:
             b = self._eval(f.group(1), line)
             if b is not None and b.text.strip("? "):
-                self._file(b.text, "inbound" if f.group(2).lower() in ("input",) else
-                           "outbound" if f.group(2).lower() in ("output", "append") else "both",
-                           line, "VB Open")  # fmt: skip
+                self._file(
+                    b.text,
+                    "inbound"
+                    if f.group(2).lower() in ("input",)
+                    else "outbound"
+                    if f.group(2).lower() in ("output", "append")
+                    else "both",
+                    line,
+                    "VB Open",
+                )
         for m in _DOTNET_FILE.finditer(code):
             b0 = _balanced(code, m.end() - 1)
             args = _args("(" + b0[0] + ")") if b0 else []
@@ -1092,31 +1184,84 @@ class _Reader:
             out = what.startswith(("write", "append", "openwrite", "create", "streamwriter"))
             self._file(b.text, "outbound" if out else "inbound", line, m.group(0).rstrip("("))
         if _MSMQ.search(code):
-            q = next((s for s, _ in lits if "\\" in s or s.lower().startswith(("formatname:",
-                                                                               "direct="))), None)  # fmt: skip
+            q = next(
+                (
+                    s
+                    for s, _ in lits
+                    if "\\" in s or s.lower().startswith(("formatname:", "direct="))
+                ),
+                None,
+            )
             if q:
-                self.facts.add("integrations", integration(
-                    type="MQ", target=q, direction="unknown", file=self.path, line=line,
-                    protocol="MSMQ"))  # fmt: skip
+                self.facts.add(
+                    "integrations",
+                    integration(
+                        type="MQ",
+                        target=q,
+                        direction="unknown",
+                        file=self.path,
+                        line=line,
+                        protocol="MSMQ",
+                    ),
+                )
         if _MQ_ACCESS.search(code) and lits:
-            self.facts.add("integrations", integration(
-                type="MQ", target=lits[0][0], direction="unknown", file=self.path, line=line,
-                protocol="IBM MQ (MQAX)"))  # fmt: skip
-        if _WINSOCK.search(code) and lits and re.match(r"^[\w.-]+$", lits[0][0]):
-            if re.search(r"winsock|sck|socket|tcp", code, re.I):
-                self.facts.add("integrations", integration(
-                    type="SOCKET", target=lits[0][0], direction="outbound", file=self.path,
-                    line=line, protocol="Winsock"))  # fmt: skip
-        if _SMTP.search(code) and lits and re.match(r"^[\w.-]+\.\w+$", lits[-1][0]):
-            if re.search(r"smtp|mail", code, re.I):
-                self.facts.add("integrations", integration(
-                    type="SMTP", target=lits[-1][0], direction="outbound", file=self.path,
-                    line=line))  # fmt: skip
+            self.facts.add(
+                "integrations",
+                integration(
+                    type="MQ",
+                    target=lits[0][0],
+                    direction="unknown",
+                    file=self.path,
+                    line=line,
+                    protocol="IBM MQ (MQAX)",
+                ),
+            )
+        if (
+            _WINSOCK.search(code)
+            and lits
+            and re.match(r"^[\w.-]+$", lits[0][0])
+            and re.search(r"winsock|sck|socket|tcp", code, re.I)
+        ):
+            self.facts.add(
+                "integrations",
+                integration(
+                    type="SOCKET",
+                    target=lits[0][0],
+                    direction="outbound",
+                    file=self.path,
+                    line=line,
+                    protocol="Winsock",
+                ),
+            )
+        if (
+            _SMTP.search(code)
+            and lits
+            and re.match(r"^[\w.-]+\.\w+$", lits[-1][0])
+            and re.search(r"smtp|mail", code, re.I)
+        ):
+            self.facts.add(
+                "integrations",
+                integration(
+                    type="SMTP",
+                    target=lits[-1][0],
+                    direction="outbound",
+                    file=self.path,
+                    line=line,
+                ),
+            )
 
     def _file(self, target: str, direction: str, line: int, how: str) -> None:
-        self.facts.add("integrations", integration(
-            type="FILE", target=target.strip(), direction=direction, file=self.path, line=line,
-            protocol=how))  # fmt: skip
+        self.facts.add(
+            "integrations",
+            integration(
+                type="FILE",
+                target=target.strip(),
+                direction=direction,
+                file=self.path,
+                line=line,
+                protocol=how,
+            ),
+        )
 
     def _imports(self, code: str, line: int) -> None:
         m = re.match(r"^Imports\s+(?:\w+\s*=\s*)?([\w.]+)", code, re.I)
@@ -1128,8 +1273,7 @@ class _Reader:
                 self.facts.add("tech_stack", tech(name, None, category, self.path, line))
                 break
         if ns in DB_NAMESPACES:
-            self.facts.add("tech_stack", tech(DB_NAMESPACES[ns], None, "database", self.path,
-                                              line))  # fmt: skip
+            self.facts.add("tech_stack", tech(DB_NAMESPACES[ns], None, "database", self.path, line))
 
     # ---- forms, classes and services ----------------------------------------------------------
     def _vb6_form(self, header: list[str]) -> None:
@@ -1151,9 +1295,13 @@ class _Reader:
                 file=self.path,
                 fields_count=fields,
                 partial=partial,
-                evidence=[Evidence(file=self.path, line=root.line,
-                                   snippet=f"{root.type} {root.name}" +
-                                   (f": {caption}" if caption else ""))],  # fmt: skip
+                evidence=[
+                    Evidence(
+                        file=self.path,
+                        line=root.line,
+                        snippet=f"{root.type} {root.name}" + (f": {caption}" if caption else ""),
+                    )
+                ],
             ),
         )
         self.facts.symbol("desktop-form", self.vb_name, self.path, root.line, owner=sid)
@@ -1161,31 +1309,60 @@ class _Reader:
             ctype = c.type.split(".")[-1].lower()
             rs = c.props.get("recordsource")
             if rs and looks_like_sql(rs[0].strip()):
-                self._emit(lit(rs[0], rs[1]), "ado" if ctype == "adodc" else "dao", rs[1],
-                           strict=False, proc_ok=False)  # fmt: skip
+                self._emit(
+                    lit(rs[0], rs[1]),
+                    "ado" if ctype == "adodc" else "dao",
+                    rs[1],
+                    strict=False,
+                    proc_ok=False,
+                )
             cs = c.props.get("connectionstring") or c.props.get("connect")
             if cs:
                 add_connection(self.facts, cs[0], self.path, cs[1], "ado")
             db = c.props.get("databasename")
             if db and db[0]:
-                self.facts.add("integrations", integration(
-                    type="DB", target=f"access://{posixpath.basename(db[0].replace(chr(92), '/'))}",
-                    direction="outbound", file=self.path, line=db[1], protocol="dao"))  # fmt: skip
-                self.facts.add("tech_stack", tech("Microsoft Access", None, "database", self.path,
-                                                  db[1]))  # fmt: skip
+                self.facts.add(
+                    "integrations",
+                    integration(
+                        type="DB",
+                        target=f"access://{posixpath.basename(db[0].replace(chr(92), '/'))}",
+                        direction="outbound",
+                        file=self.path,
+                        line=db[1],
+                        protocol="dao",
+                    ),
+                )
+                self.facts.add(
+                    "tech_stack", tech("Microsoft Access", None, "database", self.path, db[1])
+                )
             for key in ("remotehost", "url"):
                 v = c.props.get(key)
                 if v and v[0]:
                     if "://" in v[0]:
                         cu = classify_url(v[0])
                         if cu:
-                            self.facts.add("integrations", integration(
-                                type=cu[0], target=cu[1], direction="outbound", file=self.path,
-                                line=v[1]))  # fmt: skip
+                            self.facts.add(
+                                "integrations",
+                                integration(
+                                    type=cu[0],
+                                    target=cu[1],
+                                    direction="outbound",
+                                    file=self.path,
+                                    line=v[1],
+                                ),
+                            )
                     elif ctype == "winsock":
-                        self.facts.add("integrations", integration(
-                            type="SOCKET", target=v[0], direction="outbound", file=self.path,
-                            line=v[1], protocol="Winsock"))  # fmt: skip
+                        self.facts.add(
+                            "integrations",
+                            integration(
+                                type="SOCKET",
+                                target=v[0],
+                                direction="outbound",
+                                file=self.path,
+                                line=v[1],
+                                protocol="Winsock",
+                            ),
+                        )
 
     def _class_kind(self, cls: _Class, line: int) -> None:
         base = cls.base.rsplit(".", 1)[-1].lower()
@@ -1220,12 +1397,20 @@ class _Reader:
                 ),
             )
         elif kind == "dbcontext":
-            for m in re.finditer(r"\bProperty\s+(\w+)\s+As\s+DbSet\s*\(\s*Of\s+([\w.]+)\s*\)",
-                                 self.text, re.I):  # fmt: skip
-                self.facts.symbol("jpa-entity", m.group(1), self.path,
-                                  self.text.count("\n", 0, m.start()) + 1,
-                                  data={"table": m.group(2).rsplit(".", 1)[-1].upper(),
-                                        "entity": m.group(2).rsplit(".", 1)[-1], "orm": "ef"})  # fmt: skip
+            for m in re.finditer(
+                r"\bProperty\s+(\w+)\s+As\s+DbSet\s*\(\s*Of\s+([\w.]+)\s*\)", self.text, re.I
+            ):
+                self.facts.symbol(
+                    "jpa-entity",
+                    m.group(1),
+                    self.path,
+                    self.text.count("\n", 0, m.start()) + 1,
+                    data={
+                        "table": m.group(2).rsplit(".", 1)[-1].upper(),
+                        "entity": m.group(2).rsplit(".", 1)[-1],
+                        "orm": "ef",
+                    },
+                )
 
     def _end_class(self, cls: _Class) -> None:
         pass
@@ -1236,8 +1421,16 @@ class _Reader:
         lname = name.lower()
         if lname == "main" and what.lower() == "sub":
             body = _proc_body(self.text, line)
-            kind = "desktop-app" if re.search(r"Application\.Run\b|\.Show(Dialog)?\b|"
-                                              r"\bfrm\w+\.Show", body, re.I) else "main"  # fmt: skip
+            kind = (
+                "desktop-app"
+                if re.search(
+                    r"Application\.Run\b|\.Show(Dialog)?\b|"
+                    r"\bfrm\w+\.Show",
+                    body,
+                    re.I,
+                )
+                else "main"
+            )
             self.facts.add(
                 "entry_points",
                 EntryPoint(
@@ -1250,44 +1443,76 @@ class _Reader:
                 ),
             )
             return
-        if cls is None or not re.match(r"^(Public\s|Friend\s|Function|Sub)", code, re.I) and \
-                not self.proc.attrs:  # type: ignore[union-attr]  # fmt: skip
+        if cls is None or (
+            not re.match(r"^(Public\s|Friend\s|Function|Sub)", code, re.I)
+            and not (self.proc and self.proc.attrs)
+        ):
             return
         attrs = self.proc.attrs if self.proc else []
-        names = [re.match(r"^([\w.]+)", a).group(1).rsplit(".", 1)[-1].lower()  # type: ignore[union-attr]
-                 for a in attrs if re.match(r"^[\w.]+", a)]  # fmt: skip
-        cls_attrs = [re.match(r"^([\w.]+)", a).group(1).rsplit(".", 1)[-1].lower()  # type: ignore[union-attr]
-                     for a in cls.attrs if re.match(r"^[\w.]+", a)]  # fmt: skip
+        names = [
+            re.match(r"^([\w.]+)", a).group(1).rsplit(".", 1)[-1].lower()  # type: ignore[union-attr]
+            for a in attrs
+            if re.match(r"^[\w.]+", a)
+        ]
+        cls_attrs = [
+            re.match(r"^([\w.]+)", a).group(1).rsplit(".", 1)[-1].lower()  # type: ignore[union-attr]
+            for a in cls.attrs
+            if re.match(r"^[\w.]+", a)
+        ]
         base = _BASES.get(cls.base.rsplit(".", 1)[-1].lower(), "")
         handler = f"{cls.name}.{name}"
-        if "webmethod" in names or "operationcontract" in names or "operationcontractattribute" in \
-                names:  # fmt: skip
+        if (
+            "webmethod" in names
+            or "operationcontract" in names
+            or "operationcontractattribute" in names
+        ):
             how = "WCF" if "webmethod" not in names else "ASMX"
             url = f"{cls.name}.{'asmx' if how == 'ASMX' else 'svc'}/{name}"
             self._service(f"{how} {cls.name}.{name}", "soap-operation", handler, url, line)
-            self.facts.add("tech_stack", tech("WCF" if how == "WCF" else
-                                              "ASP.NET Web Services (ASMX)", None, "framework",
-                                              self.path, line))  # fmt: skip
+            self.facts.add(
+                "tech_stack",
+                tech(
+                    "WCF" if how == "WCF" else "ASP.NET Web Services (ASMX)",
+                    None,
+                    "framework",
+                    self.path,
+                    line,
+                ),
+            )
             return
         if base in ("mvc", "api") or "apicontroller" in cls_attrs:
             if not re.search(r"\bPublic\b", code, re.I) or re.search(r"\bShared\b", code, re.I):
                 return
-            verb = next((_HTTP_ATTR.match(n).group(1).upper() for n in names  # type: ignore[union-attr]
-                         if _HTTP_ATTR.match(n)), None)  # fmt: skip
+            verb = next(
+                (h.group(1).upper() for n in names if (h := _HTTP_ATTR.match(n))),
+                None,
+            )
             route = _route(attrs)
             prefix = _route(cls.attrs, ("Route", "RoutePrefix"))
             ctrl = re.sub(r"Controller$", "", cls.name)
             if prefix is not None:
                 prefix = prefix.replace("[controller]", ctrl)
             else:
-                prefix = (f"api/{ctrl}" if base == "api" else ctrl)
-            path = route if route is not None and route.startswith("/") else (
-                f"/{prefix.strip('/')}" + (f"/{route}" if route else
-                                           ("" if base == "api" else f"/{name}")))  # fmt: skip
+                prefix = f"api/{ctrl}" if base == "api" else ctrl
+            path = (
+                route
+                if route is not None and route.startswith("/")
+                else (
+                    f"/{prefix.strip('/')}"
+                    + (f"/{route}" if route else ("" if base == "api" else f"/{name}"))
+                )
+            )
             path = path.replace("[action]", name)
-            kind = "rest-operation" if base == "api" or "apicontroller" in cls_attrs else "aspnet-mvc"
-            self._service(f"{verb or ('GET' if kind == 'aspnet-mvc' else 'ANY')} {path}", kind,
-                          handler, path, line)  # fmt: skip
+            kind = (
+                "rest-operation" if base == "api" or "apicontroller" in cls_attrs else "aspnet-mvc"
+            )
+            self._service(
+                f"{verb or ('GET' if kind == 'aspnet-mvc' else 'ANY')} {path}",
+                kind,
+                handler,
+                path,
+                line,
+            )
 
     def _service(self, name: str, kind: str, handler: str, url: str, line: int) -> None:
         sid = make_id("service", kind, self.path, name)
@@ -1306,8 +1531,10 @@ class _Reader:
         self.facts.symbol("service", handler, self.path, line, owner=sid)
 
 
-def _route(attrs: list[str], names: tuple[str, ...] = ("Route", "HttpGet", "HttpPost", "HttpPut",
-                                                         "HttpDelete", "HttpPatch")) -> str | None:  # fmt: skip
+def _route(
+    attrs: list[str],
+    names: tuple[str, ...] = ("Route", "HttpGet", "HttpPost", "HttpPut", "HttpDelete", "HttpPatch"),
+) -> str | None:
     for a in attrs:
         m = re.match(r"^(?:[\w.]+\.)?(\w+?)(?:Attribute)?\s*\(\s*\"([^\"]*)\"", a)
         if m and m.group(1) in names:

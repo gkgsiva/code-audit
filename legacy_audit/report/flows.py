@@ -805,8 +805,8 @@ def batch_flows(rd: RunData) -> list[Flow]:
 # ---- batch work that no scheduler definition starts ------------------------------------------
 _PROGRAM_SERVICES = {"c-executable", "cobol-program"}
 _EVENT_ENTRY = {"message-listener", "listener", "jms-listener", "mq-listener"}
-_PROGRAM_ENTRY = {"main", "scheduler", "spring-batch"}
-_ONLINE = {"web", "online-mainframe", "frontend", "api"}
+_PROGRAM_ENTRY = {"main", "scheduler", "spring-batch", "windows-service"}
+_ONLINE = {"web", "online-mainframe", "frontend", "api", "desktop"}
 _NO_SCHEDULE = (
     "No schedule found: no Autosys JIL, JCL or crontab entry in the inputs starts it. "
     "It may be run by hand or by a scheduler whose export was not provided."

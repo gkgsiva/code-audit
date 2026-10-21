@@ -56,15 +56,17 @@ DOTNET = "dotnet"  # Library.language of NuGet packages
 # ---- connection strings ---------------------------------------------------------------------
 
 _CONN_PAIR = re.compile(r"(?:^|;)\s*([A-Za-z][\w ]*?)\s*=\s*(\{[^}]*\}|'[^']*'|\"[^\"]*\"|[^;]*)")
-_SERVER_KEYS = ("data source", "server", "address", "addr", "network address", "host", "dsn",
-                "dbq")  # fmt: skip
+_SERVER_KEYS = ("data source", "server", "address", "addr", "network address", "host", "dsn", "dbq")
 _DB_KEYS = ("initial catalog", "database", "dbname")
 _SECRET_KEYS = ("password", "pwd")
 # OLE DB providers, ODBC drivers and ADO.NET providers -> database product.
 _PROVIDERS: list[tuple[re.Pattern[str], str]] = [
     (re.compile(r"sqloledb|sqlncli|msoledbsql|sql server|sqlclient", re.I), "SQL Server"),
     (re.compile(r"oraoledb|msdaora|oracle", re.I), "Oracle"),
-    (re.compile(r"jet\.oledb|ace\.oledb|access driver|\.mdb\b|\.accdb\b", re.I), "Microsoft Access"),
+    (
+        re.compile(r"jet\.oledb|ace\.oledb|access driver|\.mdb\b|\.accdb\b", re.I),
+        "Microsoft Access",
+    ),
     (re.compile(r"ibmdadb2|db2oledb|db2|iseries|as400|ibmda400", re.I), "DB2"),
     (re.compile(r"mysql|mariadb", re.I), "MySQL"),
     (re.compile(r"postgres|npgsql|pgoledb", re.I), "PostgreSQL"),
@@ -182,7 +184,9 @@ _TECH_CATEGORY = {
     "MSMQ": "middleware",
     "Entity Framework": "framework",
 }
-_HINT_PACKAGE = re.compile(r"packages[\\/]+([A-Za-z_][\w.-]*?)\.(\d+(?:\.\d+){1,3}(?:-[\w.]+)?)[\\/]")
+_HINT_PACKAGE = re.compile(
+    r"packages[\\/]+([A-Za-z_][\w.-]*?)\.(\d+(?:\.\d+){1,3}(?:-[\w.]+)?)[\\/]"
+)
 
 
 def connection_string(text: str) -> tuple[str | None, str, bool] | None:
@@ -194,10 +198,25 @@ def connection_string(text: str) -> tuple[str | None, str, bool] | None:
     server = next((pairs[k] for k in _SERVER_KEYS if pairs.get(k)), None)
     if server is None or len(pairs) < 2:
         return None
-    if not any(k in pairs for k in ("provider", "driver", "user id", "uid", "integrated security",
-                                    "trusted_connection", "initial catalog", "database",
-                                    "password", "pwd", "port", "persist security info",
-                                    "dsn", "dbq")):  # fmt: skip
+    if not any(
+        k in pairs
+        for k in (
+            "provider",
+            "driver",
+            "user id",
+            "uid",
+            "integrated security",
+            "trusted_connection",
+            "initial catalog",
+            "database",
+            "password",
+            "pwd",
+            "port",
+            "persist security info",
+            "dsn",
+            "dbq",
+        )
+    ):
         return None
     hint = " ".join(pairs.get(k, "") for k in ("provider", "driver", "dbq"))
     if pairs.get("data source", "").lower().endswith((".mdb", ".accdb")):
@@ -205,8 +224,10 @@ def connection_string(text: str) -> tuple[str | None, str, bool] | None:
     product = next((p for rx, p in _PROVIDERS if rx.search(hint)), None)
     if product is None and "host" in pairs:
         product = "PostgreSQL"  # Npgsql: Host=...;Database=...
-    if product is None and ("initial catalog" in pairs or "server" in pairs) and not pairs.get(
-        "dsn"
+    if (
+        product is None
+        and ("initial catalog" in pairs or "server" in pairs)
+        and not pairs.get("dsn")
     ):
         product = "SQL Server"  # the ADO.NET SqlConnection form
     database = next((pairs[k] for k in _DB_KEYS if pairs.get(k)), None)
@@ -311,9 +332,7 @@ _XAML_INPUT = re.compile(
     r"RichTextBox|DataGrid|TextField|TextArea|ChoiceBox|DateTimePicker|NumberBox|TableView|"
     r"ListView|Spinner)\b"
 )
-_ASP_SQL = re.compile(
-    r"\b(Select|Insert|Update|Delete)Command\s*=\s*\"([^\"]+)\"", re.I
-)
+_ASP_SQL = re.compile(r"\b(Select|Insert|Update|Delete)Command\s*=\s*\"([^\"]+)\"", re.I)
 _ASP_NAV = re.compile(
     r"\b(?:NavigateUrl|PostBackUrl|href|action)\s*=\s*\"~?/?([^\"?#<%]+?\.aspx)", re.I
 )
@@ -402,10 +421,13 @@ def _project(path: str, name: str, text: str, facts: Facts) -> None:
             facts.add("tech_stack", tech(rv[0], rv[1], "runtime", path, line))
     kinds: dict[str, int | None] = {}
     sdk = root.get("Sdk") or ""
-    if sdk in _APP_KINDS and _APP_KINDS[sdk]:
+    if _APP_KINDS.get(sdk):
         kinds[str(_APP_KINDS[sdk])] = 1
-    for key, label in (("UseWindowsForms", "Windows Forms"), ("UseWPF", "WPF"),
-                       ("UseMaui", ".NET MAUI")):  # fmt: skip
+    for key, label in (
+        ("UseWindowsForms", "Windows Forms"),
+        ("UseWPF", "WPF"),
+        ("UseMaui", ".NET MAUI"),
+    ):
         if props.get(key, ("",))[0].lower() == "true":
             kinds[label] = props[key][1]
     guids = props.get("ProjectTypeGuids", ("", None))
@@ -426,8 +448,9 @@ def _project(path: str, name: str, text: str, facts: Facts) -> None:
     if "ASP.NET Web Forms" in kinds or "ASP.NET MVC" in kinds:
         kinds.pop("ASP.NET", None)
     for label, line in kinds.items():
-        facts.add("tech_stack", tech(label, None, _TECH_CATEGORY.get(label, "framework"), path,
-                                     line))  # fmt: skip
+        facts.add(
+            "tech_stack", tech(label, None, _TECH_CATEGORY.get(label, "framework"), path, line)
+        )
     for el in iter_tag(root, "PackageReference", "PackageVersion"):
         pkg = el.get("Include") or el.get("Update")
         if not pkg:
@@ -554,6 +577,7 @@ def _nuget_lock(path: str, text: str, facts: Facts) -> None:
 def _solution(path: str, text: str, facts: Facts) -> None:
     m = re.search(r"^VisualStudioVersion\s*=\s*(\d+)(?:\.(\d+))?", text, re.M)
     fmt = re.search(r"Format Version (\d+\.\d+)", text)
+    version: str | None
     if m:
         version = f"{m.group(1)}.{m.group(2) or 0}"
     elif fmt:
@@ -591,17 +615,30 @@ def _config(path: str, text: str, facts: Facts) -> None:
                 if host:
                     facts.add(
                         "integrations",
-                        integration(type="SOCKET", target=host.group(1), direction="outbound",
-                                    file=path, line=line_of(ep), protocol="net.tcp (WCF)",
-                                    details=details),  # fmt: skip
+                        integration(
+                            type="SOCKET",
+                            target=host.group(1),
+                            direction="outbound",
+                            file=path,
+                            line=line_of(ep),
+                            protocol="net.tcp (WCF)",
+                            details=details,
+                        ),
                     )
                 continue
             c = classify_url(address, soap_hint="http" in binding.lower() and "web" not in binding)
             if c:
                 facts.add(
                     "integrations",
-                    integration(type=c[0], target=c[1], direction="outbound", file=path,
-                                line=line_of(ep), protocol="WCF", details=details),  # fmt: skip
+                    integration(
+                        type=c[0],
+                        target=c[1],
+                        direction="outbound",
+                        file=path,
+                        line=line_of(ep),
+                        protocol="WCF",
+                        details=details,
+                    ),
                 )
 
 
@@ -652,9 +689,13 @@ def _layout(path: str, language: str, text: str, facts: Facts) -> None:
                 )
             facts.add("tech_stack", tech("WPF", None, "framework", path, line_of(root)))
             return
-        if tag not in ("Window", "Page", "UserControl", "NavigationWindow", "RibbonWindow") and not (
-            tag.endswith("Window")
-        ):
+        if tag not in (
+            "Window",
+            "Page",
+            "UserControl",
+            "NavigationWindow",
+            "RibbonWindow",
+        ) and not (tag.endswith("Window")):
             return  # resource dictionaries, styles
         technology = "wpf"
         partial = tag == "UserControl"
@@ -714,8 +755,13 @@ def _aspx(path: str, text: str, facts: Facts, dialect: str | None) -> None:
             file=path,
             fields_count=len(_ASP_INPUT.findall(text)) + count_fields(text),
             partial=kind != "page",
-            evidence=[Evidence(file=path, line=idx.line(d.start()) if d else 1,
-                               snippet=(d.group(0)[:120] if d else None))],  # fmt: skip
+            evidence=[
+                Evidence(
+                    file=path,
+                    line=idx.line(d.start()) if d else 1,
+                    snippet=(d.group(0)[:120] if d else None),
+                )
+            ],
         ),
     )
     if inherits:
@@ -726,8 +772,13 @@ def _aspx(path: str, text: str, facts: Facts, dialect: str | None) -> None:
         if looks_like_sql(sql):
             facts.add(
                 "sql_statements",
-                sql_fact(file=path, line=idx.line(m.start()), text=sql, source="aspx-datasource",
-                         dialect=dialect),  # fmt: skip
+                sql_fact(
+                    file=path,
+                    line=idx.line(m.start()),
+                    text=sql,
+                    source="aspx-datasource",
+                    dialect=dialect,
+                ),
             )
     for m in _ASP_NAV.finditer(text):
         target = m.group(1)
@@ -826,21 +877,37 @@ def _schtasks(path: str, text: str, facts: Facts) -> None:
         if not name:
             continue
         sc = opts.get("sc", "").lower()
-        when = {"daily": "daily", "weekly": "weekly", "monthly": "monthly", "once": "once",
-                "minute": "every minute", "hourly": "hourly", "onstart": "at system start-up",
-                "onlogon": "at log-on", "onidle": "when idle"}.get(sc, sc)  # fmt: skip
+        when = {
+            "daily": "daily",
+            "weekly": "weekly",
+            "monthly": "monthly",
+            "once": "once",
+            "minute": "every minute",
+            "hourly": "hourly",
+            "onstart": "at system start-up",
+            "onlogon": "at log-on",
+            "onidle": "when idle",
+        }.get(sc, sc)
         if opts.get("mo") and sc in ("daily", "weekly", "monthly", "minute", "hourly"):
             when = f"{when} (every {opts['mo']})"
         if opts.get("d"):
             when += f" on {opts['d']}"
         if opts.get("st"):
             when += f" at {opts['st']}"
-        _task(facts, path, idx.line(m.start()), name.split("\\")[-1], when or None,
-              opts.get("tr"), None)  # fmt: skip
+        _task(
+            facts,
+            path,
+            idx.line(m.start()),
+            name.split("\\")[-1],
+            when or None,
+            opts.get("tr"),
+            None,
+        )
 
 
 def _program(command: str) -> str:
-    """The program a command line runs, without its folder: ``"C:\\x\\a b.exe" /q`` -> ``a b.exe``."""
+    """The program a command line runs, without its folder:
+    ``"C:\\x\\a b.exe" /q`` -> ``a b.exe``."""
     exe = command.split('"')[1] if command.startswith('"') else command.split()[0]
     return exe.replace("\\", "/").rsplit("/", 1)[-1]
 

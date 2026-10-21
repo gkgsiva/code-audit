@@ -4,6 +4,10 @@ using System.IO;
 
 namespace NightlyExport
 {
+    /// <summary>
+    /// Nightly invoice export: reads the day's invoices from BILLING and writes a CSV
+    /// file to the finance share for the ledger team.
+    /// </summary>
     class Program
     {
         static int Main(string[] args)

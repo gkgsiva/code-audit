@@ -4,6 +4,10 @@ using System.ServiceProcess;
 
 namespace InvoiceMailer
 {
+    /// <summary>
+    /// Invoice mailer: takes invoice ids from the MSMQ queue and e-mails each invoice to
+    /// the customer.
+    /// </summary>
     public class MailerService : ServiceBase
     {
         private MessageQueue _queue;
