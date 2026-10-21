@@ -28,6 +28,7 @@ from legacy_audit.linker.aggregate import (
     merge_db_objects,
     merge_integrations,
     merge_libraries,
+    merge_npm_versions,
     merge_tech,
     techs_from_libraries,
 )
@@ -67,6 +68,13 @@ WEB_SERVICE_KINDS = {
     "remoting",
 }
 VIEW_EXTENSIONS = (".jsp", ".jspx", ".xhtml", ".html", ".vm", ".ftl")
+# Single-page application templates (decision 130): a screen when a route reaches it.
+SPA_TECH = {"angular", "angularjs"}
+API_SERVICE_KINDS = {"node-route", "nest-route"}
+SPA_ENTRY_KINDS = {"angular-app", "angularjs-app"}
+MODULE_EXTENSIONS = (
+    ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", "/index.ts", "/index.js", "",
+)  # fmt: skip
 REACH_DEPTH = 4
 F = TypeVar("F", bound=Fact)
 
@@ -90,6 +98,7 @@ class _Index:
     pages: dict[str, str]  # path -> screen id
     urls: dict[str, list[str]]  # service url -> service ids
     resolvers: list[Symbol]
+    api_routes: list[tuple[list[str], str, str]] = field(default_factory=list)
 
 
 def _build_index(
@@ -114,11 +123,43 @@ def _build_index(
         if s.kind == "page" and s.owner:
             pages[s.file] = s.owner
     urls: dict[str, list[str]] = defaultdict(list)
+    api_routes: list[tuple[list[str], str, str]] = []
     for svc in services:
         if svc.url:
             urls[svc.url].append(svc.id)
+            if svc.kind in API_SERVICE_KINDS:
+                verb = svc.name.split(" ", 1)[0] if " " in svc.name else "ANY"
+                api_routes.append((url_segments(svc.url), verb, svc.id))
     resolvers = [s for s in symbols if s.kind == "view-resolver"]
-    return _Index(by_path, suffix, basename, stem, sym, sym_ci, pages, urls, resolvers)
+    return _Index(
+        by_path, suffix, basename, stem, sym, sym_ci, pages, urls, resolvers, sorted(api_routes)
+    )
+
+
+def url_segments(url: str) -> list[str]:
+    """Path segments of a route or of a URL built in code, parameters as ``{}``:
+    ``/api/orders/:id`` and ``/api/orders/${id}`` (``/api/orders/?``) give
+    ``['api', 'orders', '{}']``."""
+    out = []
+    for seg in url.lower().split("/"):
+        if not seg:
+            continue
+        if seg.startswith((":", "{", "*")) or "?" in seg or "$" in seg:
+            out.append("{}")
+        else:
+            out.append(seg)
+    return out
+
+
+def _match_route(call: list[str], route: list[str]) -> bool:
+    """A call's path matches a route when they are equal segment by segment (parameters match
+    anything), or the call is the route's tail (the base URL came from configuration)."""
+    if not call or len(call) > len(route):
+        return False
+    tail = route[len(route) - len(call) :]
+    if len(call) < len(route) and call[0] == "{}":
+        return False
+    return all(a == b or "{}" in (a, b) for a, b in zip(call, tail, strict=True))
 
 
 def _file_id(rec: FileRecord) -> str:
@@ -243,6 +284,11 @@ class _Linker:
             if kind == "path":
                 p = self._path(target, ref.file)
                 node = self._node_for_file(p, page=True) if p else None
+            elif kind == "module":  # a relative JavaScript/TypeScript import, no extension
+                for ext in MODULE_EXTENSIONS:
+                    if target + ext in self.ix.records:
+                        node = self._node_for_file(target + ext)
+                        break
             elif kind == "file-name":
                 p = self._pick(self.ix.basename.get(target.lower(), []), ref.file, prefer)
                 node = self._node_for_file(p) if p else None
@@ -251,6 +297,8 @@ class _Linker:
             elif kind == "url":
                 ids = self.ix.urls.get(target) or self.ix.urls.get(target + ".do")
                 node = ids[0] if ids else None
+                if node is None and ref.data.get("match") == "api":
+                    node = self._api_route(target, ref.data.get("method", "ANY"))
             else:
                 s = self._symbol(kind, target, ref.file, prefer)
                 node = self._node_for_symbol(s) if s else None
@@ -261,6 +309,23 @@ class _Linker:
             if p:
                 return self._node_for_file(p)
         return None
+
+    def _api_route(self, url: str, method: str) -> str | None:
+        """The Node.js route a front-end call reaches: same segments (parameters match), or
+        the route's tail; the same HTTP method and the longest exact match win."""
+        call = url_segments(url)
+        best: tuple[int, int, str] | None = None
+        for segs, verb, sid in self.ix.api_routes:
+            if not _match_route(call, segs):
+                continue
+            score = (
+                0 if verb in (method, "ANY") else 1,
+                len(segs) - len(call),
+                sid,
+            )
+            if best is None or score < best:
+                best = score
+        return best[2] if best else None
 
     def _view(self, view: str, near: str) -> str | None:
         for r in self.ix.resolvers:
@@ -299,7 +364,7 @@ class _Linker:
     def run(self) -> LinkResult:
         ent = self.entities
         libraries = resolve_versions(list(_typed(ent, "libraries", Library)), self.symbols)
-        libraries = merge_libraries(libraries)
+        libraries = merge_libraries(merge_npm_versions(libraries))
         modules = {s.name for s in self.symbols if s.kind == "maven-pom"}
         libraries = [lib for lib in libraries if f"{lib.group}:{lib.artifact}" not in modules]
         tech = merge_tech([*_typed(ent, "tech_stack", TechItem), *techs_from_libraries(libraries)])
@@ -314,6 +379,7 @@ class _Linker:
         jobs = merge_batch_jobs(_typed(ent, "batch_jobs", BatchJob))
         db_objects = merge_db_objects(_typed(ent, "db_objects", DbObject))
         services = dedupe(_typed(ent, "services", Service))
+        self._mount_routes(services)
         screens = dedupe(_typed(ent, "screens", Screen))
         entry_points = dedupe(_typed(ent, "entry_points", EntryPoint))
         sql = dedupe(_typed(ent, "sql_statements", SqlStatement))
@@ -381,6 +447,33 @@ class _Linker:
         }
         return LinkResult(out, unresolved=self.unresolved, edges=len(edges))
 
+    def _mount_routes(self, services: list[Service]) -> None:
+        """Node.js routes get the prefix they are mounted under: ``app.use('/api/orders',
+        ordersRouter)`` for the routes of that router (same file, or the imported module), and
+        NestJS's ``app.setGlobalPrefix('api')`` for the controllers of that component."""
+        mounts = {s.name: s.data.get("prefix", "") for s in self.symbols
+                  if s.kind == "node-route-mount"}  # fmt: skip
+        routers = {s.owner: s.name for s in self.symbols if s.kind == "node-router" and s.owner}
+        nest = {self.comp(s.file): s.name for s in self.symbols if s.kind == "nest-global-prefix"}
+        for svc in services:
+            prefix = ""
+            if svc.kind == "node-route" and svc.file:
+                stem = svc.file.rsplit(".", 1)[0]
+                prefix = (
+                    mounts.get(routers.get(svc.id, ""))
+                    or mounts.get(stem)
+                    or (mounts.get(stem.removesuffix("/index")) if stem.endswith("/index") else "")
+                    or ""
+                )
+            elif svc.kind == "nest-route":
+                prefix = nest.get(self.comp(svc.file), "") or ""
+            if not prefix or not svc.url:
+                continue
+            url = "/" + "/".join(x.strip("/") for x in (prefix, svc.url) if x.strip("/"))
+            verb = svc.name.split(" ", 1)[0]
+            svc.url = url
+            svc.name = f"{verb} {url}"
+
     def _link_refs(self) -> None:
         for ref in self.refs:
             source = self._source(ref)
@@ -442,7 +535,37 @@ class _Linker:
 
         by_service: dict[str, list[str]] = defaultdict(list)
         out: list[Screen] = []
+        shells: list[Screen] = []
+        routed_comps: set[str | None] = set()
+        shell_ids = {s.owner for s in self.symbols if s.kind == "spa-shell" and s.owner}
         for scr in screens:
+            if scr.technology in SPA_TECH:
+                # Routed (directly, or through the component class that renders it) = a screen;
+                # the application's start page = a screen only when nothing is routed; any
+                # other template is a sub-component (partial).
+                renderers = [e.source for e in incoming.get(scr.id, []) if e.kind == "renders"]
+                srcs = [
+                    e.source
+                    for n in [scr.id, *renderers]
+                    for e in incoming.get(n, [])
+                    if e.kind in ("forwards", "links", "submits")
+                ]
+                boot = scr.id in shell_ids or any(
+                    e.kind == "bootstraps"
+                    for n in [scr.id, *renderers]
+                    for e in incoming.get(n, [])
+                )
+                if srcs and not boot:
+                    scr.partial = False
+                    scr.targeted_by = sorted(set(srcs))
+                    routed_comps.add(self.comp(scr.file))
+                else:
+                    scr.partial = True
+                    scr.targeted_by = sorted({e.source for e in incoming.get(scr.id, [])})
+                    if boot:
+                        shells.append(scr)
+                out.append(scr)
+                continue
             if scr.technology not in PAGE_TECH:
                 srcs = navigated(scr.id)
                 scr.targeted_by = sorted(set(srcs))
@@ -465,6 +588,9 @@ class _Linker:
                 if s in service_ids:
                     by_service[s].append(scr.id)
             out.append(scr)
+        for scr in shells:
+            if self.comp(scr.file) not in routed_comps:
+                scr.partial = False  # a single-page application without routes: one screen
         for svc in services:
             if svc.id in by_service:
                 svc.screens = sorted(set(by_service[svc.id]))
@@ -647,7 +773,7 @@ class _Linker:
             queue = deque([(start, 0)])
             seen = {start}
             job = jobs_by_id.get(start)
-            in_source = job is None or job.scheduler in ("spring-batch", "jcl")
+            in_source = job is None or job.scheduler in ("spring-batch", "jcl", "node-cron")
             rec = self.by_path.get(svc.file or "") if in_source else None
             if rec is not None:
                 files.add(rec.path)
@@ -814,9 +940,12 @@ def classify_components(
         if isinstance(s, Service) and s.component:
             services[s.component].add(s.kind)
     screens: dict[str, set[str]] = defaultdict(set)
+    spa: dict[str, set[str]] = defaultdict(set)  # SPA templates, partial or not
     for sc in entities.get("screens", []):
         if isinstance(sc, Screen) and sc.component and not sc.partial:
             screens[sc.component].add(sc.technology)
+        if isinstance(sc, Screen) and sc.component:
+            spa[sc.component].add(sc.technology)
     jobs: set[str] = {
         j.component
         for j in entities.get("batch_jobs", [])
@@ -848,6 +977,10 @@ def classify_components(
         roles: set[str] = set()
         if kinds & WEB_SERVICE_KINDS or techs & PAGE_TECH:
             roles.add(ComponentType.WEB)
+        if spa.get(c.name, set()) & SPA_TECH or entries.get(c.name, set()) & SPA_ENTRY_KINDS:
+            roles.add(ComponentType.FRONTEND)
+        if kinds & API_SERVICE_KINDS:
+            roles.add(ComponentType.API)
         if "cics-transaction" in kinds or "BMS" in techs:
             roles.add(ComponentType.ONLINE_MAINFRAME)
         program_batch = (
@@ -856,7 +989,8 @@ def classify_components(
             or entries.get(c.name, set()) & {"main", "scheduler", "spring-batch"}
         )
         scripts = batchy.get(c.name, set())
-        if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME}:
+        if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME, ComponentType.API,
+                    ComponentType.FRONTEND}:  # fmt: skip
             # in an online application, only scripts filed as batch are batch work (deploy and
             # admin scripts often run SQL too)
             scripts = {p for p in scripts if in_batch_folder(p)}
@@ -878,6 +1012,10 @@ def classify_components(
             continue
         if ComponentType.WEB in roles:
             c.type = ComponentType.WEB
+        elif ComponentType.FRONTEND in roles:
+            c.type = ComponentType.FRONTEND
+        elif ComponentType.API in roles:
+            c.type = ComponentType.API
         elif ComponentType.ONLINE_MAINFRAME in roles:
             c.type = ComponentType.ONLINE_MAINFRAME
         elif program_batch or (

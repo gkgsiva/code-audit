@@ -34,6 +34,12 @@ facts; you interpret them. You never count.
    `_working-summary.md`. For batches, read the source of every script and program they run,
    comments included: that is where the business purpose, the controls and the restart rules
    are written down. A batch with no scheduler definition is still a batch.
+10. **Front ends, Node services and servers.** Components of type `frontend` (Angular or
+    AngularJS) and `api` (Express or NestJS on Node.js) are online parts of the application:
+    describe their screens, routes and the API calls between them (`calls` edges). Application
+    and web servers (WebLogic, WebSphere, JBoss/WildFly, Tomcat, Apache, Nginx...) are in the tech
+    stack with categories `app-server` and `web-server`; say what each one does today and how it
+    is replaced (Spring Boot 4 on GKE/Cloud Run, a load balancer or Cloud CDN).
 
 ## Where things are
 

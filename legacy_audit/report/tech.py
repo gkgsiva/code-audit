@@ -25,6 +25,7 @@ from legacy_audit.report import batches, diagrams, flows
 from legacy_audit.report import catalogues as cat
 from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData, slug
+from legacy_audit.report.servers import server_rows
 
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
 SEVERITY_COLOR = {
@@ -493,6 +494,13 @@ class _Pages:
             tech_stack=sorted(
                 self.rd.items("tech_stack"), key=lambda t: (t.get("category") or "", t["name"])
             ),
+            servers=[
+                {
+                    **r,
+                    "links": [self._link(f, r["lines"].get(f)) for f in r["files"]],
+                }
+                for r in server_rows(self.rd)
+            ],
             components=comps,
             effort=effort or None,
             largest_files=largest,

@@ -38,6 +38,7 @@ from legacy_audit.report import batches, flows
 from legacy_audit.report.data import RunData, slug
 from legacy_audit.report.deck_builder import PALETTE, _cut, _num, load_enrichment
 from legacy_audit.report.pptx_templates import TemplateError, resolve_template
+from legacy_audit.report.servers import server_rows
 from legacy_audit.store.writer import write_json
 
 SECTIONS = [
@@ -266,6 +267,31 @@ class _Summary:
             }
         )
         ll, lv = _top(lang_loc, 8)
+        servers = server_rows(self.rd)
+        server_table = [
+            [
+                r["name"],
+                r["kind"],
+                r["version"],
+                r["eol"],
+                ", ".join(r["components"]),
+                ", ".join(r["files"]) + (f" (+{r['more_files']} more)" if r["more_files"] else ""),
+                r["target"],
+            ]
+            for r in servers
+        ]
+        n_servers = sum(1 for r in servers if r["category"] != "runtime")
+        if n_servers:
+            intro = [
+                *intro,
+                "Runs on "
+                + ", ".join(
+                    r["name"] + (f" {r['version']}" if r["version"] else "")
+                    for r in servers
+                    if r["category"] != "runtime"
+                )
+                + ".",
+            ]
         bands = Counter(r[4] for r in rows if r[4])
         cl = [b for b in COMPLEXITY_ORDER if bands.get(b)]
         loc_rows = rows[:10]
@@ -282,6 +308,7 @@ class _Summary:
                 ("Services", c.get("services", {}).get("total", 0)),
                 ("Screens", c.get("screens", {}).get("total", 0)),
                 ("Technologies", len(stack)),
+                ("App and web servers", n_servers),
             ],
             [
                 Chart(
@@ -326,6 +353,24 @@ class _Summary:
                     "Technology stack",
                     ["Technology", "Version", "Category", "End of life"],
                     stack,
+                ),
+                Table(
+                    "servers",
+                    "Application and web servers",
+                    [
+                        "Product",
+                        "Kind",
+                        "Version",
+                        "End of life",
+                        "Modules",
+                        "Found in",
+                        "Target",
+                    ],
+                    server_table,
+                    "Found in deployment descriptors, server configuration, Dockerfiles, start "
+                    "scripts and vendor libraries. The target is the default from "
+                    "rules/target-mapping.yaml.",
+                    "No application or web server found in the code.",
                 ),
                 Table(
                     "modules",
@@ -642,6 +687,7 @@ class _Summary:
                 "cron": "scheduler",
                 "jcl": "scheduler",
                 "spring-batch": "scheduler",
+                "node-cron": "scheduler",
             }.get(r["when_from"], r["when_from"])
             for r in rows
         )
@@ -687,6 +733,7 @@ class _Summary:
                         "cron": "scheduler",
                         "jcl": "scheduler",
                         "spring-batch": "scheduler",
+                        "node-cron": "scheduler",
                     }.get(r["when_from"], r["when_from"]),
                     r["when_from"],
                 ),

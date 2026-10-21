@@ -54,10 +54,20 @@ _FIELD_TAGS = re.compile(
     r"|h:(?:inputText|inputSecret|inputTextarea|selectOneMenu|selectManyMenu|selectOneListbox|"
     r"selectManyListbox|selectOneRadio|selectBooleanCheckbox|selectManyCheckbox)"
     r"|p:(?:inputText|password|inputTextarea|selectOneMenu|calendar|autoComplete)"
+    r"|mat-(?:select|checkbox|radio-group|slide-toggle|button-toggle-group|slider|chip-grid)"
+    r"|p-(?:dropdown|calendar|checkbox|inputNumber|autoComplete|multiSelect|radioButton)"
     r"|select|textarea"
     r")\b",
     re.I,
 )
+# Angular templates: control flow, bindings, forms; AngularJS: ng-* directives.
+_ANGULAR_MARK = re.compile(
+    r"\*ng(If|For|Switch)\b|\[\(ngModel\)\]|formControlName|\[formGroup\]|routerLink\b|"
+    r"<router-outlet|@(if|for|switch)\s*\(|\(click\)=|\{\{[^}]*\|\s*async"
+)
+_ANGULARJS_MARK = re.compile(r"\bng-(app|controller|model|repeat|click|view|if|show|submit)\b")
+_NG_APP = re.compile(r"\b(ng-app|data-ng-app)\b|<ui-view|\bng-view\b", re.I)
+_CUSTOM_TAG = re.compile(r"<([a-z][a-z0-9]*-[a-z0-9-]+)\b")
 _INPUT = re.compile(r"<\s*input\b([^>]*)>", re.I)
 _INPUT_TYPE = re.compile(r"type\s*=\s*[\"']?(\w+)", re.I)
 _FORM_ACTION = re.compile(
@@ -80,6 +90,31 @@ _FTL_INCLUDE = re.compile(r"<#(?:include|import)\s+[\"']([^\"']+)", re.I)
 _JSF_MARK = re.compile(r"xmlns:h\s*=|<f:view|<h:form|java\.sun\.com/jsf|xmlns\.jcp\.org/jsf", re.I)
 
 
+def count_fields(text: str) -> int:
+    """Input fields of a page or template (hidden inputs and buttons excluded)."""
+    fields = len(_FIELD_TAGS.findall(text))
+    for m in _INPUT.finditer(text):
+        t = _INPUT_TYPE.search(m.group(1))
+        if not t or t.group(1).lower() not in ("hidden", "submit", "button", "reset", "image"):
+            fields += 1
+    return fields
+
+
+def page_technology(path: str, language: str, text: str) -> str:
+    """jsf, angular, angularjs or the file's language."""
+    lower = path.lower()
+    if language in ("jsp", "html") and (
+        lower.endswith((".xhtml", ".jsf")) or _JSF_MARK.search(text)
+    ):
+        return "jsf"
+    if language == "html":
+        if lower.endswith(".component.html") or _ANGULAR_MARK.search(text):
+            return "angular"
+        if _ANGULARJS_MARK.search(text):
+            return "angularjs"
+    return language
+
+
 def _rel_target(base_file: str, target: str) -> str:
     """Resolve a page reference: '/x' is webapp-relative; else relative to the page folder."""
     if target.startswith("/"):
@@ -89,7 +124,7 @@ def _rel_target(base_file: str, target: str) -> str:
 
 class WebAnalyzer:
     name: ClassVar[str] = "web"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: Angular and AngularJS templates
 
     def supports(self, file: FileRecord) -> bool:
         base = file.path.rsplit("/", 1)[-1].lower()
@@ -452,17 +487,9 @@ class WebAnalyzer:
     def _page(self, file: FileRecord, text: str, facts: Facts) -> None:
         path = file.path
         lower = path.lower()
-        tech_name = file.language
-        if file.language in ("jsp", "html") and (
-            lower.endswith((".xhtml", ".jsf")) or _JSF_MARK.search(text)
-        ):
-            tech_name = "jsf"
+        tech_name = page_technology(path, file.language, text)
         partial = lower.endswith((".jspf", ".tag", ".inc", ".tagx"))
-        fields = len(_FIELD_TAGS.findall(text))
-        for m in _INPUT.finditer(text):
-            t = _INPUT_TYPE.search(m.group(1))
-            if not t or t.group(1).lower() not in ("hidden", "submit", "button", "reset", "image"):
-                fields += 1
+        fields = count_fields(text)
         action_m = _FORM_ACTION.search(text)
         action = action_m.group(1) if action_m else None
         sid = make_id("screen", path)
@@ -482,6 +509,8 @@ class WebAnalyzer:
         facts.symbol("page", path, path, 1, owner=sid)
         source = f"screen:{sid}"
         lines = LineIndex(text)
+        if tech_name in ("angular", "angularjs"):
+            self._spa_template(path, sid, text, lines, facts)
         for rx in (_INCLUDE_DIRECTIVE, _INCLUDE_ACTION, _VELOCITY_INCLUDE, _FTL_INCLUDE):
             for m in rx.finditer(text):
                 facts.ref(
@@ -510,6 +539,28 @@ class WebAnalyzer:
             self._nav(facts, source, path, m.group(1), lines.line(m.start()), "submits")
         for m in _HREF_ACTION.finditer(text):
             self._nav(facts, source, path, m.group(1), lines.line(m.start()), "links")
+
+    def _spa_template(self, path: str, sid: str, text: str, lines: LineIndex, facts: Facts) -> None:
+        """Angular/AngularJS template: the sub-components it places (``<app-order-form>``)
+        and, for the page that starts the application (``ng-app``, ``ng-view``), a shell mark."""
+        if _NG_APP.search(text):
+            facts.symbol("spa-shell", path, path, 1, owner=sid)
+        seen: set[str] = set()
+        for m in _CUSTOM_TAG.finditer(text):
+            tag = m.group(1)
+            if tag in seen or tag in ("router-outlet", "ng-container", "ng-template", "ng-content"):
+                continue
+            seen.add(tag)
+            facts.ref(
+                kind="includes",
+                source=f"screen:{sid}",
+                source_label=path,
+                target=tag,
+                target_kinds=["angular-selector", "angularjs-component", "angularjs-directive"],
+                file=path,
+                line=lines.line(m.start()),
+                report_unresolved=False,
+            )
 
     def _nav(self, facts: Facts, source: str, path: str, target: str, line: int, kind: str) -> None:
         if "://" in target or target.startswith(("javascript:", "mailto:")):

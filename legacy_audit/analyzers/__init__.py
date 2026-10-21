@@ -23,9 +23,11 @@ from legacy_audit.analyzers.metrics import MetricsAnalyzer
 from legacy_audit.analyzers.mq import MqAnalyzer
 from legacy_audit.analyzers.patterns import PatternsAnalyzer
 from legacy_audit.analyzers.proc import ProcAnalyzer
+from legacy_audit.analyzers.servers import ServersAnalyzer
 from legacy_audit.analyzers.shell import ShellAnalyzer
 from legacy_audit.analyzers.spring import SpringAnalyzer
 from legacy_audit.analyzers.sql import SqlAnalyzer
+from legacy_audit.analyzers.typescript import TypeScriptAnalyzer
 from legacy_audit.analyzers.web import WebAnalyzer
 
 for _analyzer in (
@@ -34,6 +36,7 @@ for _analyzer in (
     ConfigAnalyzer(),
     JavaAnalyzer(),
     WebAnalyzer(),
+    TypeScriptAnalyzer(),
     SpringAnalyzer(),
     SqlAnalyzer(),
     ShellAnalyzer(),
@@ -44,6 +47,7 @@ for _analyzer in (
     AutosysAnalyzer(),
     MqAnalyzer(),
     CftAnalyzer(),
+    ServersAnalyzer(),
     MetricsAnalyzer(),
     PatternsAnalyzer(),
 ):

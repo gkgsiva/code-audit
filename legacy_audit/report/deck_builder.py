@@ -23,6 +23,7 @@ from legacy_audit.enrich.status import compute_status, enrichment_dir, sync_from
 from legacy_audit.report import diagrams, flows
 from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData
+from legacy_audit.report.servers import server_rows
 
 DECK_VERSION = "1"
 SEVERITIES = ["critical", "high", "medium", "low", "info"]
@@ -591,6 +592,29 @@ class _Deck:
             "Technology stack",
             [self.table(["Technology", "Version", "Category", "End of life"], rows)],
         )
+        servers = server_rows(self.rd)
+        if servers:
+            self.add(
+                "cur-servers",
+                "Application and web servers",
+                [
+                    self.table(
+                        ["Product", "Kind", "Version", "End of life", "Modules", "Target"],
+                        [
+                            [
+                                r["name"],
+                                r["kind"],
+                                r["version"],
+                                r["eol"],
+                                ", ".join(r["components"]),
+                                r["target"],
+                            ]
+                            for r in servers
+                        ],
+                    )
+                ],
+                "From deployment descriptors, server configuration, Dockerfiles and start scripts.",
+            )
 
         arch = self.stage("architecture")
         if arch and arch.get("diagrams"):

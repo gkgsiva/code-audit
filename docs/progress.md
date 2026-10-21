@@ -329,3 +329,23 @@ PowerPoint on the corporate template rather than in the browser with pptxgenjs.
 - Follow-up (2026-10-21): the guides now recommend OSV-Scanner alone with `offline: false` as
   the quick start (no database download) and `osv_scanner.offline` now defaults to `false`;
   Dependency-Check is optional (decision 127).
+
+## Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
+
+Thread "Angular, Node and TypeScript support". Siva asked for Angular, Node.js and TypeScript
+coverage across the whole audit, then for AngularJS and for application and web servers
+(WebSphere, WebLogic, Tomcat, JBoss, WildFly...) in both the detailed and the summary reports.
+
+- Done: analyzers `typescript` and `servers`, npm lock files in `deps`, minified-file skip,
+  component types `frontend` and `api`, SPA screen rule, front end to API `calls` edges,
+  TypeScript complexity units, EOL and target rules, servers in the technical report
+  (Overview), summary report (Project section) and deck; Copilot agent told about them
+  (decisions 128 to 132). Sample `samples/angular-node-app` with `expected.yaml`; unit tests in
+  `tests/analyzers/test_typescript.py`, `test_servers.py`, `test_npm_deps.py` and new cases in
+  `test_linker.py`, `test_metrics.py`, `test_walker.py`. VS Code task 26.
+- Known gaps: a service's reach is per file, so a route defined next to `app.listen` reaches
+  everything the server file imports; ORM calls are kept as readable text, not parsed SQL;
+  server product versions come only from DTDs, `domain-version` and image tags (Tomcat's
+  `server.xml` has none); React and Vue are named in the tech stack but their pages are not
+  counted as screens.
+- Next: run on a real Angular/Node estate and check the screen and route counts with the team.

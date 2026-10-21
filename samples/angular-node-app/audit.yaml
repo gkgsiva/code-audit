@@ -1,0 +1,11 @@
+# Sample: a modern web estate next to the legacy one it replaces. An Angular 17 front end
+# (orders-web) calls two Node.js/TypeScript APIs: orders-api (Express, TypeORM, raw SQL with
+# pg, a node-cron job) and billing-api (NestJS, Prisma, a @Cron job). legacy-portal is an
+# AngularJS 1.5 application packaged as a Java WAR with WebLogic, JBoss and WebSphere
+# descriptors; deploy/ holds the Tomcat, WebLogic, JBoss, Liberty, Apache and Nginx
+# configuration the team handed over.
+application:
+  name: "Angular and Node.js orders (sample)"
+source:
+  type: local
+  paths: ["estate"]

@@ -27,6 +27,27 @@
   </div>
 </div>
 
+<h2>Application and web servers</h2>
+{% if servers %}
+<p class="muted">Servers and runtimes the code is built for or deployed on, found in deployment descriptors, server configuration, container images, start scripts and vendor APIs. On the target (Spring Boot 4 on GKE or Cloud Run) each one is replaced; the findings list the server-specific files to rework.</p>
+<div class="table-wrap">
+<table class="data">
+  <thead><tr><th>Server or runtime</th><th>Kind</th><th>Version</th><th>End of life</th><th>Components</th><th>Found in</th><th>Default target</th></tr></thead>
+  <tbody>
+  {% for s in servers %}<tr>
+    <td>{{ s.name }}</td><td>{{ s.kind }}</td><td><code>{{ s.version }}</code></td>
+    <td>{% if s.eol and s.eol != "no" %}<span class="chip critical">{{ s.eol }}</span>{% if s.replacement %} → {{ s.replacement }}{% endif %}{% else %}{{ s.eol }}{% endif %}</td>
+    <td>{% for c in s.components %}<a href="{{ base }}components/{{ c|replace('/', '-') }}.html">{{ c }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    <td>{% for l in s.links %}{{ m.ev(l) }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% if s.more_files %}<br><span class="muted">and {{ s.more_files }} more</span>{% endif %}</td>
+    <td>{{ s.target }}</td>
+  </tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="muted">No application server, web server or runtime was found in the scanned files (deployment descriptors, server configuration, Dockerfiles, start scripts). Server configuration that is kept outside the code can be added under <code>audit-inputs/server-config/</code>.</p>
+{% endif %}
+
 <h2>Components</h2>
 <div class="table-wrap">
 <table class="data">

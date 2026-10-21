@@ -156,6 +156,40 @@ def _merge_cft(items: list[Integration]) -> list[Integration]:
     return out
 
 
+def _folder(path: str) -> str:
+    return path.rsplit("/", 1)[0] if "/" in path else ""
+
+
+def merge_npm_versions(items: Iterable[Library]) -> list[Library]:
+    """A package that ``package.json`` declares and a lock file in the same folder pins is one
+    library at the lock file's exact version, declared, with the ``package.json`` scope."""
+    libs = list(items)
+    locked: dict[tuple[str, str], list[Library]] = {}
+    for lib in libs:
+        if lib.source == "npm-lock":
+            for f in lib.where_used:
+                locked.setdefault((_folder(f), lib.artifact), []).append(lib)
+    out: list[Library] = []
+    for lib in libs:
+        if lib.source == "npm" and lib.where_used:
+            cands = locked.get((_folder(lib.where_used[0]), lib.artifact), [])
+            # Several versions installed (nested copies): the one of the declared major.
+            major = (lib.version or "").split(".", 1)[0]
+            hit = next(
+                (c for c in cands if (c.version or "").split(".", 1)[0] == major),
+                cands[0] if cands else None,
+            )
+            if hit is not None:
+                hit.declared = True
+                hit.source = "npm"
+                hit.scope = lib.scope
+                hit.where_used = _union(lib.where_used, hit.where_used)
+                hit.evidence = _evidence(lib.evidence, hit.evidence)
+                continue
+        out.append(lib)
+    return out
+
+
 def merge_libraries(items: Iterable[Library]) -> list[Library]:
     by_id: dict[str, Library] = {}
     for lib in items:
@@ -218,19 +252,91 @@ _LIB_TECH: list[tuple[re.Pattern[str], str, str]] = [
     (re.compile(r"^jquery[.-]ui$"), "jQuery UI", "library"),
     (re.compile(r"^angular$"), "AngularJS", "framework"),
     (re.compile(r"^bootstrap$"), "Bootstrap", "library"),
+    # Embedded or vendor server libraries in a Maven/Gradle build.
+    (re.compile(r"^tomcat-embed-core$"), "Apache Tomcat (embedded)", "app-server"),
+    (re.compile(r"^(jetty-server|jetty-webapp)$"), "Eclipse Jetty", "app-server"),
+    (re.compile(r"^undertow-core$"), "Undertow", "app-server"),
+    (re.compile(r"^(weblogic|wlfullclient|wlthint3client|weblogic-server-pom)$"),
+     "Oracle WebLogic Server", "app-server"),
+    (re.compile(r"^(was_public|com\.ibm\.ws\.webservices\.thinclient.*|com\.ibm\.websphere\..*)$"),
+     "IBM WebSphere Application Server", "app-server"),
+    (re.compile(r"^(jboss-as-[a-z-]+|jboss-client)$"), "JBoss AS", "app-server"),
+    (re.compile(r"^wildfly-[a-z-]+$"), "WildFly", "app-server"),
+]  # fmt: skip
+
+# npm packages (language javascript): frameworks and runtimes of Angular and Node.js code.
+_NPM_TECH: list[tuple[re.Pattern[str], str, str]] = [
+    (re.compile(r"^@angular/core$"), "Angular", "framework"),
+    (re.compile(r"^angular$"), "AngularJS", "framework"),
+    (re.compile(r"^@uirouter/angularjs$|^angular-ui-router$"), "AngularJS UI-Router", "library"),
+    (re.compile(r"^@angular/material$"), "Angular Material", "library"),
+    (re.compile(r"^rxjs$"), "RxJS", "library"),
+    (re.compile(r"^@ngrx/store$"), "NgRx", "library"),
+    (re.compile(r"^typescript$"), "TypeScript", "language"),
+    (re.compile(r"^react$"), "React", "framework"),
+    (re.compile(r"^vue$"), "Vue.js", "framework"),
+    (re.compile(r"^jquery$"), "jQuery", "library"),
+    (re.compile(r"^bootstrap$"), "Bootstrap", "library"),
+    (re.compile(r"^express$"), "Express", "framework"),
+    (re.compile(r"^@nestjs/core$"), "NestJS", "framework"),
+    (re.compile(r"^fastify$"), "Fastify", "framework"),
+    (re.compile(r"^koa$"), "Koa", "framework"),
+    (re.compile(r"^@hapi/hapi$|^hapi$"), "hapi", "framework"),
+    (re.compile(r"^typeorm$"), "TypeORM", "framework"),
+    (re.compile(r"^(prisma|@prisma/client)$"), "Prisma", "framework"),
+    (re.compile(r"^sequelize$"), "Sequelize", "framework"),
+    (re.compile(r"^knex$"), "Knex.js", "library"),
+    (re.compile(r"^mongoose$"), "Mongoose", "framework"),
+    (re.compile(r"^(pg|pg-promise|postgres)$"), "PostgreSQL", "database"),
+    (re.compile(r"^(oracledb|node-oracledb)$"), "Oracle", "database"),
+    (re.compile(r"^(mysql|mysql2)$"), "MySQL", "database"),
+    (re.compile(r"^(mssql|tedious)$"), "SQL Server", "database"),
+    (re.compile(r"^(ibm_db|ibm_db2)$"), "DB2", "database"),
+    (re.compile(r"^(mongodb)$"), "MongoDB", "database"),
+    (re.compile(r"^(redis|ioredis)$"), "Redis", "database"),
+    (re.compile(r"^node-cron$"), "node-cron", "scheduler"),
+    (re.compile(r"^cron$"), "cron (npm)", "scheduler"),
+    (re.compile(r"^node-schedule$"), "node-schedule", "scheduler"),
+    (re.compile(r"^@nestjs/schedule$"), "NestJS Schedule", "scheduler"),
+    (re.compile(r"^agenda$"), "Agenda", "scheduler"),
+    (re.compile(r"^(bull|bullmq)$"), "Bull queue", "scheduler"),
+    (re.compile(r"^kafkajs$"), "Kafka client (kafkajs)", "middleware"),
+    (re.compile(r"^amqplib$"), "AMQP client (amqplib)", "middleware"),
+    (re.compile(r"^ibmmq$"), "IBM MQ client", "middleware"),
+    (re.compile(r"^passport$"), "Passport", "auth"),
+    (re.compile(r"^@okta/okta-(auth-js|angular|react)$"), "Okta SDK", "auth"),
+    (re.compile(r"^keycloak-(js|angular)$"), "Keycloak adapter", "auth"),
+    (re.compile(r"^angular-oauth2-oidc$"), "angular-oauth2-oidc", "auth"),
+    (re.compile(r"^@azure/msal-(angular|browser|node)$"), "Microsoft MSAL", "auth"),
+    (re.compile(r"^jsonwebtoken$"), "jsonwebtoken (JWT)", "auth"),
+    (re.compile(r"^(soap|strong-soap)$"), "SOAP client (Node.js)", "library"),
+    (re.compile(r"^(@nrwl/workspace|nx)$"), "Nx", "build"),
+    (re.compile(r"^webpack$"), "webpack", "build"),
+    (re.compile(r"^gulp$"), "gulp", "build"),
+    (re.compile(r"^grunt$"), "Grunt", "build"),
 ]  # fmt: skip
 
 
 def techs_from_libraries(libs: Iterable[Library]) -> list[TechItem]:
     out: list[TechItem] = []
     for lib in libs:
-        for rx, name, category in _LIB_TECH:
+        if lib.language == "javascript" and lib.scope == "transitive":
+            continue  # what the application uses directly, not what its packages pull in
+        rules = _NPM_TECH if lib.language == "javascript" else _LIB_TECH
+        for rx, name, category in rules:
             if rx.match(lib.artifact.lower()):
                 out.append(TechItem(id=make_id("tech", name, lib.version or ""), name=name,
                                     version=lib.version, category=category,
                                     evidence=list(lib.evidence[:1])))  # fmt: skip
                 break
     return out
+
+
+_FOLD_CATEGORIES = {"language", "runtime", "app-server", "web-server"}
+
+
+def _version_key(v: str) -> tuple[int, ...]:
+    return tuple(int(x) for x in re.findall(r"\d+", v)[:4])
 
 
 def merge_tech(items: Iterable[TechItem]) -> list[TechItem]:
@@ -249,9 +355,12 @@ def merge_tech(items: Iterable[TechItem]) -> list[TechItem]:
     out = []
     for t in by_id.values():
         targets = versions.get(t.name)
-        if not t.version and targets and len(targets) == 1:
-            targets[0].usages += t.usages
-            targets[0].evidence = _evidence(targets[0].evidence, t.evidence)
+        if not t.version and targets and (len(targets) == 1 or t.category in _FOLD_CATEGORIES):
+            # A mention without a version is the same product: it goes with the version found
+            # (with the newest one when several are, for runtimes and front-end frameworks).
+            target = max(targets, key=lambda x: _version_key(x.version or ""))
+            target.usages += t.usages
+            target.evidence = _evidence(target.evidence, t.evidence)
             continue
         out.append(t)
     return sorted(out, key=lambda t: (t.category, t.name.lower(), t.version or ""))
