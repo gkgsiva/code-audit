@@ -1,10 +1,13 @@
-"""``legacy-audit report --type summary``: a four-part summary report, as HTML and PowerPoint.
+"""``legacy-audit report --type summary``: a five-part summary report, as HTML and PowerPoint.
 
 1. **Project**: what the application is, its technology stack, and its modules (components)
    with a description, technology, complexity and lines of code;
 2. **Database and queries**: SQL statements, PostgreSQL readiness, tables, databases;
 3. **Integrations**: one row per interface with its purpose and description;
-4. **Batches**: every batch once, with what it does and when it runs (``report/batches.py``).
+4. **Batches**: every batch once, with what it does and when it runs (``report/batches.py``);
+5. **Dependency vulnerabilities**: the known vulnerabilities of the libraries, from OWASP
+   Dependency-Check and OSV-Scanner merged into one list (``security/vulns.py``), each with the
+   scanner(s) that found it; says plainly when neither scanner's results are there.
 
 Each part has headline figures, charts and the data behind them (tables, and a CSV per table
 next to the page). Every number comes from the scan (rule 1); descriptions come from the
@@ -42,12 +45,30 @@ SECTIONS = [
     ("data", "Database and queries", "Architects and DBAs", "series-3"),
     ("integrations", "Integrations", "Architects", "series-2"),
     ("batch", "Batches", "Operations and architects", "series-7"),
+    ("security", "Dependency vulnerabilities", "Security and architects", "series-8"),
 ]
 SLIDE_ROWS = 10  # rows of a table on a slide; the HTML and the CSV have them all
 COMPLEXITY_ORDER = ["Simple", "Medium", "Complex", "Very complex"]
 GRADES = ["auto", "review", "manual"]
 GRADE_TOKEN = {"auto": "good", "review": "warning", "manual": "critical"}
 SERIES = [f"series-{i}" for i in range(1, 9)]
+SEVERITIES = ["critical", "high", "medium", "low", "unknown"]
+SEVERITY_TOKEN = {
+    "critical": "critical",
+    "high": "serious",
+    "medium": "warning",
+    "low": "series-1",
+    "unknown": "info",
+}
+SCANNERS = {"dependency-check": "Dependency-Check", "osv-scanner": "OSV-Scanner"}
+SCANNER_STATUS = {
+    "imported": "report imported from audit-inputs/security",
+    "ran": "ran during the scan",
+    "missing": "not used",
+    "failed": "failed",
+    "disabled": "turned off in audit.yaml",
+    "skipped": "not needed",
+}
 
 
 @dataclass
@@ -57,6 +78,7 @@ class Table:
     columns: list[str]
     rows: list[list[Any]]
     note: str = ""
+    empty: str = "None found."  # shown in place of an empty table
 
 
 @dataclass
@@ -81,6 +103,7 @@ class Section:
     charts: list[Chart]
     tables: list[Table]
     source_note: str = ""
+    alert: str = ""  # a gap the reader must not miss, shown as a warning box
 
 
 def _plan_text(plan: dict[str, Any] | None) -> str:
@@ -736,6 +759,321 @@ class _Summary:
             else "",
         )
 
+    # ---- 5 dependency vulnerabilities ------------------------------------------------------------
+    @staticmethod
+    def _found_by(sources: Any) -> str:
+        names = [SCANNERS.get(x, x) for x in sorted(set(sources or []))]
+        return "both" if len(names) > 1 else (names[0] if names else "")
+
+    def _library_modules(self) -> dict[str, list[str]]:
+        """Library id -> the modules whose build files or folders declare it."""
+        comp_of = {f["path"]: f.get("component") for f in self.rd.items("inventory")}
+        out: dict[str, list[str]] = {}
+        for lib in self.rd.items("libraries"):
+            comps = {comp_of.get(p) for p in lib.get("where_used") or []}
+            out[lib["id"]] = sorted(str(c) for c in comps if c)
+        return out
+
+    def security(self) -> Section:
+        libs = self.rd.items("libraries")
+        vl = self.c.get("vulnerable_libraries", {})
+        sources = self.rd.run.get("vulnerability_sources", []) or []
+        checked = [s for s in sources if s.get("status") in ("imported", "ran")]
+        modules = self._library_modules()
+        # One row per vulnerability and library; per id, the worst severity and every scanner.
+        rows: list[list[Any]] = []
+        by_id: dict[str, dict[str, Any]] = {}
+        lib_rows: list[list[Any]] = []
+        per_lib: Counter[str] = Counter()
+        per_module: dict[str, set[str]] = defaultdict(set)
+        for lib in libs:
+            vulns = lib.get("vulnerabilities") or []
+            if not vulns:
+                continue
+            name = f"{lib['group']}:{lib['artifact']}" if lib.get("group") else lib["artifact"]
+            for v in vulns:
+                cur = by_id.setdefault(
+                    v["id"], {"severity": "unknown", "sources": set(), "fix": False}
+                )
+                if SEVERITIES.index(v["severity"]) < SEVERITIES.index(cur["severity"]):
+                    cur["severity"] = v["severity"]
+                cur["sources"] |= set(v.get("sources") or [])
+                cur["fix"] = cur["fix"] or bool(v.get("fixed_versions"))
+                rows.append(
+                    [
+                        v["id"],
+                        v["severity"],
+                        v["cvss"] if v.get("cvss") is not None else "",
+                        name,
+                        lib.get("version") or "",
+                        ", ".join(v.get("fixed_versions") or []) or "not known",
+                        self._found_by(v.get("sources")),
+                        ", ".join(v.get("aliases") or []),
+                        v.get("description") or "",
+                    ]
+                )
+                for m in modules.get(lib["id"], []):
+                    per_module[m].add(v["id"])
+            per_lib[f"{lib['artifact']} {lib.get('version') or ''}".strip()] = len(vulns)
+            rec = lib.get("recommendation") or {}
+            fix = rec.get("action") or ""
+            if rec.get("target"):
+                fix = f"{fix}: {rec['target']}" if fix else rec["target"]
+            lib_rows.append(
+                [
+                    name,
+                    lib.get("version") or "",
+                    len(vulns),
+                    lib.get("max_severity") or "",
+                    max((v.get("cvss") or 0 for v in vulns), default=0) or "",
+                    self._found_by({x for v in vulns for x in v.get("sources") or []}),
+                    fix,
+                    "yes" if lib.get("eol") else ("no" if lib.get("eol") is False else ""),
+                    ", ".join(modules.get(lib["id"], [])),
+                ]
+            )
+        rows.sort(key=lambda r: (SEVERITIES.index(r[1]), -(r[2] or 0), r[0], r[3]))
+        lib_rows.sort(key=lambda r: (SEVERITIES.index(r[3] or "unknown"), -r[2], r[0]))
+        total = int(vl.get("vulnerabilities", len(by_id)))
+        sev = Counter(x["severity"] for x in by_id.values())
+        found = Counter(self._found_by(x["sources"]) for x in by_id.values())
+        fixable = sum(1 for x in by_id.values() if x["fix"])
+
+        source_rows = []
+        for src in sources:
+            tool = src.get("name", "")
+            status = str(src.get("status") or "")
+            result = SCANNER_STATUS.get(status, status)
+            if src.get("detail"):
+                result += f" ({src['detail']})"
+            ids = [k for k, x in by_id.items() if tool in x["sources"]]
+            alone = [k for k in ids if len(by_id[k]["sources"]) == 1]
+            ok = status in ("imported", "ran")
+            source_rows.append(
+                [
+                    SCANNERS.get(tool, tool),
+                    result,
+                    src.get("database_date") or "",
+                    ", ".join(src.get("reports") or []),
+                    len(ids) if ok else "",
+                    len(alone) if ok else "",
+                ]
+            )
+
+        names = " and ".join(SCANNERS.get(s["name"], s["name"]) for s in checked)
+        unused = [
+            f"{SCANNERS.get(s['name'], s['name'])} "
+            f"({s.get('detail') or SCANNER_STATUS.get(s.get('status', ''), s.get('status'))})"
+            for s in sources
+            if s not in checked
+        ]
+        how = (
+            "To add the check, put the JSON report of OWASP Dependency-Check or OSV-Scanner "
+            "(or both) in audit-inputs/security/, or install the tools so the scan runs them, "
+            "then scan again."
+        )
+        if not libs:
+            intro = [
+                "No third-party libraries were found in the code, so there was nothing to check "
+                "for known vulnerabilities."
+            ]
+        elif not checked:
+            intro = [
+                "No vulnerability check was done: neither OWASP Dependency-Check nor OSV-Scanner "
+                "results were found for this run, so the "
+                f"{_plural(len(libs), 'library', 'libraries')} found have not been checked. "
+                "This does not mean they are safe.",
+                how,
+            ]
+        elif not total:
+            intro = [
+                f"No known vulnerabilities in the {_plural(len(libs), 'library', 'libraries')} "
+                f"checked with {names}."
+            ]
+        else:
+            worst = ", ".join(f"{_num(sev[k])} {k}" for k in SEVERITIES if sev.get(k))
+            intro = [
+                f"{_plural(total, 'known vulnerability', 'known vulnerabilities')} in "
+                f"{_num(vl.get('total', len(lib_rows)))} of "
+                f"{_plural(len(libs), 'library', 'libraries')}: {worst}.",
+                f"Checked with {names}; each vulnerability is listed once, with the scanner(s) "
+                "that found it"
+                + (
+                    f" (both: {_num(found.get('both', 0))}, "
+                    + ", ".join(f"{n} only: {_num(found.get(n, 0))}" for n in SCANNERS.values())
+                    + ")."
+                    if len(checked) > 1
+                    else "."
+                ),
+                f"A fixed version is known for {_num(fixable)} of them; the libraries table "
+                "gives the suggested upgrade or replacement.",
+            ]
+            top = rows[:3]
+            if top:
+                intro.append(
+                    "Fix first: "
+                    + "; ".join(
+                        f"{r[0]} in {r[3]} {r[4]} ({r[1]}"
+                        + (f", CVSS {_num(r[2])}" if r[2] != "" else "")
+                        + ")"
+                        for r in top
+                    )
+                    + "."
+                )
+        if libs and unused:  # a scanner that was not used is a gap, said in so many words
+            intro.append(
+                "Not used: "
+                + ", ".join(unused)
+                + "."
+                + (
+                    " The two scanners use different databases and each finds issues the other "
+                    "misses: add the missing one's JSON report to audit-inputs/security/, or "
+                    "install it, and scan again."
+                    if checked
+                    else ""
+                )
+            )
+
+        charts: list[Chart] = []
+        if total:
+            sl = [k for k in SEVERITIES if sev.get(k)]
+            fl = [k for k in ("both", *SCANNERS.values()) if found.get(k)]
+            ll, lv = (
+                [k for k, _ in per_lib.most_common(10)],
+                [v for _, v in per_lib.most_common(10)],
+            )
+            mods = sorted(per_module.items(), key=lambda kv: (-len(kv[1]), kv[0]))[:10]
+            charts = [
+                Chart(
+                    "by-severity",
+                    "Vulnerabilities by severity",
+                    "doughnut",
+                    sl,
+                    [sev[k] for k in sl],
+                    [SEVERITY_TOKEN[k] for k in sl],
+                    "vulnerabilities",
+                ),
+                Chart(
+                    "by-scanner",
+                    "Which scanner found them",
+                    "doughnut",
+                    fl,
+                    [found[k] for k in fl],
+                    [
+                        {"both": "good", "Dependency-Check": "series-1", "OSV-Scanner": "series-4"}[
+                            k
+                        ]
+                        for k in fl
+                    ],
+                    "vulnerabilities",
+                ),
+                Chart(
+                    "top-libraries",
+                    "Most vulnerable libraries",
+                    "hbar",
+                    ll,
+                    lv,
+                    ["series-8"],
+                    "vulnerabilities",
+                ),
+                Chart(
+                    "by-module",
+                    "Vulnerabilities by module",
+                    "bar",
+                    [m for m, _ in mods],
+                    [len(ids) for _, ids in mods],
+                    ["series-8"],
+                    "vulnerabilities",
+                ),
+            ]
+        if checked:
+            kpis: list[tuple[str, Any]] = [
+                ("Libraries", len(libs)),
+                ("Vulnerable libraries", vl.get("total", len(lib_rows))),
+                ("Vulnerabilities", total),
+                ("Critical", sev.get("critical", 0)),
+                ("High", sev.get("high", 0)),
+                ("Fix known", fixable),
+            ]
+            if len(checked) > 1:
+                kpis.append(("Found by both scanners", found.get("both", 0)))
+        else:
+            kpis = [
+                ("Libraries", len(libs)),
+                ("Vulnerability check", "not done" if libs else "not needed"),
+            ]
+        not_checked = "Not checked: no Dependency-Check or OSV-Scanner results for this run."
+        empty = "None found." if checked else not_checked
+        return Section(
+            "security",
+            "Dependency vulnerabilities",
+            "Security and architects",
+            "series-8",
+            intro,
+            kpis,
+            charts,
+            [
+                Table(
+                    "vulnerabilities",
+                    "Top vulnerabilities",
+                    [
+                        "Vulnerability",
+                        "Severity",
+                        "CVSS",
+                        "Library",
+                        "Version",
+                        "Fixed in",
+                        "Found by",
+                        "Also known as",
+                        "What it is",
+                    ],
+                    rows,
+                    "Worst first. One row per vulnerability and library; when both scanners "
+                    "report the same issue (same CVE, GHSA or OSV id) it is one row with "
+                    "Found by = both.",
+                    empty,
+                ),
+                Table(
+                    "vulnerable-libraries",
+                    "Vulnerable libraries",
+                    [
+                        "Library",
+                        "Version",
+                        "Vulnerabilities",
+                        "Worst severity",
+                        "Highest CVSS",
+                        "Found by",
+                        "Suggested fix",
+                        "End of life",
+                        "Modules",
+                    ],
+                    lib_rows,
+                    "Suggested fix: the upgrade or replacement from the dependency rules "
+                    "(rules/dependency-upgrades.yaml).",
+                    empty,
+                ),
+                Table(
+                    "scanners",
+                    "Vulnerability checks",
+                    [
+                        "Scanner",
+                        "Result",
+                        "Database date",
+                        "Reports",
+                        "Vulnerabilities found",
+                        "Found only by this scanner",
+                    ],
+                    source_rows,
+                    "Database date: how fresh the scanner's vulnerability data was. A scanner "
+                    "that was not used is a gap in the check, not a clean result.",
+                ),
+            ],
+            "Every number comes from the scanners' reports matched to the libraries the scan found."
+            if checked
+            else "",
+            intro[0] if libs and not checked else "",
+        )
+
 
 # ---- deck for the PowerPoint ------------------------------------------------------------------
 def _cell(v: Any) -> str:
@@ -845,6 +1183,8 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
                 cols = [0, 1, 2, 3, 4]
             elif t.key == "batches":
                 cols = [0, 3, 4, 5]
+            elif t.key in ("vulnerabilities", "vulnerable-libraries"):
+                cols = [0, 1, 2, 3, 5, 6]
             slide(sec, slug(t.key), t.title, [table(t, cols)])
             if t.key == "integrations":
                 slide(
@@ -893,7 +1233,7 @@ def _write_csv(path: Path, t: Table) -> None:
 def build_sections(run_dir: Path) -> tuple[RunData, list[Section]]:
     rd = RunData.load(run_dir)
     s = _Summary(rd, load_enrichment(run_dir))
-    return rd, [s.project(), s.data(), s.integrations(), s.batch()]
+    return rd, [s.project(), s.data(), s.integrations(), s.batch(), s.security()]
 
 
 def build_summary_report(

@@ -319,3 +319,10 @@ PowerPoint on the corporate template rather than in the browser with pptxgenjs.
 - Follow-up (same day): the Database section now uses the Copilot analysis (business data
   names, migration approach per object, overall strategy) and Copilot's batch text is marked
   AI (decision 125).
+- Follow-up (2026-10-21, thread "Dependency vulnerabilities in summary report"): a fifth
+  section, Dependency vulnerabilities, merges Dependency-Check and OSV-Scanner results with
+  the scanner(s) per vulnerability, as HTML and slides; says plainly when no scanner ran
+  (decision 126). Demo with both scanners: `tests/fixtures/security/billing-dependency-check-report.json`,
+  `scripts/show_dependency_vulns.py`, VS Code task 25. Known gap: report entries that match
+  no library in the inventory (transitive dependencies) are logged but not listed.
+  Next: run both scanners on a real estate and compare the "found by" split.
