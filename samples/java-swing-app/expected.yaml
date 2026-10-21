@@ -44,6 +44,12 @@ counts:
   integrations:
     total: 2
     by_type: {DB: 1, HTTP: 1}
+  web_services:
+    total: 1
+    offered: 0
+    called: 1
+    by_style: {REST called: 1}
+    operations: 1
   batch_jobs:
     total: 0
     scheduled: 0
@@ -59,6 +65,7 @@ screens: [AccountPanel (partial), CustomerDialog, MainFrame, Rates]
 integrations: ['DB oracle://tellerdb.acme.local:1521/TELLER [outbound]', 'HTTP https://rates.acme.local/api/fx [outbound]']
 integration_purposes: {'DB oracle://tellerdb.acme.local:1521/TELLER': database, 'HTTP https://rates.acme.local/api/fx': HTTP
     API}
+web_services: ['called REST: rates.acme.local (1 ops)']
 batch_jobs: []
 unresolved_references: 0
 assessment:

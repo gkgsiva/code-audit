@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Crm" targetNamespace="http://crm.acme.com/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://crm.acme.com/">
+  <portType name="CrmPort">
+    <operation name="findAccountManager"/>
+    <operation name="updateContact"/>
+  </portType>
+  <binding name="CrmBinding" type="tns:CrmPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  </binding>
+  <service name="CrmService">
+    <port name="CrmServicePort" binding="tns:CrmBinding">
+      <soap:address location="https://crm.acme.local/services/CrmService"/>
+    </port>
+  </service>
+</definitions>

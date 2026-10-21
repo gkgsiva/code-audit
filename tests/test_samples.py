@@ -70,6 +70,14 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
         sorted(f"{i.type} {i.target} [{i.direction}]" for i in facts["integrations"])  # type: ignore[attr-defined]
         == expected["integrations"]
     )
+    if "web_services" in expected:  # one row per web service offered or called
+        assert (
+            sorted(
+                f"{w.side} {w.style}: {w.name} ({len(w.operations)} ops)"  # type: ignore[attr-defined]
+                for w in facts["web_services"]
+            )
+            == expected["web_services"]
+        )
     if "integration_purposes" in expected:
         assert {
             f"{i.type} {i.target}": i.purpose  # type: ignore[attr-defined]

@@ -22,6 +22,7 @@ from legacy_audit.analyzers.cobol_sql import CobolSql
 from legacy_audit.analyzers.embedded import extract
 from legacy_audit.analyzers.integrations import integration
 from legacy_audit.analyzers.textutil import stem
+from legacy_audit.analyzers.websvc import called
 from legacy_audit.model import Evidence, FileRecord, Screen, Service, make_id
 
 _PROGRAM_ID = re.compile(r"\bPROGRAM-ID\.?\s+['\"]?([\w-]+)", re.I)
@@ -86,7 +87,7 @@ def source_lines(text: str) -> list[str]:
 
 class CobolAnalyzer:
     name: ClassVar[str] = "cobol"
-    version: ClassVar[str] = "3"
+    version: ClassVar[str] = "4"  # 4: CICS web service calls
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in ("cobol", "procobol", "bms")
@@ -390,6 +391,25 @@ class CobolAnalyzer:
                 )
             elif verb.startswith(("WEB ", "INVOKE ")):
                 endpoint = args.get("URIMAP") or args.get("WEBSERVICE") or args.get("HOST") or "?"
+                invoke = verb.startswith("INVOKE ")
+                if invoke or verb.split()[1] in ("OPEN", "CONVERSE", "SEND"):
+                    svc = args.get("WEBSERVICE") or args.get("SERVICE") or endpoint
+                    host = args.get("HOST", "")
+                    url = (
+                        f"{'https' if 'HTTPS' in body.upper() else 'http'}://{host.lower()}"
+                        + args.get("PATH", "")
+                        if host and "HOST" in literal
+                        else None
+                    )
+                    facts.add(
+                        "web_services",
+                        called(style="SOAP" if invoke else "REST", name=svc.upper()
+                               if invoke else (host.lower() or svc.upper()),
+                               framework="CICS web services" if invoke else "CICS WEB",
+                               file=path, line=line, url=url,
+                               op=args.get("OPERATION") if invoke else None,
+                               method=args.get("METHOD") if not invoke else None),
+                    )  # fmt: skip
                 facts.add(
                     "integrations",
                     integration(

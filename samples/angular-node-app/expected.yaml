@@ -67,6 +67,12 @@ counts:
   integrations:
     total: 7
     by_type: {DB: 2, HTTP: 5}
+  web_services:
+    total: 6
+    offered: 4
+    called: 2
+    by_style: {REST called: 2, REST offered: 4}
+    operations: 11
   batch_jobs:
     total: 2
     scheduled: 2
@@ -93,6 +99,9 @@ integration_purposes: {'DB oracle://portaldb.acme.local:1521/PORTAL': database, 
   'HTTP https://acme.okta.com/oauth2/default': login / authentication, 'HTTP https://billing-api.acme.local/api': HTTP
     API, 'HTTP https://geo.acme.local/api/v1/geocode': HTTP API, 'HTTP https://orders-api.acme.local/api': HTTP
     API, 'HTTP https://payments.acme.local/api/v1/charges': HTTP API}
+web_services: ['called REST: geo.acme.local (1 ops)', 'called REST: payments.acme.local (1 ops)', 'offered REST: InvoicesController
+    (3 ops)', 'offered REST: customers (1 ops)', 'offered REST: orders (4 ops)', 'offered REST: server
+    (1 ops)']
 batch_jobs: ['node-cron job: month-end-close', 'node-cron job: purge-old-orders']
 unresolved_references: 0
 assessment:

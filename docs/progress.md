@@ -350,6 +350,26 @@ coverage across the whole audit, then for AngularJS and for application and web 
   counted as screens.
 - Next: run on a real Angular/Node estate and check the screen and route counts with the team.
 
+## Web services, REST and SOAP (2026-10-21)
+
+Thread "Web, REST and SOAP services". Siva asked for web services, REST services and SOAP
+services. Plan agreed first (offered and called services, WSDL, reports, PPTX, AI hints).
+
+- Done: entity `web_services` (decisions 133 to 137), analyzer `webservices` (WSDL, Axis,
+  Axis2, CXF, sun-jaxws, servlets), REST/SOAP detection and client calls in the Java,
+  TypeScript, C, COBOL, Spring and config analyzers, linker `linker/websvc.py`, counts,
+  technical report page and CSV, summary report Integrations section and slides, Copilot and
+  `enrich` story per service. Sample `samples/web-services-app` (5 offered, 5 called,
+  18 operations); unit tests in `tests/analyzers/test_webservices.py`; every sample's
+  `expected.yaml` lists its web services. VS Code task 27 (`scripts/show_web_services.py`).
+- .NET services (ASP.NET Web API and Core, ASMX, WCF) from the .NET analyzers are in the
+  list too (decision 138).
+- Known gaps: JSR-109 `webservices.xml` is not read; JAX-RS annotations on an interface are not carried
+  to the implementing class; operations of a SOAP client stub are known only from its WSDL or
+  Axis `setOperationName`; the "own API" rule relies on a host label matching a module name;
+  Node `soap.listen` services have no operations (they are in the WSDL object at run time).
+- Next: run on a real estate and check the offered/called lists with the team.
+
 ## Desktop and .NET: VB6, VB.NET, C#, Java Swing (2026-10-21)
 
 Thread "Desktop and .NET language support". Siva asked for VB forms, VB.NET, C#, Java Swing and

@@ -35,6 +35,11 @@ FRAMEWORK_SERVLETS = {
     "com.sun.xml.ws.transport.http.servlet.WSServlet": "JAX-WS RI",
     "org.springframework.ws.transport.http.MessageDispatcherServlet": "Spring-WS",
     "org.apache.tiles.web.startup.TilesServlet": "Tiles",
+    "org.apache.axis2.transport.http.AxisServlet": "Apache Axis2",
+    "com.sun.jersey.spi.container.servlet.ServletContainer": "Jersey (JAX-RS)",
+    "org.glassfish.jersey.servlet.ServletContainer": "Jersey (JAX-RS)",
+    "org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher": "RESTEasy (JAX-RS)",
+    "org.apache.wink.server.internal.servlet.RestServlet": "Apache Wink (JAX-RS)",
 }
 FRAMEWORK_FILTERS = {
     "org.apache.struts2.dispatcher.FilterDispatcher": "Struts 2",
@@ -124,7 +129,7 @@ def _rel_target(base_file: str, target: str) -> str:
 
 class WebAnalyzer:
     name: ClassVar[str] = "web"
-    version: ClassVar[str] = "2"  # 2: Angular and AngularJS templates
+    version: ClassVar[str] = "3"  # 3: JAX-RS and Axis2 servlets are framework servlets
 
     def supports(self, file: FileRecord) -> bool:
         base = file.path.rsplit("/", 1)[-1].lower()

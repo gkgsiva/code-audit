@@ -54,6 +54,7 @@ NAV = [
     ("sql", "sql.html", "SQL"),
     ("db-objects", "db-objects.html", "Database"),
     ("integrations", "integrations.html", "Integrations"),
+    ("web-services", "web-services.html", "Web services"),
     ("batch-jobs", "batch-jobs.html", "Batch jobs"),
     ("libraries", "libraries.html", "Libraries"),
     ("postgresql", "postgresql.html", "PostgreSQL"),
@@ -68,6 +69,7 @@ CATALOGUE_PAGES = {
     "sql": ["sql"],
     "db-objects": ["db-objects", "crud"],
     "integrations": ["integrations"],
+    "web-services": ["web-services", "web-operations"],
     "batch-jobs": ["batches", "batch-jobs"],
     "libraries": ["libraries"],
 }
@@ -86,6 +88,11 @@ GLOSSARY = [
     (
         "Integration",
         "One external system reached in one direction: database, queue, host, file drop, partner.",
+    ),
+    (
+        "Web service",
+        "A REST or SOAP service, listed once with its operations: offered (other systems call "
+        "the application) or called (the application calls another system).",
     ),
     (
         "PG grade",
@@ -126,6 +133,7 @@ TILE_STYLE = {
     "counts.pg_grades.manual": ("warning", "c8"),
     "counts.stored_procedures": ("procedure", "c6"),
     "counts.integrations.total": ("integrations", "c2"),
+    "counts.web_services.total": ("integrations", "c2"),
     "counts.batch_jobs.total": ("batch", "c4"),
     "counts.libraries.total": ("libraries", "c5"),
     "counts.vulnerable_libraries.total": ("shield", "c8"),
@@ -181,7 +189,8 @@ def _build_into(rd: RunData, out: Path) -> None:
 
     fn = load_enrichment(rd.run_dir).get("functional") or {}
     stories = {i["integration_id"]: i for i in fn.get("interfaces", []) or []}
-    cats = cat.build(rd, out, stories)
+    ws_stories = {w["web_service_id"]: w for w in fn.get("web_services", []) or []}
+    cats = cat.build(rd, out, stories, ws_stories)
     for c in cats.values():
         _write_data_js(out / "data" / f"{c.name}.js", c.name, c.payload())
     if rd.has_sbom:
@@ -190,6 +199,7 @@ def _build_into(rd: RunData, out: Path) -> None:
     cats["batches"] = cat.batches(rd, out, page.batch_rows)
     _write_data_js(out / "data" / "batches.js", "batches", cats["batches"].payload())
     _write_batches_csv(out / "data" / "batches.csv", page.batch_rows)
+    _write_catalogue_csv(out / "data" / "web-services.csv", cats["web-services"])
     page.overview()
     page.components()
     page.architecture()
@@ -226,6 +236,18 @@ def _write_batches_csv(path: Path, rows: list[dict[str, Any]]) -> None:
         w.writerow(cols)
         for r in rows:
             w.writerow(["" if r.get(c) is None else r.get(c) for c in cols])
+
+
+def _write_catalogue_csv(path: Path, c: cat.Catalogue) -> None:
+    """A catalogue as CSV for Excel: links and evidence become their text."""
+
+    def cell(v: Any) -> Any:
+        return v.get("text", "") if isinstance(v, dict) else v
+
+    with path.open("w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow([col.label for col in c.columns])
+        w.writerows([[cell(v) for v in row] for row in c.rows])
 
 
 def _write_data_js(path: Path, name: str, payload: Any) -> None:
@@ -414,6 +436,13 @@ class _Pages:
             self._tile("counts.pg_grades.manual", "SQL needing manual work", "postgresql.html"),
             self._tile("counts.stored_procedures", "Stored procedures", "postgresql.html"),
             self._tile("counts.integrations.total", "Integrations", "integrations.html"),
+            self._tile(
+                "counts.web_services.total",
+                "Web services",
+                "web-services.html",
+                f"{_fmt(_get(c, 'web_services.offered'))} offered, "
+                f"{_fmt(_get(c, 'web_services.called'))} called",
+            ),
             self._tile(
                 "counts.batch_jobs.total",
                 "Batch jobs",
@@ -700,6 +729,7 @@ class _Pages:
                     "screens",
                     "sql",
                     "integrations",
+                    "web-services",
                     "batch-jobs",
                     "findings",
                 ],
@@ -867,6 +897,7 @@ class _Pages:
 
     def catalogue(self, page_id: str, cats: list[cat.Catalogue]) -> None:
         title = "Batch jobs" if page_id == "batch-jobs" else cats[0].title
+
         self._render(
             "catalogue.html",
             f"{page_id}.html",
@@ -875,6 +906,7 @@ class _Pages:
             catalogues=cats,
             data_scripts=[c.name for c in cats],
             batch_csv=page_id == "batch-jobs",
+            csv_file="web-services.csv" if page_id == "web-services" else None,
         )
 
     def postgresql(self) -> None:

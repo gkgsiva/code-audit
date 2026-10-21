@@ -338,7 +338,7 @@ def parse_form_header(lines: list[str]) -> tuple[_Control | None, list[_Control]
 
 class BasicAnalyzer:
     name: ClassVar[str] = "basic"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: framework and web service on .NET services
 
     def supports(self, file: FileRecord) -> bool:
         return file.language in (VB6, VBNET, "vb6-project") and file.category not in (
@@ -1468,7 +1468,10 @@ class _Reader:
         ):
             how = "WCF" if "webmethod" not in names else "ASMX"
             url = f"{cls.name}.{'asmx' if how == 'ASMX' else 'svc'}/{name}"
-            self._service(f"{how} {cls.name}.{name}", "soap-operation", handler, url, line)
+            fw = "WCF" if how == "WCF" else "ASP.NET Web Services (ASMX)"
+            self._service(
+                f"{how} {cls.name}.{name}", "soap-operation", handler, url, line, fw, cls.name
+            )
             self.facts.add(
                 "tech_stack",
                 tech(
@@ -1512,9 +1515,19 @@ class _Reader:
                 handler,
                 path,
                 line,
+                "ASP.NET Web API" if kind == "rest-operation" else None,
             )
 
-    def _service(self, name: str, kind: str, handler: str, url: str, line: int) -> None:
+    def _service(
+        self,
+        name: str,
+        kind: str,
+        handler: str,
+        url: str,
+        line: int,
+        framework: str | None = None,
+        web_service: str | None = None,
+    ) -> None:
         sid = make_id("service", kind, self.path, name)
         self.facts.add(
             "services",
@@ -1525,6 +1538,8 @@ class _Reader:
                 file=self.path,
                 handler=handler,
                 url=url,
+                framework=framework,
+                web_service=web_service,
                 evidence=[Evidence(file=self.path, line=line)],
             ),
         )

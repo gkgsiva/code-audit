@@ -688,6 +688,41 @@ class _Deck:
             ],
         )
 
+        web = self.s.get("web_services", []) or []
+        if web:
+            by_style = _get(self.s, "counts.web_services.by_style", {}) or {}
+            wl = [f"{st} {side}" for side in ("offered", "called") for st in ("REST", "SOAP")]
+            self.add(
+                "cur-web-services",
+                "Web services (REST and SOAP)",
+                [
+                    {
+                        "type": "kpis",
+                        "items": [
+                            self.kpi("Offered", "counts.web_services.offered"),
+                            self.kpi("Called", "counts.web_services.called"),
+                            self.kpi("Operations", "counts.web_services.operations"),
+                        ],
+                    },
+                    self.chart(
+                        "bar",
+                        "Web services by style",
+                        wl,
+                        [by_style.get(k, 0) for k in wl],
+                        "web services",
+                    ),
+                    self.table(
+                        ["Offered / called", "Style", "Web service", "Operations"],
+                        [
+                            [w["side"], w["style"], w["name"], w.get("operations", 0)]
+                            for w in web[:8]
+                        ],
+                    ),
+                ],
+                "Offered: other systems call the application; called: it calls them. "
+                "Every operation is in the technical report, Web services page.",
+            )
+
         grades = _get(self.s, "counts.pg_grades", {}) or {}
         gl = [g for g in GRADES if grades.get(g)]
         self.add(

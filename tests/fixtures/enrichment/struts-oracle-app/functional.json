@@ -98,7 +98,7 @@
       "kind": "external-system",
       "description": "Central service that returns the current price of an order.",
       "integration_ids": [
-        "integration:1594fbd54390e803"
+        "integration:35476cbb77b19985"
       ]
     },
     {
@@ -358,7 +358,7 @@
   ],
   "interfaces": [
     {
-      "integration_id": "integration:1594fbd54390e803",
+      "integration_id": "integration:35476cbb77b19985",
       "partner": "Central pricing",
       "purpose": "Confirms the current price of an order.",
       "data_exchanged": "Order number and local total out; confirmed price back.",
@@ -375,6 +375,20 @@
       "purpose": "Sends e-mail from the application.",
       "data_exchanged": "E-mail messages.",
       "assumption": true
+    }
+  ],
+  "web_services": [
+    {
+      "web_service_id": "web_service:b1c1311ec5cdb906",
+      "partner": "Central pricing",
+      "purpose": "Gets the confirmed price of an order before it is shown.",
+      "migration": "Call it through Spring's RestClient once pricing offers REST; keep a SOAP client until then",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/client/PricingSoapClient.java",
+          "line": 21
+        }
+      ]
     }
   ],
   "glossary": [

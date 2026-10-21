@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jaxws="http://cxf.apache.org/jaxws">
+  <bean id="orderStatus" class="com.acme.orders.ws.OrderStatusEndpoint"/>
+  <jaxws:endpoint id="orderStatusEndpoint" implementor="#orderStatus" address="/OrderStatus"/>
+</beans>

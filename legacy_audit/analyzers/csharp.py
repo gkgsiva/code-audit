@@ -341,7 +341,7 @@ class _Method:
 
 class CSharpAnalyzer:
     name: ClassVar[str] = "csharp"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: framework and web service on .NET services
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -585,7 +585,8 @@ class _Visitor:
             how = "ASMX" if "WebMethod" in names else "WCF"
             svc = cls.name[1:] if how == "WCF" and re.match(r"^I[A-Z]", cls.name) else cls.name
             url = f"{svc}.{'asmx' if how == 'ASMX' else 'svc'}/{name}"
-            self._service(f"{how} {svc}.{name}", "soap-operation", handler, url, line)
+            fw = "WCF" if how == "WCF" else "ASP.NET Web Services (ASMX)"
+            self._service(f"{how} {svc}.{name}", "soap-operation", handler, url, line, fw, svc)
             self.facts.add(
                 "tech_stack",
                 tech(
@@ -617,19 +618,23 @@ class _Visitor:
             path = f"/{prefix.strip('/')}" + (f"/{tail}" if tail else "")
         path = path.replace("[action]", name)
         kind = "rest-operation" if cls.kind == "api" else "aspnet-mvc"
+        fw = (
+            "ASP.NET Core"
+            if re.search(r"Microsoft\.AspNetCore", self.text)
+            else ("ASP.NET Web API" if kind == "rest-operation" else "ASP.NET MVC")
+        )
         self._service(
             f"{verb or ('GET' if kind == 'aspnet-mvc' else 'ANY')} {path}",
             kind,
             handler,
             path,
             line,
+            fw if kind == "rest-operation" else None,
         )
         self.facts.add(
             "tech_stack",
             tech(
-                "ASP.NET Core"
-                if re.search(r"Microsoft\.AspNetCore", self.text)
-                else ("ASP.NET Web API" if kind == "rest-operation" else "ASP.NET MVC"),
+                fw,
                 None,
                 "framework",
                 self.path,
@@ -1195,7 +1200,16 @@ class _Visitor:
                 continue
             self._emit(b, "cs-string", b.line, strict=True, proc_ok=False)
 
-    def _service(self, name: str, kind: str, handler: str, url: str, line: int) -> None:
+    def _service(
+        self,
+        name: str,
+        kind: str,
+        handler: str,
+        url: str,
+        line: int,
+        framework: str | None = None,
+        web_service: str | None = None,
+    ) -> None:
         sid = make_id("service", kind, self.path, name)
         self.facts.add(
             "services",
@@ -1206,6 +1220,8 @@ class _Visitor:
                 file=self.path,
                 handler=handler,
                 url=url,
+                framework=framework,
+                web_service=web_service,
                 evidence=[Evidence(file=self.path, line=line)],
             ),
         )

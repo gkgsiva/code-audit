@@ -55,6 +55,12 @@ counts:
   integrations:
     total: 7
     by_type: {CFT: 2, FILE: 2, MQ: 1, MQ-QMGR: 1, SCP: 1}
+  web_services:
+    total: 0
+    offered: 0
+    called: 0
+    by_style: {}
+    operations: 0
   batch_jobs:
     total: 2
     scheduled: 2
