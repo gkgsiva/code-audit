@@ -36,6 +36,8 @@ from legacy_audit.model.facts import (
     UnparsedRegion,
     Vulnerability,
     VulnerabilitySource,
+    WebOperation,
+    WebService,
     make_id,
 )
 
@@ -75,5 +77,7 @@ __all__ = [
     "UnparsedRegion",
     "Vulnerability",
     "VulnerabilitySource",
+    "WebOperation",
+    "WebService",
     "make_id",
 ]

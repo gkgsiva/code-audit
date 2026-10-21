@@ -1,0 +1,284 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "WebOperation": {
+      "additionalProperties": false,
+      "description": "One operation of a web service: an HTTP method and path, or a SOAP operation.",
+      "properties": {
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "File"
+        },
+        "handler": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Class and method implementing or calling it",
+          "title": "Handler"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "method": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "GET, POST, ... (REST); None for SOAP",
+          "title": "Method"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "URL path (REST) or endpoint, when known",
+          "title": "Path"
+        },
+        "service_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The Service fact (offered operations)",
+          "title": "Service Id"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "WebOperation",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/web_service.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "A REST or SOAP web service the application offers, or one it calls (decision 133).",
+  "properties": {
+    "callers": {
+      "description": "Files that call it: front-end or other code calling an offered service, the client code of a called one",
+      "items": {
+        "type": "string"
+      },
+      "title": "Callers",
+      "type": "array"
+    },
+    "component": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Main component (offered: where it runs)",
+      "title": "Component"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "One sentence written by the scan; the Copilot enrichment adds the business words (stage 12, web_services)",
+      "title": "Description"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "files": {
+      "description": "Files that define or call it",
+      "items": {
+        "type": "string"
+      },
+      "title": "Files",
+      "type": "array"
+    },
+    "frameworks": {
+      "description": "How it is offered or called: Spring MVC, JAX-RS, JAX-WS, Apache Axis, Apache Axis2, Apache CXF, Spring-WS, Express, NestJS, WSDL, RestTemplate, WebClient, Feign, HttpClient, libcurl, gSOAP, CICS, ...",
+      "items": {
+        "type": "string"
+      },
+      "title": "Frameworks",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "integrations": {
+      "description": "Ids of the integrations it is reached through",
+      "items": {
+        "type": "string"
+      },
+      "title": "Integrations",
+      "type": "array"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "namespace": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "SOAP target namespace",
+      "title": "Namespace"
+    },
+    "operations": {
+      "items": {
+        "$ref": "#/$defs/WebOperation"
+      },
+      "title": "Operations",
+      "type": "array"
+    },
+    "side": {
+      "description": "offered (the application exposes it), called (it calls another system's service) or contract (a WSDL file not yet matched; analyzers only)",
+      "title": "Side",
+      "type": "string"
+    },
+    "style": {
+      "description": "REST or SOAP",
+      "title": "Style",
+      "type": "string"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Base path (offered) or endpoint address (called)",
+      "title": "Url"
+    },
+    "wsdl": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "WSDL file that describes it, when scanned",
+      "title": "Wsdl"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "style",
+    "side"
+  ],
+  "title": "WebService",
+  "type": "object"
+}

@@ -85,7 +85,7 @@
       "mitigation": "Add timeouts and a circuit breaker.",
       "owner": "Architect",
       "related_ids": [
-        "integration:1594fbd54390e803"
+        "integration:35476cbb77b19985"
       ],
       "assumption": true
     }

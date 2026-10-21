@@ -1,0 +1,11 @@
+# Sample: web services offered and called. orders-ws is a Java WAR that offers a SOAP service
+# (JAX-WS published by Apache CXF, with its WSDL) and REST resources (JAX-RS behind Jersey,
+# Spring MVC @RestController), and calls a stock REST API (RestTemplate), a payment API (Feign,
+# address from configuration) and a CRM SOAP service (JAX-WS generated client and its WSDL).
+# quote-axis is an Apache Axis 1 web application (server-config.wsdd and a .jws service).
+# rate-feed is a C program that calls a REST feed with libcurl and a SOAP service with gSOAP.
+application:
+  name: "Web services (sample)"
+source:
+  type: local
+  paths: ["estate"]

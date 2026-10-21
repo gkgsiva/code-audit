@@ -42,7 +42,7 @@ from the facts (`service:…`, `library:…`, `db_object:…`), component names 
 | 9 | `target_architecture` | architecture, service_mapping, target-mapping.json | target components on GCP, diagrams, principles |
 | 10 | `plan` | effort.json, components, risks, dependency_plan, target_architecture | approach, waves, effort figures, team, decisions needed, next steps |
 | 11 | `narratives` | all stages above | executive, architect, functional and developer texts |
-| 12 | `functional` | everything: components, services, screens, batch_jobs, integrations, db_objects, sql_statements, dependencies, classification, flows | business summary, domains and capabilities, actors, use cases, business rules (each citing the code line), business data entities, one story per screen and per batch, interfaces, glossary |
+| 12 | `functional` | everything: components, services, screens, batch_jobs, integrations, web_services, db_objects, sql_statements, dependencies, classification, flows | business summary, domains and capabilities, actors, use cases, business rules (each citing the code line), business data entities, one story per screen and per batch, interfaces, web services, glossary |
 | 13 | `component_docs` | per component: services, screens, SQL, tables, integrations, dependencies, metrics, findings, libraries | purpose, responsibilities, key classes/programs, inputs and outputs, tables, technical debt, migration notes |
 
 ## Read everything (stages 12 and 13)
@@ -102,6 +102,14 @@ For `functional`:
   application uses it for (it replaces the scan's `description` in the Integrations list),
   `data_exchanged` what goes across. Rows whose `purpose` field is `login / authentication`
   (Okta and other identity providers) are user sign-in: say who signs in and to what.
+- `web_services`: one entry per row of `web_services.json` (REST and SOAP services the
+  application offers, `side: offered`, or calls, `side: called`). `web_service_id` is its id.
+  `partner` says who calls it (offered) or which system provides it (called), in business words;
+  `purpose` says in one sentence what it is for (it replaces the scan's `description` in the Web
+  services lists); `migration` suggests the target in one line, for example "Spring Boot 4 REST
+  controller", "keep the SOAP contract with Spring-WS for existing callers, add a REST API", or
+  "call through Spring's RestClient". Read the operations and their `handler` code; cite it in
+  `evidence`.
 - `business_rules`: validations, calculations, eligibility, status changes and limits you
   can point to in the code (`evidence` with file and line).
 - Write for business readers: no class names in `summary`, `purpose` or rule text.

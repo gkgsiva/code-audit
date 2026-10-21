@@ -73,6 +73,12 @@ counts:
   integrations:
     total: 13
     by_type: {DB: 5, FILE: 3, HTTP: 2, MQ: 1, SMTP: 1, SOAP: 1}
+  web_services:
+    total: 5
+    offered: 2
+    called: 3
+    by_style: {REST called: 2, REST offered: 1, SOAP called: 1, SOAP offered: 1}
+    operations: 4
   batch_jobs:
     total: 4
     scheduled: 3
@@ -100,6 +106,7 @@ integration_purposes: {'DB access://regions.mdb': database, 'DB oracle://crmprod
   FILE //fileserver/orders/archive.log: file, 'FILE C:/BillingDesk/export/customers.csv': file, 'HTTP http://ledger.acme.local/api/postings': HTTP
     API, 'HTTP https://ledger.acme.local': HTTP API, MQ .\private$\invoices-to-mail: messaging, SMTP smtp.acme.local: email,
   'SOAP http://pricing.acme.local/PricingService.svc': web service}
+web_services: ['called REST: ledger.acme.local (0 ops)', 'called REST: ledger.acme.local (1 ops)', 'called SOAP: PricingService (0 ops)', 'offered REST: InvoicesController (2 ops)', 'offered SOAP: ContactService (1 ops)']
 batch_jobs: ['hangfire job: close-invoices', 'windows-task job: NightlyExport', 'windows-task job: WeeklyPurge']
 unresolved_references: 0
 assessment:

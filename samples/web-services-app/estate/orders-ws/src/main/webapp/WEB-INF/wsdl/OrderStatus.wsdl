@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="OrderStatus" targetNamespace="http://orders.acme.com/status"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://orders.acme.com/status">
+  <portType name="OrderStatusEndpoint">
+    <operation name="getStatus"/>
+    <operation name="cancelOrder"/>
+  </portType>
+  <binding name="OrderStatusBinding" type="tns:OrderStatusEndpoint">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+  </binding>
+  <service name="OrderStatusService">
+    <port name="OrderStatusPort" binding="tns:OrderStatusBinding">
+      <soap:address location="https://orders.acme.local/orders-ws/ws/OrderStatus"/>
+    </port>
+  </service>
+</definitions>

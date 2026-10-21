@@ -76,7 +76,7 @@ def test_each_tool_responds(scanned: Path) -> None:
 
     err, comp = _call(server, "get_component", {"id": "orders-web"})
     assert not err and comp["component"]["name"] == "orders-web"
-    assert comp["services"]["total"] == 4 and comp["integrations"]["total"] == 4
+    assert comp["services"]["total"] == 4 and comp["integrations"]["total"] == 3
 
     sql_id = res["rows"][0]["id"]
     err, sql = _call(server, "get_sql", {"id": sql_id})

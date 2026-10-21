@@ -74,13 +74,32 @@ def _ai_or(description: str | None, story: dict[str, Any] | None) -> str:
     return description or ""
 
 
+def ws_text(ws: dict[str, Any], story: dict[str, Any] | None) -> tuple[str, str]:
+    """(what it is for, suggested migration): the Copilot story (stage 12) marked AI, else the
+    scan's sentence and nothing."""
+    if story and story.get("purpose"):
+        partner = f"{story['partner']}: " if story.get("partner") else ""
+        mig = f"{story['migration']} (AI)" if story.get("migration") else ""
+        return f"{partner}{story['purpose']} (AI)", mig
+    return ws.get("description") or "", ""
+
+
+def ws_label(ws: dict[str, Any]) -> str:
+    return f"{ws['style']} {'offered' if ws['side'] == 'offered' else 'called'}"
+
+
 def build(
-    rd: RunData, root: Path, stories: dict[str, dict[str, Any]] | None = None
+    rd: RunData,
+    root: Path,
+    stories: dict[str, dict[str, Any]] | None = None,
+    ws_stories: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Catalogue]:
     """Every catalogue of the run; ``root`` is the report folder (evidence links are relative).
-    ``stories`` are the Copilot interface stories by integration id, when the stage exists."""
+    ``stories`` are the Copilot interface stories by integration id and ``ws_stories`` its
+    web service stories by web service id, when the stage exists."""
     ev: Callable[[dict[str, Any]], dict[str, Any]] = lambda item: _ev(rd, root, item)  # noqa: E731
     stories = stories or {}
+    ws_stories = ws_stories or {}
     cats: list[Catalogue] = []
 
     cats.append(
@@ -254,6 +273,77 @@ def build(
                     ev(i),
                 ]
                 for i in rd.items("integrations")
+            ],
+        )
+    )
+
+    web = rd.items("web_services")
+    cats.append(
+        Catalogue(
+            "web-services",
+            "Web services",
+            "REST and SOAP web services the application offers (others call it) and the ones it "
+            "calls, one row per service with its operations. Descriptions marked (AI) come from "
+            "the Copilot analysis.",
+            [
+                Column("side", "Offered / called", filter=True),
+                Column("style", "REST / SOAP", filter=True),
+                Column("name", "Web service", "code"),
+                Column("url", "Address", "code"),
+                Column("operations", "Operations", "num"),
+                Column("frameworks", "Found through", "list"),
+                Column("component", "Component", "link", True),
+                Column("description", "What it is for", "text"),
+                Column("migration", "Suggested migration", "text"),
+                Column("wsdl", "WSDL", "code"),
+                Column("callers", "Callers", "num"),
+                Column("evidence", "Evidence", "evidence"),
+            ],
+            [
+                [
+                    w["side"],
+                    w["style"],
+                    w["name"],
+                    w.get("url") or "",
+                    len(w.get("operations") or []),
+                    _join(w.get("frameworks")),
+                    _comp(w.get("component")),
+                    *ws_text(w, ws_stories.get(w["id"])),
+                    w.get("wsdl") or "",
+                    len(w.get("callers") or []),
+                    ev(w),
+                ]
+                for w in web
+            ],
+        )
+    )
+    cats.append(
+        Catalogue(
+            "web-operations",
+            "Web service operations",
+            "Every operation of every web service: HTTP method and path (REST) or operation "
+            "name (SOAP), with the code that implements or calls it.",
+            [
+                Column("side", "Offered / called", filter=True),
+                Column("service", "Web service", "code", True),
+                Column("operation", "Operation", "code"),
+                Column("method", "Method", filter=True),
+                Column("path", "Path", "code"),
+                Column("handler", "Code", "code"),
+                Column("evidence", "Where", "evidence"),
+            ],
+            [
+                [
+                    w["side"],
+                    w["name"],
+                    o["name"],
+                    o.get("method") or "",
+                    o.get("path") or "",
+                    o.get("handler") or "",
+                    rd.evidence_links(root, o.get("file"), o.get("line")),
+                ]
+                for w in web
+                for o in w.get("operations") or []
             ],
         )
     )

@@ -41,6 +41,7 @@ from legacy_audit.analyzers.dynsql import Built, concat, fill, hole, lit, update
 from legacy_audit.analyzers.integrations import classify_url, integration, mask_userinfo
 from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
 from legacy_audit.analyzers.web import count_fields
+from legacy_audit.analyzers.websvc import called, offered_service, split_url
 from legacy_audit.model import (
     BatchJob,
     Category,
@@ -309,7 +310,7 @@ class _Scope:
 
 class TypeScriptAnalyzer:
     name: ClassVar[str] = "typescript"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: web services offered and called
 
     def __init__(self) -> None:
         self.parsers = {"ts": Parser(_TS), "tsx": Parser(_TSX)}
@@ -793,6 +794,15 @@ class _Visitor:
             self._urls(b.text, line)
             host = b.text.split("://", 1)[1].split("/", 1)[0]
             if "?" not in host:
+                base, _ = split_url(b.text)
+                if base:
+                    angular = any(m.startswith("@angular") for m in self.modules)
+                    fw = "Angular HttpClient" if angular else "HTTP client (Node.js)"
+                    self.facts.add(
+                        "web_services",
+                        called(style="REST", name=base.split("://", 1)[1], framework=fw,
+                               file=self.path, line=line, url=b.text, method=verb),
+                    )  # fmt: skip
                 return
         p = url_path(b.text)
         if p is None:
@@ -943,6 +953,19 @@ class _Visitor:
         ):
             self._urls(fb.text, line)
             self._mark(first)
+            base, path = split_url(fb.text)
+            self.facts.add(
+                "web_services",
+                called(style="SOAP", name=path.rstrip("/").rsplit("/", 1)[-1] or (base or "SOAP"),
+                       framework="node-soap", file=self.path, line=line, url=fb.text),
+            )  # fmt: skip
+        if name == "listen" and obj == "soap" and len(args) >= 3:
+            pb = self._eval(args[1], scope)
+            if pb is not None and pb.text.startswith("/"):
+                offered_service(self.facts, name=f"SOAP {pb.text}", kind="soap-operation",
+                                file=self.path, line=line, handler=f"{self.path}:{line}",
+                                url=pb.text, protocol="SOAP", framework="node-soap",
+                                web_service=pb.text.strip("/") or pb.text)  # fmt: skip
         # Database: raw SQL
         if (name in _DB_CALLS or (not obj and name in _DB_TAGS)) and first is not None:
             b = fb

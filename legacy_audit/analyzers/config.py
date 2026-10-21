@@ -74,7 +74,9 @@ def credential_finding(file: str, line: int, key: str) -> Finding:
     )
 
 
-def scan_value_for_endpoints(value: str, file: str, line: int, facts: Facts) -> None:
+def scan_value_for_endpoints(
+    value: str, file: str, line: int, facts: Facts, key: str | None = None
+) -> None:
     for m in JDBC_RE.finditer(value):
         product, target = parse_jdbc(m.group(0))
         facts.add(
@@ -94,15 +96,18 @@ def scan_value_for_endpoints(value: str, file: str, line: int, facts: Facts) -> 
             continue
         c = classify_url(m.group(0))
         if c:
+            # The key lets a client written as ${payment.url} find its address (decision 133).
+            details = {"key": key} if key and c[0] in ("HTTP", "SOAP") else None
             facts.add(
                 "integrations",
-                integration(type=c[0], target=c[1], direction="outbound", file=file, line=line),
-            )
+                integration(type=c[0], target=c[1], direction="outbound", file=file, line=line,
+                            details=details),
+            )  # fmt: skip
 
 
 class ConfigAnalyzer:
     name: ClassVar[str] = "config"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"  # 2: configuration key on HTTP endpoints, namespaces skipped
 
     def supports(self, file: FileRecord) -> bool:
         if file.path.lower().startswith(OWNED_INPUTS):
@@ -123,7 +128,14 @@ class ConfigAnalyzer:
                 pairs.append((text.count("\n", 0, m.start()) + 1, m.group(1), m.group(2)))
             # Endpoints in any attribute or text (namespaces and DTD hosts are ignored).
             for no, line in enumerate(text.splitlines(), 1):
-                if "<!DOCTYPE" in line or "xmlns" in line or "schemaLocation" in line:
+                if (
+                    "<!DOCTYPE" in line
+                    or "xmlns" in line
+                    or "schemaLocation" in line
+                    or (
+                        "amespace" in line  # targetNamespace, namespaceUri: names, not endpoints
+                    )
+                ):
                     continue
                 if "jdbc:" in line or "://" in line:
                     scan_value_for_endpoints(line, file.path, no, facts)
@@ -151,8 +163,8 @@ class ConfigAnalyzer:
                     pairs.append((no, section + kv.group(1), kv.group(2)))
                 else:
                     facts.coverage.gap(no, no, "not a key/value line")
-            for no, _key, value in pairs:
-                scan_value_for_endpoints(value, file.path, no, facts)
+            for no, key, value in pairs:
+                scan_value_for_endpoints(value, file.path, no, facts, key)
 
         hosts: dict[str, tuple[int, str]] = {}
         ports: dict[str, str] = {}

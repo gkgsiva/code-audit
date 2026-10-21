@@ -9,6 +9,7 @@ from legacy_audit.model import Category
 
 EXTENSIONS: dict[str, str] = {
     ".java": "java",
+    ".jws": "java",  # Apache Axis instant deployment (Java source)
     ".jsp": "jsp",
     ".jspf": "jsp",
     ".jspx": "jsp",

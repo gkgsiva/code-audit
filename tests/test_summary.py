@@ -258,3 +258,41 @@ def test_scanners_that_failed_say_why(sample_copy, monkeypatch: pytest.MonkeyPat
     assert "The scanners were found but did not finish" in intro
     assert "install the tools" not in intro and hint in intro
     assert [r[1] for r in tables["scanners"]["rows"]][1] == f"failed ({hint})"
+
+
+def test_web_services_in_summary_slides_and_technical_report(tmp_path: Path) -> None:
+    from legacy_audit.report.tech import build_tech_report
+
+    run_dir = _scan("web-services-app", tmp_path / "out")
+    res = build_summary_report(run_dir)
+    data = json.loads((res.page.parent / "summary.json").read_text(encoding="utf-8"))
+    sec = {s["key"]: s for s in data["sections"]}["integrations"]
+    kpis = dict(sec["kpis"])
+    assert (kpis["Web services offered"], kpis["Web services called"]) == (5, 5)
+    web = {t["key"]: t for t in sec["tables"]}["web-services"]
+    assert "Suggested migration" not in web["columns"]  # no AI analysis yet
+    assert len(web["rows"]) == 10
+    assert (res.page.parent / "data" / "web-services.csv").exists()
+    deck = json.loads((res.page.parent / "deck.json").read_text(encoding="utf-8"))
+    assert {"integrations-web-services", "integrations-web-services-described"} <= {
+        s["id"] for s in deck["slides"]
+    }
+    page = build_tech_report(run_dir).parent / "web-services.html"
+    assert "Web service operations" in page.read_text(encoding="utf-8")
+    with (page.parent / "data" / "web-services.csv").open(encoding="utf-8-sig") as fh:
+        rows = list(csv.reader(fh))
+    assert rows[0][:3] == ["Offered / called", "REST / SOAP", "Web service"] and len(rows) == 11
+
+
+def test_web_service_story_from_copilot_is_marked_ai(tmp_path: Path) -> None:
+    run_dir = _scan("struts-oracle-app", tmp_path / "out")
+    shutil.copytree(ENRICHMENT / "struts-oracle-app", run_dir / "enrichment")
+    res = build_summary_report(run_dir)
+    data = json.loads((res.page.parent / "summary.json").read_text(encoding="utf-8"))
+    sec = {s["key"]: s for s in data["sections"]}["integrations"]
+    web = {t["key"]: t for t in sec["tables"]}["web-services"]
+    assert web["columns"][-1] == "Suggested migration"
+    (row,) = web["rows"]
+    purpose = "Central pricing: Gets the confirmed price of an order before it is shown. (AI)"
+    assert row[7] == purpose
+    assert row[8].endswith("(AI)")

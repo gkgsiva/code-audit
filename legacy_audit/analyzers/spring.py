@@ -17,6 +17,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import classify_url, integration
 from legacy_audit.analyzers.sqltools import hole_kind, looks_like_sql, sql_fact
 from legacy_audit.analyzers.textutil import attrs, child_text, line_of, ns_of, parse_xml, text_of
+from legacy_audit.analyzers.websvc import called
 from legacy_audit.model import BatchJob, Evidence, FileRecord, Service, make_id
 
 VIEW_RESOLVERS = (
@@ -104,7 +105,7 @@ def _short(cls: str) -> str:
 
 class SpringAnalyzer:
     name: ClassVar[str] = "spring"
-    version: ClassVar[str] = "2"
+    version: ClassVar[str] = "3"  # 3: JAX-WS proxy clients as web services
 
     def supports(self, file: FileRecord) -> bool:
         return file.language == "xml" and file.category in ("config", "source", "other")
@@ -322,6 +323,18 @@ class SpringAnalyzer:
                 "HessianProxyFactoryBean",
             ):
                 url = (props.get("serviceUrl") or props.get("wsdlDocumentUrl") or ("", "", b))[1]
+                if short in ("JaxWsPortProxyFactoryBean", "JaxRpcPortProxyFactoryBean"):
+                    iface = (props.get("serviceInterface") or ("", "", b))[1]
+                    sname = (props.get("serviceName") or ("", "", b))[1]
+                    endpoint = (props.get("endpointAddress") or ("", "", b))[1] or url
+                    facts.add(
+                        "web_services",
+                        called(style="SOAP", name=sname or iface.rsplit(".", 1)[-1] or
+                               bid or short, framework="Spring JAX-WS proxy", file=path,
+                               line=line, url=endpoint or None,
+                               wsdl=(props.get("wsdlDocumentUrl") or ("", "", b))[1] or None,
+                               namespace=(props.get("namespaceUri") or ("", "", b))[1] or None),
+                    )  # fmt: skip
                 if url.startswith("rmi:"):
                     m = re.match(r"rmi://([^/:]+)(?::(\d+))?", url)
                     if m:

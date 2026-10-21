@@ -24,6 +24,7 @@ ENTITIES = (
     "sql_statements",
     "db_objects",
     "integrations",
+    "web_services",
     "dependencies",
     "batch_jobs",
     "libraries",

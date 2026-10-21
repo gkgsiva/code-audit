@@ -63,6 +63,12 @@ counts:
   integrations:
     total: 3
     by_type: {FILE: 3}
+  web_services:
+    total: 0
+    offered: 0
+    called: 0
+    by_style: {}
+    operations: 0
   batch_jobs:
     total: 1
     scheduled: 1

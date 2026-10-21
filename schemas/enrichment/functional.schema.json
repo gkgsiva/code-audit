@@ -691,6 +691,50 @@
       ],
       "title": "UseCase",
       "type": "object"
+    },
+    "WebServiceStory": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "migration": {
+          "default": "",
+          "description": "Suggested target, one line, e.g. 'Spring Boot 4 REST controller' or 'keep the SOAP contract with Spring-WS for existing callers, add REST'",
+          "title": "Migration",
+          "type": "string"
+        },
+        "partner": {
+          "default": "",
+          "description": "Offered: who calls it; called: the system that provides it, in business words",
+          "title": "Partner",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "What it is for, one sentence for business readers",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "web_service_id": {
+          "title": "Web Service Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "web_service_id",
+        "purpose"
+      ],
+      "title": "WebServiceStory",
+      "type": "object"
     }
   },
   "$id": "legacy-audit/enrichment/functional.schema.json",
@@ -766,6 +810,14 @@
         "$ref": "#/$defs/UseCase"
       },
       "title": "Use Cases",
+      "type": "array"
+    },
+    "web_services": {
+      "description": "One entry per row of web_services.json",
+      "items": {
+        "$ref": "#/$defs/WebServiceStory"
+      },
+      "title": "Web Services",
       "type": "array"
     }
   },
