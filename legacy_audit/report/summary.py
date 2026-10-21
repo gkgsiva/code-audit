@@ -421,7 +421,9 @@ class _Summary:
         procs = self.c.get("stored_procedures", 0)
         dbs = [i for i in self.rd.items("integrations") if i.get("type") == "DB"]
         db_tech = [
-            x["name"] for x in self.s.get("tech_stack", []) if x.get("category") == "database"
+            x["name"]
+            for x in self.s.get("tech_stack", [])
+            if x.get("category") == "database" and " driver" not in x["name"]  # the products
         ]
         by_comp: dict[str, Counter[str]] = defaultdict(Counter)
         features: Counter[str] = Counter()

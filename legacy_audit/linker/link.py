@@ -29,6 +29,7 @@ from legacy_audit.linker.aggregate import (
     merge_integrations,
     merge_libraries,
     merge_npm_versions,
+    merge_screens,
     merge_tech,
     techs_from_libraries,
 )
@@ -58,7 +59,7 @@ from legacy_audit.model import (
 
 NAV_EDGES = {"forwards", "renders", "submits", "links"}
 REACH_EDGES = {"calls", "uses", "invokes", "runs", "triggers", "includes"}
-PAGE_TECH = {"jsp", "jsf", "html", "velocity", "freemarker"}
+PAGE_TECH = {"jsp", "jsf", "html", "velocity", "freemarker", "aspx", "razor"}
 WEB_SERVICE_KINDS = {
     "struts-action",
     "spring-handler",
@@ -68,12 +69,16 @@ WEB_SERVICE_KINDS = {
     "ejb-method",
     "webflow",
     "remoting",
+    "aspnet-mvc",
 }
 VIEW_EXTENSIONS = (".jsp", ".jspx", ".xhtml", ".html", ".vm", ".ftl")
 # Single-page application templates (decision 130): a screen when a route reaches it.
 SPA_TECH = {"angular", "angularjs"}
 API_SERVICE_KINDS = {"node-route", "nest-route"}
 SPA_ENTRY_KINDS = {"angular-app", "angularjs-app"}
+# Desktop applications (decisions 134-137): VB6 forms, Windows Forms, WPF, Java Swing/AWT/JavaFX.
+DESKTOP_TECH = {"vb6", "winforms", "wpf", "swing", "awt", "javafx"}
+DESKTOP_ENTRY_KINDS = {"desktop-app"}
 MODULE_EXTENSIONS = (
     ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", "/index.ts", "/index.js", "",
 )  # fmt: skip
@@ -382,7 +387,7 @@ class _Linker:
         db_objects = merge_db_objects(_typed(ent, "db_objects", DbObject))
         services = dedupe(_typed(ent, "services", Service))
         self._mount_routes(services)
-        screens = dedupe(_typed(ent, "screens", Screen))
+        screens = merge_screens(_typed(ent, "screens", Screen))
         entry_points = dedupe(_typed(ent, "entry_points", EntryPoint))
         sql = dedupe(_typed(ent, "sql_statements", SqlStatement))
         self.findings = dedupe(_typed(ent, "findings", Finding))
@@ -431,6 +436,7 @@ class _Linker:
         self._job_components(jobs, outgoing)
         self._reach(services, job_service, sql, integrations, outgoing)
         self._components(services, screens, sql, jobs, entry_points, integrations)
+        entry_points = _project_entries(entry_points)
         by_id = {r.id: r.path for r in self.records}
         web_services = build_web_services(
             dedupe(_typed(ent, "web_services", WebService)),
@@ -682,8 +688,15 @@ class _Linker:
         entities = {
             s.name: s.data.get("table", s.name).upper()
             for s in self.symbols
-            if s.kind == "jpa-entity"
+            if s.kind == "jpa-entity" and "entity" not in s.data
         }
+        # Entity Framework DbSet<T> properties name the entity class, whose own mapping
+        # ([Table("X")]) may be in another file.
+        for s in self.symbols:
+            if s.kind == "jpa-entity" and "entity" in s.data:
+                entities[s.name] = entities.get(
+                    s.data["entity"], s.data.get("table", s.name)
+                ).upper()
         procs: dict[str, DbObject] = {}
         for o in objects:
             if o.object_type in ("package", "procedure", "function"):
@@ -861,6 +874,22 @@ class _Linker:
             it.components = sorted({c for f in it.source_files if (c := self.comp(f))})
 
 
+def _project_entries(entries: list[EntryPoint]) -> list[EntryPoint]:
+    """A .NET project file marks a desktop application or Windows service (OutputType); when its
+    code also names the start-up (App.xaml, Main, a ServiceBase class), that is the same entry."""
+    coded = {
+        (ep.component, ep.kind) for ep in entries if not ep.file.lower().endswith(PROJECT_FILES)
+    }
+    return [
+        ep
+        for ep in entries
+        if not (ep.file.lower().endswith(PROJECT_FILES) and (ep.component, ep.kind) in coded)
+    ]
+
+
+PROJECT_FILES = (".csproj", ".vbproj")
+
+
 def _typed(entities: dict[str, list[Fact]], name: str, model: type[F]) -> list[F]:
     return [f for f in entities.get(name, []) if isinstance(f, model)]
 
@@ -996,14 +1025,20 @@ def classify_components(
             roles.add(ComponentType.API)
         if "cics-transaction" in kinds or "BMS" in techs:
             roles.add(ComponentType.ONLINE_MAINFRAME)
+        if techs & DESKTOP_TECH or entries.get(c.name, set()) & DESKTOP_ENTRY_KINDS:
+            roles.add(ComponentType.DESKTOP)
+        # The main() of a desktop application opens its windows: not batch work.
+        batch_entries = {"scheduler", "spring-batch", "windows-service"}
+        if ComponentType.DESKTOP not in roles:
+            batch_entries.add("main")
         program_batch = (
             c.name in jobs
             or kinds & {"cobol-program", "c-executable", "batch-job"}
-            or entries.get(c.name, set()) & {"main", "scheduler", "spring-batch"}
+            or entries.get(c.name, set()) & batch_entries
         )
         scripts = batchy.get(c.name, set())
         if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME, ComponentType.API,
-                    ComponentType.FRONTEND}:  # fmt: skip
+                    ComponentType.FRONTEND, ComponentType.DESKTOP}:  # fmt: skip
             # in an online application, only scripts filed as batch are batch work (deploy and
             # admin scripts often run SQL too)
             scripts = {p for p in scripts if in_batch_folder(p)}
@@ -1029,6 +1064,8 @@ def classify_components(
             c.type = ComponentType.FRONTEND
         elif ComponentType.API in roles:
             c.type = ComponentType.API
+        elif ComponentType.DESKTOP in roles:
+            c.type = ComponentType.DESKTOP
         elif ComponentType.ONLINE_MAINFRAME in roles:
             c.type = ComponentType.ONLINE_MAINFRAME
         elif program_batch or (

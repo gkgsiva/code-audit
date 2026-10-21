@@ -40,6 +40,15 @@ facts; you interpret them. You never count.
     and web servers (WebLogic, WebSphere, JBoss/WildFly, Tomcat, Apache, Nginx...) are in the tech
     stack with categories `app-server` and `web-server`; say what each one does today and how it
     is replaced (Spring Boot 4 on GKE/Cloud Run, a load balancer or Cloud CDN).
+11. **Desktop and .NET applications.** Components of type `desktop` are Windows or Java desktop
+    programs: VB6 forms, VB.NET or C# Windows Forms, WPF windows, Java Swing/AWT frames and
+    JavaFX views (screen technologies `vb6`, `winforms`, `wpf`, `swing`, `awt`, `javafx`).
+    Describe each window, the business logic in its event handlers and the database calls made
+    straight from the form; they become Angular 21 screens over Spring Boot 4 services. ASP.NET
+    pages (`aspx`, `razor`), MVC/Web API controllers, WCF/ASMX services, Windows services and
+    Windows Task Scheduler / Hangfire / Quartz.NET jobs are reported like their Java
+    counterparts. VB6 COM references and ActiveX (OCX) controls (libraries with source `com`)
+    have no equivalent on GCP: say what each one does and what replaces it.
 
 ## Where things are
 

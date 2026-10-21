@@ -22,6 +22,7 @@ dependencies = [
     "tree-sitter-c>=0.23",
     "tree-sitter-cpp>=0.23",
     "tree-sitter-typescript>=0.23",
+    "tree-sitter-c-sharp>=0.23",
     "Jinja2>=3.1",
     "fastapi>=0.115",
     "uvicorn>=0.30",

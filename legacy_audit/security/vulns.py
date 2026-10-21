@@ -175,6 +175,8 @@ def parse_osv(data: dict[str, Any], path: str) -> Report:
                 purl = f"pkg:maven/{g}/{a}@{version}"
             elif eco == "npm":
                 purl = f"pkg:npm/{name}@{version}"
+            elif eco == "nuget":
+                purl = f"pkg:nuget/{name}@{version}"
             report.entries.append(
                 ReportEntry(
                     sha1=None, purls=[purl] if purl else [], file_name=None, vulnerabilities=vulns
@@ -283,7 +285,8 @@ FAILURE_HINTS: tuple[tuple[str, str, str], ...] = (
     (
         OSV,
         "no package sources found",
-        "no build files (pom.xml, Gradle) or .jar files found in the code folders",
+        "no build files (pom.xml, Gradle, package.json, .csproj/packages.config) or .jar files "
+        "found in the code folders",
     ),
     (
         DC,
@@ -338,6 +341,8 @@ def purl(lib: Library) -> str | None:
         return None
     if lib.language == "javascript" or lib.source in ("npm", "js-file"):
         return f"pkg:npm/{lib.artifact}@{lib.version}"
+    if lib.source == "nuget":
+        return f"pkg:nuget/{lib.artifact}@{lib.version}"
     if lib.group:
         return f"pkg:maven/{lib.group}/{lib.artifact}@{lib.version}"
     return None

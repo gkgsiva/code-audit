@@ -362,9 +362,36 @@ services. Plan agreed first (offered and called services, WSDL, reports, PPTX, A
   `enrich` story per service. Sample `samples/web-services-app` (5 offered, 5 called,
   18 operations); unit tests in `tests/analyzers/test_webservices.py`; every sample's
   `expected.yaml` lists its web services. VS Code task 27 (`scripts/show_web_services.py`).
-- Known gaps: .NET services (ASP.NET Web API, ASMX, WCF) are left to the .NET language work;
-  JSR-109 `webservices.xml` is not read; JAX-RS annotations on an interface are not carried
+- .NET services (ASP.NET Web API and Core, ASMX, WCF) from the .NET analyzers are in the
+  list too (decision 138).
+- Known gaps: JSR-109 `webservices.xml` is not read; JAX-RS annotations on an interface are not carried
   to the implementing class; operations of a SOAP client stub are known only from its WSDL or
   Axis `setOperationName`; the "own API" rule relies on a host label matching a module name;
   Node `soap.listen` services have no operations (they are in the WSDL object at run time).
 - Next: run on a real estate and check the offered/called lists with the team.
+
+## Desktop and .NET: VB6, VB.NET, C#, Java Swing (2026-10-21)
+
+Thread "Desktop and .NET language support". Siva asked for VB forms, VB.NET, C#, Java Swing and
+VB6 support across the audit.
+
+- Done: new component type `desktop`; languages and lines of code for VB6, VB.NET, C#,
+  MSBuild, XAML, FXML, ASP.NET and Razor; .NET build output and NuGet `packages/` skipped;
+  analyzers `dotnet` (project files, NuGet, `app.config`/`web.config`/`appsettings.json`,
+  XAML/FXML, ASPX, Razor, Windows Task Scheduler), `basic` (VB6 and VB.NET) and `csharp`
+  (tree-sitter); Swing/AWT/JavaFX in the Java analyzer; screens and navigation for every
+  desktop technology; dynamic SQL rebuilt in VB and C# (ADO, DAO, ADO.NET, Dapper, Entity
+  Framework); Windows services, scheduled tasks, Hangfire and Quartz.NET as batch; NuGet
+  package URLs for OSV-Scanner; VB6 COM/OCX references; end-of-life dates for VB6 and .NET;
+  Windows risk rules; complexity units for C# and VB; target mapping; Copilot agent told about
+  desktop apps (decisions 141 to 152). Samples `samples/desktop-dotnet-app` and
+  `samples/java-swing-app` with `expected.yaml`; unit tests in `tests/analyzers/test_dotnet.py`,
+  `test_basic.py`, `test_csharp.py` and new cases in `test_java.py`, `test_metrics.py`,
+  `test_walker.py`, `test_language.py`. VS Code task 28 (`scripts/show_desktop_stack.py`).
+- Known gaps: .NET web services are reported as services (REST, SOAP) but are wired into the
+  web services list only once the web services work is merged; VB code is read with patterns,
+  so unusual line layouts can hide a statement; Entity Framework LINQ queries are readable
+  text, not parsed SQL; forms built entirely in code (no designer) show 0 fields; .NET 8 and 9
+  reach end of life on 2026-11-10 and must be marked then; Crystal Reports `.rpt` files are
+  binary and not read.
+- Next: run on a real VB6/.NET estate and check the screen, SQL and batch counts with the team.

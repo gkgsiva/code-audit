@@ -113,6 +113,10 @@ def _common_path(paths: list[str]) -> str | None:
     while all(len(s) > n and s[n] == first[n] and not first[n].startswith((":", "{"))
               for s in split):  # fmt: skip
         n += 1
+    for i, seg in enumerate(first[:n]):
+        if re.search(r"\.(asmx|svc)$", seg, re.I):  # .NET: the service file is the address
+            n = i + 1
+            break
     return "/" + "/".join(first[:n])
 
 
@@ -335,6 +339,7 @@ class _Builder:
                 )
             if k not in names:
                 last = path.rstrip("/").rsplit("/", 1)[-1]
+                last = re.sub(r"\.(asmx|svc)$", "", last, flags=re.I)
                 names[k] = Counter({(last if k[1] == "SOAP" and last else base.split("://")[1]): 1})
         for k, ws in self.called.items():
             ws.name = self._pick_name(k, names.get(k, Counter()), ws)

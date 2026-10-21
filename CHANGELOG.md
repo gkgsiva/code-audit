@@ -13,7 +13,7 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   `soap.listen`) and the ones it calls (RestTemplate, WebClient, RestClient, Feign, Retrofit,
   JAX-RS client, Java and Apache HttpClient, OkHttp, HttpURLConnection, JAX-WS and Axis stubs,
   WebServiceTemplate, CXF clients, Angular HttpClient, Node `soap`, libcurl and gSOAP in C,
-  CICS `INVOKE SERVICE` and `WEB` in COBOL), each with REST or SOAP, its address, its
+  CICS `INVOKE SERVICE` and `WEB` in COBOL, ASP.NET Web API, ASMX and WCF in .NET), each with REST or SOAP, its address, its
   operations (HTTP method and path, or SOAP operation), module, files and lines.
 - WSDL files are read (services, ports, operations, address) and attached to the service that
   implements or calls them.
@@ -22,6 +22,24 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   `legacy-audit enrich` can add a purpose and a migration hint per service, marked AI.
 - XML namespaces (for example a SOAP `QName` namespace) are no longer taken for integrations.
 - New sample `samples/web-services-app`; VS Code task 27 (`scripts/show_web_services.py`).
+
+### Desktop and .NET: VB6, VB.NET, C# and Java Swing (2026-10-21)
+
+- VB6, VB.NET and C# programs and Java Swing/JavaFX desktop programs are audited like the rest
+  (new component type `desktop`): lines of code, screens (VB6 forms, Windows Forms, WPF
+  windows, Swing frames and dialogs, JavaFX views, ASP.NET pages and Razor views) with their
+  input fields and which screen opens which, SQL built in the code (ADO, DAO, ADO.NET, Dapper,
+  Entity Framework), database connections in code and configuration, file shares, MSMQ, mail,
+  HTTP and SOAP calls, ASP.NET controllers and ASMX/WCF services, Windows services, Windows
+  Task Scheduler, Hangfire and Quartz.NET jobs, and complexity.
+- NuGet packages (for OSV-Scanner) and VB6 COM references and ActiveX controls are listed as
+  libraries; Visual Basic 6 and old .NET Framework and .NET versions are marked end of life.
+- New findings: passwords in connection strings (masked), ActiveX controls, Windows API calls,
+  `CreateObject`, the Windows registry, `On Error Resume Next` and Windows drive and share
+  paths.
+- `.NET` build output (`bin/`, `obj/`, generated files) and NuGet `packages/` are skipped.
+- New samples `samples/desktop-dotnet-app` and `samples/java-swing-app`; VS Code task 28
+  (`scripts/show_desktop_stack.py`).
 
 ### Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
 

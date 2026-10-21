@@ -77,6 +77,7 @@ class ComponentType(StrEnum):
     WEB = "web"
     FRONTEND = "frontend"  # single-page application (Angular, AngularJS, React, ...)
     API = "api"  # Node.js service exposing HTTP endpoints (Express, NestJS, ...)
+    DESKTOP = "desktop"  # Windows or Java desktop application (VB6, WinForms, WPF, Swing)
     BATCH = "batch"
     CFT = "cft"
     SCRIPT = "script"
@@ -98,7 +99,7 @@ class Component(Fact):
     roles: list[str] = Field(
         default_factory=list,
         description="Every kind of work found in the component (web, frontend, api, batch, "
-        "online-mainframe, cft, db, config, script, library); ``type`` is the main one. "
+        "desktop, online-mainframe, cft, db, config, script, library); ``type`` is the main one. "
         "A Struts web module with batch scripts has roles [batch, web]",
     )
     composition: dict[str, int] = Field(
@@ -113,7 +114,10 @@ class Component(Fact):
 
 class EntryPoint(Fact):
     name: str
-    kind: str = Field(description="main, scheduler, filter, listener, spring-boot-app, ...")
+    kind: str = Field(
+        description="main, scheduler, filter, listener, spring-boot-app, desktop-app, "
+        "windows-service, ...",
+    )
     file: str
     line: int | None = None
     component: str | None = None
@@ -124,7 +128,8 @@ class Service(Fact):
     kind: str = Field(
         description="struts-action, spring-handler, servlet, soap-operation, rest-operation, "
         "ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow, "
-        "node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS)"
+        "node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS), aspnet-mvc (ASP.NET MVC "
+        "controller actions returning views)"
     )
     component: str | None = None
     file: str | None = None
@@ -160,7 +165,9 @@ class Service(Fact):
 
 class Screen(Fact):
     name: str
-    technology: str
+    technology: str = Field(
+        description="jsp, html, angular, ..., vb6, winforms, wpf, swing, awt, javafx, aspx, razor"
+    )
     file: str | None = None
     action: str | None = None
     fields_count: int = 0
@@ -187,7 +194,8 @@ class SqlStatement(Fact):
         "unknown",
         description="jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, "
         "spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, "
-        "odbc, oci, libpq, mysql, sqlite (C API calls), c-string",
+        "odbc, oci, libpq, mysql, sqlite (C API calls), c-string, ado, dao, rdo (VB6), ado.net, "
+        "dapper, ef-raw, entity-framework (.NET), vb-string, cs-string, aspx-datasource",
     )
     text: str = Field("", description="Statement text (bind variables as written), max 4000")
     tables: list[str] = Field(default_factory=list)
@@ -330,7 +338,8 @@ class BatchJob(Fact):
     name: str
     scheduler: str = Field(
         description="autosys, jcl, cron, spring-batch, node-cron (node-cron, node-schedule, "
-        "NestJS @Cron/@Interval, Agenda)"
+        "NestJS @Cron/@Interval, Agenda), windows-task (Windows Task Scheduler), hangfire, "
+        "quartz.net"
     )
     kind: str = Field("job", description="job, box (container, not counted), file-watcher")
     description: str | None = Field(None, description="Description from the scheduler, if any")
@@ -379,7 +388,9 @@ class Library(Fact):
     artifact: str
     version: str | None = None
     language: str = "java"
-    source: str = Field(description="maven, gradle, ivy, jar, npm, js-file")
+    source: str = Field(
+        description="maven, gradle, ivy, jar, npm, js-file, nuget, com (VB6 references)"
+    )
     sha1: str | None = None
     scope: str | None = None
     license: str | None = None

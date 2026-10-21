@@ -157,7 +157,7 @@
       "type": "array"
     },
     "kind": {
-      "description": "struts-action, spring-handler, servlet, soap-operation, rest-operation, ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow, node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS)",
+      "description": "struts-action, spring-handler, servlet, soap-operation, rest-operation, ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow, node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS), aspnet-mvc (ASP.NET MVC controller actions returning views)",
       "title": "Kind",
       "type": "string"
     },

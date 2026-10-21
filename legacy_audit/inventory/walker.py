@@ -56,14 +56,24 @@ BUILD_OUTPUT_DIRS = {
 }  # fmt: skip
 COMPILED_EXTENSIONS = {
     ".class", ".o", ".obj", ".so", ".sl", ".a", ".dll", ".exe", ".lib", ".pdb", ".ilk", ".exp",
-    ".pyc", ".pyo", ".gnt", ".int", ".idy", ".lbr", ".dylib",
+    ".pyc", ".pyo", ".gnt", ".int", ".idy", ".lbr", ".dylib", ".baml", ".cache", ".resources",
+    ".nupkg", ".ocx", ".tlb",
 }  # fmt: skip
 SOURCE_EXTENSIONS = {
     ".java", ".jsp", ".jspf", ".c", ".h", ".cpp", ".cc", ".cxx", ".hpp", ".pc", ".pco", ".cbl",
     ".cob", ".cpy", ".jcl", ".sh", ".ksh", ".bash", ".csh", ".zsh", ".pl", ".pm", ".py", ".bat",
     ".cmd", ".sql", ".pks", ".pkb", ".jil", ".js", ".ts", ".html", ".htm", ".groovy", ".tsx",
-    ".jsx", ".mjs", ".cjs",
+    ".jsx", ".mjs", ".cjs", ".cs", ".vb", ".frm", ".bas", ".cls", ".ctl", ".xaml", ".aspx",
+    ".cshtml", ".razor",
 }  # fmt: skip
+# Files the .NET build writes into obj/ (WPF ``MainWindow.g.cs``, assembly attributes): build
+# output, although their extension is a source one.
+DOTNET_GENERATED = re.compile(
+    r"(\.g\.(i\.)?(cs|vb)|\.AssemblyAttributes\.(cs|vb)|\.AssemblyInfo\.(cs|vb)|"
+    r"\.GlobalUsings\.g\.cs)$",
+    re.I,
+)
+_DOTNET_PROJECT = (".csproj", ".vbproj", ".fsproj")
 # Precompilers write a generated file next to its source; the source is what we analyse.
 GENERATED_BY = {
     ".c": (".pc", "the Pro*C precompiler"),
@@ -167,7 +177,7 @@ def extended_path(path: Path | str, windows: bool = sys.platform == "win32") -> 
 
 def _is_compiled(path: Path, ext: str) -> bool | None:
     """True for compiled output, False for source, None for anything else (resources)."""
-    if ext in COMPILED_EXTENSIONS:
+    if ext in COMPILED_EXTENSIONS or DOTNET_GENERATED.search(path.name):
         return True
     if ext in SOURCE_EXTENSIONS:
         return False
@@ -201,6 +211,17 @@ def is_minified(path: Path, name: str) -> bool:
     lines = head.split(b"\n")
     longest = max((len(x) for x in lines), default=0)
     return longest > _MINIFIED_LINE and len(head) / max(len(lines), 1) > 300
+
+
+def _nuget_packages(folder: Path) -> bool:
+    """A NuGet ``packages/`` folder: package folders holding a ``.nupkg`` file."""
+    try:
+        for kid in folder.iterdir():
+            if kid.is_dir() and any(f.suffix.lower() == ".nupkg" for f in kid.iterdir()):
+                return True
+    except OSError:
+        return False
+    return False
 
 
 def build_output_files(folder: Path) -> int:
@@ -266,6 +287,16 @@ def walk(
                             len(fs) for _, _, fs in os.walk(here / d)
                         )
                         reason = "Eclipse output folder (.classpath)"
+                    elif d.lower() == "obj" and any(
+                        f.lower().endswith(_DOTNET_PROJECT) for f in filenames
+                    ):
+                        # .NET intermediate output next to its project file (generated code,
+                        # restore files): never source, whatever it holds.
+                        n = sum(len(fs) for _, _, fs in os.walk(here / d))
+                        reason = ".NET intermediate output (obj next to the project file)"
+                    elif d.lower() == "packages" and _nuget_packages(here / d):
+                        n = sum(len(fs) for _, _, fs in os.walk(here / d))
+                        reason = "NuGet packages folder (downloaded libraries, not code)"
                     elif d.lower() in BUILD_OUTPUT_DIRS:
                         n = build_output_files(here / d)
                         reason = "compiled output (no source or script inside)" if n else ""
