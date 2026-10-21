@@ -367,7 +367,7 @@ VB6 support across the audit.
   desktop apps (decisions 141 to 152). Samples `samples/desktop-dotnet-app` and
   `samples/java-swing-app` with `expected.yaml`; unit tests in `tests/analyzers/test_dotnet.py`,
   `test_basic.py`, `test_csharp.py` and new cases in `test_java.py`, `test_metrics.py`,
-  `test_walker.py`, `test_language.py`. VS Code task 27 (`scripts/show_desktop_stack.py`).
+  `test_walker.py`, `test_language.py`. VS Code task 28 (`scripts/show_desktop_stack.py`).
 - Known gaps: .NET web services are reported as services (REST, SOAP) but are wired into the
   web services list only once the web services work is merged; VB code is read with patterns,
   so unusual line layouts can hide a statement; Entity Framework LINQ queries are readable

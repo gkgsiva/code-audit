@@ -572,7 +572,7 @@ where Windows uses `.venv\Scripts\python`. This adds a new parser for C#: if it 
 1. Run `audit: 2. tests (pytest)`: everything passes, including
    `tests/analyzers/test_dotnet.py`, `test_basic.py`, `test_csharp.py` and the
    `desktop-dotnet-app` and `java-swing-app` sample checks.
-2. Run `audit: 27. Desktop and .NET apps (VB6, VB.NET, C#, Java Swing samples)`. The terminal
+2. Run `audit: 28. Desktop and .NET apps (VB6, VB.NET, C#, Java Swing samples)`. The terminal
    shows, for the .NET sample:
    - **Components**: `billing-desk-vb6` (VB6), `orders-winforms-vbnet` (VB.NET) and
      `inventory-wpf-cs` (C# WPF) are `desktop`; `billing-api-cs` (ASP.NET Core) and

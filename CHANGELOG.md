@@ -21,7 +21,7 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   `CreateObject`, the Windows registry, `On Error Resume Next` and Windows drive and share
   paths.
 - `.NET` build output (`bin/`, `obj/`, generated files) and NuGet `packages/` are skipped.
-- New samples `samples/desktop-dotnet-app` and `samples/java-swing-app`; VS Code task 27
+- New samples `samples/desktop-dotnet-app` and `samples/java-swing-app`; VS Code task 28
   (`scripts/show_desktop_stack.py`).
 
 ### Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
