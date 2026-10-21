@@ -212,12 +212,25 @@ def find_tool(configured: str | None, names: tuple[str, ...]) -> str | None:
     return None
 
 
+def missing_detail(configured: str | None, names: tuple[str, ...]) -> str:
+    """Why a tool was not found: "not installed", or the configured path that does not exist
+    (and where one is on PATH, so the fix is plain)."""
+    if not configured:
+        return "not installed"
+    on_path = find_tool(None, names)
+    return f"not found at {configured}" + (
+        f"; one is on PATH at {on_path}: set path: null or to that file" if on_path else ""
+    )
+
+
 def run_dependency_check(
     cfg: DependencyCheckConfig, scan_dirs: list[Path], out_dir: Path, project: str
 ) -> tuple[Report | None, VulnerabilitySource]:
-    exe = find_tool(cfg.path, ("dependency-check", "dependency-check.sh", "dependency-check.bat"))
+    names = ("dependency-check", "dependency-check.sh", "dependency-check.bat")
+    exe = find_tool(cfg.path, names)
     if exe is None:
-        return None, VulnerabilitySource(name=DC, status="missing", detail="not installed")
+        detail = missing_detail(cfg.path, names)
+        return None, VulnerabilitySource(name=DC, status="missing", detail=detail)
     out_dir.mkdir(parents=True, exist_ok=True)
     cmd = [exe, "--project", project, "--format", "JSON", "--out", str(out_dir)]
     for d in scan_dirs:
@@ -234,9 +247,11 @@ def run_dependency_check(
 def run_osv_scanner(
     cfg: OsvScannerConfig, scan_dirs: list[Path], out_dir: Path
 ) -> tuple[Report | None, VulnerabilitySource]:
-    exe = find_tool(cfg.path, ("osv-scanner", "osv-scanner.exe"))
+    names = ("osv-scanner", "osv-scanner.exe")
+    exe = find_tool(cfg.path, names)
     if exe is None:
-        return None, VulnerabilitySource(name=OSV, status="missing", detail="not installed")
+        detail = missing_detail(cfg.path, names)
+        return None, VulnerabilitySource(name=OSV, status="missing", detail=detail)
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "osv-scanner-report.json"
     # OSV-Scanner 2.x: --offline uses the downloaded databases; java/archive adds jar files to
@@ -250,6 +265,38 @@ def run_osv_scanner(
         env = {**os.environ, "OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY": cfg.data_dir}
     cmd += [str(d) for d in scan_dirs]
     return _run(cmd, cfg.timeout_minutes, OSV, out, ok_codes=(0, 1), env=env)
+
+
+# Known scanner failures, in plain words with the fix (searched in the tool's whole output).
+FAILURE_HINTS: tuple[tuple[str, str, str], ...] = (
+    (
+        OSV,
+        "no offline version of the OSV database",
+        "offline mode but no OSV database downloaded: set security.osv_scanner.offline: false "
+        "to ask osv.dev, or download the database",
+    ),
+    (
+        OSV,
+        "flag provided but not defined",
+        "OSV-Scanner 1.x is too old: install version 2",
+    ),
+    (
+        OSV,
+        "no package sources found",
+        "no build files (pom.xml, Gradle) or .jar files found in the code folders",
+    ),
+    (
+        DC,
+        "No documents exist",
+        "its NVD database is not downloaded yet: run dependency-check --updateonly with an NVD "
+        "API key once, or set security.dependency_check.enabled: false",
+    ),
+)
+
+
+def failure_hint(tool: str, output: str) -> str | None:
+    low = output.lower()
+    return next((h for t, needle, h in FAILURE_HINTS if t == tool and needle.lower() in low), None)
 
 
 def _run(
@@ -268,8 +315,12 @@ def _run(
     except (OSError, subprocess.TimeoutExpired) as err:
         return None, VulnerabilitySource(name=tool, status="failed", detail=type(err).__name__)
     if proc.returncode not in ok_codes or not out.is_file():
+        text = f"{proc.stderr or ''}\n{proc.stdout or ''}"
         tail = (proc.stderr or proc.stdout or "").strip().splitlines()[-1:] or [""]
         detail = re.sub(r"\s+", " ", f"exit code {proc.returncode}: {tail[0]}")[:200]
+        hint = failure_hint(tool, text)
+        if hint:
+            detail = f"{hint} ({detail})"
         return None, VulnerabilitySource(name=tool, status="failed", detail=detail)
     report = load_report(out, out.name)
     if report is None:

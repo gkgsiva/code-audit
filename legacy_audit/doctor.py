@@ -143,7 +143,7 @@ def _writable(path: Path) -> Check:
 
 def run_checks(cfg: AuditConfig | None = None, output_dir: Path | None = None) -> list[Check]:
     from legacy_audit.security.jdk import find_jdk_tool
-    from legacy_audit.security.vulns import find_tool
+    from legacy_audit.security.vulns import find_tool, missing_detail
 
     cfg = cfg or AuditConfig.model_validate({"application": {"name": "doctor"}})
     sec = cfg.security
@@ -161,14 +161,26 @@ def run_checks(cfg: AuditConfig | None = None, output_dir: Path | None = None) -
             "OWASP Dependency-Check",
             dc,
             "known vulnerabilities in libraries (or import its JSON into audit-inputs/)",
-            "not installed; vulnerability data only from imported reports",
+            missing_detail(
+                sec.dependency_check.path,
+                ("dependency-check", "dependency-check.sh", "dependency-check.bat"),
+            )
+            + "; vulnerability data only from imported reports",
         )
     )
     if dc and sec.dependency_check.data_dir and not Path(sec.dependency_check.data_dir).is_dir():
         out[-1].status = "error"
         out[-1].detail = f"data_dir {sec.dependency_check.data_dir} does not exist"
-    osv = find_tool(sec.osv_scanner.path, ("osv-scanner", "osv-scanner.exe"))
-    out.append(_tool("OSV-Scanner", osv, "known vulnerabilities (alternative)", "not installed"))
+    osv_names = ("osv-scanner", "osv-scanner.exe")
+    osv = find_tool(sec.osv_scanner.path, osv_names)
+    out.append(
+        _tool(
+            "OSV-Scanner",
+            osv,
+            "known vulnerabilities in libraries",
+            missing_detail(sec.osv_scanner.path, osv_names),
+        )
+    )
     jdeps = find_jdk_tool(sec.jdk_tools, "jdeps")
     out.append(
         _tool(

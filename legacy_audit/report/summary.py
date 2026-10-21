@@ -883,7 +883,12 @@ class _Summary:
                 "results were found for this run, so the "
                 f"{_plural(len(libs), 'library', 'libraries')} found have not been checked. "
                 "This does not mean they are safe.",
-                how,
+                (
+                    "The scanners were found but did not finish; the reason for each is below "
+                    "and in the Vulnerability checks table. Fix it, then scan again."
+                )
+                if any(s.get("status") == "failed" for s in sources)
+                else how,
             ]
         elif not total:
             intro = [
