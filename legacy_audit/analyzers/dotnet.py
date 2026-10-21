@@ -132,7 +132,7 @@ NAMESPACE_TECH: list[tuple[str, str, str]] = [
     ("System.Messaging", "MSMQ", "middleware"),
     ("IBM.WMQ", "IBM MQ client", "middleware"),
     ("IBM.XMS", "IBM MQ client", "middleware"),
-    ("System.ServiceProcess", "Windows Service", "runtime"),
+    ("System.ServiceProcess", "Windows Service", "framework"),
     ("Quartz", "Quartz.NET", "scheduler"),
     ("Hangfire", "Hangfire", "scheduler"),
     ("log4net", "log4net", "library"),
@@ -180,7 +180,7 @@ _TECH_CATEGORY = {
     "Blazor": "framework",
     "WCF": "framework",
     "Worker service": "runtime",
-    "Windows Service": "runtime",
+    "Windows Service": "framework",
     "MSMQ": "middleware",
     "Entity Framework": "framework",
 }

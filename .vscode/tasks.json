@@ -272,6 +272,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_web_stack.py samples\\angular-node-app --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 27. Desktop and .NET apps (VB6, VB.NET, C#, Java Swing samples)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_desktop_stack.py samples/desktop-dotnet-app samples/java-swing-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_desktop_stack.py samples\\desktop-dotnet-app samples\\java-swing-app --open"
+      },
+      "problemMatcher": []
     }
   ]
 }

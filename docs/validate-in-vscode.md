@@ -562,3 +562,53 @@ where Windows uses `.venv\Scripts\python`. If the new parser is missing, run
 6. **On your own Angular or Node application**: point `audit.yaml` at the folder that holds
    `package.json` (the GUI's **1. Project setup**), scan, and check that `node_modules/` and
    `dist/` do not appear in the lines of code and that each routed page is a screen.
+
+## Desktop and .NET applications (VB6, VB.NET, C#, Java Swing)
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`. This adds a new parser for C#: if it is missing, run
+`.venv\Scripts\python -m pip install -e .` (WSL2: `.venv/bin/python -m pip install -e .`) once.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/analyzers/test_dotnet.py`, `test_basic.py`, `test_csharp.py` and the
+   `desktop-dotnet-app` and `java-swing-app` sample checks.
+2. Run `audit: 27. Desktop and .NET apps (VB6, VB.NET, C#, Java Swing samples)`. The terminal
+   shows, for the .NET sample:
+   - **Components**: `billing-desk-vb6` (VB6), `orders-winforms-vbnet` (VB.NET) and
+     `inventory-wpf-cs` (C# WPF) are `desktop`; `billing-api-cs` (ASP.NET Core) and
+     `legacy-webforms` (ASP.NET Web Forms) are `web`; `nightly-export-cs` and
+     `invoice-mailer-svc` (a Windows service) are `batch`.
+   - **Screens**: the VB6 forms `frmMain` and `frmCustomer`, the Windows Forms `MainForm` and
+     `OrderDetailForm`, the WPF windows `MainWindow` and `StockDialog`, two ASP.NET pages and
+     one Razor view; user controls, the master page and the layout are partials. The
+     **opens** lines show which screen opens which (for example `frmMain -> frmCustomer`).
+   - **SQL built in the code**: 20 statements with where they come from (`ado`, `dao`,
+     `ado.net`, `dapper`, `entity-framework`...). The searches built piece by piece show the
+     whole statement with `?` where a value is filled in at run time.
+   - **Batch work**: `NightlyExport` (daily at 01:30) and `WeeklyPurge` (weekly on Sunday at
+     03:00) from Windows Task Scheduler, `close-invoices` (daily at 02:00) from Hangfire, and
+     the `MailerService` Windows service.
+   - **NuGet packages and VB6 references**: Dapper, Entity Framework Core, Hangfire,
+     log4net... and the VB6 COM references and ActiveX controls (`.OCX`).
+   - **Languages and runtimes**: Visual Basic 6, .NET Framework 4.0, 4.5.2 and 4.6.1 and
+     .NET 6 are end of life.
+   For the Swing sample: one `desktop` component `teller-desk` with the screens `MainFrame`,
+   `CustomerDialog`, `Rates` (JavaFX) and the partial `AccountPanel`, and the customer search
+   SQL. Then both summary reports open (on WSL2, if they do not open, open the printed paths
+   from Windows Explorer).
+3. In the .NET summary report, part **1 Project**: **Modules** lists the seven modules with
+   their type (desktop, web, batch); **Technology stack** shows the end-of-life rows. Part
+   **2** lists the tables (CUSTOMER, INVOICE, STOCK_ITEM...) and the five databases
+   connected (SQL Server, Oracle and an Access file). Part **3** shows the ledger HTTP calls,
+   the pricing SOAP service, the file shares, the MSMQ queue and the mail server. Part **4**
+   lists the scheduled tasks and the Windows service.
+4. Run `audit: 4. scan a sample` with `desktop-dotnet-app`, then `audit: 7. build and open the
+   technical report` with the same sample. **Screens** lists the desktop windows by
+   technology; **Findings** shows the passwords found in connection strings (values masked),
+   the ActiveX controls, Windows API calls (`Declare ... Lib`), `CreateObject`, `On Error Resume
+   Next` and Windows drive and share paths.
+5. **On your own VB6 or .NET application**: point `audit.yaml` at the folder that holds the
+   `.vbp`, `.sln`, `.csproj` or `.vbproj` files (the GUI's **1. Project setup**), scan, and
+   check that `bin/`, `obj/` and `packages/` do not appear in the lines of code and that each
+   form or window is a screen. For dependency vulnerabilities, OSV-Scanner reads
+   `packages.lock.json` on its own (recent versions also read `.csproj` and `packages.config`).
