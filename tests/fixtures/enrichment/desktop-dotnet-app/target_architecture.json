@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "stage": "target_architecture",
+    "author": "copilot-agent"
+  },
+  "components": [
+    {
+      "name": "billing-ui",
+      "technology": "Angular 21",
+      "platform": "Cloud Storage + Cloud CDN",
+      "replaces": [
+        "billing-desk-vb6",
+        "orders-winforms-vbnet",
+        "inventory-wpf-cs",
+        "legacy-webforms"
+      ],
+      "description": "One browser application for the billing, order, stock and contact screens"
+    },
+    {
+      "name": "billing-api",
+      "technology": "Spring Boot 4 on Java 25",
+      "platform": "Cloud Run",
+      "replaces": [
+        "billing-api-cs"
+      ],
+      "description": "REST API for invoices, orders, stock and contacts"
+    },
+    {
+      "name": "billing-batch",
+      "technology": "Spring Batch on Java 25",
+      "platform": "Cloud Run jobs + Cloud Scheduler",
+      "replaces": [
+        "nightly-export-cs",
+        "invoice-mailer-svc"
+      ],
+      "description": "Nightly export, weekly purge and invoice mailing"
+    }
+  ],
+  "principles": [
+    "No database access from the browser: every screen goes through the API"
+  ],
+  "platform_changes": [
+    {
+      "name": "Visual Basic 6",
+      "tech_ids": [
+        "tech:cd784fbff32b95a1"
+      ],
+      "today": "Runs the billing desk on clerks' PCs, reading Access and Oracle directly",
+      "target": "Angular 21 screens over the Spring Boot 4 API",
+      "evidence": [
+        {
+          "file": "billing-desk-vb6/BillingDesk.vbp",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "name": ".NET Framework",
+      "tech_ids": [
+        "tech:cb4025577e1747c4",
+        "tech:a902176eaee1646c",
+        "tech:cd4deda0d741486e",
+        "tech:50ea2cb0e7dc730b"
+      ],
+      "today": "Runtime of the order desk, the Web Forms site, the nightly export and the mailer service",
+      "target": "Java 25 (Spring Boot 4, Spring Batch)",
+      "assumption": true
+    },
+    {
+      "name": "Windows Forms",
+      "tech_ids": [
+        "tech:1e209bdaed967cca"
+      ],
+      "today": "Order desk windows",
+      "target": "Angular 21 components with Angular Material dialogs",
+      "evidence": [
+        {
+          "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "name": "WPF",
+      "tech_ids": [
+        "tech:615db84b59501b8a"
+      ],
+      "today": "Stock windows",
+      "target": "Angular 21 components",
+      "evidence": [
+        {
+          "file": "inventory-wpf-cs/App.xaml",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "name": "Windows Service",
+      "tech_ids": [
+        "tech:17398be5bfd4598e"
+      ],
+      "today": "Hosts the invoice mailer that reads the MSMQ queue",
+      "target": "Spring Boot 4 service on Cloud Run reading a Pub/Sub subscription",
+      "evidence": [
+        {
+          "file": "invoice-mailer-svc/MailerService.cs",
+          "line": 11
+        }
+      ]
+    }
+  ]
+}

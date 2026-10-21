@@ -107,7 +107,13 @@ class Overview(StageFile):
 class ComponentClass(Claim):
     component: str
     capability: str = Field(description="Business capability or module, in business words")
-    kind: Literal["online", "batch", "integration", "library", "data", "mixed"]
+    kind: Literal[
+        "online", "batch", "integration", "library", "data", "mixed", "desktop", "frontend", "api"
+    ] = Field(
+        description="online: server-side web or mainframe screens and services; frontend: a "
+        "single-page application (Angular, AngularJS); api: a Node.js or .NET service exposing "
+        "HTTP endpoints; desktop: a Windows or Java desktop program (VB6, WinForms, WPF, Swing)"
+    )
     criticality: Literal["high", "medium", "low"]
     reclassified_from: str | None = Field(None, description="Scanner type, when overridden")
     reason: str
@@ -242,10 +248,27 @@ class TargetComponent(_Base):
     description: str = ""
 
 
+class PlatformChange(Claim):
+    """What replaces one product of today's platform: an application or web server, a runtime
+    (.NET Framework, Node.js, Java) or a desktop or UI framework (VB6, WinForms, AngularJS)."""
+
+    name: str = Field(description="The product as the tech stack names it, e.g. 'Oracle WebLogic'")
+    tech_ids: list[str] = Field(
+        default_factory=list, description="Its tech_stack ids (tech:...), every version"
+    )
+    today: str = Field("", description="What it does for the application today, one line")
+    target: str = Field(description="What replaces it on the target, one line")
+
+
 class TargetArchitecture(StageFile):
     components: list[TargetComponent]
     diagrams: list[Diagram] = Field(default_factory=list)
     principles: list[str] = Field(default_factory=list)
+    platform_changes: list[PlatformChange] = Field(
+        default_factory=list,
+        description="One entry per application server, web server and runtime in the tech stack "
+        "(and each desktop or UI framework that goes away): what replaces it",
+    )
 
 
 # ---- 10 Plan -------------------------------------------------------------------------------------

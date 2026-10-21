@@ -608,6 +608,55 @@ def batch_flows(rd: RunData) -> list[Flow]:
                     out.append(f"{rd.label(src2)} (via {rd.label(src).rsplit('/', 1)[-1]})")
         return list(dict.fromkeys(out))
 
+    mains: dict[str, list[str]] = defaultdict(list)
+    for ep in rd.items("entry_points"):
+        if ep.get("kind") in _PROGRAM_ENTRY and ep.get("component") and ep.get("file"):
+            mains[ep["component"]].append(ep["file"])
+    attached: set[str] = set()
+    by_stem: dict[tuple[str, str], list[str]] = defaultdict(list)
+    for rec in rd.items("inventory"):
+        if rec.get("category") == "source" and rd.file_component.get(rec["path"]):
+            stem = rec["path"].rsplit("/", 1)[-1].split(".", 1)[0]
+            by_stem[(rd.file_component[rec["path"]], stem)].append(rec["path"])
+
+    def named_files(j: dict[str, Any], file: str | None, line: int | None) -> list[str]:
+        """Files of the job's component named by what registers it: ``InvoiceJobs`` in
+        ``RecurringJob.AddOrUpdate<InvoiceJobs>(...)`` is ``Jobs/InvoiceJobs.cs``."""
+        comp = j.get("component")
+        if not comp:
+            return []
+        text = " ".join([j.get("command") or "", *(j.get("programs") or [])])
+        path = rd.abs_path(file) if file else None
+        if path and line:
+            try:
+                with path.open(encoding="utf-8", errors="replace") as fh:
+                    text += " " + next((x for i, x in enumerate(fh, 1) if i == line), "")
+            except OSError:
+                pass
+        out: list[str] = []
+        for word in dict.fromkeys(re.findall(r"\b[A-Z][a-z]\w+", text)):  # type names
+            out += [p for p in by_stem.get((comp, word), []) if p != file]
+        return out
+
+    def defined_files(members: list[dict[str, Any]]) -> list[str]:
+        """Source of a job that runs no file the scan linked (Hangfire, Quartz.NET, node-cron,
+        Windows Task Scheduler): the program's ``main`` in the job's component when the job
+        runs an executable, then the file that defines the job (the code that registers it, or
+        the task definition), so the flow page and the AI see the code the job runs."""
+        out: list[str] = []
+        for j in members:
+            programs = [str(p).lower() for p in j.get("programs") or []]
+            runs_exe = ".exe" in str(j.get("command") or "").lower() or any(
+                p.endswith(".exe") for p in programs
+            )
+            if runs_exe and j.get("component"):
+                out += sorted(mains.get(j["component"], []))
+            file, line = rd.first_evidence(j)
+            out += named_files(j, file, line)
+            if file:
+                out.append(str(file))
+        return list(dict.fromkeys(out))
+
     units = [
         j
         for j in jobs
@@ -729,6 +778,9 @@ def batch_flows(rd: RunData) -> list[Flow]:
                 }
             )
             prev = jkey
+        if not flow_files:
+            flow_files = defined_files(steps_src)
+            attached.update(flow_files)
         tables = ix.tables_of(job_sids)
         table_rows = ix.table_rows(tables)
         systems = ix.systems_of(job_sids)
@@ -798,7 +850,7 @@ def batch_flows(rd: RunData) -> list[Flow]:
                 files=list(dict.fromkeys(flow_files)),
             )
         )
-    flows += _unscheduled_flows(rd, ix, runs, callers, jobs)
+    flows += _unscheduled_flows(rd, ix, runs, callers, jobs, attached)
     return flows
 
 
@@ -820,6 +872,7 @@ def _unscheduled_flows(
     runs: dict[str, list[str]],
     callers: dict[str, list[str]],
     jobs: list[dict[str, Any]],
+    attached: set[str] | None = None,
 ) -> list[Flow]:
     """Batch work the scan found but no scheduler definition covers (decisions 102 and 116).
 
@@ -845,7 +898,7 @@ def _unscheduled_flows(
     file_ids = {f["path"]: f["id"] for f in files.values() if f.get("id")}
     covered_files = {
         (rd.by_id.get(c) or {}).get("path") or (rd.by_id.get(c) or {}).get("file") for c in covered
-    }
+    } | (attached or set())  # a job's own source (see ``defined_files``) is covered too
     comps = {c["name"]: c for c in rd.items("components")}
     roles = {n: {*(c.get("roles") or []), str(c.get("type") or "")} for n, c in comps.items()}
     batch_comps = {n for n, r in roles.items() if "batch" in r}

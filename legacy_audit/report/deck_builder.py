@@ -592,7 +592,7 @@ class _Deck:
             "Technology stack",
             [self.table(["Technology", "Version", "Category", "End of life"], rows)],
         )
-        servers = server_rows(self.rd)
+        servers = server_rows(self.rd, self.e)
         if servers:
             self.add(
                 "cur-servers",

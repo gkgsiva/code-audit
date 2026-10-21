@@ -57,13 +57,17 @@
           "type": "array"
         },
         "kind": {
+          "description": "online: server-side web or mainframe screens and services; frontend: a single-page application (Angular, AngularJS); api: a Node.js or .NET service exposing HTTP endpoints; desktop: a Windows or Java desktop program (VB6, WinForms, WPF, Swing)",
           "enum": [
             "online",
             "batch",
             "integration",
             "library",
             "data",
-            "mixed"
+            "mixed",
+            "desktop",
+            "frontend",
+            "api"
           ],
           "title": "Kind",
           "type": "string"
