@@ -139,7 +139,8 @@ class Service(Fact):
         None, description="Spring MVC, JAX-RS, JAX-WS, Apache Axis, Apache Axis2, Spring-WS, ..."
     )
     web_service: str | None = Field(
-        None, description="Web service the operation belongs to (JAX-WS service name, Axis "
+        None,
+        description="Web service the operation belongs to (JAX-WS service name, Axis "
         "service, controller); operations with the same one are listed together",
     )
     screens: list[str] = Field(default_factory=list, description="Screens it renders")
@@ -309,7 +310,8 @@ class WebService(Fact):
         default_factory=list, description="Ids of the integrations it is reached through"
     )
     description: str | None = Field(
-        None, description="One sentence written by the scan; the Copilot enrichment adds the "
+        None,
+        description="One sentence written by the scan; the Copilot enrichment adds the "
         "business words (stage 12, web_services)",
     )
 

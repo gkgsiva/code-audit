@@ -377,6 +377,20 @@
       "assumption": true
     }
   ],
+  "web_services": [
+    {
+      "web_service_id": "web_service:b1c1311ec5cdb906",
+      "partner": "Central pricing",
+      "purpose": "Gets the confirmed price of an order before it is shown.",
+      "migration": "Call it through Spring's RestClient once pricing offers REST; keep a SOAP client until then",
+      "evidence": [
+        {
+          "file": "src/com/acme/orders/client/PricingSoapClient.java",
+          "line": 21
+        }
+      ]
+    }
+  ],
   "glossary": [
     {
       "term": "Agent",

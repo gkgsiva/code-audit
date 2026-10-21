@@ -121,7 +121,11 @@ JWS = """public class Calculator {
 def test_axis_jws_file() -> None:
     facts = run(JavaAnalyzer(), "webapp/Calculator.jws", JWS)
     (s,) = entities(facts, "services")
-    assert (s.name, s.framework, s.url) == ("Calculator.add", "Apache Axis (JWS)", "/Calculator.jws")
+    assert (s.name, s.framework, s.url) == (
+        "Calculator.add",
+        "Apache Axis (JWS)",
+        "/Calculator.jws",
+    )
 
 
 CLIENTS = """package com.acme.orders.client;

@@ -35,6 +35,7 @@ from jinja2 import ChainableUndefined, Environment, PackageLoader, select_autoes
 from legacy_audit.config import Branding
 from legacy_audit.enrich.status import latest_copy
 from legacy_audit.report import batches, flows
+from legacy_audit.report.catalogues import ws_text
 from legacy_audit.report.data import RunData, slug
 from legacy_audit.report.deck_builder import PALETTE, _cut, _num, load_enrichment
 from legacy_audit.report.pptx_templates import TemplateError, resolve_template
@@ -47,6 +48,17 @@ SECTIONS = [
     ("integrations", "Integrations", "Architects", "series-2"),
     ("batch", "Batches", "Operations and architects", "series-7"),
     ("security", "Dependency vulnerabilities", "Security and architects", "series-8"),
+]
+WEB_COLUMNS = [
+    "Offered / called",
+    "Style",
+    "Web service",
+    "Address",
+    "Operations",
+    "Found through",
+    "Module",
+    "What it is for",
+    "Suggested migration",
 ]
 SLIDE_ROWS = 10  # rows of a table on a slide; the HTML and the CSV have them all
 COMPLEXITY_ORDER = ["Simple", "Medium", "Complex", "Very complex"]
@@ -624,6 +636,14 @@ class _Summary:
             )
         pl, pv = _top(purposes, 8)
         tl, tv = _top(types, 8)
+        web_rows, web_kpis, web_chart = self._web_services()
+        if web_rows:
+            intro.append(
+                f"It offers {_plural(web_kpis['offered'], 'web service')} and calls "
+                f"{_num(web_kpis['called'])}: {_num(web_kpis['rest'])} REST and "
+                f"{_num(web_kpis['soap'])} SOAP, with "
+                f"{_plural(web_kpis['operations'], 'operation')} in all."
+            )
         return Section(
             "integrations",
             "Integrations",
@@ -637,6 +657,8 @@ class _Summary:
                 ("Messaging", msg),
                 ("Login / authentication", len(logins)),
                 ("Usages in code", sum(int(i.get("usages") or 0) for i in items)),
+                ("Web services offered", web_kpis["offered"]),
+                ("Web services called", web_kpis["called"]),
             ],
             [
                 Chart(
@@ -651,6 +673,7 @@ class _Summary:
                 Chart(
                     "by-type", "Integrations by type", "bar", tl, tv, ["series-2"], "integrations"
                 ),
+                *([web_chart] if web_rows else []),
             ],
             [
                 Table(
@@ -661,8 +684,52 @@ class _Summary:
                     "Descriptions marked (AI) come from the Copilot analysis, the others from "
                     "the scan.",
                 ),
+                Table(
+                    "web-services",
+                    "Web services (REST and SOAP)",
+                    WEB_COLUMNS[: len(web_rows[0]) if web_rows else len(WEB_COLUMNS) - 1],
+                    web_rows,
+                    "Offered: other systems call the application; called: the application calls "
+                    "them. Text marked (AI) comes from the Copilot analysis, the rest from the "
+                    "scan. Every operation is in the technical report (Web services page).",
+                    "No REST or SOAP web service found.",
+                ),
             ],
         )
+
+    def _web_services(self) -> tuple[list[list[Any]], dict[str, int], Chart]:
+        web = self.rd.items("web_services")
+        stories = {x["web_service_id"]: x for x in self.fn.get("web_services", []) or []}
+        rows = []
+        for w in web:
+            what, mig = ws_text(w, stories.get(w["id"]))
+            rows.append(
+                [
+                    w["side"],
+                    w["style"],
+                    w["name"],
+                    w.get("url") or "",
+                    len(w.get("operations") or []),
+                    ", ".join(w.get("frameworks") or []),
+                    w.get("component") or "",
+                    what,
+                    mig,
+                ]
+            )
+        if not any(r[8] for r in rows):  # the AI column only when the analysis has it
+            rows = [r[:8] for r in rows]
+        kpis = {
+            "offered": sum(1 for w in web if w["side"] == "offered"),
+            "called": sum(1 for w in web if w["side"] == "called"),
+            "rest": sum(1 for w in web if w["style"] == "REST"),
+            "soap": sum(1 for w in web if w["style"] == "SOAP"),
+            "operations": sum(len(w.get("operations") or []) for w in web),
+        }
+        labels = [f"{st} {side}" for side in ("offered", "called") for st in ("REST", "SOAP")]
+        values = [sum(1 for w in web if f"{w['style']} {w['side']}" == lab) for lab in labels]
+        chart = Chart("web-services", "Web services offered and called", "bar", labels, values,
+                      ["series-1", "series-3", "series-2", "series-4"], "web services")  # fmt: skip
+        return rows, kpis, chart
 
     @staticmethod
     def _idp(i: dict[str, Any]) -> str:
@@ -1233,6 +1300,8 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
                 cols = [0, 2, 3, 4, 7]
             elif t.key == "integrations":
                 cols = [0, 1, 2, 3, 4]
+            elif t.key == "web-services":
+                cols = [0, 1, 2, 3, 4, 6]
             elif t.key == "batches":
                 cols = [0, 3, 4, 5]
             elif t.key in ("vulnerabilities", "vulnerable-libraries"):
@@ -1244,6 +1313,13 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
                     "integrations-described",
                     "What each integration is for",
                     [table(t, [1, 2, 6])],
+                )
+            if t.key == "web-services":
+                slide(
+                    sec,
+                    "web-services-described",
+                    "What each web service is for",
+                    [table(t, [1, 2, 7, 8] if len(t.columns) > 8 else [0, 2, 7])],
                 )
     return {
         "version": "1",

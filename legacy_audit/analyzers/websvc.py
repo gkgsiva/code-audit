@@ -82,9 +82,7 @@ def operation(
     file: str | None = None,
     line: int | None = None,
 ) -> WebOperation:
-    return WebOperation(
-        name=name, method=method, path=path, handler=handler, file=file, line=line
-    )
+    return WebOperation(name=name, method=method, path=path, handler=handler, file=file, line=line)
 
 
 def rest_op_name(method: str | None, path: str | None) -> str:
@@ -352,9 +350,7 @@ class WebServicesAnalyzer:
     def _endpoint(
         facts: Facts, path: str, line: int | None, cls: str, url: str, framework: str
     ) -> None:
-        facts.symbol(
-            "ws-endpoint", cls, path, line, data={"url": url, "framework": framework}
-        )
+        facts.symbol("ws-endpoint", cls, path, line, data={"url": url, "framework": framework})
 
     def _web_xml(self, root: ET.Element, path: str, facts: Facts) -> None:
         names: dict[str, tuple[str, int | None]] = {}

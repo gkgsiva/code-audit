@@ -239,8 +239,10 @@ class _Builder:
     def _key(style: str, url: str | None, name: str) -> tuple[str, ...]:
         base, path = split_url(url or "")
         if base:
-            return ("called", "SOAP", base + path.lower()) if style == "SOAP" else (
-                "called", "REST", base
+            return (
+                ("called", "SOAP", base + path.lower())
+                if style == "SOAP"
+                else ("called", "REST", base)
             )
         return ("called", style, "name:" + norm(name))
 
@@ -251,7 +253,7 @@ class _Builder:
         for w in uses:
             m = re.match(r"^\$\{([^}:]+)(?::[^}]*)?\}", w.url or "")
             if m and m.group(1) in by_key:
-                url = by_key[m.group(1)].rstrip("/") + (w.url or "")[m.end():]
+                url = by_key[m.group(1)].rstrip("/") + (w.url or "")[m.end() :]
                 base, _ = split_url(url)
                 w.url = url
                 for o in w.operations:
@@ -314,12 +316,23 @@ class _Builder:
             ws.evidence = _ev(ws.evidence, it.evidence)
             if not ws.url:
                 ws.url = base + (path if k[1] == "SOAP" else "")
-            if k[1] == "REST" and path and not any(
-                (o.path or "").startswith(path) for o in ws.operations
+            if (
+                k[1] == "REST"
+                and path
+                and not any((o.path or "").startswith(path) for o in ws.operations)
             ):
-                _add_ops(ws, [WebOperation(name=f"ANY {path}", method="ANY", path=path,
-                                           file=it.evidence[0].file if it.evidence else None,
-                                           line=it.evidence[0].line if it.evidence else None)])
+                _add_ops(
+                    ws,
+                    [
+                        WebOperation(
+                            name=f"ANY {path}",
+                            method="ANY",
+                            path=path,
+                            file=it.evidence[0].file if it.evidence else None,
+                            line=it.evidence[0].line if it.evidence else None,
+                        )
+                    ],
+                )
             if k not in names:
                 last = path.rstrip("/").rsplit("/", 1)[-1]
                 names[k] = Counter({(last if k[1] == "SOAP" and last else base.split("://")[1]): 1})
@@ -374,8 +387,10 @@ class _Builder:
                     continue
                 ops = {o.name.lower() for o in ws.operations}
                 hint = wsdd.get(ws.name, "").rsplit("/", 1)[-1].lower()
-                if norm(ws.name) == cname or (base_name and hint == base_name) or (
-                    c_ops and len(c_ops & ops) * 2 >= len(c_ops)
+                if (
+                    norm(ws.name) == cname
+                    or (base_name and hint == base_name)
+                    or (c_ops and len(c_ops & ops) * 2 >= len(c_ops))
                 ):
                     match = ws
                     break
@@ -399,9 +414,10 @@ class _Builder:
             match.namespace = match.namespace or c.namespace
             ckey = self._key(c.style, c.url, c.name)
             for it in self.integrations:
-                if c.wsdl in it.source_files and self._key(
-                    "SOAP" if c.style == "SOAP" else "REST", it.target, ""
-                ) == ckey:
+                if (
+                    c.wsdl in it.source_files
+                    and self._key("SOAP" if c.style == "SOAP" else "REST", it.target, "") == ckey
+                ):
                     match.integrations = _union(match.integrations, [it.id])
             match.frameworks = _union(match.frameworks, ["WSDL"])
             match.files = _union(match.files, [c.wsdl] if c.wsdl else [])
@@ -457,10 +473,7 @@ def _describe(ws: WebService) -> str:
     at = f" at {ws.url}" if ws.url else " (address set at run time or in configuration)"
     ops = f", {_plural(n, 'operation')} seen" if n else ""
     places = len(ws.callers) or len(ws.files)
-    return (
-        f"Calls the {ws.name} {ws.style} service{at} from {_plural(places, 'file')}"
-        f" ({fw}{ops})."
-    )
+    return f"Calls the {ws.name} {ws.style} service{at} from {_plural(places, 'file')} ({fw}{ops})."
 
 
 def build_web_services(

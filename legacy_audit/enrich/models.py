@@ -397,8 +397,8 @@ class Interface(Claim):
 class WebServiceStory(Claim):
     web_service_id: str
     partner: str = Field(
-        "", description="Offered: who calls it; called: the system that provides it, in "
-        "business words"
+        "",
+        description="Offered: who calls it; called: the system that provides it, in business words",
     )
     purpose: str = Field(description="What it is for, one sentence for business readers")
     migration: str = Field(

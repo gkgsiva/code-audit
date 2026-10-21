@@ -45,7 +45,8 @@ facts; you interpret them. You never count.
 
 - `audit-output/latest/data/audit-summary.json`: headline counts, top lists, coverage. Start here.
 - `audit-output/latest/data/<entity>.json` and `facts.sqlite`: components, services, screens,
-  sql_statements, db_objects, integrations, dependencies, batch_jobs, libraries, tech_stack,
+  sql_statements, db_objects, integrations, web_services (REST and SOAP services offered and called,
+  one row each with its operations), dependencies, batch_jobs, libraries, tech_stack,
   findings, metrics, input_coverage. Every row has an `id` and `evidence`.
 - `audit-output/latest/data/effort.json`: effort ranges (an estimate from configured weights).
 - `audit-output/latest/run.json`: input coverage, unresolved references, overrides applied.

@@ -3,6 +3,7 @@
 {% for cat in catalogues %}
 {% if not loop.first or cat.name == "batches" %}<h2>{{ cat.title }}</h2>{% endif %}
 <p class="lead">{{ cat.intro }}</p>
+{% if loop.first and csv_file %}<p class="muted"><a href="{{ base }}data/{{ csv_file }}" download>Download this list as CSV</a> (opens in Excel).</p>{% endif %}
 {% if cat.name == "batches" and batch_csv %}<p class="muted"><a href="{{ base }}data/batches.csv" download>Download this list as CSV</a> (opens in Excel).</p>{% endif %}
 {{ m.catalogue(cat.name) }}
 {% endfor %}

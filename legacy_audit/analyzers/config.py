@@ -128,8 +128,13 @@ class ConfigAnalyzer:
                 pairs.append((text.count("\n", 0, m.start()) + 1, m.group(1), m.group(2)))
             # Endpoints in any attribute or text (namespaces and DTD hosts are ignored).
             for no, line in enumerate(text.splitlines(), 1):
-                if "<!DOCTYPE" in line or "xmlns" in line or "schemaLocation" in line or (
-                    "amespace" in line  # targetNamespace, namespaceUri: names, not endpoints
+                if (
+                    "<!DOCTYPE" in line
+                    or "xmlns" in line
+                    or "schemaLocation" in line
+                    or (
+                        "amespace" in line  # targetNamespace, namespaceUri: names, not endpoints
+                    )
                 ):
                     continue
                 if "jdbc:" in line or "://" in line:

@@ -579,8 +579,10 @@ class _Visitor:
                           web_service=ws.get("serviceName") or ws.get("name") or cls.name,
                           )  # fmt: skip
         # Spring Web Services endpoints
-        if "Endpoint" in ca and {"PayloadRoot", "SoapAction", "Action"} & set(ann) and any(
-            i.startswith("org.springframework.ws") for i in self.imports
+        if (
+            "Endpoint" in ca
+            and {"PayloadRoot", "SoapAction", "Action"} & set(ann)
+            and any(i.startswith("org.springframework.ws") for i in self.imports)
         ):
             op = (
                 ann.get("PayloadRoot", {}).get("localPart")
@@ -1164,8 +1166,10 @@ class _Visitor:
         """Calls chained after ``n`` (``n.request().post(...)``): (name, arguments) in order."""
         out: list[tuple[str, list[Node]]] = []
         cur = n
-        while cur.parent is not None and cur.parent.type == "method_invocation" and (
-            cur.parent.child_by_field_name("object") == cur
+        while (
+            cur.parent is not None
+            and cur.parent.type == "method_invocation"
+            and (cur.parent.child_by_field_name("object") == cur)
         ):
             cur = cur.parent
             args = cur.child_by_field_name("arguments")
@@ -1222,9 +1226,13 @@ class _Visitor:
                 self.ws_base = url
             return
         # Spring WebClient / RestClient: client.get().uri("/x")
-        if name == "uri" and first is not None and any(
-            i.startswith(("org.springframework.web.reactive", "org.springframework.web.client"))
-            for i in imports
+        if (
+            name == "uri"
+            and first is not None
+            and any(
+                i.startswith(("org.springframework.web.reactive", "org.springframework.web.client"))
+                for i in imports
+            )
         ):
             verb = self._verb(self._chain_down(n)) or "ANY"
             url = self._url_arg(first, local)
@@ -1234,8 +1242,10 @@ class _Visitor:
                                 handler=handler)  # fmt: skip
             return
         # JAX-RS client: client.target("http://...").path("x").request().get()
-        if name == "target" and first is not None and any(
-            i.startswith(("javax.ws.rs.client", "jakarta.ws.rs.client")) for i in imports
+        if (
+            name == "target"
+            and first is not None
+            and any(i.startswith(("javax.ws.rs.client", "jakarta.ws.rs.client")) for i in imports)
         ):
             chain = self._chain_up(n)
             url = self._url_arg(first, local) or "?"
@@ -1382,9 +1392,15 @@ class _Visitor:
             url = call["url"]
             if not url and not call["ops"] and not call["name"] and not call.get("use"):
                 continue
-            name = call["name"] or (
-                url.rstrip("/").rsplit("/", 1)[-1].split("?", 1)[0] if url and "/" in url else ""
-            ) or self._client_name()
+            name = (
+                call["name"]
+                or (
+                    url.rstrip("/").rsplit("/", 1)[-1].split("?", 1)[0]
+                    if url and "/" in url
+                    else ""
+                )
+                or self._client_name()
+            )
             if not call["ops"]:
                 self._ws_called("SOAP", name, call["fw"], call["line"], url=url)
             for op, line in call["ops"]:
