@@ -48,6 +48,7 @@ th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);ver
 th{background:var(--surface2);position:sticky;top:0}
 td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .empty{color:var(--muted);font-style:italic}
+.alert{border:1px solid var(--c-warning);border-left:5px solid var(--c-warning);background:var(--surface2);border-radius:8px;padding:10px 14px;margin:12px 0;font-weight:600}
 .msg{font-size:12px;color:var(--muted)}
 @media (max-width:600px){header,main{padding-left:16px;padding-right:16px}section.part{padding:16px}}
 @media print{header{position:static}.actions,.tools{display:none}.wrap{max-height:none}}
@@ -70,7 +71,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 {% for s in sections %}
 <section class="part" id="{{ s.key }}" style="--sec:var(--c-{{ s.color }})">
   <h2><span class="no">{{ loop.index }}</span>{{ s.title }}</h2>
-  <div class="intro">{% for p in s.intro %}<p>{{ p }}</p>{% endfor %}{% if s.source_note %}<p class="source">{{ s.source_note }}</p>{% endif %}</div>
+  {% if s.alert %}<p class="alert" role="alert">{{ s.alert }}</p>{% endif %}
+  <div class="intro">{% for p in s.intro if p != s.alert %}<p>{{ p }}</p>{% endfor %}{% if s.source_note %}<p class="source">{{ s.source_note }}</p>{% endif %}</div>
   <div class="kpis">{% for label, value in s.kpis %}<div class="kpi"><b>{{ fmt(value) }}</b><span>{{ label }}</span></div>{% endfor %}</div>
   {% if s.charts %}<div class="charts">{% for c in s.charts %}<div class="chart"><h3>{{ c.title }}</h3>{% if c.values %}<div class="box"><canvas id="ch-{{ s.key }}-{{ c.key }}" role="img" aria-label="{{ c.title }}"></canvas></div>{% else %}<p class="empty">Nothing to chart.</p>{% endif %}</div>{% endfor %}</div>{% endif %}
   {% for t in s.tables %}
@@ -81,7 +83,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   <div class="wrap"><table id="tb-{{ s.key }}-{{ t.key }}"><thead><tr>{% for c in t.columns %}<th{% if t.rows[0][loop.index0] is number %} class="num"{% endif %}>{{ c }}</th>{% endfor %}</tr></thead><tbody>
   {% for r in t.rows %}<tr>{% for v in r %}<td{% if v is number %} class="num"{% endif %}>{{ fmt(v) if v is number else v }}</td>{% endfor %}</tr>
   {% endfor %}</tbody></table></div>
-  {% else %}<p class="empty">None found.</p>{% endif %}
+  {% else %}<p class="empty">{{ t.empty }}</p>{% endif %}
   {% endfor %}
 </section>
 {% endfor %}

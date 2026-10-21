@@ -6,6 +6,18 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Dependency vulnerabilities in the summary report (2026-10-21)
+
+- The summary report has a fifth part, **Dependency vulnerabilities**: tiles, charts (by
+  severity, by scanner, most vulnerable libraries, by module), the top vulnerabilities worst
+  first, the vulnerable libraries with the suggested fix, and the status of each scanner;
+  the same as slides in the PowerPoint.
+- OWASP Dependency-Check and OSV-Scanner results are one list; each vulnerability says which
+  scanner found it (or both). Without any scanner results the part says plainly that the
+  check was not done.
+- VS Code task 25 shows it on the Billing sample with both scanners
+  (`scripts/show_dependency_vulns.py`).
+
 ### Summary report (2026-10-20)
 
 - New `legacy-audit report --type summary` (also in `--type all` and a GUI button): one page

@@ -633,13 +633,15 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <h2 id="reports">11. Reading the reports</h2>
 
 <h3 id="summary-report">The summary report (start here)</h3>
-<p>One page that sums up the whole application in four numbered parts, each with tiles of key numbers, charts and tables. It is saved in the run's folder as <code>reports/summary/index.html</code> and opens with no internet.</p>
+<p>One page that sums up the whole application in five numbered parts, each with tiles of key numbers, charts and tables. It is saved in the run's folder as <code>reports/summary/index.html</code> and opens with no internet.</p>
 <ol>
   <li><strong>Project</strong>: a short description of the application, its technology stack, and its modules, each with a description, the technologies it uses, its complexity and its lines of code.</li>
   <li><strong>Database and queries</strong>: the SQL found in the code, the tables it uses (C create, R read, U update, D delete), how ready it is for PostgreSQL, and the databases it connects to.</li>
   <li><strong>Integrations</strong>: every other system, once, with what it is for (for example <em>login / authentication</em> for Okta) and a description.</li>
   <li><strong>Batches</strong>: every batch, with what it does and when it runs.</li>
+  <li><strong>Dependency vulnerabilities</strong>: the known security problems (CVEs) in the third-party libraries the application uses, worst first, from OWASP Dependency-Check and OSV-Scanner together. Each problem is listed once, and the <em>Found by</em> column says which scanner found it (<em>Dependency-Check</em>, <em>OSV-Scanner</em> or <em>both</em>). Charts show the problems by severity, by scanner, by library and by module, and the <em>Vulnerable libraries</em> table gives the suggested upgrade or replacement.</li>
 </ol>
+<p><strong>No scanner results?</strong> If neither scanner was run, part 5 shows a yellow box saying the check was not done. That is not a clean result: install the scanners (section on Dependency-Check and OSV-Scanner) or copy their JSON reports into <code>audit-inputs/security/</code>, then scan again.</p>
 <p><strong>How to get it:</strong> in the app, <span class="menu">8. Reports &gt; Build summary report</span> (or <strong>Build all</strong>), then <strong>Open</strong>. In VS Code, run the task <code>audit: 24. build and open the summary report (HTML and PowerPoint)</code>.</p>
 <p><strong>Getting it as PowerPoint:</strong> click the blue <strong>PowerPoint (PPTX)</strong> button at the top right of the page. The file <code>summary.pptx</code> downloads; it is built on the company template (Blue unless you chose another), with real PowerPoint charts and tables you can edit. When you opened the page from the app, you can also pick another template next to the button and click <strong>Rebuild PowerPoint</strong>.</p>
 <p>Under every table, <strong>Download CSV</strong> gives the same rows for Excel. Descriptions marked <em>AI</em> come from the Copilot analysis (section 13); the others, and every number, come from the scan.</p>
@@ -947,6 +949,7 @@ chmod +x ~/tools/osv-scanner</code></pre></li>
   <tr><td><code>audit: 22. show lines of code by language and the integrations</code></td><td>Scans a sample and prints its lines of code per language and its integrations, one line per system.</td><td>Practice</td></tr>
   <tr><td><code>audit: 23. show all batches with what they do and when they run</code></td><td>Scans a sample and prints every batch with what it does and when it runs.</td><td>Practice</td></tr>
   <tr><td><code>audit: 24. build and open the summary report (HTML and PowerPoint)</code></td><td>Builds a sample's summary report and its PowerPoint, and opens the page. Scan the sample first.</td><td>Everyone</td></tr>
+  <tr><td><code>audit: 25. dependency vulnerabilities from both scanners (Billing demo)</code></td><td>Copies the Billing sample, adds a demo Dependency-Check report next to its OSV-Scanner report, builds the summary report and opens part 5, Dependency vulnerabilities.</td><td>Practice</td></tr>
 </table></div>
 
 <!-- ============================================================ 15 -->
