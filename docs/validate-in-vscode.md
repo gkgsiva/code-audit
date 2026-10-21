@@ -562,3 +562,37 @@ where Windows uses `.venv\Scripts\python`. If the new parser is missing, run
 6. **On your own Angular or Node application**: point `audit.yaml` at the folder that holds
    `package.json` (the GUI's **1. Project setup**), scan, and check that `node_modules/` and
    `dist/` do not appear in the lines of code and that each routed page is a screen.
+
+## Web services (REST and SOAP)
+
+Same on Windows and WSL2. On WSL2 use `.venv/bin/python` where Windows uses
+`.venv\Scripts\python`. The demo works on a copy of the sample, so the repository stays clean.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/analyzers/test_webservices.py` and the `web-services-app` sample check.
+2. Run `audit: 27. Web services, REST and SOAP (web services sample)`. The terminal shows two
+   lists:
+   - **Offers (other systems call it): 5**: REST `CustomerController` (`/api/customers`,
+     Spring MVC) and `OrderResource` (`/rest/orders`, JAX-RS); SOAP `Calculator`
+     (`/Calculator.jws`, Axis), `OrderStatusService` (`/ws/OrderStatus`, JAX-WS + CXF, with its
+     WSDL) and `QuoteService` (`/services/QuoteService`, Axis). Each has 2 operations with the
+     file and line.
+   - **Calls: 5**: REST `payment-service` (Feign, address taken from
+     `application.properties`), `stock.acme.local` (RestTemplate), `rates.acme.local` (libcurl
+     in C); SOAP `CrmService` (generated JAX-WS client, operations from `crm.wsdl`) and
+     `RateService` (gSOAP in C).
+   Then the technical report's **Web services** page and the summary report open (on WSL2,
+   if they do not open, open the printed paths from Windows Explorer).
+3. On the **Web services** page: the column filters **Offered / called** and **REST / SOAP**
+   narrow the table, the **Evidence** column links to each file (with **VS Code** links), the
+   operations table lists every operation with its handler, and **Download CSV** gives
+   `web-services.csv`.
+4. In the summary report, part **3 Integrations**: tiles **Web services offered** (5) and
+   **Web services called** (5), a chart by style, and the **Web services** table. Click
+   **PowerPoint (PPTX)**: the Integrations chapter has a "Web services" slide on the Blue
+   template.
+5. Optional, with Copilot: run the enrichment (task 10) on the sample; after the functional
+   stage the table gains a **Suggested migration** column, its text marked (AI).
+6. **On your own application**: scan it as usual and open the **Web services** page. Check
+   that each REST controller, SOAP endpoint and WSDL you know is listed once, and that the
+   called services match the systems in **Integrations**.

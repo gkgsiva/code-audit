@@ -6,6 +6,23 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Web services, REST and SOAP (2026-10-21)
+
+- One list of **web services**: the ones the application offers (Spring REST controllers,
+  JAX-RS, JAX-WS, Spring-WS, Apache Axis 1 and Axis2, CXF, Jersey/RESTEasy servlets, Node
+  `soap.listen`) and the ones it calls (RestTemplate, WebClient, RestClient, Feign, Retrofit,
+  JAX-RS client, Java and Apache HttpClient, OkHttp, HttpURLConnection, JAX-WS and Axis stubs,
+  WebServiceTemplate, CXF clients, Angular HttpClient, Node `soap`, libcurl and gSOAP in C,
+  CICS `INVOKE SERVICE` and `WEB` in COBOL), each with REST or SOAP, its address, its
+  operations (HTTP method and path, or SOAP operation), module, files and lines.
+- WSDL files are read (services, ports, operations, address) and attached to the service that
+  implements or calls them.
+- Shown in the technical report (new **Web services** page and CSV, module pages), the summary
+  report (Integrations section: tiles, chart and table) and the PowerPoint; Copilot and
+  `legacy-audit enrich` can add a purpose and a migration hint per service, marked AI.
+- XML namespaces (for example a SOAP `QName` namespace) are no longer taken for integrations.
+- New sample `samples/web-services-app`; VS Code task 27 (`scripts/show_web_services.py`).
+
 ### Angular, AngularJS, Node.js/TypeScript and application servers (2026-10-21)
 
 - Angular and AngularJS front ends (component type `frontend`) and Node.js APIs with Express

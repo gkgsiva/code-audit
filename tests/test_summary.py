@@ -293,5 +293,6 @@ def test_web_service_story_from_copilot_is_marked_ai(tmp_path: Path) -> None:
     web = {t["key"]: t for t in sec["tables"]}["web-services"]
     assert web["columns"][-1] == "Suggested migration"
     (row,) = web["rows"]
-    assert row[7] == "Central pricing: Gets the confirmed price of an order before it is shown. (AI)"
+    purpose = "Central pricing: Gets the confirmed price of an order before it is shown. (AI)"
+    assert row[7] == purpose
     assert row[8].endswith("(AI)")

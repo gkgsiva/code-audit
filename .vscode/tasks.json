@@ -272,6 +272,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_web_stack.py samples\\angular-node-app --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 27. Web services, REST and SOAP (web services sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_web_services.py samples/web-services-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_web_services.py samples\\web-services-app --open"
+      },
+      "problemMatcher": []
     }
   ]
 }
