@@ -239,3 +239,22 @@ def test_no_libraries_means_nothing_to_check(tmp_path: Path) -> None:
     assert sec["alert"] == "" and dict(map(tuple, sec["kpis"]))["Vulnerability check"] == (
         "not needed"
     )
+
+
+def test_scanners_that_failed_say_why(sample_copy, monkeypatch: pytest.MonkeyPatch) -> None:  # type: ignore[no-untyped-def]
+    from legacy_audit.model import VulnerabilitySource
+
+    hint = "offline mode but no OSV database downloaded"
+    monkeypatch.setattr(vulns, "run_dependency_check", lambda *a: (
+        None, VulnerabilitySource(name=vulns.DC, status="failed", detail="exit code 13"),
+    ))  # fmt: skip
+    monkeypatch.setattr(vulns, "run_osv_scanner", lambda *a: (
+        None, VulnerabilitySource(name=vulns.OSV, status="failed", detail=hint),
+    ))  # fmt: skip
+    app_dir = sample_copy("struts-oracle-app")
+    shutil.rmtree(app_dir / "audit-inputs" / "security")
+    sec, tables, _ = _security(run_scan(load_config(app_dir / "audit.yaml")).run_dir)
+    intro = " ".join(sec["intro"])
+    assert "The scanners were found but did not finish" in intro
+    assert "install the tools" not in intro and hint in intro
+    assert [r[1] for r in tables["scanners"]["rows"]][1] == f"failed ({hint})"

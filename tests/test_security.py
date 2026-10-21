@@ -257,6 +257,30 @@ def test_running_tools(tmp_path: Path) -> None:
     assert os.access(fake, os.X_OK)
 
 
+def test_a_wrong_tool_path_is_named(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    wrong = str(tmp_path / "tools" / "osv-scanner")
+    _, source = vulns.run_osv_scanner(OsvScannerConfig(path=wrong), [tmp_path], tmp_path / "o")
+    assert source.status == "missing" and source.detail is not None
+    assert source.detail.startswith(f"not found at {wrong}")
+    monkeypatch.setattr(vulns.shutil, "which", lambda n: "/usr/bin/osv-scanner")
+    assert vulns.missing_detail(wrong, ("osv-scanner",)).endswith(
+        "one is on PATH at /usr/bin/osv-scanner: set path: null or to that file"
+    )
+    assert vulns.missing_detail(None, ("osv-scanner",)) == "not installed"
+
+
+def test_known_scanner_failures_are_explained() -> None:
+    osv = (
+        "Error during extraction: (extracting as vulnmatch/osvlocal) unable to fetch OSV "
+        "database: no offline version of the OSV database is available"
+    )
+    assert "set security.osv_scanner.offline: false" in (vulns.failure_hint(vulns.OSV, osv) or "")
+    dc = "[ERROR] No documents exist"
+    assert "NVD database is not downloaded" in (vulns.failure_hint(vulns.DC, dc) or "")
+    assert vulns.failure_hint(vulns.DC, osv) is None  # each hint belongs to its own tool
+    assert vulns.failure_hint(vulns.OSV, "something else") is None
+
+
 @pytest.mark.skipif(sys.platform == "win32", reason="uses a POSIX script as the fake tool")
 def test_osv_scanner_command_line(tmp_path: Path) -> None:
     """OSV-Scanner 2.x flags: --offline, jar files via java/archive, database folder from env."""
