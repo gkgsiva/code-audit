@@ -326,3 +326,5 @@ PowerPoint on the corporate template rather than in the browser with pptxgenjs.
   `scripts/show_dependency_vulns.py`, VS Code task 25. Known gap: report entries that match
   no library in the inventory (transitive dependencies) are logged but not listed.
   Next: run both scanners on a real estate and compare the "found by" split.
+- Follow-up (2026-10-21): the guides now recommend OSV-Scanner alone with `offline: false` as
+  the quick start (no database download), Dependency-Check as optional (decision 127).

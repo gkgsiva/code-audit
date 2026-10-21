@@ -108,7 +108,7 @@ security:
     enabled: true
     path: null
     data_dir: null
-    offline: true
+    offline: true                # false: ask osv.dev during the scan (quickest, no database download)
     timeout_minutes: 15
   jdk_tools:
     enabled: false               # true: run jdeps / jdeprscan on jars (needs a JDK; slow)

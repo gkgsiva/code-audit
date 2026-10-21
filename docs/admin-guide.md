@@ -75,7 +75,14 @@ import (decision 8).
   `dependency-check --updateonly --data D:/nvd` (add `--nvdDatafeed <mirror>` for a mirror).
   Each run records the database date in `run.json` (`vulnerability_sources`) and the reports print
   it, so stale data is visible.
-- **OSV-Scanner** (version 2.x): `security.osv_scanner.path` and, optionally, `data_dir` with
+- **OSV-Scanner** (version 2.x), quickest setup: `security.osv_scanner.path` and
+  `offline: false`. The scan then runs `osv-scanner --experimental-plugins java/archive` without
+  `--offline`, so OSV-Scanner queries the osv.dev API during the scan (package names and versions
+  only, no source) and no database has to be downloaded. Needs outbound HTTPS to `api.osv.dev`;
+  it is the one network use at scan time and only when chosen (decision 127). One scanner is
+  enough; set `dependency_check.enabled: false` to show Dependency-Check as "turned off" rather
+  than "not installed".
+- **OSV-Scanner** offline (the default): `security.osv_scanner.path` and, optionally, `data_dir` with
   `offline: true`. The scan runs `osv-scanner --offline --experimental-plugins java/archive`
   (jar files as well as build files); `data_dir` is passed as `OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY`.
   Refresh the local database on a schedule with the same variable set:
