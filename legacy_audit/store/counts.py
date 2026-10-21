@@ -18,6 +18,7 @@ from legacy_audit.model import (
     Screen,
     Service,
     SqlStatement,
+    WebService,
     make_id,
 )
 from legacy_audit.store.writer import FactSet
@@ -73,6 +74,7 @@ def counts(facts: FactSet) -> dict[str, Any]:
     objects = [o for o in facts.get("db_objects", []) if isinstance(o, DbObject)]
     integrations = [i for i in facts.get("integrations", []) if isinstance(i, Integration)]
     jobs = [j for j in facts.get("batch_jobs", []) if isinstance(j, BatchJob)]
+    web = [w for w in facts.get("web_services", []) if isinstance(w, WebService)]
     libs = [lib for lib in facts.get("libraries", []) if isinstance(lib, Library)]
     entries = [e for e in facts.get("entry_points", []) if isinstance(e, EntryPoint)]
     edges = [e for e in facts.get("dependencies", []) if isinstance(e, CodeEdge)]
@@ -100,6 +102,13 @@ def counts(facts: FactSet) -> dict[str, Any]:
         "integrations": {
             "total": len(integrations),
             "by_type": _sorted(Counter(i.type for i in integrations)),
+        },
+        "web_services": {
+            "total": len(web),
+            "offered": sum(1 for w in web if w.side == "offered"),
+            "called": sum(1 for w in web if w.side == "called"),
+            "by_style": _sorted(Counter(f"{w.style} {w.side}" for w in web)),
+            "operations": sum(len(w.operations) for w in web),
         },
         "batch_jobs": {
             "total": len(counted_jobs) + len(unscheduled),

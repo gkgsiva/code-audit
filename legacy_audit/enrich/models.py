@@ -394,6 +394,20 @@ class Interface(Claim):
     data_exchanged: str = ""
 
 
+class WebServiceStory(Claim):
+    web_service_id: str
+    partner: str = Field(
+        "", description="Offered: who calls it; called: the system that provides it, in "
+        "business words"
+    )
+    purpose: str = Field(description="What it is for, one sentence for business readers")
+    migration: str = Field(
+        "",
+        description="Suggested target, one line, e.g. 'Spring Boot 4 REST controller' or 'keep "
+        "the SOAP contract with Spring-WS for existing callers, add REST'",
+    )
+
+
 class GlossaryTerm(_Base):
     term: str
     meaning: str
@@ -409,6 +423,9 @@ class Functional(StageFile):
     screens: list[ScreenStory] = Field(default_factory=list)
     batches: list[BatchStory] = Field(default_factory=list)
     interfaces: list[Interface] = Field(default_factory=list)
+    web_services: list[WebServiceStory] = Field(
+        default_factory=list, description="One entry per row of web_services.json"
+    )
     glossary: list[GlossaryTerm] = Field(default_factory=list)
 
 

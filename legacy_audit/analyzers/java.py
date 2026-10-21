@@ -254,7 +254,7 @@ def _join_path(*parts: str) -> str:
 
 class JavaAnalyzer:
     name: ClassVar[str] = "java"
-    version: ClassVar[str] = "4"  # 4: fragments keyed by position (deterministic)
+    version: ClassVar[str] = "5"  # 5: web services offered and called
 
     def __init__(self) -> None:
         self.parser = Parser(_LANG)
@@ -554,7 +554,8 @@ class _Visitor:
                         framework="Spring MVC" if rest else None,
                         web_service=cls.name if rest else None,
                     )  # fmt: skip
-                    self._views(node, f"service:{handler}")
+                    if not rest:
+                        self._views(node, f"service:{handler}")
         # JAX-RS
         if "Path" in ca or "Path" in ann:
             verbs = JAXRS_METHODS & set(ann)

@@ -20,7 +20,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.c_sql import CSql
 from legacy_audit.analyzers.cft import cftutil_integration
 from legacy_audit.analyzers.dynsql import fill
-from legacy_audit.analyzers.integrations import integration
+from legacy_audit.analyzers.integrations import classify_url, integration
 from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
 from legacy_audit.analyzers.textutil import basename, stem
 from legacy_audit.analyzers.websvc import called, split_url
@@ -315,6 +315,7 @@ class _Walker:
         elif name == "curl_easy_setopt" and len(args) >= 3 and _txt(args[1]) == "CURLOPT_URL":
             url = _str(args[2]) or "?"
             base, _ = split_url(url)
+            self._endpoint(url, line, soap=False)
             self.facts.add(
                 "web_services",
                 called(style="REST", name=base or stem(self.path), framework="libcurl",
@@ -323,9 +324,13 @@ class _Walker:
         elif name.startswith("soap_call_") and "__" in name:
             ns, _, op = name[len("soap_call_") :].partition("__")
             endpoint = _str(args[1]) if len(args) > 1 else None
+            if endpoint:
+                self._endpoint(endpoint, line, soap=True)
             self.facts.add(
                 "web_services",
-                called(style="SOAP", name=ns or op, framework="gSOAP", file=self.path,
+                called(style="SOAP", name=(endpoint or "").rstrip("/").rsplit("/", 1)[-1]
+                       if endpoint and "/" in endpoint else ns or op, framework="gSOAP",
+                       file=self.path,
                        line=line, url=endpoint, op=op),
             )  # fmt: skip
         elif name in ("gethostbyname", "inet_addr", "getaddrinfo", "inet_pton") and args:
@@ -338,6 +343,15 @@ class _Walker:
             self.socket_calls.add(name)
             if name in ("connect", "listen"):
                 self.calls[f"__{name}_line"] = line
+
+    def _endpoint(self, url: str, line: int, soap: bool) -> None:
+        c = classify_url(url, soap_hint=soap)
+        if c:
+            self.facts.add(
+                "integrations",
+                integration(type=c[0], target=c[1], direction="outbound", file=self.path,
+                            line=line, protocol="gSOAP" if soap else "libcurl"),
+            )  # fmt: skip
 
     def _command(self, cmd: str, line: int) -> None:
         first = cmd.strip().split()

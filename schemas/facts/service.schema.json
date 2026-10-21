@@ -119,6 +119,19 @@
       "default": null,
       "title": "File"
     },
+    "framework": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Spring MVC, JAX-RS, JAX-WS, Apache Axis, Apache Axis2, Spring-WS, ...",
+      "title": "Framework"
+    },
     "handler": {
       "anyOf": [
         {
@@ -159,6 +172,19 @@
       "title": "Outputs",
       "type": "array"
     },
+    "protocol": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "REST or SOAP when the service is a web service operation; rest-operation, soap-operation, node-route and nest-route are web services whatever this says",
+      "title": "Protocol"
+    },
     "screens": {
       "description": "Screens it renders",
       "items": {
@@ -194,6 +220,19 @@
       "default": null,
       "description": "URL pattern or path, when it has one",
       "title": "Url"
+    },
+    "web_service": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Web service the operation belongs to (JAX-WS service name, Axis service, controller); operations with the same one are listed together",
+      "title": "Web Service"
     }
   },
   "required": [

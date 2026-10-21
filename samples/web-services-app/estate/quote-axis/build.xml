@@ -1,0 +1,7 @@
+<project name="quote-axis" default="war">
+  <target name="war">
+    <war destfile="dist/quote-axis.war" webxml="WebContent/WEB-INF/web.xml">
+      <fileset dir="WebContent"/>
+    </war>
+  </target>
+</project>

@@ -37,23 +37,18 @@ from legacy_audit.model import Evidence, FileRecord, Service, WebOperation, WebS
 HTTP_VERBS = ("GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS")
 WSDL_NS = ("schemas.xmlsoap.org/wsdl", "www.w3.org/ns/wsdl")
 
-# web.xml servlet class -> (framework, technology name)
+# web.xml servlet class -> framework of the services it publishes (the ``web`` analyzer adds
+# the technology and keeps them out of the servlet count)
 SERVLETS = {
-    "org.apache.axis.transport.http.AxisServlet": ("Apache Axis", "Apache Axis"),
-    "org.apache.axis2.transport.http.AxisServlet": ("Apache Axis2", "Apache Axis2"),
-    "org.apache.cxf.transport.servlet.CXFServlet": ("Apache CXF", "Apache CXF"),
-    "com.sun.jersey.spi.container.servlet.ServletContainer": ("JAX-RS", "Jersey (JAX-RS)"),
-    "org.glassfish.jersey.servlet.ServletContainer": ("JAX-RS", "Jersey (JAX-RS)"),
-    "org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher": (
-        "JAX-RS",
-        "RESTEasy (JAX-RS)",
-    ),
-    "org.apache.wink.server.internal.servlet.RestServlet": ("JAX-RS", "Apache Wink (JAX-RS)"),
-    "com.sun.xml.ws.transport.http.servlet.WSServlet": ("JAX-WS", "JAX-WS RI (Metro)"),
-    "org.springframework.ws.transport.http.MessageDispatcherServlet": (
-        "Spring-WS",
-        "Spring Web Services",
-    ),
+    "org.apache.axis.transport.http.AxisServlet": "Apache Axis",
+    "org.apache.axis2.transport.http.AxisServlet": "Apache Axis2",
+    "org.apache.cxf.transport.servlet.CXFServlet": "Apache CXF",
+    "com.sun.jersey.spi.container.servlet.ServletContainer": "JAX-RS",
+    "org.glassfish.jersey.servlet.ServletContainer": "JAX-RS",
+    "org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher": "JAX-RS",
+    "org.apache.wink.server.internal.servlet.RestServlet": "JAX-RS",
+    "com.sun.xml.ws.transport.http.servlet.WSServlet": "JAX-WS",
+    "org.springframework.ws.transport.http.MessageDispatcherServlet": "Spring-WS",
 }
 
 
@@ -169,6 +164,10 @@ def offered_service(
         ),
     )
     facts.symbol("service", handler, file, line, owner=sid)
+    if file.endswith((".wsdd", ".xml")) and "." in handler:
+        cls = handler if handler.rsplit(".", 1)[-1][:1].isupper() else handler.rsplit(".", 1)[0]
+        facts.ref(kind="calls", source=f"service:{sid}", source_label=name, target=cls,
+                  target_kinds=["java-class"], file=file, line=line)  # fmt: skip
 
 
 # ---- the XML analyzer ------------------------------------------------------------------------
@@ -369,18 +368,15 @@ class WebServicesAnalyzer:
             if sname not in names:
                 continue
             cls, line = names[sname]
-            framework, product = SERVLETS[cls]
             for u in m.findall("url-pattern"):
                 pattern = text_of(u)
                 facts.symbol(
                     "ws-servlet",
-                    framework,
+                    SERVLETS[cls],
                     path,
                     line_of(u) or line,
-                    data={"url": pattern.rstrip("*").rstrip("/") or "/", "product": product},
+                    data={"url": pattern.rstrip("*").rstrip("/") or "/"},
                 )
-        for cls, line in names.values():
-            facts.add("tech_stack", tech(SERVLETS[cls][1], None, "framework", path, line))
 
     def _cxf(self, root: ET.Element, path: str, facts: Facts) -> None:
         beans = {

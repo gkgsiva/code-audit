@@ -72,6 +72,12 @@ counts:
   integrations:
     total: 5
     by_type: {DB: 1, FTP: 1, HTTP: 2, SMTP: 1}
+  web_services:
+    total: 1
+    offered: 0
+    called: 1
+    by_style: {REST called: 1}
+    operations: 1
   batch_jobs:
     total: 2
     scheduled: 0
@@ -96,6 +102,7 @@ integration_purposes:
   HTTP https://acme.okta.com/oauth2/default: login / authentication
   HTTP https://pricing.acme.local/api/v2/prices: HTTP API
   SMTP smtp://mail.acme.local:25: email
+web_services: ['called REST: pricing.acme.local (1 ops)']
 batch_jobs: []
 unresolved_references: 0
 assessment:

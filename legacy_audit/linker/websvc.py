@@ -244,8 +244,24 @@ class _Builder:
             )
         return ("called", style, "name:" + norm(name))
 
+    def _resolve(self, uses: list[WebService]) -> None:
+        """``${payment.url}/charges``: the address configured under that key."""
+        by_key = {it.details["key"]: it.target for it in self.integrations
+                  if it.type in ("HTTP", "SOAP") and it.details.get("key")}  # fmt: skip
+        for w in uses:
+            m = re.match(r"^\$\{([^}:]+)(?::[^}]*)?\}", w.url or "")
+            if m and m.group(1) in by_key:
+                url = by_key[m.group(1)].rstrip("/") + (w.url or "")[m.end():]
+                base, _ = split_url(url)
+                w.url = url
+                for o in w.operations:
+                    if o.path and base:
+                        o.path = split_url(by_key[m.group(1)].rstrip("/") + o.path)[1]
+                        o.name = f"{o.method or 'ANY'} {o.path}"
+
     def build_called(self) -> None:
         uses = [w for w in self.raw if w.side == "called"]
+        self._resolve(uses)
         named: dict[str, tuple[str, ...]] = {}
         for w in uses:
             k = self._key(w.style, w.url, w.name)
@@ -279,18 +295,15 @@ class _Builder:
                 continue
             if identity_provider(it):
                 continue
+            if all(f.lower().endswith(".wsdl") for f in it.source_files):
+                continue  # a WSDL address: the contract's own row has it
             base, path = split_url(it.target)
             if not base:
                 continue
             label = base.split("://", 1)[1].split(".", 1)[0].split(":", 1)[0]
             if label in own and not any(self._key(w.style, w.url, w.name)[2] == base
                                         for w in uses):  # fmt: skip
-                # The application's own API, deployed under its component's name (decision 133)
-                for ws in self.offered.values():
-                    if ws.component == label:
-                        ws.callers = _union(ws.callers, [f for f in it.source_files
-                                                         if f not in ws.files])  # fmt: skip
-                continue
+                continue  # the application's own API, deployed under its component's name
             soap_key = ("called", "SOAP", base + path.lower())
             k = soap_key if soap_key in self.called or it.type == "SOAP" else (
                 "called", "REST", base
@@ -301,7 +314,9 @@ class _Builder:
             ws.evidence = _ev(ws.evidence, it.evidence)
             if not ws.url:
                 ws.url = base + (path if k[1] == "SOAP" else "")
-            if k[1] == "REST" and path and not any(o.path == path for o in ws.operations):
+            if k[1] == "REST" and path and not any(
+                (o.path or "").startswith(path) for o in ws.operations
+            ):
                 _add_ops(ws, [WebOperation(name=f"ANY {path}", method="ANY", path=path,
                                            file=it.evidence[0].file if it.evidence else None,
                                            line=it.evidence[0].line if it.evidence else None)])
@@ -382,6 +397,12 @@ class _Builder:
                     match.component = self.comp(c.wsdl)
             match.wsdl = c.wsdl or match.wsdl
             match.namespace = match.namespace or c.namespace
+            ckey = self._key(c.style, c.url, c.name)
+            for it in self.integrations:
+                if c.wsdl in it.source_files and self._key(
+                    "SOAP" if c.style == "SOAP" else "REST", it.target, ""
+                ) == ckey:
+                    match.integrations = _union(match.integrations, [it.id])
             match.frameworks = _union(match.frameworks, ["WSDL"])
             match.files = _union(match.files, [c.wsdl] if c.wsdl else [])
             match.evidence = _ev(match.evidence, c.evidence)

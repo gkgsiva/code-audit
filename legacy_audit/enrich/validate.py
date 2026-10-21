@@ -35,6 +35,7 @@ PROSE_COUNTS = {
     "screens": "counts.screens.total",
     "sql statements": "counts.sql.total",
     "integrations": "counts.integrations.total",
+    "web services": "counts.web_services.total",
     "batch jobs": "counts.batch_jobs.total",
     "libraries": "counts.libraries.total",
     "vulnerable libraries": "counts.vulnerable_libraries.total",

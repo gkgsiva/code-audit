@@ -98,7 +98,7 @@
       "kind": "external-system",
       "description": "Central service that returns the current price of an order.",
       "integration_ids": [
-        "integration:1594fbd54390e803"
+        "integration:35476cbb77b19985"
       ]
     },
     {
@@ -358,7 +358,7 @@
   ],
   "interfaces": [
     {
-      "integration_id": "integration:1594fbd54390e803",
+      "integration_id": "integration:35476cbb77b19985",
       "partner": "Central pricing",
       "purpose": "Confirms the current price of an order.",
       "data_exchanged": "Order number and local total out; confirmed price back.",

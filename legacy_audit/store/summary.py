@@ -20,6 +20,7 @@ from legacy_audit.model import (
     RunInfo,
     Service,
     TechItem,
+    WebService,
 )
 from legacy_audit.store.counts import counts, unscheduled_batches
 from legacy_audit.store.writer import FactSet
@@ -114,6 +115,20 @@ def build_summary(
                     "usages": i.usages,
                 }
                 for i in sorted(integrations, key=lambda i: (-i.usages, i.type, i.target))[:n]
+            ],
+            "web_services": [
+                {
+                    "name": w.name,
+                    "style": w.style,
+                    "side": w.side,
+                    "url": w.url,
+                    "operations": len(w.operations),
+                    "component": w.component,
+                }
+                for w in sorted(
+                    (w for w in facts.get("web_services", []) if isinstance(w, WebService)),
+                    key=lambda w: (w.side != "offered", -len(w.operations), w.name),
+                )[:n]
             ],
             "top_findings": [
                 {
