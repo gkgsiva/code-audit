@@ -212,12 +212,25 @@ def find_tool(configured: str | None, names: tuple[str, ...]) -> str | None:
     return None
 
 
+def missing_detail(configured: str | None, names: tuple[str, ...]) -> str:
+    """Why a tool was not found: "not installed", or the configured path that does not exist
+    (and where one is on PATH, so the fix is plain)."""
+    if not configured:
+        return "not installed"
+    on_path = find_tool(None, names)
+    return f"not found at {configured}" + (
+        f"; one is on PATH at {on_path}: set path: null or to that file" if on_path else ""
+    )
+
+
 def run_dependency_check(
     cfg: DependencyCheckConfig, scan_dirs: list[Path], out_dir: Path, project: str
 ) -> tuple[Report | None, VulnerabilitySource]:
-    exe = find_tool(cfg.path, ("dependency-check", "dependency-check.sh", "dependency-check.bat"))
+    names = ("dependency-check", "dependency-check.sh", "dependency-check.bat")
+    exe = find_tool(cfg.path, names)
     if exe is None:
-        return None, VulnerabilitySource(name=DC, status="missing", detail="not installed")
+        detail = missing_detail(cfg.path, names)
+        return None, VulnerabilitySource(name=DC, status="missing", detail=detail)
     out_dir.mkdir(parents=True, exist_ok=True)
     cmd = [exe, "--project", project, "--format", "JSON", "--out", str(out_dir)]
     for d in scan_dirs:
@@ -234,9 +247,11 @@ def run_dependency_check(
 def run_osv_scanner(
     cfg: OsvScannerConfig, scan_dirs: list[Path], out_dir: Path
 ) -> tuple[Report | None, VulnerabilitySource]:
-    exe = find_tool(cfg.path, ("osv-scanner", "osv-scanner.exe"))
+    names = ("osv-scanner", "osv-scanner.exe")
+    exe = find_tool(cfg.path, names)
     if exe is None:
-        return None, VulnerabilitySource(name=OSV, status="missing", detail="not installed")
+        detail = missing_detail(cfg.path, names)
+        return None, VulnerabilitySource(name=OSV, status="missing", detail=detail)
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / "osv-scanner-report.json"
     # OSV-Scanner 2.x: --offline uses the downloaded databases; java/archive adds jar files to
