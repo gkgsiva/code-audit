@@ -186,6 +186,7 @@ _PROC = re.compile(
     rf"^{_MODIFIERS}(Sub|Function|Property|Operator)\s+(?:(Get|Let|Set)\s+)?\[?(\w+)\]?", re.I
 )
 _PROC_END = re.compile(r"^End\s+(Sub|Function|Property|Operator)\b", re.I)
+PROC, PROC_END = _PROC, _PROC_END  # for the metrics units
 _LAMBDA_OPEN = re.compile(r"\b(?:Async\s+)?(Sub|Function)\s*\([^()]*\)\s*(As\s+[\w.]+\s*)?$", re.I)
 _TYPE = re.compile(rf"^{_MODIFIERS}(Class|Module|Structure|Interface|Namespace)\s+([\w.]+)", re.I)
 _TYPE_END = re.compile(r"^End\s+(Class|Module|Structure|Interface|Namespace)\b", re.I)

@@ -5,6 +5,7 @@
         "web",
         "frontend",
         "api",
+        "desktop",
         "batch",
         "cft",
         "script",
@@ -120,7 +121,7 @@
       "type": "string"
     },
     "roles": {
-      "description": "Every kind of work found in the component (web, frontend, api, batch, online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with batch scripts has roles [batch, web]",
+      "description": "Every kind of work found in the component (web, frontend, api, batch, desktop, online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with batch scripts has roles [batch, web]",
       "items": {
         "type": "string"
       },

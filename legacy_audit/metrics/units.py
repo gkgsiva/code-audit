@@ -6,6 +6,11 @@ complexity: 1 + the number of decision points, counted per language.
   as an argument, ``x => x.id``, is part of its enclosing unit): the same decision points as
   Java, plus ``??``.
 - C/C++/Pro*C: the same, with ``case`` statements and range ``for``.
+- C#: per method, constructor, operator, local function or property accessor with a body: the
+  same as Java plus ``foreach``, ``??`` and switch-expression arms (not the ``_`` discard).
+- VB6/VB.NET: per ``Sub``, ``Function``, ``Property`` or ``Operator``: ``If``/``ElseIf``,
+  ``For``, ``While``/``Until`` (``Do``/``Loop`` conditions), ``Case`` (not ``Case Else``),
+  ``Catch``, ``IIf(``/``If(``, ``AndAlso``/``OrElse``, and ``And``/``Or`` in a condition.
 - COBOL: per paragraph or section: ``IF``, ``WHEN`` (not ``WHEN OTHER``), ``UNTIL``, ``AND``,
   ``OR``, and the conditional phrases ``AT END``, ``INVALID KEY``, ``ON SIZE ERROR``,
   ``ON EXCEPTION``, ``ON OVERFLOW``.
@@ -21,6 +26,7 @@ import re
 from collections.abc import Iterator
 
 import tree_sitter_c
+import tree_sitter_c_sharp
 import tree_sitter_cpp
 import tree_sitter_java
 import tree_sitter_typescript
@@ -33,6 +39,7 @@ _C = Language(tree_sitter_c.language())
 _CPP = Language(tree_sitter_cpp.language())
 _TS = Language(tree_sitter_typescript.language_typescript())
 _TSX = Language(tree_sitter_typescript.language_tsx())
+_CS = Language(tree_sitter_c_sharp.language())
 _PARSERS: dict[str, Parser] = {}
 
 JAVA_UNITS = {"method_declaration", "constructor_declaration", "compact_constructor_declaration"}
@@ -80,7 +87,7 @@ def _parser(lang: str) -> Parser:
     p = _PARSERS.get(lang)
     if p is None:
         p = _PARSERS[lang] = Parser(
-            {"java": _JAVA, "c": _C, "cpp": _CPP, "ts": _TS, "tsx": _TSX}[lang]
+            {"java": _JAVA, "c": _C, "cpp": _CPP, "ts": _TS, "tsx": _TSX, "cs": _CS}[lang]
         )
     return p
 
@@ -243,6 +250,144 @@ def tree_units(code: str, language: str) -> list[CodeUnit]:
             )
         )
     return sorted(out, key=lambda u: u.line)
+
+
+# ---- C# ------------------------------------------------------------------------------------
+CS_UNITS = {
+    "method_declaration",
+    "constructor_declaration",
+    "destructor_declaration",
+    "operator_declaration",
+    "conversion_operator_declaration",
+    "local_function_statement",
+    "accessor_declaration",
+}
+CS_DECISIONS = {
+    "if_statement",
+    "for_statement",
+    "foreach_statement",
+    "while_statement",
+    "do_statement",
+    "catch_clause",
+    "conditional_expression",
+}
+
+
+def _cs_name(node: Node, text: bytes) -> str:
+    def t(n: Node | None) -> str:
+        return text[n.start_byte : n.end_byte].decode("utf-8", "replace") if n else "?"
+
+    if node.type == "accessor_declaration":
+        prop = node.parent.parent if node.parent is not None else None
+        name = prop.child_by_field_name("name") if prop is not None else None
+        kw = next((c for c in node.children if not c.is_named), None)
+        return f"{t(name)}.{t(kw)}"
+    if node.type == "operator_declaration":
+        op = node.child_by_field_name("operator")
+        return f"operator {t(op)}"
+    if node.type == "conversion_operator_declaration":
+        return f"operator {t(node.child_by_field_name('type'))}"
+    if node.type == "destructor_declaration":
+        return "~" + t(node.child_by_field_name("name"))
+    return t(node.child_by_field_name("name"))
+
+
+def _cs_decisions(node: Node) -> int:
+    count = 0
+    stack = list(node.children)
+    while stack:
+        n = stack.pop()
+        if n.type in CS_UNITS or n.type in ("class_declaration", "struct_declaration"):
+            continue
+        if n.type in CS_DECISIONS or _is_logical(n):
+            count += 1
+        elif n.type == "switch_section" and n.child_count and n.children[0].type == "case":
+            count += 1
+        elif n.type == "switch_expression_arm" and not (
+            n.named_child_count and n.named_children[0].type == "discard"
+        ):
+            count += 1
+        stack.extend(n.children)
+    return count
+
+
+def cs_units(code: str) -> list[CodeUnit]:
+    """Units of C# code; an accessor without a body (``get;``) is not one."""
+    data = code.encode("utf-8")
+    tree = _parser("cs").parse(data)
+    lines = code.splitlines()
+    out = []
+    for node in _walk(tree.root_node, CS_UNITS):
+        body = node.child_by_field_name("body") or next(
+            (c for c in node.children if c.type in ("block", "arrow_expression_clause")), None
+        )
+        if body is None:
+            continue
+        start, end = node.start_point[0] + 1, node.end_point[0] + 1
+        out.append(
+            CodeUnit(
+                name=_cs_name(node, data),
+                kind="function" if node.type == "local_function_statement" else "method",
+                line=start,
+                end_line=end,
+                loc=_nonblank(lines, start, end),
+                cyclomatic=1 + _cs_decisions(node),
+            )
+        )
+    return sorted(out, key=lambda u: (u.line, u.name))
+
+
+# ---- VB6 / VB.NET ---------------------------------------------------------------------------
+_VB_STRING = re.compile(r'"(?:[^"]|"")*"')
+_VB_DECISION = re.compile(
+    r"(?<!\bEnd )(?<!#)\bIf\b(?!\s*\()|\bElseIf\b|\bFor\b|\bWhile\b|\bUntil\b"
+    r"|\bCase\b(?!\s+Else\b)|\bCatch\b|\bIIf\s*\(|\bIf\s*\(|\bAndAlso\b|\bOrElse\b",
+    re.I,
+)
+_VB_NOT = re.compile(r"^(?:End\s+(?:If|While|Select)|Exit\s+(?:For|While|Do)|Select\s+Case|Next|Wend)\b", re.I)
+_VB_CONDITION = re.compile(r"^(?:Else)?If\b|^(?:Do|Loop)\s+(?:While|Until)\b|^While\b", re.I)
+_VB_AND_OR = re.compile(r"\b(?:And|Or)\b", re.I)
+
+
+def vb_units(code: str) -> list[CodeUnit]:
+    """Procedures of VB6 or VB.NET code (``Declare`` and abstract members have no body)."""
+    from legacy_audit.analyzers.basic import PROC, PROC_END, logical_lines  # noqa: PLC0415
+
+    raw = code.split("\n")
+    out = []
+    current: tuple[str, str, int, int] | None = None  # name, kind, line, decisions
+    for line, stmt in logical_lines(code):
+        m = PROC.match(stmt)
+        if m and not re.match(r"^(?:\w+\s+)*(?:Declare|MustOverride)\b", stmt, re.I):
+            kind = m.group(1).lower()
+            accessor = f".{m.group(2).lower()}" if m.group(2) else ""
+            current = (m.group(3) + accessor, "function" if kind == "function" else "method",
+                       line, 0)  # fmt: skip
+            continue
+        if current is None:
+            continue
+        if PROC_END.match(stmt):
+            name, kind, start, decisions = current
+            out.append(
+                CodeUnit(
+                    name=name,
+                    kind=kind,
+                    line=start,
+                    end_line=line,
+                    loc=_nonblank(raw, start, line),
+                    cyclomatic=1 + decisions,
+                )
+            )
+            current = None
+            continue
+        body = _VB_STRING.sub('""', stmt)
+        if _VB_NOT.match(body):
+            continue
+        n = len(_VB_DECISION.findall(body))
+        if _VB_CONDITION.match(body):
+            n += len(_VB_AND_OR.findall(body))
+        current = (current[0], current[1], current[2], current[3] + n)
+    return out
 
 
 # ---- COBOL ---------------------------------------------------------------------------------

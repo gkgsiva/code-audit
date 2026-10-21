@@ -138,6 +138,7 @@
       "type": "array"
     },
     "technology": {
+      "description": "jsp, html, angular, ..., vb6, winforms, wpf, swing, awt, javafx, aspx, razor",
       "title": "Technology",
       "type": "string"
     }
