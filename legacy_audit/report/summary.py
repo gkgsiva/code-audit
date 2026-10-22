@@ -39,7 +39,7 @@ from legacy_audit.report.catalogues import ws_text
 from legacy_audit.report.data import RunData, slug
 from legacy_audit.report.deck_builder import PALETTE, _cut, _num, load_enrichment
 from legacy_audit.report.pptx_templates import TemplateError, resolve_template
-from legacy_audit.report.servers import server_rows
+from legacy_audit.report.servers import ai_changes, server_rows
 from legacy_audit.store.writer import write_json
 
 SECTIONS = [
@@ -267,8 +267,22 @@ class _Summary:
                     comp.get("loc_code") or 0,
                 ]
             )
+        changes = ai_changes(self.e)  # what replaces each product, from the target architecture
+
+        def ai_target(name: str) -> list[str]:
+            if not changes:
+                return []
+            ch = changes.get(name.lower())
+            return [f"{ch['target']} (AI)" if ch else ""]
+
         stack = [
-            [x.get("name", ""), x.get("version") or "", x.get("category") or "", _eol(x)]
+            [
+                x.get("name", ""),
+                x.get("version") or "",
+                x.get("category") or "",
+                _eol(x),
+                *ai_target(str(x.get("name", ""))),
+            ]
             for x in self.s.get("tech_stack", [])
         ]
         lang_loc = Counter(
@@ -279,7 +293,7 @@ class _Summary:
             }
         )
         ll, lv = _top(lang_loc, 8)
-        servers = server_rows(self.rd)
+        servers = server_rows(self.rd, self.e)
         server_table = [
             [
                 r["name"],
@@ -363,8 +377,10 @@ class _Summary:
                 Table(
                     "tech-stack",
                     "Technology stack",
-                    ["Technology", "Version", "Category", "End of life"],
+                    ["Technology", "Version", "Category", "End of life"]
+                    + (["Target (AI)"] if changes else []),
                     stack,
+                    "Target (AI): what the Copilot analysis says replaces it." if changes else "",
                 ),
                 Table(
                     "servers",
@@ -381,7 +397,7 @@ class _Summary:
                     server_table,
                     "Found in deployment descriptors, server configuration, Dockerfiles, start "
                     "scripts and vendor libraries. The target is the default from "
-                    "rules/target-mapping.yaml.",
+                    "rules/target-mapping.yaml, or the AI's target architecture when marked (AI).",
                     "No application or web server found in the code.",
                 ),
                 Table(
@@ -896,6 +912,14 @@ class _Summary:
         sources = self.rd.run.get("vulnerability_sources", []) or []
         checked = [s for s in sources if s.get("status") in ("imported", "ran")]
         modules = self._library_modules()
+        # The AI upgrade plan (stage dependency_plan): its theme and action per library.
+        plan: dict[str, str] = {}
+        for th in (self.e.get("dependency_plan") or {}).get("themes") or []:
+            words = f"{th.get('name', '')}: {th.get('action', '')}".strip(": ")
+            if th.get("wave"):
+                words += f" (wave {th['wave']})"
+            for lid in th.get("library_ids") or []:
+                plan.setdefault(lid, words)
         # One row per vulnerability and library; per id, the worst severity and every scanner.
         rows: list[list[Any]] = []
         by_id: dict[str, dict[str, Any]] = {}
@@ -946,6 +970,7 @@ class _Summary:
                     fix,
                     "yes" if lib.get("eol") else ("no" if lib.get("eol") is False else ""),
                     ", ".join(modules.get(lib["id"], [])),
+                    *([f"{plan[lib['id']]} (AI)" if lib["id"] in plan else ""] if plan else []),
                 ]
             )
         rows.sort(key=lambda r: (SEVERITIES.index(r[1]), -(r[2] or 0), r[0], r[3]))
@@ -1041,6 +1066,14 @@ class _Summary:
                     )
                     + "."
                 )
+        vulnerable = {lib["id"] for lib in libs if lib.get("vulnerabilities")}
+        themes = [
+            str(th.get("name") or "")
+            for th in (self.e.get("dependency_plan") or {}).get("themes") or []
+            if vulnerable & set(th.get("library_ids") or [])
+        ]
+        if themes:
+            intro.append(f"Upgrade plan (AI): {'; '.join(t for t in themes if t)}.")
         if libs and unused:  # a scanner that was not used is a gap, said in so many words
             intro.append(
                 "Not used: "
@@ -1167,10 +1200,17 @@ class _Summary:
                         "Suggested fix",
                         "End of life",
                         "Modules",
+                        *(["Upgrade plan (AI)"] if plan else []),
                     ],
                     lib_rows,
                     "Suggested fix: the upgrade or replacement from the dependency rules "
-                    "(rules/dependency-upgrades.yaml).",
+                    "(rules/dependency-upgrades.yaml)."
+                    + (
+                        " Upgrade plan (AI): the theme the Copilot analysis puts the library in "
+                        "and what it says to do."
+                        if plan
+                        else ""
+                    ),
                     empty,
                 ),
                 Table(
@@ -1306,8 +1346,10 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
                 cols = [0, 1, 2, 3, 4, 6]
             elif t.key == "batches":
                 cols = [0, 3, 4, 5]
-            elif t.key in ("vulnerabilities", "vulnerable-libraries"):
+            elif t.key == "vulnerabilities":
                 cols = [0, 1, 2, 3, 5, 6]
+            elif t.key == "vulnerable-libraries":
+                cols = [0, 1, 2, 3, 6, 9] if len(t.columns) > 9 else [0, 1, 2, 3, 5, 6]
             slide(sec, slug(t.key), t.title, [table(t, cols)])
             if t.key == "integrations":
                 slide(

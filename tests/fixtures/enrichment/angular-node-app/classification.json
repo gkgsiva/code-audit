@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "stage": "classification",
+    "author": "copilot-agent"
+  },
+  "components": [
+    {
+      "component": "orders-web",
+      "capability": "Order entry (web)",
+      "kind": "frontend",
+      "criticality": "high",
+      "reason": "Angular application customers and staff use to place and follow orders.",
+      "evidence": [
+        {
+          "file": "orders-web/angular.json",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "component": "legacy-portal",
+      "capability": "Customer portal (old)",
+      "kind": "frontend",
+      "criticality": "medium",
+      "reason": "AngularJS 1.5 portal still served from WebSphere and WebLogic.",
+      "evidence": [
+        {
+          "file": "legacy-portal/bower.json",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "component": "orders-api",
+      "capability": "Orders API",
+      "kind": "api",
+      "criticality": "high",
+      "reason": "Express service behind the order screens; also purges old orders every night.",
+      "evidence": [
+        {
+          "file": "orders-api/package.json",
+          "line": 15
+        }
+      ]
+    },
+    {
+      "component": "billing-api",
+      "capability": "Billing API",
+      "kind": "api",
+      "criticality": "high",
+      "reason": "NestJS service for invoices; closes the month on day 1.",
+      "evidence": [
+        {
+          "file": "billing-api/package.json",
+          "line": 7
+        }
+      ]
+    },
+    {
+      "component": "deploy",
+      "capability": "Server configuration",
+      "kind": "library",
+      "criticality": "low",
+      "reason": "Configuration of the servers the applications run on, no code.",
+      "assumption": true
+    }
+  ]
+}

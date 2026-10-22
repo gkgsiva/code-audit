@@ -528,7 +528,7 @@ class _Pages:
                     **r,
                     "links": [self._link(f, r["lines"].get(f)) for f in r["files"]],
                 }
-                for r in server_rows(self.rd)
+                for r in server_rows(self.rd, self.e)
             ],
             components=comps,
             effort=effort or None,

@@ -52,6 +52,12 @@ _HEDGE = re.compile(
     r"some|of the|of these|of them|out of|estimated?)\s*$",
     re.I,
 )
+# "Angular 21 components", "Java 25 services": a product version, not a count
+_VERSIONED = re.compile(
+    r"\b(Angular|AngularJS|Java|JDK|Spring Boot|Spring|Node\.js|Node|\.NET|NET|PostgreSQL|"
+    r"Python|Oracle|WebSphere|WebLogic|Tomcat|JBoss|WildFly|Windows|VB|Visual Basic)\s*$",
+    re.I,
+)
 COMPONENT_KEYS = {"component", "components", "replaces"}
 
 
@@ -226,7 +232,7 @@ class _Checker:
             if not isinstance(value, str) or key in ("mermaid", "metric", "label"):
                 continue
             for m in _PROSE.finditer(value):
-                if _HEDGE.search(value[: m.start()]):
+                if _HEDGE.search(value[: m.start()]) or _VERSIONED.search(value[: m.start()]):
                     continue
                 n = int(m.group(1).replace(",", ""))
                 metric = PROSE_COUNTS[m.group(2).lower()]

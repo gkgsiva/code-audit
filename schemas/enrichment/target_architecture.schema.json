@@ -42,6 +42,32 @@
       "title": "Diagram",
       "type": "object"
     },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
     "Meta": {
       "additionalProperties": false,
       "properties": {
@@ -96,6 +122,54 @@
         "stage"
       ],
       "title": "Meta",
+      "type": "object"
+    },
+    "PlatformChange": {
+      "additionalProperties": false,
+      "description": "What replaces one product of today's platform: an application or web server, a runtime\n(.NET Framework, Node.js, Java) or a desktop or UI framework (VB6, WinForms, AngularJS).",
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "name": {
+          "description": "The product as the tech stack names it, e.g. 'Oracle WebLogic'",
+          "title": "Name",
+          "type": "string"
+        },
+        "target": {
+          "description": "What replaces it on the target, one line",
+          "title": "Target",
+          "type": "string"
+        },
+        "tech_ids": {
+          "description": "Its tech_stack ids (tech:...), every version",
+          "items": {
+            "type": "string"
+          },
+          "title": "Tech Ids",
+          "type": "array"
+        },
+        "today": {
+          "default": "",
+          "description": "What it does for the application today, one line",
+          "title": "Today",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "target"
+      ],
+      "title": "PlatformChange",
       "type": "object"
     },
     "TargetComponent": {
@@ -158,6 +232,14 @@
     },
     "meta": {
       "$ref": "#/$defs/Meta"
+    },
+    "platform_changes": {
+      "description": "One entry per application server, web server and runtime in the tech stack (and each desktop or UI framework that goes away): what replaces it",
+      "items": {
+        "$ref": "#/$defs/PlatformChange"
+      },
+      "title": "Platform Changes",
+      "type": "array"
     },
     "principles": {
       "items": {

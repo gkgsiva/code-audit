@@ -5,8 +5,10 @@ this module packs the same material into the prompt, deterministically: the agen
 the stage instructions (the very files Copilot gets), the stage's JSON Schema, the scan summary,
 the fact files the stage reads (``stages.py``), earlier stages it builds on and, for the
 functional and component stages, the source of every batch script and program with its
-comments. Long lists are cut with a note saying how many rows were left out, so the model knows
-it saw a part. Credentials in source text are masked.
+comments, the code of every desktop window and ASP.NET page (their logic is in event handlers
+and code-behind) and of every web service operation the application offers. Long lists are cut
+with a note saying how many rows were left out, so the model knows it saw a part. Credentials
+in source text are masked.
 """
 
 from __future__ import annotations
@@ -24,7 +26,13 @@ from legacy_audit.report.data import RunData
 
 ROW_CHARS = 1500  # one fact row longer than this is cut
 SOURCE_LINES = 150  # lines of each batch source file shown
+SCREEN_LINES = 120  # lines of each window's code shown
+HANDLER_LINES = 40  # lines of each web service operation shown, from its declaration
 SOURCE_STAGES = {"functional", "component_docs"}
+# Screens whose logic lives in the screen's own code (event handlers, code-behind): desktop
+# windows and ASP.NET pages. Web pages (JSP, Angular...) reach their logic through services.
+CODE_SCREENS = {"vb6", "winforms", "wpf", "swing", "awt", "javafx", "aspx"}
+_VB6_ATTR = re.compile(r"^Attribute VB_", re.I)
 
 HEADLESS = """
 ## Working without tools
@@ -118,6 +126,91 @@ def _batch_sources(rd: RunData, budget: int) -> str:
     return "## Batch sources (comments included)\n\n" + "".join(parts)
 
 
+def _numbered(path: Path | None, start: int, limit: int) -> list[str]:
+    """Lines ``start``.. of ``path`` (1-based), numbered as in the file, secrets masked."""
+    if path is None:
+        return []
+    lines = _read(path, start - 1 + limit)[start - 1 :]
+    return [f"{i:>4}: {x}" for i, x in enumerate(lines, start)]
+
+
+def _code_start(path: Path) -> int:
+    """Where the code of a VB6 form or control starts: after its layout and attributes."""
+    head = _read(path, 2000)
+    last = max((i for i, x in enumerate(head, 1) if _VB6_ATTR.match(x)), default=0)
+    return last + 1
+
+
+def _screen_files(rd: RunData, scr: dict[str, Any]) -> list[str]:
+    """The files holding a screen's code: the code file next to a WinForms designer file, the
+    code-behind of a WPF window or ASP.NET page, else the screen's own file."""
+    file = str(scr.get("file") or "")
+    known = {f["path"] for f in rd.items("inventory")}
+    base = re.sub(r"\.Designer(\.(vb|cs))$", r"\1", file, flags=re.I)
+    out = [base] if base != file and base in known else []
+    out += [f"{file}{ext}" for ext in (".cs", ".vb") if f"{file}{ext}" in known]
+    return out or [file]
+
+
+def _screen_sources(rd: RunData, budget: int) -> str:
+    """The code of each desktop window and ASP.NET page (event handlers, code-behind): the
+    business logic and database calls of these screens are written there, not in services."""
+    parts: list[str] = []
+    used = 0
+    screens = [s for s in rd.items("screens") if s.get("technology") in CODE_SCREENS]
+    for scr in sorted(screens, key=lambda s: (bool(s.get("partial")), s["name"])):
+        if used >= budget:
+            parts.append(f"(cut: {len(screens)} screens in all)\n")
+            break
+        head = f"### Screen {scr['name']} (id {scr['id']}; {scr['technology']})\n"
+        body = ""
+        for rel in _screen_files(rd, scr):
+            path = rd.abs_path(rel)
+            if path is None:
+                continue
+            start = _code_start(path) if rel.lower().endswith((".frm", ".ctl")) else 1
+            lines = _numbered(path, start, SCREEN_LINES)
+            if lines:
+                body += f"#### {rel} (lines {start}-{start + len(lines) - 1})\n"
+                body += "\n".join(lines) + "\n"
+        block = head + body
+        if used + len(block) > budget:
+            block = block[: max(0, budget - used)] + "\n(cut)\n"
+        parts.append(block)
+        used += len(block)
+    if not screens:
+        return ""
+    return "## Screen code (desktop windows and ASP.NET pages)\n\n" + "".join(parts)
+
+
+def _handler_sources(rd: RunData, budget: int) -> str:
+    """The code of each operation of the web services the application offers, from its
+    declaration, so the model can say what each service does and cite the line."""
+    parts: list[str] = []
+    used = 0
+    offered = [w for w in rd.items("web_services") if w.get("side") == "offered"]
+    for ws in sorted(offered, key=lambda w: w["name"]):
+        head = f"### Web service {ws['name']} (id {ws['id']}; {ws.get('style') or ''})\n"
+        body = ""
+        for op in ws.get("operations") or []:
+            path = rd.abs_path(op["file"]) if op.get("file") else None
+            lines = _numbered(path, max(1, (op.get("line") or 1) - 3), HANDLER_LINES)
+            if lines:
+                body += f"#### {op['name']} ({op.get('handler') or op['file']})\n"
+                body += "\n".join(lines) + "\n"
+        if not body:
+            continue
+        block = head + body
+        if used + len(block) > budget:
+            parts.append(block[: max(0, budget - used)] + "\n(cut)\n")
+            break
+        parts.append(block)
+        used += len(block)
+    if not parts:
+        return ""
+    return "## Web service code (operations offered)\n\n" + "".join(parts)
+
+
 def _stage_prompt() -> str:
     text = _asset("prompts/audit-enrich.prompt.md")
     # the first line is the VS Code input line; the rest is the same guidance Copilot follows
@@ -148,7 +241,10 @@ def build(run_dir: Path, stage: Stage, budget: int, rd: RunData | None = None) -
     sources = ""
     if stage.name in SOURCE_STAGES:
         rd = rd or RunData.load(run_dir)
-        sources = _batch_sources(rd, left // 4)
+        sources = _batch_sources(rd, left // 6)
+        sources += ("\n" if sources else "") + _screen_sources(rd, left // 6)
+        sources += ("\n" if sources else "") + _handler_sources(rd, left // 10)
+        sources = sources.strip("\n")
         left -= len(sources)
     upstream = [(n, run_dir / "enrichment" / f"{n}.json") for n in stage.after]
     upstream = [(n, p) for n, p in upstream if p.exists()]

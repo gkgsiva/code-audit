@@ -395,3 +395,27 @@ VB6 support across the audit.
   reach end of life on 2026-11-10 and must be marked then; Crystal Reports `.rpt` files are
   binary and not read.
 - Next: run on a real VB6/.NET estate and check the screen, SQL and batch counts with the team.
+
+## AI enrichment for desktop, .NET, Angular, Node.js, servers and web services (2026-10-21)
+
+Thread "Enrichment for new languages and services". Siva asked for the enrichment to cover what
+was added the same day (Angular/Node.js and servers, desktop and .NET, web services, dependency
+vulnerabilities).
+
+- Done: scheduled jobs that the scan could not link to a file (Hangfire, Quartz.NET, node-cron,
+  Windows Task Scheduler) now show the code they run on their flow page and to the AI;
+  `legacy-audit enrich` packs the code of desktop windows, ASP.NET pages and offered web service
+  operations; six stages read more fact files (`entry_points`, `web_services`, `tech_stack`);
+  classification kinds `desktop`, `frontend`, `api`; `target_architecture.platform_changes`
+  shown as **Target (AI)** in the summary's technology stack and in the servers tables;
+  `dependency_plan` shown as **Upgrade plan (AI)** next to vulnerable libraries; the
+  `/audit-enrich` prompt and the agent rules updated; product versions ("Angular 21
+  components") no longer flagged as counts (decisions 153 to 158). Demo enrichment for
+  `desktop-dotnet-app` and `angular-node-app` in `tests/fixtures/enrichment/`; tests in
+  `tests/test_enrich_new_stacks.py`; VS Code task 29 (`scripts/show_enrichment_coverage.py`).
+- Known gaps: not yet run with Copilot or a cloud model on these samples (the demo enrichment
+  is hand-written); the screen code shown to an API model is the first 120 lines of each
+  window, so long forms are cut; Angular components and AngularJS controllers are not given as
+  code (their logic reaches the AI through routes, services and `calls` edges); the deck and
+  PPTX show the AI's server targets but not the technology stack's.
+- Next: run `/audit-enrich all` on the two samples in VS Code and compare with the demo.

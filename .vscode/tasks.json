@@ -290,6 +290,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_desktop_stack.py samples\\desktop-dotnet-app samples\\java-swing-app --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 29. AI enrichment for desktop, .NET, Angular and servers (demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_enrichment_coverage.py samples/desktop-dotnet-app samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_enrichment_coverage.py samples\\desktop-dotnet-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
     }
   ]
 }
