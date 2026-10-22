@@ -21,7 +21,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.cobol_sql import CobolSql
 from legacy_audit.analyzers.embedded import extract
 from legacy_audit.analyzers.integrations import integration
-from legacy_audit.analyzers.textutil import stem
+from legacy_audit.analyzers.textutil import split_lines, stem
 from legacy_audit.analyzers.websvc import called
 from legacy_audit.model import Evidence, FileRecord, Screen, Service, make_id
 
@@ -56,7 +56,7 @@ def source_lines(text: str) -> list[str]:
     """Code part of each line (sequence area, indicator and identification area removed,
     comments blanked). Fixed format unless the source says ``>>SOURCE FORMAT FREE``."""
     free = bool(re.search(r">>\s*SOURCE\s+(FORMAT\s+)?(IS\s+)?FREE", text[:2000], re.I))
-    raw = text.splitlines()
+    raw = split_lines(text)
     if not free:
         # Sources without a sequence area (code starting in column 1-7) are treated as free.
         coded = [ln for ln in raw if ln.strip()]
@@ -428,7 +428,7 @@ class CobolAnalyzer:
         statements: list[tuple[int, str, str, str]] = []  # (line, label, macro, operands)
         buf = ""
         start = 0
-        for no, raw in enumerate(text.splitlines(), 1):
+        for no, raw in enumerate(split_lines(text), 1):
             if raw.startswith("*") or not raw.strip():
                 continue
             body = raw[:71]

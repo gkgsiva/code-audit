@@ -79,4 +79,10 @@ def detect_encoding(data: bytes) -> str:
 
 
 def decode(data: bytes, encoding: str) -> str:
-    return data.decode(encoding, errors="replace")
+    """The file's text with every line break as ``\n``: Windows ``\r\n`` and the ``\r`` of
+    old Mac files too, so line numbers count lines as VS Code and the validator do."""
+    return newlines(data.decode(encoding, errors="replace"))
+
+
+def newlines(text: str) -> str:
+    return text.replace("\r\n", "\n").replace("\r", "\n")

@@ -11,6 +11,7 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.inventory.language import NO_LOC_LANGUAGES
 
 C_BLOCK = ("/*", "*/")
@@ -191,7 +192,7 @@ def _star(raw: str) -> str:
 def count_loc(text: str, language: str) -> Loc:
     if language in NO_LOC_LANGUAGES:
         return Loc()  # data files and backup copies are listed, not measured
-    lines = text.splitlines()
+    lines = split_lines(text)
     if language in ("cobol", "procobol"):
         return _cobol(lines)
     if language == "jcl":

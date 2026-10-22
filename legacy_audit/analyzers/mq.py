@@ -11,6 +11,7 @@ from typing import ClassVar
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import integration
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import FileRecord
 
 _DEFINE = re.compile(
@@ -37,7 +38,7 @@ def mqsc_commands(text: str) -> list[tuple[int, str]]:
     out: list[tuple[int, str]] = []
     buf = ""
     start = 0
-    for no, raw in enumerate(text.splitlines(), 1):
+    for no, raw in enumerate(split_lines(text), 1):
         line = raw.rstrip()
         if not buf and (not line.strip() or line.lstrip().startswith("*")):
             continue

@@ -9,6 +9,7 @@ from typing import ClassVar
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import BatchJob, Evidence, FileRecord, make_id
 
 UTILITIES = {
@@ -64,7 +65,7 @@ def _params(text: str) -> dict[str, str]:
 def _statements(text: str, facts: Facts) -> list[tuple[int, str, str, str, list[str]]]:
     """(line, name, op, operands, in-stream data lines) with continuations joined."""
     out: list[tuple[int, str, str, str, list[str]]] = []
-    lines = text.splitlines()
+    lines = split_lines(text)
     i = 0
     while i < len(lines):
         raw = lines[i][:72]

@@ -14,6 +14,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import ENTITIES
 from legacy_audit.report.data import RunData
 
@@ -138,7 +139,7 @@ class Facts:
         real = path.resolve()
         if not any(real.is_relative_to(root) for root in allowed):
             raise FactsError(f"'{file}' is outside the scanned source")
-        lines = real.read_text(encoding="utf-8", errors="replace").splitlines()
+        lines = split_lines(real.read_text(encoding="utf-8", errors="replace"))
         context = max(0, min(int(context), 200))
         start = 1 if line is None else max(1, line - context)
         end = min(len(lines), (line or 1) + context if line is not None else 2 * context + 1)
