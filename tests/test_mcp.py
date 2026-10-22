@@ -161,3 +161,24 @@ def test_facts_command(scanned: Path) -> None:
         app, ["facts", "services", "-c", str(scanned / "audit.yaml"), "--filter", "kind"]
     )
     assert bad.exit_code == 1
+
+
+def test_batch_jobs_query_names_the_unscheduled_batches(tmp_path: Path) -> None:
+    """With no scheduler input, batch_jobs is empty but the summary counts the batch
+    components: the query says so, with the ids to document them by (decision 160)."""
+    from tests.conftest import SAMPLES
+
+    mp = pytest.MonkeyPatch()
+    mp.setattr(vulns, "find_tool", lambda configured, names: None)
+    cfg = load_config(SAMPLES / "legacy-layout-app" / "audit.yaml")
+    run_dir = run_scan(cfg, output_dir=tmp_path / "out").run_dir
+    mp.undo()
+    result = Facts(lambda: run_dir).query_facts("batch_jobs")
+    assert result["total"] == 0
+    assert [b["component"] for b in result["unscheduled_batches"]] == [
+        "billing-batch",
+        "settlement-c",
+    ]
+    assert all(b["job_id"].startswith("component:") for b in result["unscheduled_batches"])
+    assert "counts.batch_jobs.total in audit-summary.json (2)" in result["note"]
+    assert "note" not in Facts(lambda: run_dir).query_facts("services")

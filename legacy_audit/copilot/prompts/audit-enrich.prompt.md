@@ -93,7 +93,9 @@ took from it). On a large estate do it one component at a time with
       page (code-behind): the event handlers hold the business logic and the database calls
 - [ ] `web_services.json` (operations, callers) and the code of each operation it offers
 - [ ] `sql_statements.json` and `db_objects.json` (CRUD per table)
-- [ ] `batch_jobs.json` (boxes, conditions, schedules, `on_failure`) and the `runs` /
+- [ ] `batch_jobs.json` (scheduled jobs only: boxes, conditions, schedules, `on_failure`;
+      `counts.batch_jobs.total` adds the batch components in `unscheduled_batches`, so an
+      empty `batch_jobs.json` with a non-zero total is expected) and the `runs` /
       `invokes` / `triggers` edges; scripts and batch programs that no job runs (they are
       batches too when the scheduler export is missing)
 - [ ] the source of every batch script and program, comments included
