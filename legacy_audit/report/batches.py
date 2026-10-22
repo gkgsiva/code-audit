@@ -20,6 +20,7 @@ from __future__ import annotations
 import re
 from typing import Any
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.report.comments import mask_secrets
 from legacy_audit.report.data import RunData
 from legacy_audit.report.flows import Flow, parse_schedule
@@ -65,7 +66,7 @@ def _cron_text(expr: str, quartz: bool = False) -> str:
 
 
 def _hint_in_text(text: str, lang: str) -> tuple[str, int] | None:
-    lines = text.splitlines()
+    lines = split_lines(text)
     for no, line in enumerate(lines, 1):
         m = _SCHEDULED.search(line)
         if m:

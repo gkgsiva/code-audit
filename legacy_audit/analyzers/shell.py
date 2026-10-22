@@ -16,7 +16,7 @@ from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.cft import cftutil_integration
 from legacy_audit.analyzers.integrations import classify_url, integration
 from legacy_audit.analyzers.sqltools import split_statements, sql_fact, statement_type
-from legacy_audit.analyzers.textutil import basename
+from legacy_audit.analyzers.textutil import basename, split_lines
 from legacy_audit.model import BatchJob, Evidence, FileRecord, make_id
 
 SCRIPT_EXT = (".sh", ".ksh", ".bash", ".csh", ".pl", ".py", ".bat", ".cmd", ".awk", ".sql", ".ctl")
@@ -235,7 +235,7 @@ class ShellAnalyzer:
     def _embedded(self, text: str, rx: re.Pattern[str], groups: tuple[int, ...]) -> str:
         """Keep only the shell commands a Perl/Python script runs, on their original lines."""
         out = []
-        for line in text.splitlines():
+        for line in split_lines(text):
             cmds = []
             for m in rx.finditer(line):
                 for g in groups:
@@ -247,7 +247,7 @@ class ShellAnalyzer:
     # ---- scripts ------------------------------------------------------------------------------
     def _script(self, path: str, text: str, facts: Facts, windows: bool = False) -> None:
         variables: dict[str, str] = {}
-        lines = text.splitlines()
+        lines = split_lines(text)
         i = 0
         while i < len(lines):
             no = i + 1
@@ -562,7 +562,7 @@ class ShellAnalyzer:
     # ---- cron ---------------------------------------------------------------------------------
     def _crontab(self, path: str, text: str, facts: Facts) -> None:
         facts.add("tech_stack", tech("cron", None, "scheduler", path, 1))
-        for no, line in enumerate(text.splitlines(), 1):
+        for no, line in enumerate(split_lines(text), 1):
             s = line.strip()
             if not s or s.startswith("#") or re.match(r"^\w+=", s):
                 continue

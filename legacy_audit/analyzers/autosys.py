@@ -18,6 +18,7 @@ from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import integration
 from legacy_audit.analyzers.shell import command_facts
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import BatchJob, Evidence, FileRecord, make_id
 
 # fmt: off
@@ -70,7 +71,7 @@ def parse_jil(
     unparsed: list[int] = []
     text = re.sub(r"/\*[\s\S]*?\*/", lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
     current: dict[str, tuple[str, int]] | None = None
-    for no, raw in enumerate(text.splitlines(), 1):
+    for no, raw in enumerate(split_lines(text), 1):
         line = raw.strip()
         if not line or line.startswith("#"):
             continue

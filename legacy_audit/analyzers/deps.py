@@ -19,7 +19,7 @@ from typing import ClassVar
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import library, tech
-from legacy_audit.analyzers.textutil import basename
+from legacy_audit.analyzers.textutil import basename, split_lines
 from legacy_audit.inventory.language import NPM_LOCK_FILES
 from legacy_audit.model import FileRecord
 
@@ -162,7 +162,7 @@ class DepsAnalyzer:
                 return facts
             if not isinstance(pkg, dict):
                 return facts
-            lines = text.splitlines()
+            lines = split_lines(text)
             source = "npm" if name == "package.json" else "bower"
             for scope in _NPM_SCOPES:
                 deps = pkg.get(scope)
@@ -246,7 +246,7 @@ class DepsAnalyzer:
                         stack.append(info.get("dependencies"))
         elif name == "yarn.lock":
             current: list[str] = []
-            for line in text.splitlines():
+            for line in split_lines(text):
                 if line and not line.startswith((" ", "#")):
                     current = [m.group(1) for part in line.rstrip(":").split(",")
                                if (m := _YARN_HEAD.match(part.strip()))]  # fmt: skip
@@ -258,7 +258,7 @@ class DepsAnalyzer:
                     current = []
         else:  # pnpm-lock.yaml: "  /name@1.2.3:" or "  name@1.2.3:" under packages
             section = ""
-            for line in text.splitlines():
+            for line in split_lines(text):
                 if line and not line.startswith(" "):
                     section = line.rstrip(":").strip()
                     continue

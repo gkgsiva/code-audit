@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 import re
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.inventory.loc import SYNTAX, Syntax
 
 _TOKEN = re.compile(r"[A-Za-z_$#@][\w$#@-]*|\d[\w.]*|'(?:[^'\n]|'')*'|\"(?:[^\"\\\n]|\\.)*\"|\S")
@@ -79,7 +80,7 @@ def windows(code: str, window: int) -> list[list[int]]:
     tokens: list[str] = []
     lines: list[int] = []
     starts: list[int] = []
-    for no, line in enumerate(code.splitlines(), 1):
+    for no, line in enumerate(split_lines(code), 1):
         found = _TOKEN.findall(line)
         if not found:
             continue

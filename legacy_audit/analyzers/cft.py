@@ -14,6 +14,7 @@ from typing import ClassVar
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
 from legacy_audit.analyzers.build import tech
 from legacy_audit.analyzers.integrations import integration
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import FileRecord, Integration
 
 _CMD = re.compile(r"^\s*(CFT[A-Z]+)\b(.*)$", re.I)
@@ -65,7 +66,7 @@ class CftAnalyzer:
     def analyze(self, file: FileRecord, ctx: AnalyzerContext) -> Facts:
         facts = Facts()
         text = ctx.text or ""
-        lines = text.splitlines()
+        lines = split_lines(text)
         facts.coverage.lines = len(lines)
         commands: list[tuple[int, str, str]] = []
         current: list[str] = []
