@@ -430,3 +430,12 @@ the end of an XML example (`files/logiciel/xep27/examples/xmlspec/xpath.xml`).
 - Known gaps: files under a third-party product folder are still scanned unless excluded in
   `audit.yaml`.
 - Next: Siva rescans and resumes `/audit-enrich stale`.
+
+## Batch count with no scheduler input, for Copilot (2026-10-22)
+
+Copilot stopped before the functional stages: `batch_jobs.json` was empty while
+`counts.batch_jobs.total` was 4 (batch components without a scheduler export, decision 116).
+
+- Done: `facts batch_jobs` / MCP `query_facts` explain the difference and list the unscheduled
+  batches with their component ids; agent rules and `/audit-enrich` updated (decision 160).
+- Next: Siva runs `legacy-audit init` in the audit folder to refresh the agent files.
