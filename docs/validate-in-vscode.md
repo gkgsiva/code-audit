@@ -646,3 +646,54 @@ where Windows uses `.venv\Scripts\python`. This adds a new parser for C#: if it 
    check that `bin/`, `obj/` and `packages/` do not appear in the lines of code and that each
    form or window is a screen. For dependency vulnerabilities, OSV-Scanner reads
    `packages.lock.json` on its own (recent versions also read `.csproj` and `packages.config`).
+
+## AI enrichment for desktop, .NET, Angular, Node.js and servers
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`. No new package to install.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/test_enrich_new_stacks.py`.
+2. Run `audit: 29. AI enrichment for desktop, .NET, Angular and servers (demo)`. It scans the
+   two samples and prints, for each, what the AI is given and what it writes back:
+   - **Fact files each stage reads**: `architecture` and `flows` now read `entry_points` and
+     `web_services`; `dependency_plan` and `risks` read `tech_stack`.
+   - **Batches and the code the AI reads for each**: `close-invoices` (Hangfire) shows
+     `billing-api-cs/Jobs/InvoiceJobs.cs`, `NightlyExport` (Windows Task Scheduler) shows
+     `nightly-export-cs/Program.cs`, and the Node.js jobs show their `.ts` files. Before this
+     change these jobs had no file at all.
+   - **Screens whose own code the AI reads**: the VB6 forms, the Windows Forms code files
+     (`MainForm.vb`, not the designer file), the WPF code-behind (`.xaml.cs`) and the ASP.NET
+     pages.
+   - **Web service operations whose code the AI reads**: each REST and SOAP operation with its
+     file and line.
+   - **Demo enrichment ... validation: passed**, then **Component kinds (AI)**: the VB6,
+     WinForms and WPF programs are `desktop`, `billing-api-cs` is `api`; in the Angular sample
+     the two front ends are `frontend` and the Node.js services `api`.
+   - **Technology stack, what replaces it (AI)**: Visual Basic 6, .NET Framework, Windows Forms
+     and WPF with their target; for the Angular sample WebLogic, WebSphere, Nginx, Node.js and
+     AngularJS.
+   - **Servers and runtimes, target (AI)** (Angular sample).
+   Then both summary reports open (on WSL2, if they do not open, open the printed paths from
+   Windows Explorer).
+3. In the .NET summary report, part **1 Project**: the **Technology stack** table has a last
+   column **Target (AI)**. Part **4 Batches**: `close-invoices`, `NightlyExport` and
+   `invoice-mailer-svc` have a "What it does" text marked (AI), and there is no
+   "nightly-export-cs: not started by any job" row any more.
+4. In the Angular summary report, part **1 Project**: the **Application and web servers**
+   table shows the AI's target, marked (AI), for WebLogic, WebSphere, Nginx and Node.js; Tomcat,
+   Liberty, JBoss and Apache keep the default target from `rules/target-mapping.yaml`.
+5. Run `audit: 4. scan a sample` with `angular-node-app`, then `audit: 7. build and open the
+   technical report` with the same sample: on **Overview**, the servers table's **Target**
+   column shows the AI's target with a "Today:" line under it.
+6. Vulnerabilities: part **5** shows an **Upgrade plan (AI)** column next to each vulnerable
+   library once the `dependency_plan` stage is written and a scanner has run. The demo samples
+   have no scanner results, so check it on the Billing sample: run task 25, then ask Copilot
+   `/audit-enrich dependency_plan` (or run `legacy-audit enrich --stage dependency_plan` with a
+   model set in `audit.yaml`), validate, and build the summary report again.
+7. **On your own application**: after scanning, run `/audit-enrich stale` in Copilot (or task
+   20 with another model). Stages written before this change (architecture, flows, dependency
+   plan, risks, target architecture, component docs) show as stale once, because they now read
+   more facts. When they are redone, check that each desktop window and each Hangfire, Windows
+   task or node-cron job has a story that says what it does, and that each server and runtime
+   has a target marked (AI).
