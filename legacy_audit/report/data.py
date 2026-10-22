@@ -15,6 +15,8 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import quote
 
+from legacy_audit.target import read as read_target
+
 ENTITIES = (
     "inventory",
     "components",
@@ -53,6 +55,7 @@ class RunData:
     effort: dict[str, Any] | None
     target_mapping: list[dict[str, Any]]
     has_sbom: bool
+    target: dict[str, Any] = field(default_factory=dict)  # data/target.json (decision 161)
     roots: dict[str, Path] = field(default_factory=dict)  # inventory root name -> folder
     by_id: dict[str, dict[str, Any]] = field(default_factory=dict)
     file_root: dict[str, str] = field(default_factory=dict)  # file path -> root name
@@ -71,6 +74,7 @@ class RunData:
             effort=_load(data / "effort.json"),
             target_mapping=_load(data / "target-mapping.json") or [],
             has_sbom=(data / "sbom.cdx.json").exists(),
+            target=read_target(run_dir),
         )
         for src in run.get("sources", []):
             if src.get("path"):
@@ -90,6 +94,11 @@ class RunData:
         return rd
 
     # ---- helpers ------------------------------------------------------------------------------
+    @property
+    def audit_only(self) -> bool:
+        """No migration target (``target.profile: none``): reports suggest nothing."""
+        return bool(self.target.get("audit_only"))
+
     def items(self, name: str) -> list[dict[str, Any]]:
         return self.entities.get(name, [])
 

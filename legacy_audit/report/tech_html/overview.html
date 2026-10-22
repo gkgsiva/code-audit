@@ -29,17 +29,17 @@
 
 <h2>Application and web servers</h2>
 {% if servers %}
-<p class="muted">Servers and runtimes the code is built for or deployed on, found in deployment descriptors, server configuration, container images, start scripts and vendor APIs. On the target (Spring Boot 4 on GKE or Cloud Run) each one is replaced; the findings list the server-specific files to rework. The target is the default from <code>rules/target-mapping.yaml</code>, or the AI's when marked (AI).</p>
+<p class="muted">Servers and runtimes the code is built for or deployed on, found in deployment descriptors, server configuration, container images, start scripts and vendor APIs. {% if target_label and not audit_only %}The target column says what each one becomes on the migration target ({{ target_label }}): the default from <code>rules/target-mapping.yaml</code>, or the AI's when marked (AI); the findings list the server-specific files to rework.{% else %}The findings list the server-specific files.{% endif %}</p>
 <div class="table-wrap">
 <table class="data">
-  <thead><tr><th>Server or runtime</th><th>Kind</th><th>Version</th><th>End of life</th><th>Components</th><th>Found in</th><th>Target</th></tr></thead>
+  <thead><tr><th>Server or runtime</th><th>Kind</th><th>Version</th><th>End of life</th><th>Components</th><th>Found in</th>{% if not audit_only %}<th>Target</th>{% endif %}</tr></thead>
   <tbody>
   {% for s in servers %}<tr>
     <td>{{ s.name }}</td><td>{{ s.kind }}</td><td><code>{{ s.version }}</code></td>
     <td>{% if s.eol and s.eol != "no" %}<span class="chip critical">{{ s.eol }}</span>{% if s.replacement %} → {{ s.replacement }}{% endif %}{% else %}{{ s.eol }}{% endif %}</td>
     <td>{% for c in s.components %}<a href="{{ base }}components/{{ c|replace('/', '-') }}.html">{{ c }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td>
     <td>{% for l in s.links %}{{ m.ev(l) }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% if s.more_files %}<br><span class="muted">and {{ s.more_files }} more</span>{% endif %}</td>
-    <td>{{ s.target }}{% if s.today %}<br><span class="muted">Today: {{ s.today }}</span>{% endif %}</td>
+    {% if not audit_only %}<td>{{ s.target }}{% if s.today %}<br><span class="muted">Today: {{ s.today }}</span>{% endif %}</td>{% endif %}
   </tr>{% endfor %}
   </tbody>
 </table>

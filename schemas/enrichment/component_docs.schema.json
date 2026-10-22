@@ -67,6 +67,7 @@
         },
         "migration_notes": {
           "default": "",
+          "description": "Empty when the target is none (audit only)",
           "title": "Migration Notes",
           "type": "string"
         },

@@ -12,7 +12,7 @@
 # `artifact` and `group` are regexes (full match); `group` is checked only when known.
 # Targets are recorded as data, not looked up: "verify: true" marks a target to confirm.
 pack: dependency
-description: Library upgrades for Java 25, Spring Boot 4, Jakarta EE 11 and Angular 21.
+description: Library upgrades for the target (default Java 25, Spring Boot 4, Jakarta EE 11 and Angular 21).
 
 data:
   targets:
@@ -55,13 +55,13 @@ data:
     - {artifact: 'javax\.annotation-api|jsr250-api', group: 'javax\.annotation', target: 'jakarta.annotation:jakarta.annotation-api:3.0.0'}
     - {artifact: 'javax\.inject', group: 'javax\.inject', target: 'jakarta.inject:jakarta.inject-api:2.0.1'}
     - {artifact: 'jta|javax\.transaction-api', group: 'javax\.transaction', target: 'jakarta.transaction:jakarta.transaction-api:2.0.1'}
-    - {artifact: 'ejb-api|javax\.ejb-api', group: 'javax\.ejb', target: 'Spring Boot service (no EJB container)'}
+    - {artifact: 'ejb-api|javax\.ejb-api', group: 'javax\.ejb', target: 'Spring Boot service (no EJB container)', by_target: {wildfly-gke: {target: 'jakarta.ejb:jakarta.ejb-api:4.0.1 (provided by WildFly 41)'}}}
 
   replace:
     - {artifact: 'ojdbc\d*', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
     - {artifact: 'db2jcc\d*|jt400', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
     - {artifact: 'mysql-connector-java|mssql-jdbc|jtds|sqljdbc\d*', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
-    - {artifact: 'axis2(-kernel)?', target: 'Spring Web Services or a REST client', effort: medium, reason: 'Axis2 is not supported on Jakarta EE 11'}
+    - {artifact: 'axis2(-kernel)?', target: 'Spring Web Services or a REST client', effort: medium, reason: 'Axis2 is not supported on Jakarta EE 11', by_target: {wildfly-gke: {target: 'Jakarta XML Web Services (Apache CXF, built into WildFly 41)'}}}
 
   # Artifacts whose version the Spring Boot 4 BOM manages.
   boot_managed:
@@ -82,6 +82,32 @@ data:
   licenses:
     risky: ['GPL', 'AGPL', 'LGPL', 'SSPL', 'CC-BY-NC']
 
+  # Who manages the versions of `boot_managed` libraries, and why javax.* must move.
+  bom: {name: 'Spring Boot 4.1', short: 'Spring Boot', manages: 'manages', how: 'managed by', recipe: spring_boot}
+  jakarta_reason: 'javax.* API: Spring Boot 4 runs on Jakarta EE 11'
+
+  # Other targets (audit.yaml > target.profile) replace these keys.
+  profiles:
+    wildfly-gke:
+      # The code moves as it is: front-end libraries stay, Jakarta APIs come from WildFly 41.
+      frontend: []
+      bom: {name: 'WildFly 41', short: 'WildFly 41', manages: 'provides', how: 'provided by', recipe: null,
+            reason: 'WildFly 41 provides this library: mark the dependency provided'}
+      jakarta_reason: 'javax.* API: WildFly 41 runs Jakarta EE 11 (jakarta.* packages)'
+      boot_managed:
+        - {group: 'org\.hibernate(\.orm)?', artifact: 'hibernate-.*'}
+        - {group: 'com\.fasterxml\.jackson(\.[a-z]+)*', artifact: 'jackson-.*'}
+        - {group: 'org\.slf4j', artifact: '.*'}
+        - {group: 'org\.jboss\.(resteasy|weld|logging)(\.[a-z]+)*', artifact: '.*'}
+        - {group: 'org\.apache\.cxf', artifact: 'cxf-.*'}
+        - {group: 'org\.eclipse\.angus', artifact: '.*'}
+    none:
+      # Audit only: no target, so only end of life and known vulnerabilities give advice.
+      frontend: []
+      jakarta: []
+      replace: []
+      boot_managed: []
+
 rules:
   - id: vulnerable-library
     severity: high
@@ -98,7 +124,7 @@ rules:
     severity: medium
     category: dependency
     message: "{artifact} {version} is end of life since {eol_date}; replace with {replacement}"
-    remediation: Replace it as recommended before or during the migration.
+    remediation: "[[eol-library-remediation]]"
     match:
       entity: libraries
       where:
@@ -107,8 +133,8 @@ rules:
   - id: eol-technology
     severity: medium
     category: dependency
-    message: "{name} {version} is end of life since {eol_date}; target {replacement}"
-    remediation: Plan the move to the target technology.
+    message: "{name} {version} is end of life since {eol_date}; [[eol-target]] {replacement}"
+    remediation: "[[eol-remediation]]"
     match:
       entity: tech_stack
       where:
@@ -128,7 +154,7 @@ rules:
     severity: high
     category: java-compat
     message: "{name} uses JDK internal API {api} (jdeps)"
-    remediation: Replace the internal API with a supported one before moving to Java 25.
+    remediation: Replace the internal API with a supported one [[java-move]].
     match:
       entity: jdk_findings
       where:
@@ -138,7 +164,7 @@ rules:
     severity: high
     category: java-compat
     message: "{name} uses {api}, deprecated for removal (jdeprscan)"
-    remediation: Replace the API before moving to Java 25.
+    remediation: Replace the API [[java-move]].
     match:
       entity: jdk_findings
       where:

@@ -593,14 +593,13 @@ def create_app(
 
     @app.get("/api/runs/{run}/enrichment")
     def enrichment(run: str) -> dict[str, Any]:
-        from legacy_audit.enrich.stages import STAGES
-        from legacy_audit.enrich.status import compute_status
+        from legacy_audit.enrich.status import active_stages, compute_status
 
         run_dir = ws.run_dir(run)
         status = compute_status(run_dir)
         invalid = invalid_stages.get(run_dir.name, set())
         rows = []
-        for st in STAGES:
+        for st in active_stages(run_dir):
             e = status["stages"][st.name]
             state = "missing"
             if e["present"]:

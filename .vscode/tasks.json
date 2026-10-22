@@ -299,6 +299,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_enrichment_coverage.py samples\\desktop-dotnet-app samples\\angular-node-app --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_targets.py samples/struts-oracle-app samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_targets.py samples\\struts-oracle-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
     }
   ]
 }

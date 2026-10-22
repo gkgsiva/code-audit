@@ -73,6 +73,7 @@ def build_summary(
                 "started_at": run.started_at,
                 "sources": [s.model_dump(mode="json") for s in run.sources],
             },
+            "target": run.target,
             "totals": {
                 "files": len(source),
                 "input_files": len(files) - len(source),

@@ -240,6 +240,7 @@ class _Summary:
 
     def project(self) -> Section:
         intro, source = self.description()
+        intro = [*intro, f"Migration target: {self.rd.target.get('label', '')}."]
         t = self.s.get("totals", {})
         c = self.c
         comps = sorted(
@@ -294,6 +295,7 @@ class _Summary:
         )
         ll, lv = _top(lang_loc, 8)
         servers = server_rows(self.rd, self.e)
+        targeted = not self.rd.audit_only
         server_table = [
             [
                 r["name"],
@@ -302,7 +304,7 @@ class _Summary:
                 r["eol"],
                 ", ".join(r["components"]),
                 ", ".join(r["files"]) + (f" (+{r['more_files']} more)" if r["more_files"] else ""),
-                r["target"],
+                *([r["target"]] if targeted else []),
             ]
             for r in servers
         ]
@@ -392,12 +394,18 @@ class _Summary:
                         "End of life",
                         "Modules",
                         "Found in",
-                        "Target",
-                    ],
+                    ]
+                    + (["Target"] if targeted else []),
                     server_table,
                     "Found in deployment descriptors, server configuration, Dockerfiles, start "
-                    "scripts and vendor libraries. The target is the default from "
-                    "rules/target-mapping.yaml, or the AI's target architecture when marked (AI).",
+                    "scripts and vendor libraries."
+                    + (
+                        " The target is the default from rules/target-mapping.yaml for "
+                        f"{self.rd.target.get('label')}, or the AI's target architecture when "
+                        "marked (AI)."
+                        if targeted
+                        else ""
+                    ),
                     "No application or web server found in the code.",
                 ),
                 Table(
@@ -456,11 +464,17 @@ class _Summary:
             f"run time) on {_plural(len(tables), 'table')}"
             + (f" in {', '.join(dict.fromkeys(db_tech))}" if db_tech else "")
             + ".",
-            f"{_pct(grades.get('auto', 0), total)} convert to PostgreSQL automatically, "
-            f"{_pct(grades.get('review', 0), total)} need a review and "
-            f"{_pct(grades.get('manual', 0), total)} a manual rewrite"
-            + (f"; {_plural(procs, 'stored procedure')} to migrate." if procs else "."),
         ]
+        graded = not self.rd.audit_only  # audit only: no target database, no grades
+        if graded:
+            intro.append(
+                f"{_pct(grades.get('auto', 0), total)} convert to PostgreSQL automatically, "
+                f"{_pct(grades.get('review', 0), total)} need a review and "
+                f"{_pct(grades.get('manual', 0), total)} a manual rewrite"
+                + (f"; {_plural(procs, 'stored procedure')} to migrate." if procs else ".")
+            )
+        elif procs:
+            intro.append(f"The database holds {_plural(procs, 'stored procedure')}.")
         # The Copilot analysis adds words only: business data names (functional stage) and a
         # migration approach per object (data_migration stage); every count stays the scan's.
         dm = self.e.get("data_migration") or {}
@@ -504,9 +518,7 @@ class _Summary:
             [
                 k,
                 v["total"],
-                v.get("auto", 0),
-                v.get("review", 0),
-                v.get("manual", 0),
+                *([v.get("auto", 0), v.get("review", 0), v.get("manual", 0)] if graded else []),
                 v.get("dynamic", 0),
             ]
             for k, v in sorted(by_comp.items(), key=lambda kv: (-kv[1]["total"], kv[0]))
@@ -523,17 +535,23 @@ class _Summary:
                 ("Built at run time", sql.get("dynamic", 0)),
                 ("Tables", len(tables)),
                 ("Stored procedures", procs),
-                ("PostgreSQL auto", _pct(grades.get("auto", 0), total)),
+                *([("PostgreSQL auto", _pct(grades.get("auto", 0), total))] if graded else []),
             ],
             [
-                Chart(
-                    "pg-grade",
-                    "PostgreSQL readiness",
-                    "doughnut",
-                    GRADES,
-                    [grades.get(g, 0) for g in GRADES],
-                    [GRADE_TOKEN[g] for g in GRADES],
-                    "statements",
+                *(
+                    [
+                        Chart(
+                            "pg-grade",
+                            "PostgreSQL readiness",
+                            "doughnut",
+                            GRADES,
+                            [grades.get(g, 0) for g in GRADES],
+                            [GRADE_TOKEN[g] for g in GRADES],
+                            "statements",
+                        )
+                    ]
+                    if graded
+                    else []
                 ),
                 Chart(
                     "sql-type", "SQL statements by type", "bar", tl, tv, ["series-3"], "statements"
@@ -564,9 +582,11 @@ class _Summary:
                 Table(
                     "sql-by-module",
                     "SQL by module",
-                    ["Module", "Statements", "Auto", "Review", "Manual", "Built at run time"],
+                    ["Module", "Statements"]
+                    + (["Auto", "Review", "Manual"] if graded else [])
+                    + ["Built at run time"],
                     comp_rows,
-                    "Auto / Review / Manual: PostgreSQL grade of each statement.",
+                    "Auto / Review / Manual: PostgreSQL grade of each statement." if graded else "",
                 ),
                 Table(
                     "databases",
@@ -1252,7 +1272,7 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
             "type": "title",
             "title": f"{app}: summary",
             "subtitle": f"Run {rd.run.get('run_id', '')} · "
-            f"{str(rd.run.get('started_at', ''))[:10]}",
+            f"{str(rd.run.get('started_at', ''))[:10]} · Target: {rd.target.get('label', '')}",
             "blocks": [],
             "notes": "",
             "stale": [],
@@ -1461,6 +1481,7 @@ def build_summary_report(
         .render(
             app=deck["application"],
             run=rd.run,
+            target_label=rd.target.get("label", ""),
             sections=sections,
             palette=PALETTE,
             fmt=_num,

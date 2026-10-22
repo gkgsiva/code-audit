@@ -142,7 +142,7 @@
           "type": "string"
         },
         "target": {
-          "description": "e.g. Spring Boot REST controller, Spring Batch job",
+          "description": "What it becomes on the target in data/target.json, e.g. 'Spring Boot REST controller' (spring-boot-angular) or 'kept: Struts action on WildFly 41' (wildfly-gke)",
           "title": "Target",
           "type": "string"
         },

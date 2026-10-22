@@ -726,3 +726,48 @@ Same on Windows and WSL2 (`python3` on WSL2).
 3. **In your audit folder**: after pulling, run `legacy-audit init` once (without `--force`; it
    keeps `audit.yaml`) so Copilot gets the updated agent rules, then `/audit-enrich stale`.
    Copilot documents each unscheduled batch with its component id instead of stopping.
+
+## Migration target: Spring Boot, WildFly on GKE, or audit only
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`. No new package to install.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_targets.py`.
+2. Run `audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)`. It scans
+   `struts-oracle-app` and `angular-node-app` three times each, once per target, without
+   touching their `audit.yaml` (the runs go to `audit-output/targets/<target>/`). For each target
+   it prints:
+   - the target, for example **WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on
+     PostgreSQL**;
+   - **AI stages to write**: 14 of 14, or 9 of 14 for `none` (no service mapping, data
+     migration, dependency plan, target architecture or plan);
+   - **PostgreSQL grades** and **Effort estimate**: present for the two targets, "no target" for
+     `none`;
+   - **Servers and runtimes, what each becomes** (Angular sample): a Spring Boot jar on GKE or
+     Cloud Run for the default, a WildFly 41 container on GKE for `wildfly-gke`, "(no target)"
+     for `none`;
+   - **Library advice**: for the Struts sample, Struts 1 goes to Spring MVC by default; with
+     WildFly it says Struts 7, or the Eclipse Transformer to keep the Struts 1 code; Oracle's
+     driver goes to PostgreSQL for both targets and to a supported Oracle driver for `none`;
+   - one **server finding** and what to do about it, worded for the target.
+   Then the six summary reports open (on WSL2, if they do not open, open the printed paths from
+   Windows Explorer).
+3. In each summary report, part **1 Project** says "Migration target: ..." and the header shows
+   the target. For `none`: the servers table has no **Target** column, part **2 Database** has no
+   PostgreSQL chart, tile or Auto/Review/Manual columns.
+4. **On your own application**: open `audit.yaml` (or the GUI's **Settings** page, field
+   **Migration target**) and set
+   ```yaml
+   target:
+     profile: wildfly-gke        # or spring-boot-angular (default), or none
+   ```
+   Scan again (task 3 or the GUI's **Scan** button; files are not re-read, only the advice
+   changes), then build the reports. The technical report's header and **Appendix** name the
+   target; with `none` the **PostgreSQL** page is gone and the management deck has no target or
+   plan slides.
+5. **Copilot**: run `legacy-audit init` once in the audit folder (without `--force`) so Copilot
+   gets the new agent rules, then `/audit-enrich stale`. After a change of target only the
+   stages that suggest something are stale (service mapping, data migration, dependency plan,
+   risks, target architecture, plan). With `wildfly-gke`, `legacy-audit validate` warns if the
+   AI still writes Spring Boot, Cloud Run or Angular 21 in those stages. With `none`, Copilot
+   skips the five target stages.
