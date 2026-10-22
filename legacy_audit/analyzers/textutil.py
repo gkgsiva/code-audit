@@ -12,6 +12,18 @@ LINE_ATTR = "__line__"
 NS_ATTR = "__ns__"
 
 
+def split_lines(text: str) -> list[str]:
+    """Lines as an editor numbers them: split on ``\n``, ``\r\n`` and ``\r`` only.
+
+    ``str.splitlines`` also breaks on form feeds, ``\x1c``-``\x1e``, NEL and U+2028, which
+    editors show inside a line, so the line numbers it gives drift past the end of files that
+    hold them (page breaks in old specifications and COBOL listings)."""
+    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
+    if lines and lines[-1] == "":
+        lines.pop()
+    return lines
+
+
 class LineIndex:
     """Map character offsets to 1-based line numbers."""
 

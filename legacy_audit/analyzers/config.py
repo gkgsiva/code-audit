@@ -16,6 +16,7 @@ from legacy_audit.analyzers.integrations import (
     integration,
     parse_jdbc,
 )
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import Evidence, FileRecord, Finding, Severity, make_id
 
 SECRET_KEY = re.compile(r"(passw(or)?d|pwd|passphrase|secret|api[_-]?key|token|credential)", re.I)
@@ -127,7 +128,7 @@ class ConfigAnalyzer:
             for m in list(_XML_PROP.finditer(text)) + list(_XML_PARAM.finditer(text)):
                 pairs.append((text.count("\n", 0, m.start()) + 1, m.group(1), m.group(2)))
             # Endpoints in any attribute or text (namespaces and DTD hosts are ignored).
-            for no, line in enumerate(text.splitlines(), 1):
+            for no, line in enumerate(split_lines(text), 1):
                 if (
                     "<!DOCTYPE" in line
                     or "xmlns" in line
@@ -141,7 +142,7 @@ class ConfigAnalyzer:
                     scan_value_for_endpoints(line, file.path, no, facts)
         else:
             section = ""
-            for no, line in enumerate(text.splitlines(), 1):
+            for no, line in enumerate(split_lines(text), 1):
                 s = line.strip()
                 if not s or s.startswith(("#", "!", ";", "//")):
                     continue

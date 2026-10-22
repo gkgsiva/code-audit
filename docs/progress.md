@@ -419,3 +419,14 @@ vulnerabilities).
   code (their logic reaches the AI through routes, services and `calls` edges); the deck and
   PPTX show the AI's server targets but not the technology stack's.
 - Next: run `/audit-enrich all` on the two samples in VS Code and compare with the demo.
+
+## Line numbers in files with old line endings or page breaks (2026-10-22)
+
+Siva's Copilot enrichment stopped at the architecture stage: a web service fact cited a line past
+the end of an XML example (`files/logiciel/xep27/examples/xmlspec/xpath.xml`).
+
+- Done: one rule for line breaks (`\n`, `\r\n`, lone `\r`) in the scan, the validator and the
+  MCP evidence reader (decision 159); `INVENTORY_VERSION` 5; `tests/test_line_numbers.py`.
+- Known gaps: files under a third-party product folder are still scanned unless excluded in
+  `audit.yaml`.
+- Next: Siva rescans and resumes `/audit-enrich stale`.

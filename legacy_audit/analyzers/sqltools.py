@@ -10,6 +10,7 @@ import re
 import sqlglot
 from sqlglot import exp
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import Evidence, SqlStatement, make_id
 
 logging.getLogger("sqlglot").setLevel(logging.CRITICAL)
@@ -283,7 +284,7 @@ def split_statements(text: str) -> list[tuple[int, str]]:
         re.I,
     )
     in_comment = False
-    for no, raw in enumerate(text.splitlines(), 1):
+    for no, raw in enumerate(split_lines(text), 1):
         line = raw
         stripped = line.strip()
         if not buf:

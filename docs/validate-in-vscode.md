@@ -697,3 +697,17 @@ where Windows uses `.venv\Scripts\python`. No new package to install.
    more facts. When they are redone, check that each desktop window and each Hangfire, Windows
    task or node-cron job has a story that says what it does, and that each server and runtime
    has a target marked (AI).
+
+## Line numbers in files with old line endings or page breaks
+
+Same on Windows and WSL2.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_line_numbers.py`.
+2. **On the application where `legacy-audit validate` said "line N is outside '<file>'"**: pull,
+   scan again (the first scan after the update re-reads every file, so it takes as long as a
+   first scan), then run `legacy-audit validate` or ask Copilot to carry on with
+   `/audit-enrich stale`. The error is gone, and the evidence link of that web service or
+   integration opens on the line that holds the address.
+3. Optional: if the file is part of a third-party product kept in the source tree (a tool's
+   examples or documentation), add its folder to `exclude:` in `audit.yaml` (for example
+   `- "files/logiciel/**"`) so its addresses are not reported as integrations.

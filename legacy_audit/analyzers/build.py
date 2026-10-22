@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 from typing import ClassVar
 
 from legacy_audit.analyzers.base import AnalyzerContext, Facts
-from legacy_audit.analyzers.textutil import attrs, child_text, line_of, parse_xml
+from legacy_audit.analyzers.textutil import attrs, child_text, line_of, parse_xml, split_lines
 from legacy_audit.model import Evidence, FileRecord, Library, TechItem, make_id
 
 _PROP = re.compile(r"\$\{([^}]+)\}")
@@ -303,7 +303,7 @@ class BuildAnalyzer:
     def _make(self, path: str, text: str, facts: Facts) -> None:
         facts.add("tech_stack", tech("Make", None, "build", path, 1))
         variables: dict[str, str] = {}
-        for no, line in enumerate(text.splitlines(), 1):
+        for no, line in enumerate(split_lines(text), 1):
             if line.startswith("\t") or line.lstrip().startswith("#"):
                 cmd = line.strip()
                 if re.match(r"(\$\(PROC\)|proc)\s", cmd):

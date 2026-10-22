@@ -49,6 +49,7 @@ from legacy_audit.analyzers.dotnet import (
 from legacy_audit.analyzers.dynsql import Built, Tracker, choice, concat, empty, fill, hole, lit
 from legacy_audit.analyzers.integrations import classify_url, integration
 from legacy_audit.analyzers.sqltools import looks_like_sql, sql_fact
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import (
     Category,
     EntryPoint,
@@ -416,7 +417,7 @@ def _com_tech(desc: str) -> tuple[str, str] | None:
 
 def _vbp(path: str, text: str, facts: Facts) -> None:
     """A VB6 project (``.vbp``) or project group (``.vbg``)."""
-    lines = text.splitlines()
+    lines = split_lines(text)
     kv: dict[str, tuple[str, int]] = {}
     forms = 0
     for i, raw in enumerate(lines, 1):

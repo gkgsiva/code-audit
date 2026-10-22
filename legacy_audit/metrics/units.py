@@ -32,6 +32,7 @@ import tree_sitter_java
 import tree_sitter_typescript
 from tree_sitter import Language, Node, Parser
 
+from legacy_audit.analyzers.textutil import split_lines
 from legacy_audit.model import CodeUnit
 
 _JAVA = Language(tree_sitter_java.language())
@@ -190,7 +191,7 @@ def ts_units(code: str, path: str) -> list[CodeUnit]:
     tsx = not path.lower().endswith((".ts", ".mts", ".cts"))
     data = code.encode("utf-8")
     tree = _parser("tsx" if tsx else "ts").parse(data)
-    lines = code.splitlines()
+    lines = split_lines(code)
     named: list[tuple[Node, str]] = []
     for node in _walk(tree.root_node, TS_UNITS):
         name = _ts_name(node, data)
@@ -235,7 +236,7 @@ def tree_units(code: str, language: str) -> list[CodeUnit]:
     tree = _parser(lang).parse(data)
     unit_kinds = JAVA_UNITS if lang == "java" else C_UNITS
     kinds = JAVA_DECISIONS if lang == "java" else C_DECISIONS
-    lines = code.splitlines()
+    lines = split_lines(code)
     out = []
     for node in _walk(tree.root_node, unit_kinds):
         start, end = node.start_point[0] + 1, node.end_point[0] + 1
@@ -317,7 +318,7 @@ def cs_units(code: str) -> list[CodeUnit]:
     """Units of C# code; an accessor without a body (``get;``) is not one."""
     data = code.encode("utf-8")
     tree = _parser("cs").parse(data)
-    lines = code.splitlines()
+    lines = split_lines(code)
     out = []
     for node in _walk(tree.root_node, CS_UNITS):
         body = node.child_by_field_name("body") or next(
@@ -454,7 +455,7 @@ def plsql_units(code: str) -> list[CodeUnit]:
     """Procedures, functions, triggers and package bodies; inside a package body each
     procedure/function is its own unit. Plain SQL scripts have none."""
     text = _SQL_STRING.sub("''", code)
-    lines = text.splitlines()
+    lines = split_lines(text)
     heads = [
         (m, text.count("\n", 0, m.start()) + 1)
         for m in _PLSQL_UNIT.finditer(text)
@@ -497,7 +498,7 @@ _SCRIPT_STRING = re.compile(r"'[^'\n]*'|\"(?:[^\"\\\n]|\\.)*\"")
 
 def script_unit(code: str, language: str, name: str) -> list[CodeUnit]:
     rx = _SCRIPT_DECISION.get(language)
-    lines = code.splitlines()
+    lines = split_lines(code)
     if rx is None or not any(ln.strip() for ln in lines):
         return []
     body = _SCRIPT_STRING.sub('""', code)

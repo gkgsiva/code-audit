@@ -207,9 +207,11 @@ class _Checker:
                 )
 
     def _lines(self, p: Path) -> int:
+        """Lines as the scan and VS Code count them: ``\r\n``, ``\n`` and a lone ``\r``."""
         if p not in self.line_counts:
-            with p.open("rb") as fh:
-                self.line_counts[p] = sum(1 for _ in fh)
+            data = p.read_bytes()
+            breaks = data.count(b"\n") + data.count(b"\r") - data.count(b"\r\n")
+            self.line_counts[p] = breaks + (0 if data.endswith((b"\n", b"\r")) or not data else 1)
         return self.line_counts[p]
 
     def _evidence(self, data: Any, add: Any) -> None:
