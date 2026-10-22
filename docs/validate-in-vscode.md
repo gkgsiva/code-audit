@@ -711,3 +711,18 @@ Same on Windows and WSL2.
 3. Optional: if the file is part of a third-party product kept in the source tree (a tool's
    examples or documentation), add its folder to `exclude:` in `audit.yaml` (for example
    `- "files/logiciel/**"`) so its addresses are not reported as integrations.
+
+## Batch count with no scheduler input (Copilot)
+
+Same on Windows and WSL2 (`python3` on WSL2).
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/test_mcp.py::test_batch_jobs_query_names_the_unscheduled_batches`.
+2. Run `audit: 4. scan a sample` with `legacy-layout-app`, then in the terminal, from
+   `samples/legacy-layout-app`: `legacy-audit facts batch_jobs` (Windows:
+   `..\..\.venv\Scripts\legacy-audit facts batch_jobs`). `rows` is empty, and under it a `note`
+   explains that the summary's total (2) counts the batch components `billing-batch` and
+   `settlement-c`, listed with their `component:` ids.
+3. **In your audit folder**: after pulling, run `legacy-audit init` once (without `--force`; it
+   keeps `audit.yaml`) so Copilot gets the updated agent rules, then `/audit-enrich stale`.
+   Copilot documents each unscheduled batch with its component id instead of stopping.

@@ -92,12 +92,46 @@ class Facts:
             rows = conn.execute(
                 f'SELECT {select} FROM "{kind}"{sql_where} LIMIT {limit} OFFSET {offset}', args
             ).fetchall()
-        return {
+        out: dict[str, Any] = {
             "kind": kind,
             "total": total,
             "offset": offset,
             "returned": len(rows),
             "rows": [{k: _cell(v) for k, v in dict(r).items()} for r in rows],
+        }
+        if kind == "batch_jobs":
+            out.update(self._unscheduled())
+        return out
+
+    def _unscheduled(self) -> dict[str, Any]:
+        """Batches no scheduler definition starts are batch components, not ``batch_jobs`` rows
+        (decision 116): say so next to the rows, so the count in ``audit-summary.json``
+        (scheduled + unscheduled) is not read as a contradiction."""
+        try:
+            summary = json.loads(
+                (self._run_dir() / "data" / "audit-summary.json").read_text(encoding="utf-8")
+            )
+        except (OSError, ValueError):
+            return {}
+        names = list(summary.get("unscheduled_batches") or [])
+        if not names:
+            return {}
+        ids = {}
+        with self._db() as conn:
+            for name in names:
+                row = conn.execute('SELECT id FROM "components" WHERE name = ?', (name,)).fetchone()
+                ids[name] = row["id"] if row else None
+        bj = (summary.get("counts") or {}).get("batch_jobs") or {}
+        return {
+            "note": (
+                "These rows are the jobs a scheduler definition starts (Autosys, JCL, cron, "
+                "Windows Task Scheduler, Hangfire...). counts.batch_jobs.total in "
+                f"audit-summary.json ({bj.get('total', '?')}) also counts each batch component "
+                f"that no scheduler definition starts ({bj.get('unscheduled', len(names))}, "
+                "listed below): each one is a batch with no schedule found. Document it with "
+                "job_id = its component id; its scripts, programs and mains are its steps."
+            ),
+            "unscheduled_batches": [{"component": name, "job_id": ids[name]} for name in names],
         }
 
     def _one(self, kind: str, key: str, value: str) -> dict[str, Any] | None:
