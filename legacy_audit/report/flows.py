@@ -876,11 +876,12 @@ def _unscheduled_flows(
 ) -> list[Flow]:
     """Batch work the scan found but no scheduler definition covers (decisions 102 and 116).
 
-    A batch is a *component* doing batch work, not each script in it: the top-level scripts and
-    programs of one batch component (its ksh wrappers, its C/COBOL programs, its Java ``main``)
-    are the entry points of one batch flow named after the component, so a batch made of Java,
-    ksh and properties shows once. The batch-job count adds one per such component that no job
-    covers (``summary.unscheduled_batches``), so the pages and the count agree. Message
+    A batch is an *entry point* of a component doing batch work, not each script in it: a
+    top-level script, a C/COBOL program or a Java ``main`` no script starts is one batch flow
+    (``<component>: <entry>``), and what it runs are its steps; a component with one entry
+    point (or none found) is one flow named after the component, so a batch made of Java, ksh
+    and properties shows once. The entry points come from ``summary.unscheduled_batch_entries``
+    (the count's own list, decisions 116 and 168), so the pages and the count agree. Message
     listeners stay flows of their own (they start on a message, not on a schedule) and are not
     counted. Without these flows the Batch pages would say "no batch" whenever the JIL, JCL or
     crontab export is missing (a coverage gap, not an absence of batches)."""
@@ -904,6 +905,7 @@ def _unscheduled_flows(
     batch_comps = {n for n, r in roles.items() if "batch" in r}
     online = {n for n, r in roles.items() if r & _ONLINE}
     counted = set(rd.summary.get("unscheduled_batches") or [])
+    entry_map: dict[str, list[dict[str, Any]]] = rd.summary.get("unscheduled_batch_entries") or {}
 
     def comp_of(path: str) -> str | None:
         return rd.file_component.get(path)
@@ -1211,8 +1213,17 @@ def _unscheduled_flows(
                 )  # fmt: skip
             continue
         is_counted = comp_name in counted
-        name = comp_name if is_counted else f"{comp_name}: not started by any job"
+        if is_counted and comp_name in entry_map:
+            members = [dict(u) for u in entry_map[comp_name]]  # the count's own entry points
         head = Node("batch:" + comp_name, comp_name, "job", "batch component")
+        if is_counted and len(members) >= 2:  # one batch per entry point (decision 168)
+            for u in members:
+                flows.append(
+                    build(u["id"], f"{comp_name}: {u['name']}", comp_name, [u], head,
+                          no_schedule, _NO_SCHEDULE, "none", True)
+                )  # fmt: skip
+            continue
+        name = comp_name if is_counted else f"{comp_name}: not started by any job"
         flows.append(
             build(info["id"], name, comp_name, members, head, no_schedule, _NO_SCHEDULE,
                   "none", is_counted)

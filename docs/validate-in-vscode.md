@@ -771,3 +771,38 @@ where Windows uses `.venv\Scripts\python`. No new package to install.
    risks, target architecture, plan). With `wildfly-gke`, `legacy-audit validate` warns if the
    AI still writes Spring Boot, Cloud Run or Angular 21 in those stages. With `none`, Copilot
    skips the five target stages.
+
+## Maven modules and batch folders
+
+The new sample `samples/maven-multimodule-app` is a Maven parent with modules (one only in a
+profile), a nested parent of two batch modules started by ksh scripts, a shared `config/`, and
+an `ops/batch/` folder of three plain-folder batches sharing `common/`. Steps are the same on
+Windows and WSL2: VS Code picks the right command (WSL2 uses `.venv/bin/python`, set up with
+`python3`).
+
+1. Pull the branch, then run `audit: 1. set up (venv + install)` once (nothing new to install)
+   and `audit: 2. tests (pytest)`: everything passes, including `tests/test_components.py`,
+   `tests/test_samples.py::test_sample_counts[maven-multimodule-app]` and
+   `tests/test_functional.py::test_one_batch_per_entry_point`.
+2. Run **`audit: 31. show Maven modules and batches (multi-module sample)`**. Check in the
+   terminal:
+   - 12 components; `acme-parent` and `acme-batches` are not among them (they are groups);
+   - the module tree shows `acme-parent (group)` with `acme-core [jar]`, `acme-ear [ear]`,
+     `acme-tools [jar]`, `acme-web [war] -> web`, and `acme-batches (group)` with
+     `billing-batch` and `report-batch`;
+   - `ops/batch` is split into `archive`, `eod`, `purge` (batch) and `batch` (type script: the
+     shared `common/functions.ksh` and `env.properties`);
+   - `Batch jobs: 6 = 0 scheduled + 6 with no schedule found`, listing `scripts` (2:
+     `run_billing.ksh`, `run_report.ksh`), `eod` (2), `purge` (1) and `archive` (1).
+     `billing-batch` and `report-batch` are not counted: the scripts start them.
+3. Run `audit: 7. build and open the technical report` and pick `maven-multimodule-app`. On
+   **Components**, the "Maven group" column shows `acme-parent > acme-batches` for the batch
+   modules and the packaging (`jar`, `war`, `ear`); on **Batch** there are six "no schedule
+   found" flows, `eod: run_eod.ksh` and `eod: run_eod_report.ksh` among them.
+4. Optional, the GUI: run `audit: 13. start the GUI on a sample` with `maven-multimodule-app`
+   and open **Components**: the Maven group column is there before any scan.
+5. **In your own audit folder**: pull, run `legacy-audit scan` (components are always
+   recomputed, nothing to clear), then `legacy-audit init` once (keeps `audit.yaml`) so
+   Copilot gets the updated batch rules, and `/audit-enrich stale`: component names of Maven
+   parents disappear and batches with several entry points are documented one by one.
+

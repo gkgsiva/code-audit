@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from typing import Any, TypeVar
 
 from legacy_audit.analyzers.base import Facts, Ref, Symbol
-from legacy_audit.inventory.components import in_batch_folder
+from legacy_audit.inventory.components import BATCH_SHARED, in_batch_folder, in_shared_folder
 from legacy_audit.linker.aggregate import (
     dedupe,
     merge_batch_jobs,
@@ -947,7 +947,7 @@ def batch_scripts(
         out[str(rec.component)].add(path)
 
     for path in scripts:
-        if in_batch_folder(path):
+        if in_batch_folder(path) and not in_shared_folder(path):
             mark(path)
     for st in entities.get("sql_statements", []):
         if isinstance(st, SqlStatement) and st.file in scripts:
@@ -1037,6 +1037,8 @@ def classify_components(
             or entries.get(c.name, set()) & batch_entries
         )
         scripts = batchy.get(c.name, set())
+        if c.detected_by == BATCH_SHARED:
+            scripts = set()  # helpers the batches beside it share (decision 167)
         if roles & {ComponentType.WEB, ComponentType.ONLINE_MAINFRAME, ComponentType.API,
                     ComponentType.FRONTEND, ComponentType.DESKTOP}:  # fmt: skip
             # in an online application, only scripts filed as batch are batch work (deploy and

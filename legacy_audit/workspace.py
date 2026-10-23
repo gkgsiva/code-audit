@@ -14,7 +14,7 @@ from typing import Any
 import yaml
 
 from legacy_audit.config import INPUT_KINDS, LoadedConfig, parse_config
-from legacy_audit.inventory.components import detect_components
+from legacy_audit.inventory.components import detect_components, disk_reader
 from legacy_audit.inventory.files import skip_by_extension
 from legacy_audit.inventory.language import detect_category, detect_language
 from legacy_audit.inventory.walker import Filters, SkippedPath, anchored_excludes, walk
@@ -189,8 +189,9 @@ def set_component_choices(
 
 
 def prescan(loaded: LoadedConfig) -> dict[str, Any]:
-    """Components as a scan would detect them, from file names only (no file is read), with
-    whether each is ticked and any type override. Git sources are cloned first."""
+    """Components as a scan would detect them, from file names (only pom.xml and
+    settings.gradle are read), with whether each is ticked and any type override. Git sources
+    are cloned first."""
     from legacy_audit.scan import COPILOT_PATHS
     from legacy_audit.source import resolve_sources
 
@@ -232,7 +233,12 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
                     sha256="",
                 )
             )
-    components, file_to_comp = detect_components(records, [r.name for r in roots], cfg.components)
+    components, file_to_comp = detect_components(
+        records,
+        [r.name for r in roots],
+        cfg.components,
+        disk_reader({r.name: r.path for r in roots}),
+    )
     langs: dict[str, Counter[str]] = {c.name: Counter() for c in components}
     for rec in records:
         comp = file_to_comp.get(rec.id)
@@ -254,6 +260,8 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
                 "languages": dict(langs[c.name].most_common(6)),
                 "detected_by": c.detected_by,
                 "build_files": c.build_files,
+                "build_group": c.build_group,
+                "packaging": c.packaging,
                 # files.exclude applies inside every root, so the pattern is root-relative
                 "included": component_exclude(c.path) not in excludes,
             }

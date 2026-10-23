@@ -250,6 +250,7 @@ class _Summary:
         counts = self._component_counts()
         langs = self._languages()
         rows: list[list[Any]] = []
+        grouped = any(comp.get("build_group") for comp in comps)  # Maven / Gradle multi-module
         for comp in comps:
             m = metrics.get(comp["name"], {})
             desc, by = self.module_description(comp, counts.get(comp["name"], Counter()))
@@ -266,6 +267,7 @@ class _Summary:
                     f"{avg:.1f}" if isinstance(avg, int | float) else "",
                     comp.get("files") or 0,
                     comp.get("loc_code") or 0,
+                    *([" > ".join(comp.get("build_group") or [])] if grouped else []),
                 ]
             )
         changes = ai_changes(self.e)  # what replaces each product, from the target architecture
@@ -420,11 +422,18 @@ class _Summary:
                         "Avg. cyclomatic",
                         "Files",
                         "Lines of code",
+                        *(["Maven group"] if grouped else []),
                     ],
                     rows,
                     "Complexity is the band of the module's services and screens (weights in "
                     "audit.yaml); descriptions marked (AI) come from the Copilot analysis, the "
-                    "others from the scan.",
+                    "others from the scan."
+                    + (
+                        " Maven group: the parent / aggregator poms the module sits in (they are "
+                        "groups, not modules)."
+                        if grouped
+                        else ""
+                    ),
                 ),
             ],
             f"Description from {source}.",

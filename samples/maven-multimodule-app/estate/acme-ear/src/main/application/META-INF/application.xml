@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application>
+  <module>
+    <web>
+      <web-uri>acme-web.war</web-uri>
+      <context-root>/acme</context-root>
+    </web>
+  </module>
+</application>

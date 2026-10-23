@@ -459,3 +459,22 @@ have no target.
   Spring release lines, not a WildFly-specific path.
 - Next: Siva sets the target per application, rescans, runs `legacy-audit init` once and
   `/audit-enrich stale`.
+
+## Maven modules and batch folders (2026-10-23)
+
+Siva: multi-module Maven projects, Maven parent projects and several batches under one folder
+were not processed correctly; when a pom.xml is there, Maven should decide.
+
+- Done: Maven parents / aggregators (packaging `pom`) and Gradle roots are groups, each module a
+  component, with `build_group`, `artifact`, `packaging` on the component (decision 166); a
+  batch folder of several batches is split, its shared part never a batch (decision 167); one
+  batch per entry point when no scheduler covers it, Maven batch modules started by a script
+  count with that script (decision 168, Siva's choice). New sample `maven-multimodule-app`,
+  `spring-mvc-batch-app` loses its "billing" parent component, VS Code task 31
+  (`scripts/show_components.py` now prints the module tree and the batch entry points).
+- Known gaps: a module listed in a pom but missing from the source is not reported as a gap;
+  Gradle `projectDir` is read only in the simple `file('x')` form; `ear` modules do not list
+  the modules they bundle; batch folders inside an application folder (next to `src/`) are not
+  split (their entry points still count one by one).
+- Next: Siva runs it on a real multi-module estate and checks the module tree and the count.
+
