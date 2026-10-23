@@ -110,6 +110,13 @@ class Component(Fact):
     loc_code: int = 0
     entry_points: list[str] = Field(default_factory=list)
     detected_by: str = Field(description="build-file, folder, root, config or override")
+    build_group: list[str] = Field(
+        default_factory=list,
+        description="Maven parent / aggregator poms or Gradle root projects the module sits in, "
+        "outermost first (``[acme-parent, acme-batches]``); they are groups, not components",
+    )
+    artifact: str | None = Field(None, description="Maven artifactId or Gradle project name")
+    packaging: str | None = Field(None, description="Maven packaging (jar, war, ear, ...)")
 
 
 class EntryPoint(Fact):

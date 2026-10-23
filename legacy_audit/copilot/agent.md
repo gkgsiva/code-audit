@@ -61,10 +61,13 @@ facts; you interpret them. You never count.
   one row each with its operations), dependencies, batch_jobs, libraries, tech_stack,
   findings, metrics, input_coverage. Every row has an `id` and `evidence`.
 - Batches: `counts.batch_jobs.total` = `scheduled` (rows of `batch_jobs.json`, the jobs a
-  scheduler definition starts) + `unscheduled` (batch components no scheduler definition
-  starts, named in `audit-summary.json > unscheduled_batches`). So `batch_jobs.json` can be
-  empty while the total is not: that is not a conflict. Each unscheduled batch is documented
-  with `job_id` = its component id (`legacy-audit facts batch_jobs` lists them).
+  scheduler definition starts) + `unscheduled` (batch work no scheduler definition starts:
+  one per entry point of a batch component, listed in `audit-summary.json >
+  unscheduled_batch_entries`; a component with no entry point found is one batch). So
+  `batch_jobs.json` can be empty while the total is not: that is not a conflict. Document
+  each unscheduled batch with `job_id` = its entry point's id when its component has several
+  (`file:`, `entry:` or `service:`), else its component id (`legacy-audit facts batch_jobs`
+  lists them).
 - `audit-output/latest/data/effort.json`: effort ranges (an estimate from configured weights).
 - `audit-output/latest/run.json`: input coverage, unresolved references, overrides applied.
 - `audit-output/latest/enrichment/status.json`: which stages exist and which are stale.

@@ -361,7 +361,7 @@
   // ---------------------------------------------------------------- 3. components
   var TYPES = ["web", "frontend", "api", "desktop", "batch", "online-mainframe", "cft", "script", "config", "report", "library", "db", "unknown"];
   function screenComponents(node) {
-    add(node, heading("Components", "Detected from build files and folders without reading any file; the type is the last scan's when there is one. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
+    add(node, heading("Components", "Detected from build files and folders (only pom.xml and settings.gradle are read, so a Maven parent or aggregator is a group of modules, not a component); the type is the last scan's when there is one. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
     if (needConfig(node)) return;
     var host = el("div", null, [el("p", { class: "muted", text: "Pre-scanning…" })]);
     node.appendChild(host);
@@ -382,6 +382,7 @@
           sel.value = c.type_override || ""; types[c.name] = sel; return sel; } },
         { key: "files", label: "Files", num: true },
         { label: "Languages", value: function (c) { return Object.keys(c.languages).map(function (l) { return l + " " + c.languages[l]; }).join(", "); } },
+        { label: "Maven group", value: function (c) { return (c.build_group || []).join(" > ") + (c.packaging ? (c.build_group && c.build_group.length ? " · " : "") + c.packaging : ""); } },
         { key: "detected_by", label: "Detected by" }
       ], rows));
       if (data.skipped && data.skipped.length) {

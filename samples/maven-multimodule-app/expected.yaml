@@ -1,0 +1,129 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# What it pins down (decisions 166-168):
+# - the top pom.xml (acme-parent) and batches/pom.xml (acme-batches) have packaging pom: they
+#   are groups, not components; each module they list is a component (acme-tools only through
+#   the "tools" profile), and build_groups gives the parent chain of each;
+# - acme-web is war (web), acme-ear is ear (its application.xml makes it config);
+# - beside the modules, config/ is a config component and scripts/ a batch component; the
+#   parent poms and README.md belong to no component (29 files, 26 in components);
+# - ops/ only wraps ops/batch/, a batch folder holding several batches: purge, archive and eod
+#   are batch components, and what they share (common/functions.ksh, env.properties) is the
+#   component "batch" (detected_by batch-shared, type script, never a batch itself);
+# - one batch per entry point: scripts/ has 2 (run_billing.ksh, run_report.ksh), eod 2, purge
+#   and archive 1 each, so the batch count is 6 with no scheduler export. billing-batch and
+#   report-batch are started by the scripts (their mains are steps), so they are not counted.
+inventory:
+  files: 29
+  input_files: 0
+  loc: {code: 228, comment: 26, blank: 13}
+  by_language:
+    java: {files: 5, code: 53, comment: 5, blank: 12}
+    jsp: {files: 1, code: 6, comment: 0, blank: 0}
+    markdown: {files: 1, code: 0, comment: 2, blank: 1}
+    properties: {files: 2, code: 3, comment: 2, blank: 0}
+    shell: {files: 7, code: 13, comment: 14, blank: 0}
+    sql: {files: 3, code: 5, comment: 3, blank: 0}
+    xml: {files: 10, code: 148, comment: 0, blank: 0}
+  by_category: {build: 8, config: 4, doc: 1, screen: 1, script: 7, source: 5, sql: 3}
+components:
+- {name: acme-core, type: library, files: 2, detected_by: build-file}
+- {name: acme-ear, type: config, files: 2, detected_by: build-file}
+- {name: acme-tools, type: library, files: 2, detected_by: build-file}
+- {name: acme-web, type: web, files: 4, detected_by: build-file}
+- {name: archive, type: batch, files: 1, detected_by: folder}
+- {name: batch, type: script, files: 2, detected_by: batch-shared}
+- {name: billing-batch, type: batch, files: 2, detected_by: build-file}
+- {name: config, type: config, files: 1, detected_by: folder}
+- {name: eod, type: batch, files: 4, detected_by: folder}
+- {name: purge, type: batch, files: 2, detected_by: folder}
+- {name: report-batch, type: batch, files: 2, detected_by: build-file}
+- {name: scripts, type: batch, files: 2, detected_by: folder}
+component_roles:
+  acme-core: [library]
+  acme-ear: [config]
+  acme-tools: [library]
+  acme-web: [web]
+  archive: [batch]
+  batch: [script]
+  billing-batch: [batch]
+  config: [config]
+  eod: [batch, db]
+  purge: [batch, db]
+  report-batch: [batch]
+  scripts: [batch]
+build_groups:
+  acme-core: [acme-parent]
+  acme-ear: [acme-parent]
+  acme-tools: [acme-parent]
+  acme-web: [acme-parent]
+  archive: [acme-parent]
+  batch: [acme-parent]
+  billing-batch: [acme-parent, acme-batches]
+  config: [acme-parent]
+  eod: [acme-parent]
+  purge: [acme-parent]
+  report-batch: [acme-parent, acme-batches]
+  scripts: [acme-parent]
+unscheduled_batches: [archive, eod, purge, scripts]
+unscheduled_batch_entries:
+  archive: [archive.ksh]
+  eod: [run_eod.ksh, run_eod_report.ksh]
+  purge: [purge.ksh]
+  scripts: [run_billing.ksh, run_report.ksh]
+coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
+  security: missing}
+counts:
+  services:
+    total: 1
+    by_kind: {servlet: 1}
+  screens:
+    total: 1
+    partials: 0
+    by_technology: {jsp: 1}
+  sql:
+    total: 4
+    distinct: 4
+    by_type: {DELETE: 1, SELECT: 2, UPDATE: 1}
+    by_source: {jdbc: 1, sql-file: 3}
+    dynamic: 0
+    not_parsed: 0
+  stored_procedures: 0
+  db_objects: {table: 4}
+  integrations:
+    total: 1
+    by_type: {DB: 1}
+  web_services:
+    total: 0
+    offered: 0
+    called: 0
+    by_style: {}
+    operations: 0
+  batch_jobs:
+    total: 6
+    scheduled: 0
+    unscheduled: 6
+    boxes: 0
+    by_scheduler: {}
+  libraries: {total: 0, declared: 0, undeclared: 0}
+  entry_points: {main: 2}
+  dependencies: {resolved: 8, unresolved: 0}
+  findings: {dead-code-candidate: 2, eol-technology: 1, no-tests: 10}
+services: ['servlet: customer']
+screens: [acme-web/src/main/webapp/customer.jsp]
+integrations: ['DB oracle://dbhost:1521/ACME [outbound]']
+batch_jobs: []
+unresolved_references: 0
+assessment:
+  findings_by_severity: {info: 2, low: 10, medium: 1}
+  pg_grades: {auto: 2, review: 2}
+  complexity:
+    services: {Simple: 1}
+    screens: {Simple: 1}
+    batch_jobs: {}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 0
+  recommendations: {}
+

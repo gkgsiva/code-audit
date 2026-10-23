@@ -2,9 +2,11 @@
 
     python scripts/show_components.py samples/legacy-layout-app
 
-Prints one line per component (type, the other kinds of work it holds, what it is made of,
-its folder), the folders and files left out as build output, and the batch count split into
-scheduled jobs and batch components no scheduler definition covers. Writes to the sample's
+Prints the Maven / Gradle module tree (parents and aggregators are groups, not components),
+one line per component (type, the other kinds of work it holds, what it is made of, its
+folder), the folders and files left out as build output, and the batch count split into
+scheduled jobs and batches with no schedule found: one per entry point (top-level script,
+program or Java main) of a batch component. Writes to the sample's
 own ``audit-output/`` like ``legacy-audit scan``.
 """
 
@@ -36,6 +38,18 @@ def main(argv: list[str]) -> int:
         made = ", ".join(f"{k} {v}" for k, v in c.composition.items())  # type: ignore[attr-defined]
         folder = c.path or "(root)"  # type: ignore[attr-defined]
         print(f"  {c.name:<22} {c.type:<17} {also:<22} {made:<44} {folder}")  # type: ignore[attr-defined]
+    grouped = [c for c in comps if c.build_group]  # type: ignore[attr-defined]
+    if grouped:
+        print("\nMaven / Gradle modules (a parent or aggregator pom is a group, not a component):")
+        shown: set[tuple[str, ...]] = set()
+        for c in sorted(grouped, key=lambda c: (c.build_group, c.path)):  # type: ignore[attr-defined]
+            chain = tuple(c.build_group)  # type: ignore[attr-defined]
+            for n in range(1, len(chain) + 1):
+                if chain[:n] not in shown:
+                    shown.add(chain[:n])
+                    print(f"  {'  ' * (n - 1)}{chain[n - 1]} (group)")
+            pack = f" [{c.packaging}]" if c.packaging else ""  # type: ignore[attr-defined]
+            print(f"  {'  ' * len(chain)}{c.name}{pack} -> {c.type}")  # type: ignore[attr-defined]
     left = [f for f in result.facts.get("findings", []) if f.rule_id == "build-output-skipped"]  # type: ignore[attr-defined]
     print(f"\nLeft out as build output or generated ({len(left)}):")
     for f in left:
@@ -46,6 +60,13 @@ def main(argv: list[str]) -> int:
         f"{jobs['unscheduled']} with no schedule found "
         f"({', '.join(summary['unscheduled_batches']) or 'none'})"
     )
+    for comp, items in (summary.get("unscheduled_batch_entries") or {}).items():
+        if not items:
+            print(f"  {comp}: 1 batch (no entry script or program found)")
+            continue
+        print(f"  {comp}: {len(items)} batch(es)")
+        for i in items:
+            print(f"    - {i['name']} ({i['kind']}, {i['file']})")
     return 0
 
 

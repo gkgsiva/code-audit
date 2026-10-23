@@ -55,6 +55,17 @@ def test_sample_counts(sample: Path, tmp_path: Path, monkeypatch: pytest.MonkeyP
         assert roles == expected["component_roles"]
     if "unscheduled_batches" in expected:  # batch components no scheduler definition covers
         assert summary["unscheduled_batches"] == expected["unscheduled_batches"]
+    if "unscheduled_batch_entries" in expected:  # one batch per entry point (decision 168)
+        assert {
+            comp: [i["name"] for i in items]
+            for comp, items in summary["unscheduled_batch_entries"].items()
+        } == expected["unscheduled_batch_entries"]
+    if "build_groups" in expected:  # Maven parents / aggregators each module sits in
+        assert {
+            c.name: c.build_group  # type: ignore[attr-defined]
+            for c in result.facts["components"]
+            if c.build_group  # type: ignore[attr-defined]
+        } == expected["build_groups"]
     assert {c.kind: c.status for c in result.run.coverage} == expected["coverage"]
 
     # Phase 2: headline counts and the named services, screens, integrations and jobs.

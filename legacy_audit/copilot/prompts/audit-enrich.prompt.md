@@ -94,7 +94,7 @@ took from it). On a large estate do it one component at a time with
 - [ ] `web_services.json` (operations, callers) and the code of each operation it offers
 - [ ] `sql_statements.json` and `db_objects.json` (CRUD per table)
 - [ ] `batch_jobs.json` (scheduled jobs only: boxes, conditions, schedules, `on_failure`;
-      `counts.batch_jobs.total` adds the batch components in `unscheduled_batches`, so an
+      `counts.batch_jobs.total` adds the entry points in `unscheduled_batch_entries`, so an
       empty `batch_jobs.json` with a non-zero total is expected) and the `runs` /
       `invokes` / `triggers` edges; scripts and batch programs that no job runs (they are
       batches too when the scheduler export is missing)
@@ -112,12 +112,14 @@ For `functional`:
   are business rules, cited by line.
 - `batches`: one entry per batch on the **Flows** page of the technical report: an Autosys
   box, a job that is not in a box (cron, JCL, Spring Batch), and also batch work that no
-  scheduler definition starts (marked "no schedule found": one per batch component, whose
-  ksh scripts, programs and Java mains are its entry points, not batches of their own; and
+  scheduler definition starts (marked "no schedule found": one per entry point of a batch
+  component, that is a top-level ksh script, a program or a Java main no script starts, and
+  what it runs are its steps; a component with one entry point is one batch; and
   message listeners and Windows services). Jobs started by Windows Task Scheduler, Hangfire,
   Quartz.NET or node-cron are scheduled jobs like Autosys ones; the flow page lists the code
   they run. `job_id` is the flow's id: the box's or job's `batch_job:` id, the
-  batch component's `component:` id, a program outside any component's `service:` id or the
+  batch component's `component:` id (or, when it has several entry points, the entry
+  point's `file:`, `entry:` or `service:` id), a program outside any component's `service:` id or the
   listener's `entry:` id.
   Say why it exists, when it runs in business words (when no schedule was found, say so and
   give what the code or its comments suggest, as an assumption), its steps (citing job,
