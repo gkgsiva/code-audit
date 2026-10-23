@@ -16,6 +16,8 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   at `pdf.max_table_rows` with a note. No browser: the PDFs are skipped with a message.
 - New dependency `pypdf`; `legacy-audit doctor` shows the browser; VS Code task 32
   (`scripts/show_pdfs.py`).
+- Wide tables print whole: no more columns cut at the page edge; very wide tables (the
+  technical report's SQL lists) move to landscape pages.
 
 ### Web services, REST and SOAP (2026-10-21)
 
