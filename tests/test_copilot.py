@@ -85,3 +85,24 @@ def test_layouts(tmp_path: Path) -> None:
     assert assets("none") == {}
     res = CliRunner().invoke(app, ["init", str(tmp_path), "--copilot-layout", "nope"])
     assert res.exit_code == 1
+
+
+def test_front_matter_is_valid_yaml() -> None:
+    """VS Code drops an agent or prompt file whose front-matter does not parse; a plain value
+    holding ": " (as in "Enrich the scan facts: all stages") is invalid YAML."""
+    import yaml
+
+    for layout in ("agents", "chatmodes"):
+        for rel, text in assets(layout, model="GPT-5 (copilot)").items():
+            if not rel.endswith(".md") or not text.startswith("---\n"):
+                continue
+            head = yaml.safe_load(text.split("---\n")[1])
+            assert isinstance(head, dict) and head["description"], rel
+    agent_md = assets("agents")[".github/agents/legacy-auditor.agent.md"]
+    agent = yaml.safe_load(agent_md.split("---\n")[1])
+    assert agent["description"].startswith("Audits this legacy application with legacy-audit: ")
+    enrich = assets("agents")[".github/prompts/audit-enrich.prompt.md"].split("---\n")[1]
+    assert yaml.safe_load(enrich) == {
+        "agent": "legacy-auditor",
+        "description": "Enrich the scan facts: all stages, stale stages, or one stage",
+    }

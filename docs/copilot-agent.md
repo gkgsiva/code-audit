@@ -36,6 +36,20 @@ documentation and checked by tests for shape, not run inside VS Code from the bu
 Front-matter is kept to `description` and `tools`: if Copilot reports an unknown tool name, delete
 the `tools:` line and the agent gets every tool.
 
+**The agent or the `/audit-*` prompts do not show in Copilot Chat.**
+
+1. VS Code must have the audit folder itself open (File > Open Folder: the folder that holds
+   `audit.yaml` and `.github/`), not a folder above it. On WSL2, open it with `code .` from that
+   folder, so the window says `WSL: Ubuntu` at the bottom left.
+2. Run `legacy-audit init` in that folder after every pull: it refreshes the files. A line
+   "kept your edits" means you changed a file; compare it with the `.new` file next to it and
+   keep the new one.
+3. Reload the window (Ctrl+Shift+P, **Developer: Reload Window**), open Copilot Chat in
+   **Agent** mode and type `/audit`: the four prompts are listed, and **legacy-auditor** is in
+   the agent list.
+4. Still missing: open `.github/prompts/audit-enrich.prompt.md`; a red or yellow mark on its
+   header names the problem (Problems panel, Ctrl+Shift+M).
+
 ## Run the enrichment
 
 1. Open the workspace in VS Code, open Copilot Chat and pick the **legacy-auditor** agent.
