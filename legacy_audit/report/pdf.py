@@ -448,17 +448,28 @@ def parts_for(key: str, folder: Path, cfg: PdfConfig) -> list[Part]:
     return out
 
 
+# Contents entries link here; the link is turned into a jump to that page of the PDF (_link).
+GOTO = "https://legacy-audit.invalid/goto/"
+
+
 def _cover_html(
-    app: str, kind: str, run: dict[str, Any], parts: list[Part], offset: int, cfg: PdfConfig
+    app: str,
+    kind: str,
+    run: dict[str, Any],
+    entries: list[tuple[str, int, int | None]],
+    cfg: PdfConfig,
 ) -> str:
-    rows, n = [], offset + 1
-    for p in parts:
-        cls = "sub" if p.level else "main"
-        num = str(n) if p.pages else "not printed"
-        rows.append(
-            f'<li class="{cls}"><span>{html.escape(p.title)}</span><i></i><b>{num}</b></li>'
-        )
-        n += p.pages
+    """Cover with the contents; ``entries`` are (title, level, page number or None)."""
+    rows = []
+    for title, level, num in entries:
+        cls, text = ("sub" if level else "main"), html.escape(title)
+        if num is None:
+            rows.append(f'<li class="{cls}"><span>{text}</span><i></i><b>not printed</b></li>')
+        else:
+            rows.append(
+                f'<li class="{cls}"><a href="{GOTO}{num - 1}"><span>{text}</span><i></i>'
+                f"<b>{num}</b></a></li>"
+            )
     date = html.escape((run.get("started_at") or "")[:16].replace("T", " "))
     return f"""<!doctype html><html><head><meta charset="utf-8"><title>{html.escape(kind)}</title>
 <style>{page_css(cfg)}
@@ -473,6 +484,8 @@ ol {{ list-style: none; padding: 0; margin: 0; font-size: 12.5px; }}
 li {{ display: flex; align-items: baseline; gap: 6px; padding: 2px 0; break-inside: avoid; }}
 li.main {{ font-weight: 600; margin-top: 4px; }}
 li.sub {{ padding-left: 18px; color: #3b4652; font-size: 11.5px; }}
+li a {{ display: flex; flex: 1; align-items: baseline; gap: 6px; color: inherit;
+  text-decoration: none; }}
 li i {{ flex: 1; border-bottom: 1px dotted #9aa5b1; }}
 </style></head><body>
 <div class="kind">{html.escape(kind)}</div>
@@ -481,6 +494,65 @@ li i {{ flex: 1; border-bottom: 1px dotted #9aa5b1; }}
 {html.escape(str(run.get("tool_version", "")))}. Every number comes from the scan; text marked
 AI was written by the Copilot analysis and checked against it.</div>
 <h2>Contents</h2><ol>{"".join(rows)}</ol></body></html>"""
+
+
+def _entries(parts: list[Part], offset: int) -> list[tuple[str, int, int | None]]:
+    out: list[tuple[str, int, int | None]] = []
+    n = offset + 1
+    for p in parts:
+        out.append((p.title, p.level, n if p.pages else None))
+        n += p.pages
+    return out
+
+
+def _cover(
+    printer: Printer,
+    app: str,
+    kind: str,
+    run: dict[str, Any],
+    entries_at: Any,
+    work: Path,
+    name: str,
+) -> tuple[Path, int]:
+    """Print the cover; the contents can run over a page, so reprint until the numbers hold."""
+    pages = 1
+    for _ in range(3):
+        cover = _render_html(
+            printer, _cover_html(app, kind, run, entries_at(pages), printer.cfg), work, name
+        )
+        n = _page_count(cover)
+        if n == pages:
+            break
+        pages = n
+    return cover, pages
+
+
+def _link(writer: Any, targets: dict[str, int]) -> None:
+    """Turn links to a contents entry (GOTO) or to a page printed in this PDF (``targets``:
+    file URL -> first page) into jumps inside the PDF."""
+    from pypdf.generic import ArrayObject, DictionaryObject, NameObject
+
+    for page in writer.pages:
+        for ref in page.get("/Annots") or []:
+            annot = ref.get_object()
+            action = annot.get("/A")
+            if not action or action.get("/S") != "/URI":
+                continue
+            uri = str(action.get("/URI"))
+            if uri.startswith(GOTO):
+                index: int | None = int(uri[len(GOTO) :])
+            else:
+                index = targets.get(uri.split("#")[0])
+            if index is None or index >= len(writer.pages):
+                continue
+            annot[NameObject("/A")] = DictionaryObject(
+                {
+                    NameObject("/S"): NameObject("/GoTo"),
+                    NameObject("/D"): ArrayObject(
+                        [writer.pages[index].indirect_reference, NameObject("/Fit")]
+                    ),
+                }
+            )
 
 
 def _numbers_html(sizes: list[tuple[float, float]], label: str, first: int) -> str:
@@ -564,28 +636,24 @@ def join_report(
     if not any(p.pages for p in parts):
         return problems or [f"{kind}: nothing printed"]
 
-    cover_pages = 1
-    for _ in range(3):  # the contents can run over a page; reprint until the numbers hold
-        cover = _render_html(
-            printer, _cover_html(app, kind, run, parts, cover_pages, cfg), work, f"{key}-cover"
-        )
-        n = _page_count(cover)
-        if n == cover_pages:
-            break
-        cover_pages = n
+    cover, cover_pages = _cover(
+        printer, app, kind, run, lambda n: _entries(parts, n), work, f"{key}-cover"
+    )
 
     writer = PdfWriter()
     writer.append(PdfReader(cover))
-    parent = None
+    parent, targets = None, {}
     for p in parts:
         if not p.pages or p.pdf is None:
             continue
         start = len(writer.pages)
         writer.append(PdfReader(p.pdf))
+        targets[printer._url(p.page)] = start
         if p.level == 0:
             parent = writer.add_outline_item(p.title, start)
         else:
             writer.add_outline_item(p.title, start, parent=parent)
+    _link(writer, targets)
     overlay = PdfReader(
         _render_html(
             printer,
@@ -614,24 +682,66 @@ def _shrink(writer: Any) -> None:
     writer.compress_identical_objects()
 
 
+_SECTION = re.compile(r'<section[^>]*\bid="([\w-]+)"[^>]*>\s*<h2[^>]*>(.*?)</h2>', re.S | re.I)
+
+
+def _sections(page: Path, reader: Any) -> list[tuple[str, int]]:
+    """(title, page index) of each numbered part of the summary report, from its anchors."""
+    out = []
+    dests = reader.named_destinations
+    for anchor, raw in _SECTION.findall(page.read_text(encoding="utf-8")):
+        dest = dests.get(f"/{anchor}") or dests.get(anchor)
+        if dest is None:
+            continue
+        title = re.sub(r"\s+", " ", html.unescape(_TAG.sub(" ", raw))).strip()
+        out.append((title, reader.get_destination_page_number(dest)))
+    return out
+
+
 def single_report(
-    printer: Printer, key: str, page: Path, dest: Path, work: Path, app: str
+    printer: Printer,
+    key: str,
+    page: Path,
+    dest: Path,
+    work: Path,
+    app: str,
+    run: dict[str, Any] | None = None,
 ) -> list[str]:
     """Summary report and management deck: one HTML page, one PDF."""
     from pypdf import PdfReader, PdfWriter
 
-    kind = REPORTS[key][2]
+    kind, run = REPORTS[key][2], run or {}
     raw = work / f"{key}.pdf"
     try:
         printer.print_page(page, raw, deck=key == "mgmt")
     except PdfError as err:
         return [f"{kind}: {err}"]
-    writer = PdfWriter(clone_from=PdfReader(raw))
+    reader = PdfReader(raw)
+    writer = PdfWriter(clone_from=reader)
+    first = 1
+    sections = _sections(page, reader) if key == "summary" else []
+    if sections:  # a cover with the contents, and bookmarks, for the five parts
+        cover, first = _cover(
+            printer,
+            app,
+            kind,
+            run,
+            lambda n: [(t, 0, at + n + 1) for t, at in sections],
+            work,
+            f"{key}-cover",
+        )
+        for i, cp in enumerate(PdfReader(cover).pages):
+            writer.insert_page(cp, i)
+        for title, at in sections:
+            writer.add_outline_item(title, at + first)
+        _link(writer, {})
+        writer.page_mode = "/UseOutlines"
+        first += 1
     if key != "mgmt":  # the slides carry their own numbers
         overlay = PdfReader(
             _render_html(
                 printer,
-                _numbers_html(_sizes(writer), f"{app} · {kind}", 1),
+                _numbers_html(_sizes(writer), f"{app} · {kind}", first),
                 work,
                 f"{key}-n",
             )
@@ -681,7 +791,7 @@ def build_pdfs(
             dest = out / file_name
             dest.unlink(missing_ok=True)
             if key in ("summary", "mgmt"):
-                problems = single_report(printer, key, folder / "index.html", dest, work, app)
+                problems = single_report(printer, key, folder / "index.html", dest, work, app, run)
             else:
                 problems = join_report(printer, key, folder, dest, work, run, app)
             result.messages += problems
