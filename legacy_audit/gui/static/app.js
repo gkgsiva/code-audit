@@ -689,14 +689,14 @@
 
   // ---------------------------------------------------------------- 8. reports
   function screenReports(node) {
-    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint is built on the corporate template you pick below."));
+    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint is built on the corporate template you pick below. PDFs are printed by Microsoft Edge or Chrome on this computer."));
     if (needConfig(node) || needRun(node)) return;
     var run = currentRun();
     var running = state.job && state.job.state === "running";
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("reports", v); })])]));
     var tplHost = el("fieldset", { class: "templates" }, [el("legend", { text: "PowerPoint template" })]);
     node.appendChild(tplHost);
-    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["summary", "Build summary report"], ["all", "Build all"]].map(function (b) {
+    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["summary", "Build summary report"], ["pdf", "Build PDFs"], ["all", "Build all"]].map(function (b) {
       return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0], template: chosenTemplate() })); } });
     })));
     drawTemplates(tplHost);
@@ -704,7 +704,8 @@
     node.appendChild(host);
     jobListeners = [function (ev) { if (ev.type === "end" && ev.result && ev.result.messages) ev.result.messages.forEach(function (m) { toast(m, !/written/.test(m)); }); }];
     api("GET", "/api/runs/" + run + "/reports").then(function (d) {
-      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : ""), summary: "Summary report (HTML)", summary_pptx: "Summary PowerPoint (PPTX)" };
+      var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : ""), summary: "Summary report (HTML)", summary_pptx: "Summary PowerPoint (PPTX)",
+        pdf_summary: "Summary report (PDF)", pdf_mgmt: "Management deck (PDF)", pdf_functional: "Functional document (PDF)", pdf_tech: "Technical report (PDF)" };
       host.appendChild(table([
         { label: "Report", value: function (r) { return names[r.k]; } },
         { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: /pptx$/.test(r.k) ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }

@@ -439,3 +439,19 @@ Copilot stopped before the functional stages: `batch_jobs.json` was empty while
 - Done: `facts batch_jobs` / MCP `query_facts` explain the difference and list the unscheduled
   batches with their component ids; agent rules and `/audit-enrich` updated (decision 160).
 - Next: Siva runs `legacy-audit init` in the audit folder to refresh the agent files.
+
+## PDF copies of the reports (2026-10-23)
+
+Siva asked for PDF versions of the reports and confirmed all four, on A4.
+
+- Done: `legacy-audit report --type pdf` (and `--type all`) writes `reports/pdf/summary.pdf`,
+  `management.pdf`, `functional.pdf` and `technical.pdf`, printed by Edge, Chrome or Chromium
+  in headless mode, offline; the long reports get a cover with contents, bookmarks and page
+  numbers (`legacy_audit/report/pdf.py`, `pypdf`). `pdf:` section in `audit.yaml`, GUI
+  **Build PDFs** button and PDF links, `doctor` browser check, VS Code task 32
+  (`scripts/show_pdfs.py`), `tests/test_pdf.py`, decisions 169-172.
+- Known gaps: printing a Windows Edge from WSL2 (paths as `\\wsl.localhost\...`) is covered by
+  tests of the command but not yet tried on a real laptop; a Linux Chrome/Chromium inside WSL2
+  is the fallback. The editable PowerPoint is not converted to PDF (the management deck PDF
+  holds the same slides).
+- Next: Siva runs task 32 on Windows and on WSL2.

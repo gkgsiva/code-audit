@@ -124,6 +124,16 @@ branding:
   font: "Segoe UI, Arial, sans-serif"
   pptx_template: null           # null: the first template (Blue); or blue, orange, purple, a .potx path
 
+# PDF copies of the reports (legacy-audit report --type pdf). Printed by Microsoft Edge, Chrome
+# or Chromium in the background, offline; without a browser the PDFs are skipped with a message.
+pdf:
+  enabled: true
+  browser_path: null             # null: find Edge / Chrome / Chromium (on WSL also Windows Edge)
+  paper: A4                      # A4 or Letter
+  max_table_rows: 500            # rows printed per table; full lists stay in the HTML and CSVs
+  detail_pages: true             # add each component and flow page to the long PDFs
+  timeout_seconds: 180           # per page
+
 inventory:
   include_binaries: false        # images/objects/executables; jar/war/ear/zip are always listed
   max_file_size_mb: 20           # larger files are hashed but not read

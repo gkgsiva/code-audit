@@ -104,7 +104,7 @@ var CHARTS = {{ charts | tojson }};
         type: ring ? "doughnut" : "bar",
         data: { labels: c.labels, datasets: [{ label: c.unit || "", data: c.values, backgroundColor: c.colors, borderWidth: ring ? 2 : 0, borderColor: css.getPropertyValue("--surface2").trim() }] },
         options: {
-          maintainAspectRatio: false, indexAxis: hbar ? "y" : "x",
+          maintainAspectRatio: false, animation: false, indexAxis: hbar ? "y" : "x",
           plugins: { legend: { display: ring, position: "right" } },
           scales: ring ? {} : { x: { grid: { color: grid }, ticks: { precision: 0 }, beginAtZero: true }, y: { grid: { color: grid }, ticks: { precision: 0 }, beginAtZero: true } }
         }

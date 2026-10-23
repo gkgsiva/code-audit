@@ -333,6 +333,23 @@ class Branding(Strict):
     )
 
 
+class PdfConfig(Strict):
+    enabled: bool = Field(
+        True, description="Write PDF copies of the reports when a browser is found"
+    )
+    browser_path: str | None = Field(
+        None, description="Edge, Chrome or Chromium program; found automatically when empty"
+    )
+    paper: Literal["A4", "Letter"] = "A4"
+    max_table_rows: int = Field(
+        500, ge=10, description="Rows printed per table; the full lists stay in the HTML and CSV"
+    )
+    detail_pages: bool = Field(
+        True, description="Add each component and flow page to the technical/functional PDFs"
+    )
+    timeout_seconds: int = Field(180, ge=10, description="Per page printed")
+
+
 class InventoryConfig(Strict):
     include_binaries: bool = Field(
         False,
@@ -434,6 +451,7 @@ class AuditConfig(Strict):
     complexity: ComplexityConfig = Field(default_factory=ComplexityConfig)
     rules: RulesConfig = Field(default_factory=RulesConfig)
     branding: Branding = Field(default_factory=Branding)
+    pdf: PdfConfig = Field(default_factory=PdfConfig)
     inventory: InventoryConfig = Field(default_factory=InventoryConfig)
     sql: SqlConfig = Field(default_factory=SqlConfig)
     cobol: CobolConfig = Field(default_factory=CobolConfig)

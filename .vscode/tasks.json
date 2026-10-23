@@ -299,6 +299,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_enrichment_coverage.py samples\\desktop-dotnet-app samples\\angular-node-app --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 32. PDF copies of the reports (sample app)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_pdfs.py samples/${input:sample} --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_pdfs.py samples\\${input:sample} --open"
+      },
+      "problemMatcher": []
     }
   ]
 }

@@ -726,3 +726,35 @@ Same on Windows and WSL2 (`python3` on WSL2).
 3. **In your audit folder**: after pulling, run `legacy-audit init` once (without `--force`; it
    keeps `audit.yaml`) so Copilot gets the updated agent rules, then `/audit-enrich stale`.
    Copilot documents each unscheduled batch with its component id instead of stopping.
+
+## PDF copies of the reports
+
+Needs Microsoft Edge or Google Chrome (Edge is on every Windows laptop). After pulling, run
+`pip install -e .` once (task `audit: 1.` does it): the new package `pypdf` joins the pages.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_pdf.py`. Its last
+   test prints real PDFs with the browser it finds (skipped, not failed, when there is none).
+2. Run `audit: 32. PDF copies of the reports (sample app)` and pick `struts-oracle-app`. The
+   terminal names the browser (on Windows: `Microsoft Edge at C:\Program Files (x86)\...`)
+   and lists four PDFs with their pages and paper size: summary, technical and functional on
+   A4 (210 x 297 mm), the management deck on wide 16:9 pages. The summary PDF opens.
+3. Check the PDFs (in File Explorer, `audit-output\latest\reports\pdf\`):
+   - `summary.pdf`: the five parts with their charts drawn, no buttons or search boxes,
+     "Page 1 of N" at the bottom right.
+   - `technical.pdf`: page 1 is a cover with **Contents** and page numbers; the bookmarks panel
+     lists Overview, Components (with each component under it), Architecture, Flows (with each
+     flow), ... Appendix; diagrams fit the page width.
+   - `management.pdf`: one slide per page, no slider controls.
+4. In the app (`audit: 3.` or `legacy-audit serve`), **8. Reports > Build PDFs**: when it is
+   done, the four *(PDF)* lines have an **Open** button that shows the PDF in the browser.
+5. Run `legacy-audit doctor`: the line **Browser for PDFs** names the browser that will be used.
+6. No browser: set `pdf: browser_path: C:\nowhere\msedge.exe` in the sample's `audit.yaml`
+   and run `legacy-audit report --type all`: every other report is built, and a yellow line
+   says "PDF skipped: the browser in pdf.browser_path was not found ...". Undo the change.
+
+**WSL2** (`python3`, tasks run the Linux commands): step 2 uses a Chrome or Chromium installed
+in Ubuntu when there is one, otherwise the Windows Edge (`/mnt/c/Program Files (x86)/Microsoft/
+Edge/Application/msedge.exe`, "started from WSL"). If the Windows Edge writes no PDF, install
+Chromium in Ubuntu (`sudo apt install chromium-browser`) or set `pdf.browser_path` to a Linux
+browser, and run the task again. Open the PDFs from the app (step 4) or copy them to Windows:
+`cp samples/struts-oracle-app/audit-output/latest/reports/pdf/*.pdf /mnt/c/Users/<you>/Desktop/`.

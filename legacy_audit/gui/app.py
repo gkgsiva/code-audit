@@ -49,7 +49,7 @@ SAFE_NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._ -]{0,120}$")
 UPLOAD_KINDS = {**INPUT_KINDS, "security": "Vulnerability reports (JSON)"}
 MAX_UPLOAD = 200 * 1024 * 1024
 DIFF_LIST = 200
-REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "pdf", "all")
 FIELDS = ("application", "source", "target", "include", "exclude")
 
 
@@ -690,6 +690,10 @@ def create_app(
             "pptx": "deck.pptx",
             "summary": "summary/index.html",
             "summary_pptx": "summary/summary.pptx",
+            "pdf_summary": "pdf/summary.pdf",
+            "pdf_mgmt": "pdf/management.pdf",
+            "pdf_functional": "pdf/functional.pdf",
+            "pdf_tech": "pdf/technical.pdf",
         }
         deck = _read_json(rd / "mgmt" / "deck.json") or {}
         used = deck.get("pptx_template") or {}
@@ -757,16 +761,16 @@ def create_app(
 
         def work(job: Job) -> dict[str, Any]:
             out: dict[str, Any] = {"run_id": run_dir.name, "messages": []}
-            if body.type in ("tech", "all"):
+            if body.type in ("tech", "pdf", "all"):
                 job.emit("progress", stage="technical report", n=0, total=0)
                 build_tech_report(run_dir, loaded.inputs_dir)
-            if body.type in ("functional", "all"):
+            if body.type in ("functional", "pdf", "all"):
                 job.emit("progress", stage="functional document", n=0, total=0)
                 build_functional_report(run_dir, loaded.inputs_dir)
-            if body.type in ("mgmt", "all"):
+            if body.type in ("mgmt", "pdf", "all"):
                 job.emit("progress", stage="management deck", n=0, total=0)
                 build_mgmt_report(run_dir, branding, config_dir)
-            if body.type in ("summary", "all"):
+            if body.type in ("summary", "pdf", "all"):
                 from legacy_audit.report.summary import build_summary_report
 
                 job.emit("progress", stage="summary report", n=0, total=0)
@@ -776,6 +780,14 @@ def create_app(
                 job.emit("progress", stage="PowerPoint", n=0, total=0)
                 res = build_pptx(run_dir, branding, config_dir, body.template)
                 out["messages"].append(res.message)
+            if body.type == "pdf" or (body.type == "all" and loaded.config.pdf.enabled):
+                from legacy_audit.report.pdf import build_pdfs
+
+                job.emit("progress", stage="PDF copies", n=0, total=0)
+                pres = build_pdfs(run_dir, loaded.config.pdf)
+                if pres.files:
+                    out["messages"].append(f"PDF copies written: {len(pres.files)}.")
+                out["messages"] += pres.messages
             out.update(reports(run_dir.name))
             return out
 

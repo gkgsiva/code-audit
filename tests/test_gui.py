@@ -296,3 +296,19 @@ def test_gui_builds_the_summary_report_on_a_chosen_template(sample_copy) -> None
     assert page.status_code == 200 and "Built on the Purple template" in page.text
     pptx = client.get(reports["summary_pptx"])
     assert pptx.status_code == 200 and pptx.content[:2] == b"PK"
+
+
+def test_gui_builds_pdfs_or_says_why_not(sample_copy, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    from legacy_audit.report import pdf
+
+    monkeypatch.setattr(pdf, "find_browser", lambda configured=None: None)
+    client = _client(sample_copy("c-proc-batch"))
+    _scan(client)
+    _ok(client.post("/api/runs/latest/reports", json={"type": "pdf"}, headers=H))
+    done = _wait(client)
+    assert done["state"] == "done", done
+    assert any("no Microsoft Edge" in m for m in done["result"]["messages"])
+    reports = _ok(client.get("/api/runs/latest/reports"))["reports"]
+    assert reports["summary"] and reports["tech"]  # the HTML reports are built first
+    assert {"pdf_summary", "pdf_mgmt", "pdf_functional", "pdf_tech"} <= set(reports)
+    assert reports["pdf_tech"] is None
