@@ -63,11 +63,32 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
   "properties": {
+    "artifact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Maven artifactId or Gradle project name",
+      "title": "Artifact"
+    },
     "build_files": {
       "items": {
         "type": "string"
       },
       "title": "Build Files",
+      "type": "array"
+    },
+    "build_group": {
+      "description": "Maven parent / aggregator poms or Gradle root projects the module sits in, outermost first (``[acme-parent, acme-batches]``); they are groups, not components",
+      "items": {
+        "type": "string"
+      },
+      "title": "Build Group",
       "type": "array"
     },
     "composition": {
@@ -114,6 +135,19 @@
     "name": {
       "title": "Name",
       "type": "string"
+    },
+    "packaging": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Maven packaging (jar, war, ear, ...)",
+      "title": "Packaging"
     },
     "path": {
       "description": "Component folder relative to the source root ('' = root)",

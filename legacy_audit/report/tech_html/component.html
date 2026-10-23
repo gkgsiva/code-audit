@@ -1,6 +1,6 @@
 {% extends "base.html" %}{% import "_macros.html" as m with context %}
 {% block content %}
-<p class="lead">Component <strong>{{ c.name }}</strong> ({{ c.type }}), folder <code>{{ c.path or "." }}</code> in source <code>{{ c.root }}</code>, detected by {{ c.detected_by }}.{% if c.roles and c.roles | reject("equalto", c.type) | list %} It also holds {{ c.roles | reject("equalto", c.type) | join(", ") }} work.{% endif %}{% if c.composition %} Made of {% for k, v in c.composition.items() %}{{ v }} {{ k }}{% if not loop.last %}, {% endif %}{% endfor %} file(s).{% endif %}</p>
+<p class="lead">Component <strong>{{ c.name }}</strong> ({{ c.type }}), folder <code>{{ c.path or "." }}</code> in source <code>{{ c.root }}</code>, detected by {{ c.detected_by }}.{% if c.artifact or c.packaging %} Maven/Gradle module {{ c.artifact or c.name }}{% if c.packaging %} (packaging {{ c.packaging }}){% endif %}.{% endif %}{% if c.build_group %} Part of {{ c.build_group | join(" &gt; ") }}.{% endif %}{% if c.roles and c.roles | reject("equalto", c.type) | list %} It also holds {{ c.roles | reject("equalto", c.type) | join(", ") }} work.{% endif %}{% if c.composition %} Made of {% for k, v in c.composition.items() %}{{ v }} {{ k }}{% if not loop.last %}, {% endif %}{% endfor %} file(s).{% endif %}</p>
 <div class="tiles">
 {% for t in c.tiles %}{{ m.tile(t) }}
 {% endfor %}
