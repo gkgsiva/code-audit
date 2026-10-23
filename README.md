@@ -60,7 +60,8 @@ legacy-audit diff previous latest # what changed between two runs (ids, 'previou
 legacy-audit report --open        # technical HTML report of the latest run, opened in a browser
 legacy-audit report --run <id>    # report of an older run (default: latest)
 legacy-audit report --type functional  # functional document: screen and batch flows, use cases, rules
-legacy-audit report --type all    # technical site + functional document + management deck (HTML) + deck.pptx
+legacy-audit report --type all    # technical site + functional document + management deck (HTML) + deck.pptx + PDFs
+legacy-audit report --type pdf    # PDF copies of the four reports (needs Edge, Chrome or Chromium)
 legacy-audit validate             # check Copilot's enrichment against the scan; mark stale stages
 legacy-audit enrich               # write the enrichment with the model in audit.yaml > ai (--check, --stale)
 legacy-audit facts services -f kind=servlet   # query facts as JSON (what the agent reads)

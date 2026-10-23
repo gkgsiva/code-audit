@@ -3,7 +3,8 @@
 (function () {
   "use strict";
   var BASE = document.body.getAttribute("data-base") || "";
-  var PAGE_SIZE = 50;
+  var PDF = window.LEGACY_AUDIT_PDF; // set when the page is printed by legacy-audit report --type pdf
+  var PAGE_SIZE = PDF ? PDF.maxRows : 50;
 
   // ---- theme -------------------------------------------------------------------------------
   function storedTheme() {
@@ -156,6 +157,8 @@
     var info = el("span");
     pager.appendChild(prev); pager.appendChild(info); pager.appendChild(next);
     host.appendChild(pager);
+    var cut = PDF ? el("p", "note pdf-cut") : null;
+    if (cut) host.appendChild(cut);
     prev.addEventListener("click", function () { state.page--; draw(); });
     next.addEventListener("click", function () { state.page++; draw(); });
     var timer = null;
@@ -198,6 +201,7 @@
       });
       tbody.appendChild(frag);
       count.textContent = idx.length === rows.length ? rows.length + " rows" : idx.length + " of " + rows.length + " rows";
+      if (cut) cut.textContent = idx.length > PAGE_SIZE ? "First " + PAGE_SIZE + " of " + idx.length + " rows; the full list is in the HTML report and its CSV download." : "";
       info.textContent = "Page " + (state.page + 1) + " of " + pages;
       prev.disabled = state.page === 0;
       next.disabled = state.page >= pages - 1;

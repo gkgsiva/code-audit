@@ -27,6 +27,7 @@ dependencies = [
     "fastapi>=0.115",
     "uvicorn>=0.30",
     "python-pptx>=1.0",
+    "pypdf>=5.0",
 ]
 
 [project.optional-dependencies]
@@ -57,6 +58,7 @@ packages = ["legacy_audit"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+markers = ["real_browser: prints real PDFs with the Edge/Chrome/Chromium found on the machine"]
 
 [tool.ruff]
 line-length = 100

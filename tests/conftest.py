@@ -13,6 +13,15 @@ REPO = Path(__file__).resolve().parents[1]
 SAMPLES = REPO / "samples"
 
 
+@pytest.fixture(autouse=True)
+def _no_pdf_browser(request: pytest.FixtureRequest, monkeypatch: pytest.MonkeyPatch) -> None:
+    """`report --type all` would print PDFs with any browser found; only real_browser tests do."""
+    if "real_browser" not in request.keywords:
+        from legacy_audit.report import pdf
+
+        monkeypatch.setattr(pdf, "find_browser", lambda configured=None: None)
+
+
 @pytest.fixture
 def runner() -> CliRunner:
     return CliRunner()

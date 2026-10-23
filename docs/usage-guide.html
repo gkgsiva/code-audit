@@ -624,7 +624,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 
 <h3 id="gui-reports">8. Reports</h3>
 <ul>
-  <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, <strong>Build summary report</strong>, or <strong>Build all</strong> (recommended).</li>
+  <li><strong>Build technical report</strong>, <strong>Build functional document</strong>, <strong>Build management deck</strong>, <strong>Build PowerPoint</strong>, <strong>Build summary report</strong>, <strong>Build PDFs</strong>, or <strong>Build all</strong> (recommended; it makes the PDFs too).</li>
   <li><strong>PowerPoint template</strong>: click the picture of the template you want (Blue, Orange or Purple) before you press <strong>Build PowerPoint</strong> or <strong>Build all</strong>. The app remembers your choice next time.</li>
   <li>When a report is built, <strong>Open</strong> appears next to it (and <strong>Download</strong> for the PowerPoint, with the template it used, for example <em>PowerPoint (PPTX), Orange template</em>). Until then it says <em>not built yet</em>.</li>
   <li><strong>Download data pack (ZIP)</strong>: one ZIP file with every list (CSV for Excel, JSON, a SQLite database), the run details and the AI analysis. Send this to someone who wants the raw data.</li>
@@ -739,7 +739,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <ul>
   <li>Use the <kbd>&larr;</kbd> and <kbd>&rarr;</kbd> arrow keys to move between slides.</li>
   <li>Press <kbd>N</kbd> to show or hide the speaker notes.</li>
-  <li>To make a PDF: press <kbd>Ctrl</kbd>+<kbd>P</kbd> in the browser and choose <em>Save as PDF</em>. You get one slide per page.</li>
+  <li>A PDF of the deck, one slide per page, is made with the other PDFs (<a href="#pdf">PDF copies of the reports</a>).</li>
   <li>Slides that need the AI analysis say <em>"Not enriched yet"</em> until Copilot has done its part.</li>
 </ul>
 <p class="only-wsl">🐧 WSL2: open it from the app (<span class="menu">8. Reports &gt; Open</span>) or with <code>explorer.exe ~/audits/billing/audit-output/latest/reports/mgmt</code>.</p>
@@ -751,6 +751,27 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <h3>The data files (for Excel)</h3>
 <p>In the run's <code>data</code> folder, each list is a <code>.csv</code> file you can open in Excel: <code>services.csv</code>, <code>screens.csv</code>, <code>sql_statements.csv</code>, <code>integrations.csv</code>, <code>batch_jobs.csv</code>, <code>libraries.csv</code>, <code>findings.csv</code> and more. Every row has an <code>evidence</code> column with the file and line it came from. <code>facts.sqlite</code> holds everything in one database; in VS Code, click it to browse with SQLite Viewer.</p>
 <p class="only-wsl">🐧 WSL2: the quickest way to get them into Excel is <span class="menu">8. Reports &gt; Download data pack (ZIP)</span>, then unzip it in <em>Downloads</em>. SQLite Viewer works in the WSL window as usual.</p>
+
+<h3 id="pdf">PDF copies of the reports</h3>
+<p>Each report can also be saved as a PDF, ready to email, print or upload. You get four files in the run's folder, under <code>reports/pdf/</code>:</p>
+<div class="table-wrap"><table>
+  <tr><th>File</th><th>What it is</th></tr>
+  <tr><td><code>summary.pdf</code></td><td>The summary report, on A4 pages, with its charts and tables.</td></tr>
+  <tr><td><code>management.pdf</code></td><td>The management deck, one slide per page (wide pages, like the PowerPoint).</td></tr>
+  <tr><td><code>functional.pdf</code></td><td>The whole functional document in one file: a cover with the contents, then every page.</td></tr>
+  <tr><td><code>technical.pdf</code></td><td>The whole technical report in one file: a cover with the contents, then every page in menu order, with a page for each component and flow.</td></tr>
+</table></div>
+<p><strong>How to get them:</strong> in the app, <span class="menu">8. Reports &gt; Build PDFs</span> (or <strong>Build all</strong>), then <strong>Open</strong> next to each <em>(PDF)</em> line. In VS Code, run the task <code>audit: 32. PDF copies of the reports (sample app)</code> to try it on a sample. It takes about a minute.</p>
+<ul>
+  <li><strong>What it needs:</strong> Microsoft Edge or Google Chrome. Edge is already on every Windows laptop, so there is nothing to install. The tool uses the browser in the background (no window opens) and with no internet.</li>
+  <li><strong>Page numbers and contents:</strong> every page shows <em>Page 3 of 72</em> at the bottom. In a PDF reader, the bookmarks panel lists every page of the report, so you can jump straight to one.</li>
+  <li><strong>Very long tables</strong> (for example thousands of SQL statements) are cut after 500 rows, with a note. The full list is in the HTML report and its <strong>Download CSV</strong>.</li>
+  <li><strong>"PDF skipped: no Microsoft Edge, Google Chrome or Chromium found"</strong> means no browser was found. The HTML reports are still built. Install Edge or Chrome, or tell the tool where the browser is in <code>audit.yaml</code>:
+<pre><code>pdf:
+  browser_path: "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+  paper: A4            # or Letter</code></pre></li>
+</ul>
+<div class="callout wsl only-wsl"><p><span class="label">On WSL2.</span> The tool first looks for Chrome or Chromium inside Linux, then uses the Edge that is already on Windows. If the PDFs are skipped or come out empty, install Chromium in Ubuntu (<code>sudo apt install chromium-browser</code>) or Google Chrome for Linux, and build them again. To get a PDF on Windows, use <span class="menu">8. Reports &gt; Open</span> in the app and save it, or copy it out with <code>cp ~/audits/billing/audit-output/latest/reports/pdf/*.pdf /mnt/c/Users/you/Desktop/</code>.</p></div>
 
 <!-- ============================================================ 12 -->
 <h2 id="rerun">12. New files arrived: run it again</h2>
@@ -998,6 +1019,7 @@ unzip /mnt/c/Users/you/Downloads/dependency-check-*-release.zip -d ~/tools</code
   <tr><td><code>audit: 25. dependency vulnerabilities from both scanners (Billing demo)</code></td><td>Copies the Billing sample, adds a demo Dependency-Check report next to its OSV-Scanner report, builds the summary report and opens part 5, Dependency vulnerabilities.</td><td>Practice</td></tr>
   <tr><td><code>audit: 29. AI enrichment for desktop, .NET, Angular and servers (demo)</code></td><td>Scans the .NET desktop and the Angular samples, shows which code the AI reads for each batch, window and web service, loads a small ready-made AI analysis and opens the summary reports with the AI targets for the technology stack and the servers.</td><td>Practice</td></tr>
   <tr><td><code>audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)</code></td><td>Scans two samples once per migration target and opens the six summary reports, so you can see what changes with each target.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 32. PDF copies of the reports (sample app)</code></td><td>Builds the four reports of the sample you pick, saves them as PDFs (summary, management deck, functional document, technical report), lists them with their page counts and opens the summary PDF.</td><td>Everyone</td></tr>
 </table></div>
 
 <!-- ============================================================ 15 -->

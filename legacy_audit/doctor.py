@@ -56,7 +56,8 @@ def _python() -> Check:
 
 def _packages() -> Check:
     names = (
-        "typer", "pydantic", "sqlglot", "tree-sitter", "Jinja2", "fastapi", "uvicorn", "python-pptx"
+        "typer", "pydantic", "sqlglot", "tree-sitter", "Jinja2", "fastapi", "uvicorn",
+        "python-pptx", "pypdf",
     )  # fmt: skip
     missing = []
     for n in names:
@@ -123,6 +124,18 @@ def _mmdc() -> Check:
     )
 
 
+def _browser(configured: str | None) -> Check:
+    from legacy_audit.report.pdf import find_browser, missing_message
+
+    b = find_browser(configured)
+    needed = "PDF copies of the reports (legacy-audit report --type pdf)"
+    if b is None:
+        detail = missing_message(configured).removeprefix("PDF skipped: ")
+        return Check("Browser for PDFs", "missing", False, detail, needed)
+    where = " (Windows, started from WSL)" if b.windows_from_wsl else ""
+    return Check("Browser for PDFs", "ok", False, f"{b.label} at {b.path}{where}", needed)
+
+
 def _tool(name: str, exe: str | None, needed_for: str, hint: str) -> Check:
     return Check(name, "ok" if exe else "missing", False, exe or hint, needed_for)
 
@@ -151,7 +164,7 @@ def run_checks(cfg: AuditConfig | None = None, output_dir: Path | None = None) -
     if output_dir is not None:
         out.append(_writable(output_dir))
     node = _node()
-    out += [_templates(), node, _mmdc()]
+    out += [_templates(), node, _mmdc(), _browser(cfg.pdf.browser_path)]
     dc = find_tool(
         sec.dependency_check.path,
         ("dependency-check", "dependency-check.sh", "dependency-check.bat"),
