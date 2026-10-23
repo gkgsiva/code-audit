@@ -2,6 +2,10 @@ Enrich the scan facts, stage by stage: ${input:target:all, stale, or a stage nam
 
 ## Which stages to run
 
+First read `audit-output/latest/data/target.json`: it names the migration target (agent rules,
+"Migration target"). When its profile is `none` (audit only), the stages listed in its
+`skipped_stages` (5, 6, 7, 9 and 10) are not needed: skip them, even with `all`.
+
 - `all`: every stage below, in order.
 - `stale`: read `audit-output/latest/enrichment/status.json` and run the stages listed in
   `stale` and `missing`, in the order below.
@@ -35,11 +39,11 @@ from the facts (`service:…`, `library:…`, `db_object:…`), component names 
 | 2 | `classification` | components, entry_points, services per component | capability, kind, criticality per component |
 | 3 | `architecture` | components, entry_points, dependencies, integrations, web_services, tech_stack, classification | layers, deployment units, Mermaid diagrams, notes |
 | 4 | `flows` | services, screens, entry_points, batch_jobs, integrations, web_services, dependencies | key business flows in plain language, with steps citing fact ids |
-| 5 | `service_mapping` | services, target-mapping.json, classification | target and approach per service |
+| 5 | `service_mapping` | services, target-mapping.json, target.json, classification | target and approach per service |
 | 6 | `data_migration` | db_objects, sql_statements (PG grades) | approach per object, figures, strategy |
 | 7 | `dependency_plan` | libraries (CVEs, EOL, recommendations; Maven, npm, NuGet, COM), tech_stack | upgrade themes linked to plan waves |
 | 8 | `risks` and `assumptions` | findings, libraries, tech_stack, integrations, batch_jobs, input_coverage | risk register with owners; assumptions and open questions (coverage gaps) |
-| 9 | `target_architecture` | architecture, service_mapping, web_services, tech_stack, target-mapping.json | target components on GCP, diagrams, principles, what replaces each server, runtime and UI framework |
+| 9 | `target_architecture` | architecture, service_mapping, web_services, tech_stack, target-mapping.json, target.json | target components on GCP, diagrams, principles, what each server, runtime and UI framework becomes on the target |
 | 10 | `plan` | effort.json, components, risks, dependency_plan, target_architecture | approach, waves, effort figures, team, decisions needed, next steps |
 | 11 | `narratives` | all stages above | executive, architect, functional and developer texts |
 | 12 | `functional` | everything: components, services, screens (and the code of desktop windows and ASP.NET pages), batch_jobs, integrations, web_services, db_objects, sql_statements, dependencies, classification, flows | business summary, domains and capabilities, actors, use cases, business rules (each citing the code line), business data entities, one story per screen and per batch, interfaces, web services, glossary |
@@ -59,7 +63,9 @@ the servers they run on. Treat them like the Java and mainframe parts:
   `web_services.json` lists the REST and SOAP services offered and called. A desktop program
   that reads the database straight from its forms is a two-tier client: say so.
 - `service_mapping`: use the targets in `target-mapping.json` (`desktop-screen`, `spa-screen`,
-  `aspnet-screen`, `dotnet-service`, `node-service`, `windows-service`).
+  `aspnet-screen`, `dotnet-service`, `node-service`, `windows-service`); they already follow
+  the chosen target. With `wildfly-gke` most services are `rehost` or `replatform` (kept as
+  they are on WildFly), not rewritten.
 - `dependency_plan`: libraries include npm packages, NuGet packages and VB6 COM references and
   ActiveX controls (source `com`, no equivalent on GCP). Put every vulnerable library in a theme
   (its id in `library_ids`): the summary report shows each one's theme and action next to its
@@ -71,8 +77,9 @@ the servers they run on. Treat them like the Java and mainframe parts:
   server and runtime in `tech_stack` (categories `app-server`, `web-server`, `runtime`) and per
   desktop or UI framework that goes away (Windows Forms, WPF, VB6, AngularJS, ASP.NET Web
   Forms): `name` as the tech stack names it, its `tech_ids`, `today` (what it does for the
-  application, one line) and `target` (what replaces it, one line). The reports show `target`
-  marked (AI) in the servers tables instead of the default from `target-mapping.yaml`.
+  application, one line) and `target` (what it becomes on the target in `target.json`, one
+  line). The reports show `target` marked (AI) in the servers tables instead of the default
+  from `target-mapping.yaml`.
 - `component_docs`: for a desktop component, the key elements are its windows and the classes
   their event handlers call; for a front end, its routed pages and the services that call the
   API; for an API, its routes or controllers.
@@ -150,13 +157,16 @@ For `functional`:
   application offers, `side: offered`, or calls, `side: called`). `web_service_id` is its id.
   `partner` says who calls it (offered) or which system provides it (called), in business words;
   `purpose` says in one sentence what it is for (it replaces the scan's `description` in the Web
-  services lists); `migration` suggests the target in one line, for example "Spring Boot 4 REST
-  controller", "keep the SOAP contract with Spring-WS for existing callers, add a REST API", or
-  "call through Spring's RestClient". Read the operations and their `handler` code; cite it in
-  `evidence`.
+  services lists); `migration` suggests the target in one line, following `target.json`: for
+  example "Spring Boot 4 REST controller", "keep the SOAP contract with Spring-WS for existing
+  callers, add a REST API" or "call through Spring's RestClient" (`spring-boot-angular`), "kept
+  as it is on WildFly 41 (JAX-WS, javax to jakarta)" (`wildfly-gke`), or empty (`none`). Read
+  the operations and their `handler` code; cite it in `evidence`.
 - `business_rules`: validations, calculations, eligibility, status changes and limits you
   can point to in the code (`evidence` with file and line).
 - Write for business readers: no class names in `summary`, `purpose` or rule text.
+
+For `component_docs`, `migration_notes` follow `target.json` (empty when the target is `none`).
 
 For `plan`, copy `effort.low`, `effort.likely` and `effort.high` as figures, and give each wave
 the effort of its components from `effort.by_component.<component>.likely`; a split of one

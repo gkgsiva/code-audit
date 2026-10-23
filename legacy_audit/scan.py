@@ -51,6 +51,8 @@ from legacy_audit.store.lock import ScanLock
 from legacy_audit.store.runs import LATEST_FILE, new_run_id, runs_dir, set_latest
 from legacy_audit.store.summary import build_summary
 from legacy_audit.store.writer import FactSet, write_facts, write_json
+from legacy_audit.target import FILE as TARGET_FILE
+from legacy_audit.target import info as target_info
 
 log = logging.getLogger("legacy_audit")
 
@@ -493,6 +495,7 @@ def _run(
         analyzers=_analyzer_coverage(file_facts),
         unresolved_references=linked.unresolved,
         vulnerability_sources=assessed.sources,
+        target=target_info(cfg.target),
     )
     _stage("export", progress, cancel)
     t = time.perf_counter()
@@ -502,6 +505,7 @@ def _run(
     if assessed.effort is not None:
         write_json(data_dir / "effort.json", assessed.effort.model_dump(mode="json"))
     write_json(data_dir / "target-mapping.json", assessed.target_mapping)
+    write_json(data_dir / TARGET_FILE, run.target)
     timings["export"] = round(time.perf_counter() - t, 3)
     run.timings = timings
     run.finished_at = datetime.now(UTC).isoformat(timespec="seconds")

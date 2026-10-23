@@ -191,6 +191,11 @@ def _build_into(rd: RunData, out: Path) -> None:
     stories = {i["integration_id"]: i for i in fn.get("interfaces", []) or []}
     ws_stories = {w["web_service_id"]: w for w in fn.get("web_services", []) or []}
     cats = cat.build(rd, out, stories, ws_stories)
+    if rd.audit_only:  # no target database: no PostgreSQL grades
+        for name in ("sql", "db-objects"):
+            if name in cats:
+                cats[name].drop("grade")
+                cats[name].intro = cats[name].intro.replace(", with its PostgreSQL grade", "")
     for c in cats.values():
         _write_data_js(out / "data" / f"{c.name}.js", c.name, c.payload())
     if rd.has_sbom:
@@ -207,7 +212,8 @@ def _build_into(rd: RunData, out: Path) -> None:
     page.data_model()
     for page_id, names in CATALOGUE_PAGES.items():
         page.catalogue(page_id, [cats[n] for n in names])
-    page.postgresql()
+    if not rd.audit_only:
+        page.postgresql()
     page.security()
     page.findings()
     page.analysis()
@@ -340,7 +346,13 @@ class _Pages:
             "tool_version": run.get("tool_version", ""),
             "sources": run.get("sources", []),
             "badges": self._badges(),
-            "nav": [{"id": i, "href": h, "title": t} for i, h, t in NAV],
+            "nav": [
+                {"id": i, "href": h, "title": t}
+                for i, h, t in NAV
+                if not (i == "postgresql" and rd.audit_only)
+            ],
+            "target_label": rd.target.get("label", ""),
+            "audit_only": rd.audit_only,
             "effort_label": (rd.effort or {}).get("label", "estimate"),
             "doc_kind": "Technical audit",
         }
@@ -433,8 +445,20 @@ class _Pages:
                 "sql.html",
                 f"{_fmt(_get(c, 'sql.distinct'))} distinct, {_fmt(_get(c, 'sql.dynamic'))} dynamic",
             ),
-            self._tile("counts.pg_grades.manual", "SQL needing manual work", "postgresql.html"),
-            self._tile("counts.stored_procedures", "Stored procedures", "postgresql.html"),
+            *(
+                []
+                if self.rd.audit_only
+                else [
+                    self._tile(
+                        "counts.pg_grades.manual", "SQL needing manual work", "postgresql.html"
+                    )
+                ]
+            ),
+            self._tile(
+                "counts.stored_procedures",
+                "Stored procedures",
+                "db-objects.html" if self.rd.audit_only else "postgresql.html",
+            ),
             self._tile("counts.integrations.total", "Integrations", "integrations.html"),
             self._tile(
                 "counts.web_services.total",
@@ -1067,8 +1091,7 @@ class _Pages:
 
     def analysis(self) -> None:
         """The Copilot enrichment, validated by ``legacy-audit validate``, labelled as such."""
-        from legacy_audit.enrich.stages import STAGES
-        from legacy_audit.enrich.status import compute_status
+        from legacy_audit.enrich.status import active_stages, compute_status
         from legacy_audit.report.deck_builder import load_enrichment
 
         e = load_enrichment(self.rd.run_dir)
@@ -1079,7 +1102,7 @@ class _Pages:
             return {**item, "links": links}
 
         stages = []
-        for st in STAGES:
+        for st in active_stages(self.rd.run_dir):
             entry = status["stages"][st.name]
             state = (
                 "missing"

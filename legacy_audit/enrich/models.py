@@ -170,7 +170,10 @@ class Flows(StageFile):
 # ---- 5 Services ----------------------------------------------------------------------------------
 class ServiceMap(Claim):
     service_id: str
-    target: str = Field(description="e.g. Spring Boot REST controller, Spring Batch job")
+    target: str = Field(
+        description="What it becomes on the target in data/target.json, e.g. 'Spring Boot REST "
+        "controller' (spring-boot-angular) or 'kept: Struts action on WildFly 41' (wildfly-gke)"
+    )
     target_component: str
     approach: Literal["rehost", "replatform", "refactor", "rewrite", "retire", "replace"]
     notes: str = ""
@@ -242,8 +245,11 @@ class Assumptions(StageFile):
 # ---- 9 Target architecture -----------------------------------------------------------------------
 class TargetComponent(_Base):
     name: str
-    technology: str = Field(description="e.g. Spring Boot 4 on Java 25, Angular 21")
-    platform: str = Field(description="GCP service, e.g. Cloud Run, Cloud SQL for PostgreSQL")
+    technology: str = Field(
+        description="e.g. Spring Boot 4 on Java 25, Angular 21 (spring-boot-angular); WildFly 41 "
+        "on Java 25 (wildfly-gke)"
+    )
+    platform: str = Field(description="GCP service, e.g. Cloud Run, GKE, Cloud SQL for PostgreSQL")
     replaces: list[str] = Field(default_factory=list, description="Legacy component names")
     description: str = ""
 
@@ -428,8 +434,8 @@ class WebServiceStory(Claim):
     purpose: str = Field(description="What it is for, one sentence for business readers")
     migration: str = Field(
         "",
-        description="Suggested target, one line, e.g. 'Spring Boot 4 REST controller' or 'keep "
-        "the SOAP contract with Spring-WS for existing callers, add REST'",
+        description="Suggested target (data/target.json), one line, e.g. 'Spring Boot 4 REST "
+        "controller' or 'kept as it is on WildFly 41'; empty when the target is none",
     )
 
 
@@ -470,7 +476,7 @@ class ComponentDoc(Claim):
     outputs: list[str] = Field(default_factory=list, description="Pages, files, messages out")
     db_object_ids: list[str] = Field(default_factory=list, description="Tables it reads/writes")
     tech_debt: list[str] = Field(default_factory=list)
-    migration_notes: str = ""
+    migration_notes: str = Field("", description="Empty when the target is none (audit only)")
 
 
 class ComponentDocs(StageFile):

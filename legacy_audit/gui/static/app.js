@@ -250,10 +250,28 @@
       var gitRow = [el("label", { for: "f-repos", text: "Repositories" }), el("div", null, [repos,
         el("p", { class: "hint", text: "One per line: URL | branch or tag | sub-paths (comma separated) | name of the environment variable holding a read-only token. The token itself is never stored or typed here." })])];
       var target = f.target;
+      var profile = el("select", { id: "t-profile" }, [
+        new Option("Spring Boot and Angular on Google Cloud (default)", "spring-boot-angular"),
+        new Option("WildFly on GKE (code kept as it is, database to PostgreSQL)", "wildfly-gke"),
+        new Option("None: audit only, no migration target", "none")]);
+      profile.value = target.profile || "spring-boot-angular";
       var tgt = {};
-      ["java", "spring_boot", "angular", "database", "cloud"].forEach(function (k) {
+      // the versions each target uses; "none" uses none
+      var VERSIONS = { "spring-boot-angular": ["java", "spring_boot", "angular", "database", "cloud"],
+        "wildfly-gke": ["java", "wildfly", "jakarta_ee", "database"], "none": [] };
+      ["java", "spring_boot", "angular", "wildfly", "jakarta_ee", "database", "cloud"].forEach(function (k) {
         tgt[k] = el("input", { type: "text", id: "t-" + k, value: target[k] || "" });
       });
+      var versionRow = el("div", { class: "row" }, Object.keys(tgt).map(function (k) {
+        return el("label", { for: "t-" + k, text: k.replace("_", " ") + " " }, [tgt[k]]);
+      }));
+      function drawTarget() {
+        var shown = VERSIONS[profile.value] || [];
+        Array.prototype.forEach.call(versionRow.children, function (lab, i) {
+          lab.hidden = shown.indexOf(Object.keys(tgt)[i]) < 0;
+        });
+      }
+      profile.addEventListener("change", drawTarget);
       var include = el("textarea", { id: "f-include", rows: 2 }); include.value = (f.include || []).join("\n");
       var exclude = el("textarea", { id: "f-exclude", rows: 3 }); exclude.value = (f.exclude || []).join("\n");
       var form = el("form", { class: "fields" });
@@ -267,15 +285,14 @@
         el("label", { for: "f-desc", text: "Description" }), appDesc,
         el("label", { for: "f-src", text: "Source" }), srcType]
         .concat(localRow, gitRow, [
-          el("label", { text: "Target stack" }),
-          el("div", { class: "row" }, Object.keys(tgt).map(function (k) {
-            return el("label", { for: "t-" + k, text: k.replace("_", " ") + " " }, [tgt[k]]);
-          })),
+          el("label", { for: "t-profile", text: "Migration target" }),
+          el("div", null, [profile, versionRow, el("p", { class: "hint", text: "What the reports and the AI analysis suggest the application moves to. Changing it needs a new scan; then run /audit-enrich stale." })]),
           el("label", { for: "f-include", text: "Include" }), include,
           el("label", { for: "f-exclude", text: "Exclude" }), el("div", null, [exclude, el("p", { class: "hint", text: ".gitignore syntax, one pattern per line." })]),
           el("span"), el("div", null, [el("button", { class: "btn primary", type: "submit", text: "Save audit.yaml" })])
         ]).forEach(function (n) { form.appendChild(n); });
       drawSource();
+      drawTarget();
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         var app = Object.assign({}, f.application, { name: appName.value, description: appDesc.value || null });
@@ -293,7 +310,7 @@
         } else {
           source = { type: "local", paths: lines(paths) };
         }
-        var t = Object.assign({}, target);
+        var t = Object.assign({}, target, { profile: profile.value });
         Object.keys(tgt).forEach(function (k) { t[k] = tgt[k].value; });
         api("PUT", "/api/config/fields", { application: app, source: source, target: t, include: lines(include), exclude: lines(exclude) })
           .then(function () { toast("audit.yaml saved."); return refreshWorkspace(); }).then(route).catch(fail);

@@ -49,8 +49,15 @@ def _fixed_version(lib: Library) -> tuple[str | None, bool]:
 
 
 def recommend(lib: Library, data: dict[str, Any]) -> Recommendation:
+    """``data`` is the dependency pack resolved for the target (``target.resolve``)."""
     recipes: dict[str, str] = data.get("recipes", {})
     targets: dict[str, str] = data.get("targets", {})
+    bom: dict[str, Any] = data.get("bom") or {}
+    bom_name = str(bom.get("name") or f"Spring Boot {targets.get('spring_boot', '4')}")
+    bom_short = str(bom.get("short") or "Spring Boot")
+    manages = str(bom.get("manages") or "manages")
+    how = str(bom.get("how") or "managed by")
+    bom_recipe = recipes.get(str(bom["recipe"])) if bom.get("recipe") else None
     if lib.eol:
         front = _find(data.get("frontend", []), lib)
         if front is not None:
@@ -65,13 +72,12 @@ def recommend(lib: Library, data: dict[str, Any]) -> Recommendation:
         if boot is not None:
             return Recommendation(
                 action="use-bom",
-                target=f"{lib.replacement or 'current version'}, managed by Spring Boot "
-                + str(targets.get("spring_boot", "4")),
-                reason=f"end of life since {lib.eol_date}; Spring Boot manages the new version"
+                target=f"{lib.replacement or 'current version'}, {how} {bom_name}",
+                reason=f"end of life since {lib.eol_date}; {bom_short} {manages} the new version"
                 if lib.eol_date
-                else "end of life; Spring Boot manages the new version",
+                else f"end of life; {bom_short} {manages} the new version",
                 effort="medium",
-                recipe=recipes.get("spring_boot"),
+                recipe=bom_recipe,
                 rule="eol-boot-managed",
             )
         eol_recipe = _find(data.get("eol_recipes", []), lib)
@@ -98,8 +104,11 @@ def recommend(lib: Library, data: dict[str, Any]) -> Recommendation:
         return Recommendation(
             action="migrate-jakarta",
             target=jak["target"],
-            reason="javax.* API: Spring Boot 4 runs on Jakarta EE "
-            + str(targets.get("jakarta_ee", "11")),
+            reason=str(
+                data.get("jakarta_reason")
+                or "javax.* API: Spring Boot 4 runs on Jakarta EE "
+                + str(targets.get("jakarta_ee", "11"))
+            ),
             effort="low",
             recipe=recipes.get("jakarta"),
             rule="jakarta",
@@ -117,11 +126,13 @@ def recommend(lib: Library, data: dict[str, Any]) -> Recommendation:
     if boot is not None:
         return Recommendation(
             action="use-bom",
-            target=boot.get("target")
-            or f"version managed by Spring Boot {targets.get('spring_boot', '4')}",
-            reason="Spring Boot manages this dependency; drop the explicit version",
+            target=boot.get("target") or f"version {how} {bom_name}",
+            reason=str(
+                bom.get("reason")
+                or f"{bom_short} {manages} this dependency; drop the explicit version"
+            ),
             effort="low",
-            recipe=recipes.get("spring_boot"),
+            recipe=bom_recipe,
             verify=bool(boot.get("verify", False)),
             rule="boot-managed",
         )

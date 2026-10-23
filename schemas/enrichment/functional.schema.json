@@ -709,7 +709,7 @@
         },
         "migration": {
           "default": "",
-          "description": "Suggested target, one line, e.g. 'Spring Boot 4 REST controller' or 'keep the SOAP contract with Spring-WS for existing callers, add REST'",
+          "description": "Suggested target (data/target.json), one line, e.g. 'Spring Boot 4 REST controller' or 'kept as it is on WildFly 41'; empty when the target is none",
           "title": "Migration",
           "type": "string"
         },

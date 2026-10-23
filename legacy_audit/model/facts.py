@@ -576,6 +576,10 @@ class RunInfo(FactModel):
     analyzers: dict[str, AnalyzerCoverage] = Field(default_factory=dict)
     unresolved_references: int = 0
     vulnerability_sources: list[VulnerabilitySource] = Field(default_factory=list)
+    target: dict[str, Any] = Field(
+        default_factory=dict,
+        description="The migration target (audit.yaml > target.profile), as in data/target.json",
+    )
 
 
 # Every fact entity: file stem in the data folder -> model. Order is the export order.

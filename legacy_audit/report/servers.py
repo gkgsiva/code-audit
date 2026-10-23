@@ -2,10 +2,10 @@
 
 The rows come from the tech-stack items the scan found (categories ``app-server``,
 ``web-server``, and the Java and Node.js runtimes, decision 131): every version seen, end of
-life, the components whose files name the product, the files themselves and the default target from
-``rules/target-mapping.yaml``, replaced by the AI's target when the target architecture stage
-names one for the product (``platform_changes``, marked "(AI)"). Nothing is counted here; it only
-groups the scan's items.
+life, the components whose files name the product, the files themselves and the default target
+from ``rules/target-mapping.yaml`` for the chosen target (none when there is no target),
+replaced by the AI's target when the target architecture stage names one for the product
+(``platform_changes``, marked "(AI)"). Nothing is counted here; it only groups the scan's items.
 """
 
 from __future__ import annotations
@@ -18,10 +18,7 @@ from legacy_audit.report.data import RunData
 KINDS = {"app-server": "Application server", "web-server": "Web server", "runtime": "Runtime"}
 ORDER = list(KINDS)
 _TARGET_ID = {"app-server": "app-server", "web-server": "web-server"}
-_RUNTIME_TARGET = {
-    "Node.js": "Node.js 24 LTS on Cloud Run, or the service rewritten in Spring Boot 4 (Java 25)",
-    "Java": "Java 25 (Spring Boot 4)",
-}
+_RUNTIME_ID = {"Node.js": "runtime-node", "Java": "runtime-java"}  # rules/target-mapping.yaml
 MAX_FILES = 5
 
 
@@ -50,7 +47,7 @@ def server_rows(rd: RunData, enrichment: dict[str, Any] | None = None) -> list[d
     groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
     for t in rd.items("tech_stack"):
         cat = t.get("category") or ""
-        if cat in KINDS and (cat != "runtime" or t["name"] in _RUNTIME_TARGET):
+        if cat in KINDS and (cat != "runtime" or t["name"] in _RUNTIME_ID):
             groups[(cat, t["name"])].append(t)
     rows = []
     for (cat, name), items in groups.items():
@@ -76,7 +73,7 @@ def server_rows(rd: RunData, enrichment: dict[str, Any] | None = None) -> list[d
         elif any(t.get("eol") is False for t in items):
             eol = "no"
         replacement = next((t["replacement"] for t in eol_items if t.get("replacement")), "")
-        rule = targets.get(_TARGET_ID.get(cat, ""), "") or _RUNTIME_TARGET.get(name, "")
+        rule = targets.get(_TARGET_ID.get(cat, "") or _RUNTIME_ID.get(name, ""), "")
         ai = next((changes[t["id"]] for t in items if t.get("id") in changes), None)
         ai = ai or changes.get(name.lower())
         rows.append(
