@@ -764,7 +764,7 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
 <p><strong>How to get them:</strong> in the app, <span class="menu">8. Reports &gt; Build PDFs</span> (or <strong>Build all</strong>), then <strong>Open</strong> next to each <em>(PDF)</em> line. In VS Code, run the task <code>audit: 32. PDF copies of the reports (sample app)</code> to try it on a sample. It takes about a minute.</p>
 <ul>
   <li><strong>What it needs:</strong> Microsoft Edge or Google Chrome. Edge is already on every Windows laptop, so there is nothing to install. The tool uses the browser in the background (no window opens) and with no internet.</li>
-  <li><strong>Page numbers and contents:</strong> every page shows <em>Page 3 of 72</em> at the bottom. In a PDF reader, the bookmarks panel lists every page of the report, so you can jump straight to one.</li>
+  <li><strong>Contents and page numbers:</strong> the summary, technical and functional PDFs start with a contents page. Click a line to jump to that page. Every page shows <em>Page 3 of 72</em> at the bottom, and the bookmarks panel of your PDF reader lists every part, so you can jump straight to one. In the technical PDF, clicking a component or page name also jumps to its page.</li>
   <li><strong>Very long tables</strong> (for example thousands of SQL statements) are cut after 500 rows, with a note. The full list is in the HTML report and its <strong>Download CSV</strong>.</li>
   <li><strong>"PDF skipped: no Microsoft Edge, Google Chrome or Chromium found"</strong> means no browser was found. The HTML reports are still built. Install Edge or Chrome, or tell the tool where the browser is in <code>audit.yaml</code>:
 <pre><code>pdf:

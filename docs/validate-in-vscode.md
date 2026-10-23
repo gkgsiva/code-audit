@@ -818,8 +818,12 @@ Needs Microsoft Edge or Google Chrome (Edge is on every Windows laptop). After p
    and lists four PDFs with their pages and paper size: summary, technical and functional on
    A4 (210 x 297 mm), the management deck on wide 16:9 pages. The summary PDF opens.
 3. Check the PDFs (in File Explorer, `audit-output\latest\reports\pdf\`):
-   - `summary.pdf`: the five parts with their charts drawn, no buttons or search boxes,
-     "Page 1 of N" at the bottom right.
+   - `summary.pdf`: page 1 is a cover with **Contents**, then the five parts with their charts
+     drawn, no buttons or search boxes,
+     "Page 2 of N" at the bottom right.
+   - `summary.pdf` and `technical.pdf`: click a line of the **Contents** on page 1; the PDF
+     jumps to that page. In the technical PDF, click a component name on the Components page: it
+     jumps to that component's page.
    - `technical.pdf`: page 1 is a cover with **Contents** and page numbers; the bookmarks panel
      lists Overview, Components (with each component under it), Architecture, Flows (with each
      flow), ... Appendix; diagrams fit the page width.

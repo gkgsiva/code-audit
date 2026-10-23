@@ -18,6 +18,8 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   (`scripts/show_pdfs.py`).
 - Wide tables print whole: no more columns cut at the page edge; very wide tables (the
   technical report's SQL lists) move to landscape pages.
+- The contents page is clickable (each line jumps to its page), the summary PDF has one
+  too, with bookmarks for its five parts, and links between report pages work inside the PDF.
 
 ### Web services, REST and SOAP (2026-10-21)
 

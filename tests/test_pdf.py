@@ -111,6 +111,25 @@ def test_cli_pdf_without_browser_says_so_and_fails(
     assert res.exit_code == 0, res.output
 
 
+def _actions(reader: PdfReader) -> list:  # type: ignore[type-arg]
+    return [
+        a.get_object()["/A"]
+        for page in reader.pages
+        for a in page.get("/Annots") or []
+        if "/A" in a.get_object()
+    ]
+
+
+def _jumps(reader: PdfReader, page: int) -> list[int]:
+    """Target pages of the in-PDF links on one page."""
+    out = []
+    for a in reader.pages[page].get("/Annots") or []:
+        action = a.get_object().get("/A")
+        if action is not None and action.get("/S") == "/GoTo":
+            out.append(reader.get_page_number(action["/D"][0]))
+    return out
+
+
 def _flat(text: str) -> str:
     return "".join(text.lower().split())
 
@@ -160,7 +179,17 @@ def test_prints_all_four_reports(tmp_path: Path) -> None:
     ]
     summary = PdfReader(res.files["summary"])
     text = _flat(" ".join(p.extract_text() for p in summary.pages))
-    assert "databaseandqueries" in text and "page1of" in text
+    assert "andqueries" in text and "page2of" in text  # page 1 is the cover
+    # contents entries jump to their page; links between report pages jump inside the PDF
+    jumps = _jumps(tech, 0)
+    assert jumps and jumps[0] == 1  # Overview starts right after the one-page cover
+    assert len(jumps) == len(
+        [p for p in pdf.parts_for("tech", run_dir / "reports" / "tech", PdfConfig())]
+    )
+    assert not any(str(a.get("/URI", "")).startswith(pdf.GOTO) for a in _actions(tech))
+    assert summary.outline[0].title == "1 Project"
+    assert "contents" in _flat(summary.pages[0].extract_text())
+    assert len(_jumps(summary, 0)) == 5 and _jumps(summary, 0)[0] == 1
     deck = PdfReader(res.files["mgmt"])
     assert float(deck.pages[0].mediabox.width) > float(deck.pages[0].mediabox.height)  # slides
     assert not list((run_dir / "reports" / "tech").glob("_pdf-*.html"))  # temp copies removed
