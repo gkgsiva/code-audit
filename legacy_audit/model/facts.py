@@ -110,6 +110,13 @@ class Component(Fact):
     loc_code: int = 0
     entry_points: list[str] = Field(default_factory=list)
     detected_by: str = Field(description="build-file, folder, root, config or override")
+    build_group: list[str] = Field(
+        default_factory=list,
+        description="Maven parent / aggregator poms or Gradle root projects the module sits in, "
+        "outermost first (``[acme-parent, acme-batches]``); they are groups, not components",
+    )
+    artifact: str | None = Field(None, description="Maven artifactId or Gradle project name")
+    packaging: str | None = Field(None, description="Maven packaging (jar, war, ear, ...)")
 
 
 class EntryPoint(Fact):
@@ -569,6 +576,10 @@ class RunInfo(FactModel):
     analyzers: dict[str, AnalyzerCoverage] = Field(default_factory=dict)
     unresolved_references: int = 0
     vulnerability_sources: list[VulnerabilitySource] = Field(default_factory=list)
+    target: dict[str, Any] = Field(
+        default_factory=dict,
+        description="The migration target (audit.yaml > target.profile), as in data/target.json",
+    )
 
 
 # Every fact entity: file stem in the data folder -> model. Order is the export order.

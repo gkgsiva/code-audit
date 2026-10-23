@@ -512,6 +512,13 @@ sudo apt install -y python3.12 python3.12-venv</code></pre>
   <li><span class="menu">5. Dashboard</span>: your headline numbers.</li>
   <li><span class="menu">8. Reports</span>: click <span class="menu">Build all</span>, then <span class="menu">Open</span> next to each report.</li>
 </ol>
+<div class="callout tip"><p><span class="label">Choose the migration target.</span> In <span class="menu">1. Project setup</span>, the <em>Migration target</em> list says what the reports and the AI suggest the application moves to:</p>
+<ul>
+  <li><strong>Spring Boot and Angular on Google Cloud</strong> (the default): the application is rebuilt on Java 25, Spring Boot and Angular, with a PostgreSQL database.</li>
+  <li><strong>WildFly on GKE</strong>: the code stays as it is and runs on WildFly 41 (Java 25) on Google Kubernetes Engine; only the database moves to PostgreSQL.</li>
+  <li><strong>None: audit only</strong>: the reports describe the application as it is today and suggest nothing (no target, no PostgreSQL readiness, no effort, no plan).</li>
+</ul>
+<p>Click <span class="menu">Save audit.yaml</span>, then <span class="menu">Re-run</span>. If you use the AI analysis, run <code>/audit-enrich stale</code> afterwards: only the parts that depend on the target are redone.</p></div>
 <div class="callout note"><p><span class="label">How long does a scan take?</span> Small applications take seconds. On a typical 4-core laptop, about 2 million lines of code take 3 to 4 minutes the first time. Later runs only re-read files that changed, so they are much faster. <span class="only-wsl">On WSL2, code under <code>/mnt/c</code> takes noticeably longer than code in your Linux home folder.</span></p></div>
 
 <!-- ============================================================ 10 -->
@@ -1011,6 +1018,7 @@ unzip /mnt/c/Users/you/Downloads/dependency-check-*-release.zip -d ~/tools</code
   <tr><td><code>audit: 24. build and open the summary report (HTML and PowerPoint)</code></td><td>Builds a sample's summary report and its PowerPoint, and opens the page. Scan the sample first.</td><td>Everyone</td></tr>
   <tr><td><code>audit: 25. dependency vulnerabilities from both scanners (Billing demo)</code></td><td>Copies the Billing sample, adds a demo Dependency-Check report next to its OSV-Scanner report, builds the summary report and opens part 5, Dependency vulnerabilities.</td><td>Practice</td></tr>
   <tr><td><code>audit: 29. AI enrichment for desktop, .NET, Angular and servers (demo)</code></td><td>Scans the .NET desktop and the Angular samples, shows which code the AI reads for each batch, window and web service, loads a small ready-made AI analysis and opens the summary reports with the AI targets for the technology stack and the servers.</td><td>Practice</td></tr>
+  <tr><td><code>audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)</code></td><td>Scans two samples once per migration target and opens the six summary reports, so you can see what changes with each target.</td><td>Practice</td></tr>
   <tr><td><code>audit: 32. PDF copies of the reports (sample app)</code></td><td>Builds the four reports of the sample you pick, saves them as PDFs (summary, management deck, functional document, technical report), lists them with their page counts and opens the summary PDF.</td><td>Everyone</td></tr>
 </table></div>
 

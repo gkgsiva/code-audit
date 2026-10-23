@@ -40,11 +40,18 @@ inputs_dir: audit-inputs         # late inputs: autosys/, mq/, cft/, ddl/, cront
 output_dir: audit-output         # runs/<run-id>/ and latest/
 overrides_file: audit-overrides.yaml
 
-# Target stack (used by mapping rules and reports).
+# Migration target (used by mapping rules, upgrade advice, AI enrichment and reports):
+#   spring-boot-angular  Java 25, Spring Boot 4, Angular 21, PostgreSQL on GCP (default)
+#   wildfly-gke          the code moves as it is onto WildFly 41 (Java 25) on GKE; only the
+#                        database moves, to PostgreSQL
+#   none                 audit only: describe the application as it is, suggest nothing
 target:
+  profile: spring-boot-angular
   java: "25"
   spring_boot: "4.1"
   angular: "21"
+  wildfly: "41"                  # used by wildfly-gke
+  jakarta_ee: "11"
   database: postgresql
   cloud: gcp
 

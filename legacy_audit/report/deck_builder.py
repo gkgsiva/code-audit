@@ -19,7 +19,12 @@ from typing import Any
 
 from legacy_audit.config import Branding
 from legacy_audit.enrich.stages import BY_NAME
-from legacy_audit.enrich.status import compute_status, enrichment_dir, sync_from_latest
+from legacy_audit.enrich.status import (
+    active_stages,
+    compute_status,
+    enrichment_dir,
+    sync_from_latest,
+)
 from legacy_audit.report import diagrams, flows
 from legacy_audit.report import visuals as vz
 from legacy_audit.report.data import RunData
@@ -148,6 +153,11 @@ class _Deck:
                 }
             )
 
+    def add_unless(self, skip: bool, *args: Any, **kwargs: Any) -> None:
+        """``add`` the slide unless ``skip`` (e.g. a target slide when there is no target)."""
+        if not skip:
+            self.add(*args, **kwargs)
+
     def add(
         self,
         sid: str,
@@ -272,9 +282,20 @@ class _Deck:
         libs = _get(c, "libraries.total")
         cov = self.rd.run.get("coverage", [])
         present = sum(1 for x in cov if x.get("status") == "present")
-        items = [
-            vz.gauge("SQL converting automatically", _get(c, "pg_grades.auto"), sql, "good",
-                     f"{_num(_get(c, 'pg_grades.auto'))} of {_num(sql)} statements"),
+        items = (
+            []
+            if self.rd.audit_only
+            else [  # audit only: no target database
+                vz.gauge(
+                    "SQL converting automatically",
+                    _get(c, "pg_grades.auto"),
+                    sql,
+                    "good",
+                    f"{_num(_get(c, 'pg_grades.auto'))} of {_num(sql)} statements",
+                ),
+            ]
+        )
+        items += [
             vz.gauge("Libraries with no known vulnerability",
                      libs - _get(c, "vulnerable_libraries.total"), libs, "series-1",
                      f"{_num(_get(c, 'vulnerable_libraries.total'))} vulnerable"),
@@ -346,7 +367,8 @@ class _Deck:
             self.narrative("executive"),
             kind="title",
             subtitle=f"Run {self.rd.run.get('run_id', '')} · "
-            f"{str(self.rd.run.get('started_at', ''))[:10]}",
+            f"{str(self.rd.run.get('started_at', ''))[:10]} · "
+            f"Target: {self.rd.target.get('label', '')}",
         )
 
         kpis = {
@@ -380,7 +402,7 @@ class _Deck:
         )
         self.add(
             "exec-readiness",
-            "Migration readiness",
+            "Health at a glance" if self.rd.audit_only else "Migration readiness",
             [self.gauges()],
             "Each ring is a share computed from the scan's counts (audit-summary.json).",
         )
@@ -414,6 +436,8 @@ class _Deck:
             ],
         )
 
+        if self.rd.audit_only:
+            return  # no target: no approach, timeline or effort
         plan = self.stage("plan")
         effort = {
             "type": "kpis",
@@ -746,13 +770,19 @@ class _Deck:
                     ],
                     "Most used tables",
                 ),
-                self.chart(
-                    "doughnut",
-                    "SQL by PostgreSQL grade",
-                    gl,
-                    [grades[g] for g in gl],
-                    "statements",
-                    [GRADE_TOKEN[g] for g in gl],
+                *(
+                    []
+                    if self.rd.audit_only
+                    else [
+                        self.chart(
+                            "doughnut",
+                            "SQL by PostgreSQL grade",
+                            gl,
+                            [grades[g] for g in gl],
+                            "statements",
+                            [GRADE_TOKEN[g] for g in gl],
+                        )
+                    ]
                 ),
             ],
         )
@@ -788,7 +818,8 @@ class _Deck:
             if dm and dm.get("strategy")
             else self.placeholder("data_migration", "Data strategy")
         )
-        self.add(
+        self.add_unless(
+            self.rd.audit_only,
             "tech-sql",
             "SQL readiness for PostgreSQL",
             [
@@ -1055,7 +1086,7 @@ class _Deck:
                     [[m.get("legacy", ""), m.get("target", "")] for m in self.rd.target_mapping],
                 )
             ],
-            "Mapping rules from rules/target-mapping.yaml.",
+            f"Mapping rules from rules/target-mapping.yaml for {self.rd.target.get('label', '')}.",
         )
 
     def plan(self) -> None:
@@ -1229,11 +1260,13 @@ class _Deck:
 
 
 def load_enrichment(run_dir: Path) -> dict[str, Any]:
-    """Stage name -> parsed file, for every stage file present (validated or not)."""
+    """Stage name -> parsed file, for every stage file present (validated or not). With no
+    target (audit only), files of the target stages left by an earlier run are not used."""
     sync_from_latest(run_dir)
     out: dict[str, Any] = {}
     edir = enrichment_dir(run_dir)
-    for name, stage in BY_NAME.items():
+    for stage in active_stages(run_dir):
+        name = stage.name
         p = edir / stage.file
         if p.exists():
             try:
@@ -1252,8 +1285,9 @@ def build_deck(run_dir: Path, branding: Branding | None = None) -> dict[str, Any
     deck.functional()
     deck.current()
     deck.technical()
-    deck.target()
-    deck.plan()
+    if not rd.audit_only:  # no target: no target architecture or plan slides
+        deck.target()
+        deck.plan()
     deck.risks()
     b = branding or Branding()
     return {
@@ -1269,6 +1303,11 @@ def build_deck(run_dir: Path, branding: Branding | None = None) -> dict[str, Any
         },
         "branding": b.model_dump(mode="json"),
         "palette": PALETTE,
-        "sections": [{"key": k, "title": t, "audience": a} for k, t, a in SECTIONS],
+        "sections": [
+            {"key": k, "title": t, "audience": a}
+            for k, t, a in SECTIONS
+            if not (rd.audit_only and k in ("target", "plan"))
+        ],
+        "target": rd.target,
         "slides": deck.slides,
     }

@@ -121,17 +121,31 @@ class Facts:
             for name in names:
                 row = conn.execute('SELECT id FROM "components" WHERE name = ?', (name,)).fetchone()
                 ids[name] = row["id"] if row else None
+        entries = summary.get("unscheduled_batch_entries") or {}
         bj = (summary.get("counts") or {}).get("batch_jobs") or {}
+        rows = []
+        for name in names:
+            items = entries.get(name) or []
+            if len(items) >= 2:  # one batch per entry point (decision 168)
+                rows += [
+                    {"component": name, "entry_point": i.get("name"), "kind": i.get("kind"),
+                     "file": i.get("file"), "job_id": i.get("id")}
+                    for i in items
+                ]  # fmt: skip
+            else:
+                rows.append({"component": name, "job_id": ids[name]})
         return {
             "note": (
                 "These rows are the jobs a scheduler definition starts (Autosys, JCL, cron, "
                 "Windows Task Scheduler, Hangfire...). counts.batch_jobs.total in "
-                f"audit-summary.json ({bj.get('total', '?')}) also counts each batch component "
-                f"that no scheduler definition starts ({bj.get('unscheduled', len(names))}, "
-                "listed below): each one is a batch with no schedule found. Document it with "
-                "job_id = its component id; its scripts, programs and mains are its steps."
+                f"audit-summary.json ({bj.get('total', '?')}) also counts batch work no "
+                f"scheduler definition starts ({bj.get('unscheduled', len(rows))}, listed "
+                "below): one batch per entry point of a batch component (a top-level script, a "
+                "program or a Java main no script starts), or the component itself when it has "
+                "one or none. Each is a batch with no schedule found: document it with the "
+                "job_id given; what it runs are its steps."
             ),
-            "unscheduled_batches": [{"component": name, "job_id": ids[name]} for name in names],
+            "unscheduled_batches": rows,
         }
 
     def _one(self, kind: str, key: str, value: str) -> dict[str, Any] | None:

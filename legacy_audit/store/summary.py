@@ -22,7 +22,7 @@ from legacy_audit.model import (
     TechItem,
     WebService,
 )
-from legacy_audit.store.counts import counts, unscheduled_batches
+from legacy_audit.store.counts import counts, unscheduled_batch_entries
 from legacy_audit.store.writer import FactSet
 
 MAX_BYTES = 30_000
@@ -63,6 +63,7 @@ def build_summary(
     libs = [lib for lib in facts.get("libraries", []) if isinstance(lib, Library)]
     metrics = [m for m in facts.get("metrics", []) if isinstance(m, Metric)]
     headline = counts(facts)
+    entries = unscheduled_batch_entries(facts)
 
     def build(n: int) -> dict[str, Any]:
         return {
@@ -73,6 +74,7 @@ def build_summary(
                 "started_at": run.started_at,
                 "sources": [s.model_dump(mode="json") for s in run.sources],
             },
+            "target": run.target,
             "totals": {
                 "files": len(source),
                 "input_files": len(files) - len(source),
@@ -83,7 +85,8 @@ def build_summary(
                 **{e: len(facts.get(e, [])) for e in ENTITIES if e not in ("inventory",)},
             },
             "counts": headline,
-            "unscheduled_batches": unscheduled_batches(facts),
+            "unscheduled_batches": sorted(entries),
+            "unscheduled_batch_entries": entries,
             "tech_stack": [
                 {"name": t.name, "version": t.version, "category": t.category, "eol": t.eol}
                 for t in tech[: n * 4]

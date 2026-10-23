@@ -1,5 +1,8 @@
 {% extends "base.html" %}{% import "_macros.html" as m with context %}
 {% block content %}
+<h2>Migration target</h2>
+<p>{{ target_label }}{% if audit_only %}: the audit describes the application as it is; nothing is suggested (no target mapping, PostgreSQL grades, effort or migration plan).{% else %} (<code>audit.yaml</code> &gt; <code>target.profile</code>). Target columns, upgrade advice and the AI analysis follow it.{% endif %}</p>
+
 <h2>Counting rules</h2>
 <dl class="kv">{% for k, v in counting_rules.items() %}<dt>{{ k|replace("_", " ") }}</dt><dd>{{ v }}</dd>{% endfor %}</dl>
 

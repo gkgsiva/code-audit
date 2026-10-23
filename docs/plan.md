@@ -310,6 +310,8 @@ No external LLM is approved, so the GUI never calls a model. Scanning, re-runs a
 
 `rules/target-mapping.yaml` gives the default target per legacy element; the agent applies it and records exceptions with a reason.
 
+The target is chosen per application in `audit.yaml > target.profile` (decision 161): `spring-boot-angular` (the default, the table below), `wildfly-gke` (the code moves as it is onto WildFly 41 on Java 25 in containers on GKE, only the database moves to PostgreSQL; decision 162) or `none` (audit only: no mapping, grades, effort or plan; decision 163). Each entry's `by_target` gives its WildFly target.
+
 | Legacy element | Default target |
 | --- | --- |
 | JSP / JSF / Struts screen, Spring MVC view, BMS map | Angular 21 component (route per screen, shared components for repeated forms) |

@@ -332,7 +332,7 @@ def validate(
     output_dir: Annotated[Path | None, typer.Option("--output-dir", "-o")] = None,
 ) -> None:
     """Check the Copilot enrichment against the scan; mark stale stages in status.json."""
-    from legacy_audit.enrich.stages import STAGES
+    from legacy_audit.enrich.status import active_stages
     from legacy_audit.enrich.validate import validate_run
 
     run_dir, _ = _resolve(config, run, output_dir)
@@ -341,7 +341,7 @@ def validate(
         colour = "red" if m.level == "error" else "yellow"
         console.print(f"[{colour}]{m}[/{colour}]")
     table = Table("#", "stage", "file", "state")
-    for st in STAGES:
+    for st in active_stages(run_dir):
         e = rep.status["stages"][st.name]
         if not e["present"]:
             state = "[dim]missing[/dim]"

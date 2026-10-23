@@ -58,7 +58,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 <header>
   <div class="top">
     <div><h1>{{ app }}: summary</h1>
-    <div class="sub">Run {{ run.run_id }} · {{ (run.started_at or "")[:16] | replace("T", " ") }} · figures from the scan, descriptions from the Copilot analysis where marked AI</div></div>
+    <div class="sub">Run {{ run.run_id }} · {{ (run.started_at or "")[:16] | replace("T", " ") }} · Target: {{ target_label }} · figures from the scan, descriptions from the Copilot analysis where marked AI</div></div>
     <div class="actions">
       {% if pptx %}<a class="btn" id="pptx" href="{{ pptx }}" download>PowerPoint (PPTX)</a>{% else %}<a class="btn" id="pptx" aria-disabled="true">PowerPoint (PPTX)</a>{% endif %}
       <span id="gui-tools" hidden><select id="tpl" aria-label="PowerPoint template"></select> <button class="btn ghost" id="rebuild" type="button">Rebuild PowerPoint</button></span>

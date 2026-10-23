@@ -6,7 +6,7 @@
       "id": "sample",
       "type": "pickString",
       "description": "Sample application to scan",
-      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app", "angular-node-app"],
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app", "angular-node-app", "web-services-app", "desktop-dotnet-app", "java-swing-app", "maven-multimodule-app"],
       "default": "struts-oracle-app"
     },
     {
@@ -297,6 +297,24 @@
       "command": ".venv/bin/python scripts/show_enrichment_coverage.py samples/desktop-dotnet-app samples/angular-node-app --open",
       "windows": {
         "command": ".venv\\Scripts\\python scripts\\show_enrichment_coverage.py samples\\desktop-dotnet-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_targets.py samples/struts-oracle-app samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_targets.py samples\\struts-oracle-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 31. show Maven modules and batches (multi-module sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_components.py samples/maven-multimodule-app",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_components.py samples\\maven-multimodule-app"
       },
       "problemMatcher": []
     },

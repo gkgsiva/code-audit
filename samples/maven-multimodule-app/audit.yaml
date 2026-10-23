@@ -1,0 +1,11 @@
+# Sample: a Maven multi-module project (decisions 166-168). The top pom.xml is a parent and
+# aggregator (packaging pom) of acme-core (jar), acme-web (war), acme-ear (ear), acme-tools
+# (jar, only in the "tools" profile) and batches/, itself a parent of two batch modules started
+# by the ksh scripts in scripts/. Beside the modules: a shared config/, a README and an ops/
+# folder of plain-folder batches (purge, archive, an end-of-day folder with two jobs) sharing
+# common/ and env.properties. No scheduler export is provided (a coverage gap).
+application:
+  name: "Maven multi-module sample (parents, modules and batch folders)"
+source:
+  type: local
+  paths: ["estate"]

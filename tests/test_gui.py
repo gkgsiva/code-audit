@@ -80,7 +80,7 @@ def test_clean_workspace_init_scan_dashboard_report(tmp_path: Path) -> None:
     fields["application"]["description"] = "Struts 1 + Oracle"
     _ok(client.put("/api/config/fields", json=fields, headers=H))
     text = (ws / "audit.yaml").read_text(encoding="utf-8")
-    assert "# Target stack (used by mapping rules and reports)." in text
+    assert "# Migration target (used by mapping rules, upgrade advice" in text
     assert "- src" in text and "Struts 1 + Oracle" in text
     bad = client.put("/api/config/fields", json={"target": {"java": []}}, headers=H)
     assert bad.status_code == 422

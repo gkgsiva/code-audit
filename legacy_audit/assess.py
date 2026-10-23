@@ -41,6 +41,7 @@ from legacy_audit.security.eol import apply_eol
 from legacy_audit.security.jdk import run_jdk_tools
 from legacy_audit.security.sbom import build_sbom
 from legacy_audit.security.upgrades import apply_upgrades
+from legacy_audit.target import NONE, fill, resolve
 
 log = logging.getLogger("legacy_audit")
 
@@ -208,26 +209,30 @@ def assess(
 ) -> Assessment:
     cfg = loaded.config
     tdir = team_dir(loaded)
+    profile = cfg.target.profile
     packs: dict[str, Pack] = {name: load_pack(name, tdir) for name in cfg.rules.enabled}
+    mapping = resolve(load_pack("target-mapping", tdir).data, profile)
+    phrases = {str(k): str(v or "") for k, v in (mapping.get("phrases") or {}).items()}
 
     statements = [s for s in entities.get("sql_statements", []) if isinstance(s, SqlStatement)]
     objects = [o for o in entities.get("db_objects", []) if isinstance(o, DbObject)]
-    grade_all(
-        statements,
-        objects,
-        load_pack("postgresql", tdir).data,
-        workers=worker_count(cfg.inventory.workers),
-        cache_file=run_dir.parent.parent / "cache" / "grade-cache.sqlite",
-        cancel=cancel,
-    )
+    if profile != NONE:  # audit only: no target database to grade against
+        grade_all(
+            statements,
+            objects,
+            load_pack("postgresql", tdir).data,
+            workers=worker_count(cfg.inventory.workers),
+            cache_file=run_dir.parent.parent / "cache" / "grade-cache.sqlite",
+            cancel=cancel,
+        )
 
     libraries = [lib for lib in entities.get("libraries", []) if isinstance(lib, Library)]
     tech = [t for t in entities.get("tech_stack", []) if isinstance(t, TechItem)]
-    apply_eol(libraries, tech, load_pack("eol", tdir).data)
+    apply_eol(libraries, tech, resolve(load_pack("eol", tdir).data, profile))
     sources, coverage, unmatched = _vulnerabilities(
         cfg, loaded.inputs_dir, scan_dirs, run_dir, libraries
     )
-    dependency = load_pack("dependency", tdir).data
+    dependency = resolve(load_pack("dependency", tdir).data, profile)
     apply_upgrades(libraries, dependency)
     risky = [str(x) for x in dependency.get("licenses", {}).get("risky", [])]
 
@@ -268,16 +273,19 @@ def assess(
     rules = [r for pack in packs.values() for r in pack.rules]
     raised = [f for f in entities.get("findings", []) if isinstance(f, Finding)]
     findings = apply_config([*raised, *evaluate(rules, collection, hits)], cfg)
+    for f in findings:  # [[phrase]] placeholders take the target's wording
+        f.message = fill(f.message, phrases) or ""
+        f.remediation = fill(f.remediation, phrases)
 
     component_of = {r.path: r.component for r in records}
-    effort = estimate(cfg, entities, component_of) if cfg.effort.enabled else None
-    mapping = load_pack("target-mapping", tdir).data.get("targets", [])
+    plan_effort = cfg.effort.enabled and profile != NONE  # audit only: nothing to estimate
+    effort = estimate(cfg, entities, component_of) if plan_effort else None
     return Assessment(
         findings=findings,
         effort=effort,
         sbom=sbom,
         sources=sources,
         coverage=coverage,
-        target_mapping=mapping,
+        target_mapping=list(mapping.get("targets") or []),
         unmatched_reports=unmatched,
     )

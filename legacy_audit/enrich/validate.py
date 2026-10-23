@@ -25,6 +25,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
+from legacy_audit import target
 from legacy_audit.enrich import status as st
 from legacy_audit.enrich.stages import BY_NAME, STAGES, Stage
 from legacy_audit.report.data import RunData
@@ -59,6 +60,9 @@ _VERSIONED = re.compile(
     re.I,
 )
 COMPONENT_KEYS = {"component", "components", "replaces"}
+# Suggestions that belong to another target than WildFly (the code moves as it is there).
+_OTHER_TARGET = re.compile(r"\bSpring Boot\b|\bCloud Run\b|\bAngular 2\d\b", re.I)
+_MIGRATION_KEYS = {"migration", "migration_notes"}
 
 
 @dataclass
@@ -144,6 +148,7 @@ class _Checker:
             self.facts["effort"] = self.rd.effort
         self.components = {c["name"] for c in self.rd.items("components")}
         self.line_counts: dict[Path, int] = {}
+        self.target = target.read(run_dir)
 
     def check(self, stage: Stage, data: Any, out: list[Message]) -> None:
         def add(level: str, where: str, text: str) -> None:
@@ -162,6 +167,7 @@ class _Checker:
         self._figures(data, add)
         self._evidence(data, add)
         self._prose(data, add)
+        self._target(stage, data, add)
 
     def _references(self, data: Any, add: Any) -> None:
         for path, key, value in _walk({k: v for k, v in data.items() if k != "meta"}):
@@ -229,6 +235,28 @@ class _Checker:
                 if line is not None and not 1 <= line <= self._lines(p):
                     add("error", where, f"line {line} is outside '{file}' ({self._lines(p)} lines)")
 
+    def _target(self, stage: Stage, data: Any, add: Any) -> None:
+        """Suggestions must follow the target in ``data/target.json`` (decision 161)."""
+        profile = self.target["profile"]
+        label = self.target["label"]
+        for path, key, value in _walk({k: v for k, v in data.items() if k != "meta"}):
+            if not isinstance(value, str) or not value.strip():
+                continue
+            where = f"{path}.{key}" if path else key
+            if profile == target.NONE and key in _MIGRATION_KEYS:
+                add("warning", where, "the target is none (audit only): leave migration text out")
+            elif profile == target.WILDFLY and (
+                stage.name in target.TARGET_STAGES or key in _MIGRATION_KEYS
+            ):
+                hit = _OTHER_TARGET.search(value)
+                if hit and key not in ("today", "mermaid"):
+                    add(
+                        "warning",
+                        where,
+                        f"names '{hit.group(0)}', but the target is {label}: the code moves as "
+                        "it is and only the database changes",
+                    )
+
     def _prose(self, data: Any, add: Any) -> None:
         for path, key, value in _walk(data):
             if not isinstance(value, str) or key in ("mermaid", "metric", "label"):
@@ -258,11 +286,17 @@ def validate_run(run_dir: Path, stages: list[str] | None = None, restamp: bool =
     for name in unknown:
         report.messages.append(Message("error", name, "", "no such stage"))
     checker = _Checker(run_dir)
+    active = {s.name for s in st.active_stages(run_dir)}
     for stage in STAGES:
         if stages and stage.name not in stages:
             continue
         path = edir / stage.file
         if not path.exists():
+            continue
+        if stage.name not in active:
+            report.messages.append(
+                Message("warning", stage.name, "", "not needed: the target is none (audit only)")
+            )
             continue
         report.checked.append(stage.name)
         msgs: list[Message] = []

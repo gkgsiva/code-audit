@@ -440,6 +440,44 @@ Copilot stopped before the functional stages: `batch_jobs.json` was empty while
   batches with their component ids; agent rules and `/audit-enrich` updated (decision 160).
 - Next: Siva runs `legacy-audit init` in the audit folder to refresh the agent files.
 
+## Migration target: Spring Boot, WildFly on GKE, or audit only (2026-10-22)
+
+Siva: the target is not always Spring Boot / Angular; some applications are lifted onto WildFly
+for GKE (code kept, only the database to PostgreSQL, WildFly 41 on Java 25), and some audits
+have no target.
+
+- Done: `target.profile` in `audit.yaml` (`spring-boot-angular` default, `wildfly-gke`,
+  `none`), `data/target.json`; per-target rule tables (`profiles` / `by_target` in
+  `target-mapping.yaml`, `eol.yaml`, `dependency-upgrades.yaml`) and `[[phrase]]` wording in
+  findings; audit only drops PostgreSQL grades, effort, the target mapping and the five target
+  stages; reports, deck and PPTX follow the target or leave target parts out; agent rules,
+  enrich prompts and the validator follow it; GUI picker; `tests/test_targets.py`, VS Code task
+  30 (`scripts/show_targets.py`), decisions 161-165.
+- Known gaps: one target per application (no per-component target); the effort weights are
+  the same for a lift onto WildFly as for a rewrite (adjust `effort` in `audit.yaml`); a WildFly
+  move of a Spring application keeps Spring but the eol advice still names the supported
+  Spring release lines, not a WildFly-specific path.
+- Next: Siva sets the target per application, rescans, runs `legacy-audit init` once and
+  `/audit-enrich stale`.
+
+## Maven modules and batch folders (2026-10-23)
+
+Siva: multi-module Maven projects, Maven parent projects and several batches under one folder
+were not processed correctly; when a pom.xml is there, Maven should decide.
+
+- Done: Maven parents / aggregators (packaging `pom`) and Gradle roots are groups, each module a
+  component, with `build_group`, `artifact`, `packaging` on the component (decision 166); a
+  batch folder of several batches is split, its shared part never a batch (decision 167); one
+  batch per entry point when no scheduler covers it, Maven batch modules started by a script
+  count with that script (decision 168, Siva's choice). New sample `maven-multimodule-app`,
+  `spring-mvc-batch-app` loses its "billing" parent component, VS Code task 31
+  (`scripts/show_components.py` now prints the module tree and the batch entry points).
+- Known gaps: a module listed in a pom but missing from the source is not reported as a gap;
+  Gradle `projectDir` is read only in the simple `file('x')` form; `ear` modules do not list
+  the modules they bundle; batch folders inside an application folder (next to `src/`) are not
+  split (their entry points still count one by one).
+- Next: Siva runs it on a real multi-module estate and checks the module tree and the count.
+
 ## PDF copies of the reports (2026-10-23)
 
 Siva asked for PDF versions of the reports and confirmed all four, on A4.

@@ -148,9 +148,16 @@ class ComponentSpec(Strict):
 
 
 class Target(Strict):
+    profile: Literal["spring-boot-angular", "wildfly-gke", "none"] = Field(
+        "spring-boot-angular",
+        description="spring-boot-angular (default), wildfly-gke (lift onto WildFly on GKE, "
+        "database to PostgreSQL) or none (audit only, nothing suggested)",
+    )
     java: str = "25"
     spring_boot: str = "4.1"
     angular: str = "21"
+    wildfly: str = "41"
+    jakarta_ee: str = "11"
     database: str = "postgresql"
     cloud: str = "gcp"
 

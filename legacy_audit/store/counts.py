@@ -12,6 +12,7 @@ from legacy_audit.model import (
     Component,
     DbObject,
     EntryPoint,
+    FileRecord,
     Finding,
     Integration,
     Library,
@@ -33,38 +34,137 @@ def _sorted(c: Counter[str]) -> dict[str, int]:
 RUN_EDGES = ("invokes", "runs", "triggers", "calls", "includes")
 
 
-def unscheduled_batches(facts: FactSet) -> list[str]:
-    """Components doing batch work that no scheduler definition covers (decision 116). Each is
-    one batch, however many scripts and programs it holds: its ksh scripts are parts of it. A
-    component is covered when a job is defined in it or a job runs something in it (directly
-    or through the scripts and programs it starts)."""
+# Programs and entry points that start batch work (the same lists as the Batch pages).
+PROGRAM_SERVICES = ("c-executable", "cobol-program")
+PROGRAM_ENTRY = ("main", "scheduler", "spring-batch", "windows-service")
+ONLINE_ROLES = {"web", "online-mainframe", "frontend", "api", "desktop"}
+
+
+def _covered(facts: FactSet, runs: dict[str, list[str]], owner: dict[str, str]) -> set[str]:
+    """Components a scheduler definition covers: a job is defined in it, or a job runs
+    something in it (directly or through the scripts and programs it starts)."""
     jobs = [j for j in facts.get("batch_jobs", []) if isinstance(j, BatchJob)]
     covered = {j.component for j in jobs if j.component}
-    owner: dict[str, str] = {}
-    for kind in ("inventory", "services", "entry_points"):
-        for f in facts.get(kind, []):
-            comp = getattr(f, "component", None)
-            if comp:
-                owner[f.id] = comp
-    outgoing: dict[str, list[str]] = {}
-    for e in facts.get("dependencies", []):
-        if isinstance(e, CodeEdge) and e.resolved and e.kind in RUN_EDGES:
-            outgoing.setdefault(e.source, []).append(e.target)
     seen = {j.id for j in jobs} | {make_id("service", "batch-job", j.id) for j in jobs}
     todo = list(seen)
     while todo:
         node = todo.pop()
         if node in owner:
             covered.add(owner[node])
-        for t in outgoing.get(node, []):
+        for t in runs.get(node, []):
             if t not in seen:
                 seen.add(t)
                 todo.append(t)
-    return sorted(
-        c.name
-        for c in facts.get("components", [])
-        if isinstance(c, Component) and "batch" in c.roles and c.name not in covered
-    )
+    return covered
+
+
+def unscheduled_batch_entries(facts: FactSet) -> dict[str, list[dict[str, Any]]]:
+    """Batch work no scheduler definition covers, per component (decisions 116 and 168).
+
+    Each *entry point* of a batch component is one batch: a top-level shell script (no other
+    script or program runs it), a C or COBOL batch program no script starts, a Java ``main`` (or
+    Spring Batch job, Windows service) no script starts. What an entry point runs (helper scripts,
+    the program, its SQL and properties) are its steps, not batches. A batch component with no
+    entry point found is still one batch, unless an entry point of another component runs it
+    (a Maven batch module started by a ksh in a ``scripts/`` folder): then it is a step of that
+    batch. Returns component name -> entry points (empty list: the component is the batch)."""
+    from legacy_audit.inventory.components import in_batch_folder, in_shared_folder
+
+    comps = [c for c in facts.get("components", []) if isinstance(c, Component)]
+    records = [r for r in facts.get("inventory", []) if isinstance(r, FileRecord) and r.component]
+    owner: dict[str, str] = {}
+    for kind in ("inventory", "services", "entry_points"):
+        for f in facts.get(kind, []):
+            comp = getattr(f, "component", None)
+            if comp:
+                owner[f.id] = comp
+    runs: dict[str, list[str]] = {}
+    called: set[str] = set()
+    for e in facts.get("dependencies", []):
+        if isinstance(e, CodeEdge) and e.resolved and e.kind in RUN_EDGES:
+            runs.setdefault(e.source, []).append(e.target)
+            called.add(e.target)
+    covered = _covered(facts, runs, owner)
+    roles = {c.name: {*c.roles, str(c.type)} for c in comps}
+    batch = {c.name for c in comps if "batch" in roles[c.name] and c.name not in covered}
+    file_id = {r.path: r.id for r in records}
+
+    entries: dict[str, list[dict[str, Any]]] = {name: [] for name in batch}
+    taken_files: set[str] = set()
+    for r in sorted(records, key=lambda r: r.path):
+        comp = str(r.component)
+        if r.language != "shell" or comp not in batch or r.id in called:
+            continue
+        if roles[comp] & ONLINE_ROLES and not in_batch_folder(r.path):
+            continue  # deploy and admin scripts of an online application
+        if in_shared_folder(r.path):
+            continue  # a helper the batches share
+        entries[comp].append(
+            {"id": r.id, "name": r.path.rsplit("/", 1)[-1], "kind": "script", "file": r.path,
+             "line": None, "component": comp}
+        )  # fmt: skip
+        taken_files.add(r.path)
+    services = [s for s in facts.get("services", []) if isinstance(s, Service)]
+    # Files something runs: a program started by a script is a step, wherever the script is.
+    file_of = {r.id: r.path for r in records}
+    file_of.update({s.id: s.evidence[0].file for s in services if s.evidence})
+    run_files = {file_of[t] for t in called if t in file_of}
+    for svc in sorted(services, key=lambda s: s.name):
+        comp = svc.component or ""
+        if svc.kind not in PROGRAM_SERVICES or comp not in batch or svc.id in called:
+            continue
+        sfile = svc.evidence[0].file if svc.evidence else None
+        if sfile and (sfile in taken_files or sfile in run_files):
+            continue
+        entries[comp].append(
+            {"id": svc.id, "name": svc.name, "kind": "program", "file": sfile,
+             "line": svc.evidence[0].line if svc.evidence else None, "component": comp,
+             "service_id": svc.id}
+        )  # fmt: skip
+        if sfile:
+            taken_files.add(sfile)
+    eps = [e for e in facts.get("entry_points", []) if isinstance(e, EntryPoint)]
+    for ep in sorted(eps, key=lambda e: e.name):
+        comp = ep.component or ""
+        if ep.kind not in PROGRAM_ENTRY or comp not in batch or ep.id in called:
+            continue
+        if ep.kind == "main" and "desktop" in roles[comp]:
+            continue  # the main() of a desktop application opens its windows
+        if ep.file in taken_files or ep.file in run_files:
+            continue
+        entries[comp].append(
+            {"id": ep.id, "name": ep.name.rsplit(".", 1)[-1], "kind": "program", "file": ep.file,
+             "line": ep.line, "component": comp}
+        )  # fmt: skip
+        taken_files.add(ep.file)
+
+    # Components an entry point of another component reaches are steps of that batch.
+    reached: set[str] = set()
+    for comp, items in entries.items():
+        seen = {i["id"] for i in items} | {
+            file_id[i["file"]] for i in items if i["file"] in file_id
+        }
+        todo = list(seen)
+        while todo:
+            node = todo.pop()
+            other = owner.get(node)
+            if other and other != comp:
+                reached.add(other)
+            for t in runs.get(node, []):
+                if t not in seen:
+                    seen.add(t)
+                    todo.append(t)
+    return {name: items for name, items in sorted(entries.items()) if items or name not in reached}
+
+
+def unscheduled_batches(facts: FactSet) -> list[str]:
+    """Batch components no scheduler definition covers (see ``unscheduled_batch_entries``)."""
+    return sorted(unscheduled_batch_entries(facts))
+
+
+def unscheduled_count(entries: dict[str, list[dict[str, Any]]]) -> int:
+    """One batch per entry point; a batch component with none found is one batch."""
+    return sum(max(1, len(items)) for items in entries.values())
 
 
 def counts(facts: FactSet) -> dict[str, Any]:
@@ -81,7 +181,8 @@ def counts(facts: FactSet) -> dict[str, Any]:
     findings = [f for f in facts.get("findings", []) if isinstance(f, Finding)]
     real_screens = [s for s in screens if not s.partial]
     counted_jobs = [j for j in jobs if j.kind != "box"]
-    unscheduled = unscheduled_batches(facts)
+    unscheduled_entries = unscheduled_batch_entries(facts)
+    unscheduled = unscheduled_count(unscheduled_entries)
     return {
         "services": {"total": len(services), "by_kind": _sorted(Counter(s.kind for s in services))},
         "screens": {
@@ -111,9 +212,9 @@ def counts(facts: FactSet) -> dict[str, Any]:
             "operations": sum(len(w.operations) for w in web),
         },
         "batch_jobs": {
-            "total": len(counted_jobs) + len(unscheduled),
+            "total": len(counted_jobs) + unscheduled,
             "scheduled": len(counted_jobs),
-            "unscheduled": len(unscheduled),
+            "unscheduled": unscheduled,
             "boxes": len(jobs) - len(counted_jobs),
             "by_scheduler": _sorted(Counter(j.scheduler for j in counted_jobs)),
         },

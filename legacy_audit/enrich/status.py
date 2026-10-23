@@ -20,6 +20,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from legacy_audit import target
 from legacy_audit.enrich.stages import BY_NAME, STAGES, Stage, fact_file
 from legacy_audit.store.writer import write_json
 
@@ -28,6 +29,7 @@ log = logging.getLogger("legacy_audit")
 ENRICHMENT = "enrichment"
 STATUS_FILE = "status.json"
 _MISSING = "missing"
+TARGET_INPUT = "target"
 
 
 def enrichment_dir(run_dir: Path) -> Path:
@@ -55,6 +57,13 @@ def stage_hash(path: Path) -> str:
     return _sha(json.dumps(data, sort_keys=True, ensure_ascii=False).encode("utf-8"))
 
 
+def active_stages(run_dir: Path) -> list[Stage]:
+    """The stages this run's target needs: all of them, or without the target stages when
+    there is no target (audit only, ``data/target.json``)."""
+    skipped = set(target.read(run_dir).get("skipped_stages") or [])
+    return [s for s in STAGES if s.name not in skipped]
+
+
 def current_hashes(run_dir: Path, stage: Stage) -> dict[str, str]:
     out: dict[str, str] = {}
     for kind in stage.inputs:
@@ -63,6 +72,13 @@ def current_hashes(run_dir: Path, stage: Stage) -> dict[str, str]:
     for up in stage.after:
         out[f"stage:{up}"] = stage_hash(enrichment_dir(run_dir) / BY_NAME[up].file)
     return out
+
+
+def _changed(key: str, was: dict[str, str], now: dict[str, str], run_dir: Path) -> bool:
+    if key == TARGET_INPUT and key not in was:
+        # Built before the target was recorded: it was built for the default target.
+        return target.profile_of(run_dir) != target.DEFAULT
+    return was.get(key) != now[key]
 
 
 def stamp(run_dir: Path, stage: Stage, *, force: bool = False) -> bool:
@@ -85,7 +101,7 @@ def compute_status(run_dir: Path) -> dict[str, Any]:
     """Present / stale per stage; written to ``enrichment/status.json``."""
     edir = enrichment_dir(run_dir)
     stages: dict[str, dict[str, Any]] = {}
-    for st in STAGES:
+    for st in active_stages(run_dir):
         path = edir / st.file
         entry: dict[str, Any] = {"number": st.number, "file": st.file, "present": path.exists()}
         if path.exists():
@@ -98,7 +114,7 @@ def compute_status(run_dir: Path) -> dict[str, Any]:
             else:
                 now = current_hashes(run_dir, st)
                 was = built.get("facts_hash_by_input") or {}
-                changed = sorted(k for k in now if was.get(k) != now[k])
+                changed = sorted(k for k in now if _changed(k, was, now, run_dir))
                 upstream = [u for u in st.after if stages.get(u, {}).get("stale")]
                 entry.update(
                     validated=True,

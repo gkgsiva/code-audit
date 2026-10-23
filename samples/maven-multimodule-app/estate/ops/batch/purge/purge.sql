@@ -1,0 +1,3 @@
+-- Audit rows older than 90 days
+DELETE FROM AUDIT_LOG WHERE CREATED < SYSDATE - 90;
+COMMIT;

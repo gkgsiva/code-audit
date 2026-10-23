@@ -1,7 +1,8 @@
 # Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
 # Maven parent + 3 modules (billing-common, billing-web, billing-batch); audit-inputs has an
 # Autosys export (box, file watcher, 2 CMD jobs) and an MQSC export for queue manager QMBILL.
-# Known: the parent folder 'billing' holds only pom.xml, so it is a component of type unknown;
+# The parent pom 'billing' (packaging pom) is a group of its modules, not a component
+# (decision 166);
 # archive_usage.sh (run by Autosys job BIL_ARCHIVE) is deliberately missing -> 1 unresolved.
 
 inventory:
@@ -16,13 +17,11 @@ inventory:
     xml: {files: 10, code: 290, comment: 0, blank: 27}
   by_category: {build: 4, config: 7, screen: 5, script: 1, source: 11}
 components:
-- {name: billing, type: unknown, files: 1, detected_by: build-file}
 - {name: billing-batch, type: batch, files: 5, detected_by: build-file}
 - {name: billing-common, type: library, files: 7, detected_by: build-file}
 - {name: billing-web, type: web, files: 15, detected_by: build-file}
 # Every kind of work found in each component (web, batch, db, ...); type is the main one.
 component_roles:
-  billing: []
   billing-batch: [batch]
   billing-common: [library]
   billing-web: [web]

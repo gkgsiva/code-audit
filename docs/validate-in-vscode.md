@@ -727,6 +727,85 @@ Same on Windows and WSL2 (`python3` on WSL2).
    keeps `audit.yaml`) so Copilot gets the updated agent rules, then `/audit-enrich stale`.
    Copilot documents each unscheduled batch with its component id instead of stopping.
 
+## Migration target: Spring Boot, WildFly on GKE, or audit only
+
+Same on Windows and WSL2. On WSL2 use `python3` where a step says `python`, and `.venv/bin/python`
+where Windows uses `.venv\Scripts\python`. No new package to install.
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including `tests/test_targets.py`.
+2. Run `audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)`. It scans
+   `struts-oracle-app` and `angular-node-app` three times each, once per target, without
+   touching their `audit.yaml` (the runs go to `audit-output/targets/<target>/`). For each target
+   it prints:
+   - the target, for example **WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on
+     PostgreSQL**;
+   - **AI stages to write**: 14 of 14, or 9 of 14 for `none` (no service mapping, data
+     migration, dependency plan, target architecture or plan);
+   - **PostgreSQL grades** and **Effort estimate**: present for the two targets, "no target" for
+     `none`;
+   - **Servers and runtimes, what each becomes** (Angular sample): a Spring Boot jar on GKE or
+     Cloud Run for the default, a WildFly 41 container on GKE for `wildfly-gke`, "(no target)"
+     for `none`;
+   - **Library advice**: for the Struts sample, Struts 1 goes to Spring MVC by default; with
+     WildFly it says Struts 7, or the Eclipse Transformer to keep the Struts 1 code; Oracle's
+     driver goes to PostgreSQL for both targets and to a supported Oracle driver for `none`;
+   - one **server finding** and what to do about it, worded for the target.
+   Then the six summary reports open (on WSL2, if they do not open, open the printed paths from
+   Windows Explorer).
+3. In each summary report, part **1 Project** says "Migration target: ..." and the header shows
+   the target. For `none`: the servers table has no **Target** column, part **2 Database** has no
+   PostgreSQL chart, tile or Auto/Review/Manual columns.
+4. **On your own application**: open `audit.yaml` (or the GUI's **Settings** page, field
+   **Migration target**) and set
+   ```yaml
+   target:
+     profile: wildfly-gke        # or spring-boot-angular (default), or none
+   ```
+   Scan again (task 3 or the GUI's **Scan** button; files are not re-read, only the advice
+   changes), then build the reports. The technical report's header and **Appendix** name the
+   target; with `none` the **PostgreSQL** page is gone and the management deck has no target or
+   plan slides.
+5. **Copilot**: run `legacy-audit init` once in the audit folder (without `--force`) so Copilot
+   gets the new agent rules, then `/audit-enrich stale`. After a change of target only the
+   stages that suggest something are stale (service mapping, data migration, dependency plan,
+   risks, target architecture, plan). With `wildfly-gke`, `legacy-audit validate` warns if the
+   AI still writes Spring Boot, Cloud Run or Angular 21 in those stages. With `none`, Copilot
+   skips the five target stages.
+
+## Maven modules and batch folders
+
+The new sample `samples/maven-multimodule-app` is a Maven parent with modules (one only in a
+profile), a nested parent of two batch modules started by ksh scripts, a shared `config/`, and
+an `ops/batch/` folder of three plain-folder batches sharing `common/`. Steps are the same on
+Windows and WSL2: VS Code picks the right command (WSL2 uses `.venv/bin/python`, set up with
+`python3`).
+
+1. Pull the branch, then run `audit: 1. set up (venv + install)` once (nothing new to install)
+   and `audit: 2. tests (pytest)`: everything passes, including `tests/test_components.py`,
+   `tests/test_samples.py::test_sample_counts[maven-multimodule-app]` and
+   `tests/test_functional.py::test_one_batch_per_entry_point`.
+2. Run **`audit: 31. show Maven modules and batches (multi-module sample)`**. Check in the
+   terminal:
+   - 12 components; `acme-parent` and `acme-batches` are not among them (they are groups);
+   - the module tree shows `acme-parent (group)` with `acme-core [jar]`, `acme-ear [ear]`,
+     `acme-tools [jar]`, `acme-web [war] -> web`, and `acme-batches (group)` with
+     `billing-batch` and `report-batch`;
+   - `ops/batch` is split into `archive`, `eod`, `purge` (batch) and `batch` (type script: the
+     shared `common/functions.ksh` and `env.properties`);
+   - `Batch jobs: 6 = 0 scheduled + 6 with no schedule found`, listing `scripts` (2:
+     `run_billing.ksh`, `run_report.ksh`), `eod` (2), `purge` (1) and `archive` (1).
+     `billing-batch` and `report-batch` are not counted: the scripts start them.
+3. Run `audit: 7. build and open the technical report` and pick `maven-multimodule-app`. On
+   **Components**, the "Maven group" column shows `acme-parent > acme-batches` for the batch
+   modules and the packaging (`jar`, `war`, `ear`); on **Batch** there are six "no schedule
+   found" flows, `eod: run_eod.ksh` and `eod: run_eod_report.ksh` among them.
+4. Optional, the GUI: run `audit: 13. start the GUI on a sample` with `maven-multimodule-app`
+   and open **Components**: the Maven group column is there before any scan.
+5. **In your own audit folder**: pull, run `legacy-audit scan` (components are always
+   recomputed, nothing to clear), then `legacy-audit init` once (keeps `audit.yaml`) so
+   Copilot gets the updated batch rules, and `/audit-enrich stale`: component names of Maven
+   parents disappear and batches with several entry points are documented one by one.
+
 ## PDF copies of the reports
 
 Needs Microsoft Edge or Google Chrome (Edge is on every Windows laptop). After pulling, run
