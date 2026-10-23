@@ -493,3 +493,12 @@ Siva asked for PDF versions of the reports and confirmed all four, on A4.
   is the fallback. The editable PowerPoint is not converted to PDF (the management deck PDF
   holds the same slides).
 - Next: Siva runs task 32 on Windows and on WSL2.
+
+## Copilot files not showing in VS Code (2026-10-23)
+
+- Done: the agent, chat mode and prompt headers installed by `init` quote every value
+  (decision 173). Unquoted descriptions holding ": " were invalid YAML, and current VS Code
+  dropped the files, so `/audit-*` and the **legacy-auditor** agent were missing.
+  `tests/test_copilot.py::test_front_matter_is_valid_yaml`; troubleshooting steps in
+  `docs/copilot-agent.md`; validate section "Copilot agent and prompts show in Copilot Chat".
+- Next: Siva runs `legacy-audit init` in each audit folder, reloads VS Code and checks `/audit`.
