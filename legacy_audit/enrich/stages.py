@@ -1,6 +1,8 @@
 """Enrichment stages (thirteen; stage 8 writes two files) and what each is built from.
 
-``inputs`` are fact files in ``data/`` (an entity name, ``effort`` or ``target-mapping``);
+``inputs`` are fact files in ``data/`` (an entity name, ``effort``, ``target-mapping`` or
+``target``; the stages that suggest something read ``target``, so changing the target makes
+them stale);
 ``after`` are earlier stages whose output the stage reads. A stage is stale when the hash of one
 of them changed since it was built (see ``status.py``). Keep ``inputs`` to what the stage really
 reads: adding Autosys JIL changes services, batch jobs and the tech stack, so flows, risks, plan
@@ -42,17 +44,19 @@ STAGES: list[Stage] = [
            "dependencies"),
           ("classification",)),
     Stage(5, "service_mapping", "Services", m.ServiceMapping,
-          ("services", "components", "target-mapping"), ("classification",)),
-    Stage(6, "data_migration", "Data", m.DataMigration, ("sql_statements", "db_objects")),
-    Stage(7, "dependency_plan", "Dependencies", m.DependencyPlan, ("libraries", "tech_stack")),
+          ("services", "components", "target-mapping", "target"), ("classification",)),
+    Stage(6, "data_migration", "Data", m.DataMigration, ("sql_statements", "db_objects", "target")),
+    Stage(7, "dependency_plan", "Dependencies", m.DependencyPlan,
+          ("libraries", "tech_stack", "target")),
     Stage(8, "risks", "Risks", m.Risks,
           ("findings", "libraries", "tech_stack", "integrations", "batch_jobs",
-           "input_coverage")),
+           "input_coverage", "target")),
     Stage(8, "assumptions", "Assumptions", m.Assumptions, ("input_coverage", "findings")),
     Stage(9, "target_architecture", "Target architecture", m.TargetArchitecture,
-          ("components", "integrations", "web_services", "tech_stack", "target-mapping"),
+          ("components", "integrations", "web_services", "tech_stack", "target-mapping",
+           "target"),
           ("architecture", "service_mapping")),
-    Stage(10, "plan", "Plan", m.Plan, ("components", "effort"),
+    Stage(10, "plan", "Plan", m.Plan, ("components", "effort", "target"),
           ("risks", "dependency_plan", "target_architecture", "service_mapping",
            "data_migration")),
     Stage(11, "narratives", "Narratives", m.Narratives, (),
@@ -70,7 +74,11 @@ STAGES: list[Stage] = [
           ("classification",)),
 ]  # fmt: skip
 BY_NAME = {s.name: s for s in STAGES}
-FACT_FILES = {"effort": "effort.json", "target-mapping": "target-mapping.json"}
+FACT_FILES = {
+    "effort": "effort.json",
+    "target-mapping": "target-mapping.json",
+    "target": "target.json",  # the migration target (audit.yaml > target.profile)
+}
 
 
 def fact_file(kind: str) -> str:

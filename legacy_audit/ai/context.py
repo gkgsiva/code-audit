@@ -18,6 +18,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+from legacy_audit import target
 from legacy_audit.copilot.install import _asset
 from legacy_audit.enrich.stages import Stage, fact_file
 from legacy_audit.report import flows
@@ -221,10 +222,13 @@ def build(run_dir: Path, stage: Stage, budget: int, rd: RunData | None = None) -
     """(system prompt, user prompt) for ``stage`` on the run in ``run_dir``."""
     system = _asset("agent.md") + "\n\n" + HEADLESS
     schema = json.dumps(stage.model.model_json_schema(), separators=(",", ":"))
+    goal = target.read(run_dir)
     fixed = (
         f"# Stage {stage.number}: {stage.title} (`{stage.name}`)\n\n"
         f"Write `{stage.file}` for this stage only. Start with "
         f'`"meta": {{"stage": "{stage.name}"}}`.\n\n'
+        f"**Migration target: {goal['label']}** (`data/target.json`, profile "
+        f"`{goal['profile']}`). Follow the rules for this target in the agent rules.\n\n"
         f"## How to enrich (the same guidance the VS Code agent follows)\n\n{_stage_prompt()}\n\n"
         f"## JSON Schema of `{stage.file}`\n\n{schema}\n\n"
     )
@@ -232,7 +236,7 @@ def build(run_dir: Path, stage: Stage, budget: int, rd: RunData | None = None) -
     data = run_dir / "data"
     run = _load(run_dir / "run.json") or {}
     summary = _load(data / "audit-summary.json") or {}
-    context = {k: run.get(k) for k in ("application", "coverage", "overrides", "run_id")}
+    context = {k: run.get(k) for k in ("application", "coverage", "overrides", "run_id", "target")}
     blocks = [
         _rows_block("run.json (application, input coverage, overrides)", context, left // 10),
         _rows_block("audit-summary.json", summary, left // 10),

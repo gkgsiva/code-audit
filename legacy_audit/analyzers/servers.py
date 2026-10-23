@@ -19,8 +19,10 @@ Read from the files that only make sense on one product (decision 131):
 Each is a tech-stack item (category ``app-server`` or ``web-server``, ``runtime`` for Node.js and
 Java images) with the file and line as evidence, and a version only when the file states one
 (``<domain-version>``, a DTD naming the release, an image tag). Server-specific descriptors and
-vendor APIs are also ``server-specific`` findings: they must be replaced when the application
-moves to Spring Boot on GKE / Cloud Run.
+vendor APIs are also ``server-specific`` findings. What becomes of them depends on the target
+(``audit.yaml > target.profile``), so their texts carry ``[[server-move]]``,
+``[[server-api]]`` and ``[[server-remediation]]``, filled in by the assess stage
+(``rules/target-mapping.yaml > phrases``).
 """
 
 from __future__ import annotations
@@ -175,7 +177,6 @@ VENDOR_API = [
     ),
     (re.compile(r"^\s*import\s+(org\.apache\.catalina\.[\w.*]+)", re.M), TOMCAT),
 ]
-MOVE_TO = "Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)"
 
 
 def _version_tag(image: str) -> str | None:
@@ -189,7 +190,7 @@ def _version_tag(image: str) -> str | None:
 
 class ServersAnalyzer:
     name: ClassVar[str] = "servers"
-    version: ClassVar[str] = "1"
+    version: ClassVar[str] = "2"
 
     def supports(self, file: FileRecord) -> bool:
         name = PurePosixPath(file.path).name.lower()
@@ -235,8 +236,7 @@ class ServersAnalyzer:
                         "server-specific-api",
                         Severity.MEDIUM,
                         m.start(),
-                        f"Uses the {server} API {m.group(1)}: it is not available on the target "
-                        "runtime and must be replaced by a standard or Spring equivalent",
+                        f"Uses the {server} API {m.group(1)}: [[server-api]]",
                     )
                     break
             return facts
@@ -278,7 +278,7 @@ class ServersAnalyzer:
                     f"{what} ({PurePosixPath(path).name}"
                     + (", XMI format of WebSphere 6.x/7" if old else "")
                     + f"): its settings (context root, JNDI names, data sources, security roles, "
-                    f"class loading) are specific to {server} and must move to {MOVE_TO}",
+                    f"class loading) are specific to {server} [[server-move]]",
                 )
                 return facts
         if name == "config.xml" and ("<domain" in text and "weblogic" in text.lower()):
@@ -366,8 +366,7 @@ class _Found:
                 file=self.path,
                 line=line,
                 message=message,
-                remediation=f"Move these settings to {MOVE_TO}; run the application as a Spring "
-                "Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+                remediation="[[server-remediation]]",
                 evidence=[Evidence(file=self.path, line=line)],
             ),
         )
@@ -378,5 +377,5 @@ class _Found:
             Severity.LOW,
             0,
             f"{what}: data sources, JMS resources, security realms and tuning set here for "
-            f"{server} must move to {MOVE_TO}",
+            f"{server} [[server-move]]",
         )

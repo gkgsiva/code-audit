@@ -29,7 +29,7 @@
 </tbody></table></div>{% endif %}
 <div class="panel"><h3>Technical debt and migration notes</h3>
 {% if c.doc.tech_debt %}<ul class="compact">{% for t in c.doc.tech_debt %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
-{% if c.doc.migration_notes %}<p>{{ c.doc.migration_notes }}</p>{% endif %}
+{% if c.doc.migration_notes and not audit_only %}<p>{{ c.doc.migration_notes }}</p>{% endif %}
 </div>
 </div>
 {% endif %}

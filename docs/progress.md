@@ -439,3 +439,23 @@ Copilot stopped before the functional stages: `batch_jobs.json` was empty while
 - Done: `facts batch_jobs` / MCP `query_facts` explain the difference and list the unscheduled
   batches with their component ids; agent rules and `/audit-enrich` updated (decision 160).
 - Next: Siva runs `legacy-audit init` in the audit folder to refresh the agent files.
+
+## Migration target: Spring Boot, WildFly on GKE, or audit only (2026-10-22)
+
+Siva: the target is not always Spring Boot / Angular; some applications are lifted onto WildFly
+for GKE (code kept, only the database to PostgreSQL, WildFly 41 on Java 25), and some audits
+have no target.
+
+- Done: `target.profile` in `audit.yaml` (`spring-boot-angular` default, `wildfly-gke`,
+  `none`), `data/target.json`; per-target rule tables (`profiles` / `by_target` in
+  `target-mapping.yaml`, `eol.yaml`, `dependency-upgrades.yaml`) and `[[phrase]]` wording in
+  findings; audit only drops PostgreSQL grades, effort, the target mapping and the five target
+  stages; reports, deck and PPTX follow the target or leave target parts out; agent rules,
+  enrich prompts and the validator follow it; GUI picker; `tests/test_targets.py`, VS Code task
+  30 (`scripts/show_targets.py`), decisions 161-165.
+- Known gaps: one target per application (no per-component target); the effort weights are
+  the same for a lift onto WildFly as for a rewrite (adjust `effort` in `audit.yaml`); a WildFly
+  move of a Spring application keeps Spring but the eol advice still names the supported
+  Spring release lines, not a WildFly-specific path.
+- Next: Siva sets the target per application, rescans, runs `legacy-audit init` once and
+  `/audit-enrich stale`.

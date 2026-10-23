@@ -12,7 +12,7 @@
   <div class="app">
     <strong>{{ app }}</strong>
     <span class="doc-kind">{{ doc_kind }}</span>
-    <span class="meta">run <code>{{ run_id }}</code> · {{ run_date }} · legacy-audit {{ tool_version }}</span>
+    <span class="meta">run <code>{{ run_id }}</code> · {{ run_date }} · legacy-audit {{ tool_version }}{% if target_label %} · target: {{ target_label }}{% endif %}</span>
   </div>
   <div class="meta">Sources:
     {% for s in sources %}<code>{{ s.name }}</code>{% if s.commit %} @ <code title="Git commit">{{ s.commit[:12] }}</code>{% elif s.type == "local" %} (local folder){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}

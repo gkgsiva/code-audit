@@ -19,7 +19,7 @@ from typing import Any
 from legacy_audit.ai import context
 from legacy_audit.ai.providers import AiError, Client, Settings, extract_json
 from legacy_audit.enrich import status as st
-from legacy_audit.enrich.stages import BY_NAME, STAGES, Stage
+from legacy_audit.enrich.stages import BY_NAME, Stage
 from legacy_audit.enrich.validate import validate_run
 from legacy_audit.report.data import RunData
 from legacy_audit.store.writer import write_json
@@ -38,15 +38,19 @@ class StageResult:
 
 def pick_stages(run_dir: Path, names: list[str] | None, stale: bool) -> list[Stage]:
     """Stages to run, in enrichment order: the named ones, the stale and missing ones, or all."""
+    active = st.active_stages(run_dir)
     if names:
         unknown = sorted(set(names) - set(BY_NAME))
         if unknown:
             raise AiError(f"No such stage: {', '.join(unknown)}")
-        return [s for s in STAGES if s.name in names]
+        skipped = sorted(set(names) - {s.name for s in active})
+        if skipped:
+            raise AiError(f"Not needed when the target is none (audit only): {', '.join(skipped)}")
+        return [s for s in active if s.name in names]
     if stale:
         status = st.compute_status(run_dir)["stages"]
-        return [s for s in STAGES if not status[s.name]["present"] or status[s.name].get("stale")]
-    return list(STAGES)
+        return [s for s in active if not status[s.name]["present"] or status[s.name].get("stale")]
+    return active
 
 
 def _write(run_dir: Path, stage: Stage, data: dict[str, Any]) -> None:
