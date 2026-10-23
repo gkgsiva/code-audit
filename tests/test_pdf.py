@@ -160,3 +160,33 @@ def test_prints_all_four_reports(tmp_path: Path) -> None:
     deck = PdfReader(res.files["mgmt"])
     assert float(deck.pages[0].mediabox.width) > float(deck.pages[0].mediabox.height)  # slides
     assert not list((run_dir / "reports" / "tech").glob("_pdf-*.html"))  # temp copies removed
+
+
+@pytest.mark.skipif(not sys.platform.startswith("linux"), reason="the Linux sandbox fallback")
+def test_retries_without_sandbox_when_the_browser_aborts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Ubuntu 24 (AppArmor) and containers stop Chrome's sandbox: the browser aborts."""
+    fake = tmp_path / "chrome"
+    fake.write_text(
+        f"#!{sys.executable}\n"
+        "import sys\n"
+        "if '--no-sandbox' not in sys.argv:\n"
+        "    print('[1:1:ERROR:zygote_host_impl_linux.cc] No usable sandbox!', file=sys.stderr)\n"
+        "    sys.exit(134)\n"
+        "out = next(a.split('=', 1)[1] for a in sys.argv if a.startswith('--print-to-pdf='))\n"
+        "open(out, 'wb').write(b'%PDF-1.4 fake')\n"
+    )
+    fake.chmod(0o755)
+    monkeypatch.setattr(pdf.os, "geteuid", lambda: 1000)
+    printer = pdf.Printer(pdf.Browser(str(fake), "Chromium"), PdfConfig())
+    page = tmp_path / "page.html"
+    page.write_text("<html><head></head><body>x</body></html>")
+    printer.print_file(page, tmp_path / "a.pdf")
+    assert (tmp_path / "a.pdf").read_bytes().startswith(b"%PDF") and not printer.sandbox
+    printer.print_file(page, tmp_path / "b.pdf")  # later pages go straight without it
+    assert (tmp_path / "b.pdf").is_file()
+
+    broken = pdf.Printer(pdf.Browser(str(tmp_path / "missing"), "Chromium"), PdfConfig())
+    with pytest.raises(pdf.PdfError, match="could not start"):
+        broken.print_file(page, tmp_path / "c.pdf")

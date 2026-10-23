@@ -166,6 +166,7 @@ def missing_message(configured: str | None) -> str:
 class Printer:
     def __init__(self, browser: Browser, cfg: PdfConfig) -> None:
         self.browser, self.cfg = browser, cfg
+        self.sandbox = True  # turned off when the browser cannot start its sandbox (Linux)
         self._win_temp: str | None = None
 
     def _win(self, p: Path) -> str:
@@ -222,7 +223,8 @@ class Printer:
         ]
         if profile:
             cmd.append(f"--user-data-dir={profile}")
-        if sys.platform.startswith("linux") and hasattr(os, "geteuid") and os.geteuid() == 0:
+        root = sys.platform.startswith("linux") and hasattr(os, "geteuid") and os.geteuid() == 0
+        if root or not self.sandbox:
             cmd.append("--no-sandbox")  # Chromium refuses to run as root otherwise
         cmd.append(url)
         return cmd
@@ -230,6 +232,25 @@ class Printer:
     def print_file(self, page: Path, pdf: Path) -> None:
         """Print an HTML file as it is (it must carry its own @page rules)."""
         pdf.parent.mkdir(parents=True, exist_ok=True)
+        out = self._run(page, pdf)
+        if out is None:
+            return
+        if sys.platform.startswith("linux") and self.sandbox and not self.browser.windows_from_wsl:
+            # Linux without user namespaces (AppArmor on Ubuntu 24, containers): the sandbox
+            # aborts the browser. The pages are local report files and the network is off.
+            self.sandbox = False
+            retry = self._run(page, pdf)
+            if retry is None:
+                log.info("PDF: %s runs without its sandbox on this machine", self.browser.label)
+                return
+            self.sandbox, out = True, retry
+        lines = (out.stderr or out.stdout or "").strip().splitlines()
+        tail = next((ln for ln in reversed(lines) if "ERROR" in ln or "FATAL" in ln), "")
+        tail = tail or (lines[-1] if lines else "")
+        raise PdfError(f"{page.name}: no PDF written (exit {out.returncode}) {tail[-300:]}")
+
+    def _run(self, page: Path, pdf: Path) -> subprocess.CompletedProcess[str] | None:
+        """One browser run; None when the PDF was written, else the finished process."""
         if pdf.exists():
             pdf.unlink()
         with tempfile.TemporaryDirectory(prefix="legacy-audit-pdf-") as scratch:
@@ -250,12 +271,12 @@ class Printer:
                 ) from None
             except OSError as err:
                 raise PdfError(f"{page.name}: could not start {self.browser.path}: {err}") from None
-        for _ in range(20):  # Windows browsers can return a moment before the file is closed
+        waits = 20 if out.returncode == 0 else 2  # Windows browsers can return before closing it
+        for _ in range(waits):
             if pdf.is_file() and pdf.stat().st_size > 0:
-                return
+                return None
             time.sleep(0.25)
-        tail = (out.stderr or out.stdout or "").strip().splitlines()[-1:]
-        raise PdfError(f"{page.name}: no PDF written (exit {out.returncode}) {' '.join(tail)}")
+        return out
 
     def print_page(self, page: Path, pdf: Path, *, deck: bool = False) -> None:
         """Print a report page through a temporary copy that adds the PDF settings."""
