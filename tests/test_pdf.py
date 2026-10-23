@@ -38,7 +38,7 @@ def test_inject_adds_paper_size_and_row_limit_after_head() -> None:
     page = '<!doctype html><html><head><meta charset="utf-8"></head><body></body></html>'
     out = pdf.inject(page, PdfConfig(paper="Letter", max_table_rows=25))
     assert out.index("<head>") < out.index("LEGACY_AUDIT_PDF") < out.index("<meta charset")
-    assert "@page { size: Letter;" in out and "maxRows: 25" in out
+    assert "@page { size: Letter;" in out and '"maxRows": 25' in out
     deck = pdf.inject(page, PdfConfig(), deck=True)
     assert "@page" not in deck and "LEGACY_AUDIT_PDF" in deck  # the deck keeps its 16:9 slides
 
@@ -194,3 +194,27 @@ def test_retries_without_sandbox_when_the_browser_aborts(
     broken = pdf.Printer(pdf.Browser(str(tmp_path / "missing"), "Chromium"), PdfConfig())
     with pytest.raises(pdf.PdfError, match="could not start"):
         broken.print_file(page, tmp_path / "c.pdf")
+
+
+@pytest.mark.real_browser
+@pytest.mark.skipif(not HAS_BROWSER, reason="no Edge, Chrome or Chromium on this machine")
+def test_wide_tables_fit_the_page(tmp_path: Path) -> None:
+    """Siva's summary PDF cut the Modules table at "Lines of code": scroll boxes clip on paper."""
+    cols = [f"Column{i}" for i in range(1, 12)] + ["LastColumnHeader"]
+    row = "".join(f"<td style='white-space:nowrap'>value-{i}-abcdefghij</td>" for i in range(12))
+    page = tmp_path / "wide.html"
+    page.write_text(
+        "<!doctype html><html><head><style>.wrap{overflow-x:auto;max-height:300px}"
+        "th{position:sticky;top:0}</style></head><body><div class='wrap'><table><thead><tr>"
+        + "".join(f"<th>{c}</th>" for c in cols)
+        + f"</tr></thead><tbody>{('<tr>' + row + '</tr>') * 30}</tbody></table></div>"
+        "</body></html>",
+        encoding="utf-8",
+    )
+    browser = pdf.find_browser()
+    assert browser is not None
+    out = tmp_path / "wide.pdf"
+    pdf.Printer(browser, PdfConfig()).print_page(page, out)
+    text = _flat(" ".join(p.extract_text() for p in PdfReader(out).pages))
+    assert "lastcolumnheader" in text
+    assert text.count("value-11-abcdefghij") == 30  # every row, last column included

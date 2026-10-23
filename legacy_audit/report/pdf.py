@@ -15,6 +15,7 @@ printed page by page and joined with ``pypdf`` behind a cover with contents, wit
 from __future__ import annotations
 
 import html
+import json
 import logging
 import os
 import re
@@ -203,6 +204,10 @@ class Printer:
             PureWindowsPath(self._win_temp) / f"legacy-audit-pdf-{os.getpid()}-{id(scratch)}"
         )
 
+    def _page_px(self) -> int:
+        """Width of the printed area (paper less 2 x 11 mm margins) in CSS pixels."""
+        return _mm_px(PAPER_MM[self.cfg.paper][0] - 22)
+
     def command(self, url: str, pdf_arg: str, profile: str | None) -> list[str]:
         cmd = [
             self.browser.path,
@@ -216,6 +221,7 @@ class Printer:
             "--disable-component-update",
             "--host-resolver-rules=MAP * ~NOTFOUND",  # offline: no host name resolves
             "--hide-scrollbars",
+            f"--window-size={self._page_px()},1200",  # lay out at the printed width
             "--no-pdf-header-footer",
             "--run-all-compositor-stages-before-draw",
             "--virtual-time-budget=20000",  # lets charts and diagrams finish drawing
@@ -289,21 +295,43 @@ class Printer:
             copy.unlink(missing_ok=True)
 
 
+def _mm_px(mm: float) -> int:
+    return round(mm * 96 / 25.4)
+
+
 def page_css(cfg: PdfConfig) -> str:
-    return f"@page {{ size: {cfg.paper}; margin: 12mm 11mm 16mm; }}"
+    return (
+        f"@page {{ size: {cfg.paper}; margin: 12mm 11mm 16mm; }}"
+        f" @page wide {{ size: {cfg.paper} landscape; margin: 12mm 11mm 16mm; }}"
+    )
 
 
 def inject(text: str, cfg: PdfConfig, *, deck: bool = False) -> str:
     """The page with the PDF settings added at the top of <head>."""
     settings = (
         '<meta name="color-scheme" content="light">'
-        f"<script>window.LEGACY_AUDIT_PDF = {{maxRows: {int(cfg.max_table_rows)}}};</script>"
+        "<script>window.LEGACY_AUDIT_PDF = "
+        + json.dumps(
+            {
+                "maxRows": int(cfg.max_table_rows),
+                "fit": not deck,  # the slides lay themselves out
+                "landscapePx": _mm_px(PAPER_MM[cfg.paper][1] - 22),
+            }
+        )
+        + ";</script>"
     )
     if not deck:  # the deck keeps its own 16:9 slide size, like the PowerPoint
         settings += (
             "<style>" + page_css(cfg) + "html, body { background: #fff !important; }"
             " .diagram svg, pre.mermaid svg { max-width: 100% !important; height: auto; }"
             " .chart, .chart-box, .panel, .card, figure, .tile, .kpi, tr { break-inside: avoid; }"
+            # tables print whole: no scroll boxes (they clip on paper), text wraps in its cell
+            " .wrap, .table-wrap, .catalogue, [data-catalogue] { overflow: visible !important;"
+            " max-height: none !important; }"
+            " table { width: 100% !important; max-width: 100% !important; }"
+            " th { position: static !important; }"
+            " td { overflow-wrap: break-word; white-space: normal !important; }"
+            " th { overflow-wrap: normal; white-space: normal !important; }"
             "</style>"
         )
     settings += f"<script>{_PDF_JS}</script>"
@@ -314,10 +342,54 @@ def inject(text: str, cfg: PdfConfig, *, deck: bool = False) -> str:
 
 # Opens folded sections and shortens long server-written tables (the catalogue tables of the
 # technical report read LEGACY_AUDIT_PDF themselves).
-_PDF_JS = """
+_PDF_JS = r"""
+// A table wider than the page: smaller font down to 9px, then long unspaced values break; if
+// still too wide, it goes on landscape pages ("wide", A4 across) and shrinks again down to
+// 6.5px; last resort, any value breaks.
+window.addEventListener("load", function () {
+  var cfg = window.LEGACY_AUDIT_PDF;
+  if (!cfg.fit) return;
+  function wide(t, box) { return t.scrollWidth > box.clientWidth + 1; }
+  function shrink(t, box, floor) {
+    var size = parseFloat(getComputedStyle(t).fontSize) || 13;
+    while (wide(t, box) && size > floor) {
+      size -= 0.5;
+      t.style.fontSize = size + "px";
+      t.querySelectorAll("th, td").forEach(function (c) {
+        c.style.fontSize = size + "px"; c.style.padding = "3px 4px";
+      });
+    }
+  }
+  document.querySelectorAll("table").forEach(function (t) {
+    var box = t.closest("[data-catalogue], .wrap, .table-wrap") || t.parentElement;
+    if (!box || !wide(t, box)) return;
+    shrink(t, box, 9);
+    if (wide(t, box)) {  // break long unspaced values (addresses, paths) before turning the page
+      t.querySelectorAll("td").forEach(function (c) {
+        if (/\S{24,}/.test(c.textContent)) c.style.overflowWrap = "anywhere";
+      });
+    }
+    if (wide(t, box) && cfg.landscapePx) {
+      var aside = window.innerWidth - box.getBoundingClientRect().width;  // ancestors' padding
+      box.style.page = "wide";
+      box.style.width = (cfg.landscapePx - aside) + "px";
+      box.style.maxWidth = "none";
+      t.style.fontSize = "";
+      t.querySelectorAll("th, td").forEach(function (c) {
+        c.style.fontSize = ""; c.style.padding = "";
+      });
+      shrink(t, box, 6.5);
+    }
+    if (wide(t, box)) {
+      t.querySelectorAll("td").forEach(function (c) { c.style.overflowWrap = "anywhere"; });
+    }
+  });
+});
 document.addEventListener("DOMContentLoaded", function () {
   var max = window.LEGACY_AUDIT_PDF.maxRows;
-  document.querySelectorAll("details").forEach(function (d) { d.open = true; });
+  document.querySelectorAll("details").forEach(function (d) {
+    d.open = !d.querySelector("pre.block");  // tables yes, raw diagram source no
+  });
   document.querySelectorAll("table").forEach(function (t) {
     if (t.closest("[data-catalogue]") || !t.tBodies.length) return;
     var rows = t.tBodies[0].rows, n = rows.length;
@@ -411,21 +483,39 @@ AI was written by the Copilot analysis and checked against it.</div>
 <h2>Contents</h2><ol>{"".join(rows)}</ol></body></html>"""
 
 
-def _numbers_html(total: int, label: str, cfg: PdfConfig, first: int) -> str:
-    w, h = PAPER_MM[cfg.paper]
+def _numbers_html(sizes: list[tuple[float, float]], label: str, first: int) -> str:
+    """One page per entry of ``sizes`` (mm, portrait or the landscape table pages) with its
+    "page i of n" footer, to stamp onto the printed pages."""
+    kinds = {sz: i for i, sz in enumerate(dict.fromkeys(sizes))}
+    css = "".join(
+        f"@page s{i} {{ size: {w:.1f}mm {h:.1f}mm; margin: 0; }}"
+        f" .s{i} {{ page: s{i}; width: {w:.1f}mm; height: {h:.1f}mm; }}\n"
+        for (w, h), i in kinds.items()
+    )
+    total, esc = len(sizes), html.escape(label)
     pages = "".join(
-        f'<div class="p"><span>{html.escape(label)}</span><span>Page {i} of {total}</span></div>'
-        if i >= first
-        else '<div class="p"></div>'
-        for i in range(1, total + 1)
+        f'<div class="p s{kinds[sz]}">'
+        + (f"<span>{esc}</span><span>Page {i} of {total}</span>" if i >= first else "")
+        + "</div>"
+        for i, sz in enumerate(sizes, start=1)
     )
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>
-@page {{ size: {w}mm {h}mm; margin: 0; }}
-body {{ margin: 0; font-family: "Segoe UI", Arial, sans-serif; }}
-.p {{ position: relative; width: {w}mm; height: {h}mm; break-after: page; overflow: hidden; }}
+{css}body {{ margin: 0; font-family: "Segoe UI", Arial, sans-serif; }}
+.p {{ position: relative; break-after: page; overflow: hidden; }}
 .p span {{ position: absolute; bottom: 6mm; font-size: 8.5px; color: #6b7785; }}
 .p span:first-child {{ left: 11mm; }} .p span:last-child {{ right: 11mm; }}
 </style></head><body>{pages}</body></html>"""
+
+
+def _sizes(writer: Any) -> list[tuple[float, float]]:
+    """Each page's size in mm, rounded so equal paper sizes match."""
+    return [
+        (
+            round(float(p.mediabox.width) / 72 * 25.4, 1),
+            round(float(p.mediabox.height) / 72 * 25.4, 1),
+        )
+        for p in writer.pages
+    ]
 
 
 def _render_html(printer: Printer, text: str, work: Path, name: str) -> Path:
@@ -496,10 +586,12 @@ def join_report(
             parent = writer.add_outline_item(p.title, start)
         else:
             writer.add_outline_item(p.title, start, parent=parent)
-    total = len(writer.pages)
     overlay = PdfReader(
         _render_html(
-            printer, _numbers_html(total, f"{app} · {kind}", cfg, cover_pages + 1), work, f"{key}-n"
+            printer,
+            _numbers_html(_sizes(writer), f"{app} · {kind}", cover_pages + 1),
+            work,
+            f"{key}-n",
         )
     )
     for i, page in enumerate(writer.pages):
@@ -528,7 +620,7 @@ def single_report(
     """Summary report and management deck: one HTML page, one PDF."""
     from pypdf import PdfReader, PdfWriter
 
-    cfg, kind = printer.cfg, REPORTS[key][2]
+    kind = REPORTS[key][2]
     raw = work / f"{key}.pdf"
     try:
         printer.print_page(page, raw, deck=key == "mgmt")
@@ -539,7 +631,7 @@ def single_report(
         overlay = PdfReader(
             _render_html(
                 printer,
-                _numbers_html(len(writer.pages), f"{app} · {kind}", cfg, 1),
+                _numbers_html(_sizes(writer), f"{app} · {kind}", 1),
                 work,
                 f"{key}-n",
             )
@@ -562,7 +654,6 @@ def build_pdfs(
     reports: tuple[str, ...] = ("summary", "mgmt", "functional", "tech"),
 ) -> PdfResult:
     """Print the HTML reports of a run that exist into ``reports/pdf/``."""
-    import json
 
     cfg = cfg or PdfConfig()
     result = PdfResult()
