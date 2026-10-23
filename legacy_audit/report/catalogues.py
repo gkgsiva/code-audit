@@ -42,6 +42,15 @@ class Catalogue:
     def payload(self) -> dict[str, Any]:
         return {"columns": [c.spec() for c in self.columns], "rows": self.rows}
 
+    def drop(self, key: str) -> None:
+        """Remove a column (and its cell in every row), e.g. the PostgreSQL grade when there is
+        no target."""
+        idx = [i for i, c in enumerate(self.columns) if c.key == key]
+        for i in reversed(idx):
+            del self.columns[i]
+            for row in self.rows:
+                del row[i]
+
 
 def _comp(name: str | None) -> dict[str, Any] | str:
     if not name:

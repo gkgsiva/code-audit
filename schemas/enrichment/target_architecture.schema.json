@@ -185,7 +185,7 @@
           "type": "string"
         },
         "platform": {
-          "description": "GCP service, e.g. Cloud Run, Cloud SQL for PostgreSQL",
+          "description": "GCP service, e.g. Cloud Run, GKE, Cloud SQL for PostgreSQL",
           "title": "Platform",
           "type": "string"
         },
@@ -198,7 +198,7 @@
           "type": "array"
         },
         "technology": {
-          "description": "e.g. Spring Boot 4 on Java 25, Angular 21",
+          "description": "e.g. Spring Boot 4 on Java 25, Angular 21 (spring-boot-angular); WildFly 41 on Java 25 (wildfly-gke)",
           "title": "Technology",
           "type": "string"
         }

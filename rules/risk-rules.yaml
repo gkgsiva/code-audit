@@ -13,7 +13,7 @@ rules:
     severity: medium
     category: hard-coded-config
     message: "Hard-coded IP address: {match}"
-    remediation: Move the address to configuration (Spring properties, Secret Manager) or use a DNS name.
+    remediation: Move the address to [[config-home]] or use a DNS name.
     pattern:
       regex: '(?<![\w.])(?<!Version\(")(?:(?:25[0-5]|2[0-4]\d|1?\d?\d)\.){3}(?:25[0-5]|2[0-4]\d|1?\d?\d)(?![\w.])'
       languages: [java, jsp, javascript, c, cpp, proc, cobol, procobol, shell, perl, python, batch, sql, plsql, csharp, vbnet, vb6]
@@ -115,7 +115,7 @@ rules:
     severity: medium
     category: portability
     message: "Windows registry used for settings: {match}"
-    remediation: Move the settings to Spring configuration (application.yaml) or Secret Manager.
+    remediation: Move the settings to [[config-home]].
     pattern:
       regex: '(?i)\b(?:GetSetting|SaveSetting|DeleteSetting|GetAllSettings)\b|\bMy\.Computer\.Registry\b|\bRegistry(?:Key)?\.(?:LocalMachine|CurrentUser|GetValue|SetValue|OpenSubKey)\b|\bReg(?:Open|Query|Set|Create)Key\w*\b'
       languages: [vb6, vbnet, csharp]

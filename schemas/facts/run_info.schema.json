@@ -366,6 +366,12 @@
       "title": "Started At",
       "type": "string"
     },
+    "target": {
+      "additionalProperties": true,
+      "description": "The migration target (audit.yaml > target.profile), as in data/target.json",
+      "title": "Target",
+      "type": "object"
+    },
     "timings": {
       "additionalProperties": {
         "type": "number"
