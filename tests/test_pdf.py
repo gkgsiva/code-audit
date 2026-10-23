@@ -111,6 +111,10 @@ def test_cli_pdf_without_browser_says_so_and_fails(
     assert res.exit_code == 0, res.output
 
 
+def _flat(text: str) -> str:
+    return "".join(text.lower().split())
+
+
 def _built(tmp_path: Path) -> Path:
     loaded = load_config(SAMPLES / "struts-oracle-app" / "audit.yaml")
     run_dir = run_scan(loaded, output_dir=tmp_path / "out").run_dir
@@ -147,16 +151,16 @@ def test_prints_all_four_reports(tmp_path: Path) -> None:
     assert len(tech.pages) > 10
     width, height = float(tech.pages[0].mediabox.width), float(tech.pages[0].mediabox.height)
     assert abs(width - 595) < 2 and abs(height - 842) < 2  # A4 portrait
-    cover = tech.pages[0].extract_text().lower()
-    assert "technical report" in cover and "contents" in cover and "overview" in cover
-    assert f"Page 2 of {len(tech.pages)}" in tech.pages[1].extract_text()
+    cover = _flat(tech.pages[0].extract_text())  # Edge spaces out letter-spaced headings
+    assert "technicalreport" in cover and "contents" in cover and "overview" in cover
+    assert f"page2of{len(tech.pages)}" in _flat(tech.pages[1].extract_text())
     assert [o.title for o in tech.outline if not isinstance(o, list)][:2] == [
         "Overview",
         "Components",
     ]
     summary = PdfReader(res.files["summary"])
-    text = " ".join(p.extract_text() for p in summary.pages)
-    assert "Database and queries" in text and "Page 1 of" in text
+    text = _flat(" ".join(p.extract_text() for p in summary.pages))
+    assert "databaseandqueries" in text and "page1of" in text
     deck = PdfReader(res.files["mgmt"])
     assert float(deck.pages[0].mediabox.width) > float(deck.pages[0].mediabox.height)  # slides
     assert not list((run_dir / "reports" / "tech").glob("_pdf-*.html"))  # temp copies removed
