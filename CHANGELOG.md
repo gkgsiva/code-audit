@@ -6,6 +6,17 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### PDF copies of the reports (2026-10-23)
+
+- `legacy-audit report --type pdf` (and `--type all`, and **Build PDFs** in the app) saves the
+  summary report, management deck, functional document and technical report as PDFs in
+  `reports/pdf/`, printed by Microsoft Edge, Chrome or Chromium in the background, offline.
+- A4 by default (`pdf.paper: Letter`); the technical and functional PDFs are one file each,
+  with a cover and contents, bookmarks for every page and "page i of n"; long tables are cut
+  at `pdf.max_table_rows` with a note. No browser: the PDFs are skipped with a message.
+- New dependency `pypdf`; `legacy-audit doctor` shows the browser; VS Code task 32
+  (`scripts/show_pdfs.py`).
+
 ### Web services, REST and SOAP (2026-10-21)
 
 - One list of **web services**: the ones the application offers (Spring REST controllers,

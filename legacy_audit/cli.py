@@ -15,7 +15,7 @@ from rich.progress import BarColumn, MofNCompleteColumn, Progress, TextColumn
 from rich.table import Table
 
 from legacy_audit import __version__
-from legacy_audit.config import ConfigError, load_config
+from legacy_audit.config import ConfigError, PdfConfig, load_config
 from legacy_audit.inventory.inputs import coverage_line
 from legacy_audit.source import SourceError
 from legacy_audit.source.git import default_cache_dir, purge_cache
@@ -202,13 +202,13 @@ def diff(
         console.print(f"Diff written to {json_out}")
 
 
-REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "all")
+REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "pdf", "all")
 
 
 @app.command()
 def report(
     type_: Annotated[
-        str, typer.Option("--type", "-t", help="tech, functional, mgmt, pptx, summary or all")
+        str, typer.Option("--type", "-t", help="tech, functional, mgmt, pptx, summary, pdf or all")
     ] = "tech",
     run: Annotated[str, typer.Option("--run", help="Run id, 'latest' or 'previous'")] = "latest",
     config: ConfigOpt = Path("audit.yaml"),
@@ -241,19 +241,19 @@ def report(
         raise _fail(f"{err}. Run 'legacy-audit scan' first.") from None
     branding, config_dir = loaded.config.branding, loaded.path.parent
     to_open: Path | None = None
-    if type_ in ("tech", "all"):
+    if type_ in ("tech", "pdf", "all"):
         index = build_tech_report(run_dir, loaded.inputs_dir)
         console.print(f"[bold green]Technical report[/bold green] -> {index}")
         to_open = index
-    if type_ in ("functional", "all"):
+    if type_ in ("functional", "pdf", "all"):
         fn_index = build_functional_report(run_dir, loaded.inputs_dir)
         console.print(f"[bold green]Functional document[/bold green] -> {fn_index}")
         to_open = to_open or fn_index
-    if type_ in ("mgmt", "all"):
+    if type_ in ("mgmt", "pdf", "all"):
         deck = build_mgmt_report(run_dir, branding, config_dir)
         console.print(f"[bold green]Management deck[/bold green] -> {deck}")
         to_open = to_open or deck
-    if type_ in ("summary", "all"):
+    if type_ in ("summary", "pdf", "all"):
         from legacy_audit.report.summary import build_summary_report
 
         res = build_summary_report(run_dir, branding, config_dir, template)
@@ -273,7 +273,9 @@ def report(
             console.print(f"[yellow]{result.message}[/yellow]")
             if type_ == "pptx":
                 raise typer.Exit(code=1)
-    if type_ in ("functional", "mgmt", "pptx", "summary", "all"):
+    if type_ == "pdf" or (type_ == "all" and loaded.config.pdf.enabled):
+        _report_pdfs(run_dir, loaded.config.pdf, strict=type_ == "pdf")
+    if type_ in ("functional", "mgmt", "pptx", "summary", "pdf", "all"):
         from legacy_audit.enrich.status import compute_status
 
         status = compute_status(run_dir)
@@ -287,6 +289,21 @@ def report(
         import webbrowser
 
         webbrowser.open(to_open.resolve().as_uri())
+
+
+def _report_pdfs(run_dir: Path, cfg: PdfConfig, *, strict: bool) -> None:
+    from legacy_audit.report.pdf import REPORTS, build_pdfs
+
+    console.print("Printing the PDF copies (this takes a minute)...")
+    res = build_pdfs(run_dir, cfg)
+    for key, path in res.files.items():
+        console.print(f"[bold green]PDF {REPORTS[key][2].lower()}[/bold green] -> {path}")
+    if res.browser is not None and res.files:
+        console.print(f"  Printed with {res.browser.label} ({res.browser.path}).")
+    for msg in res.messages:
+        console.print(msg, style="yellow", markup=False, highlight=False)
+    if strict and not res.files:
+        raise typer.Exit(code=1)
 
 
 def _resolve(config: Path, run: str, output_dir: Path | None) -> tuple[Path, Path]:
