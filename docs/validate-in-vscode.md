@@ -837,3 +837,22 @@ Edge/Application/msedge.exe`, "started from WSL"). If the Windows Edge writes no
 Chromium in Ubuntu (`sudo apt install chromium-browser`) or set `pdf.browser_path` to a Linux
 browser, and run the task again. Open the PDFs from the app (step 4) or copy them to Windows:
 `cp samples/struts-oracle-app/audit-output/latest/reports/pdf/*.pdf /mnt/c/Users/<you>/Desktop/`.
+
+## Copilot agent and prompts show in Copilot Chat
+
+Files installed by an older `legacy-audit init` had a header that current VS Code builds could
+not read, so the **legacy-auditor** agent and the `/audit-*` prompts were missing (decision 173).
+
+1. Run `audit: 2. tests (pytest)`: everything passes, including
+   `test_front_matter_is_valid_yaml` in `tests/test_copilot.py`.
+2. In your audit folder (the one with `audit.yaml`), open a terminal and run
+   `legacy-audit init` (Windows: in the activated venv; WSL2: the same command). It prints
+   `updated .github/agents/legacy-auditor.agent.md` and `updated .github/prompts/...`.
+3. Open `.github/prompts/audit-enrich.prompt.md`: the header reads
+   `description: "Enrich the scan facts: all stages, stale stages, or one stage"` (in quotes)
+   and shows no red or yellow mark.
+4. Open that same audit folder in VS Code (File > Open Folder; on WSL2 `code .` from the
+   folder), then Ctrl+Shift+P > **Developer: Reload Window**.
+5. In Copilot Chat pick **Agent**, type `/audit`: `/audit-scan`, `/audit-enrich`,
+   `/audit-report` and `/audit-qa` are listed. The agent list has **legacy-auditor**.
+

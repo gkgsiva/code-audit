@@ -3,7 +3,8 @@
 ``legacy-audit init`` calls ``install``. Copilot's file names changed across releases (custom
 chat modes became custom agents), so the agent is written as ``.github/agents/*.agent.md``,
 ``.github/chatmodes/*.chatmode.md`` or both. Front-matter is kept to ``description`` and
-``tools`` so format changes stay cheap.
+``tools`` so format changes stay cheap. Every value is quoted: a plain YAML value holding
+": " is invalid, and current VS Code builds then drop the agent or prompt file (decision 173).
 
 User edits are kept: ``.github/legacy-audit/installed.json`` records the hash of each file as
 installed. On a later ``init``, a file still equal to that hash is updated in place; a file the
@@ -48,6 +49,11 @@ def _asset(name: str) -> str:
     return files("legacy_audit.copilot").joinpath(name).read_text(encoding="utf-8")
 
 
+def _q(value: str) -> str:
+    """A front-matter value as a double-quoted YAML string (JSON strings are valid YAML)."""
+    return json.dumps(value, ensure_ascii=False)
+
+
 def _sha(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -61,7 +67,7 @@ def assets(layout: str, model: str | None = None) -> dict[str, str]:
         return out
     body = _asset("agent.md")
     pin = f"model: {json.dumps(model)}\n" if model else ""
-    head = f"---\ndescription: {DESCRIPTION}\ntools: {TOOLS}\n{pin}---\n\n"
+    head = f"---\ndescription: {_q(DESCRIPTION)}\ntools: {TOOLS}\n{pin}---\n\n"
     if layout in ("agents", "both"):
         out[f".github/agents/{AGENT}.agent.md"] = head + body
     if layout in ("chatmodes", "both"):
@@ -71,7 +77,7 @@ def assets(layout: str, model: str | None = None) -> dict[str, str]:
     for name, desc in PROMPTS.items():
         text = _asset(f"prompts/{name}.prompt.md")
         out[f".github/prompts/{name}.prompt.md"] = (
-            f"---\n{key}: {AGENT}\ndescription: {desc}\n---\n\n{text}"
+            f"---\n{key}: {AGENT}\ndescription: {_q(desc)}\n---\n\n{text}"
         )
     out[".github/copilot-instructions.md"] = _asset("copilot-instructions.md")
     out[".vscode/mcp.json"] = _asset("mcp.json")
