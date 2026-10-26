@@ -693,7 +693,13 @@ class _Deck:
         top = self.table(
             ["Type", "Target", "Direction", "Usages"],
             [
-                [i["type"], i["target"], i.get("direction", ""), i.get("usages", 0)]
+                [
+                    i["type"],
+                    i["target"]
+                    + (f" ({len(i['endpoints'])} grouped)" if i.get("endpoints") else ""),
+                    i.get("direction", ""),
+                    i.get("usages", 0),
+                ]
                 for i in self.s.get("integrations", [])[:8]
             ],
         )

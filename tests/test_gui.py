@@ -204,7 +204,11 @@ def test_component_picker_writes_overrides(sample_copy) -> None:  # type: ignore
     names = {c["name"]: c for c in pre["components"]}
     assert len(names) >= 2 and all(c["included"] for c in names.values())
     drop = next(c for c in pre["components"] if c["path"])
-    keep = next(c for c in pre["components"] if c["name"] != drop["name"])
+    keep = next(
+        c
+        for c in pre["components"]
+        if c["name"] != drop["name"] and c["detected_type"] != "library"
+    )  # a library used by the dropped module and one other would join the other (decision 176)
     body = {"included": {drop["path"]: False}, "types": {keep["name"]: "library"}}
     after = _ok(client.put("/api/components", json=body, headers=H))
     flags = {c["name"]: c for c in after["components"]}

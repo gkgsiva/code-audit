@@ -249,7 +249,9 @@ def build(
         Catalogue(
             "integrations",
             "Integrations",
-            "One row per interface (type and target); a target both read and written shows "
+            "One row per external service: the endpoints called on one host (REST, SOAP or "
+            "HTTP), the queues and channels of one queue manager and the files of one server or "
+            "folder are one row, listed under Endpoints. A target both read and written shows "
             "direction both; usages counts the code places that use it. Calls to an identity "
             "provider (Okta, Entra ID, ...) are 'login / authentication'. The description is "
             "the scan's; once the Copilot analysis has run, its business purpose (AI) replaces "
@@ -258,6 +260,7 @@ def build(
                 Column("type", "Type", filter=True),
                 Column("purpose", "Purpose", filter=True),
                 Column("target", "Target", "code"),
+                Column("endpoints", "Endpoints", "list"),
                 Column("description", "Description"),
                 Column("direction", "Direction", filter=True),
                 Column("protocol", "Protocol", filter=True),
@@ -272,6 +275,7 @@ def build(
                     i["type"],
                     i.get("purpose") or "",
                     i["target"],
+                    _join(i.get("endpoints")),
                     _ai_or(i.get("description"), stories.get(i["id"])),
                     i.get("direction") or "",
                     i.get("protocol") or "",

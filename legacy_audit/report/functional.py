@@ -460,12 +460,12 @@ class _FnPages(_Pages):
         )
 
     def interfaces(self) -> None:
-        stories = {i["integration_id"]: i for i in self.fn.get("interfaces", [])}
+        stories = self.rd.by_row({i["integration_id"]: i for i in self.fn.get("interfaces", [])})
         integ = [
             i
             for i in self.rd.items("integrations")
-            if i.get("type") not in ("MQ-CHANNEL", "MQ-QMGR")
-        ]
+            if i.get("type") not in ("MQ-CHANNEL", "MQ-QMGR") or i.get("endpoints")
+        ]  # a queue manager row holding its queues is an interface (decision 177)
         integ.sort(key=lambda i: (-(i.get("usages") or 0), i["type"], i["target"]))
         shown = integ[: dg.MAX_NODES]
         app = self.common["app"]

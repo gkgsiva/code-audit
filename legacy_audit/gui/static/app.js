@@ -378,7 +378,7 @@
   // ---------------------------------------------------------------- 3. components
   var TYPES = ["web", "frontend", "api", "desktop", "batch", "online-mainframe", "cft", "script", "config", "report", "library", "db", "unknown"];
   function screenComponents(node) {
-    add(node, heading("Components", "Detected from build files and folders (only pom.xml and settings.gradle are read, so a Maven parent or aggregator is a group of modules, not a component); the type is the last scan's when there is one. Untick a folder to leave it out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
+    add(node, heading("Components", "Detected from build files and folders (only pom.xml and settings.gradle are read, so a Maven parent or aggregator is a group of modules, not a component); the type is the last scan's when there is one. Library modules are grouped into the war, ear or batch that uses them, and part folders of one technology into one component (inventory.component_grouping). Untick a component to leave its folders out; pick a type to override the detection. Choices are saved to audit-overrides.yaml and applied on the next run."));
     if (needConfig(node)) return;
     var host = el("div", null, [el("p", { class: "muted", text: "Pre-scanning…" })]);
     node.appendChild(host);
@@ -390,9 +390,9 @@
       host.appendChild(table([
         { label: "Scan", value: function (c) {
           var cb = el("input", { type: "checkbox", "aria-label": "Scan " + c.name });
-          cb.checked = c.included; ticks[c.path] = cb; return cb; } },
+          cb.checked = c.included; ticks[(c.folders || [c.path]).join("|")] = cb; return cb; } },
         { key: "name", label: "Component" },
-        { label: "Folder", value: function (c) { return c.path || "(root)"; }, code: true },
+        { label: "Folder", value: function (c) { return (c.parts && c.parts.length ? c.parts : [c.path || "(root)"]).join(", "); }, code: true },
         { label: "Type", value: function (c) { return c.scan_type || c.detected_type; } },
         { label: "Type override", value: function (c) {
           var sel = el("select", { "aria-label": "Type of " + c.name }, [new Option("(as detected)", "")].concat(TYPES.map(function (t) { return new Option(t, t); })));

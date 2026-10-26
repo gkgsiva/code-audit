@@ -236,6 +236,8 @@ class _Summary:
         text = " ".join(parts) + "."
         if made:
             text += f" Files: {', '.join(made)}."
+        if comp.get("parts"):  # grouped from several modules or folders (decision 176)
+            text += f" Made of {', '.join(p or '(root)' for p in comp['parts'])}."
         return text, "scan"
 
     def project(self) -> Section:
@@ -644,7 +646,9 @@ class _Summary:
             self.rd.items("integrations"),
             key=lambda i: (str(i.get("purpose") or ""), i["type"], i["target"]),
         )
-        stories = {x["integration_id"]: x for x in self.fn.get("interfaces", []) or []}
+        stories = self.rd.by_row(
+            {x["integration_id"]: x for x in self.fn.get("interfaces", []) or []}
+        )
         purposes = Counter(str(i.get("purpose") or i["type"].lower()) for i in items)
         types = Counter(i["type"] for i in items)
         logins = [i for i in items if i.get("purpose") == "login / authentication"]
@@ -660,7 +664,9 @@ class _Summary:
                 else ""
             )
             + ".",
-            "Each system is listed once, with every place in the code that uses it.",
+            "Each system is listed once, with every place in the code that uses it: the "
+            "endpoints called on one host, the queues and channels of one queue manager and the "
+            "files of one server are one row.",
         ]
         rows = []
         for i in items:
@@ -675,6 +681,7 @@ class _Summary:
                     i.get("purpose") or "",
                     i["type"],
                     i["target"],
+                    ", ".join(i.get("endpoints") or []),
                     i.get("direction") or "",
                     i.get("usages", 0),
                     ", ".join(i.get("components") or []),
@@ -726,7 +733,16 @@ class _Summary:
                 Table(
                     "integrations",
                     "Integrations",
-                    ["Purpose", "Type", "Target", "Direction", "Usages", "Modules", "Description"],
+                    [
+                        "Purpose",
+                        "Type",
+                        "Target",
+                        "Endpoints / queues / files",
+                        "Direction",
+                        "Usages",
+                        "Modules",
+                        "Description",
+                    ],
                     rows,
                     "Descriptions marked (AI) come from the Copilot analysis, the others from "
                     "the scan.",
@@ -1370,7 +1386,7 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
             if t.key == "modules":
                 cols = [0, 2, 3, 4, 7]
             elif t.key == "integrations":
-                cols = [0, 1, 2, 3, 4]
+                cols = [0, 1, 2, 3, 5]
             elif t.key == "web-services":
                 cols = [0, 1, 2, 3, 4, 6]
             elif t.key == "batches":
@@ -1385,7 +1401,7 @@ def to_deck(rd: RunData, sections: list[Section], branding: Branding) -> dict[st
                     sec,
                     "integrations-described",
                     "What each integration is for",
-                    [table(t, [1, 2, 6])],
+                    [table(t, [1, 2, 7])],
                 )
             if t.key == "web-services":
                 slide(

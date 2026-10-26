@@ -27,6 +27,12 @@ Rules, per source root:
    ``config/``, loose files) is one component of its own (decision 167).
 5. Components listed in ``audit.yaml`` take precedence over 1 to 4 for the files under them.
 A file belongs to the deepest component root above it.
+
+Then the components are grouped (``inventory.component_grouping: auto``, decision 176; see
+``legacy_audit.inventory.grouping``): a Maven / Gradle library module goes into the one
+deployable (war, ear, runnable or batch jar) that uses it, the folders beside the modules of a
+group are one component, and without a build file part folders of the same technology (COBOL
+and BMS, JCL and PROCLIB, the batches of one batch folder) are one component.
 """
 
 from __future__ import annotations
@@ -42,6 +48,7 @@ from pathlib import Path, PurePosixPath
 
 from legacy_audit.analyzers.textutil import child_text, parse_xml, text_of
 from legacy_audit.config import ComponentSpec
+from legacy_audit.inventory.grouping import GROUPED, group_candidates
 from legacy_audit.inventory.language import BUILD_FILES
 from legacy_audit.model import Category, Component, ComponentType, Evidence, FileRecord, make_id
 
@@ -112,6 +119,13 @@ class Candidate:
     artifact: str | None = None
     packaging: str | None = None
     in_group: bool = False  # found by the folder rules inside a Maven/Gradle group folder
+    app: bool = False  # a folder holding an application's code folders (src, WebContent, ...)
+    batch_kid: bool = False  # one batch of a batch folder holding several (rule 4)
+    level: str = ""  # the Maven/Gradle group folder it sits in ('' = none)
+    parts: list[str] = field(default_factory=list)  # folders grouped into it (decision 176)
+    jvm_module: bool = False  # a Maven or Gradle module
+    deps: list[str] = field(default_factory=list)  # modules it uses (artifactIds, Gradle paths)
+    runnable: bool = False
 
 
 @dataclass
@@ -122,6 +136,8 @@ class BuildInfo:
     packaging: str | None = None
     modules: list[str] = field(default_factory=list)  # folders, relative to the source root
     gradle_root: bool = False
+    deps: list[str] = field(default_factory=list)  # artifactIds / project folders it uses
+    runnable: bool = False  # Spring Boot, a main class in the manifest, the application plugin
 
 
 _GRADLE_INCLUDE = re.compile(r"^\s*include(?:Flat)?\b\s*\(?(.*)$", re.M)
@@ -157,7 +173,39 @@ def read_pom(base: str, text: str) -> BuildInfo:
         if d is not None and d != base and d not in modules:
             modules.append(d)
     packaging = (child_text(root, "packaging") or "jar").strip().lower() or "jar"
-    return BuildInfo(child_text(root, "artifactId"), packaging, modules)
+    deps = [
+        a.strip()
+        for el in root.findall("dependencies/dependency")
+        if (a := child_text(el, "artifactId"))
+    ]
+    return BuildInfo(
+        child_text(root, "artifactId"), packaging, modules, deps=deps, runnable=_runnable(text)
+    )
+
+
+_RUNNABLE = re.compile(
+    r"spring-boot-maven-plugin|<mainClass>|org\.springframework\.boot['\"]|"
+    r"\bid\s*\(?\s*['\"]application['\"]|apply\s+plugin\s*:\s*['\"]application['\"]|"
+    r"^\s*application\s*$|mainClass(?:Name)?\s*[=.]",
+    re.M,
+)
+_GRADLE_PROJECT_DEP = re.compile(r"project\(\s*(?:path\s*:\s*)?['\"]:?([^'\"]+)['\"]")
+
+
+def _runnable(text: str) -> bool:
+    """The build makes something that runs on its own (not a library jar)."""
+    return bool(_RUNNABLE.search(text))
+
+
+def read_gradle_build(base: str, text: str) -> BuildInfo:
+    """Projects a module's ``build.gradle`` depends on (``implementation project(':core')``),
+    as folders relative to the source root, and whether it builds an application."""
+    deps: list[str] = []
+    for m in _GRADLE_PROJECT_DEP.finditer(text):
+        d = m.group(1).strip(":").replace(":", "/")  # matched against module folders later
+        if d and d not in deps:
+            deps.append(d)
+    return BuildInfo(None, None, deps=deps, runnable=_runnable(text))
 
 
 def read_gradle_settings(base: str, text: str) -> BuildInfo:
@@ -313,7 +361,7 @@ def _layout_candidates(root: str, rels: list[str], build_dirs: set[str]) -> list
             if name(kid) in PART_FOLDERS:
                 continue
             if has_code(kid):
-                out.append(Candidate(root, kid, "folder"))
+                out.append(Candidate(root, kid, "folder", app=True))
             nested_apps(kid)
 
     def batch_kids(folder: str) -> list[str]:
@@ -333,7 +381,7 @@ def _layout_candidates(root: str, rels: list[str], build_dirs: set[str]) -> list
         if batches:
             out.append(Candidate(root, folder, BATCH_SHARED))  # what the batches share
             for kid in batches:
-                out.append(Candidate(root, kid, "folder"))
+                out.append(Candidate(root, kid, "folder", app=has_code(kid), batch_kid=True))
                 nested_apps(kid)
             return
         container = (
@@ -355,11 +403,11 @@ def _layout_candidates(root: str, rels: list[str], build_dirs: set[str]) -> list
         ):  # a wrapper folder around a batch folder of several batches (ops/batch/...)
             component(next(iter(kids)), depth + 1)
             return
-        out.append(Candidate(root, folder, "folder"))
+        out.append(Candidate(root, folder, "folder", app=has_code(folder)))
         nested_apps(folder)
 
     if has_code(""):
-        out.append(Candidate(root, "", "root"))
+        out.append(Candidate(root, "", "root", app=True))
         nested_apps("")
     else:
         for top in sorted(children.get("", ())):
@@ -397,6 +445,23 @@ def _build_info(
     return out
 
 
+def _gradle_builds(
+    root: str, build_dirs: dict[str, list[str]], read: ReadText | None
+) -> dict[str, BuildInfo]:
+    """Per folder with a ``build.gradle``, the projects it depends on and whether it runs."""
+    out: dict[str, BuildInfo] = {}
+    if read is None:
+        return out
+    for d, files in build_dirs.items():
+        for rel in files:
+            if PurePosixPath(rel).name.lower() not in ("build.gradle", "build.gradle.kts"):
+                continue
+            text = read(root, rel)
+            if text is not None:
+                out[d] = read_gradle_build(d, text)
+    return out
+
+
 def _groups(
     rels: list[str], build_dirs: dict[str, list[str]], info: dict[str, BuildInfo]
 ) -> set[str]:
@@ -431,10 +496,13 @@ def detect_components(
     root_names: list[str],
     specs: list[ComponentSpec],
     read: ReadText | None = None,
+    grouping: str = "auto",
 ) -> tuple[list[Component], dict[str, str]]:
     """Return components and a map file id -> component name. ``read`` gives the text of a
-    build file (pom.xml, settings.gradle) so Maven and Gradle can say which folders are modules
-    and which are parents; without it the folder layout decides."""
+    build file (pom.xml, settings.gradle, build.gradle) so Maven and Gradle can say which folders
+    are modules, which are parents and which modules use which; without it the folder layout
+    decides. ``grouping`` is ``auto`` (group them, decision 176) or ``module`` (one per module
+    and folder)."""
     multi = len(root_names) > 1
     by_root: dict[str, list[FileRecord]] = defaultdict(list)
     for r in records:
@@ -455,6 +523,7 @@ def detect_components(
             if is_project_file(PurePosixPath(rel).name):
                 build_dirs[_parent(rel)].append(rel)
         info = _build_info(root, build_dirs, read)
+        gradle = _gradle_builds(root, build_dirs, read)
         present = {_parent(rel) for rel in rels} | {
             p for rel in rels for p in [str(x) for x in PurePosixPath(rel).parents][:-1]
         }
@@ -472,6 +541,8 @@ def detect_components(
             if d in group_dirs:
                 continue
             mod = info.get(d)
+            gmod = gradle.get(d)
+            in_build = any(d in bi.modules for bi in info.values())
             candidates.append(
                 Candidate(
                     root,
@@ -480,6 +551,10 @@ def detect_components(
                     build_files=sorted(bfiles),
                     artifact=mod.artifact if mod else None,
                     packaging=mod.packaging if mod else None,
+                    level=max((g for g in group_dirs if _under(d, g)), key=len, default=""),
+                    jvm_module=bool(mod and mod.packaging) or gmod is not None or in_build,
+                    deps=[*(mod.deps if mod else []), *(gmod.deps if gmod else [])],
+                    runnable=bool(mod and mod.runnable) or bool(gmod and gmod.runnable),
                 )
             )
         layout_roots = sorted(group_dirs) + ([""] if "" not in build_dirs else [])
@@ -490,6 +565,7 @@ def detect_components(
             for c in _layout_candidates(root, sub_rels, sub_build):
                 c.path = f"{g}/{c.path}" if g and c.path else (g or c.path)
                 c.in_group = g in group_dirs
+                c.level = g
                 candidates.append(c)
 
     members: dict[int, list[FileRecord]] = defaultdict(list)
@@ -506,6 +582,8 @@ def detect_components(
                     break
             if best is not None:
                 members[id(best)].append(f)
+    if grouping == "auto":
+        candidates = group_candidates(candidates, members, groups)
 
     components: list[Component] = []
     taken: set[str] = set()
@@ -517,7 +595,7 @@ def detect_components(
             continue
         if cand.in_group and not any(f.category in _TECH_CATEGORIES for f in files):
             continue  # a parent pom, a README: part of the group, not a component (rule 3)
-        if cand.detected_by != "config":
+        if cand.detected_by not in ("config", GROUPED):
             if (cand.root, cand.path) in seen_paths:
                 continue
             seen_paths.add((cand.root, cand.path))
@@ -545,7 +623,9 @@ def detect_components(
         chain = sorted((g for g in group_names if g != cand.path and _under(cand.path, g)), key=len)
         components.append(
             Component(
-                id=make_id("component", cand.root, cand.path, cand.detected_by),
+                id=make_id("component", cand.root, cand.path, cand.detected_by)
+                if cand.detected_by != GROUPED
+                else make_id("component", cand.root, cand.path, GROUPED, name),
                 name=name,
                 type=ctype,
                 root=cand.root,
@@ -560,6 +640,7 @@ def detect_components(
                 build_group=[group_names[g] for g in chain],
                 artifact=cand.artifact,
                 packaging=cand.packaging,
+                parts=cand.parts,
                 evidence=[Evidence(file=p) for p in evidence_files],
             )
         )

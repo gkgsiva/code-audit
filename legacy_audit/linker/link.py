@@ -24,6 +24,7 @@ from legacy_audit.analyzers.base import Facts, Ref, Symbol
 from legacy_audit.inventory.components import BATCH_SHARED, in_batch_folder, in_shared_folder
 from legacy_audit.linker.aggregate import (
     dedupe,
+    group_by_service,
     merge_batch_jobs,
     merge_db_objects,
     merge_integrations,
@@ -179,7 +180,9 @@ class _Linker:
         records: list[FileRecord],
         facts: Iterable[Facts],
         copybook_paths: Iterable[str] = (),
+        group_integrations: bool = True,
     ) -> None:
+        self.group_integrations = group_integrations
         self.records = records
         self.copybook_dirs = [f"/{d.strip('/')}/".lower() for d in copybook_paths if d.strip("/")]
         self.by_path = {r.path: r for r in records}
@@ -447,6 +450,12 @@ class _Linker:
             self.comp,
             lambda node: node[5:] if node.startswith("file:") else by_id.get(node),
         )
+        if self.group_integrations:  # one row per external service (decision 177)
+            integrations, new_id, new_label = group_by_service(integrations)
+            for svc in services:
+                svc.external_calls = sorted({new_label.get(c, c) for c in svc.external_calls})
+            for ws in web_services:
+                ws.integrations = list(dict.fromkeys(new_id.get(i, i) for i in ws.integrations))
 
         out: dict[str, list[Fact]] = {
             "entry_points": _sorted(entry_points, lambda x: (x.file, x.line or 0, x.name)),
@@ -1087,6 +1096,9 @@ def classify_components(
 
 
 def link(
-    records: list[FileRecord], facts: Iterable[Facts], copybook_paths: Iterable[str] = ()
+    records: list[FileRecord],
+    facts: Iterable[Facts],
+    copybook_paths: Iterable[str] = (),
+    group_integrations: bool = True,
 ) -> LinkResult:
-    return _Linker(records, facts, copybook_paths).run()
+    return _Linker(records, facts, copybook_paths, group_integrations).run()

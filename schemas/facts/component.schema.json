@@ -100,7 +100,7 @@
       "type": "object"
     },
     "detected_by": {
-      "description": "build-file, folder, root, config or override",
+      "description": "build-file, folder, root, batch-shared, grouped, config or override",
       "title": "Detected By",
       "type": "string"
     },
@@ -148,6 +148,14 @@
       "default": null,
       "description": "Maven packaging (jar, war, ear, ...)",
       "title": "Packaging"
+    },
+    "parts": {
+      "description": "Folders grouped into this component (decision 176): the library modules a deployable uses, or part folders of one technology (cobol + bms, jcl + proclib, the folders beside the modules of a Maven group); empty when it is one folder",
+      "items": {
+        "type": "string"
+      },
+      "title": "Parts",
+      "type": "array"
     },
     "path": {
       "description": "Component folder relative to the source root ('' = root)",

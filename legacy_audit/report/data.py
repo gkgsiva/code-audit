@@ -87,6 +87,9 @@ class RunData:
             for item in items:
                 if "id" in item:
                     rd.by_id[item["id"]] = item
+        for item in entities.get("integrations", []):
+            for old in item.get("grouped_ids") or []:  # rows grouped into one (decision 177)
+                rd.by_id.setdefault(old, item)
         for f in entities["inventory"]:
             rd.file_root[f["path"]] = f.get("root", "")
             if f.get("component"):
@@ -112,6 +115,16 @@ class RunData:
             return str(comp)
         path = item.get("file") or item.get("path")
         return self.file_component.get(path) if path else None
+
+    def by_row(self, stories: dict[str, Any]) -> dict[str, Any]:
+        """Enrichment keyed by integration id, re-keyed to the rows as they are now: a story
+        written for an endpoint later grouped into one row of its service (decision 177)
+        belongs to that row (the row's own story first)."""
+        out: dict[str, Any] = {}
+        for key in sorted(stories, key=lambda k: k not in self.by_id or self.by_id[k]["id"] != k):
+            row = self.by_id.get(key)
+            out.setdefault(str(row["id"]) if row else key, stories[key])
+        return out
 
     def label(self, entity_id: str) -> str:
         item = self.by_id.get(entity_id)
