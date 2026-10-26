@@ -116,6 +116,16 @@ class RunData:
         path = item.get("file") or item.get("path")
         return self.file_component.get(path) if path else None
 
+    def by_row(self, stories: dict[str, Any]) -> dict[str, Any]:
+        """Enrichment keyed by integration id, re-keyed to the rows as they are now: a story
+        written for an endpoint later grouped into one row of its service (decision 177)
+        belongs to that row (the row's own story first)."""
+        out: dict[str, Any] = {}
+        for key in sorted(stories, key=lambda k: k not in self.by_id or self.by_id[k]["id"] != k):
+            row = self.by_id.get(key)
+            out.setdefault(str(row["id"]) if row else key, stories[key])
+        return out
+
     def label(self, entity_id: str) -> str:
         item = self.by_id.get(entity_id)
         if item is None:

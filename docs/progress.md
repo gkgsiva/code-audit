@@ -502,3 +502,33 @@ Siva asked for PDF versions of the reports and confirmed all four, on A4.
   `tests/test_copilot.py::test_front_matter_is_valid_yaml`; troubleshooting steps in
   `docs/copilot-agent.md`; validate section "Copilot agent and prompts show in Copilot Chat".
 - Next: Siva runs `legacy-audit init` in each audit folder, reloads VS Code and checks `/audit`.
+
+## Components and integrations grouped (2026-10-26)
+
+Siva: the components list should be consolidated by pom when there is one, otherwise by
+technology or framework; integrations calling the same external service should be one entry.
+He chose "per deployable" on the card and asked for MQ queues to be grouped by queue manager.
+
+- Done: `legacy_audit/inventory/grouping.py` (decision 176): a Maven/Gradle library module goes
+  into the one war, ear or runnable/batch jar that uses it (pom `<dependencies>`, Gradle
+  `project(':x')`); the folders beside the modules are `<group>-scripts-config`; without a build
+  file, part folders group by technology (`cobol-online`, `jcl-jobs`, one per batch folder,
+  `shared-scripts-config`), and config/scripts beside a single application join it.
+  `Component.parts`, `inventory.component_grouping: auto | module`. Integrations (decision 177):
+  one row per host (http/https, REST/SOAP), per queue manager (queues and channels, from the
+  MQSC header, file name or the components' connection), per file server or folder;
+  `Integration.endpoints` and `grouped_ids` (old enrichment still finds its row),
+  `integrations.group_by_service`. Called REST web services are one per host too. Summary
+  report (Endpoints column, slides), technical report (Folders column, component page,
+  catalogue), deck, GUI picker (ticks a grouped component's folders together), Copilot prompt.
+  Samples: maven-multimodule-app 12 -> 6 components (acme-web now depends on acme-core),
+  cobol-cics-db2 6 -> 3, legacy-layout-app 5 -> 4; spring-mvc-batch-app 9 -> 5 integrations,
+  desktop-dotnet-app 13 -> 11, web-services-app 7 -> 6, c-proc-batch 6 (queue under QMSETL).
+  VS Code task 33 (`scripts/show_grouping.py`), validate section "Components and integrations
+  grouped".
+- Known gaps: .NET project references (`<ProjectReference>`) and Ant/Make builds do not fold
+  libraries into their application yet; two Struts or Spring web apps in sibling folders stay
+  two components (they are two deployables); audit-overrides.yaml entries naming a folder
+  component that is now grouped (e.g. `config`) need the new name; component docs written by
+  Copilot for folders now grouped need `/audit-enrich stale`.
+- Next: Siva runs task 33 on the samples and a real estate and checks the lists.

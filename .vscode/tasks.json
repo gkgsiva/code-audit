@@ -326,6 +326,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_pdfs.py samples\\${input:sample} --open"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 33. show component and integration grouping (sample app)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_grouping.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_grouping.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
     }
   ]
 }

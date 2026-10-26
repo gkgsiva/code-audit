@@ -786,7 +786,9 @@ Windows and WSL2: VS Code picks the right command (WSL2 uses `.venv/bin/python`,
    `tests/test_functional.py::test_one_batch_per_entry_point`.
 2. Run **`audit: 31. show Maven modules and batches (multi-module sample)`**. Check in the
    terminal:
-   - 12 components; `acme-parent` and `acme-batches` are not among them (they are groups);
+   - 6 components since the grouping (section "Components and integrations grouped" below;
+     12 with `inventory.component_grouping: module`); `acme-parent` and `acme-batches` are
+     not among them (they are groups);
    - the module tree shows `acme-parent (group)` with `acme-core [jar]`, `acme-ear [ear]`,
      `acme-tools [jar]`, `acme-web [war] -> web`, and `acme-batches (group)` with
      `billing-batch` and `report-batch`;
@@ -859,4 +861,42 @@ not read, so the **legacy-auditor** agent and the `/audit-*` prompts were missin
    folder), then Ctrl+Shift+P > **Developer: Reload Window**.
 5. In Copilot Chat pick **Agent**, type `/audit`: `/audit-scan`, `/audit-enrich`,
    `/audit-report` and `/audit-qa` are listed. The agent list has **legacy-auditor**.
+
+## Components and integrations grouped
+
+Components are grouped per deployable when there is a `pom.xml` (a library module goes into the
+war, ear or batch jar that uses it) and by technology otherwise; integrations are one row per
+external service (decisions 176 and 177). Steps are the same on Windows and WSL2: VS Code picks
+the right command (WSL2 uses `.venv/bin/python`, set up with `python3`).
+
+1. Pull the branch, then run `audit: 2. tests (pytest)`: everything passes, including
+   `tests/test_components.py` (the `grouping` tests) and `tests/test_samples.py`.
+2. Run **`audit: 33. show component and integration grouping (sample app)`** and pick
+   `maven-multimodule-app`. Check in the terminal:
+   - `Components: 6 (one per module and folder would give 12)`;
+   - `acme-web` is made of `acme-web, acme-core` (acme-web's pom depends on acme-core);
+     `acme-tools` stays on its own (nothing uses it);
+   - `acme-parent-scripts-config` is made of `config, ops/batch, ops/batch/archive,
+     ops/batch/eod, ops/batch/purge, scripts`.
+3. Run task 33 again with `cobol-cics-db2`: 3 components, `cobol-online` (bms, cobol,
+   copybook), `jcl-jobs` (jcl, proclib) and `ddl`. With `legacy-layout-app`: 4 components,
+   `config` and `scripts` are one `shared-scripts-config`.
+4. Run task 33 with `spring-mvc-batch-app`: under Integrations, `MQ-QMGR
+   QMBILL@mqbill01.acme.local:1414 [both, 7 usage(s)]` lists the queues `BILLING.INVOICE.PAID`
+   and `PAYMENTS.IN` and the channels `BILLING.SVRCONN` and `QMBILL.QMCRM` (5 rows before).
+   With `web-services-app`: `HTTP https://stock.acme.local` lists `/api/v2/items` and
+   `/api/v2/reservations`. With `desktop-dotnet-app`: `https://ledger.acme.local` holds the
+   http and https calls, `//fileserver` its two files, and "Web services called" has one
+   `ledger.acme.local` row.
+5. Run `audit: 24. build and open the summary report (HTML and PowerPoint)` with `spring-mvc-batch-app`: the Integrations table
+   has an "Endpoints / queues / files" column. Run `audit: 7. build and open the technical
+   report` with `maven-multimodule-app`: the Components page has a "Folders" column and the
+   `acme-web` page says "grouped from 2 folders".
+6. The old lists are one setting away: in a sample's `audit.yaml` set
+   `inventory: component_grouping: module` and `integrations: group_by_service: false`, run
+   task 33 again (12 components, one row per address), then undo the change.
+7. **In your own audit folder**: pull, run `legacy-audit init` once (the Copilot prompt now
+   explains grouped components and services), `legacy-audit scan`, then `/audit-enrich stale`.
+   Enrichment written before still shows: a story written for one endpoint or queue is used
+   for the row it now belongs to; component pages of folders that were grouped need the rerun.
 

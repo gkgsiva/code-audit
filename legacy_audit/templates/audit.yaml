@@ -150,6 +150,16 @@ inventory:
   # compiled files and no source or script, Eclipse output folders (.classpath), and files a
   # precompiler generated next to their source (foo.c beside foo.pc). Each one is reported.
   skip_build_output: true
+  # auto: a Maven/Gradle library module goes into the war, ear or batch jar that uses it, the
+  # folders beside the modules are one component, and without a build file part folders of one
+  # technology are one component (COBOL + BMS, JCL + PROCLIB, one batch folder). module: one
+  # component per module and folder, as before.
+  component_grouping: auto
+
+# One row per external service: the endpoints called on one host, the queues and channels of
+# one queue manager, the files of one server or folder. false: one row per address.
+integrations:
+  group_by_service: true
 
 # Dialect of SQL embedded in code and scripts (oracle, db2, sqlserver, sybase, mysql, postgresql).
 sql:

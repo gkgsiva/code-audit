@@ -188,7 +188,7 @@ def _build_into(rd: RunData, out: Path) -> None:
     from legacy_audit.report.deck_builder import load_enrichment
 
     fn = load_enrichment(rd.run_dir).get("functional") or {}
-    stories = {i["integration_id"]: i for i in fn.get("interfaces", []) or []}
+    stories = rd.by_row({i["integration_id"]: i for i in fn.get("interfaces", []) or []})
     ws_stories = {w["web_service_id"]: w for w in fn.get("web_services", []) or []}
     cats = cat.build(rd, out, stories, ws_stories)
     if rd.audit_only:  # no target database: no PostgreSQL grades
