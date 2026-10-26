@@ -101,7 +101,7 @@ def test_application_folders_hold_their_parts():
         rec("config/log4j.xml", "xml", Category.CONFIG),
         rec("scripts/deploy.sh", "shell", Category.SCRIPT),
     ]
-    comps, mapping = detect_components(files, ["r"], [])
+    comps, mapping = detect_components(files, ["r"], [], grouping="module")
     assert names(comps) == {
         "orders": ("web", 4, "folder"),
         "billing": ("library", 3, "folder"),  # the linker makes it batch from its main/ksh
@@ -181,7 +181,7 @@ def test_maven_parents_are_groups_and_modules_components():
         "batches/eod/pom.xml": _pom("acme-eod"),
         "tools/pom.xml": _pom("acme-tools"),
     }
-    comps, mapping = detect_components(files, ["r"], [], _reader(texts))
+    comps, mapping = detect_components(files, ["r"], [], _reader(texts), "module")
     assert names(comps) == {
         "app": ("web", 2, "build-file"),  # war packaging
         "eod": ("batch", 2, "build-file"),  # it sits in batches/
@@ -261,7 +261,7 @@ def test_batch_folder_with_several_batches_is_split():
         rec("ops/batch/eod/sql/eod.sql", "sql", Category.SQL),
         rec("web/src/A.java"),
     ]
-    comps, mapping = detect_components(files, ["r"], [])
+    comps, mapping = detect_components(files, ["r"], [], grouping="module")
     assert names(comps) == {
         "batch": ("script", 2, "batch-shared"),  # what the batches share, never a batch
         "purge": ("batch", 2, "folder"),
@@ -281,3 +281,149 @@ def test_batch_folder_holding_one_batch_is_not_split():
     ]
     comps, _ = detect_components(files, ["r"], [])
     assert names(comps)["batch"] == ("batch", 3, "folder")
+
+
+# ---- grouping (decision 176) --------------------------------------------------------------------
+
+
+def test_shared_config_and_scripts_are_one_component():
+    files = [
+        rec("apps/orders/src/com/acme/A.java"),
+        rec("apps/orders/WebContent/a.jsp", "jsp", Category.SCREEN),
+        rec("apps/billing/java/com/acme/Run.java"),
+        rec("apps/billing/ksh/run.ksh", "shell", Category.SCRIPT),
+        rec("config/common.properties", "properties", Category.CONFIG),
+        rec("config/log4j.xml", "xml", Category.CONFIG),
+        rec("scripts/deploy.sh", "shell", Category.SCRIPT),
+    ]
+    comps, mapping = detect_components(files, ["r"], [])
+    assert names(comps) == {
+        "orders": ("web", 2, "folder"),
+        "billing": ("library", 2, "folder"),
+        "shared-scripts-config": ("script", 3, "grouped"),
+    }
+    shared = next(c for c in comps if c.name == "shared-scripts-config")
+    assert shared.parts == ["config", "scripts"] and shared.path == ""
+    assert mapping[files[6].id] == "shared-scripts-config"
+
+
+def test_config_beside_one_application_belongs_to_it():
+    files = [
+        rec("orders/src/com/acme/A.java"),
+        rec("orders/WebContent/a.jsp", "jsp", Category.SCREEN),
+        rec("config/app.properties", "properties", Category.CONFIG),
+        rec("scripts/deploy.sh", "shell", Category.SCRIPT),
+    ]
+    comps, _ = detect_components(files, ["r"], [])
+    assert names(comps) == {"orders": ("web", 4, "folder")}
+    assert comps[0].parts == ["orders", "config", "scripts"]
+
+
+def test_mainframe_parts_group_by_technology():
+    files = [
+        rec("bms/ORDMS1.bms", "bms", Category.SCREEN),
+        rec("cobol/ORDINQ.cbl", "cobol"),
+        rec("cobol/ORDRPT.cbl", "cobol"),
+        rec("copybook/ORDREC.cpy", "cobol"),
+        rec("jcl/NIGHT.jcl", "jcl", Category.JOB),
+        rec("proclib/RPTP.jcl", "jcl", Category.JOB),
+        rec("ddl/orders.sql", "sql", Category.SQL),
+    ]
+    comps, _ = detect_components(files, ["r"], [])
+    got = {c.name: (c.files, c.detected_by, c.parts) for c in comps}
+    assert got == {
+        "cobol-online": (4, "grouped", ["bms", "cobol", "copybook"]),
+        "jcl-jobs": (2, "grouped", ["jcl", "proclib"]),
+        "ddl": (1, "folder", []),
+    }
+
+
+def test_batch_folder_is_one_component_by_technology():
+    files = [
+        rec("ops/batch/env.properties", "properties", Category.CONFIG),
+        rec("ops/batch/common/functions.ksh", "shell", Category.SCRIPT),
+        rec("ops/batch/purge/purge.ksh", "shell", Category.SCRIPT),
+        rec("ops/batch/purge/purge.sql", "sql", Category.SQL),
+        rec("ops/batch/archive/archive.ksh", "shell", Category.SCRIPT),
+        rec("ops/batch/eod/ksh/run_eod.ksh", "shell", Category.SCRIPT),
+        rec("web/src/A.java"),
+    ]
+    comps, _ = detect_components(files, ["r"], [])
+    by = {c.name: c for c in comps}
+    assert set(by) == {"batch", "web"}
+    assert (by["batch"].type, by["batch"].files, by["batch"].detected_by) == ("batch", 6, "grouped")
+    assert by["batch"].path == "ops/batch"
+    assert by["batch"].parts == [
+        "ops/batch",
+        "ops/batch/archive",
+        "ops/batch/eod",
+        "ops/batch/purge",
+    ]
+
+
+def _dep(*artifacts: str) -> str:
+    deps = "".join(f"<dependency><artifactId>{a}</artifactId></dependency>" for a in artifacts)
+    return f"<dependencies>{deps}</dependencies>"
+
+
+def test_maven_library_goes_into_the_deployable_using_it():
+    files = [
+        rec("pom.xml", "xml", Category.BUILD),
+        rec("web/pom.xml", "xml", Category.BUILD),
+        rec("web/src/main/webapp/a.jsp", "jsp", Category.SCREEN),
+        rec("web-model/pom.xml", "xml", Category.BUILD),
+        rec("web-model/src/main/java/M.java"),
+        rec("dao/pom.xml", "xml", Category.BUILD),
+        rec("dao/src/main/java/D.java"),
+        rec("common/pom.xml", "xml", Category.BUILD),
+        rec("common/src/main/java/C.java"),
+        rec("batch/pom.xml", "xml", Category.BUILD),
+        rec("batch/src/main/java/B.java"),
+        rec("unused/pom.xml", "xml", Category.BUILD),
+        rec("unused/src/main/java/U.java"),
+        rec("config/app.properties", "properties", Category.CONFIG),
+        rec("scripts/run.ksh", "shell", Category.SCRIPT),
+    ]
+    mods = "".join(
+        f"<module>{m}</module>" for m in ("web", "web-model", "dao", "common", "batch", "unused")
+    )
+    texts = {
+        "pom.xml": _pom("parent", "pom", f"<modules>{mods}</modules>"),
+        "web/pom.xml": _pom("web", "war", _dep("web-model", "common", "junit")),
+        "web-model/pom.xml": _pom("web-model", "jar", _dep("dao")),  # web uses dao through it
+        "dao/pom.xml": _pom("dao"),
+        "common/pom.xml": _pom("common"),
+        "batch/pom.xml": _pom("batch", "jar", _dep("common")).replace(
+            "</project>",
+            "<build><plugins><plugin><artifactId>spring-boot-maven-plugin"
+            "</artifactId></plugin></plugins></build></project>",
+        ),
+        "unused/pom.xml": _pom("unused"),
+    }
+    comps, _ = detect_components(files, ["r"], [], _reader(texts))
+    by = {c.name: c for c in comps}
+    assert set(by) == {"web", "common", "batch", "unused", "parent-scripts-config"}
+    assert by["web"].parts == ["web", "dao", "web-model"] and by["web"].files == 6
+    assert by["web"].build_files == ["dao/pom.xml", "web-model/pom.xml", "web/pom.xml"]
+    assert by["common"].parts == []  # used by web and batch: a shared library
+    assert by["parent-scripts-config"].parts == ["config", "scripts"]
+    module, _ = detect_components(files, ["r"], [], _reader(texts), "module")
+    assert len(module) == 8
+
+
+def test_gradle_project_dependencies_group_too():
+    files = [
+        rec("settings.gradle", "groovy", Category.BUILD),
+        rec("app/build.gradle", "groovy", Category.BUILD),
+        rec("app/src/main/java/App.java"),
+        rec("core/build.gradle", "groovy", Category.BUILD),
+        rec("core/src/main/java/A.java"),
+    ]
+    texts = {
+        "settings.gradle": "rootProject.name = 'acme'\ninclude 'app', 'core'\n",
+        "app/build.gradle": "plugins { id 'application' }\n"
+        "dependencies { implementation project(':core') }\n",
+        "core/build.gradle": "plugins { id 'java-library' }\n",
+    }
+    comps, _ = detect_components(files, ["r"], [], _reader(texts))
+    assert [(c.name, c.parts, c.files) for c in comps] == [("app", ["app", "core"], 4)]

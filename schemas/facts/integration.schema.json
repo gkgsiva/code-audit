@@ -84,11 +84,27 @@
       "title": "Direction",
       "type": "string"
     },
+    "endpoints": {
+      "description": "What was grouped into this row of one external service (decision 177): the paths called on one host, the queues and channels of one queue manager, the files of one server or folder; empty when the row is one endpoint",
+      "items": {
+        "type": "string"
+      },
+      "title": "Endpoints",
+      "type": "array"
+    },
     "evidence": {
       "items": {
         "$ref": "#/$defs/Evidence"
       },
       "title": "Evidence",
+      "type": "array"
+    },
+    "grouped_ids": {
+      "description": "Ids the grouped endpoints had as rows of their own; enrichment written before the grouping still points at them",
+      "items": {
+        "type": "string"
+      },
+      "title": "Grouped Ids",
       "type": "array"
     },
     "id": {

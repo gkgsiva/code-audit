@@ -53,8 +53,8 @@ counts:
   stored_procedures: 0
   db_objects: {}
   integrations:
-    total: 7
-    by_type: {HTTP: 5, SOAP: 2}
+    total: 6
+    by_type: {HTTP: 4, SOAP: 2}
   web_services:
     total: 10
     offered: 5
@@ -70,21 +70,23 @@ counts:
   libraries: {total: 4, declared: 4, undeclared: 0}
   entry_points: {main: 1}
   dependencies: {resolved: 6, unresolved: 1}
-  findings: {dead-code-candidate: 3, eol-library: 1, eol-technology: 2, hardcoded-endpoint: 4, no-tests: 3,
-    unresolved-reference: 1}
+  findings: {dead-code-candidate: 3, eol-library: 1, eol-technology: 2, hardcoded-endpoint: 4, no-tests: 3, unresolved-reference: 1}
 services: ['c-executable: rate_feed', 'rest-operation: GET /orders/{id}', 'rest-operation: POST /orders',
   'soap-operation: Calculator.add', 'soap-operation: Calculator.subtract', 'soap-operation: OrderStatusEndpoint.cancelOrder',
   'soap-operation: OrderStatusEndpoint.getStatus', 'soap-operation: QuoteService.getQuote', 'soap-operation:
     QuoteService.listQuotes', 'spring-handler: GET /api/customers/{id}', 'spring-handler: PUT /api/customers/{id}']
 screens: []
-integrations: ['HTTP https://orders.acme.local/orders-ws/ws/OrderStatus [inbound]', 'HTTP https://payments.acme.local/api
-    [outbound]', 'HTTP https://rates.acme.local/api/v1/rates/EUR [outbound]', 'HTTP https://stock.acme.local/api/v2/items
-    [outbound]', 'HTTP https://stock.acme.local/api/v2/reservations [outbound]', 'SOAP http://treasury.acme.local/soap/RateService
-    [outbound]', 'SOAP https://crm.acme.local/services/CrmService [outbound]']
+integrations:
+- HTTP https://orders.acme.local/orders-ws/ws/OrderStatus [inbound]
+- HTTP https://payments.acme.local/api [outbound]
+- HTTP https://rates.acme.local/api/v1/rates/EUR [outbound]
+- HTTP https://stock.acme.local [outbound]
+- SOAP http://treasury.acme.local/soap/RateService [outbound]
+- SOAP https://crm.acme.local/services/CrmService [outbound]
 integration_purposes: {'HTTP https://orders.acme.local/orders-ws/ws/OrderStatus': HTTP API, 'HTTP https://payments.acme.local/api': HTTP
-    API, 'HTTP https://rates.acme.local/api/v1/rates/EUR': HTTP API, 'HTTP https://stock.acme.local/api/v2/items': HTTP
-    API, 'HTTP https://stock.acme.local/api/v2/reservations': HTTP API, 'SOAP http://treasury.acme.local/soap/RateService': web
-    service, 'SOAP https://crm.acme.local/services/CrmService': web service}
+    API, 'HTTP https://rates.acme.local/api/v1/rates/EUR': HTTP API, 'HTTP https://stock.acme.local': HTTP API,
+  'SOAP http://treasury.acme.local/soap/RateService': web service, 'SOAP https://crm.acme.local/services/CrmService': web
+    service}
 web_services: ['called REST: payment-service (2 ops)', 'called REST: rates.acme.local (1 ops)', 'called
     REST: stock.acme.local (2 ops)', 'called SOAP: CrmService (2 ops)', 'called SOAP: RateService (1 ops)',
   'offered REST: CustomerController (2 ops)', 'offered REST: OrderResource (2 ops)', 'offered SOAP: Calculator

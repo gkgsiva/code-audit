@@ -154,16 +154,18 @@ def set_component_choices(
 ) -> Overrides:
     """Untick (exclude) or tick component folders and set or clear type overrides.
 
-    ``included`` maps a component folder to ticked or not; ``types`` maps a component name to
-    a type, or None to drop the override. Other overrides are left alone."""
+    ``included`` maps a component folder to ticked or not (a grouped component's folders joined
+    with ``|``); ``types`` maps a component name to a type, or None to drop the override. Other
+    overrides are left alone."""
     ov = load_overrides(overrides_path)
     excludes = list(ov.files.exclude)
-    for folder, keep in included.items():
-        pattern = component_exclude(folder)
-        if keep and pattern in excludes:
-            excludes.remove(pattern)
-        elif not keep and pattern not in excludes:
-            excludes.append(pattern)
+    for key, keep in included.items():
+        for folder in key.split("|"):
+            pattern = component_exclude(folder)
+            if keep and pattern in excludes:
+                excludes.remove(pattern)
+            elif not keep and pattern not in excludes:
+                excludes.append(pattern)
     ov.files.exclude = excludes
     type_map = dict(ov.components.type)
     for name, t in types.items():
@@ -238,6 +240,7 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
         [r.name for r in roots],
         cfg.components,
         disk_reader({r.name: r.path for r in roots}),
+        cfg.inventory.component_grouping,
     )
     langs: dict[str, Counter[str]] = {c.name: Counter() for c in components}
     for rec in records:
@@ -262,8 +265,10 @@ def prescan(loaded: LoadedConfig) -> dict[str, Any]:
                 "build_files": c.build_files,
                 "build_group": c.build_group,
                 "packaging": c.packaging,
+                "parts": c.parts,
+                "folders": c.parts or [c.path],
                 # files.exclude applies inside every root, so the pattern is root-relative
-                "included": component_exclude(c.path) not in excludes,
+                "included": all(component_exclude(p) not in excludes for p in c.parts or [c.path]),
             }
         )
     return {

@@ -87,6 +87,9 @@ class RunData:
             for item in items:
                 if "id" in item:
                     rd.by_id[item["id"]] = item
+        for item in entities.get("integrations", []):
+            for old in item.get("grouped_ids") or []:  # rows grouped into one (decision 177)
+                rd.by_id.setdefault(old, item)
         for f in entities["inventory"]:
             rd.file_root[f["path"]] = f.get("root", "")
             if f.get("component"):

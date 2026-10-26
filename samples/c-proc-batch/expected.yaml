@@ -53,8 +53,8 @@ counts:
   stored_procedures: 0
   db_objects: {table: 4}
   integrations:
-    total: 7
-    by_type: {CFT: 2, FILE: 2, MQ: 1, MQ-QMGR: 1, SCP: 1}
+    total: 6
+    by_type: {CFT: 2, FILE: 2, MQ-QMGR: 1, SCP: 1}
   web_services:
     total: 0
     offered: 0
@@ -82,7 +82,6 @@ integrations:
 - CFT BANKFR/SETTLE [outbound]
 - FILE /data/settlement/out/settlement.dat [inbound]
 - FILE /var/log/settlement/settle.log [outbound]
-- MQ SETTLE.TO.BANK [outbound]
 - MQ-QMGR QMSETL [outbound]
 - SCP archive01.acme.local [outbound]
 batch_jobs:

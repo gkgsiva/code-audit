@@ -374,11 +374,28 @@ class InventoryConfig(Strict):
         "(.classpath), and files a precompiler generated next to their source (foo.c beside "
         "foo.pc, foo.cob beside foo.pco, Foo.java beside Foo.sqlj). Each is reported.",
     )
+    component_grouping: Literal["auto", "module"] = Field(
+        "auto",
+        description="auto: a Maven/Gradle library module goes into the deployable (war, ear, "
+        "runnable or batch jar) that uses it, the folders beside the modules are one component, "
+        "and without a build file part folders of one technology are one component (COBOL + "
+        "BMS, JCL + PROCLIB, the batches of a batch folder). module: one component per module "
+        "and folder (decision 176)",
+    )
     workers: int = Field(
         0,
         ge=0,
         description="Processes used to analyse files and grade SQL; 0 = one per CPU less one "
         "(at most 8), 1 = no extra processes",
+    )
+
+
+class IntegrationsConfig(Strict):
+    group_by_service: bool = Field(
+        True,
+        description="One row per external service: all the endpoints called on one host (REST, "
+        "SOAP, HTTP), the queues and channels of one queue manager, the files of one server or "
+        "folder; false keeps one row per address (decision 177)",
     )
 
 
@@ -460,6 +477,7 @@ class AuditConfig(Strict):
     branding: Branding = Field(default_factory=Branding)
     pdf: PdfConfig = Field(default_factory=PdfConfig)
     inventory: InventoryConfig = Field(default_factory=InventoryConfig)
+    integrations: IntegrationsConfig = Field(default_factory=IntegrationsConfig)
     sql: SqlConfig = Field(default_factory=SqlConfig)
     cobol: CobolConfig = Field(default_factory=CobolConfig)
     metrics: MetricsConfig = Field(default_factory=MetricsConfig)

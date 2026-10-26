@@ -71,13 +71,13 @@ counts:
   stored_procedures: 0
   db_objects: {table: 10}
   integrations:
-    total: 13
-    by_type: {DB: 5, FILE: 3, HTTP: 2, MQ: 1, SMTP: 1, SOAP: 1}
+    total: 11
+    by_type: {DB: 5, FILE: 2, HTTP: 1, MQ: 1, SMTP: 1, SOAP: 1}
   web_services:
-    total: 5
+    total: 4
     offered: 2
-    called: 3
-    by_style: {REST called: 2, REST offered: 1, SOAP called: 1, SOAP offered: 1}
+    called: 2
+    by_style: {REST called: 1, REST offered: 1, SOAP called: 1, SOAP offered: 1}
     operations: 4
   batch_jobs:
     total: 4
@@ -95,18 +95,27 @@ services: ['aspnet-mvc: GET /Home/Index', 'batch-job: NightlyExport', 'batch-job
   'rest-operation: GET /api/Invoices/{id}', 'rest-operation: POST /api/Invoices', 'soap-operation: ASMX ContactService.GetContactName']
 screens: [Contact.aspx, Default.aspx, Index.cshtml, ItemCard (partial), MainForm, MainWindow, OrderDetailForm, Site.master
     (partial), StockDialog, _Layout.cshtml (partial), ctlAddress (partial), frmCustomer, frmMain]
-integrations: ['DB access://regions.mdb [outbound]', 'DB oracle://crmprod [outbound]', 'DB sqlserver://billsrv01/BILLING
-    [outbound]', 'DB sqlserver://invsrv01/INVENTORY [outbound]', 'DB sqlserver://ordsrv02\sql2008/ORDERS [outbound]',
-  'FILE //fileserver/exports/invoices.csv [outbound]', 'FILE //fileserver/orders/archive.log [outbound]', 'FILE
-    C:/BillingDesk/export/customers.csv [outbound]', 'HTTP http://ledger.acme.local/api/postings [outbound]', 'HTTP
-    https://ledger.acme.local [outbound]', 'MQ .\private$\invoices-to-mail [unknown]', 'SMTP smtp.acme.local [outbound]',
-  'SOAP http://pricing.acme.local/PricingService.svc [outbound]']
+integrations:
+- DB access://regions.mdb [outbound]
+- DB oracle://crmprod [outbound]
+- DB sqlserver://billsrv01/BILLING [outbound]
+- DB sqlserver://invsrv01/INVENTORY [outbound]
+- DB sqlserver://ordsrv02\sql2008/ORDERS [outbound]
+- FILE //fileserver [outbound]
+- FILE C:/BillingDesk/export/customers.csv [outbound]
+- HTTP https://ledger.acme.local [outbound]
+- MQ .\private$\invoices-to-mail [unknown]
+- SMTP smtp.acme.local [outbound]
+- SOAP http://pricing.acme.local/PricingService.svc [outbound]
 integration_purposes: {'DB access://regions.mdb': database, 'DB oracle://crmprod': database, 'DB sqlserver://billsrv01/BILLING': database,
-  'DB sqlserver://invsrv01/INVENTORY': database, 'DB sqlserver://ordsrv02\sql2008/ORDERS': database, FILE //fileserver/exports/invoices.csv: file,
-  FILE //fileserver/orders/archive.log: file, 'FILE C:/BillingDesk/export/customers.csv': file, 'HTTP http://ledger.acme.local/api/postings': HTTP
-    API, 'HTTP https://ledger.acme.local': HTTP API, MQ .\private$\invoices-to-mail: messaging, SMTP smtp.acme.local: email,
-  'SOAP http://pricing.acme.local/PricingService.svc': web service}
-web_services: ['called REST: ledger.acme.local (0 ops)', 'called REST: ledger.acme.local (1 ops)', 'called SOAP: PricingService (0 ops)', 'offered REST: InvoicesController (2 ops)', 'offered SOAP: ContactService (1 ops)']
+  'DB sqlserver://invsrv01/INVENTORY': database, 'DB sqlserver://ordsrv02\sql2008/ORDERS': database, FILE //fileserver: file,
+  'FILE C:/BillingDesk/export/customers.csv': file, 'HTTP https://ledger.acme.local': HTTP API, MQ .\private$\invoices-to-mail: messaging,
+  SMTP smtp.acme.local: email, 'SOAP http://pricing.acme.local/PricingService.svc': web service}
+web_services:
+- 'called REST: ledger.acme.local (1 ops)'
+- 'called SOAP: PricingService (0 ops)'
+- 'offered REST: InvoicesController (2 ops)'
+- 'offered SOAP: ContactService (1 ops)'
 batch_jobs: ['hangfire job: close-invoices', 'windows-task job: NightlyExport', 'windows-task job: WeeklyPurge']
 unresolved_references: 0
 assessment:

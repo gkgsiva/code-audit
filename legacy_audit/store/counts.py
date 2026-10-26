@@ -69,6 +69,7 @@ def unscheduled_batch_entries(facts: FactSet) -> dict[str, list[dict[str, Any]]]
     (a Maven batch module started by a ksh in a ``scripts/`` folder): then it is a step of that
     batch. Returns component name -> entry points (empty list: the component is the batch)."""
     from legacy_audit.inventory.components import in_batch_folder, in_shared_folder
+    from legacy_audit.inventory.grouping import GROUPED
 
     comps = [c for c in facts.get("components", []) if isinstance(c, Component)]
     records = [r for r in facts.get("inventory", []) if isinstance(r, FileRecord) and r.component]
@@ -88,6 +89,15 @@ def unscheduled_batch_entries(facts: FactSet) -> dict[str, list[dict[str, Any]]]
     roles = {c.name: {*c.roles, str(c.type)} for c in comps}
     batch = {c.name for c in comps if "batch" in roles[c.name] and c.name not in covered}
     file_id = {r.path: r.id for r in records}
+    # In a component grouped from several folders (decision 176), only the scripts that do batch
+    # work count: a deploy or admin script of a shared folder is not a batch.
+    grouped = {c.name for c in comps if c.detected_by == GROUPED}
+    batchy: set[str] = set()
+    if grouped:
+        from legacy_audit.linker.link import batch_scripts
+
+        marked = batch_scripts({k: list(v) for k, v in facts.items()}, records)
+        batchy = {p for name in grouped for p in marked.get(name, set())}
 
     entries: dict[str, list[dict[str, Any]]] = {name: [] for name in batch}
     taken_files: set[str] = set()
@@ -99,6 +109,8 @@ def unscheduled_batch_entries(facts: FactSet) -> dict[str, list[dict[str, Any]]]
             continue  # deploy and admin scripts of an online application
         if in_shared_folder(r.path):
             continue  # a helper the batches share
+        if comp in grouped and r.path not in batchy:
+            continue
         entries[comp].append(
             {"id": r.id, "name": r.path.rsplit("/", 1)[-1], "kind": "script", "file": r.path,
              "line": None, "component": comp}

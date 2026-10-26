@@ -109,7 +109,9 @@ class Component(Fact):
     files: int = 0
     loc_code: int = 0
     entry_points: list[str] = Field(default_factory=list)
-    detected_by: str = Field(description="build-file, folder, root, config or override")
+    detected_by: str = Field(
+        description="build-file, folder, root, batch-shared, grouped, config or override"
+    )
     build_group: list[str] = Field(
         default_factory=list,
         description="Maven parent / aggregator poms or Gradle root projects the module sits in, "
@@ -117,6 +119,12 @@ class Component(Fact):
     )
     artifact: str | None = Field(None, description="Maven artifactId or Gradle project name")
     packaging: str | None = Field(None, description="Maven packaging (jar, war, ear, ...)")
+    parts: list[str] = Field(
+        default_factory=list,
+        description="Folders grouped into this component (decision 176): the library modules "
+        "a deployable uses, or part folders of one technology (cobol + bms, jcl + proclib, the "
+        "folders beside the modules of a Maven group); empty when it is one folder",
+    )
 
 
 class EntryPoint(Fact):
@@ -274,6 +282,17 @@ class Integration(Fact):
         None,
         description="What the interface is for: login / authentication, web service, "
         "HTTP API, file transfer, messaging, database, email, directory, socket or file",
+    )
+    endpoints: list[str] = Field(
+        default_factory=list,
+        description="What was grouped into this row of one external service (decision 177): "
+        "the paths called on one host, the queues and channels of one queue manager, the files "
+        "of one server or folder; empty when the row is one endpoint",
+    )
+    grouped_ids: list[str] = Field(
+        default_factory=list,
+        description="Ids the grouped endpoints had as rows of their own; enrichment written "
+        "before the grouping still points at them",
     )
     description: str | None = Field(
         None,

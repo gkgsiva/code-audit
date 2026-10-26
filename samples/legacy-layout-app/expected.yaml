@@ -8,8 +8,9 @@
 # - orders-web (Eclipse .project) is one web component with its Java, JSP and properties;
 # - billing-batch has no build file: java/, ksh/ and properties/ are its parts, so it is one
 #   batch component, not a library plus scripts;
-# - settlement-c is found by Makefile.aix; config/ is a configuration component; scripts/ only
-#   copies files, so it stays a script component, not a batch;
+# - settlement-c is found by Makefile.aix; config/ and scripts/ sit beside three applications,
+#   so they are one component, shared-scripts-config (decision 176); scripts/ only copies
+#   files, so it is not a batch;
 # - no scheduler export: the batch count is 2 (billing-batch, settlement-c), one per batch
 #   component, not one per ksh script.
 # Lines of code (decision 118): every text file is counted under its language (invoices.ctl is
@@ -39,16 +40,14 @@ inventory:
   by_category: {build: 1, config: 9, other: 3, screen: 1, script: 4, source: 5}
 components:
 - {name: billing-batch, type: batch, files: 6, detected_by: folder}
-- {name: config, type: config, files: 3, detected_by: folder}
 - {name: orders-web, type: web, files: 9, detected_by: build-file}
-- {name: scripts, type: script, files: 1, detected_by: folder}
 - {name: settlement-c, type: batch, files: 4, detected_by: build-file}
+- {name: shared-scripts-config, type: script, files: 4, detected_by: grouped}
 component_roles:
   billing-batch: [batch]
-  config: [config]
   orders-web: [web]
-  scripts: [script]
   settlement-c: [batch]
+  shared-scripts-config: [script]
 unscheduled_batches: [billing-batch, settlement-c]
 coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
   security: missing}

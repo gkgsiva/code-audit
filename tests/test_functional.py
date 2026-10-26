@@ -233,23 +233,21 @@ def test_one_batch_per_component_not_per_script(tmp_path: Path) -> None:
 
 def test_one_batch_per_entry_point(tmp_path: Path) -> None:
     """Several jobs side by side in one batch component are one batch each (decision 168);
-    a Maven batch module a script starts is a step of that script's batch, not a batch."""
+    a Maven batch module a script starts is a step of that script's batch, not a batch. The
+    folders beside the Maven modules are one component (decision 176): the count stays 6."""
     run_dir = _scan("maven-multimodule-app", tmp_path)
     rd = RunData.load(run_dir)
     batch = [f for f in flows.batch_flows(rd) if f.schedule.get("counted")]
+    ops = "acme-parent-scripts-config"
     assert sorted(f.name for f in batch) == [
-        "archive",
-        "eod: run_eod.ksh",
-        "eod: run_eod_report.ksh",
-        "purge",
-        "scripts: run_billing.ksh",
-        "scripts: run_report.ksh",
-    ]
+        f"{ops}: {n}"
+        for n in ("archive.ksh", "purge.ksh", "run_billing.ksh", "run_eod.ksh",
+                  "run_eod_report.ksh", "run_report.ksh")
+    ]  # fmt: skip
     assert len(batch) == rd.summary["counts"]["batch_jobs"]["total"] == 6
-    billing = next(f for f in batch if f.name == "scripts: run_billing.ksh")
-    assert billing.id.startswith("file:") and billing.component == "scripts"
+    billing = next(f for f in batch if f.name == f"{ops}: run_billing.ksh")
+    assert billing.id.startswith("file:") and billing.component == ops
     assert "BillingMain" in " ".join(s["name"] for s in billing.steps)
-    assert next(f for f in batch if f.name == "archive").id.startswith("component:")
     tech = build_tech_report(run_dir).parent
     comps = (tech / "components.html").read_text(encoding="utf-8")
     assert "acme-parent" in comps and "acme-batches" in comps  # the Maven groups

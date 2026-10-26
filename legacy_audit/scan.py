@@ -400,6 +400,7 @@ def _run(
         [r.name for r in roots],
         cfg.components,
         disk_reader({r.name: r.path for r in roots}),
+        cfg.inventory.component_grouping,
     )
     for rec in source_records:
         rec.component = file_to_comp.get(rec.id)
@@ -412,7 +413,12 @@ def _run(
     # ---- Linking and classification -----------------------------------------------------------
     _stage("link", progress, cancel)
     t = time.perf_counter()
-    linked = link(records, (f for _, _, f in file_facts), cfg.cobol.copybook_paths)
+    linked = link(
+        records,
+        (f for _, _, f in file_facts),
+        cfg.cobol.copybook_paths,
+        cfg.integrations.group_by_service,
+    )
     linked.entities.setdefault("findings", []).extend(limits)
     fixed_types = set(overrides.components.type) | {c.name for c in cfg.components if c.type}
     classify_components(components, linked.entities, source_records, fixed_types)

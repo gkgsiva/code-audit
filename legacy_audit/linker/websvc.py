@@ -180,6 +180,7 @@ class _Builder:
         self.offered: dict[tuple[str, ...], WebService] = {}
         self.called: dict[tuple[str, ...], WebService] = {}
         self.offered_wsdl: set[str] = set()
+        self.first_base: dict[tuple[str, ...], str] = {}
 
     # ---- offered ------------------------------------------------------------------------------
     def build_offered(self) -> None:
@@ -239,15 +240,15 @@ class _Builder:
                 ws.callers = _union(ws.callers, [f])
 
     # ---- called -------------------------------------------------------------------------------
-    @staticmethod
-    def _key(style: str, url: str | None, name: str) -> tuple[str, ...]:
+    def _key(self, style: str, url: str | None, name: str) -> tuple[str, ...]:
         base, path = split_url(url or "")
         if base:
-            return (
-                ("called", "SOAP", base + path.lower())
-                if style == "SOAP"
-                else ("called", "REST", base)
-            )
+            if style == "SOAP":
+                return ("called", "SOAP", base + path.lower())
+            # One REST row per host, http or https (decision 177); the id keeps the first base.
+            k = ("called", "REST", host_key(base))
+            self.first_base.setdefault(k, base)
+            return k
         return ("called", style, "name:" + norm(name))
 
     def _resolve(self, uses: list[WebService]) -> None:
@@ -307,13 +308,14 @@ class _Builder:
             if not base:
                 continue
             label = base.split("://", 1)[1].split(".", 1)[0].split(":", 1)[0]
-            if label in own and not any(self._key(w.style, w.url, w.name)[2] == base
+            if label in own and not any(self._key(w.style, w.url, w.name)[2] == host_key(base)
                                         for w in uses):  # fmt: skip
                 continue  # the application's own API, deployed under its component's name
             soap_key = ("called", "SOAP", base + path.lower())
             k = soap_key if soap_key in self.called or it.type == "SOAP" else (
-                "called", "REST", base
+                "called", "REST", host_key(base)
             )  # fmt: skip
+            self.first_base.setdefault(k, base)
             ws = self._called_row(k, "SOAP" if k[1] == "SOAP" else "REST")
             ws.integrations = _union(ws.integrations, [it.id])
             ws.files = _union(ws.files, it.source_files)
@@ -356,7 +358,10 @@ class _Builder:
     def _called_row(self, k: tuple[str, ...], style: str) -> WebService:
         ws = self.called.get(k)
         if ws is None:
-            ws = WebService(id=make_id("web_service", *k), name=k[2], style=style, side="called")
+            id_key = (*k[:2], self.first_base.get(k, k[2]), *k[3:])
+            ws = WebService(
+                id=make_id("web_service", *id_key), name=k[2], style=style, side="called"
+            )
             self.called[k] = ws
         elif style == "SOAP" and ws.style != "SOAP":
             ws.style = "SOAP"
@@ -457,6 +462,15 @@ class _Builder:
                 it.direction = "inbound"
                 it.purpose, it.description = describe(it)
         return sorted(out, key=lambda w: (w.side != "offered", w.style, w.name.lower(), w.id))
+
+
+def host_key(base: str) -> str:
+    """``host[:port]`` of a base URL without its scheme or default port: http and https calls to
+    one host are one service."""
+    netloc = base.split("://", 1)[-1].lower()
+    for default in (":80", ":443"):
+        netloc = netloc.removesuffix(default)
+    return netloc
 
 
 def _describe(ws: WebService) -> str:
