@@ -3,6 +3,8 @@
 # are not counted as services. ORDRPT runs through the catalogued procedure ORDRPTP.
 # ORDRPT DETAIL-PARA builds a SELECT with MOVE/STRING (optional region filter, sort column from
 # input) and PREPAREs it: rebuilt with 1 value hole and 1 structural hole -> manual.
+# Components (decision 176): no build file, so part folders group by technology: bms, cobol and
+# copybook are cobol-online; jcl and proclib are jcl-jobs; ddl stays on its own.
 
 inventory:
   files: 11
@@ -15,20 +17,14 @@ inventory:
     sql: {files: 1, code: 18, comment: 1, blank: 3}
   by_category: {job: 2, screen: 1, source: 7, sql: 1}
 components:
-- {name: bms, type: online-mainframe, files: 1, detected_by: folder}
-- {name: cobol, type: online-mainframe, files: 5, detected_by: folder}
-- {name: copybook, type: library, files: 2, detected_by: folder}
+- {name: cobol-online, type: online-mainframe, files: 8, detected_by: grouped}
 - {name: ddl, type: db, files: 1, detected_by: folder}
-- {name: jcl, type: batch, files: 1, detected_by: folder}
-- {name: proclib, type: batch, files: 1, detected_by: folder}
+- {name: jcl-jobs, type: batch, files: 2, detected_by: grouped}
 # Every kind of work found in each component (web, batch, db, ...); type is the main one.
 component_roles:
-  bms: [online-mainframe]
-  cobol: [batch, online-mainframe]
-  copybook: [library]
+  cobol-online: [batch, online-mainframe]
   ddl: [db]
-  jcl: [batch]
-  proclib: [batch]
+  jcl-jobs: [batch]
 unscheduled_batches: []
 
 coverage:

@@ -10,4 +10,11 @@
   <artifactId>acme-web</artifactId>
   <version>1.0.0</version>
   <packaging>war</packaging>
+  <dependencies>
+    <dependency>
+      <groupId>com.acme</groupId>
+      <artifactId>acme-core</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+  </dependencies>
 </project>

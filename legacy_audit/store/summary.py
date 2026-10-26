@@ -116,6 +116,7 @@ def build_summary(
                     "target": i.target,
                     "direction": i.direction,
                     "usages": i.usages,
+                    "endpoints": i.endpoints,
                 }
                 for i in sorted(integrations, key=lambda i: (-i.usages, i.type, i.target))[:n]
             ],

@@ -312,13 +312,46 @@ def identity_provider(it: Integration) -> str | None:
     keys = " ".join(it.details.values()).lower()
     if "okta" in keys:
         return "Okta"
-    if it.type != "LDAP" and _IDENTITY_PATH.search(path):
+    paths = [path, *(e.split(" ", 1)[0] for e in it.endpoints)]
+    if it.type != "LDAP" and any(_IDENTITY_PATH.search(urlsplit(p).path or p) for p in paths):
         return "Identity provider"
     return None
 
 
+def _listed(items: list[str], limit: int = 5) -> str:
+    shown = ", ".join(items[:limit])
+    return shown + (f" and {len(items) - limit} more" if len(items) > limit else "")
+
+
+def _grouped(it: Integration) -> str:
+    """What a row of one external service holds (decision 177), for its description."""
+    if it.type == "MQ-QMGR":
+        queues = [e.split(" ", 2)[1] for e in it.endpoints if e.startswith("queue ")]
+        channels = [e.split(" ", 2)[1] for e in it.endpoints if e.startswith("channel ")]
+        bits = []
+        if queues:
+            bits.append(f"queue{'s' if len(queues) != 1 else ''} {_listed(queues)}")
+        if channels:
+            bits.append(f"channel{'s' if len(channels) != 1 else ''} {_listed(channels)}")
+        return "; ".join(bits)
+    n = len(it.endpoints)
+    noun = "file" if it.type == "FILE" else "endpoint"
+    return f"{n} {noun}{'s' if n != 1 else ''}: {_listed(it.endpoints)}"
+
+
 def describe(it: Integration) -> tuple[str, str]:
-    """(purpose, one-sentence description) of a consolidated integration, from its facts only."""
+    """(purpose, one-sentence description) of a consolidated integration, from its facts only;
+    a row of one external service also says what it groups (endpoints, queues, files)."""
+    purpose, sentence = _describe(it)
+    if not it.endpoints:
+        return purpose, sentence
+    head, sep, where = sentence.rpartition("; ")
+    if not sep:
+        return purpose, f"{sentence.rstrip('.')} ({_grouped(it)})."
+    return purpose, f"{head} ({_grouped(it)}); {where}"
+
+
+def _describe(it: Integration) -> tuple[str, str]:
     idp = identity_provider(it)
     host, path = _host_and_path(it.target)
     where = f"{it.usages} place{'s' if it.usages != 1 else ''} in the code"
@@ -374,5 +407,8 @@ def describe(it: Integration) -> tuple[str, str]:
         return purpose, f"{verb} {it.target}; {where}."
     if purpose == "file":
         verb = _VERB.get((d, purpose), "Uses")
+        if it.endpoints:
+            on = "on" if it.target.startswith("//") else "in"
+            return purpose, f"{verb} files {on} {it.target}; {where}."
         return purpose, f"{verb} the file {it.target}; {where}."
     return purpose, f"{it.type} {it.target}; {where}."

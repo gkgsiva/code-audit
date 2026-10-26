@@ -3,9 +3,11 @@ or database object found in several files becomes one fact with all its evidence
 
 from __future__ import annotations
 
+import posixpath
 import re
 from collections.abc import Iterable
 from typing import TypeVar
+from urllib.parse import urlsplit
 
 from legacy_audit.analyzers.integrations import consolidation_key, describe, merge_directions
 from legacy_audit.model import (
@@ -448,3 +450,153 @@ def merge_db_objects(items: Iterable[DbObject]) -> list[DbObject]:
         prev.evidence = _evidence(prev.evidence, obj.evidence)
         prev.defined_in = prev.defined_in or obj.defined_in
     return list(by_id.values())
+
+
+# ---- one row per external service (decision 177) -----------------------------------------------
+
+
+def _qmgr_name(target: str) -> str:
+    return target.split("@", 1)[0].strip().upper()
+
+
+def _service_key(it: Integration, qm_of: dict[str, str]) -> tuple[str, str] | None:
+    """The external service a usage belongs to: a host (HTTP, SOAP), a queue manager (its
+    queues and channels), a file server or folder. None: the row is a service on its own."""
+    if it.type in ("HTTP", "SOAP"):
+        parts = urlsplit(it.target)
+        host = (parts.hostname or "").lower()
+        if not host:
+            return None
+        try:
+            port = str(parts.port) if parts.port else ""
+        except ValueError:
+            port = ""
+        if port in ("80", "443"):
+            port = ""
+        return "HTTP", f"{host}:{port}" if port else host
+    if it.type == "MQ-QMGR":
+        return "MQ", _qmgr_name(it.target)
+    if it.type in ("MQ", "MQ-CHANNEL") and it.id in qm_of:
+        return "MQ", qm_of[it.id]
+    if it.type == "FILE":
+        path = it.target.replace("\\", "/")
+        if path.startswith("//"):
+            server = path[2:].split("/", 1)[0]
+            return ("FILE", "//" + server.lower()) if server else None
+        folder = posixpath.dirname(path)
+        return ("FILE", folder) if folder and folder not in ("/", ".") else None
+    return None
+
+
+def _queue_managers(items: list[Integration]) -> dict[str, str]:
+    """Queue or channel id -> the queue manager it belongs to: the one its MQSC export names
+    (the ``* ... queue manager QM1`` header or the file name), else the only queue manager every
+    component using it connects to."""
+    known = {_qmgr_name(it.target) for it in items if it.type == "MQ-QMGR"}
+    by_comp: dict[str, set[str]] = {}
+    for it in items:
+        if it.type == "MQ-QMGR":
+            for c in it.components:
+                by_comp.setdefault(c, set()).add(_qmgr_name(it.target))
+    out: dict[str, str] = {}
+    for it in items:
+        if it.type not in ("MQ", "MQ-CHANNEL"):
+            continue
+        named = it.details.get("qmgr", "").upper()
+        from_file = it.details.get("qmgr_file", "").upper()
+        if named:
+            out[it.id] = named
+        elif from_file and from_file in known:
+            out[it.id] = from_file
+        elif it.components:
+            sets = [by_comp.get(c, set()) for c in it.components]
+            if all(sets) and len(set().union(*sets)) == 1:
+                out[it.id] = next(iter(sets[0]))
+    return out
+
+
+def _endpoint(it: Integration, mixed_schemes: bool) -> str | None:
+    if it.type in ("HTTP", "SOAP"):
+        parts = urlsplit(it.target)
+        path = parts.path.rstrip("/") or "/"
+        label = f"{parts.scheme.lower()}://{parts.netloc.lower()}{path}" if mixed_schemes else path
+        return f"{label} (SOAP)" if it.type == "SOAP" else label
+    if it.type == "MQ":
+        return f"queue {it.target} ({it.direction})"
+    if it.type == "MQ-CHANNEL":
+        return f"channel {it.target} ({it.direction})"
+    if it.type == "FILE":
+        return it.target
+    return None
+
+
+def group_by_service(
+    items: list[Integration],
+) -> tuple[list[Integration], dict[str, str], dict[str, str]]:
+    """All the usages of one external service as one row (decision 177): the endpoints of one
+    host, the queues and channels of one queue manager, the files of one server or folder. The
+    row lists what was grouped in ``endpoints``. Returns the rows, old id -> new id and old
+    "TYPE target" label -> new label (services' external calls, web services' integrations)."""
+    qm_of = _queue_managers(items)
+    groups: dict[tuple[str, str], list[Integration]] = {}
+    out: list[Integration] = []
+    for it in items:
+        key = _service_key(it, qm_of)
+        if key is None:
+            out.append(it)
+        else:
+            groups.setdefault(key, []).append(it)
+    ids: dict[str, str] = {}
+    labels: dict[str, str] = {}
+    for (family, skey), members in groups.items():
+        if len(members) == 1 and members[0].type != "MQ" and members[0].type != "MQ-CHANNEL":
+            out.append(members[0])
+            continue
+        members.sort(key=lambda m: (m.type != "MQ-QMGR", -m.usages, m.target, m.id))
+        head = members[0]
+        if family == "MQ" and head.type != "MQ-QMGR":
+            merged = head.model_copy(
+                deep=True,
+                update={
+                    "id": make_id("integration", "MQ-QMGR", skey),
+                    "type": "MQ-QMGR",
+                    "target": skey,
+                    "details": {},
+                },
+            )
+        else:
+            merged = head.model_copy(deep=True)
+        if family == "HTTP":
+            parts = urlsplit(head.target)
+            schemes = {urlsplit(m.target).scheme.lower() for m in members}
+            scheme = "https" if "https" in schemes else parts.scheme.lower()
+            merged.target = f"{scheme}://{skey}"
+            merged.type = "SOAP" if all(m.type == "SOAP" for m in members) else "HTTP"
+            mixed = len(schemes) > 1
+        elif family == "FILE":
+            merged.target = skey
+            mixed = False
+        else:
+            mixed = False
+        endpoints = [e for m in members if (e := _endpoint(m, mixed))]
+        merged.endpoints = sorted(dict.fromkeys(endpoints))
+        for m in members[1:]:
+            merged.usages += m.usages
+            merged.source_files = _union(merged.source_files, m.source_files)
+            merged.producers = _union(merged.producers, m.producers)
+            merged.consumers = _union(merged.consumers, m.consumers)
+            merged.components = sorted({*merged.components, *m.components})
+            merged.evidence = _evidence(merged.evidence, m.evidence)
+            merged.protocol = merged.protocol or m.protocol
+            if family != "MQ" or m.type == "MQ-QMGR":  # a queue's details are not the row's
+                for k, v in m.details.items():
+                    merged.details.setdefault(k, v)
+        merged.direction = merge_directions({m.direction for m in members})
+        merged.grouped_ids = sorted({m.id for m in members} - {merged.id})
+        for m in members:
+            ids[m.id] = merged.id
+            labels[f"{m.type} {m.target}"] = f"{merged.type} {merged.target}"
+        out.append(merged)
+    for it in out:
+        it.purpose, it.description = describe(it)
+    return out, ids, labels
