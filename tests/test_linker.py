@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from legacy_audit.analyzers import AnalyzerContext, Facts, registered
+from legacy_audit.analyzers.integrations import integration
 from legacy_audit.linker import LinkResult, link
 from legacy_audit.linker.aggregate import merge_integrations, merge_libraries, merge_tech
 from legacy_audit.model import CodeEdge, Evidence, Integration, Library, Service, TechItem, make_id
@@ -339,3 +340,49 @@ def test_spa_screens_and_calls_to_mounted_express_routes() -> None:
     assert ("calls", "web/src/app/order.component.ts", "GET /api/orders/:id", True) in _edges(
         result
     )
+
+
+def test_called_soap_services_on_one_host_have_their_own_ids() -> None:
+    """Two SOAP services on one host are two rows with two ids; REST calls to that host over
+    http and https are one row (decision 177). A scan stopped on a duplicate web_services.id."""
+    from legacy_audit.linker.websvc import build_web_services
+
+    def it(type_: str, target: str, file: str) -> Integration:
+        return integration(type=type_, target=target, direction="outbound", file=file, line=1)
+
+    integrations = [
+        it("SOAP", "https://crm.acme.local/services/CustomerService", "a/Crm.java"),
+        it("SOAP", "https://crm.acme.local/services/ContractService", "a/Crm.java"),
+        it("HTTP", "http://crm.acme.local/api/v1/notes", "a/Notes.java"),
+        it("HTTP", "https://crm.acme.local/api/v1/tasks", "a/Tasks.java"),
+    ]
+    rows = build_web_services([], [], integrations, [], [], lambda f: "a", lambda n: None)
+    ids = [w.id for w in rows]
+    assert len(ids) == len(set(ids)) == 3
+    assert sorted((w.style, w.name) for w in rows)[0][0] == "REST"
+    assert sum(1 for w in rows if w.style == "SOAP") == 2
+
+
+def test_a_failing_step_is_a_warning_not_a_failed_run(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    """Decision 178: the web services list failing leaves it empty and says so."""
+    import importlib
+
+    link_mod = importlib.import_module("legacy_audit.linker.link")
+
+    def boom(*args, **kwargs):  # type: ignore[no-untyped-def]
+        raise ValueError("bad address")
+
+    monkeypatch.setattr(link_mod, "build_web_services", boom)
+    result = estate({"src/A.java": "package a;\npublic class A {}\n"})
+    assert result.entities["web_services"] == []
+    assert any("Web services list could not be built" in w for w in result.warnings)
+
+
+def test_duplicate_ids_are_left_out_with_a_warning() -> None:
+    from legacy_audit.store.writer import drop_duplicate_ids
+
+    a = Service(id="service:x", name="a", kind="servlet")
+    b = Service(id="service:x", name="b", kind="servlet")
+    facts, warnings = drop_duplicate_ids({"services": [a, b]})
+    assert [s.name for s in facts["services"]] == ["a"]  # type: ignore[attr-defined]
+    assert warnings and "1 services row(s)" in warnings[0]

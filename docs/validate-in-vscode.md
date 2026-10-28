@@ -900,3 +900,18 @@ the right command (WSL2 uses `.venv/bin/python`, set up with `python3`).
    Enrichment written before still shows: a story written for one endpoint or queue is used
    for the row it now belongs to; component pages of folders that were grouped need the rerun.
 
+## A failing step does not stop the scan
+
+The scan no longer fails with `UNIQUE constraint failed: web_services.id` (two SOAP services
+called on one host), and a step that goes wrong now gives a warning instead of a failed run
+(decision 178). Steps are the same on Windows and WSL2.
+
+1. Pull the branch, then run `audit: 2. tests (pytest)`: everything passes.
+2. Run **`audit: 34. scan error handling tests`**. Three tests pass: two SOAP services on one
+   host keep their own ids, a failing step leaves a warning and the run completes, and a
+   duplicate id is left out with a warning.
+3. **In your own audit folder** (the one that failed): run `legacy-audit scan` again, or
+   **Run scan** in the GUI. The run finishes; the Web services page lists each SOAP service.
+4. If a step still goes wrong, the run finishes anyway and the warnings list (terminal, or the
+   run page in the GUI) has a line starting with the step's name and "could not be built".
+   Send that line and the run log (`audit-output/runs/<run-id>/logs/`).

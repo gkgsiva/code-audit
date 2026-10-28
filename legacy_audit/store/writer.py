@@ -44,6 +44,33 @@ def write_json(path: Path, data: Any) -> None:
     )
 
 
+def drop_duplicate_ids(facts: FactSet) -> tuple[FactSet, list[str]]:
+    """Facts with an id already used by an earlier fact of the same entity are left out, with a
+    warning each, so one wrong id never stops the run from being written (decision 178)."""
+    out: dict[str, Sequence[Fact]] = {}
+    warnings: list[str] = []
+    for entity, items in facts.items():
+        seen: set[str] = set()
+        kept: list[Fact] = []
+        dropped: list[str] = []
+        for item in items:
+            fid = getattr(item, "id", None)
+            if isinstance(fid, str):
+                if fid in seen:
+                    dropped.append(fid)
+                    continue
+                seen.add(fid)
+            kept.append(item)
+        out[entity] = kept
+        if dropped:
+            warnings.append(
+                f"{len(dropped)} {entity} row(s) had an id already used and were left out "
+                f"({', '.join(sorted(set(dropped))[:5])}). Please report this message with the "
+                "run log."
+            )
+    return out, warnings
+
+
 def write_facts(data_dir: Path, facts: FactSet) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
     db_path = data_dir / "facts.sqlite"
