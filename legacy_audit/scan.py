@@ -50,7 +50,7 @@ from legacy_audit.source import resolve_sources
 from legacy_audit.store.lock import ScanLock
 from legacy_audit.store.runs import LATEST_FILE, new_run_id, runs_dir, set_latest
 from legacy_audit.store.summary import build_summary
-from legacy_audit.store.writer import FactSet, write_facts, write_json
+from legacy_audit.store.writer import FactSet, drop_duplicate_ids, write_facts, write_json
 from legacy_audit.target import FILE as TARGET_FILE
 from legacy_audit.target import info as target_info
 
@@ -423,6 +423,7 @@ def _run(
     fixed_types = set(overrides.components.type) | {c.name for c in cfg.components if c.type}
     classify_components(components, linked.entities, source_records, fixed_types)
     timings["link"] = round(time.perf_counter() - t, 3)
+    warnings.extend(linked.warnings)
     log.info("Linked: %d edges, %d unresolved references", linked.edges, linked.unresolved)
 
     # ---- Metrics ------------------------------------------------------------------------------
@@ -506,6 +507,9 @@ def _run(
     _stage("export", progress, cancel)
     t = time.perf_counter()
     data_dir = run_dir / "data"
+    facts, dup_warnings = drop_duplicate_ids(facts)
+    warnings.extend(dup_warnings)
+    run.warnings = warnings
     write_facts(data_dir, facts)
     write_json(data_dir / "sbom.cdx.json", assessed.sbom)
     if assessed.effort is not None:

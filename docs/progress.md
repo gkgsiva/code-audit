@@ -532,3 +532,14 @@ He chose "per deployable" on the card and asked for MQ queues to be grouped by q
   component that is now grouped (e.g. `config`) need the new name; component docs written by
   Copilot for folders now grouped need `/audit-enrich stale`.
 - Next: Siva runs task 33 on the samples and a real estate and checks the lists.
+
+## A failing step does not stop the scan (2026-10-28)
+
+Siva's scans on WSL2 failed with `UNIQUE constraint failed: web_services.id`.
+
+- Done (decision 178): two SOAP services called on one host no longer share an id (bug from
+  decision 177's one-REST-service-per-host rule); the web services list and integration
+  grouping steps, when they fail, log the error and add a run warning instead of failing the
+  run; duplicate ids are left out with a warning before the facts are written. Tests in
+  `tests/test_linker.py`, VS Code task 34, validate section "A failing step does not stop the scan".
+- Next: Siva reruns the scan that failed.

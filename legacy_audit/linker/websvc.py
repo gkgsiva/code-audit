@@ -315,7 +315,8 @@ class _Builder:
             k = soap_key if soap_key in self.called or it.type == "SOAP" else (
                 "called", "REST", host_key(base)
             )  # fmt: skip
-            self.first_base.setdefault(k, base)
+            if k[1] == "REST":  # a SOAP row is one service of the host, named by its path
+                self.first_base.setdefault(k, base)
             ws = self._called_row(k, "SOAP" if k[1] == "SOAP" else "REST")
             ws.integrations = _union(ws.integrations, [it.id])
             ws.files = _union(ws.files, it.source_files)
@@ -358,7 +359,8 @@ class _Builder:
     def _called_row(self, k: tuple[str, ...], style: str) -> WebService:
         ws = self.called.get(k)
         if ws is None:
-            id_key = (*k[:2], self.first_base.get(k, k[2]), *k[3:])
+            first = self.first_base.get(k) if k[1] == "REST" else None
+            id_key = (*k[:2], first or k[2], *k[3:])
             ws = WebService(
                 id=make_id("web_service", *id_key), name=k[2], style=style, side="called"
             )

@@ -335,6 +335,15 @@
         "command": ".venv\\Scripts\\python scripts\\show_grouping.py samples\\${input:sample}"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 34. scan error handling tests",
+      "type": "shell",
+      "command": ".venv/bin/python -m pytest tests/test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\"",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m pytest tests\\test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\""
+      },
+      "problemMatcher": []
     }
   ]
 }
