@@ -915,3 +915,31 @@ called on one host), and a step that goes wrong now gives a warning instead of a
 4. If a step still goes wrong, the run finishes anyway and the warnings list (terminal, or the
    run page in the GUI) has a line starting with the step's name and "could not be built".
    Send that line and the run log (`audit-output/runs/<run-id>/logs/`).
+
+## Developer documentation and Copilot instructions
+
+What to check after pulling (same on Windows and WSL2):
+
+1. Open `docs/developer/README.md` in VS Code and press **Ctrl+Shift+V** for the preview.
+   Follow the links to `architecture.md` (the diagram shows when the Markdown preview supports
+   Mermaid, for example on GitHub), `packages.md`, `extending.md`, `testing.md`,
+   `troubleshooting.md` and the pages under `reference/`.
+2. Run **Terminal > Run Task... > `audit: 35. regenerate the developer reference
+   (docs/developer/reference)`**. It rewrites the reference pages from the code and runs their
+   test: the terminal shows `wrote docs/developer/reference/...` eight times, then the test
+   passes. **Source Control** shows no changed file (the pages were already up to date).
+3. To see the check working: add a word to the docstring at the top of
+   `legacy_audit/doctor.py`, run `audit: 2. tests (pytest)`: `test_dev_reference.py` fails
+   and says to run the script. Run task 35: the test passes. Undo the change and run task 35
+   again.
+4. Open Copilot Chat in this repository and ask "where are integrations grouped by service?"
+   or "how do I add an analyzer?". The answer should name `linker/aggregate.py`
+   `group_by_service` and follow `docs/developer/extending.md`. Copilot reads
+   `.github/copilot-instructions.md` on every request and, when you edit a file, the matching
+   `.github/instructions/*.instructions.md` (for example the analyzer rules when the file is in
+   `legacy_audit/analyzers/`). The **References** list under the answer shows which files it
+   used.
+5. For the Copilot coding agent on GitHub: the repository settings must enable it; the
+   workflow `.github/workflows/copilot-setup-steps.yml` installs Python and the tool before it
+   works. Run it once from the **Actions** tab (**Copilot Setup Steps > Run workflow**); it
+   should end green after printing the tool, ruff and mypy versions.

@@ -32,6 +32,8 @@ the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (
 - `docs/copilot-agent.md` — the Copilot agent for analysts
 - `docs/prompts/` — build prompts, one per phase
 - `.github/copilot-instructions.md` — rules and conventions for developers and AI assistants
+- `docs/developer/` — developer guide: architecture, packages, how to extend, testing, troubleshooting, and a reference generated from the code (modules, CLI, `audit.yaml` keys, entities and SQLite tables, GUI routes)
+- `CONTRIBUTING.md` — set up, checks and the steps for every change
 
 ## Install
 

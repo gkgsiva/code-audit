@@ -6,6 +6,18 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Developer documentation and Copilot instructions (2026-10-28)
+
+- New developer guide in `docs/developer/`: how the tool is built (architecture and data
+  flow), what each package and module does, step-by-step recipes for common changes, testing
+  and troubleshooting, and reference pages generated from the code (modules, commands,
+  `audit.yaml` keys, data files and database tables, analyzers, AI stages, GUI routes, VS Code
+  tasks). `python scripts/gen_dev_reference.py` (VS Code task 35) keeps them up to date; a test
+  fails when they are not.
+- GitHub Copilot instructions for developing the tool: `.github/copilot-instructions.md`
+  (rules for every change) and `.github/instructions/` (rules per area), a setup workflow for
+  the Copilot coding agent, `CONTRIBUTING.md` and a pull request template.
+
 ### PDF copies of the reports (2026-10-23)
 
 - `legacy-audit report --type pdf` (and `--type all`, and **Build PDFs** in the app) saves the

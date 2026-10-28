@@ -543,3 +543,25 @@ Siva's scans on WSL2 failed with `UNIQUE constraint failed: web_services.id`.
   run; duplicate ids are left out with a warning before the facts are written. Tests in
   `tests/test_linker.py`, VS Code task 34, validate section "A failing step does not stop the scan".
 - Next: Siva reruns the scan that failed.
+
+## Developer documentation and Copilot instructions (2026-10-28)
+
+Siva will continue development with GitHub Copilot (coding agent and VS Code) and asked for
+detailed technical documentation of the modules, classes and actions, plus Copilot
+instructions with the common rules.
+
+- Done (decision 179): `docs/developer/` (README, architecture, packages, extending, testing,
+  troubleshooting) and `docs/developer/reference/` generated from the code by
+  `scripts/gen_dev_reference.py` (modules, CLI, config, entities, analyzers, enrichment
+  stages, GUI routes, VS Code tasks), checked by `tests/test_dev_reference.py`.
+  `.github/copilot-instructions.md` rewritten (rules, architecture rules, commands,
+  conventions, what to update with every change, writing for users, commits);
+  `.github/instructions/*.instructions.md` for analyzers, reports, Copilot product files,
+  tests, docs, GUI, enrichment, model/config; `.github/workflows/copilot-setup-steps.yml`;
+  `.github/pull_request_template.md`; `CONTRIBUTING.md`. VS Code task 35, validate section
+  "Developer documentation and Copilot instructions".
+- Known gaps: the reference lists signatures and docstrings; private helpers are listed by
+  name only. The Copilot coding agent and the setup workflow have not been tried on the office
+  Git server (they need GitHub, with Copilot coding agent enabled for the repository).
+- Next: Siva opens the docs in VS Code, tries a first change with Copilot, and tells us what
+  the agent misunderstood so the instructions can be tightened.

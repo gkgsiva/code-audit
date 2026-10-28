@@ -344,6 +344,15 @@
         "command": ".venv\\Scripts\\python -m pytest tests\\test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\""
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 35. regenerate the developer reference (docs/developer/reference)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/gen_dev_reference.py && .venv/bin/python -m pytest tests/test_dev_reference.py -q",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\gen_dev_reference.py; .venv\\Scripts\\python -m pytest tests\\test_dev_reference.py -q"
+      },
+      "problemMatcher": []
     }
   ]
 }

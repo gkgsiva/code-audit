@@ -1,0 +1,35 @@
+# Prepares the environment of the GitHub Copilot coding agent before it starts working on an
+# issue or pull request: Python and the tool with its dev dependencies, so the agent can run
+# pytest, ruff and mypy like CI does. The job must be called `copilot-setup-steps`.
+# Runs on its own when this file changes, and by hand from the Actions tab.
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install legacy-audit with dev tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+      - name: Check the tools work
+        run: |
+          legacy-audit version
+          ruff --version
+          mypy --version
