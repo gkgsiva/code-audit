@@ -1,6 +1,6 @@
 # Legacy Code Audit Tool — Solution Plan
 
-Source: the team's plan document (Claude Docs), exported 2026-10-10. This file is the specification the build follows. Decisions taken in discussion are summarised in `docs/decisions.md`; where the two differ, `decisions.md` wins.
+Source: the team's plan document, exported 2026-10-10. This file is the specification the build follows. Decisions taken in discussion are summarised in `docs/decisions.md`; where the two differ, `decisions.md` wins.
 
 ## Recommendation
 
@@ -333,7 +333,7 @@ The target is chosen per application in `audit.yaml > target.profile` (decision 
 
 ```
 code-audit/
-  CLAUDE.md
+  .github/copilot-instructions.md
   pyproject.toml
   audit.example.yaml
   legacy_audit/

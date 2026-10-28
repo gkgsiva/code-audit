@@ -31,7 +31,7 @@ the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (
 - `docs/performance.md` — scan times on a generated 2M-line estate
 - `docs/copilot-agent.md` — the Copilot agent for analysts
 - `docs/prompts/` — build prompts, one per phase
-- `CLAUDE.md` — rules and conventions for Claude Code
+- `.github/copilot-instructions.md` — rules and conventions for developers and AI assistants
 
 ## Install
 

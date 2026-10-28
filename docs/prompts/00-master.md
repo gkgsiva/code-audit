@@ -1,6 +1,6 @@
 # Master prompt — building legacy-audit
 
-You are building **legacy-audit**, described in `docs/plan.md` (spec), `docs/decisions.md` (later decisions, which win) and `CLAUDE.md` (rules and conventions). Read all three before writing code.
+You are building **legacy-audit**, described in `docs/plan.md` (spec), `docs/decisions.md` (later decisions, which win) and `.github/copilot-instructions.md` (rules and conventions). Read all three before writing code.
 
 ## Build order
 

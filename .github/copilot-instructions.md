@@ -1,4 +1,4 @@
-# CLAUDE.md — Legacy Code Audit Tool
+# Legacy Code Audit Tool — rules and conventions
 
 This repository builds **legacy-audit**: a tool a cloud-migration team uses to audit legacy applications (Java/Struts/Spring, C/C++, Pro*C, COBOL, JCL, shell, Autosys, IBM MQ, CFT) before modernizing them to **Java 25, Spring Boot 4.x, Angular 21, PostgreSQL and GCP managed services**.
 
@@ -15,7 +15,7 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 ## What the tool is
 
 - A deterministic **Python 3.11+ scan engine** (`legacy_audit/`) that walks a legacy codebase and writes facts (JSON, CSV, SQLite, CycloneDX SBOM).
-- **GitHub Copilot custom-agent files** that `legacy-audit init` installs into the *legacy* workspace, so analysts can run AI enrichment (architecture, flows, risks, plan) in VS Code. The analysts use Copilot by default; Claude Code is only used to *build* this tool.
+- **GitHub Copilot custom-agent files** that `legacy-audit init` installs into the *legacy* workspace, so analysts can run AI enrichment (architecture, flows, risks, plan) in VS Code. The analysts use Copilot by default.
 - **Model-agnostic enrichment** (`legacy-audit enrich`, `legacy_audit/ai/`): the same stages written by any model (OpenAI-compatible, Azure OpenAI, Anthropic, Ollama) chosen in `audit.yaml > ai`, checked by the same validator. It is an explicit, optional command; the scan engine and the reports never call a model.
 - **Report generators**: technical HTML site, management HTML deck, and an editable PPTX (`python-pptx`) built strictly on the corporate templates in `templates/`.
 - A **local web GUI** (FastAPI) to pick components, run and re-run scans, and view results.

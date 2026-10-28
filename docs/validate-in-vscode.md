@@ -6,7 +6,7 @@ configurations and recommended extensions, so no typing of commands is needed.
 
 ## Once: open and set up
 
-1. `git clone https://github.com/gkgsiva/code-audit` and **File > Open Folder** on it (trust the
+1. `git clone <your office repository URL>` and **File > Open Folder** on it (trust the
    folder when asked).
 2. Accept the recommended extensions (Python, Python Debugger, Ruff, SQLite Viewer).
 3. **Terminal > Run Task... > `audit: 1. set up (venv + install)`** (Python 3.11+ must be on
