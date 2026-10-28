@@ -13,6 +13,7 @@ to source files whose analysis came from the cache.
 
 from __future__ import annotations
 
+import logging
 import posixpath
 import re
 from collections import defaultdict, deque
@@ -84,6 +85,7 @@ MODULE_EXTENSIONS = (
     ".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".mts", "/index.ts", "/index.js", "",
 )  # fmt: skip
 REACH_DEPTH = 4
+log = logging.getLogger(__name__)
 F = TypeVar("F", bound=Fact)
 
 
@@ -93,6 +95,7 @@ class LinkResult:
     unresolved: int = 0
     edges: int = 0
     notes: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)  # steps that failed and were left out
 
 
 @dataclass
@@ -196,6 +199,7 @@ class _Linker:
             self.refs.extend(f.refs)
         self.edges: dict[str, CodeEdge] = {}
         self.findings: list[Finding] = []
+        self.step_warnings: list[str] = []
         self.unresolved = 0
         self._jobs: list[BatchJob] = []
         self.ix = _build_index(records, [], [])
@@ -441,21 +445,32 @@ class _Linker:
         self._components(services, screens, sql, jobs, entry_points, integrations)
         entry_points = _project_entries(entry_points)
         by_id = {r.id: r.path for r in self.records}
-        web_services = build_web_services(
-            dedupe(_typed(ent, "web_services", WebService)),
-            services,
-            integrations,
-            self.symbols,
-            edges,
-            self.comp,
-            lambda node: node[5:] if node.startswith("file:") else by_id.get(node),
-        )
+        web_services: list[WebService] = []
+        try:
+            web_services = build_web_services(
+                dedupe(_typed(ent, "web_services", WebService)),
+                services,
+                integrations,
+                self.symbols,
+                edges,
+                self.comp,
+                lambda node: node[5:] if node.startswith("file:") else by_id.get(node),
+            )
+        except Exception as err:  # one step failing must not lose the whole run (decision 178)
+            self._step_failed("Web services list", err, "it is empty in this run")
         if self.group_integrations:  # one row per external service (decision 177)
-            integrations, new_id, new_label = group_by_service(integrations)
-            for svc in services:
-                svc.external_calls = sorted({new_label.get(c, c) for c in svc.external_calls})
-            for ws in web_services:
-                ws.integrations = list(dict.fromkeys(new_id.get(i, i) for i in ws.integrations))
+            try:
+                grouped, new_id, new_label = group_by_service(integrations)
+            except Exception as err:
+                self._step_failed(
+                    "Grouping integrations by service", err, "one row per address is kept"
+                )
+            else:
+                integrations = grouped
+                for svc in services:
+                    svc.external_calls = sorted({new_label.get(c, c) for c in svc.external_calls})
+                for ws in web_services:
+                    ws.integrations = list(dict.fromkeys(new_id.get(i, i) for i in ws.integrations))
 
         out: dict[str, list[Fact]] = {
             "entry_points": _sorted(entry_points, lambda x: (x.file, x.line or 0, x.name)),
@@ -473,7 +488,16 @@ class _Linker:
             "tech_stack": list(tech),
             "findings": _sorted(self.findings, lambda x: (x.rule_id, x.file or "", x.line or 0)),
         }
-        return LinkResult(out, unresolved=self.unresolved, edges=len(edges))
+        return LinkResult(
+            out, unresolved=self.unresolved, edges=len(edges), warnings=self.step_warnings
+        )
+
+    def _step_failed(self, step: str, err: Exception, fallback: str) -> None:
+        log.warning("%s failed (%s: %s)", step, type(err).__name__, err, exc_info=True)
+        self.step_warnings.append(
+            f"{step} could not be built ({type(err).__name__}: {err}); {fallback}. The rest of "
+            "the scan is complete. Please report this message with the run log."
+        )
 
     def _mount_routes(self, services: list[Service]) -> None:
         """Node.js routes get the prefix they are mounted under: ``app.use('/api/orders',
