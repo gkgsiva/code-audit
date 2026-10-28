@@ -1,0 +1,209 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/metric.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "bands": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Items per band",
+      "title": "Bands",
+      "type": "object"
+    },
+    "complex_units": {
+      "default": 0,
+      "description": "Units above the high-complexity threshold",
+      "title": "Complex Units",
+      "type": "integer"
+    },
+    "complexity": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Band of the mean item score",
+      "title": "Complexity"
+    },
+    "complexity_avg": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mean cyclomatic complexity per unit",
+      "title": "Complexity Avg"
+    },
+    "complexity_max": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Max"
+    },
+    "complexity_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Score"
+    },
+    "component": {
+      "title": "Component",
+      "type": "string"
+    },
+    "dead_code_candidates": {
+      "default": 0,
+      "title": "Dead Code Candidates",
+      "type": "integer"
+    },
+    "duplicated_lines": {
+      "default": 0,
+      "title": "Duplicated Lines",
+      "type": "integer"
+    },
+    "duplication_pct": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Duplication Pct"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "fan_in_max": {
+      "default": 0,
+      "title": "Fan In Max",
+      "type": "integer"
+    },
+    "fan_out_max": {
+      "default": 0,
+      "title": "Fan Out Max",
+      "type": "integer"
+    },
+    "files": {
+      "default": 0,
+      "title": "Files",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "loc_blank": {
+      "default": 0,
+      "title": "Loc Blank",
+      "type": "integer"
+    },
+    "loc_code": {
+      "default": 0,
+      "title": "Loc Code",
+      "type": "integer"
+    },
+    "loc_comment": {
+      "default": 0,
+      "title": "Loc Comment",
+      "type": "integer"
+    },
+    "test_files": {
+      "default": 0,
+      "title": "Test Files",
+      "type": "integer"
+    },
+    "test_ratio": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Test files / code files",
+      "title": "Test Ratio"
+    },
+    "units": {
+      "default": 0,
+      "description": "Functions, methods, paragraphs and scripts measured",
+      "title": "Units",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "component"
+  ],
+  "title": "Metric",
+  "type": "object"
+}

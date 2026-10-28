@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.acme</groupId>
+  <artifactId>acme-parent</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+  <modules>
+    <module>acme-core</module>
+    <module>acme-web</module>
+    <module>acme-ear</module>
+    <module>batches</module>
+  </modules>
+  <profiles>
+    <profile>
+      <id>tools</id>
+      <modules>
+        <module>acme-tools</module>
+      </modules>
+    </profile>
+  </profiles>
+</project>

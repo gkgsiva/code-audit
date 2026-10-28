@@ -1,0 +1,245 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/service.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "complexity": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Simple, Medium, Complex or Very complex",
+      "title": "Complexity"
+    },
+    "complexity_score": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Complexity Score"
+    },
+    "component": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "external_calls": {
+      "items": {
+        "type": "string"
+      },
+      "title": "External Calls",
+      "type": "array"
+    },
+    "fan_in": {
+      "default": 0,
+      "description": "Resolved edges into the service",
+      "title": "Fan In",
+      "type": "integer"
+    },
+    "fan_out": {
+      "default": 0,
+      "description": "Resolved edges out of the service and its own file",
+      "title": "Fan Out",
+      "type": "integer"
+    },
+    "file": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "File"
+    },
+    "framework": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Spring MVC, JAX-RS, JAX-WS, Apache Axis, Apache Axis2, Spring-WS, ...",
+      "title": "Framework"
+    },
+    "handler": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Class, method or program implementing it",
+      "title": "Handler"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "inputs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Inputs",
+      "type": "array"
+    },
+    "kind": {
+      "description": "struts-action, spring-handler, servlet, soap-operation, rest-operation, ejb-method, cics-transaction, cobol-program, batch-job, c-executable, webflow, node-route (Express, Fastify, Koa, Hapi), nest-route (NestJS), aspnet-mvc (ASP.NET MVC controller actions returning views)",
+      "title": "Kind",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "outputs": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "array"
+    },
+    "protocol": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "REST or SOAP when the service is a web service operation; rest-operation, soap-operation, node-route and nest-route are web services whatever this says",
+      "title": "Protocol"
+    },
+    "screens": {
+      "description": "Screens it renders",
+      "items": {
+        "type": "string"
+      },
+      "title": "Screens",
+      "type": "array"
+    },
+    "sql": {
+      "description": "Ids of the SQL statements it reaches (its CRUD on each table comes from them)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Sql",
+      "type": "array"
+    },
+    "tables": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tables",
+      "type": "array"
+    },
+    "url": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "URL pattern or path, when it has one",
+      "title": "Url"
+    },
+    "web_service": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Web service the operation belongs to (JAX-WS service name, Axis service, controller); operations with the same one are listed together",
+      "title": "Web Service"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "kind"
+  ],
+  "title": "Service",
+  "type": "object"
+}

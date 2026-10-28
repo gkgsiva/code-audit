@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Known vulnerabilities come from OWASP Dependency-Check / OSV-Scanner results (run offline or imported); a source that did not run is a coverage gap, not "no vulnerabilities". {% if has_sbom %}<a href="{{ base }}sbom.cdx.json" download>Download the SBOM (CycloneDX 1.5 JSON)</a>.{% endif %}</p>
+<div class="panel">
+  <h3>Vulnerability sources</h3>
+  <table class="data"><thead><tr><th>Source</th><th>Status</th><th>Database date</th><th>Reports</th></tr></thead><tbody>
+  {% for s in vuln_sources %}<tr><td>{{ s.name }}</td><td><span class="badge {{ 'present' if s.status in ('imported', 'ran') else 'missing' }}">{{ s.status }}{% if s.detail %} ({{ s.detail }}){% endif %}</span></td><td>{{ s.database_date or "" }}</td><td>{{ s.reports|join(", ") }}</td></tr>{% endfor %}
+  </tbody></table>
+</div>
+<div class="grid2" style="margin-top:16px">
+  {{ m.chart(severity_chart) }}
+  {{ m.chart(action_chart) }}
+</div>
+{% if bubble_chart.has_data %}<div style="margin-top:16px">{{ m.chart(bubble_chart) }}</div>{% endif %}
+<h2>Riskiest libraries</h2>
+{% if risky %}<div class="table-wrap"><table class="data">
+<thead><tr><th>Library</th><th>Version</th><th>Max severity</th><th class="num">CVEs</th><th>End of life</th><th>Action</th><th>Recommended</th><th>Evidence</th></tr></thead>
+<tbody>{% for l in risky %}<tr><td><code>{{ l.name }}</code></td><td><code>{{ l.version }}</code></td><td>{% if l.severity %}<span class="chip {{ l.severity }}">{{ l.severity }}</span>{% endif %}</td><td class="num">{{ l.cves }}</td><td>{{ l.eol }}</td><td>{{ l.action }}</td><td><code>{{ l.target }}</code></td><td>{{ m.ev(l.link) }}</td></tr>{% endfor %}</tbody>
+</table></div>{% else %}<p class="muted">No vulnerable or end-of-life libraries.</p>{% endif %}
+<h2>Licence flags</h2>
+{% if licence_flags %}<ul class="compact">{% for l in licence_flags %}<li><code>{{ l.name }} {{ l.version }}</code>: {{ l.licence }} — {{ l.why }}</li>{% endfor %}</ul>
+{% else %}<p class="muted">No copyleft licences found.</p>{% endif %}
+<p class="note">{{ licence_unknown }} of {{ library_count }} libraries have no licence in the scan data (licences come from Maven POMs and jar manifests when present).</p>
+<h2>All libraries and upgrade path</h2>
+{{ m.catalogue("libraries") }}
+{% endblock %}

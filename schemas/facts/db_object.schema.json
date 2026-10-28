@@ -1,0 +1,147 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PgGrade": {
+      "enum": [
+        "auto",
+        "review",
+        "manual"
+      ],
+      "title": "PgGrade",
+      "type": "string"
+    }
+  },
+  "$id": "legacy-audit/facts/db_object.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "crud": {
+      "additionalProperties": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array"
+      },
+      "description": "Operation (C/R/U/D) to referencing ids",
+      "title": "Crud",
+      "type": "object"
+    },
+    "defined_in": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "File holding its DDL, if scanned",
+      "title": "Defined In"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "members": {
+      "description": "Package procedures",
+      "items": {
+        "type": "string"
+      },
+      "title": "Members",
+      "type": "array"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "object_type": {
+      "description": "table, view, sequence, index, synonym, package, procedure, function, trigger, type",
+      "title": "Object Type",
+      "type": "string"
+    },
+    "pg_grade": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PgGrade"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Set for packages, procedures, ..."
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reason"
+    },
+    "referenced_by": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Referenced By",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "object_type"
+  ],
+  "title": "DbObject",
+  "type": "object"
+}

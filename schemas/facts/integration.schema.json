@@ -1,0 +1,177 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/integration.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "consumers": {
+      "description": "Files that receive/read",
+      "items": {
+        "type": "string"
+      },
+      "title": "Consumers",
+      "type": "array"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "One sentence written by the scan from the type, target and usages; the Copilot enrichment (stage 12, interfaces) adds the business words",
+      "title": "Description"
+    },
+    "details": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Details",
+      "type": "object"
+    },
+    "direction": {
+      "description": "outbound, inbound, both, defined or unknown",
+      "title": "Direction",
+      "type": "string"
+    },
+    "endpoints": {
+      "description": "What was grouped into this row of one external service (decision 177): the paths called on one host, the queues and channels of one queue manager, the files of one server or folder; empty when the row is one endpoint",
+      "items": {
+        "type": "string"
+      },
+      "title": "Endpoints",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "grouped_ids": {
+      "description": "Ids the grouped endpoints had as rows of their own; enrichment written before the grouping still points at them",
+      "items": {
+        "type": "string"
+      },
+      "title": "Grouped Ids",
+      "type": "array"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "producers": {
+      "description": "Files that send/write",
+      "items": {
+        "type": "string"
+      },
+      "title": "Producers",
+      "type": "array"
+    },
+    "protocol": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Protocol"
+    },
+    "purpose": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "What the interface is for: login / authentication, web service, HTTP API, file transfer, messaging, database, email, directory, socket or file",
+      "title": "Purpose"
+    },
+    "source_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Files",
+      "type": "array"
+    },
+    "target": {
+      "title": "Target",
+      "type": "string"
+    },
+    "type": {
+      "description": "HTTP, SOAP, MQ, MQ-CHANNEL, MQ-QMGR, JMS, FTP, SFTP, SCP, CFT, SMTP, LDAP, SOCKET, FILE, DB",
+      "title": "Type",
+      "type": "string"
+    },
+    "usages": {
+      "default": 0,
+      "title": "Usages",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "type",
+    "target",
+    "direction"
+  ],
+  "title": "Integration",
+  "type": "object"
+}

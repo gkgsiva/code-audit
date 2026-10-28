@@ -1,0 +1,3 @@
+-- Close the business day
+UPDATE BUSINESS_DAY SET STATUS = 'CLOSED' WHERE STATUS = 'OPEN';
+COMMIT;

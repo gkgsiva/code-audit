@@ -1,0 +1,24 @@
+{
+  "name": "orders-web",
+  "version": "2.4.0",
+  "private": true,
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build --configuration production",
+    "test": "ng test"
+  },
+  "dependencies": {
+    "@angular/common": "^17.3.0",
+    "@angular/core": "^17.3.0",
+    "@angular/forms": "^17.3.0",
+    "@angular/material": "^17.3.0",
+    "@angular/router": "^17.3.0",
+    "@okta/okta-angular": "^6.3.0",
+    "rxjs": "~7.8.0",
+    "zone.js": "~0.14.4"
+  },
+  "devDependencies": {
+    "@angular/cli": "^17.3.0",
+    "typescript": "~5.4.2"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "stage": "plan",
+    "author": "copilot-agent"
+  },
+  "approach": "Strangle the Struts application screen by screen behind the same URL, starting with read-only search and detail.",
+  "waves": [
+    {
+      "name": "Wave 0: foundations",
+      "order": 0,
+      "goal": "Landing zone, CI/CD, Cloud SQL, identity",
+      "components": [],
+      "start_month": 0,
+      "duration_months": 1,
+      "effort": [
+        {
+          "label": "Foundations",
+          "value": 10,
+          "unit": "person-days",
+          "estimate": true,
+          "note": "Platform set-up, not in effort.json"
+        }
+      ]
+    },
+    {
+      "name": "Wave 1: orders API",
+      "order": 1,
+      "goal": "Search and detail on Spring Boot and Angular",
+      "components": [
+        "orders-web"
+      ],
+      "start_month": 1,
+      "duration_months": 2,
+      "effort": [
+        {
+          "label": "orders-web (likely)",
+          "metric": "effort.by_component.orders-web.likely",
+          "value": 60.2,
+          "unit": "person-days"
+        }
+      ],
+      "depends_on": [
+        "Wave 0: foundations"
+      ]
+    },
+    {
+      "name": "Wave 2: data and integrations",
+      "order": 2,
+      "goal": "Pricing package rewrite, SOAP client, data migration and cut-over",
+      "components": [
+        "orders-web"
+      ],
+      "start_month": 3,
+      "duration_months": 1,
+      "effort": [
+        {
+          "label": "Database (likely)",
+          "metric": "effort.by_component.(database).likely",
+          "value": 4.0,
+          "unit": "person-days"
+        }
+      ],
+      "depends_on": [
+        "Wave 1: orders API"
+      ]
+    }
+  ],
+  "effort": [
+    {
+      "label": "Low",
+      "metric": "effort.low",
+      "value": 34.5,
+      "unit": "person-days"
+    },
+    {
+      "label": "Likely",
+      "metric": "effort.likely",
+      "value": 64.2,
+      "unit": "person-days"
+    },
+    {
+      "label": "High",
+      "metric": "effort.high",
+      "value": 121.4,
+      "unit": "person-days"
+    }
+  ],
+  "team": [
+    {
+      "role": "Tech lead",
+      "count": 1
+    },
+    {
+      "role": "Java developer",
+      "count": 2
+    },
+    {
+      "role": "Angular developer",
+      "count": 1
+    },
+    {
+      "role": "QA",
+      "count": 1
+    }
+  ],
+  "decisions_needed": [
+    "Confirm the identity provider for login",
+    "Approve moving pricing logic out of PL/SQL"
+  ],
+  "next_steps": [
+    "Run the Dependency-Check scan in CI",
+    "Collect production application server configuration"
+  ]
+}

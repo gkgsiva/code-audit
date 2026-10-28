@@ -1,0 +1,186 @@
+{
+  "$defs": {
+    "BuiltFrom": {
+      "additionalProperties": false,
+      "properties": {
+        "facts_hash_by_input": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "sha256 of each fact file (and 'stage:<name>' of each upstream stage)",
+          "title": "Facts Hash By Input",
+          "type": "object"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "facts_hash_by_input"
+      ],
+      "title": "BuiltFrom",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "default": "copilot-agent",
+          "title": "Author",
+          "type": "string"
+        },
+        "built_from": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BuiltFrom"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stamped by `legacy-audit validate`; leave it out when (re)writing"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        },
+        "overrides_noted": {
+          "description": "Overrides from audit-overrides.yaml (run.json > overrides) this stage took into account",
+          "items": {
+            "type": "string"
+          },
+          "title": "Overrides Noted",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Meta",
+      "type": "object"
+    },
+    "UpgradeTheme": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "library_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Library Ids",
+          "type": "array"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "wave": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Name of the plan wave that carries it",
+          "title": "Wave"
+        }
+      },
+      "required": [
+        "name",
+        "action",
+        "rationale"
+      ],
+      "title": "UpgradeTheme",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/enrichment/dependency_plan.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    },
+    "themes": {
+      "items": {
+        "$ref": "#/$defs/UpgradeTheme"
+      },
+      "title": "Themes",
+      "type": "array"
+    }
+  },
+  "required": [
+    "meta",
+    "themes"
+  ],
+  "title": "DependencyPlan",
+  "type": "object"
+}

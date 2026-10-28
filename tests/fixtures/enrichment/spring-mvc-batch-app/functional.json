@@ -1,0 +1,327 @@
+{
+  "meta": {
+    "stage": "functional",
+    "author": "copilot-agent"
+  },
+  "summary": "Billing turns customers' usage into invoices every weeknight, lets billing clerks look up customers and invoices and mark invoices as paid, and tells the payments system when an invoice is paid.",
+  "domains": [
+    {
+      "name": "Invoicing",
+      "description": "Producing invoices from usage.",
+      "components": [
+        "billing-batch"
+      ],
+      "capabilities": [
+        {
+          "name": "Nightly invoicing",
+          "description": "Price the day's usage and write one invoice per customer.",
+          "job_ids": [
+            "batch_job:08cced84c58c5822",
+            "batch_job:5e1224c95b219205"
+          ],
+          "evidence": [
+            {
+              "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+              "line": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Collections",
+      "description": "Following invoices until they are paid.",
+      "components": [
+        "billing-web",
+        "billing-common"
+      ],
+      "capabilities": [
+        {
+          "name": "Look up customers and invoices",
+          "description": "Find a customer and see their open invoices.",
+          "service_ids": [
+            "service:f83e485622850acf",
+            "service:fda29992cfe62bf9",
+            "service:32c0d8031410b4e1"
+          ],
+          "screen_ids": [
+            "screen:8f683aecfbbcde40",
+            "screen:c6a61f35f0d54a46",
+            "screen:01e5975666c97869"
+          ],
+          "evidence": [
+            {
+              "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+              "line": 23
+            }
+          ]
+        },
+        {
+          "name": "Record a payment",
+          "description": "Mark an invoice as paid and tell the payments system.",
+          "service_ids": [
+            "service:8443745aed316fda"
+          ],
+          "evidence": [
+            {
+              "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+              "line": 34
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actors": [
+    {
+      "name": "Billing clerk",
+      "kind": "user",
+      "description": "Looks up invoices and records payments.",
+      "screen_ids": [
+        "screen:8f683aecfbbcde40",
+        "screen:c6a61f35f0d54a46",
+        "screen:01e5975666c97869"
+      ]
+    },
+    {
+      "name": "Autosys",
+      "kind": "scheduler",
+      "description": "Starts the nightly billing cycle on weekdays."
+    },
+    {
+      "name": "Payments system",
+      "kind": "external-system",
+      "description": "Receives paid-invoice events and sends payments in.",
+      "integration_ids": [
+        "integration:1fdf9b8f4b33fad0",
+        "integration:624c47e17b2fc791"
+      ]
+    },
+    {
+      "name": "Billing operations",
+      "kind": "operator",
+      "description": "Receive an e-mail when the invoice job fails."
+    }
+  ],
+  "use_cases": [
+    {
+      "id": "UC-01",
+      "name": "Record that an invoice is paid",
+      "actor": "Billing clerk",
+      "goal": "Close an invoice the customer has paid",
+      "domain": "Collections",
+      "screen_ids": [
+        "screen:01e5975666c97869"
+      ],
+      "service_ids": [
+        "service:8443745aed316fda"
+      ],
+      "steps": [
+        "Open the invoice",
+        "Press Pay",
+        "See the invoice list again"
+      ],
+      "outcome": "The invoice is marked paid and the payments system is told.",
+      "evidence": [
+        {
+          "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+          "line": 34
+        }
+      ]
+    }
+  ],
+  "business_rules": [
+    {
+      "id": "BR-01",
+      "name": "Only unbilled usage is invoiced",
+      "description": "Usage records already billed are skipped; amounts are units times rate, summed per customer.",
+      "kind": "calculation",
+      "domain": "Invoicing",
+      "fact_ids": [
+        "sql:8e1ce8cc4cb44aba"
+      ],
+      "evidence": [
+        {
+          "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+          "line": 19
+        }
+      ]
+    }
+  ],
+  "data_entities": [
+    {
+      "name": "Invoice",
+      "description": "What a customer owes for a period.",
+      "db_object_ids": [
+        "db_object:1ad299b389c5a36a"
+      ],
+      "domain": "Invoicing",
+      "evidence": [
+        {
+          "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "name": "Usage record",
+      "description": "One metered use of the service, with units and rate.",
+      "db_object_ids": [
+        "db_object:ea972605d9500612"
+      ],
+      "domain": "Invoicing",
+      "evidence": [
+        {
+          "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+          "line": 19
+        }
+      ]
+    }
+  ],
+  "screens": [
+    {
+      "screen_id": "screen:01e5975666c97869",
+      "purpose": "The clerk reads one invoice and can record its payment.",
+      "user_actions": [
+        "Press Pay"
+      ],
+      "data_shown": "Invoice amount, customer and status.",
+      "next_steps": "After paying, the invoice list opens.",
+      "evidence": [
+        {
+          "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+          "line": 29
+        }
+      ]
+    }
+  ],
+  "batches": [
+    {
+      "job_id": "batch_job:08cced84c58c5822",
+      "purpose": "Bill every customer for yesterday's usage before the working day starts.",
+      "when": "Every weekday night at 01:30, once the usage file has arrived.",
+      "steps": [
+        {
+          "order": 1,
+          "description": "Wait for the day's usage file from the network.",
+          "fact_ids": [
+            "batch_job:953a414754a6347d",
+            "integration:009236f06aa5a4c5"
+          ]
+        },
+        {
+          "order": 2,
+          "description": "Price the usage and write one invoice per customer, then notify customers.",
+          "fact_ids": [
+            "batch_job:073329b732a04908",
+            "batch_job:5e1224c95b219205"
+          ]
+        },
+        {
+          "order": 3,
+          "description": "Archive the usage file, whether invoicing worked or not.",
+          "fact_ids": [
+            "batch_job:4730468a094e0a59"
+          ]
+        }
+      ],
+      "inputs": [
+        "Usage file",
+        "Unbilled usage records"
+      ],
+      "outputs": [
+        "Invoices",
+        "Invoice audit trail"
+      ],
+      "on_failure": "Autosys raises an alarm and retries the invoice job once; the launch script e-mails billing operations. The archive step still runs.",
+      "business_impact": "Customers are not invoiced that day and cash collection is delayed.",
+      "evidence": [
+        {
+          "file": "audit-inputs/autosys/billing.jil",
+          "line": 2
+        },
+        {
+          "file": "billing-batch/scripts/run_invoice_job.sh",
+          "line": 9
+        },
+        {
+          "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+          "line": 19
+        }
+      ],
+      "programs": [
+        {
+          "name": "run_invoice_job.sh",
+          "fact_id": "file:86c5a9cd6b7f33e6",
+          "what_it_does": "Starts the invoicing job for today's date and e-mails billing operations if it fails."
+        },
+        {
+          "name": "InvoiceWriter",
+          "fact_id": "file:56e3f187c7988bcd",
+          "what_it_does": "Writes one open invoice per customer, due in one month, and records it in the audit trail."
+        }
+      ],
+      "controls": [
+        "The launch script checks the job's return code and e-mails billing operations when it is not zero."
+      ],
+      "restart": "Autosys retries the invoice job once; after that the job is re-run by hand for the same date."
+    },
+    {
+      "job_id": "entry:8b73a66b154c7377",
+      "purpose": "Marks invoices as paid when the bank confirms a payment.",
+      "when": "Whenever the bank sends a payment notification; no schedule.",
+      "steps": [
+        {
+          "order": 1,
+          "description": "Read the payment notification and settle the matching payment.",
+          "fact_ids": [
+            "file:d4092875766572a1"
+          ]
+        }
+      ],
+      "inputs": [
+        "Payment notifications from the bank"
+      ],
+      "outputs": [
+        "Settled payments"
+      ],
+      "on_failure": "The message is not acknowledged and the error is raised; the queue keeps the notification.",
+      "business_impact": "Paid invoices stay open and customers may be chased for money they paid.",
+      "programs": [
+        {
+          "name": "PaymentListener",
+          "fact_id": "entry:8b73a66b154c7377",
+          "what_it_does": "Takes the payment number from each message and settles that payment."
+        }
+      ],
+      "controls": [],
+      "restart": "",
+      "evidence": [
+        {
+          "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+          "line": 19
+        }
+      ]
+    }
+  ],
+  "interfaces": [
+    {
+      "integration_id": "integration:1fdf9b8f4b33fad0",
+      "partner": "Payments system",
+      "purpose": "Tells payments an invoice was paid.",
+      "data_exchanged": "Invoice number.",
+      "evidence": [
+        {
+          "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+          "line": 15
+        }
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "Usage",
+      "meaning": "Metered consumption of the service that is billed per unit."
+    }
+  ]
+}

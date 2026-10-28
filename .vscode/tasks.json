@@ -1,0 +1,349 @@
+{
+  // Validate legacy-audit from VS Code: Terminal > Run Task... (see docs/validate-in-vscode.md).
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "sample",
+      "type": "pickString",
+      "description": "Sample application to scan",
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app", "angular-node-app", "web-services-app", "desktop-dotnet-app", "java-swing-app", "maven-multimodule-app"],
+      "default": "struts-oracle-app"
+    },
+    {
+      "id": "demo",
+      "type": "pickString",
+      "description": "Load the demo enrichment as is, or with one wrong count",
+      "options": ["", "--break"],
+      "default": ""
+    },
+    {
+      "id": "kind",
+      "type": "pickString",
+      "description": "Kind of facts",
+      "options": ["services", "screens", "sql_statements", "integrations", "batch_jobs", "libraries", "findings", "components"],
+      "default": "services"
+    },
+    {
+      "id": "lines",
+      "type": "pickString",
+      "description": "Lines of code to generate for the performance test",
+      "options": ["200000", "500000", "2000000"],
+      "default": "500000"
+    },
+    {
+      "id": "template",
+      "type": "pickString",
+      "description": "Corporate PowerPoint template",
+      "options": ["blue", "orange", "purple"],
+      "default": "blue"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "audit: 1. set up (venv + install)",
+      "type": "shell",
+      "command": "python3 -m venv .venv && .venv/bin/python -m pip install -e \".[dev]\"",
+      "windows": {
+        "command": "python -m venv .venv; .venv\\Scripts\\python -m pip install -e \".[dev]\""
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 2. tests (pytest)",
+      "type": "shell",
+      "command": ".venv/bin/python -m pytest -q",
+      "windows": { "command": ".venv\\Scripts\\python -m pytest -q" },
+      "group": { "kind": "test", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 3. lint + type check",
+      "type": "shell",
+      "command": ".venv/bin/python -m ruff check . && .venv/bin/python -m ruff format --check . && .venv/bin/python -m mypy legacy_audit",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m ruff check .; .venv\\Scripts\\python -m ruff format --check .; .venv\\Scripts\\python -m mypy legacy_audit"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 4. scan a sample",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit scan -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit scan -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 5. scan all samples",
+      "type": "shell",
+      "command": "for s in struts-oracle-app spring-mvc-batch-app c-proc-batch cobol-cics-db2; do .venv/bin/python -m legacy_audit scan -c samples/$s/audit.yaml || exit 1; done",
+      "windows": {
+        "command": "foreach ($s in 'struts-oracle-app','spring-mvc-batch-app','c-proc-batch','cobol-cics-db2') { .venv\\Scripts\\python -m legacy_audit scan -c samples\\$s\\audit.yaml; if ($LASTEXITCODE) { exit 1 } }"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 6. show dynamic SQL of the latest run",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_sql.py samples/${input:sample} --dynamic",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_sql.py samples\\${input:sample} --dynamic"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 7. build and open the technical report",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type tech --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type tech --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 8. build the PowerPoint on a corporate template",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type pptx --template ${input:template} -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type pptx --template ${input:template} -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 9. install Copilot files into a sample (init)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit init samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit init samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 10. load demo enrichment and validate (Struts sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/demo_enrichment.py samples/struts-oracle-app ${input:demo}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\demo_enrichment.py samples\\struts-oracle-app ${input:demo}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 11. build management deck and PPTX",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type all --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type all --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 12. query facts as Copilot does",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit facts ${input:kind} --limit 5 -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit facts ${input:kind} --limit 5 -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 13. start the GUI on a sample (legacy-audit serve)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit serve --workspace samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit serve --workspace samples\\${input:sample}"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 14. check installed tools (doctor)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit doctor -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit doctor -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 15. performance test (generated estate)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/perf.py ${input:lines}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\perf.py ${input:lines}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 16. load demo functional enrichment (Billing sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/demo_enrichment.py samples/spring-mvc-batch-app",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\demo_enrichment.py samples\\spring-mvc-batch-app"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 17. build and open the functional document",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type functional --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type functional --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 18. scan a sample without its scheduler inputs (Batch page)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/scan_without_inputs.py samples/${input:sample} --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\scan_without_inputs.py samples\\${input:sample} --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 19. test the AI model settings (enrich --check)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit enrich --check -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit enrich --check -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 20. AI enrichment with the configured model (missing and stale stages)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit enrich --stale -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit enrich --stale -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 21. show components and the batch count",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_components.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_components.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 22. show lines of code by language and the integrations",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_loc_integrations.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_loc_integrations.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 23. show all batches with what they do and when they run",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_batches.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_batches.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 24. build and open the summary report (HTML and PowerPoint)",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit report --type summary --open -c samples/${input:sample}/audit.yaml",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit report --type summary --open -c samples\\${input:sample}\\audit.yaml"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 25. dependency vulnerabilities from both scanners (Billing demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_dependency_vulns.py samples/spring-mvc-batch-app --both --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_dependency_vulns.py samples\\spring-mvc-batch-app --both --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 26. Angular, Node.js and servers (Angular and Node sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_web_stack.py samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_web_stack.py samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 27. Web services, REST and SOAP (web services sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_web_services.py samples/web-services-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_web_services.py samples\\web-services-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 28. Desktop and .NET apps (VB6, VB.NET, C#, Java Swing samples)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_desktop_stack.py samples/desktop-dotnet-app samples/java-swing-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_desktop_stack.py samples\\desktop-dotnet-app samples\\java-swing-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 29. AI enrichment for desktop, .NET, Angular and servers (demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_enrichment_coverage.py samples/desktop-dotnet-app samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_enrichment_coverage.py samples\\desktop-dotnet-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 30. Migration targets: Spring Boot, WildFly on GKE, audit only (demo)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_targets.py samples/struts-oracle-app samples/angular-node-app --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_targets.py samples\\struts-oracle-app samples\\angular-node-app --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 31. show Maven modules and batches (multi-module sample)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_components.py samples/maven-multimodule-app",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_components.py samples\\maven-multimodule-app"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 32. PDF copies of the reports (sample app)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_pdfs.py samples/${input:sample} --open",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_pdfs.py samples\\${input:sample} --open"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 33. show component and integration grouping (sample app)",
+      "type": "shell",
+      "command": ".venv/bin/python scripts/show_grouping.py samples/${input:sample}",
+      "windows": {
+        "command": ".venv\\Scripts\\python scripts\\show_grouping.py samples\\${input:sample}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 34. scan error handling tests",
+      "type": "shell",
+      "command": ".venv/bin/python -m pytest tests/test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\"",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m pytest tests\\test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\""
+      },
+      "problemMatcher": []
+    }
+  ]
+}

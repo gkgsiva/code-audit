@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server xmlns="urn:jboss:domain:16.0">
+  <profile>
+    <subsystem xmlns="urn:jboss:domain:datasources:6.0">
+      <datasources>
+        <datasource jndi-name="java:jboss/datasources/PortalDS" pool-name="PortalDS">
+          <connection-url>jdbc:oracle:thin:@portaldb.acme.local:1521:PORTAL</connection-url>
+        </datasource>
+      </datasources>
+    </subsystem>
+  </profile>
+</server>

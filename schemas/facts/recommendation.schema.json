@@ -1,0 +1,73 @@
+{
+  "$id": "legacy-audit/facts/recommendation.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "description": "upgrade, use-bom, migrate-jakarta, replace, rewrite, remove or keep",
+      "title": "Action",
+      "type": "string"
+    },
+    "effort": {
+      "default": "low",
+      "description": "low, medium or high",
+      "title": "Effort",
+      "type": "string"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "recipe": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "OpenRewrite recipe id, when one applies",
+      "title": "Recipe"
+    },
+    "rule": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Rule in dependency-upgrades.yaml",
+      "title": "Rule"
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Target coordinates or product",
+      "title": "Target"
+    },
+    "verify": {
+      "default": false,
+      "description": "Target not confirmed by rule data; check it",
+      "title": "Verify",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "action",
+    "reason"
+  ],
+  "title": "Recommendation",
+  "type": "object"
+}

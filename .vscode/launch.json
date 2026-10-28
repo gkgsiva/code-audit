@@ -1,0 +1,33 @@
+{
+  // Debug the scanner on a sample (F5), with breakpoints in legacy_audit/.
+  "version": "0.2.0",
+  "inputs": [
+    {
+      "id": "sample",
+      "type": "pickString",
+      "description": "Sample application to scan",
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app"],
+      "default": "struts-oracle-app"
+    }
+  ],
+  "configurations": [
+    {
+      "name": "legacy-audit: scan a sample",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "legacy_audit",
+      "args": ["scan", "--full", "-c", "samples/${input:sample}/audit.yaml"],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": true
+    },
+    {
+      "name": "pytest: current test file",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "pytest",
+      "args": ["-q", "${file}"],
+      "cwd": "${workspaceFolder}",
+      "justMyCode": false
+    }
+  ]
+}

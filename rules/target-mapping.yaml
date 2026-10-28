@@ -1,0 +1,170 @@
+# Default target per legacy element (docs/plan.md § Target mapping rules). The scan engine only
+# ships this table with the facts; the Copilot agent applies it and records exceptions with a
+# reason. A team pack can replace an entry by giving the same id.
+#
+# `target` is for the default profile (spring-boot-angular); `by_target` gives an entry's target
+# for another profile, and `profiles` replaces whole keys (audit.yaml > target.profile, see
+# legacy_audit/target.py). With `none` (audit only) there is no mapping.
+pack: target-mapping
+description: Default target per legacy element, for each target profile (audit.yaml > target.profile).
+
+data:
+  targets:
+    - id: screen
+      legacy: JSP / JSF / Struts screen, Spring MVC view, BMS map
+      applies_to: {entity: screens}
+      target: Angular 21 component (route per screen, shared components for repeated forms)
+      by_target: {wildfly-gke: {target: 'Kept: JSP / JSF / Struts pages move with the WAR to WildFly 41 (javax.* imports and tag libraries renamed to jakarta.*); BMS maps unchanged'}}
+    - id: spa-screen
+      legacy: Angular or AngularJS screen (routed component or view)
+      applies_to: {entity: screens, technologies: [angular, angularjs]}
+      target: Angular 21 standalone component; AngularJS views are rewritten, Angular apps are brought up with ng update
+      by_target: {wildfly-gke: {target: 'Kept as it is; the built front end is served by WildFly 41 or a web server container on GKE'}}
+    - id: desktop-screen
+      legacy: Desktop window or form (VB6 form, Windows Forms, WPF, Java Swing / AWT, JavaFX)
+      applies_to: {entity: screens, technologies: [vb6, winforms, wpf, swing, awt, javafx]}
+      target: Angular 21 component in a browser app (route per window, dialogs as Angular Material dialogs); logic in the form's event handlers moves to a Spring Boot 4 service
+      by_target: {wildfly-gke: {target: 'Unchanged: desktop programs are not part of the move to WildFly; they connect to the PostgreSQL database'}}
+    - id: aspnet-screen
+      legacy: ASP.NET Web Forms page or MVC / Razor view
+      applies_to: {entity: screens, technologies: [aspx, razor]}
+      target: Angular 21 component; code-behind and controller logic moves to a Spring Boot 4 REST controller + service
+      by_target: {wildfly-gke: {target: 'Unchanged: .NET pages are not part of the move to WildFly; they connect to the PostgreSQL database'}}
+    - id: dotnet-service
+      legacy: ASP.NET MVC / Web API controller action, WCF or ASMX operation
+      applies_to: {entity: services, kinds: [aspnet-mvc, rest-operation, soap-operation]}
+      target: Spring Boot 4 REST controller + service (Spring Web Services only where a SOAP contract must be kept)
+      by_target: {wildfly-gke: {target: 'Unchanged: .NET services are not part of the move to WildFly; they connect to the PostgreSQL database'}}
+    - id: windows-service
+      legacy: Windows service, Windows Task Scheduler task, Hangfire / Quartz.NET job
+      applies_to: {entity: batch_jobs, schedulers: [windows-task, hangfire, quartz.net]}
+      target: Spring Batch job on Cloud Run jobs started by Cloud Scheduler; long-running Windows services become a Spring Boot 4 service on GKE or Cloud Run
+      by_target: {wildfly-gke: {target: 'Unchanged: Windows services and jobs are not part of the move to WildFly'}}
+    - id: com-component
+      legacy: VB6 COM reference or ActiveX (OCX) control
+      applies_to: {entity: libraries, sources: [com]}
+      target: Replaced by an Angular 21 component (UI controls) or a Java library / Spring Boot service (COM logic); no COM on GCP
+      by_target: {wildfly-gke: {target: 'Unchanged: VB6 / COM stays on Windows'}}
+    - id: node-service
+      legacy: Node.js API route (Express, NestJS, Fastify, Koa, hapi)
+      applies_to: {entity: services, kinds: [node-route, nest-route]}
+      target: Spring Boot 4 REST controller + service, or kept on Node.js 24 in Cloud Run where the team chooses (record the exception)
+      by_target: {wildfly-gke: {target: 'Unchanged: Node.js services are not part of the move to WildFly (a container on GKE where they move)'}}
+    - id: app-server
+      legacy: Application server (WebSphere, WebLogic, JBoss / WildFly, Tomcat, GlassFish, ...)
+      applies_to: {entity: tech_stack, categories: [app-server]}
+      target: Spring Boot 4 executable jar (embedded Tomcat) on GKE or Cloud Run; server data sources, JMS and security settings move to Spring configuration + Secret Manager
+      by_target: {wildfly-gke: {target: 'WildFly 41 on Java 25 (Jakarta EE 11) in a container on GKE; data sources, JMS and security settings move to WildFly CLI scripts or Helm values, passwords to Secret Manager'}}
+    - id: web-server
+      legacy: Web server (Apache HTTP Server, IBM HTTP Server, Oracle HTTP Server, Nginx, IIS)
+      applies_to: {entity: tech_stack, categories: [web-server]}
+      target: Cloud Load Balancing with Cloud CDN; the Angular build served from Cloud Storage or an Nginx container on Cloud Run
+      by_target: {wildfly-gke: {target: 'Kept as a container on GKE (Apache or Nginx), or replaced by the GKE Ingress / Cloud Load Balancing'}}
+    - id: online-service
+      legacy: Struts action, Spring MVC handler, servlet, EJB, SOAP operation
+      applies_to: {entity: services, kinds: [struts-action, spring-mvc, servlet, ejb, soap-operation, jax-rs]}
+      target: Spring Boot 4 REST controller + service, grouped into bounded-context services
+      by_target: {wildfly-gke: {target: 'Kept: Struts actions, Spring MVC handlers, servlets, EJBs and SOAP / REST services run unchanged on WildFly 41 (javax.* renamed to jakarta.*)'}}
+    - id: mainframe-program
+      legacy: COBOL / Pro*C online program
+      applies_to: {entity: services, kinds: [cics-transaction, cobol-program, proc-program]}
+      target: Spring Boot service (rewritten), or rehost candidate if the logic is very large
+      by_target: {wildfly-gke: {target: 'Unchanged: not part of the move to WildFly'}}
+    - id: batch-job
+      legacy: Batch job (Autosys / JCL / cron + shell, C, COBOL, Spring Batch)
+      applies_to: {entity: batch_jobs}
+      target: Spring Batch on Cloud Run jobs or GKE; Autosys job chains → Cloud Composer, simple schedules → Cloud Scheduler + Workflows
+      by_target: {wildfly-gke: {target: 'Kept: the same jobs, scripts and programs, run as Kubernetes Jobs / CronJobs on GKE (or by the current scheduler); Java batches keep their code'}}
+    - id: database
+      legacy: Oracle / DB2 / other database
+      applies_to: {entity: db_objects}
+      target: Cloud SQL for PostgreSQL or AlloyDB; procedures → Java service logic or PL/pgSQL
+      by_target: {wildfly-gke: {target: 'Cloud SQL for PostgreSQL or AlloyDB; procedures rewritten in PL/pgSQL; Oracle-specific SQL in the code rewritten for PostgreSQL'}}
+    - id: messaging
+      legacy: IBM MQ / JMS
+      applies_to: {entity: integrations, types: [MQ, JMS]}
+      target: Pub/Sub, or IBM MQ kept (e.g. on GKE) where ordering or transactions require it
+      by_target: {wildfly-gke: {target: 'Kept: IBM MQ through the IBM MQ resource adapter on WildFly 41 (JMS code unchanged)'}}
+    - id: file-transfer
+      legacy: FTP / SFTP / CFT file transfer
+      applies_to: {entity: integrations, types: [FTP, SFTP, CFT]}
+      target: Cloud Storage + Storage Transfer Service, or a managed SFTP gateway; events via Pub/Sub
+      by_target: {wildfly-gke: {target: 'Kept as it is; the files move to a persistent volume or Filestore on GKE'}}
+    - id: shared-files
+      legacy: Shared file system
+      applies_to: {entity: integrations, types: [FILE]}
+      target: Cloud Storage or Filestore
+      by_target: {wildfly-gke: {target: 'Filestore or a persistent volume on GKE'}}
+    - id: email
+      legacy: Email (SMTP)
+      applies_to: {entity: integrations, types: [SMTP]}
+      target: SMTP relay / SendGrid with credentials in Secret Manager
+      by_target: {wildfly-gke: {target: 'Kept: a WildFly mail session, credentials in Secret Manager'}}
+    - id: config
+      legacy: Config / properties
+      applies_to: {entity: inventory, categories: [config]}
+      target: Spring configuration + Secret Manager
+      by_target: {wildfly-gke: {target: 'Kept: properties files as Kubernetes ConfigMaps, passwords in Secret Manager; server settings as WildFly CLI scripts'}}
+    - id: reports
+      legacy: Reports (Crystal, Jasper, Oracle Reports)
+      applies_to: {entity: tech_stack, names: [Crystal Reports, JasperReports, Oracle Reports]}
+      target: JasperReports on Spring Boot or Looker Studio, case by case
+      by_target: {wildfly-gke: {target: 'Kept as it is on WildFly 41'}}
+    - id: auth
+      legacy: Auth (LDAP, SiteMinder, custom)
+      applies_to: {entity: integrations, types: [LDAP]}
+      target: Identity Platform / IAP, or the corporate IdP via OIDC
+      by_target: {wildfly-gke: {target: 'Kept: WildFly Elytron with the same LDAP or identity provider'}}
+    - id: observability
+      legacy: Logging, monitoring
+      applies_to: {entity: tech_stack, names: [Log4j 1, Log4j 2, Logback]}
+      target: Cloud Logging, Cloud Monitoring, Cloud Trace
+      by_target: {wildfly-gke: {target: 'Kept: logs written to the console and collected by Cloud Logging on GKE'}}
+    - id: runtime
+      legacy: Runtime (app server, batch host)
+      applies_to: {entity: components}
+      target: GKE Autopilot or Cloud Run; CI/CD with Cloud Build + Artifact Registry
+      by_target: {wildfly-gke: {target: 'GKE (Autopilot or Standard): one WildFly 41 container image per deployment unit; CI/CD with Cloud Build + Artifact Registry'}}
+    - id: runtime-java
+      legacy: Java runtime (JDK / JRE version)
+      applies_to: {entity: tech_stack, names: [Java]}
+      target: Java 25 (Spring Boot 4)
+      by_target: {wildfly-gke: {target: 'Java 25 (WildFly 41)'}}
+    - id: runtime-node
+      legacy: Node.js runtime
+      applies_to: {entity: tech_stack, names: [Node.js]}
+      target: Node.js 24 LTS on Cloud Run, or the service rewritten in Spring Boot 4 (Java 25)
+      by_target: {wildfly-gke: {target: 'Node.js 24 LTS in a container on GKE (not part of the move to WildFly)'}}
+
+  # Words that finding messages and remediations take from the target ([[name]] in their text).
+  phrases:
+    server-move: and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)
+    server-remediation: Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.
+    server-api: 'it is not available on the target runtime and must be replaced by a standard or Spring equivalent'
+    config-home: Spring configuration (application.yaml) or Secret Manager
+    java-move: before moving to Java 25
+    eol-target: target
+    eol-remediation: Plan the move to the target technology.
+    eol-library-remediation: Replace it as recommended before or during the migration.
+
+  profiles:
+    wildfly-gke:
+      phrases:
+        server-move: and must be set up again on WildFly 41 (WildFly CLI scripts or Helm values on GKE)
+        server-remediation: Recreate these settings for WildFly 41 (jboss-web.xml, WildFly CLI scripts or Helm values, passwords in Secret Manager); deploy the WAR / EAR in a WildFly 41 container on GKE.
+        server-api: 'it is not available on WildFly 41 and must be replaced by the Jakarta EE 11 standard API or the WildFly equivalent'
+        config-home: WildFly configuration or a Kubernetes ConfigMap, passwords in Secret Manager
+        eol-target: 'supported version:'
+        eol-remediation: Move to the supported version as part of the move to WildFly 41 on Java 25.
+        eol-library-remediation: Replace it with the supported version as part of the move to WildFly 41 on Java 25.
+    none:
+      targets: []
+      phrases:
+        server-move: ''
+        server-remediation: Note this dependency on the application server; any change of server must take these settings over.
+        server-api: 'the code depends on this server'
+        config-home: external configuration (not in the code)
+        java-move: to run on a supported Java release
+        eol-target: 'supported version:'
+        eol-remediation: No vendor support or security fixes; plan an upgrade to the supported version.
+        eol-library-remediation: No security fixes any more; plan an upgrade to the supported version.

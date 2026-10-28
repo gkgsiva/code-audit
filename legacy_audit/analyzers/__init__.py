@@ -1,0 +1,73 @@
+"""Analyzer plugins, registered here in one place (see ``base`` for the contract)."""
+
+from legacy_audit.analyzers.autosys import AutosysAnalyzer
+from legacy_audit.analyzers.base import (
+    Analyzer,
+    AnalyzerContext,
+    Facts,
+    Ref,
+    Symbol,
+    register,
+    registered,
+    version_key,
+)
+from legacy_audit.analyzers.basic import BasicAnalyzer
+from legacy_audit.analyzers.build import BuildAnalyzer
+from legacy_audit.analyzers.c_cpp import CAnalyzer
+from legacy_audit.analyzers.cft import CftAnalyzer
+from legacy_audit.analyzers.cobol import CobolAnalyzer
+from legacy_audit.analyzers.config import ConfigAnalyzer
+from legacy_audit.analyzers.csharp import CSharpAnalyzer
+from legacy_audit.analyzers.deps import DepsAnalyzer
+from legacy_audit.analyzers.dotnet import DotnetAnalyzer
+from legacy_audit.analyzers.java import JavaAnalyzer
+from legacy_audit.analyzers.jcl import JclAnalyzer
+from legacy_audit.analyzers.metrics import MetricsAnalyzer
+from legacy_audit.analyzers.mq import MqAnalyzer
+from legacy_audit.analyzers.patterns import PatternsAnalyzer
+from legacy_audit.analyzers.proc import ProcAnalyzer
+from legacy_audit.analyzers.servers import ServersAnalyzer
+from legacy_audit.analyzers.shell import ShellAnalyzer
+from legacy_audit.analyzers.spring import SpringAnalyzer
+from legacy_audit.analyzers.sql import SqlAnalyzer
+from legacy_audit.analyzers.typescript import TypeScriptAnalyzer
+from legacy_audit.analyzers.web import WebAnalyzer
+from legacy_audit.analyzers.websvc import WebServicesAnalyzer
+
+for _analyzer in (
+    BuildAnalyzer(),
+    DepsAnalyzer(),
+    ConfigAnalyzer(),
+    JavaAnalyzer(),
+    WebAnalyzer(),
+    TypeScriptAnalyzer(),
+    DotnetAnalyzer(),
+    BasicAnalyzer(),
+    CSharpAnalyzer(),
+    SpringAnalyzer(),
+    SqlAnalyzer(),
+    ShellAnalyzer(),
+    CAnalyzer(),
+    ProcAnalyzer(),
+    CobolAnalyzer(),
+    JclAnalyzer(),
+    AutosysAnalyzer(),
+    MqAnalyzer(),
+    CftAnalyzer(),
+    ServersAnalyzer(),
+    WebServicesAnalyzer(),
+    MetricsAnalyzer(),
+    PatternsAnalyzer(),
+):
+    register(_analyzer)
+
+__all__ = [
+    "Analyzer",
+    "AnalyzerContext",
+    "Facts",
+    "Ref",
+    "Symbol",
+    "register",
+    "registered",
+    "version_key",
+]

@@ -1,0 +1,6 @@
+<h2>Accounts</h2>
+<input type="text" ng-model="name" placeholder="Customer name">
+<button ng-click="search()">Search</button>
+<ul>
+  <li ng-repeat="a in accounts"><a href="#/accounts/{{a.id}}">{{a.name}}</a></li>
+</ul>

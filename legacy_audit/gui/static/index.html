@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>legacy-audit</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/report.css">
+<link rel="stylesheet" href="/static/gui.css">
+<script src="/vendor/chart-4.4.7.umd.js" defer></script>
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="app">
+    <strong id="app-name">legacy-audit</strong>
+    <span class="meta" id="app-folder"></span>
+    <span class="spacer"></span>
+    <span id="job-indicator" class="job-indicator" hidden></span>
+  </div>
+</header>
+<nav class="pages" id="nav" aria-label="Screens">
+  <a href="#setup" data-screen="setup">1. Project setup</a>
+  <a href="#inputs" data-screen="inputs">2. Inputs</a>
+  <a href="#components" data-screen="components">3. Components</a>
+  <a href="#run" data-screen="run">4. Run</a>
+  <a href="#dashboard" data-screen="dashboard">5. Dashboard</a>
+  <a href="#explorer" data-screen="explorer">6. Explorer</a>
+  <a href="#enrichment" data-screen="enrichment">7. AI enrichment</a>
+  <a href="#reports" data-screen="reports">8. Reports</a>
+  <a href="#compare" data-screen="compare">9. Compare runs</a>
+  <span class="spacer"></span>
+  <button type="button" id="theme-toggle" aria-label="Switch light or dark theme">Theme</button>
+</nav>
+<div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+<main id="screen" tabindex="-1"></main>
+<footer>legacy-audit <span id="version"></span>. Runs on this computer only; no data leaves it. Scripts count, AI interprets.</footer>
+</body>
+</html>

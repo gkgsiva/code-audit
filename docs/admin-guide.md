@@ -1,0 +1,153 @@
+# Admin guide
+
+For whoever installs legacy-audit for a team, keeps the vulnerability data current, sets the
+branding and maintains the rule packs. Analysts start with [user-guide.md](user-guide.md).
+
+## Install
+
+Only Python 3.11+ is required. Everything else is optional and `legacy-audit doctor` says what
+each missing tool costs.
+
+| Tool | Needed for | Without it |
+| --- | --- | --- |
+| Python 3.11+ | everything | — |
+| Corporate `.potx` templates in `templates/` (shipped with the tool) | `deck.pptx` | the PPTX is skipped with a message; the HTML deck still works |
+| Node.js 18+ and Mermaid CLI (`mmdc`) | diagram pictures inside the PPTX | the PPTX slide carries the Mermaid text in its notes |
+| OWASP Dependency-Check or OSV-Scanner | vulnerability data during the scan | import their JSON reports into `audit-inputs/security/` instead |
+| JDK 17+ (`jdeps`) | Java 25 internal-API checks on jars (`security.jdk_tools.enabled`) | the check is skipped and listed as a coverage gap |
+| Git | Git sources (`source.type: git`) | use local folders |
+
+### With pipx (recommended on laptops)
+
+```
+pipx install legacy_audit-<version>-py3-none-any.whl
+legacy-audit doctor
+```
+
+`pipx` keeps the tool in its own environment and puts `legacy-audit` on PATH. Build the wheel from
+a checkout with `python -m pip wheel . --no-deps -w dist` (or `python -m build`).
+
+### With a virtual environment
+
+```
+python -m venv .venv
+.venv\Scripts\pip install legacy_audit-<version>-py3-none-any.whl      (Windows)
+.venv/bin/pip install legacy_audit-<version>-py3-none-any.whl          (Linux/macOS)
+```
+
+### Offline install (no access to PyPI or npm)
+
+On a machine with access, collect everything once:
+
+```
+pip wheel legacy_audit-<version>-py3-none-any.whl -w wheelhouse
+```
+
+Copy `wheelhouse/` to the offline machine (the PowerPoint templates are inside the wheel):
+
+```
+pip install --no-index --find-links wheelhouse legacy-audit
+```
+
+Wheels with compiled parts (`tree-sitter`, `pydantic-core`) are per platform and Python version:
+build the wheelhouse on the same OS and Python minor version as the laptops (Windows x64,
+Python 3.11 or 3.13). For the PPTX builder, either copy `node_modules` next to `build-pptx.js`
+or point `LEGACY_AUDIT_PPTX_DIR` at a folder that has it. `LEGACY_AUDIT_NODE` and
+`LEGACY_AUDIT_MMDC` override where Node and Mermaid CLI are found.
+
+## Vulnerability database
+
+The scan never downloads anything. Vulnerability data comes from tools you run or reports you
+import (decision 8).
+
+- **Dependency-Check**: install it, then point the config at it and at a local NVD copy:
+
+  ```yaml
+  security:
+    dependency_check:
+      path: C:/tools/dependency-check/bin/dependency-check.bat   # or on PATH
+      data_dir: D:/nvd                  # local database (--data)
+      nvd_mirror_url: https://nvd-mirror.example.internal/      # team mirror, for syncing
+      offline: true                     # never update during a scan (default)
+  ```
+
+  Sync the database explicitly, outside a scan, for example weekly:
+  `dependency-check --updateonly --data D:/nvd` (add `--nvdDatafeed <mirror>` for a mirror).
+  Each run records the database date in `run.json` (`vulnerability_sources`) and the reports print
+  it, so stale data is visible.
+- **OSV-Scanner** (version 2.x), the default and quickest setup: `security.osv_scanner.path` and
+  `offline: false` (the default since decision 127). The scan then runs `osv-scanner --experimental-plugins java/archive` without
+  `--offline`, so OSV-Scanner queries the osv.dev API during the scan (package names and versions
+  only, no source) and no database has to be downloaded. Needs outbound HTTPS to `api.osv.dev`;
+  it is the one network use at scan time and only when chosen (decision 127). One scanner is
+  enough; set `dependency_check.enabled: false` to show Dependency-Check as "turned off" rather
+  than "not installed".
+- **OSV-Scanner** offline (no network at scan time): `security.osv_scanner.path` and, optionally,
+  `data_dir` with `offline: true`. The scan runs `osv-scanner --offline --experimental-plugins java/archive`
+  (jar files as well as build files); `data_dir` is passed as `OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY`.
+  Refresh the local database on a schedule with the same variable set:
+  `osv-scanner scan source --offline-vulnerabilities --download-offline-databases
+  --experimental-plugins java/archive -r <code folder>`.
+- **Imported reports**: put Dependency-Check `JSON` or OSV-Scanner JSON output in
+  `audit-inputs/security/`; the run imports them and says so in the coverage list.
+
+## Branding
+
+```yaml
+branding:
+  theme: neutral
+  logo: branding/logo.png          # relative to audit.yaml; shown on the decks
+  primary_color: "#1f4e79"
+  accent_color: "#2e75b6"
+  font: "Segoe UI, Arial, sans-serif"
+  pptx_template: blue              # PowerPoint template: blue, orange, purple or a .potx path
+```
+
+Share one `branding:` block across teams by copying it into each `audit.yaml`. Colours and font
+are checked before they reach the HTML (no CSS can be injected through them).
+
+### PowerPoint templates
+
+The PPTX is always built on a corporate template, never on a generic design. The three Renault
+Group templates (`RG_TEMPLATE_PPT_HD_BLUE/ORANGE/PURPLE.potx`) live in `templates/` and are packaged
+into the wheel; the reports page and `--template` offer them as Blue, Orange and Purple. To add or
+replace a template, drop the `.potx` into `templates/` (or point `LEGACY_AUDIT_TEMPLATES_DIR` at a
+folder of them). A template must have the slide layouts `COVER_1`, `SUMMARY`, `CHAPTER_1` to
+`CHAPTER_4`, `TEXT`, `TEXT_DOUBLE` and `END` with the same placeholders as the Renault Group ones;
+otherwise the PPTX fails with a message naming what is missing. `branding.logo`, colours and font do
+not apply to the PPTX: the template's own logo, theme colours and fonts are used.
+
+## Rule packs
+
+See [rules.md](rules.md). Keep team packs in a shared folder and set `rules.packs_dir` so tool
+upgrades never overwrite them. Review `rules/eol.yaml` and `rules/dependency-upgrades.yaml` at
+least every quarter: end-of-life dates and upgrade targets change (`verify: true` marks targets to
+confirm).
+
+## Performance and large estates
+
+- `inventory.workers`: processes used to analyse files and grade SQL. `0` (default) uses one per
+  CPU less one, at most 8. `1` runs in a single process (useful on a shared build server).
+- `inventory.max_file_size_mb` (default 20): larger files are hashed and counted but not read;
+  each becomes a `file-too-large` finding.
+- `inventory.skip_build_output` (default `true`): compiler and IDE output is left out so nothing
+  is counted twice: `bin/`, `classes/`, `obj/`, `Debug/`, `Release/` (and similar) folders that
+  hold compiled files (`.class`, `.o`, executables) and no source or script, Eclipse output
+  folders declared in `.classpath`, and `.c`/`.cob`/`.java` files generated next to a Pro*C
+  `.pc`, Pro*COBOL `.pco` or SQLJ `.sqlj` source. Each becomes an `info` `build-output-skipped`
+  finding. A Unix `bin/` of ksh scripts is kept.
+- Re-runs reuse `audit-output/cache/` (per-file results and SQL grades). `legacy-audit
+  purge-cache -c audit.yaml` clears it; the next run is a full scan.
+- Measured numbers are in [performance.md](performance.md).
+
+## The GUI on a shared machine
+
+`legacy-audit serve` listens on `127.0.0.1` only and refuses requests from other host names and
+cross-site pages. It is meant for one analyst on their own laptop; to share results, share the
+reports folder or the data pack (ZIP), not the GUI.
+
+## Logs and secrets
+
+Each run writes `audit-output/runs/<id>/logs/scan.log`. Git tokens are read from the environment
+variable named in `token_env` and never written to config, outputs or logs; credentials found in
+scanned files are masked (`****`) in every output, the data pack and the GUI's source viewer.

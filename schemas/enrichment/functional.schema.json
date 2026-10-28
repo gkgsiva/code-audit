@@ -1,0 +1,830 @@
+{
+  "$defs": {
+    "Actor": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "integration_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Integration Ids",
+          "type": "array"
+        },
+        "kind": {
+          "enum": [
+            "user",
+            "external-system",
+            "scheduler",
+            "operator"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "description": "A user role, an external system, a scheduler or an operator",
+          "title": "Name",
+          "type": "string"
+        },
+        "screen_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Screen Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "kind"
+      ],
+      "title": "Actor",
+      "type": "object"
+    },
+    "BatchStep": {
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "description": "What the step does, in business words",
+          "title": "Description",
+          "type": "string"
+        },
+        "fact_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "order": {
+          "title": "Order",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "order",
+        "description"
+      ],
+      "title": "BatchStep",
+      "type": "object"
+    },
+    "BatchStory": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "business_impact": {
+          "default": "",
+          "description": "What the business feels if it does not run",
+          "title": "Business Impact",
+          "type": "string"
+        },
+        "controls": {
+          "description": "Checks, totals, reconciliations and error exits found in the code",
+          "items": {
+            "type": "string"
+          },
+          "title": "Controls",
+          "type": "array"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "inputs": {
+          "description": "Data it reads, business words",
+          "items": {
+            "type": "string"
+          },
+          "title": "Inputs",
+          "type": "array"
+        },
+        "job_id": {
+          "description": "The batch flow's id: the box or job (batch_job:...), or for batch work no scheduler starts, the batch component (component:...) or, when it has several entry points, the entry point (file:... script, entry:... main, service:... program), a program outside any component (service:...) or a listener (entry:...)",
+          "title": "Job Id",
+          "type": "string"
+        },
+        "on_failure": {
+          "default": "",
+          "description": "What happens and who acts when it fails",
+          "title": "On Failure",
+          "type": "string"
+        },
+        "outputs": {
+          "description": "Data it produces",
+          "items": {
+            "type": "string"
+          },
+          "title": "Outputs",
+          "type": "array"
+        },
+        "programs": {
+          "description": "What each program or script it runs does",
+          "items": {
+            "$ref": "#/$defs/ProgramNote"
+          },
+          "title": "Programs",
+          "type": "array"
+        },
+        "purpose": {
+          "description": "Why the batch exists, in business words",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "restart": {
+          "default": "",
+          "description": "How it is re-run after a failure, if the code says",
+          "title": "Restart",
+          "type": "string"
+        },
+        "steps": {
+          "items": {
+            "$ref": "#/$defs/BatchStep"
+          },
+          "title": "Steps",
+          "type": "array"
+        },
+        "when": {
+          "default": "",
+          "description": "When it runs, in business words",
+          "title": "When",
+          "type": "string"
+        }
+      },
+      "required": [
+        "job_id",
+        "purpose"
+      ],
+      "title": "BatchStory",
+      "type": "object"
+    },
+    "BuiltFrom": {
+      "additionalProperties": false,
+      "properties": {
+        "facts_hash_by_input": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "sha256 of each fact file (and 'stage:<name>' of each upstream stage)",
+          "title": "Facts Hash By Input",
+          "type": "object"
+        },
+        "run_id": {
+          "title": "Run Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "run_id",
+        "facts_hash_by_input"
+      ],
+      "title": "BuiltFrom",
+      "type": "object"
+    },
+    "BusinessRule": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "The rule in business words: when..., then...",
+          "title": "Description",
+          "type": "string"
+        },
+        "domain": {
+          "default": "",
+          "title": "Domain",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "fact_ids": {
+          "description": "Services, screens, SQL...",
+          "items": {
+            "type": "string"
+          },
+          "title": "Fact Ids",
+          "type": "array"
+        },
+        "id": {
+          "description": "BR-01, BR-02...",
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "validation",
+            "calculation",
+            "eligibility",
+            "status-change",
+            "limit",
+            "notification",
+            "other"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "kind"
+      ],
+      "title": "BusinessRule",
+      "type": "object"
+    },
+    "Capability": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "description": {
+          "description": "What the business does here, in business words",
+          "title": "Description",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "job_ids": {
+          "description": "batch_job ids",
+          "items": {
+            "type": "string"
+          },
+          "title": "Job Ids",
+          "type": "array"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "screen_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Screen Ids",
+          "type": "array"
+        },
+        "service_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Service Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "description"
+      ],
+      "title": "Capability",
+      "type": "object"
+    },
+    "DataEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "db_object_ids": {
+          "description": "Tables that hold it",
+          "items": {
+            "type": "string"
+          },
+          "title": "Db Object Ids",
+          "type": "array"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "domain": {
+          "default": "",
+          "title": "Domain",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "name": {
+          "description": "Business name, e.g. 'Customer invoice'",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "DataEntity",
+      "type": "object"
+    },
+    "Domain": {
+      "additionalProperties": false,
+      "properties": {
+        "capabilities": {
+          "items": {
+            "$ref": "#/$defs/Capability"
+          },
+          "title": "Capabilities",
+          "type": "array"
+        },
+        "components": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "description": {
+          "default": "",
+          "title": "Description",
+          "type": "string"
+        },
+        "name": {
+          "description": "Business domain, e.g. Orders, Billing, Settlement",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Domain",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "GlossaryTerm": {
+      "additionalProperties": false,
+      "properties": {
+        "meaning": {
+          "title": "Meaning",
+          "type": "string"
+        },
+        "term": {
+          "title": "Term",
+          "type": "string"
+        }
+      },
+      "required": [
+        "term",
+        "meaning"
+      ],
+      "title": "GlossaryTerm",
+      "type": "object"
+    },
+    "Interface": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "data_exchanged": {
+          "default": "",
+          "title": "Data Exchanged",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "integration_id": {
+          "title": "Integration Id",
+          "type": "string"
+        },
+        "partner": {
+          "description": "Who is on the other side, in business words",
+          "title": "Partner",
+          "type": "string"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "integration_id",
+        "partner",
+        "purpose"
+      ],
+      "title": "Interface",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "default": "copilot-agent",
+          "title": "Author",
+          "type": "string"
+        },
+        "built_from": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BuiltFrom"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Stamped by `legacy-audit validate`; leave it out when (re)writing"
+        },
+        "generated_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Generated At"
+        },
+        "overrides_noted": {
+          "description": "Overrides from audit-overrides.yaml (run.json > overrides) this stage took into account",
+          "items": {
+            "type": "string"
+          },
+          "title": "Overrides Noted",
+          "type": "array"
+        },
+        "schema_version": {
+          "default": "1",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "stage": {
+          "title": "Stage",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage"
+      ],
+      "title": "Meta",
+      "type": "object"
+    },
+    "ProgramNote": {
+      "additionalProperties": false,
+      "properties": {
+        "fact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Its service, file or entry-point id",
+          "title": "Fact Id"
+        },
+        "name": {
+          "description": "Program, script or SQL file the batch runs",
+          "title": "Name",
+          "type": "string"
+        },
+        "what_it_does": {
+          "description": "What it does in business words, from its code and its comments",
+          "title": "What It Does",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "what_it_does"
+      ],
+      "title": "ProgramNote",
+      "type": "object"
+    },
+    "ScreenStory": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "data_shown": {
+          "default": "",
+          "title": "Data Shown",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "next_steps": {
+          "default": "",
+          "description": "Where the user goes next and why",
+          "title": "Next Steps",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "What the user does on this screen, in plain words",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "screen_id": {
+          "title": "Screen Id",
+          "type": "string"
+        },
+        "user_actions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "User Actions",
+          "type": "array"
+        }
+      },
+      "required": [
+        "screen_id",
+        "purpose"
+      ],
+      "title": "ScreenStory",
+      "type": "object"
+    },
+    "UseCase": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "description": "Name of an actor above",
+          "title": "Actor",
+          "type": "string"
+        },
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "domain": {
+          "default": "",
+          "title": "Domain",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "goal": {
+          "title": "Goal",
+          "type": "string"
+        },
+        "id": {
+          "description": "UC-01, UC-02...",
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "description": "Verb + object, e.g. 'Search orders'",
+          "title": "Name",
+          "type": "string"
+        },
+        "outcome": {
+          "default": "",
+          "title": "Outcome",
+          "type": "string"
+        },
+        "screen_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Screen Ids",
+          "type": "array"
+        },
+        "service_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Service Ids",
+          "type": "array"
+        },
+        "steps": {
+          "description": "What the user does, in order",
+          "items": {
+            "type": "string"
+          },
+          "title": "Steps",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "actor",
+        "goal"
+      ],
+      "title": "UseCase",
+      "type": "object"
+    },
+    "WebServiceStory": {
+      "additionalProperties": false,
+      "properties": {
+        "assumption": {
+          "default": false,
+          "title": "Assumption",
+          "type": "boolean"
+        },
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "migration": {
+          "default": "",
+          "description": "Suggested target (data/target.json), one line, e.g. 'Spring Boot 4 REST controller' or 'kept as it is on WildFly 41'; empty when the target is none",
+          "title": "Migration",
+          "type": "string"
+        },
+        "partner": {
+          "default": "",
+          "description": "Offered: who calls it; called: the system that provides it, in business words",
+          "title": "Partner",
+          "type": "string"
+        },
+        "purpose": {
+          "description": "What it is for, one sentence for business readers",
+          "title": "Purpose",
+          "type": "string"
+        },
+        "web_service_id": {
+          "title": "Web Service Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "web_service_id",
+        "purpose"
+      ],
+      "title": "WebServiceStory",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/enrichment/functional.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "actors": {
+      "items": {
+        "$ref": "#/$defs/Actor"
+      },
+      "title": "Actors",
+      "type": "array"
+    },
+    "batches": {
+      "items": {
+        "$ref": "#/$defs/BatchStory"
+      },
+      "title": "Batches",
+      "type": "array"
+    },
+    "business_rules": {
+      "items": {
+        "$ref": "#/$defs/BusinessRule"
+      },
+      "title": "Business Rules",
+      "type": "array"
+    },
+    "data_entities": {
+      "items": {
+        "$ref": "#/$defs/DataEntity"
+      },
+      "title": "Data Entities",
+      "type": "array"
+    },
+    "domains": {
+      "items": {
+        "$ref": "#/$defs/Domain"
+      },
+      "title": "Domains",
+      "type": "array"
+    },
+    "glossary": {
+      "items": {
+        "$ref": "#/$defs/GlossaryTerm"
+      },
+      "title": "Glossary",
+      "type": "array"
+    },
+    "interfaces": {
+      "items": {
+        "$ref": "#/$defs/Interface"
+      },
+      "title": "Interfaces",
+      "type": "array"
+    },
+    "meta": {
+      "$ref": "#/$defs/Meta"
+    },
+    "screens": {
+      "items": {
+        "$ref": "#/$defs/ScreenStory"
+      },
+      "title": "Screens",
+      "type": "array"
+    },
+    "summary": {
+      "description": "What the application does for the business, one paragraph",
+      "title": "Summary",
+      "type": "string"
+    },
+    "use_cases": {
+      "items": {
+        "$ref": "#/$defs/UseCase"
+      },
+      "title": "Use Cases",
+      "type": "array"
+    },
+    "web_services": {
+      "description": "One entry per row of web_services.json",
+      "items": {
+        "$ref": "#/$defs/WebServiceStory"
+      },
+      "title": "Web Services",
+      "type": "array"
+    }
+  },
+  "required": [
+    "meta",
+    "summary"
+  ],
+  "title": "Functional",
+  "type": "object"
+}

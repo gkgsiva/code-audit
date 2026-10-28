@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net6.0-windows7.0": {
+      "Dapper": {"type": "Direct", "requested": "[2.0.123, )", "resolved": "2.0.123"},
+      "Microsoft.EntityFrameworkCore.SqlServer": {"type": "Direct", "requested": "[6.0.10, )", "resolved": "6.0.10"},
+      "System.Data.SqlClient": {"type": "Direct", "requested": "[4.8.3, )", "resolved": "4.8.3"},
+      "Microsoft.Data.SqlClient": {"type": "Transitive", "resolved": "2.1.4"}
+    }
+  }
+}

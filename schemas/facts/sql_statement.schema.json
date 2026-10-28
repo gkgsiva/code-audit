@@ -1,0 +1,253 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "PgGrade": {
+      "enum": [
+        "auto",
+        "review",
+        "manual"
+      ],
+      "title": "PgGrade",
+      "type": "string"
+    }
+  },
+  "$id": "legacy-audit/facts/sql_statement.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "built_with": {
+      "description": "How the text was rebuilt: concatenation, string-builder, string-format, conditional, ternary, reassignment, string-statement (COBOL STRING), prepare-from-variable, <mapper>-dynamic-tags, variable (not followed)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Built With",
+      "type": "array"
+    },
+    "component": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Component"
+    },
+    "dialect": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Dialect"
+    },
+    "dynamic": {
+      "default": false,
+      "description": "Text is built at run time (holes, optional parts)",
+      "title": "Dynamic",
+      "type": "boolean"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "file": {
+      "title": "File",
+      "type": "string"
+    },
+    "fingerprint": {
+      "default": "",
+      "description": "Hash of the normalized text; equal = distinct",
+      "title": "Fingerprint",
+      "type": "string"
+    },
+    "fragments": {
+      "default": 1,
+      "description": "Code fragments the text was rebuilt from",
+      "title": "Fragments",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "line": {
+      "title": "Line",
+      "type": "integer"
+    },
+    "normalized": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Normalized"
+    },
+    "optional_fragments": {
+      "default": 0,
+      "description": "Fragments added only on some code paths",
+      "title": "Optional Fragments",
+      "type": "integer"
+    },
+    "parsed": {
+      "default": true,
+      "title": "Parsed",
+      "type": "boolean"
+    },
+    "pg_grade": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/PgGrade"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "pg_text": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Suggested PostgreSQL text (auto and review)",
+      "title": "Pg Text"
+    },
+    "procedures": {
+      "description": "Procedures it calls",
+      "items": {
+        "type": "string"
+      },
+      "title": "Procedures",
+      "type": "array"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Why the grade is not auto",
+      "title": "Reason"
+    },
+    "source": {
+      "default": "unknown",
+      "description": "jdbc, jdbc-template, hql, jpql, native, mybatis, ibatis, hibernate, spring-data, spring-xml, sql-file, plsql, embedded (Pro*C/COBOL), script, java-string, odbc, oci, libpq, mysql, sqlite (C API calls), c-string, ado, dao, rdo (VB6), ado.net, dapper, ef-raw, entity-framework (.NET), vb-string, cs-string, aspx-datasource",
+      "title": "Source",
+      "type": "string"
+    },
+    "structural_holes": {
+      "default": 0,
+      "description": "Parts of the statement itself (columns, tables, clauses) only known at run time (shown as ?)",
+      "title": "Structural Holes",
+      "type": "integer"
+    },
+    "tables": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tables",
+      "type": "array"
+    },
+    "text": {
+      "default": "",
+      "description": "Statement text (bind variables as written), max 4000",
+      "title": "Text",
+      "type": "string"
+    },
+    "type": {
+      "description": "SELECT, INSERT, UPDATE, DELETE, MERGE, CALL, ...",
+      "title": "Type",
+      "type": "string"
+    },
+    "value_holes": {
+      "default": 0,
+      "description": "Values concatenated into the text (shown as ?): injection risk",
+      "title": "Value Holes",
+      "type": "integer"
+    },
+    "variants": {
+      "description": "Other texts the statement takes at run time (without optional parts, other branches); at most 5",
+      "items": {
+        "type": "string"
+      },
+      "title": "Variants",
+      "type": "array"
+    },
+    "vendor_features": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Vendor Features",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "file",
+    "line",
+    "type"
+  ],
+  "title": "SqlStatement",
+  "type": "object"
+}

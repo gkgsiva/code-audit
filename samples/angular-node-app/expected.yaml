@@ -1,0 +1,120 @@
+# Exact counts the scanner must produce for this sample (checked by tests/test_samples.py).
+# Angular 17 front end (orders-web), Express and NestJS APIs on Node.js (orders-api,
+# billing-api), an AngularJS 1.5 WAR (legacy-portal) and the server configuration in deploy/.
+#
+# Checked by hand:
+# - 63 files; chart.min.js is skipped as minified (finding build-output-skipped); the two lock
+#   files count as files with 0 lines (decision 129).
+# - Screens: the 3 routed Angular pages and the 2 routed AngularJS views; the app shells, the
+#   inline-template header and the account-summary component are partials (decision 130).
+# - Services: Express routes with their app.use() mount prefix, NestJS routes with the global
+#   prefix 'api', and the two scheduled jobs (node-cron, @Cron).
+# - SQL: 4 raw (pg pool, TypeORM query, $executeRaw...), the rest are ORM calls kept as
+#   readable text (not_parsed).
+# - The https://*-api.acme.local/api integrations are the API base URLs in
+#   orders-web/src/environments/environment.prod.ts.
+
+inventory:
+  files: 63
+  input_files: 0
+  loc: {code: 698, comment: 18, blank: 68}
+  by_language:
+    css: {files: 1, code: 5, comment: 0, blank: 0}
+    dockerfile: {files: 2, code: 9, comment: 0, blank: 0}
+    html: {files: 9, code: 77, comment: 0, blank: 0}
+    ini: {files: 2, code: 29, comment: 1, blank: 5}
+    javascript: {files: 3, code: 42, comment: 6, blank: 0}
+    json: {files: 7, code: 108, comment: 0, blank: 0}
+    lockfile: {files: 2, code: 0, comment: 0, blank: 0}
+    markdown: {files: 1, code: 0, comment: 4, blank: 1}
+    prisma: {files: 1, code: 16, comment: 0, blank: 3}
+    text: {files: 1, code: 0, comment: 1, blank: 0}
+    typescript: {files: 25, code: 335, comment: 6, blank: 59}
+    xml: {files: 9, code: 77, comment: 0, blank: 0}
+  by_category: {build: 6, config: 17, doc: 2, screen: 9, source: 28, test: 1}
+components:
+- {name: billing-api, type: api, files: 8, detected_by: build-file}
+- {name: deploy, type: config, files: 9, detected_by: folder}
+- {name: legacy-portal, type: frontend, files: 12, detected_by: build-file}
+- {name: orders-api, type: api, files: 12, detected_by: build-file}
+- {name: orders-web, type: frontend, files: 22, detected_by: build-file}
+component_roles:
+  billing-api: [api, batch]
+  deploy: [config]
+  legacy-portal: [frontend]
+  orders-api: [api, batch]
+  orders-web: [frontend]
+unscheduled_batches: []
+coverage: {autosys: missing, mq: missing, cft: missing, ddl: missing, crontab: missing, server-config: missing,
+  security: missing, dependency-check: missing, osv-scanner: missing}
+counts:
+  services:
+    total: 11
+    by_kind: {batch-job: 2, nest-route: 3, node-route: 6}
+  screens:
+    total: 5
+    partials: 4
+    by_technology: {angular: 3, angularjs: 2}
+  sql:
+    total: 10
+    distinct: 9
+    by_type: {DELETE: 1, INSERT: 2, SELECT: 5, UPDATE: 2}
+    by_source: {node-db: 4, prisma: 3, typeorm: 3}
+    dynamic: 1
+    not_parsed: 6
+  stored_procedures: 0
+  db_objects: {table: 4}
+  integrations:
+    total: 7
+    by_type: {DB: 2, HTTP: 5}
+  web_services:
+    total: 6
+    offered: 4
+    called: 2
+    by_style: {REST called: 2, REST offered: 4}
+    operations: 11
+  batch_jobs:
+    total: 2
+    scheduled: 2
+    unscheduled: 0
+    boxes: 0
+    by_scheduler: {node-cron: 2}
+  libraries: {total: 30, declared: 26, undeclared: 4}
+  entry_points: {angular-app: 1, angularjs-app: 1, node-server: 2}
+  dependencies: {resolved: 45, unresolved: 0}
+  findings: {build-output-skipped: 1, eol-library: 2, eol-technology: 8, no-tests: 3, server-specific-config: 8}
+services: ['batch-job: month-end-close', 'batch-job: purge-old-orders', 'nest-route: GET /api/invoices', 'nest-route:
+    GET /api/invoices/:id', 'nest-route: POST /api/invoices', 'node-route: DELETE /api/orders/:id', 'node-route:
+    GET /api/customers/:id', 'node-route: GET /api/orders', 'node-route: GET /api/orders/:id', 'node-route: GET
+    /health', 'node-route: POST /api/orders']
+screens: [HeaderComponent (partial), legacy-portal/WebContent/index.html (partial), legacy-portal/WebContent/views/account-detail.html,
+  legacy-portal/WebContent/views/account-summary.html (partial), legacy-portal/WebContent/views/accounts.html, orders-web/src/app/app.component.html
+    (partial), orders-web/src/app/orders/order-detail.component.html, orders-web/src/app/orders/order-list.component.html,
+  orders-web/src/app/reports/reports.component.html]
+integrations: ['DB oracle://portaldb.acme.local:1521/PORTAL [outbound]', 'DB postgres://ordersdb.acme.local:5432/orders
+    [outbound]', 'HTTP https://acme.okta.com/oauth2/default [outbound]', 'HTTP https://billing-api.acme.local/api
+    [outbound]', 'HTTP https://geo.acme.local/api/v1/geocode [outbound]', 'HTTP https://orders-api.acme.local/api
+    [outbound]', 'HTTP https://payments.acme.local/api/v1/charges [outbound]']
+integration_purposes: {'DB oracle://portaldb.acme.local:1521/PORTAL': database, 'DB postgres://ordersdb.acme.local:5432/orders': database,
+  'HTTP https://acme.okta.com/oauth2/default': login / authentication, 'HTTP https://billing-api.acme.local/api': HTTP
+    API, 'HTTP https://geo.acme.local/api/v1/geocode': HTTP API, 'HTTP https://orders-api.acme.local/api': HTTP
+    API, 'HTTP https://payments.acme.local/api/v1/charges': HTTP API}
+web_services: ['called REST: geo.acme.local (1 ops)', 'called REST: payments.acme.local (1 ops)', 'offered REST: InvoicesController
+    (3 ops)', 'offered REST: customers (1 ops)', 'offered REST: orders (4 ops)', 'offered REST: server
+    (1 ops)']
+batch_jobs: ['node-cron job: month-end-close', 'node-cron job: purge-old-orders']
+unresolved_references: 0
+assessment:
+  findings_by_severity: {info: 1, low: 11, medium: 10}
+  pg_grades: {auto: 9, review: 1}
+  complexity:
+    services: {Medium: 1, Simple: 10}
+    screens: {Simple: 5}
+    batch_jobs: {Simple: 2}
+  vulnerable_libraries:
+    total: 0
+    by_severity: {}
+    vulnerabilities: 0
+  eol_libraries: 2
+  recommendations: {keep: 27, replace: 1, rewrite: 1, upgrade: 1}
+

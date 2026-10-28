@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "ComponentType": {
+      "enum": [
+        "web",
+        "frontend",
+        "api",
+        "desktop",
+        "batch",
+        "cft",
+        "script",
+        "report",
+        "library",
+        "db",
+        "config",
+        "online-mainframe",
+        "unknown"
+      ],
+      "title": "ComponentType",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "description": "Where a fact was found. ``line`` is None when the fact is about the whole file.",
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Line"
+        },
+        "snippet": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Snippet"
+        }
+      },
+      "required": [
+        "file"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "$id": "legacy-audit/facts/component.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifact": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Maven artifactId or Gradle project name",
+      "title": "Artifact"
+    },
+    "build_files": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Build Files",
+      "type": "array"
+    },
+    "build_group": {
+      "description": "Maven parent / aggregator poms or Gradle root projects the module sits in, outermost first (``[acme-parent, acme-batches]``); they are groups, not components",
+      "items": {
+        "type": "string"
+      },
+      "title": "Build Group",
+      "type": "array"
+    },
+    "composition": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "description": "Files by category (source, screen, script, config, sql, job, ...)",
+      "title": "Composition",
+      "type": "object"
+    },
+    "detected_by": {
+      "description": "build-file, folder, root, batch-shared, grouped, config or override",
+      "title": "Detected By",
+      "type": "string"
+    },
+    "entry_points": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Entry Points",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "files": {
+      "default": 0,
+      "title": "Files",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "loc_code": {
+      "default": 0,
+      "title": "Loc Code",
+      "type": "integer"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "packaging": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Maven packaging (jar, war, ear, ...)",
+      "title": "Packaging"
+    },
+    "parts": {
+      "description": "Folders grouped into this component (decision 176): the library modules a deployable uses, or part folders of one technology (cobol + bms, jcl + proclib, the folders beside the modules of a Maven group); empty when it is one folder",
+      "items": {
+        "type": "string"
+      },
+      "title": "Parts",
+      "type": "array"
+    },
+    "path": {
+      "description": "Component folder relative to the source root ('' = root)",
+      "title": "Path",
+      "type": "string"
+    },
+    "roles": {
+      "description": "Every kind of work found in the component (web, frontend, api, batch, desktop, online-mainframe, cft, db, config, script, library); ``type`` is the main one. A Struts web module with batch scripts has roles [batch, web]",
+      "items": {
+        "type": "string"
+      },
+      "title": "Roles",
+      "type": "array"
+    },
+    "root": {
+      "description": "Source root name",
+      "title": "Root",
+      "type": "string"
+    },
+    "technology": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Technology",
+      "type": "array"
+    },
+    "type": {
+      "$ref": "#/$defs/ComponentType",
+      "default": "unknown"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "root",
+    "path",
+    "detected_by"
+  ],
+  "title": "Component",
+  "type": "object"
+}

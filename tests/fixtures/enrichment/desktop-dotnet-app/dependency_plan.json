@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "stage": "dependency_plan",
+    "author": "copilot-agent"
+  },
+  "themes": [
+    {
+      "name": "Retire VB6 COM and ActiveX",
+      "library_ids": [
+        "library:2d6e0ff0fb3bbaf2",
+        "library:07bed656119b1332",
+        "library:d19f17642d5e5378",
+        "library:b57620938fc2d17c"
+      ],
+      "action": "Rebuild the controls as Angular Material components; ADO and MSXML calls move to the Spring Boot API",
+      "wave": "Wave 2",
+      "rationale": "COM and ActiveX do not run on GCP.",
+      "evidence": [
+        {
+          "file": "billing-desk-vb6/BillingDesk.vbp",
+          "line": 3
+        }
+      ]
+    },
+    {
+      "name": "Replace .NET data access",
+      "library_ids": [
+        "library:d70b59bb9201b671",
+        "library:b5f6d8e8cd9c35f1",
+        "library:f0c860c87ea56bcc",
+        "library:56cbc9d38eddfeb0",
+        "library:4081ccd117149b9a",
+        "library:ee0a9ca44b46805a",
+        "library:7b295ce6c12d7905"
+      ],
+      "action": "Spring Data JPA or JdbcTemplate on PostgreSQL",
+      "wave": "Wave 1",
+      "rationale": "Dapper, SqlClient and Entity Framework go with the .NET code.",
+      "assumption": true
+    },
+    {
+      "name": "Logging and JSON",
+      "library_ids": [
+        "library:8e4dbd90055431ca",
+        "library:57c2d4acba024daa"
+      ],
+      "action": "SLF4J with Logback and Jackson, as Spring Boot 4 provides",
+      "wave": "Wave 1",
+      "rationale": "log4net 2.0.8 and Newtonsoft.Json 9.0.1 are old; their Java counterparts come with the platform.",
+      "assumption": true
+    }
+  ]
+}

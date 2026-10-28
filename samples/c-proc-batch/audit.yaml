@@ -1,0 +1,7 @@
+# Sample: nightly settlement batch in C and Pro*C, driven by ksh scripts and cron; files go to
+# the bank with Axway CFT, confirmations come back on IBM MQ.
+application:
+  name: "Settlement (C/Pro*C batch sample)"
+source:
+  type: local
+  paths: ["settlement"]

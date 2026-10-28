@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+*.egg-info/
+# scan outputs of sample apps
+samples/*/audit-output/
+node_modules/
+samples/*/.github/
+samples/*/.vscode/
+# scratch copies made by scripts/scan_without_inputs.py
+build/
+package-lock.json
+# the Angular/Node sample keeps its lock files: the scan reads them (decision 129)
+!samples/*/estate/**/package-lock.json

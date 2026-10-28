@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ app }}: summary</title>
+<style>
+:root{--bg:#f7f7f5;--surface:#ffffff;--surface2:#f0efec;--text:#0b0b0b;--muted:#6d6b66;--border:#e1e0d9;--accent:#2a78d6;--accent-text:#ffffff;
+{% for k, v in palette.items() if "/" not in v %}--c-{{ k }}:#{{ v }};{% endfor %}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#151514;--surface:#1f1f1d;--surface2:#2a2a27;--text:#ecebe6;--muted:#a3a19a;--border:#3a3935;--accent:#5a9be8}}
+:root[data-theme="dark"]{--bg:#151514;--surface:#1f1f1d;--surface2:#2a2a27;--text:#ecebe6;--muted:#a3a19a;--border:#3a3935;--accent:#5a9be8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 "Segoe UI",Arial,sans-serif}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;position:sticky;top:0;z-index:2}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto}
+h1{font-size:22px;margin:0}
+.sub{color:var(--muted);font-size:13px}
+nav{display:flex;flex-wrap:wrap;gap:6px;max-width:1280px;margin:10px auto 0}
+nav a{color:var(--text);text-decoration:none;padding:4px 10px;border:1px solid var(--border);border-radius:999px;font-size:13px}
+nav a:hover{border-color:var(--accent);color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:var(--accent-text);border:0;border-radius:6px;padding:9px 16px;font:600 14px "Segoe UI",Arial,sans-serif;text-decoration:none;cursor:pointer}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.actions select{padding:7px;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text)}
+main{max-width:1280px;margin:0 auto;padding:16px 24px 48px}
+section.part{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:20px 0;border-top:5px solid var(--sec)}
+section.part h2{margin:0 0 4px;font-size:20px}
+.no{color:var(--sec);font-weight:700;margin-right:8px}
+.intro p{margin:6px 0;max-width:90ch}
+.source{color:var(--muted);font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:16px 0}
+.kpi{background:var(--surface2);border-radius:8px;padding:10px 12px}
+.kpi b{display:block;font-size:24px;color:var(--sec)}
+.kpi span{color:var(--muted);font-size:13px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:12px 0}
+.chart{background:var(--surface2);border-radius:8px;padding:10px;min-width:0}
+.chart h3{font-size:14px;margin:0 0 6px}
+.chart .box{position:relative;height:260px}
+h3.t{font-size:16px;margin:22px 0 4px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline}
+h3.t a{font-size:13px;font-weight:400;color:var(--accent)}
+.note{color:var(--muted);font-size:13px;margin:2px 0 8px}
+.tools{margin:6px 0}
+.tools input{padding:6px 8px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);width:min(320px,100%)}
+.wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px;max-height:520px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--surface2);position:sticky;top:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-style:italic}
+.alert{border:1px solid var(--c-warning);border-left:5px solid var(--c-warning);background:var(--surface2);border-radius:8px;padding:10px 14px;margin:12px 0;font-weight:600}
+.msg{font-size:12px;color:var(--muted)}
+@media (max-width:600px){header,main{padding-left:16px;padding-right:16px}section.part{padding:16px}}
+@media print{header{position:static}.actions,.tools{display:none}.wrap{max-height:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div><h1>{{ app }}: summary</h1>
+    <div class="sub">Run {{ run.run_id }} · {{ (run.started_at or "")[:16] | replace("T", " ") }} · Target: {{ target_label }} · figures from the scan, descriptions from the Copilot analysis where marked AI</div></div>
+    <div class="actions">
+      {% if pptx %}<a class="btn" id="pptx" href="{{ pptx }}" download>PowerPoint (PPTX)</a>{% else %}<a class="btn" id="pptx" aria-disabled="true">PowerPoint (PPTX)</a>{% endif %}
+      <span id="gui-tools" hidden><select id="tpl" aria-label="PowerPoint template"></select> <button class="btn ghost" id="rebuild" type="button">Rebuild PowerPoint</button></span>
+      <span class="msg" id="msg">{% if pptx %}Built on the {{ template }} template.{% else %}{{ message }} Build it with: legacy-audit report --type summary{% endif %}</span>
+    </div>
+  </div>
+  <nav>{% for s in sections %}<a href="#{{ s.key }}">{{ loop.index }}. {{ s.title }}</a>{% endfor %}</nav>
+</header>
+<main>
+{% for s in sections %}
+<section class="part" id="{{ s.key }}" style="--sec:var(--c-{{ s.color }})">
+  <h2><span class="no">{{ loop.index }}</span>{{ s.title }}</h2>
+  {% if s.alert %}<p class="alert" role="alert">{{ s.alert }}</p>{% endif %}
+  <div class="intro">{% for p in s.intro if p != s.alert %}<p>{{ p }}</p>{% endfor %}{% if s.source_note %}<p class="source">{{ s.source_note }}</p>{% endif %}</div>
+  <div class="kpis">{% for label, value in s.kpis %}<div class="kpi"><b>{{ fmt(value) }}</b><span>{{ label }}</span></div>{% endfor %}</div>
+  {% if s.charts %}<div class="charts">{% for c in s.charts %}<div class="chart"><h3>{{ c.title }}</h3>{% if c.values %}<div class="box"><canvas id="ch-{{ s.key }}-{{ c.key }}" role="img" aria-label="{{ c.title }}"></canvas></div>{% else %}<p class="empty">Nothing to chart.</p>{% endif %}</div>{% endfor %}</div>{% endif %}
+  {% for t in s.tables %}
+  <h3 class="t" id="{{ s.key }}-{{ t.key }}">{{ t.title }} ({{ t.rows | length }}) <a href="data/{{ t.key }}.csv" download>Download CSV</a></h3>
+  {% if t.note %}<p class="note">{{ t.note }}</p>{% endif %}
+  {% if t.rows %}
+  {% if t.rows | length > 12 %}<div class="tools"><input type="search" placeholder="Filter {{ t.title | lower }}" data-filter="tb-{{ s.key }}-{{ t.key }}" aria-label="Filter {{ t.title }}"></div>{% endif %}
+  <div class="wrap"><table id="tb-{{ s.key }}-{{ t.key }}"><thead><tr>{% for c in t.columns %}<th{% if t.rows[0][loop.index0] is number %} class="num"{% endif %}>{{ c }}</th>{% endfor %}</tr></thead><tbody>
+  {% for r in t.rows %}<tr>{% for v in r %}<td{% if v is number %} class="num"{% endif %}>{{ fmt(v) if v is number else v }}</td>{% endfor %}</tr>
+  {% endfor %}</tbody></table></div>
+  {% else %}<p class="empty">{{ t.empty }}</p>{% endif %}
+  {% endfor %}
+</section>
+{% endfor %}
+</main>
+{% if chart_js %}<script src="assets/{{ chart_js }}"></script>{% endif %}
+<script>
+var CHARTS = {{ charts | tojson }};
+(function () {
+  var css = getComputedStyle(document.documentElement);
+  var text = css.getPropertyValue("--text").trim(), grid = css.getPropertyValue("--border").trim();
+  if (window.Chart) {
+    Chart.defaults.color = text; Chart.defaults.font.family = '"Segoe UI", Arial, sans-serif';
+    CHARTS.forEach(function (c) {
+      var el = document.getElementById("ch-" + c.id);
+      if (!el || !c.values.length) return;
+      var ring = c.kind === "doughnut", hbar = c.kind === "hbar";
+      new Chart(el, {
+        type: ring ? "doughnut" : "bar",
+        data: { labels: c.labels, datasets: [{ label: c.unit || "", data: c.values, backgroundColor: c.colors, borderWidth: ring ? 2 : 0, borderColor: css.getPropertyValue("--surface2").trim() }] },
+        options: {
+          maintainAspectRatio: false, animation: false, indexAxis: hbar ? "y" : "x",
+          plugins: { legend: { display: ring, position: "right" } },
+          scales: ring ? {} : { x: { grid: { color: grid }, ticks: { precision: 0 }, beginAtZero: true }, y: { grid: { color: grid }, ticks: { precision: 0 }, beginAtZero: true } }
+        }
+      });
+    });
+  }
+  document.querySelectorAll("input[data-filter]").forEach(function (inp) {
+    inp.addEventListener("input", function () {
+      var q = inp.value.toLowerCase();
+      document.querySelectorAll("#" + inp.dataset.filter + " tbody tr").forEach(function (tr) {
+        tr.hidden = q && tr.textContent.toLowerCase().indexOf(q) < 0;
+      });
+    });
+  });
+  // Opened from the GUI (legacy-audit serve): offer the template choice and a rebuild.
+  var m = location.protocol.indexOf("http") === 0 && location.pathname.match(/^\/runs\/([^/]+)\/reports\/summary\//);
+  if (!m) return;
+  var run = m[1], msg = document.getElementById("msg"), sel = document.getElementById("tpl");
+  fetch("/api/pptx-templates").then(function (r) { return r.json(); }).then(function (d) {
+    (d.templates || []).forEach(function (t) {
+      var o = document.createElement("option"); o.value = t.id; o.textContent = t.label + " template";
+      if (t.id === d["default"]) o.selected = true; sel.appendChild(o);
+    });
+    if ((d.templates || []).length) document.getElementById("gui-tools").hidden = false;
+  }).catch(function () {});
+  document.getElementById("rebuild").addEventListener("click", function () {
+    msg.textContent = "Building the PowerPoint...";
+    fetch("/api/runs/" + run + "/reports", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "summary", template: sel.value }) })
+      .then(function (r) { return r.json(); }).then(function (job) {
+        if (!job.id) { msg.textContent = "Not built: " + (job.detail || "busy"); return; }
+        (function poll() {
+          fetch("/api/jobs/" + job.id).then(function (r) { return r.json(); }).then(function (j) {
+            if (j.state === "done") { location.reload(); }
+            else if (j.state === "failed" || j.state === "cancelled") { msg.textContent = "Not built: " + (j.error || j.state); }
+            else { setTimeout(poll, 800); }
+          });
+        })();
+      }).catch(function (e) { msg.textContent = "Not built: " + e; });
+  });
+})();
+</script>
+</body>
+</html>

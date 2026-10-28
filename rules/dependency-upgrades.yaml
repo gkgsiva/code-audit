@@ -1,0 +1,171 @@
+# Upgrade recommendations per library, and the dependency findings.
+#
+# For every library the first step that applies gives its recommendation:
+#   1. end of life (rules/eol.yaml)      -> replace (or rewrite for frontend frameworks); an
+#      end-of-life library that Spring Boot 4 manages (Spring, Hibernate) -> use-bom
+#   2. `frontend` entry                  -> its action (rewrite / remove / replace)
+#   3. `jakarta` entry (javax.* artifact) -> migrate-jakarta to the Jakarta EE 11 coordinates
+#   4. `replace` entry (e.g. DB drivers)  -> replace with the target library
+#   5. `boot_managed` entry              -> use-bom: drop the version, Spring Boot 4 manages it
+#   6. known vulnerabilities             -> upgrade to the lowest version that fixes them all
+#   7. otherwise                         -> keep
+# `artifact` and `group` are regexes (full match); `group` is checked only when known.
+# Targets are recorded as data, not looked up: "verify: true" marks a target to confirm.
+pack: dependency
+description: Library upgrades for the target (default Java 25, Spring Boot 4, Jakarta EE 11 and Angular 21).
+
+data:
+  targets:
+    java: "25"
+    spring_boot: "4.1"
+    jakarta_ee: "11"
+    angular: "21"
+
+  recipes:
+    jakarta: org.openrewrite.java.migrate.jakarta.JavaxMigrationToJakarta
+    spring_boot: org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0
+    java: org.openrewrite.java.migrate.UpgradeToJava25
+    log4j: org.openrewrite.java.logging.log4j.Log4j1ToLog4j2
+    commons_lang: org.openrewrite.apache.commons.lang.UpgradeApacheCommonsLang_2_3
+    commons_collections: org.openrewrite.apache.commons.collections.UpgradeApacheCommonsCollections_3_4
+
+  # End-of-life libraries whose replacement has an OpenRewrite recipe.
+  eol_recipes:
+    - {artifact: 'log4j', recipe: log4j}
+    - {artifact: 'commons-lang', recipe: commons_lang}
+    - {artifact: 'commons-collections', recipe: commons_collections}
+
+  frontend:
+    - {artifact: 'angular', action: rewrite, target: 'Angular 21', effort: high, reason: 'AngularJS has no upgrade path; rewrite the screens in Angular 21'}
+    - {artifact: 'jquery(-ui)?', action: remove, target: 'Angular 21', effort: medium, reason: 'DOM scripting is replaced by Angular components'}
+    - {artifact: 'bootstrap', action: replace, target: 'Angular Material or Bootstrap 5', effort: low, reason: 'Use a design system supported by Angular 21'}
+    - {artifact: 'dojo(-core)?', action: rewrite, target: 'Angular 21', effort: high, reason: 'Dojo widgets are rewritten as Angular components'}
+    - {artifact: '@angular/core', action: upgrade, target: 'Angular 21', effort: medium, reason: 'Run ng update one major version at a time up to Angular 21'}
+
+  jakarta:
+    - {artifact: 'servlet-api|javax\.servlet-api', group: 'javax\.servlet', target: 'jakarta.servlet:jakarta.servlet-api:6.1.0'}
+    - {artifact: 'jsp-api|javax\.servlet\.jsp-api', group: 'javax\.servlet(\.jsp)?', target: 'jakarta.servlet.jsp:jakarta.servlet.jsp-api:4.0.0'}
+    - {artifact: 'jstl', group: 'javax\.servlet(\.jsp\.jstl)?', target: 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.2'}
+    - {artifact: 'persistence-api|javax\.persistence(-api)?', group: 'javax\.persistence', target: 'jakarta.persistence:jakarta.persistence-api:3.2.0'}
+    - {artifact: 'validation-api', group: 'javax\.validation', target: 'jakarta.validation:jakarta.validation-api:3.1.0'}
+    - {artifact: 'mail|javax\.mail(-api)?', group: '(javax|com\.sun)\.mail', target: 'jakarta.mail:jakarta.mail-api:2.1.3'}
+    - {artifact: 'jaxb-api', group: 'javax\.xml\.bind', target: 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'}
+    - {artifact: 'jaxws-api', group: 'javax\.xml\.ws', target: 'jakarta.xml.ws:jakarta.xml.ws-api:4.0.2'}
+    - {artifact: 'jms(-api)?', group: 'javax\.jms', target: 'jakarta.jms:jakarta.jms-api:3.1.0'}
+    - {artifact: 'javax\.annotation-api|jsr250-api', group: 'javax\.annotation', target: 'jakarta.annotation:jakarta.annotation-api:3.0.0'}
+    - {artifact: 'javax\.inject', group: 'javax\.inject', target: 'jakarta.inject:jakarta.inject-api:2.0.1'}
+    - {artifact: 'jta|javax\.transaction-api', group: 'javax\.transaction', target: 'jakarta.transaction:jakarta.transaction-api:2.0.1'}
+    - {artifact: 'ejb-api|javax\.ejb-api', group: 'javax\.ejb', target: 'Spring Boot service (no EJB container)', by_target: {wildfly-gke: {target: 'jakarta.ejb:jakarta.ejb-api:4.0.1 (provided by WildFly 41)'}}}
+
+  replace:
+    - {artifact: 'ojdbc\d*', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
+    - {artifact: 'db2jcc\d*|jt400', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
+    - {artifact: 'mysql-connector-java|mssql-jdbc|jtds|sqljdbc\d*', target: 'org.postgresql:postgresql', effort: low, reason: 'Target database is PostgreSQL'}
+    - {artifact: 'axis2(-kernel)?', target: 'Spring Web Services or a REST client', effort: medium, reason: 'Axis2 is not supported on Jakarta EE 11', by_target: {wildfly-gke: {target: 'Jakarta XML Web Services (Apache CXF, built into WildFly 41)'}}}
+
+  # Artifacts whose version the Spring Boot 4 BOM manages.
+  boot_managed:
+    - {group: 'org\.springframework(\.[a-z]+)*', artifact: 'spring-.*'}
+    - {group: 'org\.hibernate(\.orm)?', artifact: 'hibernate-.*'}
+    - {group: 'com\.fasterxml\.jackson(\.[a-z]+)*', artifact: 'jackson-.*'}
+    - {group: 'ch\.qos\.logback', artifact: 'logback-.*'}
+    - {group: 'org\.slf4j', artifact: '.*'}
+    - {group: 'org\.apache\.logging\.log4j', artifact: 'log4j-.*'}
+    - {group: 'org\.flywaydb', artifact: 'flyway-.*'}
+    - {group: 'org\.liquibase', artifact: 'liquibase-.*'}
+    - {group: 'com\.zaxxer', artifact: 'HikariCP'}
+    - {group: 'org\.postgresql', artifact: 'postgresql'}
+    - {group: 'org\.junit(\.[a-z]+)*', artifact: 'junit-.*'}
+    - {group: 'org\.mockito', artifact: 'mockito-.*'}
+    - {group: 'org\.apache\.httpcomponents(\.client5)?', artifact: 'httpclient5?'}
+
+  licenses:
+    risky: ['GPL', 'AGPL', 'LGPL', 'SSPL', 'CC-BY-NC']
+
+  # Who manages the versions of `boot_managed` libraries, and why javax.* must move.
+  bom: {name: 'Spring Boot 4.1', short: 'Spring Boot', manages: 'manages', how: 'managed by', recipe: spring_boot}
+  jakarta_reason: 'javax.* API: Spring Boot 4 runs on Jakarta EE 11'
+
+  # Other targets (audit.yaml > target.profile) replace these keys.
+  profiles:
+    wildfly-gke:
+      # The code moves as it is: front-end libraries stay, Jakarta APIs come from WildFly 41.
+      frontend: []
+      bom: {name: 'WildFly 41', short: 'WildFly 41', manages: 'provides', how: 'provided by', recipe: null,
+            reason: 'WildFly 41 provides this library: mark the dependency provided'}
+      jakarta_reason: 'javax.* API: WildFly 41 runs Jakarta EE 11 (jakarta.* packages)'
+      boot_managed:
+        - {group: 'org\.hibernate(\.orm)?', artifact: 'hibernate-.*'}
+        - {group: 'com\.fasterxml\.jackson(\.[a-z]+)*', artifact: 'jackson-.*'}
+        - {group: 'org\.slf4j', artifact: '.*'}
+        - {group: 'org\.jboss\.(resteasy|weld|logging)(\.[a-z]+)*', artifact: '.*'}
+        - {group: 'org\.apache\.cxf', artifact: 'cxf-.*'}
+        - {group: 'org\.eclipse\.angus', artifact: '.*'}
+    none:
+      # Audit only: no target, so only end of life and known vulnerabilities give advice.
+      frontend: []
+      jakarta: []
+      replace: []
+      boot_managed: []
+
+rules:
+  - id: vulnerable-library
+    severity: high
+    severity_field: max_severity
+    category: security
+    message: "{artifact} {version} has {vulnerability_count} known vulnerabilities ({cves}); OWASP A06 Vulnerable and Outdated Components"
+    remediation: Upgrade to the recommended version (see the library's recommendation).
+    match:
+      entity: libraries
+      where:
+        cves: {empty: false}
+
+  - id: eol-library
+    severity: medium
+    category: dependency
+    message: "{artifact} {version} is end of life since {eol_date}; replace with {replacement}"
+    remediation: "[[eol-library-remediation]]"
+    match:
+      entity: libraries
+      where:
+        eol: true
+
+  - id: eol-technology
+    severity: medium
+    category: dependency
+    message: "{name} {version} is end of life since {eol_date}; [[eol-target]] {replacement}"
+    remediation: "[[eol-remediation]]"
+    match:
+      entity: tech_stack
+      where:
+        eol: true
+
+  - id: license-risk
+    severity: medium
+    category: license
+    message: "{artifact} {version} has licence {license}, which needs legal review"
+    remediation: Check the licence with legal or replace the library.
+    match:
+      entity: libraries
+      where:
+        license_risky: true
+
+  - id: jdk-internal-api
+    severity: high
+    category: java-compat
+    message: "{name} uses JDK internal API {api} (jdeps)"
+    remediation: Replace the internal API with a supported one [[java-move]].
+    match:
+      entity: jdk_findings
+      where:
+        tool: jdeps
+
+  - id: deprecated-for-removal
+    severity: high
+    category: java-compat
+    message: "{name} uses {api}, deprecated for removal (jdeprscan)"
+    remediation: Replace the API [[java-move]].
+    match:
+      entity: jdk_findings
+      where:
+        tool: jdeprscan

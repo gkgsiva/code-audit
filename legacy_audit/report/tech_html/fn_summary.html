@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+{% if fn_summary %}<div class="lead-box"><span class="tag ai-tag pill c5">{{ "From the overview stage" if from_overview else "In plain words" }}</span><p style="margin-top:6px">{{ fn_summary }}</p>{% if users %}<p class="muted" style="margin-top:6px">Used by: {{ users | join(", ") }}</p>{% endif %}</div>{% endif %}
+<div class="tiles">
+{% for t in tiles %}{% if t.href %}<a href="{{ base }}{{ t.href }}" style="text-decoration:none;color:inherit">{{ m.tile(t) }}</a>{% else %}{{ m.tile(t) }}{% endif %}
+{% endfor %}
+</div>
+
+<h2>Capability map</h2>
+{% if domains and domains[0].from_scan %}<p class="note">No business capabilities written yet: components are grouped by the type the scanner gave them.</p>{% endif %}
+<div class="capmap">
+{% for d in domains %}<div class="domain {{ d.color }}"><h3>{{ d.name }}</h3>{% if d.description %}<p>{{ d.description }}</p>{% endif %}
+  {% for cap in d.caps %}<div class="cap"><strong>{{ cap.name }}</strong>{% if cap.description %}<br><span class="muted">{{ cap.description }}</span>{% endif %}
+    {% if cap.flows %}<br>{% for fl in cap.flows %}{% if fl.href %}<a class="pill" href="{{ base }}{{ fl.href }}">{{ fl.name }}</a>{% else %}<span class="pill">{{ fl.name }}</span>{% endif %} {% endfor %}{% endif %}
+  </div>{% endfor %}
+</div>{% endfor %}
+</div>
+
+{% if actors %}<h2>Who uses it</h2>
+<div class="cards">{% for a in actors %}<div class="card {{ a.color }}"><div style="display:flex;gap:10px;align-items:center"><span class="tile" style="border:0;padding:0;background:none"><span class="ico">{{ icon(a.icon) }}</span></span><h3>{{ a.name }}</h3></div><p>{{ a.description }}</p><span class="pill">{{ a.kind }}</span></div>{% endfor %}</div>{% endif %}
+
+<div class="grid2" style="margin-top:16px">
+  {{ m.chart(mix_chart) }}
+  <div class="panel"><h3>Key points</h3>
+  {% if key_points %}<ul class="compact">{% for k in key_points %}<li>{{ k.text }}</li>{% endfor %}</ul>{% else %}<p class="muted">Run <code>/audit-enrich overview</code> for the key points.</p>{% endif %}
+  {% if narrative %}<h3 style="margin-top:14px">What changes for users</h3><p>{{ narrative }}</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

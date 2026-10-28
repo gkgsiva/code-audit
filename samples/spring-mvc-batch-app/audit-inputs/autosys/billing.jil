@@ -1,0 +1,29 @@
+/* Autosys export: billing nightly batch (instance PRD) */
+insert_job: BIL_NIGHTLY_BOX   job_type: BOX
+owner: billing@bilbatch01
+date_conditions: 1
+days_of_week: mo,tu,we,th,fr
+start_times: "01:30"
+description: "Billing nightly cycle"
+
+insert_job: BIL_USAGE_WAIT   job_type: FW
+box_name: BIL_NIGHTLY_BOX
+machine: bilbatch01
+watch_file: /data/billing/in/usage_*.csv
+watch_interval: 60
+
+insert_job: BIL_INVOICE   job_type: CMD
+box_name: BIL_NIGHTLY_BOX
+command: /opt/billing/scripts/run_invoice_job.sh
+machine: bilbatch01
+condition: s(BIL_USAGE_WAIT)
+std_out_file: /var/log/billing/invoice.out
+description: "Price the day's usage and write the invoices"
+alarm_if_fail: 1
+n_retrys: 1
+
+insert_job: BIL_ARCHIVE   job_type: CMD
+box_name: BIL_NIGHTLY_BOX
+command: /opt/billing/scripts/archive_usage.sh
+machine: bilbatch01
+condition: s(BIL_INVOICE) | f(BIL_INVOICE)
