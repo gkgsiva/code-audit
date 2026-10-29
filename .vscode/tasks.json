@@ -377,6 +377,13 @@
         "command": ".venv\\Scripts\\python -m pytest tests\\test_hosted.py -v"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 39. build the Docker image and save build.log",
+      "detail": "Builds with the settings in .env and keeps the whole output in build.log (send it when the build fails)",
+      "type": "shell",
+      "command": "docker compose build --progress=plain 2>&1 | tee build.log",
+      "problemMatcher": []
     }
   ]
 }

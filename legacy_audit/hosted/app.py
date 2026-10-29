@@ -157,13 +157,31 @@ class DefaultsBody(BaseModel):
 # ---- the site ------------------------------------------------------------------------------------
 
 
+def _check_writable(host: HostSettings) -> None:
+    """Create the audits folder and the site's own folder in it, or stop with what to do: on
+    Linux and WSL2 a folder on the host is often owned by another user id than the site's."""
+    probe = host.admin_dir / ".write-test"
+    try:
+        host.admin_dir.mkdir(parents=True, exist_ok=True)
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+    except OSError as err:
+        uid = os.getuid() if hasattr(os, "getuid") else None
+        who = f" (user id {uid})" if uid is not None else ""
+        raise SettingsError(
+            f"The audits folder {host.audits_root} cannot be written by the site{who}: "
+            f"{err.strerror or err}. With Docker on Linux or WSL2, set AUDIT_UID and AUDIT_GID "
+            "in .env to the owner of the folder (run: id -u and id -g), or give the folder "
+            "to user id 10001 (sudo chown -R 10001:10001 <folder>). See docs/hosting.md"
+        ) from None
+
+
 class Site:
     """State shared by the portal and every project app."""
 
     def __init__(self, host: HostSettings) -> None:
         self.host = host
-        host.audits_root.mkdir(parents=True, exist_ok=True)
-        host.admin_dir.mkdir(parents=True, exist_ok=True)
+        _check_writable(host)
         self.admin = AdminStore(host)
         self.registry = Registry(host)
         self.provider = provider_for(host)

@@ -924,8 +924,8 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
 
 1. Pull the branch, run `audit: 1. set up` once (new files only, no new packages), then
    `audit: 2. tests (pytest)`: everything passes. **`audit: 38. hosted site tests`** runs the
-   hosted ones alone (9 tests: settings, login, defaults and locks, queue and time left, roles,
-   report switches, status and logs).
+   hosted ones alone (10 tests: settings, login, defaults and locks, queue and time left, roles,
+   report switches, status and logs, an audits folder that cannot be written).
 2. **Without Docker first**: run **`audit: 37. run the hosted site without Docker (samples)`**.
    The terminal says `legacy-audit hosted site for ...audits-hosted at http://127.0.0.1:8765/`
    and a yellow "Test login" line. Open http://127.0.0.1:8765 (on WSL2, in your Windows
@@ -954,12 +954,19 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
      **Health** shows disk space, space per project and the tool checks.
 8. Stop task 37 (trash can on the terminal). Its projects are in `audits-hosted/` (not committed).
 9. **With Docker** (Docker Desktop on Windows, or Docker Engine in WSL2): copy
-   `docker/env.example` to `.env` and set `LEGACY_AUDIT_SESSION_SECRET`; put a code folder under
-   `sources/` (or change the `./sources` line in `docker-compose.yml`). Run
-   **`audit: 36. run the hosted site (Docker)`**: after the build, `docker compose ps` shows the
-   container `healthy`. Open http://localhost:8765, log in as **admin**, and repeat steps 3 to
-   7 (the folders start at `/sources`). **Admin > Health** shows Chromium, Mermaid CLI and
-   OSV-Scanner found. `docker compose down` stops it; projects stay in the `audits` volume.
-10. Behind the company proxy, build with
-    `docker compose build --build-arg HTTPS_PROXY=http://<proxy>:<port>` and, if the proxy
-    inspects HTTPS, put its root certificate (`.crt`) in `docker/certs/` first.
+   `docker/env.example` to `.env`, set `LEGACY_AUDIT_SESSION_SECRET`, `AUDITS_DIR` (create the
+   folder first, e.g. `C:/legacy-audit/audits`) and `SOURCES_DIR` (a code folder, e.g.
+   `C:/code`; forward slashes). On WSL2 with Docker Engine also set `AUDIT_UID` and `AUDIT_GID`
+   to the output of `id -u` and `id -g`. Run **`audit: 36. run the hosted site (Docker)`**:
+   after the build, `docker compose ps` shows the container `healthy`. Open
+   http://localhost:8765, log in as **admin**, and repeat steps 3 to 7 (the folders start at
+   `/sources`). **Admin > Health** shows Chromium, Mermaid CLI and OSV-Scanner found.
+10. **Data outside the container**: open your `AUDITS_DIR` folder in Explorer: it has a folder for the
+    Orders project and `.legacy-audit`. Run `docker compose down`, then task 36 again:
+    the project is still on **Projects**.
+11. **At the office**, if the build stops: run **`audit: 39. build the Docker image and save
+    build.log`**. The end of the output shows a box "legacy-audit build stopped: ..." with what
+    failed. Follow [docs/hosting.md, Building at the office](hosting.md#6-building-at-the-office):
+    `BUILD_PROXY` and `RUN_PROXY` in `.env`, the company certificate in `docker/certs/`, the
+    company mirrors, or `WITH_SYSTEM_PACKAGES=false` to get running now. Send `build.log` if it
+    still fails.

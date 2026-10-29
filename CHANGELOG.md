@@ -18,7 +18,11 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   (CSV) and health.
 - Status page (running and waiting jobs, progress, time left) and Logs page (scan logs and the
   server log, filter, follow, download). Jobs of all projects share a queue.
-- See `docs/hosting.md`. VS Code tasks 36-38.
+- See `docs/hosting.md`. VS Code tasks 36-39.
+- Building at the office: proxy, company certificate and mirror settings in `.env`, a plain
+  message naming the failed download, and a build without Debian packages. Projects, logs and
+  settings are kept in folders on the host (`AUDITS_DIR`, `SOURCES_DIR`), outside the
+  container.
 
 ### PDF copies of the reports (2026-10-23)
 

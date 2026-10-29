@@ -97,6 +97,14 @@ def test_settings_from_environment() -> None:
         create_site(HostSettings(audits_root=Path("/tmp/x"), auth="okta"))
 
 
+def test_audits_folder_that_cannot_be_written_stops_with_what_to_do(tmp_path: Path) -> None:
+    # A file where the folder should be fails on every platform, also when running as root.
+    blocked = tmp_path / "audits"
+    blocked.write_text("not a folder", encoding="utf-8")
+    with pytest.raises(SettingsError, match=r"cannot be written.*AUDIT_UID"):
+        create_site(HostSettings(audits_root=blocked))
+
+
 def test_sessions_are_signed_and_expire() -> None:
     s = Sessions("k", 1)
     token = s.issue("siva")

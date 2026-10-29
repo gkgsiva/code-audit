@@ -4,8 +4,10 @@ The hosted site is one web site for the whole team. A project owner logs in, ope
 an audit project, scans the code and downloads the reports, all in the browser. Nothing is
 installed on their laptop.
 
-It runs as one Docker container. Every project lives in one top-level **audits folder**
-(a Docker volume); the code to scan is mounted read-only under **/sources** or cloned from Git.
+It runs as one Docker container. Every project lives in one top-level **audits folder**, a
+folder on your machine that the container uses as `/audits`; the code to scan is a folder on
+your machine shown read-only as **/sources**, or is cloned from Git. Nothing is kept inside the
+container, so rebuilding or removing it never loses a project.
 
 ```
 browser ──> legacy-audit container ──> /audits/<project>/audit.yaml, audit-inputs/, audit-output/
@@ -22,18 +24,26 @@ You need Docker: **Docker Desktop** on Windows (with the WSL2 engine), or Docker
 WSL2/Linux.
 
 1. Open the repository folder in VS Code.
-2. Put the code you want to scan in a folder named `sources` next to `docker-compose.yml`
-   (or change the `./sources` line in `docker-compose.yml` to your code folder, for example
-   `C:/code` on Windows or `/home/siva/code` on WSL2).
-3. Copy `docker/env.example` to `.env` (same folder as `docker-compose.yml`) and set
-   `LEGACY_AUDIT_SESSION_SECRET` to a long random text. Add API keys only if you use AI
-   enrichment with a cloud model.
-4. Run the VS Code task **`audit: 36. run the hosted site (Docker)`**
+2. Copy `docker/env.example` to `.env` (same folder as `docker-compose.yml`) and open it.
+3. Set `LEGACY_AUDIT_SESSION_SECRET` to a long random text.
+4. Set the two folders (use forward slashes, also on Windows):
+   - `AUDITS_DIR`: where projects, reports, logs and settings are kept, for example
+     `C:/legacy-audit/audits` (Windows) or `/home/siva/legacy-audit/audits` (WSL2).
+     Create the folder first.
+   - `SOURCES_DIR`: the code you want to scan, for example `C:/code` or `/home/siva/code`.
+   Left as they are, both are folders next to `docker-compose.yml` (`audits`, `sources`).
+5. **Docker Engine in WSL2 or Linux only**: set `AUDIT_UID` and `AUDIT_GID` to your own ids
+   (type `id -u` and `id -g` in the terminal; usually `1000`). Docker Desktop on Windows: leave
+   them at `10001`.
+6. At the office: if the build needs the company proxy, set `BUILD_PROXY` and `RUN_PROXY` too
+   (see [Building at the office](#6-building-at-the-office)).
+7. Add API keys only if you use AI enrichment with a cloud model.
+8. Run the VS Code task **`audit: 36. run the hosted site (Docker)`**
    (Terminal > Run Task...). Or in a terminal: `docker compose up --build -d`.
    The first build takes a few minutes (it downloads Chromium, Node.js and OSV-Scanner).
-5. Open **http://localhost:8765**. Log in as **admin** (the name in `LEGACY_AUDIT_ADMINS`).
+9. Open **http://localhost:8765**. Log in as **admin** (the name in `LEGACY_AUDIT_ADMINS`).
 
-Stop it with `docker compose down`. Your projects stay in the `audits` volume.
+Stop it with `docker compose down`. Your projects stay in the `AUDITS_DIR` folder.
 
 **No Docker on your laptop?** Task **`audit: 37. run the hosted site without Docker (samples)`**
 starts the same site from your normal install, with the sample apps as the code to scan and
@@ -75,7 +85,9 @@ Set them in `docker-compose.yml` (or with `docker run -e NAME=value`) and restar
 | `LEGACY_AUDIT_TEMPLATES_DIR` | built-in | Folder with the corporate PowerPoint templates |
 | `OPENAI_API_KEY`, `AZURE_OPENAI_API_KEY`, `ANTHROPIC_API_KEY` | empty | AI keys, read by name only, never stored or shown |
 | `GIT_TOKEN` (or any name) | empty | Read-only Git token; a project names the variable, never the token |
-| `HTTPS_PROXY`, `NO_PROXY` | empty | Company proxy for Git clones and osv.dev lookups |
+| `RUN_PROXY`, `RUN_NO_PROXY` (in `.env`) | empty | Company proxy for Git clones and osv.dev lookups; compose passes them as `HTTPS_PROXY`/`HTTP_PROXY`/`NO_PROXY` |
+| `AUDITS_DIR`, `SOURCES_DIR` (in `.env`) | `./audits`, `./sources` | The folders on your machine used as `/audits` and `/sources` |
+| `AUDIT_UID`, `AUDIT_GID` (in `.env`) | `10001` | User id the site runs as; on Linux/WSL2 Docker Engine set your own so it can write `AUDITS_DIR` |
 
 ## 4. The admin page
 
@@ -101,7 +113,8 @@ results and downloads reports).
 
 ## 5. Where things are
 
-Everything lives in the audits volume, so backing it up backs up the site:
+Everything lives in the audits folder (`AUDITS_DIR`), so copying that folder backs up the
+site:
 
 - `/audits/<project>/` one folder per project: `audit.yaml` (only what is the project's own;
   the rest comes from the project defaults), `audit-overrides.yaml`, `audit-inputs/`,
@@ -113,22 +126,49 @@ A project folder made with the CLI on a laptop can be copied into the audits fol
 on **Admin > Projects** without an owner until you set one. Its `source` must point under the
 sources folder.
 
-## 6. Company network
+## 6. Building at the office
 
-- **Proxy**: build with `docker build --build-arg HTTPS_PROXY=http://proxy:8080 ...` (or set
-  `HTTPS_PROXY` in your Docker Desktop settings), and set `HTTPS_PROXY`/`NO_PROXY` in
-  `docker-compose.yml` for Git and osv.dev at run time.
-- **Company root certificate** (a proxy that inspects HTTPS): copy the `.crt` file into
-  `docker/certs/` before building. It is added to the image's trust store for pip, npm, Git,
-  curl and Python.
-- **Python package mirror**: `--build-arg PIP_INDEX_URL=https://nexus.example.com/pypi/simple`.
-- **Smaller image**: `--build-arg WITH_MERMAID=false` (no diagram pictures in PowerPoint),
-  `WITH_CHROMIUM=false` (no PDF copies), `WITH_OSV=false` (no OSV-Scanner).
+The build downloads from four places: Debian packages (`deb.debian.org`), Python packages
+(`pypi.org`), the Mermaid CLI (`registry.npmjs.org`) and OSV-Scanner (`github.com`). A company
+network often blocks one of them. When the build stops, it prints a box starting with
+**legacy-audit build stopped:** that says which download failed and what apt or pip said.
+
+Do these one at a time, and build again after each (task 36, or task
+**`audit: 39. build the Docker image and save build.log`** to keep the whole output in
+`build.log`):
+
+1. **Proxy.** Ask IT for the proxy address, or look in Windows: Settings > Network & internet >
+   Proxy. Put it in `.env`:
+   ```
+   BUILD_PROXY=http://proxy.example.com:8080
+   RUN_PROXY=http://proxy.example.com:8080
+   ```
+   `BUILD_PROXY` is for the build, `RUN_PROXY` for Git clones and osv.dev while the site
+   runs. A proxy that needs your password: set it in Docker Desktop > Settings > Resources >
+   Proxies instead, so the password is not kept in the image.
+2. **Company certificate.** If the box says `certificate`, `SSL` or `no longer signed`, the
+   proxy looks inside HTTPS. Get the company root certificate (IT, or export it from your
+   browser: the padlock > Certificate > the top one > Export, "Base-64 .cer"). Rename it to
+   end with `.crt` and copy it into `docker/certs/`.
+3. **Company mirrors.** If the public servers are blocked (an error like `403 Forbidden` or
+   `Could not connect`), ask IT for the mirror addresses (Nexus or Artifactory) and set the ones
+   you need in `.env`: `APT_MIRROR` (Debian, for example
+   `https://nexus.example.com/repository/debian`, and `APT_SECURITY_MIRROR` if security updates
+   have their own), `PIP_INDEX_URL` (Python), `NPM_REGISTRY` (npm), `BASE_IMAGE` (Docker Hub
+   blocked: the same `python:3.12-slim` image from the company registry).
+4. **Get running now.** `WITH_SYSTEM_PACKAGES=false` in `.env` builds without any Debian
+   package. The site works with folders under `/sources`, but there is no Git (no Git
+   projects), no PDF copies and no diagram pictures. Set it back to `true` once the proxy
+   works.
+
+The Mermaid CLI and OSV-Scanner are optional: when they cannot be downloaded the build carries
+on, prints a `WARNING:` line, and **Admin > Health** shows them as missing. To leave them out:
+`WITH_MERMAID=false`, `WITH_OSV=false` (and `WITH_CHROMIUM=false` for no PDF copies).
 
 ## 7. Updating
 
 Pull the repository, then `docker compose up --build -d`. Projects, users and settings stay in
-the volume. After an update that changes scanning, owners click **Re-run**.
+the audits folder. After an update that changes scanning, owners click **Re-run**.
 
 ## Okta later
 
@@ -146,7 +186,9 @@ an OpenID Connect provider: set `LEGACY_AUDIT_AUTH=okta`, `OKTA_ISSUER`, `OKTA_C
 | "Host not allowed" | `LEGACY_AUDIT_PUBLIC_URL` is set to another address than the one you typed; fix it or leave it empty |
 | Everyone is logged out after a restart | Set `LEGACY_AUDIT_SESSION_SECRET` in `.env` |
 | "is outside the folders this site may scan" | The project's folder is not under `/sources` (or a folder added on Admin > Paths). Mount it in `docker-compose.yml` |
-| No folders in the picker | Nothing is mounted under `/sources`; check the `volumes:` lines in `docker-compose.yml` |
+| No folders in the picker | `SOURCES_DIR` in `.env` is empty or wrong; set it to your code folder and run `docker compose up -d` |
 | A scan waits a long time | Other scans are running; see **Status**. An admin can raise **Limits > Jobs at once** (needs CPU and memory) |
 | PDF copies skipped | The image was built with `WITH_CHROMIUM=false`, or set **Admin > Paths > Chrome or Edge** |
-| Permission denied writing /audits | A bind mount instead of the named volume must be writable by user id 10001 |
+| Build stops at `apt-get` with `exit code: 100` (or the box "could not reach the Debian package servers") | The Debian packages could not be downloaded. Follow [Building at the office](#6-building-at-the-office) steps 1 to 4 |
+| Build stops at `pip install` | Same steps: proxy, certificate, then `PIP_INDEX_URL` |
+| The container stops at once; `docker compose logs` says "The audits folder ... cannot be written" | Linux/WSL2: set `AUDIT_UID`/`AUDIT_GID` in `.env` to `id -u`/`id -g`, or run `sudo chown -R 10001:10001` on the folder. Then `docker compose up -d` |
