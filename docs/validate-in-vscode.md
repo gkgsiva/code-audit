@@ -924,8 +924,8 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
 
 1. Pull the branch, run `audit: 1. set up` once (new files only, no new packages), then
    `audit: 2. tests (pytest)`: everything passes. **`audit: 38. hosted site tests`** runs the
-   hosted ones alone (10 tests: settings, login, defaults and locks, queue and time left, roles,
-   report switches, status and logs, an audits folder that cannot be written).
+   hosted ones alone (12 tests: settings, login, defaults and locks, queue and time left, roles,
+   report switches, status and logs, an audits folder that cannot be written, the dashboard numbers).
 2. **Without Docker first**: run **`audit: 37. run the hosted site without Docker (samples)`**.
    The terminal says `legacy-audit hosted site for ...audits-hosted at http://127.0.0.1:8765/`
    and a yellow "Test login" line. Open http://127.0.0.1:8765 (on WSL2, in your Windows
@@ -941,6 +941,11 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
 6. **8. Reports > Build all**: the reports open from the table. There is no Open run folder
    button (the files are on the server).
 7. **Log out**, log in as **admin**. **Admin** is now in the menu:
+   - **Dashboard** opens first: the tiles show 1 project and the scans you ran, **Scans per
+     day** has a green bar for today, **Busiest projects** shows Orders. Under **Server**,
+     memory, CPU and disk have values, and the memory and CPU charts grow a point every 10
+     seconds. Switch **Theme**: the charts redraw in the other colours. **Show as a table**
+     under a chart lists its numbers; **Download CSV** saves `legacy-audit-usage-...csv`.
    - **Reports**: untick **Technical report (HTML)** and **Save**. Log in as siva again: on
      8. Reports the technical report and its PDF row are gone, and its build button too.
    - **Project defaults**: set **Migration target** to **None (audit only)**, tick **lock**,

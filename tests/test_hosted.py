@@ -105,6 +105,75 @@ def test_audits_folder_that_cannot_be_written_stops_with_what_to_do(tmp_path: Pa
         create_site(HostSettings(audits_root=blocked))
 
 
+class _AnyInt:
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, int)
+
+
+ANY_INT = _AnyInt()
+
+
+def test_dashboard_usage_counts_per_day() -> None:
+    from datetime import date
+
+    from legacy_audit.hosted.metrics import usage
+    from legacy_audit.hosted.registry import ProjectMeta, User
+
+    def job(day: str, kind: str, state: str, seconds: float, **extra: Any) -> dict[str, Any]:
+        return {
+            "time": f"{day}T10:00:00+00:00",
+            "user": "siva",
+            "action": "job finished",
+            "project": "orders",
+            "kind": kind,
+            "state": state,
+            "seconds": seconds,
+            "wait_seconds": 4,
+            "title": "Scan" if kind == "scan" else "Build all reports",
+            **extra,
+        }
+
+    entries = [
+        {"time": "2026-10-28T09:00:00+00:00", "user": "siva", "action": "log in"},
+        {"time": "2026-10-29T09:00:00+00:00", "user": "ana", "action": "log in"},
+        {"time": "2026-09-01T09:00:00+00:00", "user": "old", "action": "log in"},  # too old
+        job("2026-10-28", "scan", "done", 100),
+        job("2026-10-29", "scan", "done", 300),
+        job("2026-10-29", "scan", "failed", 5, error="SourceError: no such folder"),
+        job("2026-10-29", "report", "done", 20),
+    ]
+    u = usage(
+        entries,
+        3,
+        [User("siva"), User("ana"), User("gone", disabled=True)],
+        [ProjectMeta("orders", "Orders"), ProjectMeta("old", "Old", archived=True)],
+        today=date(2026, 10, 29),
+    )
+    assert [r["day"] for r in u["series"]] == ["2026-10-27", "2026-10-28", "2026-10-29"]
+    assert u["series"][2]["scans_done"] == 1 and u["series"][2]["scans_failed"] == 1
+    assert u["series"][1]["logins"] == 1 and u["series"][2]["active_users"] == 2
+    t = u["totals"]
+    assert t["users"] == 2 and t["active_users"] == 2 and t["archived_projects"] == 1
+    assert t["scans"] == 3 and t["success_percent"] == 66.7 and t["scan_seconds_avg"] == 200
+    assert t["scan_seconds_max"] == 300 and t["wait_seconds_avg"] == 4.0 and t["reports"] == 1
+    assert u["failures"][0]["error"].startswith("SourceError")
+    assert u["reports_by_type"] == [{"name": "Build all reports", "count": 1}]
+    assert u["top_projects"] == [{"name": "orders", "scans": 3, "scan_seconds": 400}]
+
+
+def test_server_numbers_need_no_extra_packages() -> None:
+    from legacy_audit.hosted.metrics import Sampler, cpus, memory
+
+    m = memory()
+    assert set(m) == {"used", "limit", "process", "source"}
+    assert cpus() >= 1
+    s = Sampler(interval=0.05)
+    s.sample()
+    point = s.sample()
+    assert point["cpu_percent"] is None or 0 <= point["cpu_percent"] <= 100
+    assert len(s.history()) == 2
+
+
 def test_sessions_are_signed_and_expire() -> None:
     s = Sessions("k", 1)
     token = s.issue("siva")
@@ -312,6 +381,21 @@ def test_create_open_scan_and_report_as_owner(site: Any, tmp_path: Path) -> None
     assert boss.get("/api/admin/activity.csv").text.startswith("time,user,action")
     health = _ok(boss.get("/api/admin/health"))
     assert health["projects"][0]["project"] == "orders" and health["checks"]
+    # the dashboard counts the scans and report builds, and shows the server
+    for _ in range(100):  # the job's end is logged just after the job reports done
+        dash = _ok(boss.get("/api/admin/dashboard/usage", params={"days": 7}))
+        if dash["totals"]["scans_done"] == 2 and dash["totals"]["reports"] == 1:
+            break
+        time.sleep(0.05)
+    t = dash["totals"]
+    assert t["scans_done"] == 2 and t["reports"] == 1 and t["success_percent"] == 100.0
+    assert t["scan_seconds_avg"] is not None and t["projects"] == 1 and t["active_users"] == 2
+    assert dash["series"][-1]["scans_done"] == 2 and len(dash["series"]) == 7
+    assert dash["top_projects"][0] == {"name": "orders", "scans": 2, "scan_seconds": ANY_INT}
+    server = _ok(boss.get("/api/admin/dashboard/system"))
+    assert server["disk"]["free"] > 0 and server["history"] and server["cpu"]["cpus"] >= 1
+    assert server["jobs"] == {"running": 0, "waiting": 0}
+    assert c.get("/api/admin/dashboard/usage").status_code == 403
 
 
 def test_roles_and_project_access(site: Any) -> None:

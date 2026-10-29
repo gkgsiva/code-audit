@@ -21,6 +21,7 @@ import re
 import shutil
 from collections import deque
 from collections.abc import Awaitable, Callable, MutableMapping
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlsplit
@@ -44,6 +45,7 @@ from legacy_audit.gui.app import STATIC as GUI_STATIC
 from legacy_audit.gui.jobs import Gate, Job
 from legacy_audit.hosted.auth import COOKIE, AuthError, Sessions, provider_for
 from legacy_audit.hosted.layer import AdminLayer
+from legacy_audit.hosted.metrics import Sampler, system, usage
 from legacy_audit.hosted.registry import (
     PROJECT_ID,
     RANK,
@@ -191,6 +193,8 @@ class Site:
         self.remove_layer = add_config_layer(self.layer)
         self.jobs: deque[Job] = deque(maxlen=JOB_HISTORY)
         self.apps: dict[str, Any] = {}
+        self.sampler = Sampler()
+        self.sampler.start()
         self.apply_paths()
 
     def apply_paths(self) -> None:
@@ -255,6 +259,20 @@ class Site:
         def after_scan(project: str, result: dict[str, Any]) -> None:
             self.registry.log(None, "scan finished", project, run=result.get("run_id"))
 
+        def on_job_end(job: Job) -> None:
+            waited, worked = job.timings()
+            self.registry.log(
+                job.user,
+                "job finished",
+                project_id,
+                kind=job.kind,
+                title=job.title,
+                state=job.state,
+                seconds=round(worked, 1) if worked is not None else None,
+                wait_seconds=round(waited, 1) if waited is not None else None,
+                error=job.error,
+            )
+
         def limits() -> LimitSettings:
             return self.admin.get().limits
 
@@ -269,6 +287,7 @@ class Site:
             scan_timeout_minutes=lambda: limits().scan_timeout_minutes,
             user=user_of,
             after_scan=after_scan,
+            on_job_end=on_job_end,
         )
         app = create_app(
             self.registry.project_dir(project_id),
@@ -381,6 +400,7 @@ class HostedApp:
     def close(self) -> None:
         """Remove the config layer and the server log handler (tests; the server just exits)."""
         self.site.remove_layer()
+        self.site.sampler.stop()
         logging.getLogger("legacy_audit").removeHandler(self.log_handler)
         self.log_handler.close()
 
@@ -949,6 +969,30 @@ def create_site(host: HostSettings) -> HostedApp:
             media_type="text/csv",
             headers={"Content-Disposition": 'attachment; filename="legacy-audit-activity.csv"'},
         )
+
+    @portal.get("/api/admin/dashboard/usage")
+    def dashboard_usage(request: Request, days: int = 30) -> dict[str, Any]:
+        admin_only(request)
+        days = max(1, min(days, 366))
+        start = (datetime.now(UTC).date() - timedelta(days=days - 1)).isoformat()
+        return usage(
+            site.registry.activity_since(start),
+            days,
+            site.registry.users(),
+            site.registry.projects(),
+        )
+
+    @portal.get("/api/admin/dashboard/system")
+    def dashboard_system(request: Request) -> dict[str, Any]:
+        admin_only(request)
+        snap = site.gate.snapshot()
+        jobs = {"running": len(snap["running"]), "waiting": len(snap["waiting"])}
+        return {
+            **system(site.sampler, host.audits_root, jobs),
+            "version": __version__,
+            "slots": site.admin.get().limits.max_scans,
+            "now": [j.info() for j in [*snap["running"], *snap["waiting"]]],
+        }
 
     @portal.get("/api/admin/health")
     def health(request: Request) -> dict[str, Any]:

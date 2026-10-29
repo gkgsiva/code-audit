@@ -96,6 +96,7 @@ Log in as an admin and open **Admin**. Settings are saved in
 
 | Tab | What you set |
 | --- | --- |
+| Dashboard | Opens first. **Usage** for the last 7, 30 or 90 days: people with access and active people, logins, projects, scans (and how many finished), average and longest scan, average wait in line, reports built, AI enrichment runs; charts of scans per day (finished, failed, stopped), people per day, reports and AI enrichment per day, and the busiest projects; the most active people and recent failures with their error. **Server**: memory used against the container's limit, this server's own memory, CPU now and the number of CPUs, disk free and used, jobs running and waiting, uptime, version; charts of memory and CPU over the last hour. Each chart has **Show as a table**; **Download CSV** saves the numbers per day. Usage refreshes every minute, the server every 10 seconds |
 | Reports | Which reports anyone can build and see (summary, management deck, PowerPoint, functional, technical, PDF, data pack), which summary-report sections appear, and whether owners may hide more on their project |
 | Paths | More folders projects may scan, the Git clone cache, the PowerPoint templates folder, Chrome/Edge for PDFs, scanner programs and databases |
 | Project defaults | The common `audit.yaml` settings every project inherits on each scan: migration target, exclude patterns, SQL dialect, component grouping, PowerPoint template, effort, PDF, rules. Tick **lock** so projects cannot change a setting. The advanced box takes any `audit.yaml` section as YAML |

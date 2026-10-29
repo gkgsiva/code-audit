@@ -52,6 +52,7 @@ class Job:
     thread_id: int | None = None
     _lock: threading.Lock = field(default_factory=threading.Lock)
     _last: tuple[str, float] = ("", 0.0)
+    _created: float = field(default_factory=time.monotonic)
     _began: float | None = None  # monotonic time the work started (after the queue)
     _stage: tuple[str, float, int, int] = ("", 0.0, 0, 0)  # name, since, n, total
 
@@ -108,6 +109,12 @@ class Job:
             out["eta_seconds"] = round(pace * (total - n))
             out["eta_basis"] = f"pace of the {stage} step"
         return out
+
+    def timings(self) -> tuple[float | None, float | None]:
+        """Seconds waited in the queue and seconds worked (None: the work never started)."""
+        if self._began is None:
+            return None, None
+        return self._began - self._created, time.monotonic() - self._began
 
     def since(self, seq: int) -> list[dict[str, Any]]:
         with self._lock:
@@ -194,12 +201,14 @@ class Jobs:
         self,
         gate: Gate | None = None,
         on_create: Callable[[Job], None] | None = None,
+        on_end: Callable[[Job], None] | None = None,
     ) -> None:
         self._lock = threading.Lock()
         self.current: Job | None = None
         self.history: list[Job] = []
         self.gate = gate
         self.on_create = on_create
+        self.on_end = on_end
 
     def get(self, job_id: str) -> Job | None:
         with self._lock:
@@ -252,6 +261,11 @@ class Jobs:
             log.removeHandler(handler)
             job.finished_at = _now()
             job.emit("end", state=job.state, result=job.result, error=job.error)
+            if self.on_end:
+                try:
+                    self.on_end(job)
+                except Exception:  # bookkeeping must not break the job
+                    log.debug("on_end failed for job %s\n%s", job.id, traceback.format_exc())
 
     def wait(self, timeout: float = 600) -> Job | None:
         """Block until the current job ends (tests and the CLI)."""

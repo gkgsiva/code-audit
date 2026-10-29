@@ -80,6 +80,7 @@
     return m < 60 ? "about " + m + " min" : "about " + Math.floor(m / 60) + " h " + (m % 60) + " min";
   }
   function bytes(n) {
+    if (n === null || n === undefined) return "–";
     var u = ["B", "KB", "MB", "GB", "TB"], i = 0;
     while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
     return n.toFixed(i ? 1 : 0) + " " + u[i];
@@ -371,12 +372,12 @@
   }
 
   // ---------------------------------------------------------------- admin
-  var ADMIN_TABS = [["reports", "Reports"], ["paths", "Paths"], ["defaults", "Project defaults"], ["users", "Users and roles"], ["projects", "Projects"],
+  var ADMIN_TABS = [["dashboard", "Dashboard"], ["reports", "Reports"], ["paths", "Paths"], ["defaults", "Project defaults"], ["users", "Users and roles"], ["projects", "Projects"],
     ["ai", "AI"], ["scanners", "Scanners"], ["limits", "Limits"], ["activity", "Activity"], ["health", "Health"]];
 
   function screenAdmin(node) {
     if (state.me.role !== "admin") { node.appendChild(el("div", { class: "empty", text: "Admins only." })); return; }
-    var tab = (location.hash.split("?")[1] || "").replace("tab=", "") || "reports";
+    var tab = (location.hash.split("?")[1] || "").replace("tab=", "") || "dashboard";
     add(node, heading("Admin", "Settings for the whole site. They are saved in the audits folder (.legacy-audit/admin.yaml) and apply at once. Values set by the server's environment are shown locked."));
     node.appendChild(el("nav", { class: "tabs" }, ADMIN_TABS.map(function (t) {
       return el("a", { href: "#admin?tab=" + t[0], class: t[0] === tab ? "current" : null, text: t[1] });
@@ -385,7 +386,7 @@
     node.appendChild(host);
     api("GET", "/api/admin").then(function (a) {
       state.admin = a;
-      var fn = { reports: tabReports, paths: tabPaths, defaults: tabDefaults, users: tabUsers, projects: tabAllProjects, ai: tabAi,
+      var fn = { dashboard: tabDashboard, reports: tabReports, paths: tabPaths, defaults: tabDefaults, users: tabUsers, projects: tabAllProjects, ai: tabAi,
         scanners: tabScanners, limits: tabLimits, activity: tabActivity, health: tabHealth }[tab] || tabReports;
       fn(host, a, JSON.parse(JSON.stringify(a.settings)));
     }).catch(fail);
@@ -679,6 +680,169 @@
     }).catch(fail);
   }
 
+  // ---------------------------------------------------------------- admin dashboard
+  // Charts use the vendored Chart.js and the report's colour tokens (see report.js drawCharts):
+  // one accent series, status colours where a bar is a job's outcome, a legend when there are
+  // two or more series, values in the tooltip and in the tables below each chart.
+  function cssVar(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+  function chartBox(title, note) {
+    var canvas = el("canvas", { role: "img", "aria-label": title });
+    var tableBox = el("details", { class: "chart-table" }, [el("summary", { text: "Show as a table" })]);
+    var panel = el("section", { class: "panel" }, [el("h3", { text: title }), note ? el("p", { class: "hint", text: note }) : null,
+      el("div", { class: "chart-box" }, [canvas]), tableBox]);
+    return { panel: panel, canvas: canvas, table: tableBox, chart: null };
+  }
+  function drawChart(box, cfg, columns, rows) {
+    while (box.table.childNodes.length > 1) box.table.removeChild(box.table.lastChild);
+    box.table.appendChild(table(columns, rows));
+    if (!window.Chart) { box.canvas.replaceWith(el("p", { class: "muted", text: "Charts could not be loaded; see the table." })); return; }
+    if (box.chart) {
+      box.chart.data = cfg.data;
+      box.chart.update("none");
+      return;
+    }
+    var ink = cssVar("--text-2"), grid = cssVar("--grid"), axis = cssVar("--axis");
+    Chart.defaults.font.family = 'system-ui, -apple-system, "Segoe UI", sans-serif';
+    Chart.defaults.color = ink;
+    cfg.options = Object.assign({ maintainAspectRatio: false, animation: false, interaction: { mode: "index", intersect: false } }, cfg.options || {});
+    var scales = cfg.options.scales || {};
+    Object.keys(scales).forEach(function (k) {
+      var s = scales[k];
+      s.border = { color: axis };
+      if (s.grid !== false) s.grid = { color: grid }; else s.grid = { display: false };
+    });
+    box.chart = new Chart(box.canvas, cfg);
+  }
+  function shortDay(d) { var p = d.split("-"); return p[2] + "/" + p[1]; }
+  function clock(iso) { return iso ? iso.slice(11, 16) : ""; }
+  function short(sec) {
+    if (sec === null || sec === undefined) return "–";
+    if (sec < 90) return Math.round(sec) + " s";
+    var m = Math.round(sec / 60);
+    return m < 60 ? m + " min" : Math.floor(m / 60) + " h " + (m % 60) + " min";
+  }
+  function mins(sec) { return sec === null || sec === undefined ? null : Math.round(sec / 6) / 10; }
+  function download(name, text) {
+    var a = el("a", { href: URL.createObjectURL(new Blob([text], { type: "text/csv" })), download: name });
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  function tabDashboard(host) {
+    var days = el("select", null, [["7", "Last 7 days"], ["30", "Last 30 days"], ["90", "Last 90 days"]].map(function (o) {
+      return el("option", { value: o[0], text: o[1], selected: o[0] === "30" });
+    }));
+    var csv = el("button", { class: "btn", text: "Download CSV" });
+    host.appendChild(el("div", { class: "row" }, [days, csv, el("span", { class: "hint", text: "Usage refreshes every minute, the server every 10 seconds. Times in UTC." })]));
+
+    var usageTiles = el("div", { class: "tiles" });
+    var serverTiles = el("div", { class: "tiles" });
+    var scans = chartBox("Scans per day", "Finished, failed and stopped scans.");
+    var people = chartBox("People per day", "Logins, and the people who did anything on the site.");
+    var work = chartBox("Reports and AI enrichment per day");
+    var busiest = chartBox("Busiest projects", "Scans in the period.");
+    var memChart = chartBox("Memory, last hour", "Used by the container, against its limit.");
+    var cpuChart = chartBox("CPU, last hour", "Share of the CPUs the container may use.");
+    var nowBox = el("div"), failBox = el("div"), usersBox = el("div"), reportsBox = el("div");
+    add(host, [el("h2", { text: "Usage" }), usageTiles,
+      el("div", { class: "grid-2" }, [scans.panel, people.panel, work.panel, busiest.panel]),
+      el("div", { class: "grid-2" }, [el("div", null, [el("h3", { text: "Reports built" }), reportsBox]), el("div", null, [el("h3", { text: "Most active people" }), usersBox])]),
+      el("h3", { text: "Recent failures" }), failBox,
+      el("h2", { text: "Server" }), serverTiles,
+      el("div", { class: "grid-2" }, [memChart.panel, cpuChart.panel]),
+      el("h3", { text: "Running and waiting now" }), nowBox]);
+
+    var last = null;
+    function loadUsage() {
+      api("GET", "/api/admin/dashboard/usage?days=" + days.value).then(function (u) {
+        last = u;
+        var t = u.totals;
+        clear(usageTiles);
+        add(usageTiles, [tile("People with access", t.users), tile("Active people", t.active_users), tile("Projects", t.projects),
+          tile("Logins", t.logins), tile("Scans", t.scans), tile("Scans that finished", t.success_percent === null ? "–" : t.success_percent + "%"),
+          tile("Average scan", short(t.scan_seconds_avg)), tile("Longest scan", short(t.scan_seconds_max)),
+          tile("Average wait in line", short(t.wait_seconds_avg)),
+          tile("Reports built", t.reports), tile("AI enrichment runs", t.enrich), tile("Archived projects", t.archived_projects)]);
+        var labels = u.series.map(function (r) { return shortDay(r.day); });
+        var dayCol = { key: "day", label: "Day" };
+        drawChart(scans, { type: "bar", data: { labels: labels, datasets: [
+          { label: "Finished", data: u.series.map(function (r) { return r.scans_done; }), backgroundColor: cssVar("--good") },
+          { label: "Failed", data: u.series.map(function (r) { return r.scans_failed; }), backgroundColor: cssVar("--critical") },
+          { label: "Stopped", data: u.series.map(function (r) { return r.scans_cancelled; }), backgroundColor: cssVar("--info") }
+        ].map(function (d) { return Object.assign(d, { borderColor: cssVar("--surface"), borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 28 }); }) },
+          options: { plugins: { legend: { position: "top", align: "start" } },
+            scales: { x: { stacked: true, grid: false }, y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: "scans" } } } } },
+          [dayCol, { key: "scans_done", label: "Finished", num: true }, { key: "scans_failed", label: "Failed", num: true }, { key: "scans_cancelled", label: "Stopped", num: true }], u.series);
+        function line(label, key, color) {
+          return { label: label, data: u.series.map(function (r) { return r[key]; }), borderColor: cssVar(color), backgroundColor: cssVar(color),
+            borderWidth: 2, pointRadius: u.days > 31 ? 0 : 3, pointHoverRadius: 5, tension: 0.25 };
+        }
+        drawChart(people, { type: "line", data: { labels: labels, datasets: [line("Logins", "logins", "--series-1"), line("Active people", "active_users", "--series-2")] },
+          options: { plugins: { legend: { position: "top", align: "start" } }, scales: { x: { grid: false }, y: { beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: "people / logins" } } } } },
+          [dayCol, { key: "logins", label: "Logins", num: true }, { key: "active_users", label: "Active people", num: true }], u.series);
+        drawChart(work, { type: "bar", data: { labels: labels, datasets: [
+          { label: "Reports built", data: u.series.map(function (r) { return r.reports; }), backgroundColor: cssVar("--series-1") },
+          { label: "AI enrichment", data: u.series.map(function (r) { return r.enrich; }), backgroundColor: cssVar("--series-2") }
+        ].map(function (d) { return Object.assign(d, { borderColor: cssVar("--surface"), borderWidth: { top: 2 }, borderSkipped: false, maxBarThickness: 28 }); }) },
+          options: { plugins: { legend: { position: "top", align: "start" } },
+            scales: { x: { stacked: true, grid: false }, y: { stacked: true, beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: "jobs" } } } } },
+          [dayCol, { key: "reports", label: "Reports built", num: true }, { key: "enrich", label: "AI enrichment", num: true }], u.series);
+        drawChart(busiest, { type: "bar", data: { labels: u.top_projects.map(function (p) { return p.name; }), datasets: [
+          { label: "Scans", data: u.top_projects.map(function (p) { return p.scans; }), backgroundColor: cssVar("--accent"), borderRadius: 4, borderSkipped: "start", maxBarThickness: 22 }] },
+          options: { indexAxis: "y", interaction: { mode: "nearest", intersect: true }, plugins: { legend: { display: false } },
+            scales: { x: { beginAtZero: true, ticks: { precision: 0 }, title: { display: true, text: "scans" } }, y: { grid: false } } } },
+          [{ key: "name", label: "Project" }, { key: "scans", label: "Scans", num: true }, { label: "Scan time (min)", num: true, value: function (p) { return mins(p.scan_seconds); } }], u.top_projects);
+        clear(reportsBox).appendChild(u.reports_by_type.length ? table([{ key: "name", label: "Job" }, { key: "count", label: "Times", num: true }], u.reports_by_type) : el("p", { class: "muted", text: "None in this period." }));
+        clear(usersBox).appendChild(u.top_users.length ? table([{ key: "name", label: "Person" }, { key: "actions", label: "Actions", num: true }], u.top_users) : el("p", { class: "muted", text: "Nobody yet." }));
+        clear(failBox).appendChild(u.failures.length ? table([{ key: "time", label: "Time (UTC)" }, { key: "project", label: "Project" }, { key: "title", label: "Job" }, { key: "error", label: "Error" }], u.failures)
+          : el("p", { class: "muted", text: "No failed jobs in this period." }));
+      }).catch(fail);
+    }
+    function loadServer() {
+      api("GET", "/api/admin/dashboard/system").then(function (s) {
+        var m = s.memory;
+        clear(serverTiles);
+        add(serverTiles, [tile("Memory used", m.used === null ? "–" : bytes(m.used)), tile("Memory limit", m.limit === null ? "–" : bytes(m.limit)),
+          tile("This server's memory", m.process === null ? "–" : bytes(m.process)),
+          tile("CPU now", s.cpu.percent === null ? "–" : s.cpu.percent + "%"), tile("CPUs", s.cpu.cpus),
+          tile("Disk free", bytes(s.disk.free)), tile("Disk used", bytes(s.disk.used)),
+          tile("Jobs running", s.jobs.running + " of " + s.slots), tile("Jobs waiting", s.jobs.waiting),
+          tile("Up for", short(s.uptime_seconds)), tile("Version", s.version), tile("Python", s.python)]);
+        var h = s.history;
+        var times = h.map(function (p) { return clock(p.time); });
+        var dot = h.length < 3 ? 3 : 0;
+        var mb = function (v) { return v === null ? null : Math.round(v / 1048576); };
+        drawChart(memChart, { type: "line", data: { labels: times, datasets: [
+          { label: "Used", data: h.map(function (p) { return mb(p.memory_used); }), borderColor: cssVar("--series-1"), backgroundColor: cssVar("--series-1"), borderWidth: 2, pointRadius: dot, pointHoverRadius: 4 },
+          { label: "Limit", data: h.map(function (p) { return mb(p.memory_limit); }), borderColor: cssVar("--muted"), backgroundColor: cssVar("--muted"), borderWidth: 2, borderDash: [6, 4], pointRadius: dot, pointHoverRadius: 4 }] },
+          options: { plugins: { legend: { position: "top", align: "start" } }, scales: { x: { grid: false, ticks: { maxTicksLimit: 8 } }, y: { beginAtZero: true, title: { display: true, text: "MB" } } } } },
+          [{ key: "time", label: "Time (UTC)" }, { label: "Used (MB)", num: true, value: function (p) { return mb(p.memory_used); } }, { label: "Limit (MB)", num: true, value: function (p) { return mb(p.memory_limit); } }], h.slice(-30).reverse());
+        drawChart(cpuChart, { type: "line", data: { labels: times, datasets: [
+          { label: "CPU", data: h.map(function (p) { return p.cpu_percent; }), borderColor: cssVar("--series-1"), backgroundColor: cssVar("--series-1"), borderWidth: 2, pointRadius: dot, pointHoverRadius: 4 }] },
+          options: { plugins: { legend: { display: false } }, scales: { x: { grid: false, ticks: { maxTicksLimit: 8 } }, y: { beginAtZero: true, max: 100, title: { display: true, text: "% of " + s.cpu.cpus + " CPUs" } } } } },
+          [{ key: "time", label: "Time (UTC)" }, { key: "cpu_percent", label: "CPU %", num: true }], h.slice(-30).reverse());
+        clear(nowBox).appendChild(s.now.length ? table([{ key: "project", label: "Project" }, { key: "title", label: "Job" }, { key: "user", label: "Started by" },
+          { label: "State", value: function (j) { return chip(j.state); } }, { label: "Time left", value: function (j) { return j.eta_seconds ? duration(j.eta_seconds) : ""; } }], s.now)
+          : el("p", { class: "muted", text: "Nothing running." }));
+      }).catch(fail);
+    }
+    days.addEventListener("change", loadUsage);
+    csv.addEventListener("click", function () {
+      if (!last) return;
+      var cols = ["day", "logins", "active_users", "scans_done", "scans_failed", "scans_cancelled", "reports", "enrich"];
+      download("legacy-audit-usage-" + last.from + "-to-" + last.to + ".csv",
+        [cols.join(",")].concat(last.series.map(function (r) { return cols.map(function (c) { return r[c]; }).join(","); })).join("\n") + "\n");
+    });
+    loadUsage();
+    loadServer();
+    var ticks = 0;
+    state.timer = setInterval(function () {
+      if (!document.body.contains(host)) return;
+      ticks++;
+      loadServer();
+      if (ticks % 6 === 0) loadUsage();
+    }, 10000);
+  }
+
   // ---------------------------------------------------------------- routing
   var SCREENS = { projects: screenProjects, status: screenStatus, logs: screenLogs, admin: screenAdmin };
   function route() {
@@ -706,6 +870,7 @@
       var next = dark ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       try { localStorage.setItem(KEY, next); } catch (e) { /* private window */ }
+      if (document.querySelector("canvas")) route(); // charts re-read the colours
     });
   })();
 

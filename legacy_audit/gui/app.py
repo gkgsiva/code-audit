@@ -131,6 +131,7 @@ class HostedHooks:
     scan_timeout_minutes: Callable[[], int]
     user: Callable[[Request], dict[str, Any]]  # {"name", "role"} of the logged-in user
     after_scan: Callable[[str, dict[str, Any]], None] = lambda project, result: None
+    on_job_end: Callable[[Job], None] = lambda job: None
 
 
 def report_file_needs(path: str) -> tuple[str, ...]:
@@ -301,7 +302,7 @@ def create_app(
     hosted: HostedHooks | None = None,
 ) -> FastAPI:
     ws = Workspace(folder)
-    jobs = Jobs(hosted.gate, hosted.on_job) if hosted else Jobs()
+    jobs = Jobs(hosted.gate, hosted.on_job, hosted.on_job_end) if hosted else Jobs()
     durations: dict[str, float] = {}  # job kind + title -> seconds the last one took
     invalid_stages: dict[str, set[str]] = {}  # run id -> stages that failed the last validate
     app = FastAPI(

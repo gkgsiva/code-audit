@@ -23,6 +23,8 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   message naming the failed download, and a build without Debian packages. Projects, logs and
   settings are kept in folders on the host (`AUDITS_DIR`, `SOURCES_DIR`), outside the
   container.
+- Admin dashboard: usage (people, logins, scans, scan times, queue wait, reports, AI runs,
+  busiest projects, failures) and the server (memory, CPU, disk, jobs, uptime) with charts.
 
 ### PDF copies of the reports (2026-10-23)
 
