@@ -2,8 +2,12 @@ package com.legacyaudit.engine.analyzers;
 
 import com.legacyaudit.engine.inventory.Rx;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
@@ -56,7 +60,30 @@ final class SqlParse {
         };
     }
 
+    private static final int CACHE_SIZE = 4096;
+
+    /** Recently parsed statements: the same text is often parsed for several facts and files. */
+    private static final Map<String, Optional<List<String>>> CACHE = Collections.synchronizedMap(
+            new LinkedHashMap<>(256, 0.75f, true) {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<String, Optional<List<String>>> eldest) {
+                    return size() > CACHE_SIZE;
+                }
+            });
+
+    /** Tables the statement reads or writes (upper case, sorted), or null when it does not parse. */
     static List<String> tables(String sql, String sqlDialect) {
+        String key = sqlDialect + '\0' + sql;
+        Optional<List<String>> hit = CACHE.get(key);
+        if (hit == null) {
+            List<String> found = parseTables(sql, sqlDialect);
+            hit = Optional.ofNullable(found == null ? null : List.copyOf(found));
+            CACHE.put(key, hit);
+        }
+        return hit.map(ArrayList::new).orElse(null);
+    }
+
+    private static List<String> parseTables(String sql, String sqlDialect) {
         String dialect = parserDialect(sqlDialect);
         String code = SqlTools.STRING_LIT.matcher(sql).replaceAll("''");
         if (!dialectHas(code, dialect)) {
@@ -78,14 +105,10 @@ final class SqlParse {
         s = HOLE_SUFFIX.matcher(s).replaceAll("$1 " + HOLE);
         s = HOLE_QUALIFIER.matcher(s).replaceAll(HOLE + ".");
         s = RETURNING.matcher(s).replaceFirst("");
-        Statement st;
-        try {
-            CCJSqlParser parser = CCJSqlParserUtil.newParser(s)
-                    .withSquareBracketQuotation("sqlserver".equals(dialect))
-                    .withAllowComplexParsing(true);
-            st = parser.Statement();
-        } catch (Exception | Error e) {
-            return null;
+        // Simple parsing first: much faster, and complex parsing only for what it cannot read.
+        Statement st = parse(s, dialect, false);
+        if (st == null) {
+            st = parse(s, dialect, true);
         }
         if (st == null || st instanceof UnsupportedStatement) {
             return null;
@@ -114,6 +137,17 @@ final class SqlParse {
         }
         out.removeAll(SqlTools.NOT_TABLES);
         return new ArrayList<>(out);
+    }
+
+    private static Statement parse(String sql, String dialect, boolean complex) {
+        try {
+            return CCJSqlParserUtil.newParser(sql)
+                    .withSquareBracketQuotation("sqlserver".equals(dialect))
+                    .withAllowComplexParsing(complex)
+                    .Statement();
+        } catch (Exception | Error e) {
+            return null;
+        }
     }
 
     /** False for syntax the dialect does not have (the Python tool's parser rejected it). */

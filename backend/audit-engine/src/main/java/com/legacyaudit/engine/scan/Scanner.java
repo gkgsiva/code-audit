@@ -173,6 +173,16 @@ public final class Scanner {
         }
     }
 
+    /** Files each analyzer read, for the log and the command line: {@code java 11 files, sql 2 files}. */
+    public static String analyzerLine(Map<String, Object> analyzers) {
+        List<String> parts = new ArrayList<>();
+        analyzers.forEach((name, cov) -> {
+            Object files = cov instanceof Map<?, ?> m ? m.get("files") : null;
+            parts.add(name + " " + files + (Long.valueOf(1).equals(files) ? " file" : " files"));
+        });
+        return String.join(", ", parts);
+    }
+
     private static final class Run {
         private final LoadedConfig loaded;
         private final AuditConfig cfg;
@@ -428,6 +438,9 @@ public final class Scanner {
             run.countingRules = cfg.counting();
             run.target = cfg.target().info();
             run.analyzers = analyzerCoverage(fileFacts);
+            if (!run.analyzers.isEmpty()) {
+                log.info("Analyzers: " + analyzerLine(run.analyzers));
+            }
 
             stage("export");
             t = System.nanoTime();

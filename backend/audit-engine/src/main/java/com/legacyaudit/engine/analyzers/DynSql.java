@@ -255,21 +255,28 @@ public final class DynSql {
     }
 
     /** Copies how the text was rebuilt onto the statement, with evidence for each fragment. */
-    @SuppressWarnings("unchecked")
     public static Doc fill(Doc fact, Built built) {
+        return fill(fact, built.base(), built.fragments, built.optional, built.valueHoles, built.structuralHoles, built.how, built.lines,
+                built.variants);
+    }
+
+    /** {@link #fill(Doc, Built)} from the parts of any rebuilt text. */
+    @SuppressWarnings("unchecked")
+    public static Doc fill(Doc fact, String base, int fragments, int optional, int valueHoles, int structuralHoles, Set<String> builtHow,
+            Set<Integer> builtLines, List<String> builtVariants) {
         TreeSet<String> how = new TreeSet<>(SqlTools.PyJson_ORDER);
         how.addAll((List<String>) fact.get("built_with"));
-        how.addAll(built.how);
+        how.addAll(builtHow);
         fact.set("built_with", new ArrayList<>(how));
-        fact.set("fragments", (long) Math.max(built.fragments, 1));
-        fact.set("optional_fragments", (long) built.optional);
-        fact.set("value_holes", (long) built.valueHoles);
-        fact.set("structural_holes", (long) built.structuralHoles);
+        fact.set("fragments", (long) Math.max(fragments, 1));
+        fact.set("optional_fragments", (long) optional);
+        fact.set("value_holes", (long) valueHoles);
+        fact.set("structural_holes", (long) structuralHoles);
         String text = fact.str("text");
         LinkedHashSet<String> variants = new LinkedHashSet<>();
         List<String> all = new ArrayList<>();
-        all.add(TextUtil.strip(built.base()));
-        for (String v : built.variants) {
+        all.add(TextUtil.strip(base));
+        for (String v : builtVariants) {
             all.add(TextUtil.strip(v));
         }
         for (String v : all) {
@@ -283,7 +290,7 @@ public final class DynSql {
         for (Evidence e : evidence) {
             known.add(e.line());
         }
-        TreeSet<Integer> lines = new TreeSet<>(built.lines);
+        TreeSet<Integer> lines = new TreeSet<>(builtLines);
         lines.removeAll(known);
         int n = 0;
         for (int ln : lines) { // where the other fragments are
