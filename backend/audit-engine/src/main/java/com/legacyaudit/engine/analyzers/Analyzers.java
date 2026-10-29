@@ -22,6 +22,7 @@ public final class Analyzers {
                 new BuildAnalyzer(),
                 new DepsAnalyzer(),
                 new ConfigAnalyzer(),
+                new WebAnalyzer(),
                 new SqlAnalyzer(),
                 new ServersAnalyzer());
     }

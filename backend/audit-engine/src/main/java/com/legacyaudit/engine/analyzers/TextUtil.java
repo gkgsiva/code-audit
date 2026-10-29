@@ -121,6 +121,48 @@ public final class TextUtil {
         return b.length() > 1 && b.indexOf('.', 1) >= 0 ? b.substring(0, b.lastIndexOf('.')) : b;
     }
 
+    /** {@code posixpath.dirname}. */
+    public static String dirname(String p) {
+        int i = p.lastIndexOf('/') + 1;
+        String head = p.substring(0, i);
+        if (!head.isEmpty() && !head.chars().allMatch(c -> c == '/')) {
+            head = rstrip(head, "/");
+        }
+        return head;
+    }
+
+    /** {@code posixpath.join(a, b)}. */
+    public static String joinPath(String a, String b) {
+        if (b.startsWith("/")) {
+            return b;
+        }
+        if (a.isEmpty() || a.endsWith("/")) {
+            return a + b;
+        }
+        return a + "/" + b;
+    }
+
+    /** {@code posixpath.normpath}. */
+    public static String normpath(String path) {
+        if (path.isEmpty()) {
+            return ".";
+        }
+        int initial = path.startsWith("/") ? (path.startsWith("//") && !path.startsWith("///") ? 2 : 1) : 0;
+        List<String> out = new ArrayList<>();
+        for (String comp : path.split("/", -1)) {
+            if (comp.isEmpty() || comp.equals(".")) {
+                continue;
+            }
+            if (!comp.equals("..") || (initial == 0 && out.isEmpty()) || (!out.isEmpty() && out.getLast().equals(".."))) {
+                out.add(comp);
+            } else if (!out.isEmpty()) {
+                out.removeLast();
+            }
+        }
+        String joined = "/".repeat(initial) + String.join("/", out);
+        return joined.isEmpty() ? "." : joined;
+    }
+
     // ---- Python str methods -------------------------------------------------------------------
 
     public static String strip(String s, String chars) {

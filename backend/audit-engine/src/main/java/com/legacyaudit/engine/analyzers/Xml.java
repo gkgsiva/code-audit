@@ -120,7 +120,7 @@ public final class Xml {
         public String textOf() {
             StringBuilder sb = new StringBuilder();
             itertext(sb);
-            return sb.toString().strip();
+            return TextUtil.strip(sb.toString());
         }
 
         /** {@code "".join(el.itertext())}, not stripped. */
