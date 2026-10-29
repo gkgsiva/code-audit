@@ -19,6 +19,22 @@ The browser opens `http://127.0.0.1:8765/`. The GUI runs on your computer only a
 anywhere. Stop it with Ctrl+C in the terminal. Options: `--workspace <folder>`, `--port <n>`,
 `--no-browser`.
 
+### On the hosted site
+
+If your team runs the hosted site (see [hosting.md](hosting.md)), nothing is installed on your
+laptop:
+
+1. Open the site's address and log in with your name.
+2. **Projects > Create a project**: type a name, then click through the folders until the box
+   shows your application's folder (or choose **A Git repository** and paste its address).
+3. **Create project** opens the same screens as below (1 to 9). **← All projects** goes back.
+4. **Status** shows your scan's progress, its place in line when others are running, and about
+   how long is left. **Logs** shows the scan logs.
+5. **Access and reports** (on Projects) adds colleagues as contributors or viewers.
+
+Open folder and Open in VS Code buttons are not shown there; download the reports or the data
+pack instead.
+
 ## 1. Project setup
 
 ![Project setup](img/gui-setup.png)

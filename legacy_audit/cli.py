@@ -518,6 +518,51 @@ def serve(
 
 
 @app.command()
+def host(
+    audits_root: Annotated[
+        Path | None,
+        typer.Option(
+            "--audits-root", help="Top-level audits folder (else LEGACY_AUDIT_AUDITS_ROOT)"
+        ),
+    ] = None,
+    port: Annotated[int | None, typer.Option(help="Port (else LEGACY_AUDIT_PORT, 8765)")] = None,
+    bind: Annotated[
+        str | None, typer.Option("--host", help="Address to listen on (else 0.0.0.0)")
+    ] = None,
+    verbose: Annotated[bool, typer.Option("--verbose", "-v")] = False,
+) -> None:
+    """Start the hosted site: login, projects under the audits folder, admin page (Docker)."""
+    import uvicorn
+
+    from legacy_audit.hosted.app import create_site
+    from legacy_audit.hosted.settings import HostSettings, SettingsError
+
+    _setup_logging(verbose)
+    try:
+        settings = HostSettings.from_env()
+        if audits_root is not None:
+            settings.audits_root = audits_root
+        if port is not None:
+            settings.port = port
+        if bind is not None:
+            settings.host = bind
+        settings.audits_root = settings.audits_root.resolve()
+        site = create_site(settings)
+    except SettingsError as err:
+        raise _fail(str(err)) from None
+    shown = settings.public_url or f"http://{settings.host}:{settings.port}/"
+    console.print(
+        f"legacy-audit hosted site for [bold]{settings.audits_root}[/bold] at {shown} "
+        f"(login: {site.site.provider.label}; Ctrl+C to stop)"
+    )
+    if site.site.provider.banner:
+        console.print(f"[yellow]{site.site.provider.banner}[/yellow]")
+    uvicorn.run(
+        site, host=settings.host, port=settings.port, log_level="warning", proxy_headers=True
+    )
+
+
+@app.command()
 def doctor(
     config: Annotated[
         Path | None, typer.Option("--config", "-c", help="audit.yaml (tool paths, output folder)")

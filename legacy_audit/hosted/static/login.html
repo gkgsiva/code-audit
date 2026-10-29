@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>legacy-audit: log in</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="/assets/report.css">
+<link rel="stylesheet" href="/static/gui.css">
+<link rel="stylesheet" href="/hosted-static/hosted.css">
+</head>
+<body class="login-page">
+<main class="login-box">
+  <h1>legacy-audit</h1>
+  <p class="lead">Audit legacy applications before migrating them. Log in to open or create your project.</p>
+  <p id="banner" class="banner" hidden></p>
+  <form id="login" class="fields">
+    <label for="name">User name</label>
+    <input type="text" id="name" name="name" autocomplete="username" required autofocus placeholder="e.g. siva">
+    <span></span>
+    <button type="submit" class="btn primary">Log in</button>
+  </form>
+  <p id="error" class="error-text" role="alert" hidden></p>
+  <p id="signup" class="hint"></p>
+</main>
+<script src="/hosted-static/login.js" defer></script>
+</body>
+</html>
