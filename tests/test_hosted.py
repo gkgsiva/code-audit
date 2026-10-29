@@ -97,6 +97,149 @@ def test_settings_from_environment() -> None:
         create_site(HostSettings(audits_root=Path("/tmp/x"), auth="okta"))
 
 
+def test_audits_folder_that_cannot_be_written_stops_with_what_to_do(tmp_path: Path) -> None:
+    # A file where the folder should be fails on every platform, also when running as root.
+    blocked = tmp_path / "audits"
+    blocked.write_text("not a folder", encoding="utf-8")
+    with pytest.raises(SettingsError, match=r"cannot be written.*AUDIT_UID"):
+        create_site(HostSettings(audits_root=blocked))
+
+
+class _AnyInt:
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, int)
+
+
+ANY_INT = _AnyInt()
+
+
+def test_dashboard_usage_counts_per_day() -> None:
+    from datetime import date
+
+    from legacy_audit.hosted.metrics import usage
+    from legacy_audit.hosted.registry import ProjectMeta, User
+
+    def job(day: str, kind: str, state: str, seconds: float, **extra: Any) -> dict[str, Any]:
+        return {
+            "time": f"{day}T10:00:00+00:00",
+            "user": "siva",
+            "action": "job finished",
+            "project": "orders",
+            "kind": kind,
+            "state": state,
+            "seconds": seconds,
+            "wait_seconds": 4,
+            "title": "Scan" if kind == "scan" else "Build all reports",
+            **extra,
+        }
+
+    entries = [
+        {"time": "2026-10-28T09:00:00+00:00", "user": "siva", "action": "log in"},
+        {"time": "2026-10-29T09:00:00+00:00", "user": "ana", "action": "log in"},
+        {"time": "2026-09-01T09:00:00+00:00", "user": "old", "action": "log in"},  # too old
+        job("2026-10-28", "scan", "done", 100),
+        job("2026-10-29", "scan", "done", 300),
+        job("2026-10-29", "scan", "failed", 5, error="SourceError: no such folder"),
+        job("2026-10-29", "report", "done", 20),
+    ]
+    u = usage(
+        entries,
+        3,
+        [User("siva"), User("ana"), User("gone", disabled=True)],
+        [ProjectMeta("orders", "Orders"), ProjectMeta("old", "Old", archived=True)],
+        today=date(2026, 10, 29),
+    )
+    assert [r["day"] for r in u["series"]] == ["2026-10-27", "2026-10-28", "2026-10-29"]
+    assert u["series"][2]["scans_done"] == 1 and u["series"][2]["scans_failed"] == 1
+    assert u["series"][1]["logins"] == 1 and u["series"][2]["active_users"] == 2
+    t = u["totals"]
+    assert t["users"] == 2 and t["active_users"] == 2 and t["archived_projects"] == 1
+    assert t["scans"] == 3 and t["success_percent"] == 66.7 and t["scan_seconds_avg"] == 200
+    assert t["scan_seconds_max"] == 300 and t["wait_seconds_avg"] == 4.0 and t["reports"] == 1
+    assert u["failures"][0]["error"].startswith("SourceError")
+    assert u["reports_by_type"] == [{"name": "Build all reports", "count": 1}]
+    assert u["top_projects"] == [{"name": "orders", "scans": 3, "scan_seconds": 400}]
+
+
+def test_server_numbers_need_no_extra_packages() -> None:
+    from legacy_audit.hosted.metrics import Sampler, cpus, memory
+
+    m = memory()
+    assert set(m) == {"used", "limit", "process", "source"}
+    assert cpus() >= 1
+    s = Sampler(interval=0.05)
+    s.sample()
+    point = s.sample()
+    assert point["cpu_percent"] is None or 0 <= point["cpu_percent"] <= 100
+    assert len(s.history()) == 2
+
+
+def _fake_clone(cache: Path, key: str, url: str, days_ago: float, size: int = 10) -> Path:
+    import json as _json
+
+    folder = cache / key
+    (folder / ".git").mkdir(parents=True)
+    (folder / "big.bin").write_bytes(b"x" * size)
+    used = time.time() - days_ago * 86400
+    (folder / ".git" / "legacy-audit-clone.json").write_text(
+        _json.dumps(
+            {"url": url, "ref": key.rsplit("@", 1)[1], "commit": "a" * 40, "last_used": used}
+        )
+    )
+    return folder
+
+
+def test_git_clones_are_listed_cleaned_up_and_deleted_with_their_project(site: Any) -> None:
+    boss = _client(site, "boss")
+    cache = site.site.layer.git_cache()
+    url_a, url_b = "https://git.example.com/team/a.git", "https://git.example.com/team/b.git"
+    old = _fake_clone(cache, "git.example.com/team/a@main", url_a, days_ago=30)
+    fresh = _fake_clone(cache, "git.example.com/team/a@release", url_a, days_ago=1)
+    other = _fake_clone(cache, "git.example.com/team/b@main", url_b, days_ago=1)
+    # a project scanning repository a (written by hand: the test has no Git server)
+    folder = site.site.registry.project_dir("billing")
+    folder.mkdir(parents=True)
+    (folder / "audit.yaml").write_text(
+        "application: {name: Billing}\n"
+        f"source: {{type: git, repos: [{{url: '{url_a}', ref: main}}]}}\n",
+        encoding="utf-8",
+    )
+    listing = _ok(boss.get("/api/admin/clones"))
+    assert listing["clones"][-1]["key"] == old.relative_to(cache).as_posix()  # newest first
+    by_key = {c["key"]: c for c in listing["clones"]}
+    assert by_key["git.example.com/team/a@main"]["projects"] == ["billing"]
+    assert listing["keep_days"] == 14 and listing["total"] > 30
+    # older than 14 days goes; the rest stay
+    assert _ok(boss.post("/api/admin/clones/prune", headers=H))["removed"] == [
+        "git.example.com/team/a@main"
+    ]
+    assert not old.exists() and fresh.exists() and other.exists()
+    # low disk: the least recently used go first, until enough is free (here: never enough)
+    settings = _ok(boss.get("/api/admin"))["settings"]
+    settings["limits"]["min_free_gb"] = 100000
+    _ok(boss.put("/api/admin", json=settings, headers=H))
+    assert len(_ok(boss.post("/api/admin/clones/prune", headers=H))["removed"]) == 2
+    settings["limits"]["min_free_gb"] = 0
+    _ok(boss.put("/api/admin", json=settings, headers=H))
+    # one clone by hand, and the project's clones go with the project
+    keep = _fake_clone(cache, "git.example.com/team/b@main", url_b, days_ago=1)
+    mine = _fake_clone(cache, "git.example.com/team/a@main", url_a, days_ago=1)
+    bad = boss.post("/api/admin/clones/delete", json={"key": "../x"}, headers=H)
+    assert bad.status_code == 404
+    _ok(boss.post("/api/projects/billing/delete", json={"confirm": "billing"}, headers=H))
+    assert not mine.exists() and keep.exists()
+    _ok(
+        boss.post(
+            "/api/admin/clones/delete", json={"key": "git.example.com/team/b@main"}, headers=H
+        )
+    )
+    assert not keep.exists()
+    actions = [e["action"] for e in _ok(boss.get("/api/admin/activity"))]
+    assert actions.count("delete clone") == 5
+    siva = _client(site, "siva")
+    assert siva.get("/api/admin/clones").status_code == 403
+
+
 def test_sessions_are_signed_and_expire() -> None:
     s = Sessions("k", 1)
     token = s.issue("siva")
@@ -304,6 +447,21 @@ def test_create_open_scan_and_report_as_owner(site: Any, tmp_path: Path) -> None
     assert boss.get("/api/admin/activity.csv").text.startswith("time,user,action")
     health = _ok(boss.get("/api/admin/health"))
     assert health["projects"][0]["project"] == "orders" and health["checks"]
+    # the dashboard counts the scans and report builds, and shows the server
+    for _ in range(100):  # the job's end is logged just after the job reports done
+        dash = _ok(boss.get("/api/admin/dashboard/usage", params={"days": 7}))
+        if dash["totals"]["scans_done"] == 2 and dash["totals"]["reports"] == 1:
+            break
+        time.sleep(0.05)
+    t = dash["totals"]
+    assert t["scans_done"] == 2 and t["reports"] == 1 and t["success_percent"] == 100.0
+    assert t["scan_seconds_avg"] is not None and t["projects"] == 1 and t["active_users"] == 2
+    assert dash["series"][-1]["scans_done"] == 2 and len(dash["series"]) == 7
+    assert dash["top_projects"][0] == {"name": "orders", "scans": 2, "scan_seconds": ANY_INT}
+    server = _ok(boss.get("/api/admin/dashboard/system"))
+    assert server["disk"]["free"] > 0 and server["history"] and server["cpu"]["cpus"] >= 1
+    assert server["jobs"] == {"running": 0, "waiting": 0}
+    assert c.get("/api/admin/dashboard/usage").status_code == 403
 
 
 def test_roles_and_project_access(site: Any) -> None:

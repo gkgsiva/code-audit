@@ -15,7 +15,7 @@
     <span class="meta">run <code>{{ run_id }}</code> · {{ run_date }} · legacy-audit {{ tool_version }}{% if target_label %} · target: {{ target_label }}{% endif %}</span>
   </div>
   <div class="meta">Sources:
-    {% for s in sources %}<code>{{ s.name }}</code>{% if s.commit %} @ <code title="Git commit">{{ s.commit[:12] }}</code>{% elif s.type == "local" %} (local folder){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
+    {% for s in sources %}<code>{{ s.name }}</code>{% if s.ref %} branch <code>{{ s.ref }}</code>{% endif %}{% if s.commit %} @ <code title="Git commit">{{ s.commit[:12] }}</code>{% elif s.type == "local" %} (local folder){% endif %}{% if not loop.last %}, {% endif %}{% endfor %}
   </div>
   <div class="badges" aria-label="Input coverage">
     {% for b in badges %}<span class="badge {{ b.status }}" title="{{ b.title }}">{{ b.text }}</span>{% endfor %}

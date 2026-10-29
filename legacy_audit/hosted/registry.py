@@ -190,6 +190,23 @@ class Registry:
             with (self.dir / ACTIVITY_FILE).open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(entry, default=str) + "\n")
 
+    def activity_since(self, start: str) -> list[dict[str, Any]]:
+        """Entries logged at or after ``start`` (ISO time), newest first. The file is in time
+        order, so reading stops at the first older entry."""
+        path = self.dir / ACTIVITY_FILE
+        if not path.exists():
+            return []
+        out: list[dict[str, Any]] = []
+        for line in reversed(path.read_text(encoding="utf-8").splitlines()):
+            try:
+                e = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if str(e.get("time") or "") < start:
+                break
+            out.append(e)
+        return out
+
     def activity(self, limit: int = 500, project: str | None = None) -> list[dict[str, Any]]:
         path = self.dir / ACTIVITY_FILE
         if not path.exists():

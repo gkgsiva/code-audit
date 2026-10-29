@@ -12,3 +12,7 @@ dist
 samples/*/audit-output
 tests
 docs
+audits
+sources
+audits-hosted
+.env

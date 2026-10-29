@@ -40,7 +40,14 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from legacy_audit import __version__
-from legacy_audit.config import INPUT_KINDS, ConfigError, LoadedConfig, load_config
+from legacy_audit.config import (
+    GIT_REF_RE,
+    INPUT_KINDS,
+    ConfigError,
+    GitSource,
+    LoadedConfig,
+    load_config,
+)
 from legacy_audit.gui.jobs import Busy, Gate, Job, Jobs
 from legacy_audit.model import ENTITIES
 from legacy_audit.store.runs import RunNotFound, list_runs, resolve_run
@@ -99,6 +106,7 @@ class ComponentsBody(BaseModel):
 
 class ScanBody(BaseModel):
     full: bool = False
+    ref: str | None = None  # Git source: scan this branch, tag or commit this time only
 
 
 class EnrichBody(BaseModel):
@@ -131,6 +139,7 @@ class HostedHooks:
     scan_timeout_minutes: Callable[[], int]
     user: Callable[[Request], dict[str, Any]]  # {"name", "role"} of the logged-in user
     after_scan: Callable[[str, dict[str, Any]], None] = lambda project, result: None
+    on_job_end: Callable[[Job], None] = lambda job: None
 
 
 def report_file_needs(path: str) -> tuple[str, ...]:
@@ -211,6 +220,11 @@ def _run_row(run_dir: Path, latest: str | None) -> dict[str, Any]:
         "warnings": len(run.get("warnings", [])),
         "latest": run_dir.name == latest,
         "seconds": round(sum((run.get("timings") or {}).values()), 1),
+        "git": [
+            {"name": s.get("name"), "ref": s.get("ref"), "commit": (s.get("commit") or "")[:12]}
+            for s in run.get("sources") or []
+            if s.get("type") == "git"
+        ],
     }
 
 
@@ -301,7 +315,7 @@ def create_app(
     hosted: HostedHooks | None = None,
 ) -> FastAPI:
     ws = Workspace(folder)
-    jobs = Jobs(hosted.gate, hosted.on_job) if hosted else Jobs()
+    jobs = Jobs(hosted.gate, hosted.on_job, hosted.on_job_end) if hosted else Jobs()
     durations: dict[str, float] = {}  # job kind + title -> seconds the last one took
     invalid_stages: dict[str, set[str]] = {}  # run id -> stages that failed the last validate
     app = FastAPI(
@@ -389,7 +403,11 @@ def create_app(
             except ConfigError as err:
                 out["config_error"] = str(err)
                 return out
+            src = loaded.config.source
             out.update(
+                git=[{"url": r.url, "ref": r.ref} for r in src.repos]
+                if isinstance(src, GitSource)
+                else None,
                 application=loaded.config.application.name,
                 output_dir=str(loaded.output_dir),
                 inputs_dir=str(loaded.inputs_dir),
@@ -586,6 +604,12 @@ def create_app(
         from legacy_audit.store.runs import prune_runs
 
         loaded = ws.loaded()
+        ref = (body.ref or "").strip() or None
+        if ref is not None:
+            if not isinstance(loaded.config.source, GitSource):
+                raise HTTPException(422, "A branch can only be chosen for a Git source")
+            if not GIT_REF_RE.match(ref) or ".." in ref:
+                raise HTTPException(422, f"'{ref}' is not a branch, tag or commit name")
 
         def work(job: Job) -> dict[str, Any]:
             timer = None
@@ -600,8 +624,12 @@ def create_app(
                 timer.daemon = True
                 timer.start()
             try:
+                cfg = load_config(loaded.path)
+                if ref is not None and isinstance(cfg.config.source, GitSource):
+                    for repo in cfg.config.source.repos:
+                        repo.ref = ref
                 result = run_scan(
-                    load_config(loaded.path),
+                    cfg,
                     full=body.full,
                     progress=job.progress,
                     cancel=job.cancel,
@@ -624,7 +652,7 @@ def create_app(
                 hosted.after_scan(hosted.project, out)
             return out
 
-        title = "Full rescan" if body.full else "Re-run"
+        title = ("Full rescan" if body.full else "Re-run") + (f" of {ref}" if ref else "")
         expected = None if body.full else _last_scan_seconds(loaded.output_dir)
         return _start("scan", title, work, request, expected)
 
