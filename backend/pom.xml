@@ -37,6 +37,7 @@
     <tree-sitter-typescript.version>0.23.2</tree-sitter-typescript.version>
     <jsqlparser.version>5.3</jsqlparser.version>
     <picocli.version>4.7.7</picocli.version>
+    <juniversalchardet.version>2.5.0</juniversalchardet.version>
   </properties>
 
   <build>
@@ -100,6 +101,11 @@
         <groupId>com.github.jsqlparser</groupId>
         <artifactId>jsqlparser</artifactId>
         <version>${jsqlparser.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.albfernandez</groupId>
+        <artifactId>juniversalchardet</artifactId>
+        <version>${juniversalchardet.version}</version>
       </dependency>
       <dependency>
         <groupId>info.picocli</groupId>

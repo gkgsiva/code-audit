@@ -1,0 +1,684 @@
+[
+  {
+    "category": "build",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:43893309b2516686",
+    "language": "xml",
+    "loc_blank": 1,
+    "loc_code": 29,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-batch/pom.xml",
+    "root": "billing",
+    "sha256": "19dc472f57d16c631bc63f704b2fc610e66ac7f34baa35ba6bcd6912eecc1dfd",
+    "size": 899
+  },
+  {
+    "category": "script",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-batch/scripts/run_invoice_job.sh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:86c5a9cd6b7f33e6",
+    "language": "shell",
+    "loc_blank": 1,
+    "loc_code": 9,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "billing-batch/scripts/run_invoice_job.sh",
+    "root": "billing",
+    "sha256": "27585f22f68c1891b3507adb5cabe00520339b697262944c2598a2a50295359f",
+    "size": 445
+  },
+  {
+    "category": "source",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:56e3f187c7988bcd",
+    "language": "java",
+    "loc_blank": 5,
+    "loc_code": 21,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+    "root": "billing",
+    "sha256": "55c091fa5895ceb3fddd388e11318908d1e0399e63afe0c6cc5d35f88adb7075",
+    "size": 1017
+  },
+  {
+    "category": "source",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d4092875766572a1",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 20,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+    "root": "billing",
+    "sha256": "297099ed3a7d94aa4de3207a88f7b02d6831a49ba176b2ae4f84c35500de9c5c",
+    "size": 771
+  },
+  {
+    "category": "config",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a9fc73428336e248",
+    "language": "xml",
+    "loc_blank": 5,
+    "loc_code": 26,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+    "root": "billing",
+    "sha256": "b2c9e1d5cff1ce54d65b8529bb62428f360291ad480e24b303fd580155e9c9b7",
+    "size": 1301
+  },
+  {
+    "category": "build",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f938cc185cdcc254",
+    "language": "xml",
+    "loc_blank": 1,
+    "loc_code": 28,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-common/pom.xml",
+    "root": "billing",
+    "sha256": "fbbd9a8e1c397e6db3c415e3ee9e58bf49be81c08d58e58836a24bf3b01f1cf9",
+    "size": 810
+  },
+  {
+    "category": "source",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:36c06021df4a76dd",
+    "language": "java",
+    "loc_blank": 7,
+    "loc_code": 26,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+    "root": "billing",
+    "sha256": "be462fdfb6ade6453ddde148b05a16dcd2d9de70c95ca83b2e1a74219069f3fd",
+    "size": 1093
+  },
+  {
+    "category": "source",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:529f82ad69f9c50c",
+    "language": "java",
+    "loc_blank": 10,
+    "loc_code": 31,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "root": "billing",
+    "sha256": "bdaf8d27cf4116431b9a0eec1ac376fe373e7d2c22625980efe81fd706dd8570",
+    "size": 1516
+  },
+  {
+    "category": "source",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:9b6626de797d8429",
+    "language": "java",
+    "loc_blank": 5,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+    "root": "billing",
+    "sha256": "ab91957e01eca8230067eda667c80cb93490df94db23ea83dc2674248e83d27d",
+    "size": 350
+  },
+  {
+    "category": "source",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5c9ce959f610e69f",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 15,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+    "root": "billing",
+    "sha256": "bc85f085e1fdd26495b0d89d9e56b33339b6e49265109e4d19466b98770f21ce",
+    "size": 417
+  },
+  {
+    "category": "source",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e17da66cb5dd5376",
+    "language": "java",
+    "loc_blank": 9,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+    "root": "billing",
+    "sha256": "968218da36ce518ba8d692e0cce1026d96b350f4c9aa645c8a49c9ff969c32ba",
+    "size": 740
+  },
+  {
+    "category": "config",
+    "component": "billing-common",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:90ddd87b01b8c87e",
+    "language": "xml",
+    "loc_blank": 3,
+    "loc_code": 22,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+    "root": "billing",
+    "sha256": "d4890dd298d3316f89d693579bf3a2463ce51cbb11a18b2a4306ebd9e02b0d55",
+    "size": 819
+  },
+  {
+    "category": "build",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e3a56f692ef09622",
+    "language": "xml",
+    "loc_blank": 1,
+    "loc_code": 36,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/pom.xml",
+    "root": "billing",
+    "sha256": "7d0f9f01333b183f17b598fc57c8f48597eb6ec5bb908ac14f4c4ee97b6d338c",
+    "size": 1110
+  },
+  {
+    "category": "source",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:aefe62a5ba27eff1",
+    "language": "java",
+    "loc_blank": 5,
+    "loc_code": 20,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+    "root": "billing",
+    "sha256": "8ef8fd72fce5a31b0a3251c5cc5e859f64e0602d0a191de1cf40ec3c92d115f7",
+    "size": 795
+  },
+  {
+    "category": "source",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b9c4fa2e567c4fc5",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+    "root": "billing",
+    "sha256": "98a10430ebedcde28218b6a7626e03f75022f516299292c83b3b7669fc741ae6",
+    "size": 390
+  },
+  {
+    "category": "source",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:78008ba9d3475c23",
+    "language": "java",
+    "loc_blank": 8,
+    "loc_code": 32,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+    "root": "billing",
+    "sha256": "205cc59e9589096980f9c5aac282321eb3571be5fb7cef9abb75e689d4762177",
+    "size": 1282
+  },
+  {
+    "category": "source",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3a59a3fbba90ad62",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 12,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+    "root": "billing",
+    "sha256": "447e3b8bd97c4816d0659ebfc426c27c0873bec39df3e0aa73807fb1a54af7ab",
+    "size": 525
+  },
+  {
+    "category": "config",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:2dd0d2f4103298a8",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-web/src/main/resources/application.properties",
+    "root": "billing",
+    "sha256": "4c2f3dc04a611a09d1f2ab100724daa7e0afcb741d8c9de60e6547925d1a8966",
+    "size": 201
+  },
+  {
+    "category": "config",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ea10d2247b5548e1",
+    "language": "xml",
+    "loc_blank": 4,
+    "loc_code": 25,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+    "root": "billing",
+    "sha256": "ab2fb36416a7364491682a3a2fb684dff2d36175039777dc1744de7bccc4eddf",
+    "size": 1492
+  },
+  {
+    "category": "config",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1563c4ce6737d9f8",
+    "language": "xml",
+    "loc_blank": 2,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+    "root": "billing",
+    "sha256": "618372e189086f710d02ffe4e99d9ef2d1988d8e2d71b7e5d515361df284f9cf",
+    "size": 683
+  },
+  {
+    "category": "config",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c4cc13c3c6e278ed",
+    "language": "xml",
+    "loc_blank": 3,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+    "root": "billing",
+    "sha256": "ef3d44b5c57c6cb40cc9fd1bbbf6f47d2b187c4be5e21b99afac360e34983aaf",
+    "size": 652
+  },
+  {
+    "category": "screen",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8b24b0b8a904dff0",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+    "root": "billing",
+    "sha256": "17d2281681bcaf009a2b2aa006ca9694611f1d4235a7d124916ec2f047e8f59a",
+    "size": 206
+  },
+  {
+    "category": "screen",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:99ec3c72107b3e38",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+    "root": "billing",
+    "sha256": "74da7c50d5937db9b1831ffa1b829c0e45e53a495c4210ce4fa0bfe63ae73df0",
+    "size": 379
+  },
+  {
+    "category": "screen",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d1b126acc0fbe83d",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+    "root": "billing",
+    "sha256": "c22056cc9c51e58d617f9ea7984edaf8fe0bb776c08ff15c9fd4ceaaf1f2140d",
+    "size": 181
+  },
+  {
+    "category": "screen",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:af0807c9cae6c178",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+    "root": "billing",
+    "sha256": "84d4c8422ccdc6796504cd221a04545e51f368cb0ada84f80bc1ea73945ddb9b",
+    "size": 330
+  },
+  {
+    "category": "screen",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a36ca858255ac198",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 17,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+    "root": "billing",
+    "sha256": "66f79e69018ffa2c8c46fe4097b26582b152faec6187e22a91b0554ba5378433",
+    "size": 453
+  },
+  {
+    "category": "config",
+    "component": "billing-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:08c359f81e2b90fb",
+    "language": "xml",
+    "loc_blank": 4,
+    "loc_code": 28,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-web/src/main/webapp/WEB-INF/web.xml",
+    "root": "billing",
+    "sha256": "f11153edcea1e1494d87ec1ecf625b6c801384cc8f882caf14139700bb369541",
+    "size": 1056
+  },
+  {
+    "category": "build",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c0210668e13b9dca",
+    "language": "xml",
+    "loc_blank": 3,
+    "loc_code": 69,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "pom.xml",
+    "root": "billing",
+    "sha256": "3f313772cd29ec5100e17b2502dca9d93c8249bc74fb6dc835298a560926715a",
+    "size": 2345
+  },
+  {
+    "category": "job",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:58ce0a6f42d6dffc",
+    "language": "jil",
+    "loc_blank": 3,
+    "loc_code": 25,
+    "loc_comment": 1,
+    "origin": "input",
+    "path": "audit-inputs/autosys/billing.jil",
+    "root": "audit-inputs",
+    "sha256": "b89f273b2027a669814709e1dae2549c2898668b302b4e146649c7e7d4521404",
+    "size": 858
+  },
+  {
+    "category": "config",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c56d1fac70746864",
+    "language": "mqsc",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "input",
+    "path": "audit-inputs/mq/qmbill.mqsc",
+    "root": "audit-inputs",
+    "sha256": "db77607ae8ae2b56309ad206d746a17c0fcb33fd745c5f23d20588828ec006da",
+    "size": 491
+  },
+  {
+    "category": "config",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/security/osv-scanner.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d75c096cfdee0e61",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 52,
+    "loc_comment": 0,
+    "origin": "input",
+    "path": "audit-inputs/security/osv-scanner.json",
+    "root": "audit-inputs",
+    "sha256": "0a09a84804dd310a8435867e0017f95784c749d50f906a8c25131104c45338a7",
+    "size": 2768
+  }
+]

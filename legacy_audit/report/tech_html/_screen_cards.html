@@ -1,3 +1,0 @@
-{% if screen_flows %}<div class="cards">{% for f in screen_flows %}<a class="card c1" style="text-decoration:none;color:inherit" href="{{ base }}flows/{{ f.slug }}.html"><h3>{{ f.name }}</h3><p>{{ (stories.get(f.id) or {}).get("purpose") if stories is defined and stories.get(f.id) else f.summary }}</p><div class="chips">{% if f.component %}<span class="pill c3">{{ f.component }}</span>{% endif %}<span class="pill c7">{{ f.services|length }} service(s)</span><span class="pill c6">{{ f.tables|length }} table(s)</span></div></a>{% endfor %}</div>
-{% else %}<p class="muted">The scan found no screens.</p>{% endif %}
-

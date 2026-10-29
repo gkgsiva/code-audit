@@ -1,0 +1,148 @@
+@if (project(); as p) {
+  <section class="panel">
+    <div class="row spread">
+      <div>
+        <h1>{{ p.title }}</h1>
+        @if (p.description) {
+          <p class="lead">{{ p.description }}</p>
+        }
+      </div>
+      <a class="btn" routerLink="/">All projects</a>
+    </div>
+    <table class="grid">
+      <tr><th>Code folder</th><td>{{ p.sourcePath }}</td></tr>
+      <tr><th>Owner</th><td>{{ p.owner }}</td></tr>
+      <tr><th>Your role</th><td>{{ p.role }}</td></tr>
+    </table>
+  </section>
+
+  <section class="panel">
+    <div class="row spread">
+      <h2>Scan</h2>
+      @if (canScan()) {
+        <div class="row">
+          @if (active()) {
+            <button type="button" class="btn" (click)="cancel()">Cancel scan</button>
+          } @else {
+            <button type="button" class="btn primary" [disabled]="busy()" (click)="start(false)">Start scan</button>
+            <button type="button" class="btn" [disabled]="busy()" (click)="start(true)"
+                    title="Reads every file again instead of reusing unchanged ones">Full rescan</button>
+          }
+        </div>
+      }
+    </div>
+    @if (status(); as s) {
+      <p>
+        Scan {{ s.scan.id }}: <span class="badge" [class]="s.scan.status">{{ s.scan.status }}</span>
+        @if (s.scan.startedBy) { <span class="hint">started by {{ s.scan.startedBy }}, {{ s.scan.queuedAt | date: 'medium' }}</span> }
+      </p>
+      @if (s.progress; as pr) {
+        <p class="hint">Step: {{ pr.stage }} @if (pr.total > 0) { ({{ pr.done }} of {{ pr.total }}) }</p>
+        @if (percent() !== null) {
+          <progress max="100" [value]="percent()"></progress>
+        }
+      }
+      @if (s.scan.status === 'done') {
+        <p>
+          {{ s.scan.files | number }} files, {{ s.scan.components | number }} components,
+          {{ s.scan.locCode | number }} lines of code.
+          @if (s.scan.warnings) { <span class="hint">{{ s.scan.warnings }} warnings (see the log).</span> }
+          <a [routerLink]="['/p', p.id, 'inventory']">Open the inventory</a>
+        </p>
+      }
+      @if (s.scan.error) {
+        <p class="error-text" role="alert">{{ s.scan.error }}</p>
+      }
+      @if (s.log.length) {
+        <details [open]="active() || s.scan.status === 'failed'">
+          <summary>Log ({{ s.log.length }} lines)</summary>
+          <pre class="log">{{ s.log.join('\n') }}</pre>
+        </details>
+      }
+    } @else {
+      <p class="lead">Not scanned yet. @if (canScan()) { Click <strong>Start scan</strong>. }</p>
+    }
+  </section>
+
+  @if (components().length) {
+    <section class="panel">
+      <div class="row spread">
+        <h2>Components</h2>
+        <a [routerLink]="['/p', p.id, 'inventory']">Inventory of all files</a>
+      </div>
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Name</th><th>Type</th><th>Folder</th><th>Technology</th><th class="num">Files</th><th class="num">Lines of code</th></tr></thead>
+          <tbody>
+            @for (c of components(); track c.id) {
+              <tr>
+                <td><a [routerLink]="['/p', p.id, 'inventory']" [queryParams]="{ component: c.id }">{{ c.name }}</a></td>
+                <td>{{ c.type }}</td>
+                <td>{{ c.path }}</td>
+                <td>{{ c.technology }}</td>
+                <td class="num">{{ c.files | number }}</td>
+                <td class="num">{{ c.locCode | number }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  @if (scans().length > 1) {
+    <section class="panel">
+      <h2>Past scans</h2>
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Scan</th><th>Status</th><th>Started</th><th>By</th><th class="num">Files</th><th class="num">Read again</th><th class="num">Lines of code</th></tr></thead>
+          <tbody>
+            @for (s of scans(); track s.id) {
+              <tr>
+                <td>{{ s.id }}</td>
+                <td><span class="badge" [class]="s.status">{{ s.status }}</span></td>
+                <td>{{ s.queuedAt | date: 'medium' }}</td>
+                <td>{{ s.startedBy }}</td>
+                <td class="num">{{ s.files ?? '' }}</td>
+                <td class="num">{{ s.analyzed ?? '' }}</td>
+                <td class="num">{{ s.locCode ?? '' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+  }
+
+  <section class="panel">
+    <h2>Who has access</h2>
+    <p class="hint">The owner and admins can change everything. Contributors can scan. Viewers can only look.</p>
+    <table class="grid">
+      <tr><td>{{ p.owner }}</td><td>owner</td><td></td></tr>
+      @for (m of members(); track m.name) {
+        <tr>
+          <td>{{ m.name }}</td>
+          <td>{{ m.role }}</td>
+          <td>
+            @if (canManage()) {
+              <button type="button" class="btn" (click)="removeMember(m.name)">Remove</button>
+            }
+          </td>
+        </tr>
+      }
+    </table>
+    @if (canManage()) {
+      <form class="row" style="margin-top: .75rem" (ngSubmit)="addMember()">
+        <input type="text" name="member" placeholder="User name" style="max-width: 16rem" [(ngModel)]="newMember">
+        <select name="role" [(ngModel)]="newRole">
+          <option value="contributor">contributor</option>
+          <option value="viewer">viewer</option>
+        </select>
+        <button type="submit" class="btn" [disabled]="!newMember.trim()">Add</button>
+      </form>
+    }
+  </section>
+}
+@if (error()) {
+  <p class="error-text" role="alert">{{ error() }}</p>
+}

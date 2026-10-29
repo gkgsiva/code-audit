@@ -1,31 +1,25 @@
-.venv/
-__pycache__/
-*.pyc
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-dist/
-*.egg-info/
-# scan outputs of sample apps
-samples/*/audit-output/
+# build output and downloaded packages
+backend/**/target/
 node_modules/
-samples/*/.github/
-samples/*/.vscode/
-# scratch copies made by scripts/scan_without_inputs.py
-build/
+frontend/dist/
+frontend/.angular/
+# the Angular app installs from its lock file (npm ci, decision 198)
 package-lock.json
+!frontend/package-lock.json
 # the Angular/Node sample keeps its lock files: the scan reads them (decision 129)
 !samples/*/estate/**/package-lock.json
 
-# docker compose secrets
+# scan outputs of the sample apps
+samples/*/audit-output/
+samples/*/.github/
+samples/*/.vscode/
+
+# docker compose settings, host folders and build logs
 .env
-sources/
-audits-hosted/
+/sources/
 /audits/
 build.log
 
-# Spring Boot / Angular version
-backend/**/target/
-build-spring.log
-# the Angular app installs from its lock file (npm ci, decision 198)
-!frontend/package-lock.json
+# Company certificates are copied in locally and never committed
+docker/certs/*
+!docker/certs/README.txt

@@ -1,0 +1,46 @@
+[
+  {
+    "artifact": null,
+    "build_files": [
+      "Makefile"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "script": 2,
+      "source": 4,
+      "sql": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "settle_load",
+      "settle_send"
+    ],
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 8,
+    "id": "component:f1e8693e4d096f8a",
+    "loc_code": 167,
+    "name": "settlement",
+    "packaging": null,
+    "parts": [],
+    "path": "",
+    "roles": [
+      "batch",
+      "db"
+    ],
+    "root": "settlement",
+    "technology": [
+      "c",
+      "proc",
+      "shell",
+      "sql"
+    ],
+    "type": "batch"
+  }
+]

@@ -1,7 +1,7 @@
 # legacy-audit frontend (Angular 21)
 
 The screens of the Spring Boot version. In Docker, nginx serves the built app and passes `/api`
-to the backend (`nginx.conf`, `docker-compose.spring.yml`).
+to the backend (`nginx.conf`, `docker-compose.yml`).
 
 For development on your machine (Node.js 22):
 

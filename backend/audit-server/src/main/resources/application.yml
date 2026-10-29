@@ -1,4 +1,4 @@
-# legacy-audit backend. Every value can be set from the environment (docker-compose.spring.yml).
+# legacy-audit backend. Every value can be set from the environment (docker-compose.yml).
 server:
   port: ${LEGACY_AUDIT_PORT:8080}
   servlet:
@@ -24,3 +24,9 @@ legacy-audit:
   auth: ${LEGACY_AUDIT_AUTH:dummy}
   # These user names are always admins (comma-separated).
   admins: ${LEGACY_AUDIT_ADMINS:admin}
+  # One sub-folder per project: audit.yaml, audit-inputs/ and the scan results.
+  audits-root: ${LEGACY_AUDIT_AUDITS_ROOT:./audits}
+  # Folders a new project may scan (comma-separated). The folder picker starts there.
+  sources-roots: ${LEGACY_AUDIT_SOURCES_ROOT:./sources}
+  # Scans that may run at the same time; more wait in a queue.
+  max-scans: ${LEGACY_AUDIT_MAX_SCANS:2}

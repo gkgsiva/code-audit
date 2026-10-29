@@ -1,0 +1,115 @@
+[
+  {
+    "artifact": "orders-ws",
+    "build_files": [
+      "orders-ws/pom.xml"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 5,
+      "generated": 2,
+      "source": 6
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 14,
+    "id": "component:67b1b53ebbd0b725",
+    "loc_code": 202,
+    "name": "orders-ws",
+    "packaging": "war",
+    "parts": [],
+    "path": "orders-ws",
+    "roles": [
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "java",
+      "properties",
+      "xml"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "quote-axis/build.xml"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 2,
+      "source": 2
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "quote-axis/build.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 5,
+    "id": "component:19fc6999ed9f7d87",
+    "loc_code": 43,
+    "name": "quote-axis",
+    "packaging": null,
+    "parts": [],
+    "path": "quote-axis",
+    "roles": [
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "java",
+      "xml"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "rate-feed/Makefile"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "rate_feed"
+    ],
+    "evidence": [
+      {
+        "file": "rate-feed/Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:cff534d0fa896772",
+    "loc_code": 18,
+    "name": "rate-feed",
+    "packaging": null,
+    "parts": [],
+    "path": "rate-feed",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "c"
+    ],
+    "type": "batch"
+  }
+]

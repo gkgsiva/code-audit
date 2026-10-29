@@ -51,3 +51,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #35 | 2026-10-29 | Docker build behind a company proxy, data in host folders, admin dashboard, Git branches and clone cleanup |
 | #36 | 2026-10-29 | Add a development history with one line per pull request |
 | #37 | 2026-10-29 | Spring Boot and Angular version, phase 0: skeleton, Docker compose and parser proofs |
+| #38 | 2026-10-29 | Spring Boot and Angular version, phase 1: projects, scans and inventory |

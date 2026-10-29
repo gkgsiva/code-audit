@@ -145,7 +145,7 @@ public final class Proofs {
         return out;
     }
 
-    /** Reads the SQL statements the Python scan found (scripts/export_sql_corpus.py). */
+    /** Reads the SQL statements the Python scan found (exported from the Python tool on office-main). */
     public static JsonNode corpus() {
         try (InputStream in = Proofs.class.getResourceAsStream("sql-corpus.json")) {
             if (in == null) {

@@ -1,0 +1,52 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Projects</h1>
+    @if (canCreate()) {
+      <a class="btn primary" routerLink="/new">New project</a>
+    }
+  </div>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (projects(); as list) {
+    @if (list.length === 0) {
+      <p class="lead">
+        No projects yet.
+        @if (canCreate()) {
+          Click <strong>New project</strong> and pick the folder holding the code.
+        } @else {
+          Ask a project owner to add you to their project.
+        }
+      </p>
+    } @else {
+      <div class="scroll">
+        <table class="grid">
+          <thead>
+            <tr><th>Project</th><th>Owner</th><th>Your role</th><th>Last scan</th><th class="num">Files</th><th class="num">Lines of code</th></tr>
+          </thead>
+          <tbody>
+            @for (p of list; track p.id) {
+              <tr>
+                <td><a [routerLink]="['/p', p.id]">{{ p.title }}</a><div class="hint">{{ p.id }}</div></td>
+                <td>{{ p.owner }}</td>
+                <td>{{ p.role }}</td>
+                <td>
+                  @if (p.lastScan; as s) {
+                    <span class="badge" [class]="s.status">{{ s.status }}</span>
+                    <div class="hint">{{ s.queuedAt | date: 'medium' }}</div>
+                  } @else {
+                    <span class="hint">Not scanned yet</span>
+                  }
+                </td>
+                <td class="num">{{ p.lastScan?.files ?? '' }}</td>
+                <td class="num">{{ p.lastScan?.locCode ?? '' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  } @else if (!error()) {
+    <p class="hint">Loading...</p>
+  }
+</section>

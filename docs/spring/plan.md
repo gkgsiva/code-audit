@@ -6,7 +6,9 @@ with Maven)**, an **Angular 21 frontend** and a **PostgreSQL** database, started
 pull request into the branch `spring-boot-angular`, each started only after Siva's OK.
 
 The Python tool on `office-main` stays the reference: every phase must give the same counts on
-the sample apps before it is done. **The PowerPoint report, its formats and the corporate .potx
+the sample apps before it is done. Since 2026-10-29 the Python code is no longer on this branch
+(Siva: it is not used going forward); its results for the samples are kept as test fixtures in
+`backend/audit-engine/src/test/resources/parity/`, made from `office-main`. **The PowerPoint report, its formats and the corporate .potx
 templates are not part of the rewrite** (Siva, 2026-10-29); the Python tool keeps them.
 
 ## Decisions taken with the plan
@@ -14,7 +16,8 @@ templates are not part of the rewrite** (Siva, 2026-10-29); the Python tool keep
 1. A command-line jar for laptops stays (`java -jar legacy-audit.jar ...`), built from the same
    engine as the web app.
 2. The Python tool gets bug fixes only while the rewrite runs.
-3. The new code lives in `backend/` and `frontend/` beside the Python code until Phase 9.
+3. The new code lives in `backend/` and `frontend/`; the Python code was removed from this branch
+   on 2026-10-29 (decision 202).
 4. Scan facts are stored in PostgreSQL **and** in the run files (`audit-output/runs/<run-id>/`).
 
 ## Architecture
@@ -68,7 +71,7 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 
 | Phase | What gets built | Gate |
 | --- | --- | --- |
-| 0. Skeleton and proof | Maven modules, Angular shell, `docker-compose.spring.yml` with the `.env` build options, CI; proofs of JavaParser, tree-sitter and JSqlParser on the samples | `docker compose` shows the login page and a health check; proof report with go / no-go per library |
+| 0. Skeleton and proof | Maven modules, Angular shell, `docker-compose.yml` with the `.env` build options, CI; proofs of JavaParser, tree-sitter and JSqlParser on the samples | `docker compose` shows the login page and a health check; proof report with go / no-go per library |
 | 1. Core and first screens | Facts model and schema, config and overrides, file walk, ignore rules, encodings, languages, LOC, components and grouping, Maven-driven components, hash cache, run snapshots, store and exports. Screens: projects, start a scan, live status and logs, inventory | Inventory, LOC and component counts match Python on all samples |
 | 2. Analyzers: Java and SQL | Java, Spring, Struts, config files, build files and dependencies, app servers, SQL files, embedded and dynamic SQL in Java | Matching sample counts |
 | 3. Analyzers: mainframe and batch | C, C++, Pro*C, COBOL, embedded SQL in C, Pro*C and COBOL, JCL, shell, Autosys, IBM MQ, CFT, integrations | Matching sample counts |
@@ -77,7 +80,7 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 | 6. Reports | Technical, functional, management and summary HTML, Mermaid diagrams, PDF; report screens and downloads | Side-by-side check of every report page |
 | 7. AI and Copilot | Enrichment stages, validator, stale detection, `init` installing the Copilot files, MCP server | Enrichment on one sample passes the validator with each provider type |
 | 8. Web app complete | Component picker, re-run, compare runs, admin (users, roles), dashboard, Git clones and cleanup, remaining screens; Okta-ready login | Every page of today's hosted site has its Angular equivalent |
-| 9. Packaging and switch-over | Hardened images, laptop jar, user, admin, hosting and developer docs, VS Code tasks, Python code retired on this branch | Full suite and all samples green in Docker on Windows and WSL2; Siva decides when the branch replaces `office-main` |
+| 9. Packaging and switch-over | Hardened images, laptop jar, user, admin, hosting and developer docs, VS Code tasks | Full suite and all samples green in Docker on Windows and WSL2; Siva decides when the branch replaces `office-main` |
 
 ## What stays the same
 

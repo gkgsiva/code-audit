@@ -1,0 +1,44 @@
+[
+  {
+    "artifact": "teller-desk",
+    "build_files": [
+      "teller-desk/pom.xml"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "screen": 1,
+      "source": 7
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "com.acme.teller.TellerApp",
+      "com.acme.teller.ui.RatesView"
+    ],
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 10,
+    "id": "component:8fbc6b7a7bdc4f74",
+    "loc_code": 175,
+    "name": "teller-desk",
+    "packaging": "jar",
+    "parts": [],
+    "path": "teller-desk",
+    "roles": [
+      "desktop"
+    ],
+    "root": "estate",
+    "technology": [
+      "fxml",
+      "java",
+      "properties"
+    ],
+    "type": "desktop"
+  }
+]

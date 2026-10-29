@@ -1,22 +1,11 @@
 .git
 .github
 .vscode
-.venv
-**/__pycache__
-**/*.pyc
-.pytest_cache
-.mypy_cache
-.ruff_cache
-dist
-*.egg-info
-samples/*/audit-output
-tests
 docs
+samples/*/audit-output
 audits
 sources
-audits-hosted
 .env
-# Spring Boot / Angular version: build output and downloaded packages
 **/target
 **/node_modules
 frontend/dist

@@ -1,0 +1,93 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Inventory</h1>
+    <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+  </div>
+  @if (data(); as d) {
+    @if (!d.scan) {
+      <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
+    } @else {
+      <p class="hint">From scan {{ d.scan.id }}, finished {{ d.scan.finishedAt | date: 'medium' }} (run {{ d.scan.runId }}).</p>
+      <h2>Lines of code per language</h2>
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Language</th><th class="num">Files</th><th class="num">Code</th><th class="num">Comments</th><th class="num">Blank</th></tr></thead>
+          <tbody>
+            @for (l of d.languages; track l.name) {
+              <tr>
+                <td><a href="" (click)="$event.preventDefault(); language = l.name; filter()">{{ l.name || '(none)' }}</a></td>
+                <td class="num">{{ l.files | number }}</td>
+                <td class="num">{{ l.locCode | number }}</td>
+                <td class="num">{{ l.locComment | number }}</td>
+                <td class="num">{{ l.locBlank | number }}</td>
+              </tr>
+            }
+            <tr>
+              <th>Total</th>
+              <th class="num">{{ totals().files | number }}</th>
+              <th class="num">{{ totals().locCode | number }}</th>
+              <th class="num">{{ totals().locComment | number }}</th>
+              <th class="num">{{ totals().locBlank | number }}</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+</section>
+
+@if (data()?.scan) {
+  <section class="panel">
+    <h2>Files</h2>
+    <form class="row" (ngSubmit)="filter()">
+      <select name="language" [(ngModel)]="language" (change)="filter()" aria-label="Language">
+        <option value="">All languages</option>
+        @for (l of languages(); track l) { <option [value]="l">{{ l || '(none)' }}</option> }
+      </select>
+      <select name="category" [(ngModel)]="category" (change)="filter()" aria-label="Category">
+        <option value="">All kinds</option>
+        @for (c of categories(); track c) { <option [value]="c">{{ c || '(none)' }}</option> }
+      </select>
+      <select name="component" [(ngModel)]="component" (change)="filter()" aria-label="Component">
+        <option value="">All components</option>
+        @for (c of components(); track c.id) { <option [value]="c.id">{{ c.name }}</option> }
+      </select>
+      <input type="text" name="q" placeholder="Part of a file path" style="max-width: 18rem" [(ngModel)]="q">
+      <button type="submit" class="btn">Search</button>
+      <button type="button" class="btn" (click)="clear()">Clear</button>
+    </form>
+    <p class="hint">{{ data()?.total | number }} files match.</p>
+    <div class="scroll">
+      <table class="grid">
+        <thead>
+          <tr><th>File</th><th>Language</th><th>Kind</th><th>Component</th><th class="num">Code</th><th class="num">Comments</th><th class="num">Blank</th><th class="num">Size (bytes)</th><th>Encoding</th></tr>
+        </thead>
+        <tbody>
+          @for (f of data()?.files; track f.path) {
+            <tr>
+              <td>{{ f.path }}</td>
+              <td>{{ f.language }}</td>
+              <td>{{ f.category }}</td>
+              <td>{{ componentName(f.component) }}</td>
+              <td class="num">{{ f.locCode | number }}</td>
+              <td class="num">{{ f.locComment | number }}</td>
+              <td class="num">{{ f.locBlank | number }}</td>
+              <td class="num">{{ f.size | number }}</td>
+              <td>{{ f.encoding }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (pages() > 1) {
+      <div class="row" style="margin-top: .75rem">
+        <button type="button" class="btn" [disabled]="page() === 0" (click)="go(page() - 1)">Previous</button>
+        <span class="hint">Page {{ page() + 1 }} of {{ pages() }}</span>
+        <button type="button" class="btn" [disabled]="page() + 1 >= pages()" (click)="go(page() + 1)">Next</button>
+      </div>
+    }
+  </section>
+}

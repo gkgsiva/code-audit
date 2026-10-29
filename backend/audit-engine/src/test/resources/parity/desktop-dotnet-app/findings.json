@@ -1,0 +1,53 @@
+[
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/obj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/obj",
+    "id": "finding:3b457711c76dc641",
+    "line": null,
+    "message": "Left out of the scan: .NET intermediate output (obj next to the project file); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/bin",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/bin",
+    "id": "finding:659f4f2f3ad577ef",
+    "line": null,
+    "message": "Left out of the scan: compiled output (no source or script inside); 3 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/obj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/obj",
+    "id": "finding:58f4f85fda559e26",
+    "line": null,
+    "message": "Left out of the scan: .NET intermediate output (obj next to the project file); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  }
+]

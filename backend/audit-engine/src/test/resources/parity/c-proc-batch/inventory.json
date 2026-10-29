@@ -1,0 +1,222 @@
+[
+  {
+    "category": "build",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4e96aec46815b753",
+    "language": "make",
+    "loc_blank": 5,
+    "loc_code": 13,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "Makefile",
+    "root": "settlement",
+    "sha256": "c8f9d0e77e4f1e6ed70161384ac5df4f9314e05e32599f3a6371a4af27c10e30",
+    "size": 689
+  },
+  {
+    "category": "script",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/archive.sh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:14b53f7075df5a92",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "scripts/archive.sh",
+    "root": "settlement",
+    "sha256": "6a7c74297a0a766c97b7440c279d40a8851994de3eaa26bd36dacffa209696ab",
+    "size": 200
+  },
+  {
+    "category": "script",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:9b247dde698d9eb6",
+    "language": "shell",
+    "loc_blank": 3,
+    "loc_code": 17,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "scripts/run_settlement.ksh",
+    "root": "settlement",
+    "sha256": "ad720109c1b7c099074795290036eee10036d1ddda38fe287c325427e082519b",
+    "size": 672
+  },
+  {
+    "category": "sql",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "sql/settle_report.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:505e4966c88d7f73",
+    "language": "sql",
+    "loc_blank": 2,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "sql/settle_report.sql",
+    "root": "settlement",
+    "sha256": "2a99eec26c67612430b4407bbfb5f89e29d86eb7779c4844903c85f39478ef95",
+    "size": 354
+  },
+  {
+    "category": "source",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/common/settle_util.c",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:11eb7320901464a0",
+    "language": "c",
+    "loc_blank": 4,
+    "loc_code": 27,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "src/common/settle_util.c",
+    "root": "settlement",
+    "sha256": "7d055e0c31146d26a43b84120cb22fd5bfe72e22a78beb8fec02ce7affce33b4",
+    "size": 746
+  },
+  {
+    "category": "source",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/common/settle_util.h",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3fb101afb1c5ae96",
+    "language": "c",
+    "loc_blank": 2,
+    "loc_code": 6,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "src/common/settle_util.h",
+    "root": "settlement",
+    "sha256": "9e2539143df1fcdcac87f25d8214257ccafbd24259cce849898b8f0a85061566",
+    "size": 209
+  },
+  {
+    "category": "source",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0c2175055d68701f",
+    "language": "proc",
+    "loc_blank": 7,
+    "loc_code": 62,
+    "loc_comment": 5,
+    "origin": "source",
+    "path": "src/settle_load.pc",
+    "root": "settlement",
+    "sha256": "523c3ec6fce0f64cb235af03fe8b35f5d86b6e637d03a3950efbf7785673dd5e",
+    "size": 2020
+  },
+  {
+    "category": "source",
+    "component": "settlement",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:34e042c436e58581",
+    "language": "c",
+    "loc_blank": 3,
+    "loc_code": 30,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "src/settle_send.c",
+    "root": "settlement",
+    "sha256": "09aa6a8a35bc341e681eb04d34a3cf7704bcdebf4d3e267613f01e6f70e5be45",
+    "size": 1046
+  },
+  {
+    "category": "config",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d7843f582041e003",
+    "language": "ini",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "input",
+    "path": "audit-inputs/cft/cft_settlement.cfg",
+    "root": "audit-inputs",
+    "sha256": "3bdece12c3103ef0ed1b757bc1670696901a9dacd705ec805b702f0b912b2cfd",
+    "size": 418
+  },
+  {
+    "category": "other",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c025d7986e1aa7d4",
+    "language": "other (.cron)",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 0,
+    "origin": "input",
+    "path": "audit-inputs/crontab/settlement.cron",
+    "root": "audit-inputs",
+    "sha256": "1fac8b06a15af4d73d4201a7ccec3f09f76eadcb2a97a37f5d7820b668aab87b",
+    "size": 209
+  }
+]
