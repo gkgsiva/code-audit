@@ -1447,10 +1447,19 @@ def _write_csv(path: Path, t: Table) -> None:
         w.writerows(t.rows)
 
 
-def build_sections(run_dir: Path) -> tuple[RunData, list[Section]]:
+def build_sections(
+    run_dir: Path, hide: frozenset[str] | set[str] = frozenset()
+) -> tuple[RunData, list[Section]]:
     rd = RunData.load(run_dir)
     s = _Summary(rd, load_enrichment(run_dir))
-    return rd, [s.project(), s.data(), s.integrations(), s.batch(), s.security()]
+    builders = {
+        "project": s.project,
+        "data": s.data,
+        "integrations": s.integrations,
+        "batch": s.batch,
+        "security": s.security,
+    }
+    return rd, [build() for key, build in builders.items() if key not in hide]
 
 
 def build_summary_report(
@@ -1458,10 +1467,12 @@ def build_summary_report(
     branding: Branding | None = None,
     config_dir: Path | None = None,
     template: str | None = None,
+    hide_sections: frozenset[str] | set[str] = frozenset(),
 ) -> SummaryResult:
-    """Write ``reports/summary/`` (index.html, summary.json, deck.json, CSVs, summary.pptx)."""
+    """Write ``reports/summary/`` (index.html, summary.json, deck.json, CSVs, summary.pptx).
+    ``hide_sections`` leaves sections out (the hosted site's admin switches)."""
     branding = branding or Branding()
-    rd, sections = build_sections(run_dir)
+    rd, sections = build_sections(run_dir, hide_sections)
     out = run_dir / "reports" / "summary"
     if out.exists():
         shutil.rmtree(out)

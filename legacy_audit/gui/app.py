@@ -5,6 +5,11 @@ every change (POST/PUT/DELETE) needs the ``X-Legacy-Audit`` header, which a page
 cannot send without a CORS pre-flight this server never grants. Run ids, file names and evidence
 paths are checked so nothing outside the workspace, the run folders and the scanned source can be
 read or written.
+
+The hosted site (``legacy_audit.hosted``) serves this same app once per project under
+``/p/<project>/`` and passes ``HostedHooks``: it checks the login and the host itself, and the
+hooks add the shared scan queue, the admin's report switches, run retention and the scan timeout.
+All URLs the page uses are relative, so the same files work at ``/`` and under a prefix.
 """
 
 from __future__ import annotations
@@ -18,6 +23,7 @@ import subprocess
 import sys
 import zipfile
 from collections.abc import AsyncIterator, Callable
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -35,7 +41,7 @@ from pydantic import BaseModel, Field
 
 from legacy_audit import __version__
 from legacy_audit.config import INPUT_KINDS, ConfigError, LoadedConfig, load_config
-from legacy_audit.gui.jobs import Busy, Job, Jobs
+from legacy_audit.gui.jobs import Busy, Gate, Job, Jobs
 from legacy_audit.model import ENTITIES
 from legacy_audit.store.runs import RunNotFound, list_runs, resolve_run
 from legacy_audit.workspace import CONFIG_FILE
@@ -50,6 +56,20 @@ UPLOAD_KINDS = {**INPUT_KINDS, "security": "Vulnerability reports (JSON)"}
 MAX_UPLOAD = 200 * 1024 * 1024
 DIFF_LIST = 200
 REPORT_TYPES = ("tech", "functional", "mgmt", "pptx", "summary", "pdf", "all")
+HTML_REPORTS = ("tech", "functional", "mgmt", "summary")
+# GUI report link -> the report switches it needs (hosted site)
+REPORT_NEEDS: dict[str, tuple[str, ...]] = {
+    "tech": ("tech",),
+    "functional": ("functional",),
+    "mgmt": ("mgmt",),
+    "pptx": ("pptx",),
+    "summary": ("summary",),
+    "summary_pptx": ("summary",),
+    "pdf_summary": ("pdf", "summary"),
+    "pdf_mgmt": ("pdf", "mgmt"),
+    "pdf_functional": ("pdf", "functional"),
+    "pdf_tech": ("pdf", "tech"),
+}
 FIELDS = ("application", "source", "target", "include", "exclude")
 
 
@@ -94,6 +114,38 @@ class ReportBody(BaseModel):
 class OpenBody(BaseModel):
     target: str  # workspace | inputs | output | run
     run: str | None = None
+
+
+@dataclass
+class HostedHooks:
+    """What the hosted site plugs into one project's app. Callables are read on every request,
+    so an admin change applies at once."""
+
+    project: str
+    gate: Gate
+    on_job: Callable[[Job], None]
+    reports_allowed: Callable[[], set[str]]  # keys of settings.REPORTS
+    hidden_sections: Callable[[], set[str]]  # summary-report sections left out
+    ai_allowed: Callable[[], bool]
+    keep_runs: Callable[[], int]
+    scan_timeout_minutes: Callable[[], int]
+    user: Callable[[Request], dict[str, Any]]  # {"name", "role"} of the logged-in user
+    after_scan: Callable[[str, dict[str, Any]], None] = lambda project, result: None
+
+
+def report_file_needs(path: str) -> tuple[str, ...]:
+    """The report switches a file under ``reports/`` belongs to."""
+    first = path.split("/", 1)[0]
+    if first == "pdf":
+        name = path.rsplit("/", 1)[-1]
+        part = {"summary.pdf": "summary", "management.pdf": "mgmt"}.get(name)
+        part = part or {"functional.pdf": "functional", "technical.pdf": "tech"}.get(name)
+        return ("pdf", part) if part else ("pdf",)
+    if first == "deck.pptx":
+        return ("pptx",)
+    if first in HTML_REPORTS:
+        return (first,)
+    return ()
 
 
 # ---- helpers -------------------------------------------------------------------------------------
@@ -243,10 +295,14 @@ def _next_prompt(status: dict[str, Any]) -> str | None:
 
 
 def create_app(
-    folder: Path, port: int = 8765, opener: Callable[[Path], None] = open_in_os
+    folder: Path,
+    port: int = 8765,
+    opener: Callable[[Path], None] = open_in_os,
+    hosted: HostedHooks | None = None,
 ) -> FastAPI:
     ws = Workspace(folder)
-    jobs = Jobs()
+    jobs = Jobs(hosted.gate, hosted.on_job) if hosted else Jobs()
+    durations: dict[str, float] = {}  # job kind + title -> seconds the last one took
     invalid_stages: dict[str, set[str]] = {}  # run id -> stages that failed the last validate
     app = FastAPI(
         title="legacy-audit",
@@ -258,16 +314,19 @@ def create_app(
     )
     app.state.workspace = ws
     app.state.jobs = jobs
+    app.state.hosted = hosted
     allowed_hosts = {f"127.0.0.1:{port}", f"localhost:{port}"}
     allowed_origins = {f"http://127.0.0.1:{port}", f"http://localhost:{port}"}
 
     @app.middleware("http")
     async def guard(request: Request, call_next: Any) -> Response:
         host = request.headers.get("host", "")
-        if host not in allowed_hosts:
+        if hosted is None and host not in allowed_hosts:
             return JSONResponse({"detail": "Host not allowed"}, status_code=403)
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             origin = request.headers.get("origin")
+            if hosted is not None:
+                origin = None  # the hosted site checked the origin against its public URL
             if request.headers.get(HEADER) != "1" or (origin and origin not in allowed_origins):
                 return JSONResponse({"detail": "Cross-site request refused"}, status_code=403)
         response: Response = await call_next(request)
@@ -281,6 +340,18 @@ def create_app(
     def index() -> HTMLResponse:
         return HTMLResponse((STATIC / "index.html").read_text(encoding="utf-8"))
 
+    def allowed_reports() -> set[str]:
+        if hosted is None:
+            from legacy_audit.hosted.settings import REPORTS
+
+            return set(REPORTS)
+        return hosted.reports_allowed()
+
+    def need_report(*keys: str) -> None:
+        missing = [k for k in keys if k not in allowed_reports()]
+        if missing:
+            raise HTTPException(403, f"The admin has switched off: {', '.join(missing)}")
+
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
     app.mount("/vendor", StaticFiles(directory=VENDOR), name="vendor")
     app.mount("/assets", StaticFiles(directory=VENDOR.parent), name="assets")
@@ -291,17 +362,27 @@ def create_app(
         target = (base / path).resolve()
         if not target.is_relative_to(base) or not target.is_file():
             raise HTTPException(404, "No such report file")
+        need_report(*report_file_needs(target.relative_to(base).as_posix()))
         return FileResponse(target)
 
     # ---- workspace and configuration ----
 
     @app.get("/api/workspace")
-    def workspace() -> dict[str, Any]:
+    def workspace(request: Request) -> dict[str, Any]:
         out: dict[str, Any] = {
-            "folder": str(ws.folder),
+            "folder": ws.folder.name if hosted else str(ws.folder),
             "config": ws.config_path.exists(),
             "version": __version__,
+            "hosted": None,
         }
+        if hosted is not None:
+            out["hosted"] = {
+                "project": hosted.project,
+                "user": hosted.user(request),
+                "reports": sorted(allowed_reports()),
+                "ai_allowed": hosted.ai_allowed(),
+                "home": "../../",
+            }
         if ws.config_path.exists():
             try:
                 loaded = load_config(ws.config_path)
@@ -314,6 +395,9 @@ def create_app(
                 inputs_dir=str(loaded.inputs_dir),
                 runs=len(list_runs(loaded.output_dir)),
             )
+            if hosted is not None:
+                out["output_dir"] = str(loaded.output_dir.relative_to(ws.folder))
+                out["inputs_dir"] = str(loaded.inputs_dir.relative_to(ws.folder))
         return out
 
     @app.post("/api/init")
@@ -337,8 +421,11 @@ def create_app(
     def put_fields(body: FieldsBody) -> dict[str, Any]:
         from legacy_audit.workspace import update_config
 
-        ws.loaded()
+        current = ws.loaded().config.model_dump(mode="json")
         changes = body.model_dump(exclude_none=True)
+        if hosted is not None:
+            # keep inherited site defaults inherited: write only what the form changed
+            changes = {k: v for k, v in changes.items() if v != current.get(k)}
         try:
             update_config(ws.config_path, changes)
         except ConfigError as err:
@@ -406,6 +493,8 @@ def create_app(
 
     @app.post("/api/open")
     def open_folder(body: OpenBody) -> dict[str, Any]:
+        if hosted is not None:
+            raise HTTPException(400, "Folders live on the server; download the files instead")
         targets = {"workspace": lambda: ws.folder}
         if ws.config_path.exists():
             targets["inputs"] = lambda: ws.loaded().inputs_dir
@@ -454,20 +543,62 @@ def create_app(
 
     # ---- jobs ----
 
-    def _start(kind: str, title: str, work: Callable[[Job], dict[str, Any]]) -> dict[str, Any]:
+    def _start(
+        kind: str,
+        title: str,
+        work: Callable[[Job], dict[str, Any]],
+        request: Request | None = None,
+        expected: float | None = None,
+    ) -> dict[str, Any]:
+        key = f"{kind}:{title}"
+
+        def timed(job: Job) -> dict[str, Any]:
+            result = work(job)
+            if job._began is not None:
+                import time
+
+                durations[key] = time.monotonic() - job._began
+            return result
+
+        extra: dict[str, Any] = {"expected_seconds": expected or durations.get(key)}
+        if hosted is not None:
+            extra["project"] = hosted.project
+            if request is not None:
+                extra["user"] = hosted.user(request).get("name")
         try:
-            return jobs.start(kind, title, work).info()
+            return jobs.start(kind, title, timed, **extra).info()
         except Busy as err:
             raise HTTPException(409, str(err)) from None
 
+    def _last_scan_seconds(output_dir: Path) -> float | None:
+        ids = list_runs(output_dir)
+        if not ids:
+            return None
+        row = _run_row(output_dir / "runs" / ids[-1], None)
+        return float(row["seconds"]) if row["seconds"] else None
+
     @app.post("/api/scan")
-    def scan(body: ScanBody) -> dict[str, Any]:
+    def scan(body: ScanBody, request: Request) -> dict[str, Any]:
+        import threading
+
         from legacy_audit.scan import run_scan
         from legacy_audit.store.lock import ScanBusy
+        from legacy_audit.store.runs import prune_runs
 
         loaded = ws.loaded()
 
         def work(job: Job) -> dict[str, Any]:
+            timer = None
+            if hosted is not None:
+                minutes = hosted.scan_timeout_minutes()
+
+                def stop() -> None:
+                    job.emit("warning", message=f"Stopped: the scan ran over {minutes} minutes")
+                    job.cancel.set()
+
+                timer = threading.Timer(minutes * 60, stop)
+                timer.daemon = True
+                timer.start()
             try:
                 result = run_scan(
                     load_config(loaded.path),
@@ -477,20 +608,33 @@ def create_app(
                 )
             except ScanBusy as err:
                 raise RuntimeError(str(err)) from None
+            finally:
+                if timer is not None:
+                    timer.cancel()
             run = result.run
-            return {
+            out: dict[str, Any] = {
                 "run_id": run.run_id,
                 "files": run.files_total,
                 "analyzed": run.files_analyzed,
                 "cached": run.files_cached,
                 "warnings": run.warnings,
             }
+            if hosted is not None:
+                out["removed_runs"] = prune_runs(loaded.output_dir, hosted.keep_runs())
+                hosted.after_scan(hosted.project, out)
+            return out
 
-        return _start("scan", "Full rescan" if body.full else "Re-run", work)
+        title = "Full rescan" if body.full else "Re-run"
+        expected = None if body.full else _last_scan_seconds(loaded.output_dir)
+        return _start("scan", title, work, request, expected)
 
     @app.get("/api/jobs/current")
     def current_job() -> dict[str, Any] | None:
         return jobs.current.info() if jobs.current else None
+
+    @app.get("/api/jobs")
+    def all_jobs() -> list[dict[str, Any]]:
+        return [j.info() for j in jobs.history]
 
     def _job(job_id: str) -> Job:
         job = jobs.get(job_id)
@@ -588,7 +732,7 @@ def create_app(
         except FactsError as err:
             raise HTTPException(404, str(err)) from None
         path = RunData.load(run_dir).abs_path(file)
-        out["vscode"] = _vscode_link(path, line) if path else None
+        out["vscode"] = _vscode_link(path, line) if path and hosted is None else None
         return out
 
     @app.get("/api/runs/{run}/enrichment")
@@ -622,6 +766,7 @@ def create_app(
             "stages": rows,
             "next_prompt": _next_prompt(status),
             "ai": _ai_info(),
+            "ai_allowed": hosted.ai_allowed() if hosted else True,
         }
 
     def _ai_info() -> dict[str, Any]:
@@ -634,10 +779,12 @@ def create_app(
         return {"provider": s.provider, "label": s.label, "problem": None}
 
     @app.post("/api/runs/{run}/enrich")
-    def run_enrichment(run: str, body: EnrichBody) -> dict[str, Any]:
+    def run_enrichment(run: str, body: EnrichBody, request: Request) -> dict[str, Any]:
         from legacy_audit.ai.providers import AiError, Client, settings
         from legacy_audit.ai.runner import enrich, pick_stages
 
+        if hosted is not None and not hosted.ai_allowed():
+            raise HTTPException(403, "The admin has switched off AI enrichment on this site")
         run_dir = ws.run_dir(run)
         try:
             s = settings(ws.loaded().config.ai)
@@ -661,7 +808,7 @@ def create_app(
                 "invalid": [r.stage for r in failed],
             }
 
-        return _start("enrich", f"AI enrichment with {s.label}", work)
+        return _start("enrich", f"AI enrichment with {s.label}", work, request)
 
     @app.post("/api/runs/{run}/validate")
     def validate(run: str) -> dict[str, Any]:
@@ -696,13 +843,16 @@ def create_app(
         }
         deck = _read_json(rd / "mgmt" / "deck.json") or {}
         used = deck.get("pptx_template") or {}
+        allowed = allowed_reports()
+        shown = {k: p for k, p in found.items() if all(n in allowed for n in REPORT_NEEDS[k])}
         return {
             "run_id": rd.parent.name,
             "reports": {
-                k: f"/runs/{rd.parent.name}/reports/{p}" if (rd / p).is_file() else None
-                for k, p in found.items()
+                k: f"runs/{rd.parent.name}/reports/{p}" if (rd / p).is_file() else None
+                for k, p in shown.items()
             },
             "pptx_template": used.get("label") if (rd / "deck.pptx").is_file() else None,
+            "allowed": sorted(allowed),
         }
 
     @app.get("/api/pptx-templates")
@@ -727,7 +877,7 @@ def create_app(
                     "id": t.id,
                     "label": t.label,
                     "file": t.path.name,
-                    "thumbnail": f"/api/pptx-templates/{t.id}/thumbnail.jpg",
+                    "thumbnail": f"api/pptx-templates/{t.id}/thumbnail.jpg",
                 }
                 for t in found
             ],
@@ -747,7 +897,7 @@ def create_app(
         raise HTTPException(404, f"No preview for template '{template_id}'")
 
     @app.post("/api/runs/{run}/reports")
-    def build_reports(run: str, body: ReportBody) -> dict[str, Any]:
+    def build_reports(run: str, body: ReportBody, request: Request) -> dict[str, Any]:
         from legacy_audit.report.functional import build_functional_report
         from legacy_audit.report.mgmt import build_mgmt_report
         from legacy_audit.report.pptx import build_pptx
@@ -755,45 +905,73 @@ def create_app(
 
         if body.type not in REPORT_TYPES:
             raise HTTPException(400, f"Report type must be one of {', '.join(REPORT_TYPES)}")
+        allowed = allowed_reports()
+        if body.type != "all":
+            need_report(body.type)
         run_dir, loaded = ws.run_dir(run), ws.loaded()
         branding, config_dir = loaded.config.branding, loaded.path.parent
+        hide = hosted.hidden_sections() if hosted else set()
+
+        def wanted(kind: str) -> bool:
+            return kind in allowed and (body.type in (kind, "all") or body.type == "pdf")
 
         def work(job: Job) -> dict[str, Any]:
             out: dict[str, Any] = {"run_id": run_dir.name, "messages": []}
-            if body.type in ("tech", "pdf", "all"):
-                job.emit("progress", stage="technical report", n=0, total=0)
+            steps = [k for k in ("tech", "functional", "mgmt", "summary") if wanted(k)]
+            if body.type in ("pptx", "all") and "pptx" in allowed:
+                steps.append("pptx")
+            pdf = "pdf" in allowed and (
+                body.type == "pdf" or (body.type == "all" and loaded.config.pdf.enabled)
+            )
+            total = len(steps) + int(pdf)
+            done = 0
+
+            def step(label: str) -> None:
+                job.emit("progress", stage=label, n=done, total=total)
+
+            if "tech" in steps:
+                step("technical report")
                 build_tech_report(run_dir, loaded.inputs_dir)
-            if body.type in ("functional", "pdf", "all"):
-                job.emit("progress", stage="functional document", n=0, total=0)
+                done += 1
+            if "functional" in steps:
+                step("functional document")
                 build_functional_report(run_dir, loaded.inputs_dir)
-            if body.type in ("mgmt", "pdf", "all"):
-                job.emit("progress", stage="management deck", n=0, total=0)
+                done += 1
+            if "mgmt" in steps:
+                step("management deck")
                 build_mgmt_report(run_dir, branding, config_dir)
-            if body.type in ("summary", "pdf", "all"):
+                done += 1
+            if "summary" in steps:
                 from legacy_audit.report.summary import build_summary_report
 
-                job.emit("progress", stage="summary report", n=0, total=0)
-                sres = build_summary_report(run_dir, branding, config_dir, body.template)
+                step("summary report")
+                sres = build_summary_report(
+                    run_dir, branding, config_dir, body.template, hide_sections=hide
+                )
                 out["messages"].append(sres.message)
-            if body.type in ("pptx", "all"):
-                job.emit("progress", stage="PowerPoint", n=0, total=0)
+                done += 1
+            if "pptx" in steps:
+                step("PowerPoint")
                 res = build_pptx(run_dir, branding, config_dir, body.template)
                 out["messages"].append(res.message)
-            if body.type == "pdf" or (body.type == "all" and loaded.config.pdf.enabled):
+                done += 1
+            if pdf:
                 from legacy_audit.report.pdf import build_pdfs
 
-                job.emit("progress", stage="PDF copies", n=0, total=0)
-                pres = build_pdfs(run_dir, loaded.config.pdf)
+                step("PDF copies")
+                which = tuple(k for k in ("summary", "mgmt", "functional", "tech") if k in allowed)
+                pres = build_pdfs(run_dir, loaded.config.pdf, which)
                 if pres.files:
                     out["messages"].append(f"PDF copies written: {len(pres.files)}.")
                 out["messages"] += pres.messages
             out.update(reports(run_dir.name))
             return out
 
-        return _start("report", f"Build {body.type} report", work)
+        return _start("report", f"Build {body.type} report", work, request)
 
     @app.get("/api/runs/{run}/datapack.zip")
     def datapack(run: str) -> Response:
+        need_report("datapack")
         run_dir = ws.run_dir(run)
         buf = io.BytesIO()
         with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as zf:

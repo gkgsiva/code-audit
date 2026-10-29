@@ -19,6 +19,7 @@ If the user says "continue" or "start", find the first phase in `docs/progress.m
 - **Model-agnostic enrichment** (`legacy-audit enrich`, `legacy_audit/ai/`): the same stages written by any model (OpenAI-compatible, Azure OpenAI, Anthropic, Ollama) chosen in `audit.yaml > ai`, checked by the same validator. It is an explicit, optional command; the scan engine and the reports never call a model.
 - **Report generators**: technical HTML site, management HTML deck, and an editable PPTX (`python-pptx`) built strictly on the corporate templates in `templates/`.
 - A **local web GUI** (FastAPI) to pick components, run and re-run scans, and view results.
+- A **hosted site** (`legacy_audit/hosted/`, `legacy-audit host`, `Dockerfile`, `docker-compose.yml`): login (test login now, Okta later), projects under one audits folder each served by the GUI app under `/p/<project>/`, admin settings and `audit.yaml` defaults merged into every project (`hosted/layer.py`), a shared job queue, status and logs pages. See `docs/hosting.md`.
 
 ## Non-negotiable rules
 

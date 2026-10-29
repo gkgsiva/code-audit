@@ -27,6 +27,7 @@ the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (
 - `docs/usage-guide.html` — step-by-step usage guide for non-technical users (Windows, VS Code); open it in a browser
 - `docs/user-guide.md` — an audit end to end with the GUI
 - `docs/admin-guide.md` — install (pipx, offline), vulnerability database, branding, rule packs
+- `docs/hosting.md` — the hosted site in Docker: login, projects under one audits folder, admin page, status and logs
 - `docs/rules.md` — how to add, change or switch off rules
 - `docs/performance.md` — scan times on a generated 2M-line estate
 - `docs/copilot-agent.md` — the Copilot agent for analysts
@@ -140,6 +141,15 @@ interprets: numbers are copied from the scan as figures, claims cite `file:line`
 endpoint, `azure-openai`, `anthropic` or `ollama`, plus `model`; the API key comes from an
 environment variable) and run `legacy-audit enrich` (or the GUI's AI enrichment screen). The same
 validator checks the result.
+
+## Hosted site (Docker)
+
+`docker compose up --build -d`, then open http://localhost:8765 and log in as `admin`: project
+owners open or create projects under one top-level audits folder, scan and build reports in the
+browser; an admin page sets which reports show, the paths, the common `audit.yaml` defaults,
+users and roles, AI, scanners and limits; Status shows progress and time left, Logs the scan
+logs. Settings come from environment variables. Step by step: [`docs/hosting.md`](docs/hosting.md).
+Without Docker: `legacy-audit host --audits-root <folder>`.
 
 ## Validating from VS Code
 

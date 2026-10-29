@@ -16,3 +16,8 @@ build/
 package-lock.json
 # the Angular/Node sample keeps its lock files: the scan reads them (decision 129)
 !samples/*/estate/**/package-lock.json
+
+# docker compose secrets
+.env
+sources/
+audits-hosted/

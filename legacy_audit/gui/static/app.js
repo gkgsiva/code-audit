@@ -62,6 +62,15 @@
     });
   }
   function fail(err) { toast(err.message || String(err), true); }
+  function jobActive(j) { return !!(j && (j.state === "running" || j.state === "queued")); }
+  function hosted() { return state.ws && state.ws.hosted; }
+  function reportAllowed(k) { var h = hosted(); return !h || h.reports.indexOf(k) >= 0; }
+  function duration(sec) {
+    if (sec === null || sec === undefined) return "";
+    if (sec < 60) return "under a minute";
+    var m = Math.round(sec / 60);
+    return m < 60 ? "about " + m + " min" : "about " + Math.floor(m / 60) + " h " + (m % 60) + " min";
+  }
 
   function add(node, items) { items.forEach(function (i) { if (i) node.appendChild(i); }); }
   function heading(title, lead) {
@@ -128,14 +137,26 @@
   function setRunInHash(screen, run) { location.hash = "#" + screen + "?run=" + run; }
 
   function refreshWorkspace() {
-    return api("GET", "/api/workspace").then(function (ws) {
+    return api("GET", "api/workspace").then(function (ws) {
       state.ws = ws;
       document.getElementById("app-name").textContent = ws.application || "legacy-audit";
       document.getElementById("app-folder").textContent = ws.folder;
-      document.getElementById("version").textContent = ws.version;
+      var version = document.getElementById("version");
+      if (version) version.textContent = ws.version;
+      if (ws.hosted) {
+        var who = document.getElementById("hosted-user");
+        if (!who) {
+          var bar = document.querySelector("header.top .app");
+          bar.insertBefore(el("a", { class: "btn small", href: ws.hosted.home, text: "← All projects" }), bar.firstChild);
+          bar.appendChild(el("span", { id: "hosted-user", class: "meta", text: ws.hosted.user.name + " (" + ws.hosted.user.role + ")" }));
+          bar.appendChild(el("a", { class: "btn small", href: ws.hosted.home + "auth/logout", text: "Log out" }));
+          var foot = document.querySelector("footer");
+          if (foot) foot.textContent = "legacy-audit " + ws.version + ". Hosted site: project " + ws.hosted.project + ". Scripts count, AI interprets.";
+        }
+      }
       if (ws.config_error) toast(ws.config_error, true);
       if (!ws.config || ws.config_error) { state.runs = []; return ws; }
-      return api("GET", "/api/runs").then(function (runs) { state.runs = runs; return ws; });
+      return api("GET", "api/runs").then(function (runs) { state.runs = runs; return ws; });
     });
   }
 
@@ -193,16 +214,28 @@
     ind.hidden = false;
     ind.textContent = job.title + "…";
     if (state.jobSource) state.jobSource.close();
-    var src = new EventSource("/api/jobs/" + job.id + "/events");
+    var src = new EventSource("api/jobs/" + job.id + "/events");
     state.jobSource = src;
+    clearInterval(state.etaTimer);
+    state.etaTimer = setInterval(function () {
+      api("GET", "api/jobs/" + job.id).then(function (j) {
+        job.state = j.state;
+        state.eta = j;
+        jobListeners.forEach(function (fn) { fn({ type: "eta", job: j }, job); });
+        if (j.state === "running" && j.eta_seconds) ind.textContent = job.title + (j.stage ? ": " + (STAGE_LABEL[j.stage] || j.stage) : "") + ", " + duration(j.eta_seconds) + " left";
+      }).catch(function () { /* the next tick tries again */ });
+    }, 3000);
     src.onmessage = function (m) {
       var ev = JSON.parse(m.data);
       jobListeners.forEach(function (fn) { fn(ev, job); });
+      if (ev.type === "queued") ind.textContent = job.title + ": waiting, place " + ev.position + " in the queue";
+      if (ev.type === "started") job.state = "running";
       if (ev.type === "progress") {
         ind.textContent = job.title + ": " + (STAGE_LABEL[ev.stage] || ev.stage) + (ev.total ? " " + Math.round(100 * ev.n / ev.total) + "%" : "");
       }
       if (ev.type === "end") {
         src.close();
+        clearInterval(state.etaTimer);
         state.jobSource = null;
         ind.hidden = true;
         job.state = ev.state;
@@ -225,7 +258,7 @@
       node.appendChild(el("p", { class: "lead", text: "No audit.yaml in " + state.ws.folder + ". Create the starter files (audit.yaml, audit-overrides.yaml, audit-inputs/ and the Copilot agent files) here." }));
       node.appendChild(el("form", { class: "fields", onsubmit: function (e) {
         e.preventDefault();
-        api("POST", "/api/init", { name: name.value || null }).then(function () {
+        api("POST", "api/init", { name: name.value || null }).then(function () {
           toast("Starter files created."); return refreshWorkspace();
         }).then(route).catch(fail);
       } }, [el("label", { for: "init-name", text: "Application name" }), name,
@@ -233,7 +266,7 @@
       node.appendChild(doctorPanel());
       return;
     }
-    api("GET", "/api/config").then(function (cfg) {
+    api("GET", "api/config").then(function (cfg) {
       var f = cfg.fields;
       var src = f.source;
       var appName = el("input", { type: "text", id: "f-name", value: f.application.name });
@@ -312,7 +345,7 @@
         }
         var t = Object.assign({}, target, { profile: profile.value });
         Object.keys(tgt).forEach(function (k) { t[k] = tgt[k].value; });
-        api("PUT", "/api/config/fields", { application: app, source: source, target: t, include: lines(include), exclude: lines(exclude) })
+        api("PUT", "api/config/fields", { application: app, source: source, target: t, include: lines(include), exclude: lines(exclude) })
           .then(function () { toast("audit.yaml saved."); return refreshWorkspace(); }).then(route).catch(fail);
       });
       node.appendChild(el("p", { class: "lead", text: "Settings in " + cfg.path + ". Saving keeps every comment and setting this form does not show." }));
@@ -321,14 +354,14 @@
       raw.value = cfg.text;
       node.appendChild(el("details", null, [el("summary", { text: "Advanced: edit audit.yaml as text" }), raw,
         el("div", { class: "row" }, [el("button", { class: "btn", type: "button", text: "Check and save", onclick: function () {
-          api("PUT", "/api/config/text", { text: raw.value }).then(function () { toast("audit.yaml saved."); return refreshWorkspace(); }).then(route).catch(fail);
+          api("PUT", "api/config/text", { text: raw.value }).then(function () { toast("audit.yaml saved."); return refreshWorkspace(); }).then(route).catch(fail);
         } })])]));
       node.appendChild(doctorPanel());
     }).catch(fail);
   }
   function doctorPanel() {
     var host = el("div", null, [el("h2", { text: "Tools on this computer" }), el("p", { class: "muted", text: "Checking…" })]);
-    api("GET", "/api/doctor").then(function (checks) {
+    api("GET", "api/doctor").then(function (checks) {
       host.removeChild(host.lastChild);
       host.appendChild(table([
         { key: "name", label: "Tool" },
@@ -345,9 +378,9 @@
   function screenInputs(node) {
     add(node, heading("Inputs", "Exports that arrive after the code. Missing ones are reported as coverage gaps, not errors; add a file and re-run the scan to include it."));
     if (needConfig(node)) return;
-    api("GET", "/api/inputs").then(function (data) {
+    api("GET", "api/inputs").then(function (data) {
       node.appendChild(el("div", { class: "row" }, [
-        el("button", { class: "btn", text: "Open inputs folder", onclick: function () { api("POST", "/api/open", { target: "inputs" }).catch(fail); } }),
+        hosted() ? null : el("button", { class: "btn", text: "Open inputs folder", onclick: function () { api("POST", "api/open", { target: "inputs" }).catch(fail); } }),
         el("a", { class: "btn primary", href: "#run", text: "Re-run the scan" })
       ]));
       var grid = el("div", { class: "grid2" });
@@ -355,7 +388,7 @@
         var file = el("input", { type: "file", multiple: true, "aria-label": "Add " + k.label });
         file.addEventListener("change", function () {
           var uploads = Array.prototype.map.call(file.files, function (f) {
-            return f.arrayBuffer().then(function (buf) { return api("PUT", "/api/inputs/" + k.kind + "/" + encodeURIComponent(f.name), buf, true); });
+            return f.arrayBuffer().then(function (buf) { return api("PUT", "api/inputs/" + k.kind + "/" + encodeURIComponent(f.name), buf, true); });
           });
           Promise.all(uploads).then(function () { toast("Added to " + k.label + ". Re-run the scan to include it."); route(); }).catch(fail);
         });
@@ -363,7 +396,7 @@
           return el("li", null, [f.name + " (" + fmt(f.size) + " bytes) ",
             el("button", { class: "btn small danger", text: "Remove", onclick: function () {
               if (!confirm("Remove " + f.name + " from " + k.label + "?")) return;
-              api("DELETE", "/api/inputs/" + k.kind + "/" + encodeURIComponent(f.name)).then(route).catch(fail);
+              api("DELETE", "api/inputs/" + k.kind + "/" + encodeURIComponent(f.name)).then(route).catch(fail);
             } })]);
         })) : el("p", { class: "muted", text: "Not provided" });
         grid.appendChild(el("div", { class: "panel" }, [
@@ -382,7 +415,7 @@
     if (needConfig(node)) return;
     var host = el("div", null, [el("p", { class: "muted", text: "Pre-scanning…" })]);
     node.appendChild(host);
-    api("GET", "/api/components").then(function (data) {
+    api("GET", "api/components").then(function (data) {
       clear(host);
       host.appendChild(el("p", { class: "muted", text: fmt(data.files) + " files in " + data.roots.map(function (r) { return r.name; }).join(", ") + "." }));
       var ticks = {}, types = {};
@@ -410,7 +443,7 @@
           var inc = {}, ty = {};
           Object.keys(ticks).forEach(function (p) { inc[p] = ticks[p].checked; });
           Object.keys(types).forEach(function (n) { ty[n] = types[n].value || null; });
-          api("PUT", "/api/components", { included: inc, types: ty }).then(function () { toast("Saved to audit-overrides.yaml. Re-run to apply."); route(); }).catch(fail);
+          api("PUT", "api/components", { included: inc, types: ty }).then(function () { toast("Saved to audit-overrides.yaml. Re-run to apply."); route(); }).catch(fail);
         } }),
         el("a", { class: "btn", href: "#run", text: "Go to Run" })
       ]));
@@ -421,21 +454,34 @@
   function screenRun(node) {
     add(node, heading("Run", "Re-run analyses only changed files (the rest comes from the cache); linking, metrics, rules and totals are always recomputed. Full rescan ignores the cache."));
     if (needConfig(node)) return;
-    var running = state.job && state.job.state === "running";
+    var running = jobActive(state.job);
     node.appendChild(el("div", { class: "row" }, [
-      el("button", { class: "btn primary", text: "Re-run", disabled: running, onclick: function () { startJob(api("POST", "/api/scan", { full: false })); } }),
-      el("button", { class: "btn", text: "Full rescan", disabled: running, onclick: function () { startJob(api("POST", "/api/scan", { full: true })); } }),
-      el("button", { class: "btn danger", text: "Cancel", disabled: !running, onclick: function () { api("POST", "/api/jobs/" + state.job.id + "/cancel").catch(fail); } })
+      el("button", { class: "btn primary", text: "Re-run", disabled: running, onclick: function () { startJob(api("POST", "api/scan", { full: false })); } }),
+      el("button", { class: "btn", text: "Full rescan", disabled: running, onclick: function () { startJob(api("POST", "api/scan", { full: true })); } }),
+      el("button", { class: "btn danger", text: "Cancel", disabled: !running, onclick: function () { api("POST", "api/jobs/" + state.job.id + "/cancel").catch(fail); } })
     ]));
     var bar = el("div", { class: "progress indeterminate", role: "progressbar", "aria-label": "Scan progress" }, [el("div")]);
     var label = el("p", { class: "muted", text: running ? "Starting…" : "No scan running." });
+    var eta = el("p", { class: "muted", hidden: true });
     var stages = el("div", { class: "stages" }, STAGE_ORDER.map(function (s) { return el("span", { "data-stage": s, text: STAGE_LABEL[s] }); }));
     var log = el("ul", { class: "log" });
-    var panel = el("div", { class: "panel" }, [label, bar, stages, log]);
+    var panel = el("div", { class: "panel" }, [label, bar, eta, stages, log]);
     if (!running) bar.hidden = true;
     node.appendChild(panel);
 
     function onEvent(ev, job) {
+      if (ev.type === "queued") { label.textContent = "Waiting for a free slot: place " + ev.position + " in the queue."; bar.hidden = true; return; }
+      if (ev.type === "eta") {
+        var j = ev.job;
+        var parts = [];
+        if (j.elapsed_seconds !== null) parts.push("Running for " + duration(j.elapsed_seconds));
+        if (j.percent !== null && j.percent !== undefined) parts.push(Math.round(j.percent) + "% done");
+        if (j.eta_seconds) parts.push(duration(j.eta_seconds) + " left (" + j.eta_basis + ")");
+        else if (j.eta_basis) parts.push(j.eta_basis);
+        eta.textContent = parts.join(", ") + ".";
+        eta.hidden = !parts.length || j.state !== "running";
+        return;
+      }
       if (job.kind !== "scan" && ev.type !== "end") { label.textContent = job.title + "…"; return; }
       if (ev.type === "progress") {
         label.textContent = (STAGE_LABEL[ev.stage] || ev.stage) + (ev.total ? ": " + fmt(ev.n) + " of " + fmt(ev.total) + " files" : "");
@@ -449,13 +495,14 @@
         log.appendChild(el("li", { class: "warning", text: ev.message }));
       } else if (ev.type === "end") {
         bar.hidden = true;
+        eta.hidden = true;
         label.textContent = ev.state === "done" && ev.result && ev.result.run_id
           ? "Run " + ev.result.run_id + " finished: " + fmt(ev.result.files) + " files, " + fmt(ev.result.analyzed) + " analysed, " + fmt(ev.result.cached) + " from cache."
           : (ev.state === "failed" ? "Failed: " + ev.error : "Scan " + ev.state + ".");
       }
     }
     jobListeners = [onEvent];
-    if (running) api("GET", "/api/jobs/" + state.job.id).then(function (j) { j.log.forEach(function (ev) { onEvent(ev, state.job); }); });
+    if (running) api("GET", "api/jobs/" + state.job.id).then(function (j) { j.log.forEach(function (ev) { onEvent(ev, state.job); }); });
 
     node.appendChild(el("h2", { text: "Runs" }));
     if (!state.runs.length) { node.appendChild(el("p", { class: "muted", text: "No runs yet." })); return; }
@@ -477,7 +524,7 @@
   function screenDashboard(node) {
     if (needConfig(node) || needRun(node)) return;
     var run = currentRun();
-    api("GET", "/api/runs/" + run + "/dashboard").then(function (d) {
+    api("GET", "api/runs/" + run + "/dashboard").then(function (d) {
       node.appendChild(el("h1", { text: "Results dashboard" }));
       node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("dashboard", v); })]),
         el("a", { class: "btn", href: "#reports?run=" + run, text: "Reports" }), el("a", { class: "btn", href: "#explorer?run=" + run, text: "Explore" })]));
@@ -522,7 +569,7 @@
   }
   function showEvidence(run, file, line) {
     var target = evidencePanel && document.body.contains(evidencePanel) ? evidencePanel : null;
-    api("GET", "/api/runs/" + run + "/evidence?file=" + encodeURIComponent(file) + (line ? "&line=" + line : "")).then(function (ev) {
+    api("GET", "api/runs/" + run + "/evidence?file=" + encodeURIComponent(file) + (line ? "&line=" + line : "")).then(function (ev) {
       var body = [el("h3", { text: ev.file + (ev.line ? ":" + ev.line : "") }),
         ev.vscode ? el("a", { class: "btn small", href: ev.vscode, text: "Open in VS Code" }) : null,
         el("pre", { class: "block" }, ev.text.split("\n").map(function (t, i) {
@@ -564,14 +611,14 @@
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("explorer", v); })]), kinds, search]));
     node.appendChild(el("div", { class: "split" }, [host, evidencePanel]));
     var page = { offset: 0, limit: 50 };
-    api("GET", "/api/kinds").then(function (all) {
+    api("GET", "api/kinds").then(function (all) {
       Object.keys(EXPLORE_COLS).concat(Object.keys(all).filter(function (k) { return !EXPLORE_COLS[k]; })).forEach(function (k) {
         if (all[k]) kinds.appendChild(new Option(k.replace(/_/g, " "), k));
       });
       kinds.value = params.get("kind") || "components";
       function load() {
         var kind = kinds.value;
-        var q = "/api/runs/" + run + "/facts/" + kind + "?limit=" + page.limit + "&offset=" + page.offset + "&q=" + encodeURIComponent(search.value);
+        var q = "api/runs/" + run + "/facts/" + kind + "?limit=" + page.limit + "&offset=" + page.offset + "&q=" + encodeURIComponent(search.value);
         api("GET", q).then(function (res) {
           clear(host);
           var cols = (EXPLORE_COLS[kind] || all[kind].filter(function (c) { return c !== "evidence"; }).slice(0, 7)).filter(function (c) { return all[kind].indexOf(c) >= 0; });
@@ -609,7 +656,7 @@
     }).catch(fail);
 
     function drill(name) {
-      api("GET", "/api/runs/" + run + "/component/" + encodeURIComponent(name)).then(function (d) {
+      api("GET", "api/runs/" + run + "/component/" + encodeURIComponent(name)).then(function (d) {
         clear(evidencePanel);
         evidencePanel.appendChild(el("h3", { text: d.component.name + " (" + d.component.type + ")" }));
         evidencePanel.appendChild(el("p", { class: "muted", text: fmt(d.component.files) + " files, " + fmt(d.component.loc_code) + " lines of code" }));
@@ -638,19 +685,21 @@
     var host = el("div");
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("enrichment", v); })]),
       el("button", { class: "btn", text: "Validate now", onclick: function () {
-        api("POST", "/api/runs/" + run + "/validate").then(function (d) { draw(d); toast(d.messages.filter(function (m) { return m.level === "error"; }).length + " error(s), " + d.checked.length + " stage file(s) checked."); }).catch(fail);
+        api("POST", "api/runs/" + run + "/validate").then(function (d) { draw(d); toast(d.messages.filter(function (m) { return m.level === "error"; }).length + " error(s), " + d.checked.length + " stage file(s) checked."); }).catch(fail);
       } })]));
     node.appendChild(host);
     function draw(d) {
       clear(host);
       var ai = d.ai || { provider: "copilot" };
-      if (ai.provider !== "copilot") {
-        var running = !!(state.job && state.job.state === "running");
+      if (d.ai_allowed === false) {
+        host.appendChild(el("p", { class: "hint", text: "The admin has switched off AI enrichment on this site." }));
+      } else if (ai.provider !== "copilot") {
+        var running = jobActive(state.job);
         host.appendChild(el("div", { class: "panel" }, [el("h3", { text: "Run here with " + ai.label }),
           ai.problem ? el("p", { class: "hint", text: ai.problem }) : el("p", { class: "hint", text: "The tool sends the facts of each stage to this model, checks the answer and sends any errors back to fix. The API key is read from an environment variable." }),
           el("div", { class: "controls" }, [
-            el("button", { class: "btn primary", text: "Run missing and stale stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/enrich", { stale: true })); } }),
-            el("button", { class: "btn", text: "Run all stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/enrich", { stale: false })); } })])]));
+            el("button", { class: "btn primary", text: "Run missing and stale stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "api/runs/" + run + "/enrich", { stale: true })); } }),
+            el("button", { class: "btn", text: "Run all stages", disabled: running || !!ai.problem, onclick: function () { startJob(api("POST", "api/runs/" + run + "/enrich", { stale: false })); } })])]));
       }
       if (d.next_prompt) {
         var code = el("code", { text: d.next_prompt });
@@ -673,7 +722,7 @@
         host.appendChild(table([{ key: "level", label: "Level" }, { key: "stage", label: "Stage" }, { key: "where", label: "Where", code: true }, { key: "text", label: "Message" }], d.messages));
       }
     }
-    api("GET", "/api/runs/" + run + "/enrichment").then(draw).catch(fail);
+    api("GET", "api/runs/" + run + "/enrichment").then(draw).catch(fail);
   }
 
   // The PowerPoint template picked on the Reports page: remembered in this browser, else the
@@ -682,7 +731,7 @@
   var templateChoice = null;
   function chosenTemplate() { return templateChoice; }
   function drawTemplates(host) {
-    api("GET", "/api/pptx-templates").then(function (d) {
+    api("GET", "api/pptx-templates").then(function (d) {
       if (!d.templates.length) {
         host.appendChild(el("p", { class: "hint", text: "No template found: put the corporate .potx files in the templates folder. The PowerPoint is skipped until then." }));
         return;
@@ -707,30 +756,30 @@
 
   // ---------------------------------------------------------------- 8. reports
   function screenReports(node) {
-    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint is built on the corporate template you pick below. PDFs are printed by Microsoft Edge or Chrome on this computer."));
+    add(node, heading("Reports", "Built from the selected run into its reports/ folder. The PowerPoint is built on the corporate template you pick below. PDFs are printed by " + (hosted() ? "Chromium on the server." : "Microsoft Edge or Chrome on this computer.")));
     if (needConfig(node) || needRun(node)) return;
     var run = currentRun();
-    var running = state.job && state.job.state === "running";
+    var running = jobActive(state.job);
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Run ", runSelect(run, function (v) { setRunInHash("reports", v); })])]));
     var tplHost = el("fieldset", { class: "templates" }, [el("legend", { text: "PowerPoint template" })]);
     node.appendChild(tplHost);
-    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["summary", "Build summary report"], ["pdf", "Build PDFs"], ["all", "Build all"]].map(function (b) {
-      return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "/api/runs/" + run + "/reports", { type: b[0], template: chosenTemplate() })); } });
+    node.appendChild(el("div", { class: "row" }, [["tech", "Build technical report"], ["functional", "Build functional document"], ["mgmt", "Build management deck"], ["pptx", "Build PowerPoint"], ["summary", "Build summary report"], ["pdf", "Build PDFs"], ["all", "Build all"]].filter(function (b) { return b[0] === "all" || reportAllowed(b[0]); }).map(function (b) {
+      return el("button", { class: "btn" + (b[0] === "all" ? " primary" : ""), text: b[1], disabled: running, onclick: function () { startJob(api("POST", "api/runs/" + run + "/reports", { type: b[0], template: chosenTemplate() })); } });
     })));
     drawTemplates(tplHost);
     var host = el("div");
     node.appendChild(host);
     jobListeners = [function (ev) { if (ev.type === "end" && ev.result && ev.result.messages) ev.result.messages.forEach(function (m) { toast(m, !/written/.test(m)); }); }];
-    api("GET", "/api/runs/" + run + "/reports").then(function (d) {
+    api("GET", "api/runs/" + run + "/reports").then(function (d) {
       var names = { tech: "Technical report (HTML)", functional: "Functional document (HTML)", mgmt: "Management deck (HTML)", pptx: "PowerPoint (PPTX)" + (d.pptx_template ? ", " + d.pptx_template + " template" : ""), summary: "Summary report (HTML)", summary_pptx: "Summary PowerPoint (PPTX)",
         pdf_summary: "Summary report (PDF)", pdf_mgmt: "Management deck (PDF)", pdf_functional: "Functional document (PDF)", pdf_tech: "Technical report (PDF)" };
       host.appendChild(table([
         { label: "Report", value: function (r) { return names[r.k]; } },
         { label: "", value: function (r) { return r.url ? el("a", { class: "btn small", href: r.url, target: "_blank", rel: "noopener", text: /pptx$/.test(r.k) ? "Download" : "Open" }) : el("span", { class: "muted", text: "not built yet" }); } }
-      ], Object.keys(names).map(function (k) { return { k: k, url: d.reports[k] }; })));
+      ], Object.keys(names).filter(function (k) { return k in d.reports; }).map(function (k) { return { k: k, url: d.reports[k] }; })));
       host.appendChild(el("div", { class: "row" }, [
-        el("a", { class: "btn", href: "/api/runs/" + run + "/datapack.zip", text: "Download data pack (ZIP)" }),
-        el("button", { class: "btn", text: "Open run folder", onclick: function () { api("POST", "/api/runs/" + run + "/open").catch(fail); } })
+        reportAllowed("datapack") ? el("a", { class: "btn", href: "api/runs/" + run + "/datapack.zip", text: "Download data pack (ZIP)" }) : null,
+        hosted() ? null : el("button", { class: "btn", text: "Open run folder", onclick: function () { api("POST", "api/runs/" + run + "/open").catch(fail); } })
       ]));
       host.appendChild(el("p", { class: "hint", text: "The data pack holds run.json, every fact file (JSON, CSV, SQLite), the SBOM and the enrichment." }));
     }).catch(fail);
@@ -748,7 +797,7 @@
     node.appendChild(el("div", { class: "controls" }, [el("label", null, ["Before ", runSelect(a, function (v) { go(v, b); }, "Before")]),
       el("label", null, ["After ", runSelect(b, function (v) { go(a, v); }, "After")])]));
     node.appendChild(host);
-    api("GET", "/api/compare?a=" + a + "&b=" + b).then(function (d) {
+    api("GET", "api/compare?a=" + a + "&b=" + b).then(function (d) {
       var rows = Object.keys(d.entities).map(function (k) { return Object.assign({ entity: k }, d.entities[k]); })
         .filter(function (r) { return r.count_a || r.count_b; });
       var changedOnly = rows.filter(function (r) { return r.added_count || r.removed_count || r.changed_count; });
@@ -801,6 +850,6 @@
   })();
 
   refreshWorkspace().then(function () {
-    return api("GET", "/api/jobs/current").then(function (job) { if (job && job.state === "running") watchJob(job); });
+    return api("GET", "api/jobs/current").then(function (job) { if (jobActive(job)) watchJob(job); });
   }).then(route).catch(fail);
 })();
