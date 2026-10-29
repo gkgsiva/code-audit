@@ -235,8 +235,24 @@ public final class Packs {
             throw new ConfigException(source + ": 'rules' must be a list");
         }
         Object data = raw.get("data");
-        Map<String, Object> d = data == null ? new LinkedHashMap<>() : new LinkedHashMap<>(asMap(data, source));
+        @SuppressWarnings("unchecked")
+        Map<String, Object> d = data == null ? new LinkedHashMap<>() : (Map<String, Object>) deepCopy(asMap(data, source));
         return new Pack((String) name, (String) raw.get("description"), rules, d);
+    }
+
+    /** A copy of YAML data whose maps and lists can be changed without touching the original. */
+    public static Object deepCopy(Object node) {
+        if (node instanceof Map<?, ?> m) {
+            Map<Object, Object> out = new LinkedHashMap<>();
+            m.forEach((k, v) -> out.put(k, deepCopy(v)));
+            return out;
+        }
+        if (node instanceof List<?> l) {
+            List<Object> out = new ArrayList<>();
+            l.forEach(v -> out.add(deepCopy(v)));
+            return out;
+        }
+        return node;
     }
 
     private static void extra(Map<String, Object> raw, Set<String> allowed, String source) {

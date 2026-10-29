@@ -16,6 +16,9 @@ import com.legacyaudit.engine.inventory.Walker.Skipped;
 import com.legacyaudit.engine.inventory.Walker.Walked;
 import com.legacyaudit.engine.linker.Classify;
 import com.legacyaudit.engine.linker.Linker;
+import com.legacyaudit.engine.metrics.Compute;
+import com.legacyaudit.engine.pg.Grader;
+import com.legacyaudit.engine.rules.Targets;
 import com.legacyaudit.engine.rules.Packs;
 import com.legacyaudit.engine.store.FactWriter;
 import com.legacyaudit.engine.store.FactWriter.Entity;
@@ -50,6 +53,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -464,6 +468,30 @@ public final class Scanner {
             warnings.addAll(linked.warnings());
             log.info("Linked: " + linked.edges() + " edges, " + linked.unresolved() + " unresolved references");
 
+            // ---- Metrics ------------------------------------------------------------------------
+            stage("metrics");
+            t = System.nanoTime();
+            Map<String, List<Doc>> units = new HashMap<>();
+            Map<String, List<List<Long>>> windows = new LinkedHashMap<>();
+            for (FileFacts ff : fileFacts) {
+                if (ff.analyzer().equals("metrics")) {
+                    units.put(ff.path(), ff.facts().units);
+                    windows.put(ff.path(), ff.facts().windows);
+                }
+            }
+            Compute.Result measured = Compute.compute(Compute.Settings.of(cfg), sourceRecords, components, linked.entities(), units, windows);
+            timings.put("metrics", seconds(t));
+
+            // ---- Assessment ---------------------------------------------------------------------
+            stage("assess");
+            t = System.nanoTime();
+            String profile = cfg.target().profile();
+            if (!Targets.NONE.equals(profile)) { // audit only: no target database to grade against
+                Grader.gradeAll(linked.entities().getOrDefault("sql_statements", List.of()), linked.entities().getOrDefault("db_objects", List.of()),
+                        Packs.load("postgresql", teamDir(loaded)).data);
+            }
+            timings.put("assess", seconds(t));
+
             // ---- Coverage, export ------------------------------------------------------------------
             List<InputCoverage> coverage = InputCoverages.of(inputsDir, INPUTS_ROOT);
             for (InputCoverage c : coverage) {
@@ -503,6 +531,7 @@ public final class Scanner {
             LINKED.forEach((name, schema) -> all.add(new Entity(name, schema.fields().stream().map(Schema.Field::name).toList(),
                     linked.entities().getOrDefault(name, List.of()))));
             all.add(new Entity("findings", FINDING_COLUMNS, allFindings));
+            all.add(new Entity("metrics", Schemas.METRIC.fields().stream().map(Schema.Field::name).toList(), measured.metrics));
             all.add(new Entity("input_coverage", COVERAGE_COLUMNS, coverage));
             List<Entity> entities = FactWriter.dropDuplicateIds(all, warnings);
             run.warnings = warnings;
@@ -521,9 +550,9 @@ public final class Scanner {
             List<Component> comps = (List<Component>) entities.get(1).items();
             @SuppressWarnings("unchecked")
             List<FileRecord> files = (List<FileRecord>) entities.get(0).items();
-            List<Fact> found = new ArrayList<>(entities.get(entities.size() - 2).items());
+            List<Fact> found = new ArrayList<>(entities.get(entities.size() - 3).items());
             Map<String, List<Doc>> facts = new LinkedHashMap<>();
-            for (Entity e : entities.subList(2, entities.size() - 2)) {
+            for (Entity e : entities.subList(2, entities.size() - 3)) {
                 @SuppressWarnings("unchecked")
                 List<Doc> docs = (List<Doc>) e.items();
                 facts.put(e.name(), docs);
