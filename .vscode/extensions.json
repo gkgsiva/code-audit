@@ -1,3 +1,3 @@
 {
-  "recommendations": ["ms-python.python", "ms-python.debugpy", "charliermarsh.ruff", "qwtel.sqlite-viewer"]
+  "recommendations": ["vscjava.vscode-java-pack", "vmware.vscode-boot-dev-pack", "angular.ng-template", "ms-azuretools.vscode-docker"]
 }

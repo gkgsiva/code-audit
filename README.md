@@ -161,14 +161,10 @@ the new version.
 
 ## Validating from VS Code
 
-Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
-`3. lint + type check`, `4. scan a sample`, `5. scan all samples`, `6. show dynamic SQL`,
-`7. build and open the technical report`, `8`–`12` for phase 5 (PPTX builder, Copilot files, demo
-enrichment, decks, facts), `13`–`15` for phase 6 (GUI, doctor, performance test), `16`–`17` for phase 7 (demo functional
-enrichment, functional document), `18` (scan without scheduler inputs), `19`–`20` (AI model check and
-enrichment with any model); **Run and
-Debug** has `legacy-audit: scan a sample` for breakpoints. What to check after each phase is in
-[`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
+Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. start the web app
+(Docker)`, `2. stop the web app`, `3. build the web app and save build-spring.log`, `4. backend
+build and tests`, `5. frontend build and tests` and `6. parser proof report`. What to check
+after each phase is in [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 
 ## Development
 

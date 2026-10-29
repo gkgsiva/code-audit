@@ -3,7 +3,7 @@
 Before porting the analyzers, Phase 0 checks that the chosen Java libraries read the sample
 applications as well as the Python tool does. The numbers below come from
 `java -jar backend/audit-cli/target/legacy-audit.jar proofs --samples samples` (VS Code task
-`audit: 45`), and the test `ProofsTest` runs the same checks in every build, on Linux and on
+`audit: 6`), and the test `ProofsTest` runs the same checks in every build, on Linux and on
 Windows.
 
 ## Verdict

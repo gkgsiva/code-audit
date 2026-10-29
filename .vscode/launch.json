@@ -1,33 +1,16 @@
 {
-  // Debug the scanner on a sample (F5), with breakpoints in legacy_audit/.
+  // Debug the command line tool (F5), with breakpoints in backend/. Run task 4 once first.
   "version": "0.2.0",
-  "inputs": [
-    {
-      "id": "sample",
-      "type": "pickString",
-      "description": "Sample application to scan",
-      "options": ["struts-oracle-app", "spring-mvc-batch-app", "c-proc-batch", "cobol-cics-db2", "legacy-layout-app"],
-      "default": "struts-oracle-app"
-    }
-  ],
   "configurations": [
     {
-      "name": "legacy-audit: scan a sample",
-      "type": "debugpy",
+      "name": "legacy-audit: parser proof report",
+      "type": "java",
       "request": "launch",
-      "module": "legacy_audit",
-      "args": ["scan", "--full", "-c", "samples/${input:sample}/audit.yaml"],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": true
-    },
-    {
-      "name": "pytest: current test file",
-      "type": "debugpy",
-      "request": "launch",
-      "module": "pytest",
-      "args": ["-q", "${file}"],
-      "cwd": "${workspaceFolder}",
-      "justMyCode": false
+      "mainClass": "com.legacyaudit.cli.Main",
+      "projectName": "audit-cli",
+      "args": ["proofs", "--samples", "${workspaceFolder}/samples"],
+      "vmArgs": "--enable-native-access=ALL-UNNAMED",
+      "cwd": "${workspaceFolder}/backend"
     }
   ]
 }

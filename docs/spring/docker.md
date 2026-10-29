@@ -26,11 +26,11 @@ The new version reads the same `.env` file as the Python version.
 
 ## 3. Start, open, stop
 
-1. In VS Code: **Terminal > Run Task... > `audit: 40. Spring: start the new web app (Docker)`**.
+1. In VS Code: **Terminal > Run Task... > `audit: 1. start the web app (Docker)`**.
    The first build downloads Java, Maven, Node.js and PostgreSQL images and takes a few minutes.
 2. When it ends, the list shows three containers: `db` (healthy), `backend` and `frontend`.
 3. Open http://localhost:8770 and log in as **admin**.
-4. To stop: **`audit: 41. Spring: stop the new web app (Docker)`**. Users stay in the database
+4. To stop: **`audit: 2. stop the web app (Docker)`**. Users stay in the database
    volume `legacy-audit-spring_legacy-audit-db` and are there after the next start.
 
 The same from a terminal:
@@ -42,7 +42,7 @@ docker compose -f docker-compose.spring.yml down
 
 ## 4. Building at the office
 
-If the build stops, run **`audit: 42. Spring: build the new web app and save build-spring.log`**.
+If the build stops, run **`audit: 3. build the web app and save build-spring.log`**.
 The end of `build-spring.log` shows a box "legacy-audit build stopped: ..." with what to set.
 These `.env` values help (ask IT for the addresses):
 
