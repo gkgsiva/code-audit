@@ -644,11 +644,15 @@
     var scans = num("Jobs at once", "max_scans", s.limits.max_scans, "Scans, report builds and enrichment running at the same time across all projects. Others wait in line (see Status).", 1, 32);
     var keep = num("Runs kept per project", "keep_runs", s.limits.keep_runs, "Older runs are deleted after each scan; the latest is always kept.", 1, 500);
     var timeout = num("Scan time limit (minutes)", "scan_timeout_minutes", s.limits.scan_timeout_minutes, "A scan running longer is stopped.", 5, 10000);
+    var keepClones = num("Keep Git clones (days)", "clone_keep_days", s.limits.clone_keep_days, "A clone not scanned for this many days is deleted (checked every hour and after each scan). The next scan clones it again.", 1, 3650);
+    var minFree = num("Keep this much disk free (GB)", "min_free_gb", s.limits.min_free_gb, "When the disk has less free space, the least recently used clones are deleted first. 0 turns this off.", 0, 100000);
     host.appendChild(form);
     host.appendChild(saveButton(s, function () {
       s.limits.max_scans = Number(scans.value);
       s.limits.keep_runs = Number(keep.value);
       s.limits.scan_timeout_minutes = Number(timeout.value);
+      s.limits.clone_keep_days = Number(keepClones.value);
+      s.limits.min_free_gb = Number(minFree.value);
     }));
   }
 
@@ -677,6 +681,31 @@
       host.appendChild(table([{ key: "name", label: "Check" }, { label: "Status", value: function (c) { return chip(c.status); } }, { key: "detail", label: "Detail" }, { key: "needed_for", label: "Needed for" }], h.checks));
       host.appendChild(el("h2", { text: "Space per project" }));
       host.appendChild(table([{ key: "project", label: "Project" }, { label: "Size", value: function (p) { return bytes(p.bytes); } }], h.projects));
+      var clonesBox = el("div");
+      host.appendChild(el("h2", { text: "Git clones" }));
+      host.appendChild(clonesBox);
+      loadClones(clonesBox);
+    }).catch(fail);
+  }
+  function loadClones(box) {
+    api("GET", "/api/admin/clones").then(function (c) {
+      clear(box);
+      box.appendChild(el("p", { class: "hint", text: "Projects with a Git source scan a copy (clone) kept in " + c.cache + ". Each scan updates it to the latest commit of its branch. A clone not used for " + c.keep_days + " days is deleted, and so are the oldest when less than " + c.min_free_gb + " GB is free (change both on Limits). Deleting a project deletes the clones only it used. A deleted clone is simply cloned again by the next scan." }));
+      box.appendChild(el("div", { class: "tiles" }, [tile("Clones", c.clones.length), tile("Space used", bytes(c.total)), tile("Disk free", bytes(c.free))]));
+      box.appendChild(el("div", { class: "row" }, [el("button", { class: "btn", text: "Clean up now", onclick: function () {
+        api("POST", "/api/admin/clones/prune").then(function (r) { toast(r.removed.length ? "Deleted " + r.removed.length + " clone(s)." : "Nothing to clean up."); loadClones(box); }).catch(fail);
+      } })]));
+      if (!c.clones.length) { box.appendChild(el("p", { class: "muted", text: "No clones yet." })); return; }
+      box.appendChild(table([
+        { key: "url", label: "Repository" }, { label: "Branch", value: function (r) { return r.ref || "default"; } }, { key: "commit", label: "Commit", code: true },
+        { label: "Projects", value: function (r) { return r.projects.join(", ") || "none"; } },
+        { key: "last_used", label: "Last used (UTC)" }, { label: "Size", value: function (r) { return bytes(r.size); } },
+        { label: "", value: function (r) {
+          return el("button", { class: "btn small danger", text: "Delete", onclick: function () {
+            api("POST", "/api/admin/clones/delete", { key: r.key }).then(function () { toast("Deleted the clone of " + (r.url || r.key) + "."); loadClones(box); }).catch(fail);
+          } });
+        } }
+      ], c.clones));
     }).catch(fail);
   }
 

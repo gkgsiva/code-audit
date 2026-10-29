@@ -25,6 +25,9 @@ The first complete version: phases 1 to 7 of `docs/plan.md`.
   container.
 - Admin dashboard: usage (people, logins, scans, scan times, queue wait, reports, AI runs,
   busiest projects, failures) and the server (memory, CPU, disk, jobs, uptime) with charts.
+- Git: scan another branch or tag once from 4. Run; runs and reports show the branch and
+  commit. Clones are deleted after 14 days unused, oldest first when the disk is low, and with
+  their project; Admin > Health lists them with Delete and Clean up now.
 
 ### PDF copies of the reports (2026-10-23)
 

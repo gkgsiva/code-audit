@@ -190,6 +190,12 @@ class LimitSettings(Strict):
     max_scans: int = Field(2, ge=1, le=32, description="Scans and builds running at once")
     keep_runs: int = Field(10, ge=1, le=500, description="Runs kept per project")
     scan_timeout_minutes: int = Field(240, ge=5, description="A scan running longer is stopped")
+    clone_keep_days: int = Field(
+        14, ge=1, le=3650, description="A Git clone not used for this many days is deleted"
+    )
+    min_free_gb: float = Field(
+        5, ge=0, le=100000, description="Below this free space, the oldest clones are deleted"
+    )
 
 
 class AdminSettings(Strict):

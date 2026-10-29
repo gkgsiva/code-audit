@@ -174,6 +174,72 @@ def test_server_numbers_need_no_extra_packages() -> None:
     assert len(s.history()) == 2
 
 
+def _fake_clone(cache: Path, key: str, url: str, days_ago: float, size: int = 10) -> Path:
+    import json as _json
+
+    folder = cache / key
+    (folder / ".git").mkdir(parents=True)
+    (folder / "big.bin").write_bytes(b"x" * size)
+    used = time.time() - days_ago * 86400
+    (folder / ".git" / "legacy-audit-clone.json").write_text(
+        _json.dumps(
+            {"url": url, "ref": key.rsplit("@", 1)[1], "commit": "a" * 40, "last_used": used}
+        )
+    )
+    return folder
+
+
+def test_git_clones_are_listed_cleaned_up_and_deleted_with_their_project(site: Any) -> None:
+    boss = _client(site, "boss")
+    cache = site.site.layer.git_cache()
+    url_a, url_b = "https://git.example.com/team/a.git", "https://git.example.com/team/b.git"
+    old = _fake_clone(cache, "git.example.com/team/a@main", url_a, days_ago=30)
+    fresh = _fake_clone(cache, "git.example.com/team/a@release", url_a, days_ago=1)
+    other = _fake_clone(cache, "git.example.com/team/b@main", url_b, days_ago=1)
+    # a project scanning repository a (written by hand: the test has no Git server)
+    folder = site.site.registry.project_dir("billing")
+    folder.mkdir(parents=True)
+    (folder / "audit.yaml").write_text(
+        "application: {name: Billing}\n"
+        f"source: {{type: git, repos: [{{url: '{url_a}', ref: main}}]}}\n",
+        encoding="utf-8",
+    )
+    listing = _ok(boss.get("/api/admin/clones"))
+    assert listing["clones"][-1]["key"] == old.relative_to(cache).as_posix()  # newest first
+    by_key = {c["key"]: c for c in listing["clones"]}
+    assert by_key["git.example.com/team/a@main"]["projects"] == ["billing"]
+    assert listing["keep_days"] == 14 and listing["total"] > 30
+    # older than 14 days goes; the rest stay
+    assert _ok(boss.post("/api/admin/clones/prune", headers=H))["removed"] == [
+        "git.example.com/team/a@main"
+    ]
+    assert not old.exists() and fresh.exists() and other.exists()
+    # low disk: the least recently used go first, until enough is free (here: never enough)
+    settings = _ok(boss.get("/api/admin"))["settings"]
+    settings["limits"]["min_free_gb"] = 100000
+    _ok(boss.put("/api/admin", json=settings, headers=H))
+    assert len(_ok(boss.post("/api/admin/clones/prune", headers=H))["removed"]) == 2
+    settings["limits"]["min_free_gb"] = 0
+    _ok(boss.put("/api/admin", json=settings, headers=H))
+    # one clone by hand, and the project's clones go with the project
+    keep = _fake_clone(cache, "git.example.com/team/b@main", url_b, days_ago=1)
+    mine = _fake_clone(cache, "git.example.com/team/a@main", url_a, days_ago=1)
+    bad = boss.post("/api/admin/clones/delete", json={"key": "../x"}, headers=H)
+    assert bad.status_code == 404
+    _ok(boss.post("/api/projects/billing/delete", json={"confirm": "billing"}, headers=H))
+    assert not mine.exists() and keep.exists()
+    _ok(
+        boss.post(
+            "/api/admin/clones/delete", json={"key": "git.example.com/team/b@main"}, headers=H
+        )
+    )
+    assert not keep.exists()
+    actions = [e["action"] for e in _ok(boss.get("/api/admin/activity"))]
+    assert actions.count("delete clone") == 5
+    siva = _client(site, "siva")
+    assert siva.get("/api/admin/clones").status_code == 403
+
+
 def test_sessions_are_signed_and_expire() -> None:
     s = Sessions("k", 1)
     token = s.issue("siva")

@@ -924,8 +924,8 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
 
 1. Pull the branch, run `audit: 1. set up` once (new files only, no new packages), then
    `audit: 2. tests (pytest)`: everything passes. **`audit: 38. hosted site tests`** runs the
-   hosted ones alone (12 tests: settings, login, defaults and locks, queue and time left, roles,
-   report switches, status and logs, an audits folder that cannot be written, the dashboard numbers).
+   hosted ones alone (13 tests: settings, login, defaults and locks, queue and time left, roles,
+   report switches, status and logs, an audits folder that cannot be written, the dashboard numbers, Git clone clean-up).
 2. **Without Docker first**: run **`audit: 37. run the hosted site without Docker (samples)`**.
    The terminal says `legacy-audit hosted site for ...audits-hosted at http://127.0.0.1:8765/`
    and a yellow "Test login" line. Open http://127.0.0.1:8765 (on WSL2, in your Windows
@@ -957,6 +957,13 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
      second shows `queued, place 1` and "after the jobs ahead", then runs.
    - **Activity** lists the logins, the project creation, scans and settings changes;
      **Health** shows disk space, space per project and the tool checks.
+   - **Limits** shows **Keep Git clones (days)** 14 and **Keep this much disk free (GB)** 5.
+     **Health** ends with **Git clones** ("No clones yet." until a Git project is scanned).
+   - **Git project** (only if you have an https Git repository you may clone): create a project
+     with **A Git repository**, its address and branch `main`, and **Re-run**. **Health > Git
+     clones** shows one row with the branch and the commit. On **4. Run**, type another branch
+     in **Branch or tag** and **Re-run**: the Runs table shows both branches with their commits,
+     and Health two clones. **Delete** on one row removes it.
 8. Stop task 37 (trash can on the terminal). Its projects are in `audits-hosted/` (not committed).
 9. **With Docker** (Docker Desktop on Windows, or Docker Engine in WSL2): copy
    `docker/env.example` to `.env`, set `LEGACY_AUDIT_SESSION_SECRET`, `AUDITS_DIR` (create the

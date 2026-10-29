@@ -151,3 +151,46 @@ def test_purge_cache(runner, tmp_path):
     result = invoke(runner, "purge-cache", "--cache-dir", str(cache))
     assert result.exit_code == 0
     assert not cache.exists()
+
+
+def test_scan_another_branch_once_from_the_app(tmp_path, bare_repo):
+    from fastapi.testclient import TestClient
+
+    from legacy_audit.gui.app import create_app
+
+    work, bare = bare_repo
+    git("checkout", "-q", "-b", "release", cwd=work)
+    write(work / "app" / "src" / "B.java", "class B {}\n")
+    git("add", ".", cwd=work)
+    git("commit", "-q", "-m", "second", cwd=work)
+    git("push", "-q", str(bare), "release", cwd=work)
+    cfg = _config(tmp_path, str(bare))
+    client = TestClient(create_app(cfg.parent, 8765), base_url="http://127.0.0.1:8765")
+    h = {"X-Legacy-Audit": "1"}
+    ws = client.get("/api/workspace").json()
+    assert ws["git"] == [{"url": str(bare), "ref": "main"}]
+    for bad in ("--upload-pack=x", "a b", "../x"):
+        assert client.post("/api/scan", json={"ref": bad}, headers=h).status_code == 422
+    job = client.post("/api/scan", json={"ref": "release"}, headers=h).json()
+    assert job["title"] == "Re-run of release"
+    done = client.app.state.jobs.wait()  # type: ignore[attr-defined]
+    assert done.state == "done", done.error
+    runs = client.get("/api/runs").json()
+    assert runs[0]["git"][0]["ref"] == "release" and len(runs[0]["git"][0]["commit"]) == 12
+    # the project's own branch is unchanged
+    assert yaml.safe_load(cfg.read_text())["source"]["repos"][0]["ref"] == "main"
+    from legacy_audit.source.git import list_clones, remove_clone
+
+    clones = list_clones(tmp_path / "clone-cache")
+    assert [c.ref for c in clones] == ["release"] and clones[0].url == str(bare)
+    assert clones[0].size > 0 and clones[0].key.endswith("orders@release")
+    with pytest.raises(Exception, match="No clone"):
+        remove_clone(tmp_path / "clone-cache", "../../etc")
+    remove_clone(tmp_path / "clone-cache", clones[0].key)
+    assert list_clones(tmp_path / "clone-cache") == []
+
+
+def test_ref_must_be_a_plain_name():
+    with pytest.raises(ValueError, match="not a branch"):
+        GitRepo(url="https://git.example.com/a.git", ref="-c core.x=y")
+    assert GitRepo(url="https://git.example.com/a.git", ref=" release/2.1 ").ref == "release/2.1"

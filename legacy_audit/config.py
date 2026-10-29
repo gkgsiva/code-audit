@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections.abc import Callable
 from pathlib import Path, PureWindowsPath
 from typing import Annotated, Any, Literal
@@ -112,6 +113,11 @@ class LocalSource(Strict):
         return [_norm_path(p) for p in v]
 
 
+# A branch, tag or commit: no spaces or shell/option characters, never starting with "-"
+# (git would read it as an option).
+GIT_REF_RE = re.compile(r"^[A-Za-z0-9_.][A-Za-z0-9_./@+-]{0,199}$")
+
+
 class GitRepo(Strict):
     url: str
     ref: str | None = Field(None, description="Branch, tag or commit; default branch if empty")
@@ -120,6 +126,14 @@ class GitRepo(Strict):
     token_env: str | None = Field(
         None, description="Name of the environment variable holding a read-only token"
     )
+
+    @field_validator("ref")
+    @classmethod
+    def _ref(cls, v: str | None) -> str | None:
+        v = v.strip() if v else None
+        if v and (not GIT_REF_RE.match(v) or ".." in v):
+            raise ValueError(f"'{v}' is not a branch, tag or commit name")
+        return v or None
 
     @field_validator("paths")
     @classmethod

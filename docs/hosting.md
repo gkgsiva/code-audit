@@ -64,6 +64,20 @@ the projects in `audits-hosted/`. Open http://127.0.0.1:8765.
 
 **Logs** shows the log of every scan on your projects, with a filter for warnings and errors.
 
+### Git projects: another branch
+
+A Git project scans the branch you typed when you created it (empty: the repository's default
+branch).
+
+- **Scan another branch once**: on **4. Run**, type the branch or tag in **Branch or tag** (for
+  example `release/2.1`), then **Re-run**. The project keeps its own branch for later scans.
+- **Change the project's branch for good**: change `ref` under `source` on **1. Project setup**.
+- The **Runs** table shows the branch and commit of every run, and so do the summary and
+  technical reports at the top. Each run is kept, so you can compare branches run by run.
+
+The site keeps one copy (clone) per repository and branch, with the last commit only. Every
+scan updates it. An admin sees all clones on **Admin > Health > Git clones**.
+
 ## 3. Settings: environment variables
 
 Set them in `docker-compose.yml` (or with `docker run -e NAME=value`) and restart with
@@ -104,9 +118,9 @@ Log in as an admin and open **Admin**. Settings are saved in
 | Projects | Every project folder: set an owner (a folder copied in by hand has none), manage access, delete (type the folder name to confirm; this cannot be undone) |
 | AI | Allow AI enrichment or not; provider, model, endpoint and the **name** of the key variable |
 | Scanners | OSV-Scanner and Dependency-Check on or off, online or offline, timeouts; JDK tools |
-| Limits | Jobs at once (others wait in line), runs kept per project, scan time limit |
+| Limits | Jobs at once (others wait in line), runs kept per project, scan time limit, how long Git clones are kept (14 days unused) and how much disk to keep free (5 GB) |
 | Activity | Who logged in, created projects, scanned, built reports or changed settings; download as CSV |
-| Health | Version, disk space, space per project, and the tool checks (Python, Chrome, Node, scanners, Git) |
+| Health | Version, disk space, space per project, the tool checks (Python, Chrome, Node, scanners, Git), and the Git clones: repository, branch, commit, which projects use it, last used, size, **Delete** and **Clean up now** |
 
 Roles: **admin** (everything), **owner** (creates projects; runs and manages their own),
 **contributor** (scans and builds reports on projects they are added to), **viewer** (reads
@@ -166,7 +180,23 @@ The Mermaid CLI and OSV-Scanner are optional: when they cannot be downloaded the
 on, prints a `WARNING:` line, and **Admin > Health** shows them as missing. To leave them out:
 `WITH_MERMAID=false`, `WITH_OSV=false` (and `WITH_CHROMIUM=false` for no PDF copies).
 
-## 7. Updating
+## 7. Git clones and disk space
+
+Clones live in `/audits/.legacy-audit/git/` (or the folder on **Admin > Paths**). They are
+deleted on their own:
+
+- when not scanned for **Keep Git clones (days)** (Admin > Limits, 14 by default), checked
+  every hour and after each scan;
+- when the disk has less free space than **Keep this much disk free (GB)** (5 by default): the
+  least recently used go first;
+- when their project is deleted (unless another project scans the same repository).
+
+A clone that a running or waiting scan may use is never deleted. To free space at once:
+**Admin > Health > Git clones > Clean up now**, or **Delete** on one row. Nothing is lost: the
+next scan clones it again. Old runs are a project's other big user of space: lower **Runs kept
+per project** on Limits.
+
+## 8. Updating
 
 Pull the repository, then `docker compose up --build -d`. Projects, users and settings stay in
 the audits folder. After an update that changes scanning, owners click **Re-run**.
@@ -189,6 +219,7 @@ an OpenID Connect provider: set `LEGACY_AUDIT_AUTH=okta`, `OKTA_ISSUER`, `OKTA_C
 | "is outside the folders this site may scan" | The project's folder is not under `/sources` (or a folder added on Admin > Paths). Mount it in `docker-compose.yml` |
 | No folders in the picker | `SOURCES_DIR` in `.env` is empty or wrong; set it to your code folder and run `docker compose up -d` |
 | A scan waits a long time | Other scans are running; see **Status**. An admin can raise **Limits > Jobs at once** (needs CPU and memory) |
+| Disk almost full | **Admin > Health**: space per project and the Git clones. **Clean up now**, delete clones, or lower **Runs kept per project** |
 | PDF copies skipped | The image was built with `WITH_CHROMIUM=false`, or set **Admin > Paths > Chrome or Edge** |
 | Build stops at `apt-get` with `exit code: 100` (or the box "could not reach the Debian package servers") | The Debian packages could not be downloaded. Follow [Building at the office](#6-building-at-the-office) steps 1 to 4 |
 | Build stops at `pip install` | Same steps: proxy, certificate, then `PIP_INDEX_URL` |
