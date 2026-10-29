@@ -76,4 +76,16 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+      </resource>
+      <!-- The rule packs and data tables shared with the Python tool (decision 218). -->
+      <resource>
+        <directory>${project.basedir}/../../rules</directory>
+        <targetPath>legacyaudit/rules</targetPath>
+      </resource>
+    </resources>
+  </build>
 </project>

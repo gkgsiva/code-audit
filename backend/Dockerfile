@@ -21,6 +21,7 @@ RUN . /tmp/java-build.sh; cd backend && mvn -B -ntp -q dependency:go-offline -pl
         "At the office: set BUILD_PROXY (and BUILD_NO_PROXY) in .env" \
         "Or set MAVEN_MIRROR to the company Maven repository (Nexus, Artifactory)" \
         "Proxy that inspects HTTPS: put the company root certificate (.crt) in docker/certs/"
+COPY rules/ rules/
 COPY backend/ backend/
 RUN cd backend && mvn -B -ntp -q -DskipTests package -pl audit-server -am
 

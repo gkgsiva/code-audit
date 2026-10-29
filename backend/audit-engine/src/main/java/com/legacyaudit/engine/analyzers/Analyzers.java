@@ -39,7 +39,9 @@ public final class Analyzers {
                 new MqAnalyzer(),
                 new CftAnalyzer(),
                 new ServersAnalyzer(),
-                new WebServicesAnalyzer());
+                new WebServicesAnalyzer(),
+                new MetricsAnalyzer(),
+                new PatternsAnalyzer());
     }
 
     /** {@code inventory=<v>;<name>=<version>;...} by name: part of the file-cache key. */

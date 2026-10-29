@@ -14,6 +14,7 @@ import com.legacyaudit.engine.inventory.Walker;
 import com.legacyaudit.engine.inventory.Walker.Filters;
 import com.legacyaudit.engine.inventory.Walker.Skipped;
 import com.legacyaudit.engine.inventory.Walker.Walked;
+import com.legacyaudit.engine.rules.Packs;
 import com.legacyaudit.engine.store.FactWriter;
 import com.legacyaudit.engine.store.FactWriter.Entity;
 import com.legacyaudit.engine.store.Runs;
@@ -183,6 +184,12 @@ public final class Scanner {
         return String.join(", ", parts);
     }
 
+    /** The team's rule folder ({@code rules.packs_dir}), or null. */
+    public static Path teamDir(LoadedConfig loaded) {
+        Object dir = loaded.config().setting("rules", "packs_dir");
+        return dir != null && !String.valueOf(dir).isEmpty() ? loaded.resolve(String.valueOf(dir)) : null;
+    }
+
     private static final class Run {
         private final LoadedConfig loaded;
         private final AuditConfig cfg;
@@ -197,6 +204,7 @@ public final class Scanner {
         private final List<FileFacts> fileFacts = new ArrayList<>();
         private final List<Analyzer> analyzers = Analyzers.registered();
         private final List<String> analyzerWarnings = new ArrayList<>();
+        private List<Object> textRules;
 
         Run(LoadedConfig loaded, Path outDir, String runId, Path runDir, OffsetDateTime started, Options options, ScanLog log) {
             this.loaded = loaded;
@@ -269,7 +277,10 @@ public final class Scanner {
             }
 
             // Settings that change per-file results are part of the cache key.
-            String cacheVersion = Analyzers.versionKey(FileAnalyzer.VERSION) + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb();
+            List<Packs.Rule> patterns = Packs.textRules(cfg.rulePacks(), teamDir(loaded));
+            textRules = new ArrayList<>(patterns);
+            String cacheVersion = Analyzers.versionKey(FileAnalyzer.VERSION) + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb()
+                    + ";dup=" + cfg.duplicationTokens() + ";rules=" + Packs.rulesKey(patterns);
             long maxBytes = (long) (inv.maxFileSizeMb() * 1024 * 1024);
             List<String> unreadable = new ArrayList<>(); // "path\u001fwhy"
             String[] slots = new String[walked.size()]; // cache payload per walked file, in walk order
@@ -476,7 +487,7 @@ public final class Scanner {
             Map<String, Object> facts = new LinkedHashMap<>();
             FileRecord rec = res.record();
             if (rec != null && (res.text() != null || rec.language.equals("archive"))) {
-                AnalyzerContext ctx = new AnalyzerContext(cfg, absPath, res.text(), null);
+                AnalyzerContext ctx = new AnalyzerContext(cfg, absPath, res.text(), textRules);
                 Analyzers.run(analyzers, rec, ctx, analyzerWarnings).forEach((name, f) -> facts.put(name, f.dump()));
             }
             Map<String, Object> payload = new LinkedHashMap<>();
