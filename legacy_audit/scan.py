@@ -224,6 +224,9 @@ def run_scan(
         handler = logging.FileHandler(run_dir / "logs" / "scan.log", encoding="utf-8")
         handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
         handler.addFilter(SecretFilter(_secrets(loaded)))
+        # only this scan's thread: on the hosted site other projects scan at the same time
+        scan_thread = threading.get_ident()
+        handler.addFilter(lambda record: record.thread == scan_thread)
         log.addHandler(handler)
         prev_level = log.level
         log.setLevel(logging.INFO)

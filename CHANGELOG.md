@@ -6,6 +6,20 @@ All notable changes to legacy-audit. Dates are when a phase was merged.
 
 The first complete version: phases 1 to 7 of `docs/plan.md`.
 
+### Hosted site (2026-10-29)
+
+- `legacy-audit host` and a Docker image (`Dockerfile`, `docker-compose.yml`): one shared site
+  where project owners log in, open or create a project under one audits folder, scan and
+  build reports in the browser. Settings come from `LEGACY_AUDIT_*` environment variables.
+- Test login (a name, no password) built so Okta can replace it; roles admin, owner,
+  contributor and viewer; project members; archived projects.
+- Admin page: which reports and summary sections show, paths, common `audit.yaml` defaults
+  with locks, users and sign-up, projects and access, AI, scanners, limits, activity log
+  (CSV) and health.
+- Status page (running and waiting jobs, progress, time left) and Logs page (scan logs and the
+  server log, filter, follow, download). Jobs of all projects share a queue.
+- See `docs/hosting.md`. VS Code tasks 36-38.
+
 ### PDF copies of the reports (2026-10-23)
 
 - `legacy-audit report --type pdf` (and `--type all`, and **Build PDFs** in the app) saves the

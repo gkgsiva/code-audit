@@ -915,3 +915,51 @@ called on one host), and a step that goes wrong now gives a warning instead of a
 4. If a step still goes wrong, the run finishes anyway and the warnings list (terminal, or the
    run page in the GUI) has a line starting with the step's name and "could not be built".
    Send that line and the run log (`audit-output/runs/<run-id>/logs/`).
+
+## Hosted site (Docker, login, admin page)
+
+The tool now also runs as one shared web site: log in, open or create a project under the
+audits folder, scan, follow the scan on Status, read Logs, and set everything on the admin page
+(decisions 180 to 186). Steps are the same on Windows and WSL2 unless a step says otherwise.
+
+1. Pull the branch, run `audit: 1. set up` once (new files only, no new packages), then
+   `audit: 2. tests (pytest)`: everything passes. **`audit: 38. hosted site tests`** runs the
+   hosted ones alone (9 tests: settings, login, defaults and locks, queue and time left, roles,
+   report switches, status and logs).
+2. **Without Docker first**: run **`audit: 37. run the hosted site without Docker (samples)`**.
+   The terminal says `legacy-audit hosted site for ...audits-hosted at http://127.0.0.1:8765/`
+   and a yellow "Test login" line. Open http://127.0.0.1:8765 (on WSL2, in your Windows
+   browser).
+3. Log in as **siva**. On **Projects** fill in **Create a project**: name `Orders`, then in the
+   folder box click `samples`, `struts-oracle-app`, `orders-web`. Click **Create project**: the
+   project opens on **3. Components** with **← All projects** and `siva (owner)` at the top.
+4. **4. Run > Re-run**. Open http://127.0.0.1:8765/#status in a second tab: the scan shows
+   `running` with its step, a progress bar and the time left, then moves to **Recently
+   finished** with `run <id>`. Run **Re-run** again: the time left now says "(last run)".
+5. **Logs**: pick `Orders: run ... (scan.log)`, choose **Warnings and errors**: one orange
+   "Vulnerability check not done" line. **Download** saves the file.
+6. **8. Reports > Build all**: the reports open from the table. There is no Open run folder
+   button (the files are on the server).
+7. **Log out**, log in as **admin**. **Admin** is now in the menu:
+   - **Reports**: untick **Technical report (HTML)** and **Save**. Log in as siva again: on
+     8. Reports the technical report and its PDF row are gone, and its build button too.
+   - **Project defaults**: set **Migration target** to **None (audit only)**, tick **lock**,
+     **Save**. In the Orders project, **1. Project setup** still shows the project's own file;
+     the next scan and reports use target none (no target columns).
+   - **Users and roles**: siva is listed with role owner; change a role, add a user, untick
+     sign-up and check a new name can no longer log in.
+   - **Limits**: set **Jobs at once** to 1, start a scan on two projects quickly: on Status the
+     second shows `queued, place 1` and "after the jobs ahead", then runs.
+   - **Activity** lists the logins, the project creation, scans and settings changes;
+     **Health** shows disk space, space per project and the tool checks.
+8. Stop task 37 (trash can on the terminal). Its projects are in `audits-hosted/` (not committed).
+9. **With Docker** (Docker Desktop on Windows, or Docker Engine in WSL2): copy
+   `docker/env.example` to `.env` and set `LEGACY_AUDIT_SESSION_SECRET`; put a code folder under
+   `sources/` (or change the `./sources` line in `docker-compose.yml`). Run
+   **`audit: 36. run the hosted site (Docker)`**: after the build, `docker compose ps` shows the
+   container `healthy`. Open http://localhost:8765, log in as **admin**, and repeat steps 3 to
+   7 (the folders start at `/sources`). **Admin > Health** shows Chromium, Mermaid CLI and
+   OSV-Scanner found. `docker compose down` stops it; projects stay in the `audits` volume.
+10. Behind the company proxy, build with
+    `docker compose build --build-arg HTTPS_PROXY=http://<proxy>:<port>` and, if the proxy
+    inspects HTTPS, put its root certificate (`.crt`) in `docker/certs/` first.

@@ -543,3 +543,29 @@ Siva's scans on WSL2 failed with `UNIQUE constraint failed: web_services.id`.
   run; duplicate ids are left out with a warning before the facts are written. Tests in
   `tests/test_linker.py`, VS Code task 34, validate section "A failing step does not stop the scan".
 - Next: Siva reruns the scan that failed.
+
+## Hosted site: Docker, login, projects, admin, status and logs (2026-10-29)
+
+Siva asked for a containerized, hosted version where any project owner can open or create an
+audit project under a top-level audits folder, with an admin page, a dummy login (Okta later),
+a logs page and a status page with time left.
+
+- Done (decisions 180-186): `legacy-audit host` and `legacy_audit/hosted/` (settings from
+  `LEGACY_AUDIT_*`, test login with roles, users/projects/activity files, admin defaults merged
+  into every project with locks, folder confinement, shared queue with time left, status, logs
+  and admin pages with 10 tabs); the GUI app is served per project under `/p/<id>/` (relative
+  URLs, hosted hooks, report switches, summary sections); `Dockerfile`, `docker-compose.yml`,
+  `.dockerignore`, `docker/env.example`, `docker/certs/`. Docs: `docs/hosting.md`, user guide
+  "On the hosted site", README, admin guide, `.github/copilot-instructions.md`. Tests
+  `tests/test_hosted.py`; VS Code tasks 36 (Docker), 37 (no Docker, samples), 38 (tests);
+  validate section "Hosted site (Docker, login, admin page)".
+- Checked here: full test suite; the pages in Chromium (login, projects, create with the folder
+  picker, run, status with a queued and a running scan, logs, reports, every admin tab, phone
+  width); the image built and ran (healthy, login, create, scan, reports) with the apt step
+  left out, because this build machine cannot reach the Debian package servers. The full image
+  with Chromium, Node and OSV-Scanner is not built here yet.
+- Known gaps: Okta (placeholder only); no Kubernetes/GKE manifest; one container (the queue and
+  sessions are in memory, jobs finished before a restart are not on Status); no upload of a
+  source ZIP (code comes from a mounted folder or Git); the status time left for a first full
+  scan comes from the current step's pace only.
+- Next: Siva builds the full image on a laptop (task 36), tries it with two users, then the Okta step.

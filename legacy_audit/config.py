@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Callable
 from pathlib import Path, PureWindowsPath
 from typing import Annotated, Any, Literal
 
@@ -557,6 +558,23 @@ def parse_config(data: Any, source: str = "audit.yaml") -> AuditConfig:
         raise ConfigError(f"{source} is invalid:\n{_format_errors(err)}") from None
 
 
+# Hooks that rewrite a config's raw mapping before validation: the hosted site uses one to merge
+# the admin's defaults and locked settings into every project's audit.yaml (decision 180).
+ConfigLayer = Callable[[dict[str, Any], Path], dict[str, Any]]
+_LAYERS: list[ConfigLayer] = []
+
+
+def add_config_layer(layer: ConfigLayer) -> Callable[[], None]:
+    """Apply ``layer`` in every later ``load_config``; returns a function that removes it."""
+    _LAYERS.append(layer)
+
+    def remove() -> None:
+        if layer in _LAYERS:
+            _LAYERS.remove(layer)
+
+    return remove
+
+
 def load_config(path: Path | str) -> LoadedConfig:
     path = Path(path)
     try:
@@ -567,6 +585,9 @@ def load_config(path: Path | str) -> LoadedConfig:
         data = yaml.safe_load(text)
     except yaml.YAMLError as err:
         raise ConfigError(f"{path} is not valid YAML: {err}") from None
+    if isinstance(data, dict):
+        for layer in list(_LAYERS):
+            data = layer(data, path.resolve())
     config = parse_config(data, str(path))
     canonical = json.dumps(config.model_dump(mode="json"), sort_keys=True)
     return LoadedConfig(

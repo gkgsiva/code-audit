@@ -87,3 +87,19 @@ def resolve_run(output_dir: Path, ref: str) -> Path:
         if len(matches) > 1:
             raise RunNotFound(f"Run id '{ref}' is ambiguous: {', '.join(matches)}")
     raise RunNotFound(f"No run '{ref}' in {runs_dir(output_dir)}")
+
+
+def prune_runs(output_dir: Path, keep: int) -> list[str]:
+    """Delete the oldest runs so ``keep`` remain; the latest run is never deleted."""
+    runs = list_runs(output_dir)
+    try:
+        latest = resolve_run(output_dir, "latest").name
+    except RunNotFound:
+        latest = runs[-1] if runs else ""
+    removed: list[str] = []
+    for run_id in runs[: max(len(runs) - max(keep, 1), 0)]:
+        if run_id == latest:
+            continue
+        shutil.rmtree(runs_dir(output_dir) / run_id, ignore_errors=True)
+        removed.append(run_id)
+    return removed

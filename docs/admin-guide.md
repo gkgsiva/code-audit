@@ -146,6 +146,10 @@ confirm).
 cross-site pages. It is meant for one analyst on their own laptop; to share results, share the
 reports folder or the data pack (ZIP), not the GUI.
 
+For a site the whole team uses, run the **hosted site** instead (`legacy-audit host`, or the
+Docker image): it adds a login, one audits folder for all projects, roles, an admin page, a
+shared scan queue, and status and logs pages. See [hosting.md](hosting.md).
+
 ## Logs and secrets
 
 Each run writes `audit-output/runs/<id>/logs/scan.log`. Git tokens are read from the environment

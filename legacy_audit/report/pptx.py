@@ -39,7 +39,10 @@ def _node() -> str | None:  # Node.js runs Mermaid CLI; the PPTX itself needs no
 
 
 def _mmdc() -> str | None:
-    return os.environ.get("LEGACY_AUDIT_MMDC") or shutil.which("mmdc")
+    configured = os.environ.get("LEGACY_AUDIT_MMDC")
+    if configured and Path(configured).is_file():
+        return configured
+    return shutil.which("mmdc")
 
 
 def render_diagrams(deck: dict[str, Any], mgmt_dir: Path, mmdc: str) -> int:

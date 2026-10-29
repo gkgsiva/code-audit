@@ -1,0 +1,49 @@
+# legacy-audit hosted site. Start: docker compose up -d   Stop: docker compose down
+# Then open http://localhost:8765 and log in as "admin" (the test login asks for a name only).
+# Every LEGACY_AUDIT_* value below can be changed here; restart with docker compose up -d.
+services:
+  legacy-audit:
+    build: .
+    image: legacy-audit:latest
+    restart: unless-stopped
+    ports:
+      - "8765:8765"
+    environment:
+      # Top-level audits folder inside the container: one sub-folder per project.
+      LEGACY_AUDIT_AUDITS_ROOT: /audits
+      # Code people may scan (read-only mounts below). Several: separate with commas.
+      LEGACY_AUDIT_SOURCES_ROOT: /sources
+      LEGACY_AUDIT_PORT: "8765"
+      # Address users type in the browser; set it when the site sits behind a proxy or DNS name.
+      LEGACY_AUDIT_PUBLIC_URL: ""
+      # dummy = test login (name only). okta comes later.
+      LEGACY_AUDIT_AUTH: dummy
+      # These user names are always admins.
+      LEGACY_AUDIT_ADMINS: admin
+      # Signs the login cookie. Set a long random value so logins survive a restart.
+      LEGACY_AUDIT_SESSION_SECRET: ${LEGACY_AUDIT_SESSION_SECRET:-}
+      LEGACY_AUDIT_SESSION_HOURS: "12"
+      # Leave empty to set them on the admin page instead (Limits tab).
+      LEGACY_AUDIT_MAX_SCANS: ""
+      LEGACY_AUDIT_KEEP_RUNS: ""
+      # AI enrichment keys and Git tokens: put the values in a .env file next to this one.
+      # The admin page and audit.yaml only name the variable, never the value.
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GIT_TOKEN: ${GIT_TOKEN:-}
+      # Reserved for the Okta step.
+      OKTA_ISSUER: ""
+      OKTA_CLIENT_ID: ""
+      OKTA_CLIENT_SECRET: ${OKTA_CLIENT_SECRET:-}
+      # Behind a company proxy, uncomment so Git clones and osv.dev lookups go through it.
+      # HTTPS_PROXY: http://proxy.example.com:8080
+      # NO_PROXY: localhost,127.0.0.1
+    volumes:
+      - audits:/audits
+      # The code to scan, read-only. Change the left side to a folder on your machine,
+      # e.g. C:/code (Windows) or /home/siva/code (WSL2).
+      - ./sources:/sources:ro
+
+volumes:
+  audits:

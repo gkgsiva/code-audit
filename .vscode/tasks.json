@@ -344,6 +344,39 @@
         "command": ".venv\\Scripts\\python -m pytest tests\\test_linker.py -v -k \"soap_services_on_one_host or failing_step or duplicate_ids\""
       },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 36. run the hosted site (Docker)",
+      "detail": "Builds the image and starts it with docker-compose.yml; open http://localhost:8765 and log in as admin",
+      "type": "shell",
+      "command": "docker compose up --build -d; docker compose ps",
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 37. run the hosted site without Docker (samples)",
+      "detail": "Same site from the local install: audits in audits-hosted/, the sample apps as the code to scan; open http://127.0.0.1:8765",
+      "type": "shell",
+      "command": ".venv/bin/python -m legacy_audit host --host 127.0.0.1 --port 8765 --audits-root audits-hosted",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m legacy_audit host --host 127.0.0.1 --port 8765 --audits-root audits-hosted"
+      },
+      "options": {
+        "env": {
+          "LEGACY_AUDIT_SOURCES_ROOT": "${workspaceFolder}/samples",
+          "LEGACY_AUDIT_ADMINS": "admin"
+        }
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 38. hosted site tests",
+      "type": "shell",
+      "command": ".venv/bin/python -m pytest tests/test_hosted.py -v",
+      "windows": {
+        "command": ".venv\\Scripts\\python -m pytest tests\\test_hosted.py -v"
+      },
+      "problemMatcher": []
     }
   ]
 }
