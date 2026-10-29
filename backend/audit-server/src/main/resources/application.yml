@@ -1,0 +1,26 @@
+# legacy-audit backend. Every value can be set from the environment (docker-compose.spring.yml).
+server:
+  port: ${LEGACY_AUDIT_PORT:8080}
+  servlet:
+    session:
+      timeout: ${LEGACY_AUDIT_SESSION_HOURS:12}h
+      cookie:
+        name: LEGACY_AUDIT_SESSION
+        http-only: true
+        same-site: lax
+
+spring:
+  application:
+    name: legacy-audit
+  datasource:
+    url: ${LEGACY_AUDIT_DB_URL:jdbc:postgresql://localhost:5432/legacyaudit}
+    username: ${LEGACY_AUDIT_DB_USER:legacyaudit}
+    password: ${LEGACY_AUDIT_DB_PASSWORD:legacyaudit}
+  flyway:
+    locations: classpath:db/migration
+
+legacy-audit:
+  # dummy = test login (name only). okta comes later.
+  auth: ${LEGACY_AUDIT_AUTH:dummy}
+  # These user names are always admins (comma-separated).
+  admins: ${LEGACY_AUDIT_ADMINS:admin}

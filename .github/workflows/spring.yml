@@ -1,0 +1,78 @@
+name: Spring Boot and Angular
+
+on:
+  push:
+    branches: [spring-boot-angular]
+  pull_request:
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "samples/**"
+      - "docker/**"
+      - "docker-compose.spring.yml"
+      - ".github/workflows/spring.yml"
+
+jobs:
+  backend:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+      - name: Build and test
+        working-directory: backend
+        run: mvn -B -ntp verify
+      - name: Proof report
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-0-proofs-${{ matrix.os }}
+          path: backend/audit-engine/target/proofs/phase-0-proofs.md
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund
+      - name: Build
+        working-directory: frontend
+        run: npx ng build
+      - name: Test
+        working-directory: frontend
+        run: npx ng test --watch=false
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and start
+        run: |
+          mkdir -p audits sources
+          chmod 777 audits
+          docker compose -f docker-compose.spring.yml up -d --build
+      - name: Health and login through the frontend
+        run: |
+          for i in $(seq 1 60); do curl -sf http://localhost:8770/api/health && break; sleep 3; done
+          curl -sf http://localhost:8770/api/health | grep '"database":"up"'
+          curl -s -c cj -b cj http://localhost:8770/api/auth/info > /dev/null
+          token=$(awk '/XSRF-TOKEN/ {print $7}' cj)
+          curl -sf -c cj -b cj -H "X-XSRF-TOKEN: $token" -H "Content-Type: application/json" \
+            -d '{"name":"admin"}' http://localhost:8770/api/auth/login | grep '"role":"admin"'
+          curl -sf -b cj http://localhost:8770/api/me | grep '"name":"admin"'
+          curl -sf http://localhost:8770/ | grep -q '<app-root>'
+      - name: Logs
+        if: always()
+        run: docker compose -f docker-compose.spring.yml logs --no-color

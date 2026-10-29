@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The scan engine: inventory, analyzers, linking, metrics, rules. Plain Java: no Spring. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.legacyaudit</groupId>
+    <artifactId>legacy-audit-parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>audit-engine</artifactId>
+  <name>audit-engine</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.legacyaudit</groupId>
+      <artifactId>audit-model</artifactId>
+    </dependency>
+    <!-- Java source: pure Java parser with type resolution (decision 191). -->
+    <dependency>
+      <groupId>com.github.javaparser</groupId>
+      <artifactId>javaparser-core</artifactId>
+    </dependency>
+    <!-- C, C++, C# and TypeScript: tree-sitter with native libraries for Windows, Linux and macOS inside the jars (decision 192). -->
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-c</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-cpp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-c-sharp</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-typescript</artifactId>
+    </dependency>
+    <!-- SQL statements (decision 193). -->
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>tools.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

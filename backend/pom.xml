@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- legacy-audit, Spring Boot version. Build everything: mvn -B verify (from this folder). -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.1.2</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.legacyaudit</groupId>
+  <artifactId>legacy-audit-parent</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>legacy-audit</name>
+  <description>Audit legacy applications before migrating them (Spring Boot version)</description>
+
+  <modules>
+    <module>audit-model</module>
+    <module>audit-engine</module>
+    <module>audit-cli</module>
+    <module>audit-server</module>
+  </modules>
+
+  <properties>
+    <java.version>25</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <javaparser.version>3.27.0</javaparser.version>
+    <tree-sitter.version>0.26.6</tree-sitter.version>
+    <tree-sitter-c.version>0.24.1</tree-sitter-c.version>
+    <tree-sitter-cpp.version>0.23.4</tree-sitter-cpp.version>
+    <tree-sitter-c-sharp.version>0.23.1</tree-sitter-c-sharp.version>
+    <tree-sitter-typescript.version>0.23.2</tree-sitter-typescript.version>
+    <jsqlparser.version>5.3</jsqlparser.version>
+    <picocli.version>4.7.7</picocli.version>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <!-- tree-sitter loads native libraries; allow it in tests without a warning. -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.legacyaudit</groupId>
+        <artifactId>audit-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.legacyaudit</groupId>
+        <artifactId>audit-engine</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.javaparser</groupId>
+        <artifactId>javaparser-core</artifactId>
+        <version>${javaparser.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter</artifactId>
+        <version>${tree-sitter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-c</artifactId>
+        <version>${tree-sitter-c.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-cpp</artifactId>
+        <version>${tree-sitter-cpp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-c-sharp</artifactId>
+        <version>${tree-sitter-c-sharp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-typescript</artifactId>
+        <version>${tree-sitter-typescript.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.jsqlparser</groupId>
+        <artifactId>jsqlparser</artifactId>
+        <version>${jsqlparser.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>info.picocli</groupId>
+        <artifactId>picocli</artifactId>
+        <version>${picocli.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>

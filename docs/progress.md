@@ -569,3 +569,24 @@ a logs page and a status page with time left.
   source ZIP (code comes from a mounted folder or Git); the status time left for a first full
   scan comes from the current step's pace only.
 - Next: Siva builds the full image on a laptop (task 36), tries it with two users, then the Okta step.
+
+## Spring Boot and Angular version (branch `spring-boot-angular`)
+
+Plan: `docs/spring/plan.md`. One pull request per phase, each started after Siva's OK.
+
+| Phase | Status | Notes |
+| --- | --- | --- |
+| 0 – Skeleton and proof | Done (2026-10-29) | Maven modules `audit-model`, `audit-engine`, `audit-cli`, `audit-server`; Angular 21 login and home page; `docker-compose.spring.yml` with PostgreSQL; test login with roles; CI on Ubuntu and Windows; proofs: JavaParser, tree-sitter and JSqlParser all go (`docs/spring/phase-0-proofs.md`). PowerPoint dropped from the rewrite |
+| 1 – Core and first screens | Not started | |
+| 2 – Analyzers: Java and SQL | Not started | |
+| 3 – Analyzers: mainframe and batch | Not started | |
+| 4 – Analyzers: web, front ends, desktop | Not started | |
+| 5 – Linking and assessment | Not started | |
+| 6 – Reports | Not started | |
+| 7 – AI and Copilot | Not started | |
+| 8 – Web app complete | Not started | |
+| 9 – Packaging and switch-over | Not started | |
+
+- Known gaps after Phase 0: the backend image has no Git, Chromium, Mermaid CLI or OSV-Scanner
+  yet; no Okta; the login page and a status page are the only screens.
+- Next: Phase 1 (core and first screens), after Siva's OK.

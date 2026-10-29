@@ -384,6 +384,54 @@
       "type": "shell",
       "command": "docker compose build --progress=plain 2>&1 | tee build.log",
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 40. Spring: start the new web app (Docker)",
+      "detail": "Builds the frontend, backend and database containers from docker-compose.spring.yml; open http://localhost:8770 and log in as admin",
+      "type": "shell",
+      "command": "docker compose -f docker-compose.spring.yml up -d --build; docker compose -f docker-compose.spring.yml ps",
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 41. Spring: stop the new web app (Docker)",
+      "detail": "Stops the three containers; users and settings stay in the database volume",
+      "type": "shell",
+      "command": "docker compose -f docker-compose.spring.yml down",
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 42. Spring: build the new web app and save build-spring.log",
+      "detail": "Builds with the settings in .env and keeps the whole output in build-spring.log (send it when the build fails)",
+      "type": "shell",
+      "command": "docker compose -f docker-compose.spring.yml build --progress=plain 2>&1 | tee build-spring.log",
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 43. Spring: backend build and tests (Java 25, Maven)",
+      "detail": "Compiles the Maven modules and runs their tests; needs Java 25 and Maven on this machine",
+      "type": "shell",
+      "command": "mvn -B verify",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 44. Spring: frontend build and tests (Node.js)",
+      "detail": "Installs the Angular packages, runs the tests and builds; needs Node.js 22 on this machine",
+      "type": "shell",
+      "command": "npm ci --no-audit --no-fund && npx ng test --watch=false && npx ng build",
+      "windows": {
+        "command": "cmd /c \"npm ci --no-audit --no-fund && npx ng test --watch=false && npx ng build\""
+      },
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 45. Spring: parser proof report",
+      "detail": "Runs JavaParser, tree-sitter and JSqlParser over the sample apps and prints the comparison with the Python tool (after task 43)",
+      "type": "shell",
+      "command": "java -jar audit-cli/target/legacy-audit.jar proofs --samples ../samples",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ]
 }

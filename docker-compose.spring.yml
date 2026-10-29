@@ -1,0 +1,81 @@
+# legacy-audit, Spring Boot and Angular version.
+#   Start: docker compose -f docker-compose.spring.yml up -d --build
+#   Stop:  docker compose -f docker-compose.spring.yml down
+# Then open http://localhost:8770 and log in as "admin" (the test login asks for a name only).
+# Settings come from the same .env file as the Python version (see docker/env.example).
+name: legacy-audit-spring
+
+services:
+  db:
+    image: ${POSTGRES_IMAGE:-postgres:17-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: legacyaudit
+      POSTGRES_USER: legacyaudit
+      POSTGRES_PASSWORD: ${LEGACY_AUDIT_DB_PASSWORD:-legacyaudit}
+    volumes:
+      # A Docker volume, not a host folder: PostgreSQL cannot keep its files on a Windows folder.
+      - legacy-audit-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legacyaudit -d legacyaudit"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      args:
+        BUILD_IMAGE: ${BACKEND_BUILD_IMAGE:-maven:3.9-eclipse-temurin-25}
+        BASE_IMAGE: ${BACKEND_BASE_IMAGE:-eclipse-temurin:25-jre}
+        BUILD_PROXY: ${BUILD_PROXY:-}
+        BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
+        MAVEN_MIRROR: ${MAVEN_MIRROR:-}
+    image: legacy-audit-backend:latest
+    restart: unless-stopped
+    init: true
+    # Docker Engine on Linux or WSL2: set AUDIT_UID and AUDIT_GID in .env to your own (id -u, id -g).
+    user: "${AUDIT_UID:-10001}:${AUDIT_GID:-10001}"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      LEGACY_AUDIT_DB_URL: jdbc:postgresql://db:5432/legacyaudit
+      LEGACY_AUDIT_DB_USER: legacyaudit
+      LEGACY_AUDIT_DB_PASSWORD: ${LEGACY_AUDIT_DB_PASSWORD:-legacyaudit}
+      LEGACY_AUDIT_AUTH: dummy
+      LEGACY_AUDIT_ADMINS: ${LEGACY_AUDIT_ADMINS:-admin}
+      LEGACY_AUDIT_SESSION_HOURS: "12"
+      LEGACY_AUDIT_AUDITS_ROOT: /audits
+      LEGACY_AUDIT_SOURCES_ROOT: /sources
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GIT_TOKEN: ${GIT_TOKEN:-}
+      HTTPS_PROXY: ${RUN_PROXY:-}
+      HTTP_PROXY: ${RUN_PROXY:-}
+      NO_PROXY: ${RUN_NO_PROXY:-localhost,127.0.0.1}
+    volumes:
+      - ${AUDITS_DIR:-./audits}:/audits
+      - ${SOURCES_DIR:-./sources}:/sources:ro
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        BUILD_IMAGE: ${FRONTEND_BUILD_IMAGE:-node:22-alpine}
+        BASE_IMAGE: ${FRONTEND_BASE_IMAGE:-nginx:1.29-alpine}
+        BUILD_PROXY: ${BUILD_PROXY:-}
+        BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
+    image: legacy-audit-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${WEB_PORT:-8770}:80"
+
+volumes:
+  legacy-audit-db:
