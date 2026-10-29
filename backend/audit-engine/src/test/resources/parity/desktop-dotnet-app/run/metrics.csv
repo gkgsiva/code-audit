@@ -1,0 +1,8 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:3e2e20647226f4e5,billing-api-cs/BillingApi.csproj,billing-api-cs,89,0,15,9,7,1.14,2,0,0,0.0,0,0.0,0,0,0,Simple,0.86,"{""Simple"": 5}"
+metric:37707ffa79c88b9c,billing-desk-vb6/BillingDesk.vbp,billing-desk-vb6,259,2,21,6,15,1.67,5,0,0,0.0,0,0.0,0,0,0,Simple,2.19,"{""Simple"": 2}"
+metric:4dc375a3fdc1f760,inventory-wpf-cs/InventoryApp.csproj,inventory-wpf-cs,174,0,13,12,8,1.5,3,0,0,0.0,0,0.0,0,0,0,Simple,0.82,"{""Simple"": 2}"
+metric:428761287de8279c,invoice-mailer-svc/InvoiceMailer.csproj,invoice-mailer-svc,37,4,4,2,3,1.0,1,0,0,0.0,0,0.0,0,0,0,,,{}
+metric:6d224e4c705d89ac,legacy-webforms/LegacyCrm.csproj,legacy-webforms,76,0,2,8,2,1.5,2,0,0,0.0,0,0.0,0,0,0,Simple,0.81,"{""Simple"": 3}"
+metric:5a0fc91b698b8d32,nightly-export-cs/NightlyExport.csproj,nightly-export-cs,55,5,1,4,2,1.5,2,0,0,0.0,0,0.0,0,0,0,Simple,0.12,"{""Simple"": 2}"
+metric:a2614c237b9bd525,orders-winforms-vbnet/OrdersDesk.vbproj,orders-winforms-vbnet,157,1,18,7,7,1.71,5,0,0,0.0,0,0.0,0,0,0,Simple,2.12,"{""Simple"": 2}"

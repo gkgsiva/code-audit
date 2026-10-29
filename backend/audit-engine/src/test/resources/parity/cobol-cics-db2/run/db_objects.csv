@@ -1,0 +1,5 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:ba880a1b125aeb90,ddl/orders_db2.sql:10,CUSTOMER,table,ddl/orders_db2.sql,,sql:8d425f56e1c4ea3e,"{""R"": [""sql:8d425f56e1c4ea3e""]}",,
+db_object:ef97536d0298e878,ddl/orders_db2.sql:2,ORDERS,table,ddl/orders_db2.sql,,sql:a8a07a6d211422de;sql:8d425f56e1c4ea3e;sql:dea1e97f95240ca2;sql:49f749d475666ab6;sql:e8ec7b254953308f,"{""R"": [""sql:8d425f56e1c4ea3e"", ""sql:dea1e97f95240ca2"", ""sql:49f749d475666ab6"", ""sql:e8ec7b254953308f""], ""U"": [""sql:a8a07a6d211422de""]}",,
+db_object:d42f88d5ef59a27c,ddl/orders_db2.sql:16,SHIPMENTS,table,ddl/orders_db2.sql,,sql:22e666b1f881dfbc,"{""R"": [""sql:22e666b1f881dfbc""]}",,
+db_object:fdfa797f324f2a66,ddl/orders_db2.sql:21,OPEN_ORDERS,view,ddl/orders_db2.sql,,,{},,

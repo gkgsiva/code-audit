@@ -1,0 +1,132 @@
+[
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 22,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 25,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 27,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "proclib/ORDRPTP.jcl",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "tech:13afbe15064532cc",
+    "name": "DB2",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:366c79439637dcd9",
+    "name": "CICS BMS",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "cobol/DATECONV.cbl",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:223ba3ba63c8752b",
+    "name": "COBOL",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4b82cbaab42bdc03",
+    "name": "CICS",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "scheduler",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:bd3ddb22b1cd0d3f",
+    "name": "JCL",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  }
+]

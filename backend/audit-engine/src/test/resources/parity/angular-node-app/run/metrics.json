@@ -1,0 +1,161 @@
+[
+  {
+    "bands": {
+      "Simple": 4
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.18,
+    "complexity_max": 2,
+    "complexity_score": 3.89,
+    "component": "billing-api",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 2,
+    "files": 8,
+    "id": "metric:bfce6f076d3bc1b1",
+    "loc_blank": 15,
+    "loc_code": 97,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 11
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": null,
+    "complexity_max": null,
+    "complexity_score": null,
+    "component": "deploy",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "deploy/README.md",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 9,
+    "id": "metric:3d801628ab99373b",
+    "loc_blank": 6,
+    "loc_code": 83,
+    "loc_comment": 5,
+    "test_files": 0,
+    "test_ratio": null,
+    "units": 0
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.29,
+    "complexity_max": 3,
+    "complexity_score": 0.48,
+    "component": "legacy-portal",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 12,
+    "id": "metric:973c36925ed9c13d",
+    "loc_blank": 0,
+    "loc_code": 109,
+    "loc_comment": 6,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 7
+  },
+  {
+    "bands": {
+      "Medium": 1,
+      "Simple": 6
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.08,
+    "complexity_max": 2,
+    "complexity_score": 8.03,
+    "component": "orders-api",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 4,
+    "files": 12,
+    "id": "metric:1cc9403f2625ab8d",
+    "loc_blank": 25,
+    "loc_code": 149,
+    "loc_comment": 3,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 12
+  },
+  {
+    "bands": {
+      "Simple": 3
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.38,
+    "complexity_max": 3,
+    "complexity_score": 0.5,
+    "component": "orders-web",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "orders-web/angular.json",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 22,
+    "id": "metric:c96fd17df6ce79a1",
+    "loc_blank": 22,
+    "loc_code": 260,
+    "loc_comment": 2,
+    "test_files": 1,
+    "test_ratio": 0.091,
+    "units": 13
+  }
+]

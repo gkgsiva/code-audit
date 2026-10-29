@@ -1,0 +1,12 @@
+id,evidence,source,target,kind,resolved
+edge:e7875d45a7180a3f,cobol/ORDINQ.cbl:23,file:558ee7a09cfe475b,file:56b61ea2279a5781,calls,true
+edge:a0cd77ad40381183,cobol/ORDBATCH.cbl:39,file:8dcb75eaa970ab4d,file:af67c464e1cafafe,calls,true
+edge:050b22223858eb33,cobol/ORDINQ.cbl:37,file:558ee7a09cfe475b,screen:42959897b9b2041a,forwards,true
+edge:49b6d0192d373764,cobol/ORDINQ.cbl:15,file:558ee7a09cfe475b,file:14a39e5e45f6a9a5,includes,true
+edge:4554628f89a1812d,cobol/ORDINQ.cbl:12,file:558ee7a09cfe475b,file:72866e90da93653f,includes,true
+edge:adf17861ad341512,cobol/ORDINQ.cbl:14,file:558ee7a09cfe475b,file:99876954b7288958,includes,true
+edge:5838fdf45b4f9264,cobol/ORDBATCH.cbl:14,file:8dcb75eaa970ab4d,file:72866e90da93653f,includes,true
+edge:561afb996eb1cc67,cobol/ORDINQ.cbl:20,file:558ee7a09cfe475b,screen:b8907223be167a85,reads,true
+edge:f7490c089e4bbd03,jcl/ORDNIGHT.jcl:17,batch_job:effeadeb068eb7db,file:f8df012f502a0c80,runs,true
+edge:4be846237030170a,jcl/ORDNIGHT.jcl:6,batch_job:effeadeb068eb7db,service:aea815ac073f1742,runs,true
+edge:5a844dbe3ee73b47,proclib/ORDRPTP.jcl:10,file:f8df012f502a0c80,service:2c9b980f84f9a364,runs,true

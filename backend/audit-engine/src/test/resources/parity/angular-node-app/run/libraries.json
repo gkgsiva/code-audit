@@ -1,0 +1,1256 @@
+[
+  {
+    "artifact": "@angular/cli",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:db74e2d3ebe23142",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "devDependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.8",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@angular/common",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:2ddf66a992885e94",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.12",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@angular/core",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2025-05-15",
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:5e86d7df4205d504",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "upgrade",
+      "effort": "medium",
+      "reason": "Run ng update one major version at a time up to Angular 21",
+      "recipe": null,
+      "rule": "frontend",
+      "target": "Angular 21",
+      "verify": false
+    },
+    "recommended_version": "Angular 21",
+    "replacement": "Angular 21",
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.12",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@angular/forms",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 13,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:c98153ca0644583a",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.12",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@angular/material",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:cf342cf53a8b74cb",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.10",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@angular/router",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:019eabe7b1db4a0c",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "17.3.12",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@nestjs/common",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:a164cce2969a3967",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "10.3.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "@nestjs/core",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:49c9bca190601354",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "10.3.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "@nestjs/platform-express",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:c1444a602543ba7d",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "10.3.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "@nestjs/schedule",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:28f170027281737c",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "4.0.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "@okta/okta-angular",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:bbc2f0d4c79fc8b5",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "6.3.2",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "@prisma/client",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:7dd10af0003fd5d1",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "5.10.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "@types/express",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:8a869cfd3e585a8e",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "devDependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "4.17.21",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "angular",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2021-12-31",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/lib/angular-1.5.8.js",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:e54dee248aae6790",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "rewrite",
+      "effort": "high",
+      "reason": "AngularJS has no upgrade path; rewrite the screens in Angular 21",
+      "recipe": null,
+      "rule": "frontend",
+      "target": "Angular 21",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Angular 21",
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "bower",
+    "version": "1.5.8",
+    "vulnerabilities": [],
+    "where_used": [
+      "legacy-portal/bower.json",
+      "legacy-portal/WebContent/lib/angular-1.5.8.js"
+    ]
+  },
+  {
+    "artifact": "angular-route",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:e102de573006b8c4",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "bower",
+    "version": "1.5.8",
+    "vulnerabilities": [],
+    "where_used": [
+      "legacy-portal/bower.json"
+    ]
+  },
+  {
+    "artifact": "angularjs",
+    "cves": [],
+    "declared": false,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:b94404750de550a1",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "js-file",
+    "version": "1.5",
+    "vulnerabilities": [],
+    "where_used": [
+      "legacy-portal/WebContent/js/app.js"
+    ]
+  },
+  {
+    "artifact": "axios",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:cee997e0518868a4",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "1.6.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "body-parser",
+    "cves": [],
+    "declared": false,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:788b0648e715f50c",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "transitive",
+    "sha1": null,
+    "source": "npm-lock",
+    "version": "1.20.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "bootstrap",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:9e37e86756733a95",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "replace",
+      "effort": "low",
+      "reason": "Use a design system supported by Angular 21",
+      "recipe": null,
+      "rule": "frontend",
+      "target": "Angular Material or Bootstrap 5",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "bower",
+    "version": "3.3.7",
+    "vulnerabilities": [],
+    "where_used": [
+      "legacy-portal/bower.json"
+    ]
+  },
+  {
+    "artifact": "express",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:697d890a949db2be",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "4.18.2",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "follow-redirects",
+    "cves": [],
+    "declared": false,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:d78f70f8222e1696",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "transitive",
+    "sha1": null,
+    "source": "npm-lock",
+    "version": "1.15.3",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "node-cron",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:1b896e99a24aa502",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "3.0.3",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "pg",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:281c711f91729f66",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "8.11.3",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "prisma",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:1fc824f3cb22999c",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "devDependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "5.10.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "rxjs",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:57d79788624e8824",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "7.8.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "tslib",
+    "cves": [],
+    "declared": false,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:fbbbca193c8736b0",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "transitive",
+    "sha1": null,
+    "source": "npm-lock",
+    "version": "2.6.2",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "typeorm",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:bffb1b79f6fc510d",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "0.3.20",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "typescript",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:696fefc365886a68",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "devDependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "5.4.2",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api/package.json"
+    ]
+  },
+  {
+    "artifact": "typescript",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 22,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package.json",
+        "line": 22,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:38994d40f5ba65fe",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "devDependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "5.4.5",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-api/package.json",
+      "orders-api/package-lock.json",
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  },
+  {
+    "artifact": "zone.js",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:0a15a54400825285",
+    "language": "javascript",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "dependencies",
+    "sha1": null,
+    "source": "npm",
+    "version": "0.14.4",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-web/package.json",
+      "orders-web/package-lock.json"
+    ]
+  }
+]

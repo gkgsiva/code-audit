@@ -1,0 +1,60 @@
+[
+  {
+    "box": null,
+    "command": "billing-api/src/invoices/invoices.service.ts",
+    "complexity": "Simple",
+    "complexity_score": 5.11,
+    "component": "billing-api",
+    "condition": null,
+    "datasets": [],
+    "description": "Scheduled in the code with NestJS @Cron",
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 23,
+        "snippet": "NestJS @Cron"
+      }
+    ],
+    "id": "batch_job:b72feb01614747e3",
+    "kind": "job",
+    "machine": null,
+    "name": "month-end-close",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "InvoicesService.closeMonth"
+    ],
+    "schedule": "30 1 1 * *",
+    "scheduler": "node-cron",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": "orders-api/src/jobs/nightly.ts",
+    "complexity": "Simple",
+    "complexity_score": 2.98,
+    "component": "orders-api",
+    "condition": null,
+    "datasets": [],
+    "description": "Scheduled in the code with node-cron",
+    "evidence": [
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": 10,
+        "snippet": "node-cron"
+      }
+    ],
+    "id": "batch_job:e03b4d269df831f9",
+    "kind": "job",
+    "machine": null,
+    "name": "purge-old-orders",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "purgeOldOrders"
+    ],
+    "schedule": "0 2 * * *",
+    "scheduler": "node-cron",
+    "steps": []
+  }
+]

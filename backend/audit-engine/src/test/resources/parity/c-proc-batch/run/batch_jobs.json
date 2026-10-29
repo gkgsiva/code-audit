@@ -1,0 +1,56 @@
+[
+  {
+    "box": null,
+    "command": "/opt/settlement/scripts/purge_logs.sh",
+    "complexity": "Simple",
+    "complexity_score": 0.0,
+    "component": null,
+    "condition": null,
+    "datasets": [],
+    "description": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "batch_job:2ffa150d59479cb2",
+    "kind": "job",
+    "machine": null,
+    "name": "purge_logs.sh",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [],
+    "schedule": "0 6 1 * *",
+    "scheduler": "cron",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": "/opt/settlement/scripts/run_settlement.ksh >> /var/log/settlement/run.log 2>&1",
+    "complexity": "Medium",
+    "complexity_score": 17.05,
+    "component": "settlement",
+    "condition": null,
+    "datasets": [],
+    "description": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "batch_job:b93f58228776492a",
+    "kind": "job",
+    "machine": null,
+    "name": "run_settlement.ksh",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [],
+    "schedule": "30 1 * * 1-5",
+    "scheduler": "cron",
+    "steps": []
+  }
+]

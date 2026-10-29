@@ -1,0 +1,268 @@
+[
+  {
+    "crud": {
+      "C": [
+        "sql:1ded0793b141bdda"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 28,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ebdc58cf261664f1",
+    "members": [],
+    "name": "AUDIT_LOG",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:1ded0793b141bdda"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:df82b48f9feee43a"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:92dea19f59c41297",
+    "members": [],
+    "name": "CRM_CONTACT",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:df82b48f9feee43a"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:64aec38ead3f0edc"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:269797a20e5dd176",
+    "members": [],
+    "name": "CRM_REGION",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:64aec38ead3f0edc"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:961ff522a90f3d93",
+        "sql:ecb410d75dd43168",
+        "sql:a30a7675778ff289"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ba880a1b125aeb90",
+    "members": [],
+    "name": "CUSTOMER",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:961ff522a90f3d93",
+      "sql:ecb410d75dd43168",
+      "sql:a30a7675778ff289"
+    ]
+  },
+  {
+    "crud": {
+      "C": [
+        "sql:18644c4468df79da"
+      ],
+      "R": [
+        "sql:307ee3cf768bf3fb",
+        "sql:248d8a6b25f70955"
+      ],
+      "U": [
+        "sql:0c3a8acd0af64c2f"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:912701167cd05f10",
+    "members": [],
+    "name": "INVOICE",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:307ee3cf768bf3fb",
+      "sql:18644c4468df79da",
+      "sql:0c3a8acd0af64c2f",
+      "sql:248d8a6b25f70955"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:a30a7675778ff289",
+        "sql:7e35f06e6f2b49c5"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:a30a7675778ff289",
+      "sql:7e35f06e6f2b49c5"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:dbaf56c9f1f35d5b"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 42,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:e7da5d3ac14d9736",
+    "members": [],
+    "name": "ORDER_LINE",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:dbaf56c9f1f35d5b"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:a47fa3a24b31517d"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 34,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:147f8a823ecc978c",
+    "members": [],
+    "name": "REGION",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:a47fa3a24b31517d"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:c0c944541637be6e",
+        "sql:5d2079f54f251065",
+        "sql:56c7b323297b90f7",
+        "sql:007661f9e5e5b50f"
+      ],
+      "U": [
+        "sql:8e8c9d376e871144"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:1d31458047c524b9",
+    "members": [],
+    "name": "STOCK_ITEM",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:c0c944541637be6e",
+      "sql:8e8c9d376e871144",
+      "sql:5d2079f54f251065",
+      "sql:56c7b323297b90f7",
+      "sql:007661f9e5e5b50f"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:c0c944541637be6e"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:b124a84fd557efdf",
+    "members": [],
+    "name": "WAREHOUSE",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:c0c944541637be6e"
+    ]
+  }
+]

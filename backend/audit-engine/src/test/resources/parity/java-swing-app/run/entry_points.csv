@@ -1,0 +1,3 @@
+id,evidence,name,kind,file,line,component
+entry:9af0edcd2c311d20,teller-desk/src/main/java/com/acme/teller/TellerApp.java:9,com.acme.teller.TellerApp,desktop-app,teller-desk/src/main/java/com/acme/teller/TellerApp.java,9,teller-desk
+entry:988b6bee6bd756c5,teller-desk/src/main/java/com/acme/teller/ui/RatesView.java:8,com.acme.teller.ui.RatesView,desktop-app,teller-desk/src/main/java/com/acme/teller/ui/RatesView.java,8,teller-desk

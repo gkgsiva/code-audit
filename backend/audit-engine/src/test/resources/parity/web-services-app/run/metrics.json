@@ -1,0 +1,95 @@
+[
+  {
+    "bands": {
+      "Simple": 6
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": 0.24,
+    "component": "orders-ws",
+    "dead_code_candidates": 3,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 14,
+    "id": "metric:79fb50e2e8d6d823",
+    "loc_blank": 32,
+    "loc_code": 202,
+    "loc_comment": 10,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 12
+  },
+  {
+    "bands": {
+      "Simple": 4
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": 0.86,
+    "component": "quote-axis",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "quote-axis/build.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 1,
+    "files": 5,
+    "id": "metric:cfd2a0454f3b90c7",
+    "loc_blank": 5,
+    "loc_code": 43,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 4
+  },
+  {
+    "bands": {
+      "Simple": 1
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": 4.34,
+    "component": "rate-feed",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "rate-feed/Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:a3a90f229f9a3188",
+    "loc_blank": 3,
+    "loc_code": 18,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 1
+  }
+]

@@ -1,0 +1,5 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:02d5a98eab0474e2,orders-api/src/routes/customers.ts:8,CUSTOMERS,table,,,sql:63921d7b415cc862;sql:0226340a4933bbaa,"{""R"": [""sql:63921d7b415cc862"", ""sql:0226340a4933bbaa""]}",,
+db_object:1ad299b389c5a36a,billing-api/src/invoices/invoices.service.ts:10,INVOICES,table,,,sql:c6034aaa15b96a96;sql:2fb9f218eb02ee44;sql:17be6491c10ba6eb;sql:9ef6e6cda503cff0,"{""R"": [""sql:c6034aaa15b96a96"", ""sql:2fb9f218eb02ee44"", ""sql:17be6491c10ba6eb""], ""U"": [""sql:9ef6e6cda503cff0""]}",,
+db_object:ef97536d0298e878,orders-api/src/services/order.service.ts:11,ORDERS,table,,,sql:5ec69775b9f67e75;sql:71e7fd38c0d7b860;sql:39825778f0bf8c76;sql:0226340a4933bbaa,"{""R"": [""sql:5ec69775b9f67e75"", ""sql:71e7fd38c0d7b860"", ""sql:39825778f0bf8c76"", ""sql:0226340a4933bbaa""]}",,
+db_object:85176a0e8cdae4a5,orders-api/src/jobs/nightly.ts:6,ORDER_AUDIT,table,,,sql:3d10d5e742a52559,"{""R"": [""sql:3d10d5e742a52559""]}",,

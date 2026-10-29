@@ -1,0 +1,2 @@
+id,evidence,name,style,side,frameworks,url,wsdl,namespace,component,components,files,operations,callers,integrations,description
+web_service:b113c8e1739712b2,config/common.properties:6,pricing.acme.local,REST,called,address in code or configuration,https://pricing.acme.local,,,shared-scripts-config,shared-scripts-config,config/common.properties,config/common.properties:6,,integration:56ef1f8d99906807,"Calls the pricing.acme.local REST service at https://pricing.acme.local from 1 file (address in code or configuration, 1 operation seen)."

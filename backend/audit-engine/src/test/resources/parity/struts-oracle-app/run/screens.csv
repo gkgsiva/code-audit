@@ -1,0 +1,7 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:5c7d3fcc0e7289e9,WebContent/jsp/error.jsp:1,WebContent/jsp/error.jsp,jsp,WebContent/jsp/error.jsp,,0,orders-web,Simple,1.09,false,file:7dfd681b2ad9e265;file:cba429da7240a83c;service:7faeee752a0d66a4
+screen:05aa629fbec46620,WebContent/jsp/login.jsp:1,WebContent/jsp/login.jsp,jsp,WebContent/jsp/login.jsp,/login,2,orders-web,Simple,3.59,false,file:7dfd681b2ad9e265;file:cba429da7240a83c;screen:5c7d3fcc0e7289e9;service:e238462a66aa312f
+screen:81b23756f56db307,WebContent/jsp/orderDetail.jsp:1,WebContent/jsp/orderDetail.jsp,jsp,WebContent/jsp/orderDetail.jsp,,0,orders-web,Simple,3.14,false,service:7faeee752a0d66a4
+screen:927c65728f5fbfe5,WebContent/jsp/orderSearch.jsp:1,WebContent/jsp/orderSearch.jsp,jsp,WebContent/jsp/orderSearch.jsp,/orderSearch,2,orders-web,Simple,4.76,false,service:f1d82f2dd35b68cd
+screen:286d7c35a1040235,WebContent/jsp/common/footer.jspf:1,WebContent/jsp/common/footer.jspf,jsp,WebContent/jsp/common/footer.jspf,,0,orders-web,,,true,screen:05aa629fbec46620;screen:81b23756f56db307;screen:927c65728f5fbfe5;tiles:base.layout
+screen:0b261a26c1e8c52d,WebContent/jsp/common/header.jspf:1,WebContent/jsp/common/header.jspf,jsp,WebContent/jsp/common/header.jspf,,0,orders-web,,,true,screen:05aa629fbec46620;screen:81b23756f56db307;screen:927c65728f5fbfe5;tiles:base.layout

@@ -1,0 +1,244 @@
+[
+  {
+    "category": "screen",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:14a39e5e45f6a9a5",
+    "language": "bms",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "bms/ORDMS1.bms",
+    "root": "mainframe",
+    "sha256": "d932cca325293041d5ecd878828fe716b44de325aa334fc99b9bacbd4345005a",
+    "size": 760
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "cobol/DATECONV.cbl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:af67c464e1cafafe",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "cobol/DATECONV.cbl",
+    "root": "mainframe",
+    "sha256": "1667ea4acdbc9014f00baf731ea99240b90e3006777beed9a98ba3a66428c9d9",
+    "size": 552
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8dcb75eaa970ab4d",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 42,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "cobol/ORDBATCH.cbl",
+    "root": "mainframe",
+    "sha256": "7f5d92a29d573d7f345df95be97c7e4fb1bbd629d567d4f55c82bbc5f4881ad9",
+    "size": 1692
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:558ee7a09cfe475b",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 35,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "cobol/ORDINQ.cbl",
+    "root": "mainframe",
+    "sha256": "8d51a74b152cef264a5e369163520515d0e1346cf7873e29f463acd43f2275d2",
+    "size": 1549
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8cea60a5885e91e6",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 48,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "cobol/ORDRPT.cbl",
+    "root": "mainframe",
+    "sha256": "ab96746c0b8981f6a088e9685d2497cd1e54ceeb623b72475be9a4fd4f737a29",
+    "size": 2128
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "cobol/ORDVAL.cbl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:56b61ea2279a5781",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 19,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "cobol/ORDVAL.cbl",
+    "root": "mainframe",
+    "sha256": "8e04814eecbfc8ab67d35169b0bcdfac70312f093f682ba28046b1f5234283b3",
+    "size": 837
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "copybook/CUSTDCL.cpy",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:99876954b7288958",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "copybook/CUSTDCL.cpy",
+    "root": "mainframe",
+    "sha256": "a87d2192e6da3384788af1c775f4474e9dca73bcbc0f6ab7ecfc78ffac34d29f",
+    "size": 628
+  },
+  {
+    "category": "source",
+    "component": "cobol-online",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "copybook/ORDREC.cpy",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:72866e90da93653f",
+    "language": "cobol",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "copybook/ORDREC.cpy",
+    "root": "mainframe",
+    "sha256": "b62c4c526b04d881b358c77c830a6a70e03bdc9dcab6a910b9f15326ce462759",
+    "size": 570
+  },
+  {
+    "category": "sql",
+    "component": "ddl",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:074f720580d550aa",
+    "language": "sql",
+    "loc_blank": 3,
+    "loc_code": 18,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "ddl/orders_db2.sql",
+    "root": "mainframe",
+    "sha256": "aa391196f8a689a8c1ad674c8328b0098d1397a51189ac812bf3409aa99f22f2",
+    "size": 542
+  },
+  {
+    "category": "job",
+    "component": "jcl-jobs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:223c56fe14adc296",
+    "language": "jcl",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "jcl/ORDNIGHT.jcl",
+    "root": "mainframe",
+    "sha256": "4143c74dfa562bc61446dbcc01172195acd2e8d41b9420c6dae1e6407184a9b7",
+    "size": 724
+  },
+  {
+    "category": "job",
+    "component": "jcl-jobs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "proclib/ORDRPTP.jcl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f8df012f502a0c80",
+    "language": "jcl",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "proclib/ORDRPTP.jcl",
+    "root": "mainframe",
+    "sha256": "8bbb09acb2c38d872224f0c306eb7b08c3460732591e4b7644e950fcc61a4a80",
+    "size": 418
+  }
+]

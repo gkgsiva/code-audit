@@ -1,0 +1,436 @@
+[
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/lib/angular-1.5.8.js",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/bower.json",
+    "id": "finding:0c5c5b379c0ca652",
+    "line": 5,
+    "message": "angular 1.5.8 is end of life since 2021-12-31; replace with Angular 21",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-web/package.json",
+    "id": "finding:a79cf74742e0b804",
+    "line": 12,
+    "message": "@angular/core 17.3.12 is end of life since 2025-05-15; replace with Angular 21",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-api/.nvmrc",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/server.ts",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "billing-api/.nvmrc",
+    "id": "finding:41ae30caca9bede4",
+    "line": 1,
+    "message": "Node.js 20.11 is end of life since 2026-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+    "id": "finding:58f3f148399bcbf8",
+    "line": 1,
+    "message": "JBoss / WildFly 4.2 is end of life since ?; target Spring Boot 4 executable jar on GKE / Cloud Run",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+    "id": "finding:9a8bd5cc6f729639",
+    "line": 2,
+    "message": "Servlet API 2.5 is end of life since 2013-06-12; target Jakarta Servlet 6.1",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+    "id": "finding:f4eb0d1feef78170",
+    "line": 1,
+    "message": "Oracle WebLogic Server 8.1 is end of life since ?; target Spring Boot 4 executable jar on GKE / Cloud Run",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/js/controllers.js",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/bower.json",
+    "id": "finding:eebe56e8f2a67bee",
+    "line": 5,
+    "message": "AngularJS 1.5.8 is end of life since 2021-12-31; target Angular 21",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-api/Dockerfile",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "orders-api/Dockerfile",
+    "id": "finding:385bcf1de9d6f1d7",
+    "line": 1,
+    "message": "Node.js 18 is end of life since 2025-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "file": "orders-api/package.json",
+    "id": "finding:3b60f5de20b6aad5",
+    "line": 7,
+    "message": "Node.js 18.17 is end of life since 2025-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-web/package.json",
+    "id": "finding:686d14a9bc18eb07",
+    "line": 12,
+    "message": "Angular 17.3.12 is end of life since 2025-05-15; target Angular 21",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-api/package.json",
+    "id": "finding:9d91e105a5e6987a",
+    "line": null,
+    "message": "Component billing-api has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/bower.json",
+    "id": "finding:016187136ceaa937",
+    "line": null,
+    "message": "Component legacy-portal has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-api/package.json",
+    "id": "finding:e02060dcb01d7543",
+    "line": null,
+    "message": "Component orders-api has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "deploy/jboss/standalone.xml",
+    "id": "finding:d6cc81fc4655e785",
+    "line": 1,
+    "message": "JBoss/WildFly server configuration (standalone.xml): data sources, JMS resources, security realms and tuning set here for JBoss / WildFly and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "deploy/liberty/server.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "deploy/liberty/server.xml",
+    "id": "finding:a9811a5dd129a145",
+    "line": 1,
+    "message": "WebSphere Liberty server configuration: data sources, JMS resources, security realms and tuning set here for IBM WebSphere Liberty and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "deploy/tomcat/context.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "deploy/tomcat/context.xml",
+    "id": "finding:53e42b9f0ffa1883",
+    "line": 1,
+    "message": "Tomcat context (context.xml): data sources, JMS resources, security realms and tuning set here for Apache Tomcat and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "deploy/tomcat/server.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "deploy/tomcat/server.xml",
+    "id": "finding:f508349908c20c48",
+    "line": 1,
+    "message": "Tomcat server configuration (server.xml): data sources, JMS resources, security realms and tuning set here for Apache Tomcat and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "deploy/weblogic/config.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "deploy/weblogic/config.xml",
+    "id": "finding:7041fc1fd034531e",
+    "line": 1,
+    "message": "WebLogic domain configuration (config.xml): data sources, JMS resources, security realms and tuning set here for Oracle WebLogic Server and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+    "id": "finding:6c71548fa1729fbb",
+    "line": 1,
+    "message": "WebSphere binding/extension file (ibm-web-bnd.xmi, XMI format of WebSphere 6.x/7): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to IBM WebSphere Application Server and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+    "id": "finding:23c8d8360d8620ed",
+    "line": 1,
+    "message": "JBoss deployment descriptor (jboss-web.xml): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to JBoss / WildFly and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "migration",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+    "id": "finding:7b003836c5eaf4a8",
+    "line": 1,
+    "message": "WebLogic deployment descriptor (weblogic.xml): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to Oracle WebLogic Server and must move to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings)",
+    "remediation": "Move these settings to Spring Boot 4 configuration (application.yaml, Kubernetes / Cloud Run settings); run the application as a Spring Boot executable jar (embedded Tomcat) on GKE or Cloud Run.",
+    "rule_id": "server-specific-config",
+    "severity": "low"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-web/src/assets/vendor/chart.min.js",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-web/src/assets/vendor/chart.min.js",
+    "id": "finding:427d72894939594c",
+    "line": null,
+    "message": "Left out of the scan: minified or bundled code; the file. Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  }
+]

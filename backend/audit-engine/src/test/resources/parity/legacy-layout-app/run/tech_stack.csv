@@ -1,0 +1,6 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:51fcdf02f3bc41e9,settlement-c/Makefile.aix:1,Make,,build,1,,,
+tech:7e2e17d7f37a26ed,settlement-c/Makefile.aix:6;settlement-c/src/settle.pc:1,Oracle Pro*C,,build,2,,,
+tech:2f57f26890fd49dc,apps/billing-batch/properties/billing.properties:2;config/common.properties:4,Oracle,,database,2,,,
+tech:b05d0fbde9c34f97,apps/orders-web/WebContent/WEB-INF/struts-config.xml:2;apps/orders-web/WebContent/WEB-INF/web.xml:3,Struts 1,,framework,2,true,2013-04-05,Spring MVC (Spring Boot 4)
+tech:7c24a97c094e95ae,apps/orders-web/src/com/acme/orders/OrderListAction.java,javax.* namespace (Jakarta EE migration),,upgrade-signal,1,,,

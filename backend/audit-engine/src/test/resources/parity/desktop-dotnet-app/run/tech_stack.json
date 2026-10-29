@@ -1,0 +1,940 @@
+[
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 33,
+        "snippet": null
+      }
+    ],
+    "id": "tech:32827bc290f48b0a",
+    "name": "Microsoft Access",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/appsettings.json",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:41ee5840e9c2b0bd",
+    "name": "SQL Server",
+    "replacement": null,
+    "usages": 11,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "tech:6bb6124530586edc",
+    "name": "SQL Server .NET driver",
+    "replacement": null,
+    "usages": 1,
+    "version": "4.8.3"
+  },
+  {
+    "category": "database",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "tech:05d335e6af37d918",
+    "name": "SQL Server .NET driver",
+    "replacement": null,
+    "usages": 1,
+    "version": "5.1.1"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b86a731f1bce42d4",
+    "name": "ASP.NET Core",
+    "replacement": null,
+    "usages": 6,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Views/Home/Index.cshtml",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:570e876cfa14f9c3",
+    "name": "ASP.NET MVC",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Contact.aspx",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Site.master",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d7ce8f0b14a6bd4a",
+    "name": "ASP.NET Web Forms",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f7f181bd15e1cf5a",
+    "name": "ASP.NET Web Services (ASMX)",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2024-11-12",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:89fd84d16e4d0b6f",
+    "name": "Entity Framework Core",
+    "replacement": "Spring Data JPA / Hibernate ORM 7",
+    "usages": 2,
+    "version": "6.0.10"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 22,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "tech:1e209bdaed967cca",
+    "name": "Windows Forms",
+    "replacement": null,
+    "usages": 4,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 9,
+        "snippet": null
+      },
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:17398be5bfd4598e",
+    "name": "Windows Service",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:615db84b59501b8a",
+    "name": "WPF",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Program.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/App.xaml.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockItem.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b1fda5cfb9441c3c",
+    "name": "C#",
+    "replacement": null,
+    "usages": 20,
+    "version": "10.0"
+  },
+  {
+    "category": "language",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/My Project/AssemblyInfo.vb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:e2de634d3d345a2a",
+    "name": "VB.NET",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": true,
+    "eol_date": "2008-04-08",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:cd784fbff32b95a1",
+    "name": "Visual Basic 6",
+    "replacement": "Angular 21 screens with a Spring Boot 4 (Java 25) back end",
+    "usages": 6,
+    "version": "6.0"
+  },
+  {
+    "category": "library",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:acb303576aa8cf00",
+    "name": "ADO",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "library",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:121ee0f1f467877b",
+    "name": "ADO.NET",
+    "replacement": null,
+    "usages": 6,
+    "version": null
+  },
+  {
+    "category": "library",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4d1548115d5baa6a",
+    "name": "Dapper",
+    "replacement": null,
+    "usages": 4,
+    "version": null
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d84b1dcac3ff93f0",
+    "name": "Dapper",
+    "replacement": null,
+    "usages": 1,
+    "version": "1.50.2"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4cc4e1118a1b0525",
+    "name": "Dapper",
+    "replacement": null,
+    "usages": 1,
+    "version": "2.0.123"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f6fba1be26f7ea6a",
+    "name": "Dapper",
+    "replacement": null,
+    "usages": 1,
+    "version": "2.1.24"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:81e82e25bccf3033",
+    "name": "Json.NET",
+    "replacement": null,
+    "usages": 1,
+    "version": "9.0.1"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "id": "tech:dd96db452a2d9e28",
+    "name": "log4net",
+    "replacement": null,
+    "usages": 1,
+    "version": "2.0.8"
+  },
+  {
+    "category": "library",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:283af15b4b78effa",
+    "name": "MSXML",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "library",
+    "eol": true,
+    "eol_date": "2008-04-08",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "tech:9f9d43b01f7e46d1",
+    "name": "Windows Common Controls (OCX)",
+    "replacement": "Angular 21 components (Angular Material)",
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:ffe7267df9d77697",
+    "name": "MSMQ",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2024-11-12",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:dec8e8b4321650ee",
+    "name": ".NET",
+    "replacement": "Spring Boot 4 (Java 25)",
+    "usages": 1,
+    "version": "6.0"
+  },
+  {
+    "category": "runtime",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:cc4193930963b58d",
+    "name": ".NET",
+    "replacement": null,
+    "usages": 1,
+    "version": "8.0"
+  },
+  {
+    "category": "runtime",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "tech:50ea2cb0e7dc730b",
+    "name": ".NET Framework",
+    "replacement": null,
+    "usages": 1,
+    "version": "3.5"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2016-01-12",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "tech:cb4025577e1747c4",
+    "name": ".NET Framework",
+    "replacement": "Spring Boot 4 (Java 25)",
+    "usages": 1,
+    "version": "4.0"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2022-04-26",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:a902176eaee1646c",
+    "name": ".NET Framework",
+    "replacement": "Spring Boot 4 (Java 25)",
+    "usages": 4,
+    "version": "4.5.2"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2022-04-26",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "tech:cd4deda0d741486e",
+    "name": ".NET Framework",
+    "replacement": "Spring Boot 4 (Java 25)",
+    "usages": 1,
+    "version": "4.6.1"
+  },
+  {
+    "category": "scheduler",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Program.cs",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:05ef4fdf29a90931",
+    "name": "Hangfire",
+    "replacement": null,
+    "usages": 2,
+    "version": "1.8.6"
+  }
+]

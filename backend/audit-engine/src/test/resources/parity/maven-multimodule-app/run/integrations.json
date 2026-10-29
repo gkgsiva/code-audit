@@ -1,0 +1,30 @@
+[
+  {
+    "components": [
+      "acme-parent-scripts-config"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://dbhost:1521/ACME; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:d0650de6a42b4817",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "config/app.properties"
+    ],
+    "target": "oracle://dbhost:1521/ACME",
+    "type": "DB",
+    "usages": 1
+  }
+]

@@ -1,0 +1,11 @@
+id,evidence,path,root,origin,component,language,category,size,sha256,encoding,loc_code,loc_comment,loc_blank
+file:4e96aec46815b753,Makefile,Makefile,settlement,source,settlement,make,build,689,c8f9d0e77e4f1e6ed70161384ac5df4f9314e05e32599f3a6371a4af27c10e30,utf-8,13,1,5
+file:14b53f7075df5a92,scripts/archive.sh,scripts/archive.sh,settlement,source,settlement,shell,script,200,6a7c74297a0a766c97b7440c279d40a8851994de3eaa26bd36dacffa209696ab,utf-8,4,2,0
+file:9b247dde698d9eb6,scripts/run_settlement.ksh,scripts/run_settlement.ksh,settlement,source,settlement,shell,script,672,ad720109c1b7c099074795290036eee10036d1ddda38fe287c325427e082519b,utf-8,17,2,3
+file:505e4966c88d7f73,sql/settle_report.sql,sql/settle_report.sql,settlement,source,settlement,sql,sql,354,2a99eec26c67612430b4407bbfb5f89e29d86eb7779c4844903c85f39478ef95,utf-8,8,1,2
+file:11eb7320901464a0,src/common/settle_util.c,src/common/settle_util.c,settlement,source,settlement,c,source,746,7d055e0c31146d26a43b84120cb22fd5bfe72e22a78beb8fec02ce7affce33b4,utf-8,27,2,4
+file:3fb101afb1c5ae96,src/common/settle_util.h,src/common/settle_util.h,settlement,source,settlement,c,source,209,9e2539143df1fcdcac87f25d8214257ccafbd24259cce849898b8f0a85061566,utf-8,6,1,2
+file:0c2175055d68701f,src/settle_load.pc,src/settle_load.pc,settlement,source,settlement,proc,source,2020,523c3ec6fce0f64cb235af03fe8b35f5d86b6e637d03a3950efbf7785673dd5e,utf-8,62,5,7
+file:34e042c436e58581,src/settle_send.c,src/settle_send.c,settlement,source,settlement,c,source,1046,09aa6a8a35bc341e681eb04d34a3cf7704bcdebf4d3e267613f01e6f70e5be45,utf-8,30,4,3
+file:d7843f582041e003,audit-inputs/cft/cft_settlement.cfg,audit-inputs/cft/cft_settlement.cfg,audit-inputs,input,,ini,config,418,3bdece12c3103ef0ed1b757bc1670696901a9dacd705ec805b702f0b912b2cfd,utf-8,12,0,0
+file:c025d7986e1aa7d4,audit-inputs/crontab/settlement.cron,audit-inputs/crontab/settlement.cron,audit-inputs,input,,other (.cron),other,209,1fac8b06a15af4d73d4201a7ccec3f09f76eadcb2a97a37f5d7820b668aab87b,utf-8,4,0,0

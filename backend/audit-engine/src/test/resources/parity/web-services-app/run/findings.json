@@ -1,0 +1,245 @@
+[
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/pom.xml",
+    "id": "finding:d0efae924941a613",
+    "line": 18,
+    "message": "spring-webmvc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/pom.xml",
+    "id": "finding:4cd3c009ebb2f2d6",
+    "line": 18,
+    "message": "Spring Framework 4.3.30.RELEASE is end of life since 2024-08-31; target Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "quote-axis/WebContent/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+    "id": "finding:9b789b80c58bf4c3",
+    "line": 2,
+    "message": "Apache Axis ? is end of life since 2006-04-22; target Spring Web Services or a REST client",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+    "id": "finding:0b76d713daaee89e",
+    "line": 8,
+    "message": "Hard-coded endpoint in code: \"https://stock.acme.local/api/v2\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+    "id": "finding:e31a5f17a66b4d1e",
+    "line": 9,
+    "message": "Hard-coded endpoint in code: \"http://orders.acme.com/status\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "file": "rate-feed/src/rate_feed.c",
+    "id": "finding:7e5ceb02d0e5c7d1",
+    "line": 11,
+    "message": "Hard-coded endpoint in code: \"https://rates.acme.local/api/v1/rates/EUR\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "rate-feed/src/rate_feed.c",
+    "id": "finding:7c14cc3a908d4dab",
+    "line": 16,
+    "message": "Hard-coded endpoint in code: \"http://treasury.acme.local/soap/RateService\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/pom.xml",
+    "id": "finding:836829026fbcddbf",
+    "line": null,
+    "message": "Component orders-ws has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "quote-axis/build.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "quote-axis/build.xml",
+    "id": "finding:b53ad666cbd084ac",
+    "line": null,
+    "message": "Component quote-axis has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "rate-feed/Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "rate-feed/Makefile",
+    "id": "finding:81892b370437d6f7",
+    "line": null,
+    "message": "Component rate-feed has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+    "id": "finding:7a847ea38d6765df",
+    "line": null,
+    "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/CrmClient.java from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+    "id": "finding:bd8b46e654dde2e7",
+    "line": null,
+    "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+    "id": "finding:1cad76e5d078e8bf",
+    "line": null,
+    "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/StockClient.java from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  },
+  {
+    "category": "linking",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "file": "rate-feed/src/rate_feed.c",
+    "id": "finding:d71dda1d405f25c2",
+    "line": 3,
+    "message": "rate-feed/src/rate_feed.c includes 'soapH.h', which was not found in the scanned files (looked for: file-name)",
+    "remediation": null,
+    "rule_id": "unresolved-reference",
+    "severity": "info"
+  }
+]

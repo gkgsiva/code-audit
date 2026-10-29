@@ -1,0 +1,5 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:38695ded416e113a,apps/billing-batch/java/com/acme/billing/InvoiceRun.java,billing-batch,batch,estate,apps/billing-batch,,java;properties;shell;sqlloader,batch,"{""config"": 2, ""other"": 1, ""script"": 2, ""source"": 1}",6,33,com.acme.billing.InvoiceRun,folder,,,,
+component:394d5d933ecc5a16,apps/orders-web/.project,orders-web,web,estate,apps/orders-web,apps/orders-web/.project,java;jsp;properties;xml,web,"{""config"": 5, ""screen"": 1, ""source"": 3}",9,87,,build-file,,,,
+component:36740b5555da527d,settlement-c/Makefile.aix,settlement-c,batch,estate,settlement-c,settlement-c/Makefile.aix,proc;shell,batch,"{""build"": 1, ""other"": 1, ""script"": 1, ""source"": 1}",4,14,settle,build-file,,,,
+component:f12ab614192b9793,config/common.properties,shared-scripts-config,script,estate,,,properties;shell;xml,script,"{""config"": 2, ""other"": 1, ""script"": 1}",4,14,,grouped,,,,config;scripts

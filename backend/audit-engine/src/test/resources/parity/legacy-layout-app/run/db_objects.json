@@ -1,0 +1,98 @@
+[
+  {
+    "crud": {
+      "C": [
+        "sql:d55d40c3b5014222"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:1ad299b389c5a36a",
+    "members": [],
+    "name": "INVOICES",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:d55d40c3b5014222"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:6dca2caf260f51d4"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:6dca2caf260f51d4"
+    ]
+  },
+  {
+    "crud": {
+      "U": [
+        "sql:923bdea558e2b262"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:93965c008900fd96",
+    "members": [],
+    "name": "PAYMENTS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:923bdea558e2b262"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:d55d40c3b5014222"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ea972605d9500612",
+    "members": [],
+    "name": "USAGE_RECORDS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:d55d40c3b5014222"
+    ]
+  }
+]

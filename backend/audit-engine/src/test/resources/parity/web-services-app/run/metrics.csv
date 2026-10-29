@@ -1,0 +1,4 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:79fb50e2e8d6d823,orders-ws/pom.xml,orders-ws,202,10,32,14,12,1.0,1,0,0,0.0,0,0.0,3,0,0,Simple,0.24,"{""Simple"": 6}"
+metric:cfd2a0454f3b90c7,quote-axis/build.xml,quote-axis,43,2,5,5,4,1.0,1,0,0,0.0,0,0.0,0,0,1,Simple,0.86,"{""Simple"": 4}"
+metric:a3a90f229f9a3188,rate-feed/Makefile,rate-feed,18,1,3,2,1,1.0,1,0,0,0.0,0,0.0,0,0,0,Simple,4.34,"{""Simple"": 1}"

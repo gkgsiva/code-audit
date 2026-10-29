@@ -1,0 +1,400 @@
+[
+  {
+    "category": "auth",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "tech:c864f4a53e6f542e",
+    "name": "Spring Security (form login)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "auth",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "tech:6cbea109800825dd",
+    "name": "Spring Security (LDAP)",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f868b8019ca10787",
+    "name": "Maven",
+    "replacement": null,
+    "usages": 4,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2022-12-31",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "tech:89cc5b3ef5be85ec",
+    "name": "Hibernate",
+    "replacement": "Hibernate ORM 7",
+    "usages": 1,
+    "version": "4.3.11.Final"
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 20,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:bafcf3a25f0b4fd7",
+    "name": "MyBatis",
+    "replacement": null,
+    "usages": 2,
+    "version": "3.4.6"
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2023-11-18",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:9af0384a7046fe56",
+    "name": "Spring Batch",
+    "replacement": "Spring Batch 6",
+    "usages": 2,
+    "version": "3.0.10.RELEASE"
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/pom.xml",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/pom.xml",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "tech:dba40b85143144e7",
+    "name": "Spring Framework",
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "usages": 4,
+    "version": "4.3.30.RELEASE"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:8d21b13dbf66466d",
+    "name": "Spring Framework (XML configuration)",
+    "replacement": null,
+    "usages": 4,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "tech:fe517f94dbddf9cc",
+    "name": "Spring MVC",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b7f5c474ca0d533a",
+    "name": "Spring Security",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": true,
+    "eol_date": "2019-01-31",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:94544620f465ab54",
+    "name": "Java",
+    "replacement": "Java 25",
+    "usages": 1,
+    "version": "1.8"
+  },
+  {
+    "category": "library",
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "tech:0d4a0015af610eb8",
+    "name": "Log4j 1",
+    "replacement": "SLF4J + Logback",
+    "usages": 1,
+    "version": "1.2.17"
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:02e49533d8619768",
+    "name": "IBM MQ",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:3e6932f1c078b03c",
+    "name": "IBM MQ (JMS)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 25,
+        "snippet": null
+      }
+    ],
+    "id": "tech:8464c7121a8f6dc5",
+    "name": "IBM MQ client",
+    "replacement": null,
+    "usages": 1,
+    "version": "9.1.0.0"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2013-06-12",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b3699c7001040a8e",
+    "name": "Servlet API",
+    "replacement": "Jakarta Servlet 6.1",
+    "usages": 1,
+    "version": "2.5"
+  },
+  {
+    "category": "scheduler",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b6301f5b8946d652",
+    "name": "Autosys",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "upgrade-signal",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7c24a97c094e95ae",
+    "name": "javax.* namespace (Jakarta EE migration)",
+    "replacement": null,
+    "usages": 3,
+    "version": null
+  }
+]

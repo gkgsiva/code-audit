@@ -1,0 +1,86 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 2.16,
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": 15,
+        "snippet": "CustomerDialog extends JDialog"
+      }
+    ],
+    "fields_count": 4,
+    "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+    "id": "screen:83a5b67d242896a4",
+    "name": "CustomerDialog",
+    "partial": false,
+    "targeted_by": [
+      "screen:a2cbfb040e34c0ac"
+    ],
+    "technology": "swing"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 4.24,
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": "MainFrame extends JFrame"
+      }
+    ],
+    "fields_count": 0,
+    "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+    "id": "screen:a2cbfb040e34c0ac",
+    "name": "MainFrame",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "swing"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 1.69,
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": 4,
+        "snippet": "<VBox> com.acme.teller.ui.RatesController"
+      }
+    ],
+    "fields_count": 3,
+    "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+    "id": "screen:cfc1899fd304e7fa",
+    "name": "Rates",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "javafx"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+        "line": 7,
+        "snippet": "AccountPanel extends JPanel"
+      }
+    ],
+    "fields_count": 1,
+    "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+    "id": "screen:bfd92173aee9343c",
+    "name": "AccountPanel",
+    "partial": true,
+    "targeted_by": [
+      "screen:a2cbfb040e34c0ac"
+    ],
+    "technology": "swing"
+  }
+]

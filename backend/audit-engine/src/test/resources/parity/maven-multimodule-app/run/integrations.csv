@@ -1,0 +1,2 @@
+id,evidence,type,target,direction,protocol,usages,source_files,producers,consumers,components,details,purpose,endpoints,grouped_ids,description
+integration:d0650de6a42b4817,config/app.properties:2,DB,oracle://dbhost:1521/ACME,outbound,jdbc,1,config/app.properties,,,acme-parent-scripts-config,{},database,,,Connects to the database oracle://dbhost:1521/ACME; 1 place in the code.

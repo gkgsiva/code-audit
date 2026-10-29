@@ -1,0 +1,126 @@
+[
+  {
+    "artifact": "billing-batch",
+    "build_files": [
+      "billing-batch/pom.xml"
+    ],
+    "build_group": [
+      "billing-parent"
+    ],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "script": 1,
+      "source": 2
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "com.acme.billing.batch.PaymentListener"
+    ],
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 5,
+    "id": "component:ac6b987e6e4457d2",
+    "loc_code": 105,
+    "name": "billing-batch",
+    "packaging": "jar",
+    "parts": [],
+    "path": "billing-batch",
+    "roles": [
+      "batch"
+    ],
+    "root": "billing",
+    "technology": [
+      "java",
+      "shell",
+      "xml"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": "billing-common",
+    "build_files": [
+      "billing-common/pom.xml"
+    ],
+    "build_group": [
+      "billing-parent"
+    ],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "source": 5
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 7,
+    "id": "component:736aa789d968e767",
+    "loc_code": 154,
+    "name": "billing-common",
+    "packaging": "jar",
+    "parts": [],
+    "path": "billing-common",
+    "roles": [
+      "library"
+    ],
+    "root": "billing",
+    "technology": [
+      "java",
+      "xml"
+    ],
+    "type": "library"
+  },
+  {
+    "artifact": "billing-web",
+    "build_files": [
+      "billing-web/pom.xml"
+    ],
+    "build_group": [
+      "billing-parent"
+    ],
+    "composition": {
+      "build": 1,
+      "config": 5,
+      "screen": 5,
+      "source": 4
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 15,
+    "id": "component:c543eba54c6824f4",
+    "loc_code": 252,
+    "name": "billing-web",
+    "packaging": "war",
+    "parts": [],
+    "path": "billing-web",
+    "roles": [
+      "web"
+    ],
+    "root": "billing",
+    "technology": [
+      "java",
+      "jsp",
+      "properties",
+      "xml"
+    ],
+    "type": "web"
+  }
+]

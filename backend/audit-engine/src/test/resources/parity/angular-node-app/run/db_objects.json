@@ -1,0 +1,114 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:63921d7b415cc862",
+        "sql:0226340a4933bbaa"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:02d5a98eab0474e2",
+    "members": [],
+    "name": "CUSTOMERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:63921d7b415cc862",
+      "sql:0226340a4933bbaa"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:c6034aaa15b96a96",
+        "sql:2fb9f218eb02ee44",
+        "sql:17be6491c10ba6eb"
+      ],
+      "U": [
+        "sql:9ef6e6cda503cff0"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:1ad299b389c5a36a",
+    "members": [],
+    "name": "INVOICES",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:c6034aaa15b96a96",
+      "sql:2fb9f218eb02ee44",
+      "sql:17be6491c10ba6eb",
+      "sql:9ef6e6cda503cff0"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:5ec69775b9f67e75",
+        "sql:71e7fd38c0d7b860",
+        "sql:39825778f0bf8c76",
+        "sql:0226340a4933bbaa"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:5ec69775b9f67e75",
+      "sql:71e7fd38c0d7b860",
+      "sql:39825778f0bf8c76",
+      "sql:0226340a4933bbaa"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:3d10d5e742a52559"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:85176a0e8cdae4a5",
+    "members": [],
+    "name": "ORDER_AUDIT",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:3d10d5e742a52559"
+    ]
+  }
+]

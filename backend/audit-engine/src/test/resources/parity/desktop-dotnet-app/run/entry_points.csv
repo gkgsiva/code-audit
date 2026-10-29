@@ -1,0 +1,7 @@
+id,evidence,name,kind,file,line,component
+entry:5456b08cd4c2cbec,billing-desk-vb6/BillingDesk.vbp:1,BillingDesk,desktop-app,billing-desk-vb6/BillingDesk.vbp,1,billing-desk-vb6
+entry:79e291cf2b677f0f,inventory-wpf-cs/App.xaml:1,InventoryApp.App,desktop-app,inventory-wpf-cs/App.xaml,1,inventory-wpf-cs
+entry:aa380e80d82530dd,invoice-mailer-svc/MailerService.cs:11,MailerService,windows-service,invoice-mailer-svc/MailerService.cs,11,invoice-mailer-svc
+entry:04b9009650839212,invoice-mailer-svc/MailerService.cs:28,MailerService.Main,main,invoice-mailer-svc/MailerService.cs,28,invoice-mailer-svc
+entry:8c39d371ea4b4aab,nightly-export-cs/Program.cs:13,Program.Main,main,nightly-export-cs/Program.cs,13,nightly-export-cs
+entry:1604be2a25d0da89,orders-winforms-vbnet/OrdersDesk.vbproj:6,OrdersDesk,desktop-app,orders-winforms-vbnet/OrdersDesk.vbproj,6,orders-winforms-vbnet

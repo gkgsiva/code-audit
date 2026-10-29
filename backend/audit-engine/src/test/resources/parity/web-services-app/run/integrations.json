@@ -1,0 +1,177 @@
+[
+  {
+    "components": [
+      "orders-ws"
+    ],
+    "consumers": [],
+    "description": "Is called on the HTTPS endpoint /orders-ws/ws/OrderStatus at orders.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "inbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:18457dac69d9969a",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+    ],
+    "target": "https://orders.acme.local/orders-ws/ws/OrderStatus",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-ws"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api on payments.acme.local; 1 place in the code.",
+    "details": {
+      "key": "payment.url"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:f4a0187a667c2878",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-ws/src/main/resources/application.properties"
+    ],
+    "target": "https://payments.acme.local/api",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "rate-feed"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api/v1/rates/EUR on rates.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:43e266087f4f8d30",
+    "producers": [],
+    "protocol": "libcurl",
+    "purpose": "HTTP API",
+    "source_files": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "target": "https://rates.acme.local/api/v1/rates/EUR",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-ws"
+    ],
+    "consumers": [],
+    "description": "Calls an HTTPS service on stock.acme.local (2 endpoints: /api/v2/items, /api/v2/reservations); 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [
+      "/api/v2/items",
+      "/api/v2/reservations"
+    ],
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [
+      "integration:72cf683008329582"
+    ],
+    "id": "integration:60363d17c8e04144",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+    ],
+    "target": "https://stock.acme.local",
+    "type": "HTTP",
+    "usages": 2
+  },
+  {
+    "components": [
+      "rate-feed"
+    ],
+    "consumers": [],
+    "description": "Calls the RateService web service on treasury.acme.local (HTTP); 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:68a857b4b89335c7",
+    "producers": [],
+    "protocol": "gSOAP",
+    "purpose": "web service",
+    "source_files": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "target": "http://treasury.acme.local/soap/RateService",
+    "type": "SOAP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-ws"
+    ],
+    "consumers": [],
+    "description": "Calls the CrmService web service on crm.acme.local (HTTPS); 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:7e0557b523c338be",
+    "producers": [],
+    "protocol": null,
+    "purpose": "web service",
+    "source_files": [
+      "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+    ],
+    "target": "https://crm.acme.local/services/CrmService",
+    "type": "SOAP",
+    "usages": 1
+  }
+]

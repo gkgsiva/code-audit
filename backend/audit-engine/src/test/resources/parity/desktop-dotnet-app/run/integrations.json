@@ -1,0 +1,362 @@
+[
+  {
+    "components": [
+      "billing-desk-vb6"
+    ],
+    "consumers": [],
+    "description": "Connects to the database access://regions.mdb; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 33,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:c04c9122eaa2f9a8",
+    "producers": [],
+    "protocol": "dao",
+    "purpose": "database",
+    "source_files": [
+      "billing-desk-vb6/frmCustomer.frm"
+    ],
+    "target": "access://regions.mdb",
+    "type": "DB",
+    "usages": 1
+  },
+  {
+    "components": [
+      "legacy-webforms"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://crmprod; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:86f1278aefb8f165",
+    "producers": [],
+    "protocol": "ado.net",
+    "purpose": "database",
+    "source_files": [
+      "legacy-webforms/Web.config"
+    ],
+    "target": "oracle://crmprod",
+    "type": "DB",
+    "usages": 1
+  },
+  {
+    "components": [
+      "billing-api-cs",
+      "billing-desk-vb6",
+      "nightly-export-cs"
+    ],
+    "consumers": [],
+    "description": "Connects to the database sqlserver://billsrv01/BILLING; 3 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-api-cs/appsettings.json",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:091de97762c869c6",
+    "producers": [],
+    "protocol": "ado.net",
+    "purpose": "database",
+    "source_files": [
+      "billing-api-cs/appsettings.json",
+      "billing-desk-vb6/modDb.bas",
+      "nightly-export-cs/Program.cs"
+    ],
+    "target": "sqlserver://billsrv01/BILLING",
+    "type": "DB",
+    "usages": 3
+  },
+  {
+    "components": [
+      "inventory-wpf-cs"
+    ],
+    "consumers": [],
+    "description": "Connects to the database sqlserver://invsrv01/INVENTORY; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:8302c7163e41c6b1",
+    "producers": [],
+    "protocol": "ado.net",
+    "purpose": "database",
+    "source_files": [
+      "inventory-wpf-cs/Data/InventoryContext.cs",
+      "inventory-wpf-cs/Data/StockRepository.cs"
+    ],
+    "target": "sqlserver://invsrv01/INVENTORY",
+    "type": "DB",
+    "usages": 2
+  },
+  {
+    "components": [
+      "orders-winforms-vbnet"
+    ],
+    "consumers": [],
+    "description": "Connects to the database sqlserver://ordsrv02\\sql2008/ORDERS; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:c139f5e3896f7a29",
+    "producers": [],
+    "protocol": "ado.net",
+    "purpose": "database",
+    "source_files": [
+      "orders-winforms-vbnet/App.config"
+    ],
+    "target": "sqlserver://ordsrv02\\sql2008/ORDERS",
+    "type": "DB",
+    "usages": 1
+  },
+  {
+    "components": [
+      "nightly-export-cs",
+      "orders-winforms-vbnet"
+    ],
+    "consumers": [],
+    "description": "Writes files on //fileserver (2 files: //fileserver/exports/invoices.csv, //fileserver/orders/archive.log); 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [
+      "//fileserver/exports/invoices.csv",
+      "//fileserver/orders/archive.log"
+    ],
+    "evidence": [
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 55,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [
+      "integration:4d714aec61cd58da"
+    ],
+    "id": "integration:172924995bdcc2a0",
+    "producers": [],
+    "protocol": "new StreamWriter",
+    "purpose": "file",
+    "source_files": [
+      "nightly-export-cs/Program.cs",
+      "orders-winforms-vbnet/OrderRepository.vb"
+    ],
+    "target": "//fileserver",
+    "type": "FILE",
+    "usages": 2
+  },
+  {
+    "components": [
+      "billing-desk-vb6"
+    ],
+    "consumers": [],
+    "description": "Writes the file C:/BillingDesk/export/customers.csv; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 35,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:b9623b64716d3189",
+    "producers": [],
+    "protocol": "VB Open",
+    "purpose": "file",
+    "source_files": [
+      "billing-desk-vb6/modDb.bas"
+    ],
+    "target": "C:/BillingDesk/export/customers.csv",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "billing-api-cs",
+      "billing-desk-vb6"
+    ],
+    "consumers": [],
+    "description": "Calls an HTTPS service on ledger.acme.local (2 endpoints: http://ledger.acme.local/api/postings, https://ledger.acme.local/); 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [
+      "http://ledger.acme.local/api/postings",
+      "https://ledger.acme.local/"
+    ],
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 40,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [
+      "integration:8c78b2a52f31a0bd"
+    ],
+    "id": "integration:27dca5f61fc50ffa",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "billing-desk-vb6/clsInvoice.cls",
+      "billing-api-cs/Services/LedgerClient.cs"
+    ],
+    "target": "https://ledger.acme.local",
+    "type": "HTTP",
+    "usages": 2
+  },
+  {
+    "components": [
+      "invoice-mailer-svc"
+    ],
+    "consumers": [],
+    "description": "Uses the queue .\\private$\\invoices-to-mail; 1 place in the code.",
+    "details": {},
+    "direction": "unknown",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:82a770d72264cdfd",
+    "producers": [],
+    "protocol": "MSMQ",
+    "purpose": "messaging",
+    "source_files": [
+      "invoice-mailer-svc/MailerService.cs"
+    ],
+    "target": ".\\private$\\invoices-to-mail",
+    "type": "MQ",
+    "usages": 1
+  },
+  {
+    "components": [
+      "invoice-mailer-svc"
+    ],
+    "consumers": [],
+    "description": "Sends email through smtp.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:51275d88f40325a2",
+    "producers": [],
+    "protocol": null,
+    "purpose": "email",
+    "source_files": [
+      "invoice-mailer-svc/MailerService.cs"
+    ],
+    "target": "smtp.acme.local",
+    "type": "SMTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-winforms-vbnet"
+    ],
+    "consumers": [],
+    "description": "Calls the PricingService.svc web service on pricing.acme.local (HTTP); 3 places in the code.",
+    "details": {
+      "binding": "basicHttpBinding",
+      "contract": "Pricing.IPricingService"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:88f61a2eac7a2b06",
+    "producers": [],
+    "protocol": "WCF",
+    "purpose": "web service",
+    "source_files": [
+      "orders-winforms-vbnet/App.config"
+    ],
+    "target": "http://pricing.acme.local/PricingService.svc",
+    "type": "SOAP",
+    "usages": 3
+  }
+]

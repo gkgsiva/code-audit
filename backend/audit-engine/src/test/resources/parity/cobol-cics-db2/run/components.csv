@@ -1,0 +1,4 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:c369d90f7a741ee3,bms/ORDMS1.bms,cobol-online,online-mainframe,mainframe,,,bms;cobol,batch;online-mainframe,"{""screen"": 1, ""source"": 7}",8,185,,grouped,,,,bms;cobol;copybook
+component:ab26fdbd893d9247,ddl/orders_db2.sql,ddl,db,mainframe,ddl,,sql,db,"{""sql"": 1}",1,18,,folder,,,,
+component:1c6fbf448f6ec29d,jcl/ORDNIGHT.jcl,jcl-jobs,batch,mainframe,,,jcl,batch,"{""job"": 2}",2,24,,grouped,,,,jcl;proclib

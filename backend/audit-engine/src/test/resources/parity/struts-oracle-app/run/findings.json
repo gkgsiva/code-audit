@@ -1,0 +1,374 @@
+[
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+    "id": "finding:42fa88ab5dce0695",
+    "line": null,
+    "message": "commons-collections 3.2.1 has 1 known vulnerabilities (CVE-2015-7501); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "critical"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+    "id": "finding:ea42d60be783feb1",
+    "line": null,
+    "message": "log4j 1.2.17 has 3 known vulnerabilities (CVE-2019-17571, CVE-2021-4104, CVE-2022-23305); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "critical"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": 4,
+        "snippet": "db.password=****"
+      }
+    ],
+    "file": "conf/orders-app.properties",
+    "id": "finding:b7eb1e1b0c985c77",
+    "line": 4,
+    "message": "Credential 'db.password' is set in configuration (value masked)",
+    "remediation": null,
+    "rule_id": "config-credential",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 69,
+        "snippet": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'"
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "id": "finding:cb4a81b5fd67b65d",
+    "line": 69,
+    "message": "Values concatenated into SQL text (1x; jdbc, SELECT) in src/com/acme/orders/dao/OrderDao.java",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+    "id": "finding:62196098d412d86d",
+    "line": null,
+    "message": "axis 1.4 has 2 known vulnerabilities (CVE-2018-8032, CVE-2019-0227); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+    "id": "finding:478b95cb1b575b83",
+    "line": null,
+    "message": "struts 1.2.9 has 2 known vulnerabilities (CVE-2014-0114, CVE-2016-1182); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "high"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+    "id": "finding:a92da9f51e53275e",
+    "line": null,
+    "message": "axis 1.4 is end of life since 2006-04-22; replace with Spring Web Services or a REST client (RestClient)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+    "id": "finding:196b63dc6398dc8e",
+    "line": null,
+    "message": "commons-collections 3.2.1 is end of life since 2015-11-12; replace with org.apache.commons:commons-collections4",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+    "id": "finding:d42be242fde14f40",
+    "line": null,
+    "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+    "id": "finding:59b54a153e482e60",
+    "line": null,
+    "message": "ojdbc14 10.2.0.4.0 is end of life since 2013-07-31; replace with org.postgresql:postgresql (target database)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+    "id": "finding:1a56b02bcd737552",
+    "line": null,
+    "message": "struts 1.2.9 is end of life since 2013-04-05; replace with Spring MVC (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+    "id": "finding:e99efa8c5164aa86",
+    "line": null,
+    "message": "Apache Axis 1.4 is end of life since 2006-04-22; target Spring Web Services or a REST client",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+    "id": "finding:a7b78166e395a4d5",
+    "line": null,
+    "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+    "id": "finding:263dd7f9b5127cc1",
+    "line": null,
+    "message": "Struts 1 1.2.9 is end of life since 2013-04-05; target Spring MVC (Spring Boot 4)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "build.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "file": "build.xml",
+    "id": "finding:4245b430ba42a145",
+    "line": 23,
+    "message": "Java 1.5 is end of life since 2009-10-30; target Java 25",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/client/PricingSoapClient.java",
+    "id": "finding:5364fe9d3ac617d5",
+    "line": 15,
+    "message": "Hard-coded endpoint in code: \"http://pricing.acme.local:8080/axis/services/PricingService\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/client/PricingSoapClient.java",
+    "id": "finding:261904593823a282",
+    "line": 21,
+    "message": "Hard-coded endpoint in code: \"http://pricing.acme.com\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+    "id": "finding:c42eaf888f7b82a1",
+    "line": 13,
+    "message": "Hard-coded endpoint in code: \"jdbc:oracle:thin:@ordersdb01.acme.local:1521:ORDP\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "sql/pkg_order_pricing.pks",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "sql/pkg_order_pricing.pkb",
+    "id": "finding:80321c6360e733e2",
+    "line": 1,
+    "message": "Stored package PKG_ORDER_PRICING needs manual conversion (stored package: move the logic to Java or rewrite in PL/pgSQL)",
+    "remediation": "Move the logic into the Java service layer or rewrite it in PL/pgSQL.",
+    "rule_id": "pg-manual-object",
+    "severity": "medium"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "scripts/deploy.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "scripts/deploy.ksh",
+    "id": "finding:8c5d4806b122722b",
+    "line": null,
+    "message": "Nothing reaches scripts/deploy.ksh from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  },
+  {
+    "category": "linking",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "file": "WebContent/WEB-INF/tiles-defs.xml",
+    "id": "finding:809cd3fabae7d1e2",
+    "line": 6,
+    "message": "base.layout includes '/jsp/common/layout.jsp', which was not found in the scanned files (looked for: path)",
+    "remediation": null,
+    "rule_id": "unresolved-reference",
+    "severity": "info"
+  }
+]

@@ -1,0 +1,7 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:c37ccae49590d4c8,acme-ear/pom.xml,acme-ear,config,estate,acme-ear,acme-ear/pom.xml,xml,config,"{""build"": 1, ""config"": 1}",2,30,,build-file,acme-parent,acme-ear,ear,
+component:c457e0d6f417f5d2,config/app.properties,acme-parent-scripts-config,batch,estate,,,properties;shell;sql,batch;db,"{""config"": 2, ""script"": 7, ""sql"": 3}",12,21,,grouped,,,,config;ops/batch;ops/batch/archive;ops/batch/eod;ops/batch/purge;scripts
+component:b71f728b71f260f6,acme-tools/pom.xml,acme-tools,library,estate,acme-tools,acme-tools/pom.xml,java,library,"{""build"": 1, ""source"": 1}",2,25,,build-file,acme-parent,acme-tools,jar,
+component:709adee8f93ee645,acme-core/pom.xml;acme-web/pom.xml,acme-web,web,estate,acme-web,acme-core/pom.xml;acme-web/pom.xml,java;jsp;xml,web,"{""build"": 2, ""config"": 1, ""screen"": 1, ""source"": 2}",6,75,,build-file,acme-parent,acme-web,war,acme-web;acme-core
+component:4dce3a489ecb61fa,batches/billing-batch/pom.xml,billing-batch,batch,estate,batches/billing-batch,batches/billing-batch/pom.xml,java,batch,"{""build"": 1, ""source"": 1}",2,21,com.acme.billing.BillingMain,build-file,acme-parent;acme-batches,billing-batch,jar,
+component:b9ce12a7b975aa9a,batches/report-batch/pom.xml,report-batch,batch,estate,batches/report-batch,batches/report-batch/pom.xml,java,batch,"{""build"": 1, ""source"": 1}",2,21,com.acme.report.ReportMain,build-file,acme-parent;acme-batches,report-batch,jar,

@@ -1,0 +1,215 @@
+[
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.21,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-api-cs/Controllers/HomeController.cs",
+    "framework": null,
+    "handler": "HomeController.Index",
+    "id": "service:31ed77b49a07c7a0",
+    "inputs": [],
+    "kind": "aspnet-mvc",
+    "name": "GET /Home/Index",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": "/Home/Index",
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.0,
+    "component": "nightly-export-cs",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/NightlyExport.xml",
+        "line": 2,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe"
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "nightly-export-cs/tasks/NightlyExport.xml",
+    "framework": null,
+    "handler": "C:\\Billing\\NightlyExport\\NightlyExport.exe",
+    "id": "service:2bf1b3a132806f3f",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "NightlyExport",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.23,
+    "component": "nightly-export-cs",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/install-tasks.cmd",
+        "line": 3,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge"
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "nightly-export-cs/tasks/install-tasks.cmd",
+    "framework": null,
+    "handler": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge",
+    "id": "service:7a824f125fa334da",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "WeeklyPurge",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.09,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Program.cs",
+        "line": 9,
+        "snippet": "Hangfire RecurringJob"
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-api-cs/Program.cs",
+    "framework": null,
+    "handler": "billing-api-cs/Program.cs",
+    "id": "service:4187cd8360ec10c3",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "close-invoices",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 1.97,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-api-cs/Controllers/InvoicesController.cs",
+    "framework": "ASP.NET Core",
+    "handler": "InvoicesController.Get",
+    "id": "service:180e1bc51601730e",
+    "inputs": [],
+    "kind": "rest-operation",
+    "name": "GET /api/Invoices/{id}",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:18644c4468df79da",
+      "sql:307ee3cf768bf3fb"
+    ],
+    "tables": [
+      "INVOICE"
+    ],
+    "url": "/api/Invoices/{id}",
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 1.77,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-api-cs/Controllers/InvoicesController.cs",
+    "framework": "ASP.NET Core",
+    "handler": "InvoicesController.Create",
+    "id": "service:39f71e7269bde6dd",
+    "inputs": [],
+    "kind": "rest-operation",
+    "name": "POST /api/Invoices",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:18644c4468df79da",
+      "sql:307ee3cf768bf3fb"
+    ],
+    "tables": [
+      "INVOICE"
+    ],
+    "url": "/api/Invoices",
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.25,
+    "component": "legacy-webforms",
+    "evidence": [
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "legacy-webforms/ContactService.asmx.cs",
+    "framework": "ASP.NET Web Services (ASMX)",
+    "handler": "ContactService.GetContactName",
+    "id": "service:76a948e0694ee85b",
+    "inputs": [],
+    "kind": "soap-operation",
+    "name": "ASMX ContactService.GetContactName",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": "ContactService.asmx/GetContactName",
+    "web_service": "ContactService"
+  }
+]

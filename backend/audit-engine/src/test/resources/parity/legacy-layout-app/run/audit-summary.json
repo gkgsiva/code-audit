@@ -1,0 +1,718 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 5
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 23
+    },
+    "proc": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 5
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 5
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 4,
+      "loc_comment": 1
+    },
+    "config": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 52,
+      "loc_comment": 4
+    },
+    "other": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 0
+    },
+    "screen": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 10,
+      "loc_comment": 0
+    },
+    "script": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 9,
+      "loc_comment": 8
+    },
+    "source": {
+      "files": 5,
+      "loc_blank": 10,
+      "loc_code": 71,
+      "loc_comment": 3
+    }
+  },
+  "by_language": {
+    "backup": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "data": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "java": {
+      "files": 4,
+      "loc_blank": 9,
+      "loc_code": 62,
+      "loc_comment": 2
+    },
+    "jsp": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 10,
+      "loc_comment": 0
+    },
+    "make": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 4,
+      "loc_comment": 1
+    },
+    "other (.tpl)": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 0
+    },
+    "proc": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 9,
+      "loc_comment": 1
+    },
+    "properties": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 12,
+      "loc_comment": 3
+    },
+    "shell": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 9,
+      "loc_comment": 8
+    },
+    "sqlloader": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 5,
+      "loc_comment": 1
+    },
+    "xml": {
+      "files": 5,
+      "loc_blank": 0,
+      "loc_code": 35,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": null,
+      "complexity_avg": 1.33,
+      "component": "billing-batch",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.33,
+      "component": "orders-web",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.5,
+      "component": "settlement-c",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 2.0,
+      "component": "shared-scripts-config",
+      "dead_code_candidates": 1,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 9,
+      "loc_code": 87,
+      "name": "orders-web",
+      "type": "web"
+    },
+    {
+      "files": 6,
+      "loc_code": 33,
+      "name": "billing-batch",
+      "type": "batch"
+    },
+    {
+      "files": 4,
+      "loc_code": 14,
+      "name": "settlement-c",
+      "type": "batch"
+    },
+    {
+      "files": 4,
+      "loc_code": 14,
+      "name": "shared-scripts-config",
+      "type": "script"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {},
+      "scheduled": 0,
+      "total": 2,
+      "unscheduled": 2
+    },
+    "complexity": {
+      "batch_jobs": {},
+      "screens": {
+        "Simple": 1
+      },
+      "services": {
+        "Simple": 2
+      }
+    },
+    "db_objects": {
+      "table": 4
+    },
+    "dependencies": {
+      "resolved": 8,
+      "unresolved": 0
+    },
+    "entry_points": {
+      "main": 2
+    },
+    "eol_libraries": 0,
+    "findings": {
+      "build-output-skipped": 4,
+      "dead-code-candidate": 1,
+      "eol-technology": 1,
+      "no-tests": 4
+    },
+    "findings_by_severity": {
+      "info": 5,
+      "low": 4,
+      "medium": 1
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 1,
+        "FTP": 1,
+        "HTTP": 2,
+        "SMTP": 1
+      },
+      "total": 5
+    },
+    "libraries": {
+      "declared": 0,
+      "total": 0,
+      "undeclared": 0
+    },
+    "pg_grades": {
+      "auto": 3
+    },
+    "recommendations": {},
+    "screens": {
+      "by_technology": {
+        "jsp": 1
+      },
+      "partials": 0,
+      "total": 1
+    },
+    "services": {
+      "by_kind": {
+        "c-executable": 1,
+        "struts-action": 1
+      },
+      "total": 2
+    },
+    "sql": {
+      "by_source": {
+        "embedded": 1,
+        "jdbc": 2
+      },
+      "by_type": {
+        "INSERT": 1,
+        "SELECT": 1,
+        "UPDATE": 1
+      },
+      "distinct": 3,
+      "dynamic": 0,
+      "not_parsed": 0,
+      "total": 3
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {
+        "REST called": 1
+      },
+      "called": 1,
+      "offered": 0,
+      "operations": 1,
+      "total": 1
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 48.3,
+    "label": "estimate — weights from config",
+    "likely": 25.15,
+    "low": 12.5,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://billdb:1521/BILL",
+      "type": "DB",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "email",
+      "target": "smtp://mail.acme.local:25",
+      "type": "SMTP",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "file transfer",
+      "target": "files.acme.local:21",
+      "type": "FTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "login / authentication",
+      "target": "https://acme.okta.com/oauth2/default",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://pricing.acme.local/api/v2/prices",
+      "type": "HTTP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "java",
+      "loc_code": 20,
+      "path": "apps/orders-web/src/com/acme/orders/OrderDao.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 18,
+      "path": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 14,
+      "path": "apps/orders-web/src/com/acme/orders/OrderListAction.java"
+    },
+    {
+      "language": "jsp",
+      "loc_code": 10,
+      "path": "apps/orders-web/WebContent/jsp/orderList.jsp"
+    },
+    {
+      "language": "java",
+      "loc_code": 10,
+      "path": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 9,
+      "path": "apps/orders-web/WebContent/WEB-INF/web.xml"
+    },
+    {
+      "language": "proc",
+      "loc_code": 9,
+      "path": "settlement-c/src/settle.pc"
+    },
+    {
+      "language": "xml",
+      "loc_code": 8,
+      "path": "apps/orders-web/.project"
+    },
+    {
+      "language": "xml",
+      "loc_code": 8,
+      "path": "apps/orders-web/WebContent/WEB-INF/struts-config.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 6,
+      "path": "apps/orders-web/.classpath"
+    },
+    {
+      "language": "properties",
+      "loc_code": 5,
+      "path": "apps/billing-batch/properties/billing.properties"
+    },
+    {
+      "language": "sqlloader",
+      "loc_code": 5,
+      "path": "apps/billing-batch/sqlldr/invoices.ctl"
+    },
+    {
+      "language": "properties",
+      "loc_code": 5,
+      "path": "config/common.properties"
+    },
+    {
+      "language": "xml",
+      "loc_code": 4,
+      "path": "config/log4j.xml"
+    },
+    {
+      "language": "make",
+      "loc_code": 4,
+      "path": "settlement-c/Makefile.aix"
+    }
+  ],
+  "risky_libraries": [],
+  "run": {
+    "application": "Legacy layout (Eclipse, ksh and Pro*C sample)",
+    "run_id": "20261029-205636-3697fc",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/legacy-layout-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:36+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Make",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Oracle Pro*C",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Struts 1",
+      "version": null
+    },
+    {
+      "category": "upgrade-signal",
+      "eol": null,
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+      "line": 2,
+      "message": "Struts 1 ? is end of life since 2013-04-05; target Spring MVC (Spring Boot 4)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+      "line": null,
+      "message": "Component billing-batch has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "apps/orders-web/.project",
+      "line": null,
+      "message": "Component orders-web has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "config/common.properties",
+      "line": null,
+      "message": "Component shared-scripts-config has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "settlement-c/Makefile.aix",
+      "line": null,
+      "message": "Component settlement-c has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "apps/billing-batch/classes",
+      "line": null,
+      "message": "Left out of the scan: compiled output (no source or script inside); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+      "rule": "build-output-skipped",
+      "severity": "info"
+    },
+    {
+      "file": "apps/orders-web/bin",
+      "line": null,
+      "message": "Left out of the scan: Eclipse output folder (.classpath); 3 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+      "rule": "build-output-skipped",
+      "severity": "info"
+    },
+    {
+      "file": "settlement-c/obj",
+      "line": null,
+      "message": "Left out of the scan: compiled output (no source or script inside); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+      "rule": "build-output-skipped",
+      "severity": "info"
+    },
+    {
+      "file": "settlement-c/src/settle.c",
+      "line": null,
+      "message": "Left out of the scan: generated by the Pro*C precompiler; the file. Set inventory.skip_build_output: false in audit.yaml to scan it.",
+      "rule": "build-output-skipped",
+      "severity": "info"
+    },
+    {
+      "file": "scripts/deploy_all.sh",
+      "line": null,
+      "message": "Nothing reaches scripts/deploy_all.sh from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "orders-web",
+      "kind": "struts-action",
+      "name": "/orderList",
+      "tables": 1
+    },
+    {
+      "component": "settlement-c",
+      "kind": "c-executable",
+      "name": "settle",
+      "tables": 1
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "C"
+      ],
+      "name": "INVOICES",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDERS",
+      "references": 1
+    },
+    {
+      "crud": [
+        "U"
+      ],
+      "name": "PAYMENTS",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "USAGE_RECORDS",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 0,
+    "components": 4,
+    "db_objects": 4,
+    "dependencies": 8,
+    "entry_points": 2,
+    "files": 23,
+    "findings": 10,
+    "input_coverage": 7,
+    "input_files": 0,
+    "integrations": 5,
+    "libraries": 0,
+    "loc_blank": 11,
+    "loc_code": 148,
+    "loc_comment": 16,
+    "metrics": 4,
+    "screens": 1,
+    "services": 2,
+    "sql_statements": 3,
+    "tech_stack": 5,
+    "web_services": 1
+  },
+  "unresolved_references": 0,
+  "unscheduled_batch_entries": {
+    "billing-batch": [
+      {
+        "component": "billing-batch",
+        "file": "apps/billing-batch/ksh/run_invoices.ksh",
+        "id": "file:701038ea6711cc09",
+        "kind": "script",
+        "line": null,
+        "name": "run_invoices.ksh"
+      }
+    ],
+    "settlement-c": [
+      {
+        "component": "settlement-c",
+        "file": "settlement-c/scripts/run_settle.ksh",
+        "id": "file:92e0a15174f0100a",
+        "kind": "script",
+        "line": null,
+        "name": "run_settle.ksh"
+      }
+    ]
+  },
+  "unscheduled_batches": [
+    "billing-batch",
+    "settlement-c"
+  ],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "skipped"
+    },
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "skipped"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "shared-scripts-config",
+      "name": "pricing.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://pricing.acme.local"
+    }
+  ]
+}

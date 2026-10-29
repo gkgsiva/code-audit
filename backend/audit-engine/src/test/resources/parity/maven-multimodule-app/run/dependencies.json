@@ -1,0 +1,114 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "acme-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:dbd3f48b01b85879",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:dabc89301075db29",
+    "target": "file:13319a9b7f8fdcc5"
+  },
+  {
+    "evidence": [
+      {
+        "file": "ops/batch/eod/ksh/run_eod_report.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:d359ae2bb735eb15",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:064b3693f9f9ee5a",
+    "target": "file:22abe6486d722765"
+  },
+  {
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.ksh",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6f43b055858f4e2f",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:32af7ce796abc3e0",
+    "target": "file:40be2fabecc5a2b1"
+  },
+  {
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:3369e93bb07a6756",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:32af7ce796abc3e0",
+    "target": "file:e647eb938eef0e3c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "scripts/run_report.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:0780bf433126f2f0",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:5db508b2db743f52",
+    "target": "file:f28bab12b87ae159"
+  },
+  {
+    "evidence": [
+      {
+        "file": "ops/batch/archive/archive.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7e0071b154e3d083",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:7f96df664cef5cd9",
+    "target": "file:e647eb938eef0e3c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "ops/batch/eod/ksh/run_eod.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b52b09359f0138f9",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:a2d77c7787541297",
+    "target": "file:5ea8e9a95848318c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "scripts/run_billing.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c318896bc6c31f9d",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:fe4d981a1c922970",
+    "target": "file:3df129812f335192"
+  }
+]

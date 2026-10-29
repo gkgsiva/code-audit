@@ -1,0 +1,13 @@
+{
+  "audit_only": false,
+  "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+  "profile": "spring-boot-angular",
+  "skipped_stages": [],
+  "versions": {
+    "angular": "21",
+    "cloud": "gcp",
+    "database": "postgresql",
+    "java": "25",
+    "spring_boot": "4.1"
+  }
+}

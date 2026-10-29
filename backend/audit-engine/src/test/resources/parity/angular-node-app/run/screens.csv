@@ -1,0 +1,10 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:e3686719539f7784,legacy-portal/WebContent/views/account-detail.html:1,legacy-portal/WebContent/views/account-detail.html,angularjs,legacy-portal/WebContent/views/account-detail.html,,3,legacy-portal,Simple,0.7,false,file:76de9f41beb0b43b
+screen:6766cb7d4d1adef8,legacy-portal/WebContent/views/accounts.html:1,legacy-portal/WebContent/views/accounts.html,angularjs,legacy-portal/WebContent/views/accounts.html,,1,legacy-portal,Simple,0.26,false,file:76de9f41beb0b43b
+screen:b16360a779862f1f,orders-web/src/app/orders/order-detail.component.html:1,orders-web/src/app/orders/order-detail.component.html,angular,orders-web/src/app/orders/order-detail.component.html,,3,orders-web,Simple,0.72,false,file:931f5d69504fdfc0
+screen:7b3bcc123238791b,orders-web/src/app/orders/order-list.component.html:1,orders-web/src/app/orders/order-list.component.html,angular,orders-web/src/app/orders/order-list.component.html,,1,orders-web,Simple,0.35,false,file:931f5d69504fdfc0
+screen:72bc0388c7b08a4a,orders-web/src/app/reports/reports.component.html:1,orders-web/src/app/reports/reports.component.html,angular,orders-web/src/app/reports/reports.component.html,,2,orders-web,Simple,0.43,false,file:931f5d69504fdfc0
+screen:08add36d295dfd74,legacy-portal/WebContent/index.html:1,legacy-portal/WebContent/index.html,angularjs,legacy-portal/WebContent/index.html,,0,legacy-portal,,,true,file:0f86d188926d849d
+screen:464b2922a861d0f1,legacy-portal/WebContent/views/account-summary.html:1,legacy-portal/WebContent/views/account-summary.html,angularjs,legacy-portal/WebContent/views/account-summary.html,,0,legacy-portal,,,true,file:76de9f41beb0b43b
+screen:e5d0035a5e52c463,orders-web/src/app/app.component.html:1,orders-web/src/app/app.component.html,angular,orders-web/src/app/app.component.html,,0,orders-web,,,true,file:5351c26dc5161062
+screen:c101b168b056604c,orders-web/src/app/header/header.component.ts:17,HeaderComponent,angular,orders-web/src/app/header/header.component.ts,,1,orders-web,,,true,screen:e5d0035a5e52c463

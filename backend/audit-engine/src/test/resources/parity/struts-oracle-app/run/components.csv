@@ -1,0 +1,2 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:404d0ac1b34aff1f,build.xml,orders-web,web,orders-web,,build.xml,css;java;jsp;plsql;properties;shell;sql;xml,db;script;web,"{""binary"": 5, ""build"": 1, ""config"": 6, ""doc"": 1, ""screen"": 6, ""script"": 1, ""source"": 11, ""sql"": 3, ""test"": 1}",35,587,,build-file,,,,

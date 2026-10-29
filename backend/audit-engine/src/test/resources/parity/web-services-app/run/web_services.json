@@ -1,0 +1,560 @@
+[
+  {
+    "callers": [],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Offers 2 REST operations under /api/customers (Spring MVC).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java"
+    ],
+    "frameworks": [
+      "Spring MVC"
+    ],
+    "id": "web_service:ec1fa91de35ed668",
+    "integrations": [],
+    "name": "CustomerController",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "handler": "com.acme.orders.rest.CustomerController.get",
+        "line": 14,
+        "method": "GET",
+        "name": "GET /api/customers/{id}",
+        "path": "/api/customers/{id}",
+        "service_id": "service:1293784c8af29efc"
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "handler": "com.acme.orders.rest.CustomerController.update",
+        "line": 19,
+        "method": "PUT",
+        "name": "PUT /api/customers/{id}",
+        "path": "/api/customers/{id}",
+        "service_id": "service:4117cc4df4479b03"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/api/customers",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Offers 2 REST operations under /rest/orders (JAX-RS).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java"
+    ],
+    "frameworks": [
+      "JAX-RS"
+    ],
+    "id": "web_service:63a587e13ac875ec",
+    "integrations": [],
+    "name": "OrderResource",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "handler": "com.acme.orders.rest.OrderResource.create",
+        "line": 18,
+        "method": "POST",
+        "name": "POST /orders",
+        "path": "/orders",
+        "service_id": "service:00afadb0e15c7c1f"
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "handler": "com.acme.orders.rest.OrderResource.get",
+        "line": 12,
+        "method": "GET",
+        "name": "GET /orders/{id}",
+        "path": "/orders/{id}",
+        "service_id": "service:28af2fb2caf14d2a"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/rest/orders",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "quote-axis",
+    "components": [
+      "quote-axis"
+    ],
+    "description": "Offers 2 SOAP operations under /Calculator.jws (Apache Axis (JWS)).",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "quote-axis/WebContent/Calculator.jws"
+    ],
+    "frameworks": [
+      "Apache Axis (JWS)"
+    ],
+    "id": "web_service:8d71bb0297eac7b5",
+    "integrations": [],
+    "name": "Calculator",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "handler": "Calculator.add",
+        "line": 4,
+        "method": null,
+        "name": "add",
+        "path": "/Calculator.jws",
+        "service_id": "service:46b2cbdfaf324d27"
+      },
+      {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "handler": "Calculator.subtract",
+        "line": 8,
+        "method": null,
+        "name": "subtract",
+        "path": "/Calculator.jws",
+        "service_id": "service:c145515570eb1822"
+      }
+    ],
+    "side": "offered",
+    "style": "SOAP",
+    "url": "/Calculator.jws",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Offers 2 SOAP operations under /ws/OrderStatus (JAX-WS, Apache CXF, WSDL).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+      "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+      "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+    ],
+    "frameworks": [
+      "JAX-WS",
+      "Apache CXF",
+      "WSDL"
+    ],
+    "id": "web_service:261bc65825ba6991",
+    "integrations": [
+      "integration:18457dac69d9969a"
+    ],
+    "name": "OrderStatusService",
+    "namespace": "http://orders.acme.com/status",
+    "operations": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "handler": "com.acme.orders.ws.OrderStatusEndpoint.cancelOrder",
+        "line": 17,
+        "method": null,
+        "name": "cancelOrder",
+        "path": null,
+        "service_id": "service:b795b40a65017c9e"
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "handler": "com.acme.orders.ws.OrderStatusEndpoint.getStatus",
+        "line": 12,
+        "method": null,
+        "name": "getStatus",
+        "path": null,
+        "service_id": "service:fb4769b771fa9be6"
+      }
+    ],
+    "side": "offered",
+    "style": "SOAP",
+    "url": "/ws/OrderStatus",
+    "wsdl": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+  },
+  {
+    "callers": [],
+    "component": "quote-axis",
+    "components": [
+      "quote-axis"
+    ],
+    "description": "Offers 2 SOAP operations under /services/QuoteService (Apache Axis).",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "quote-axis/WebContent/WEB-INF/server-config.wsdd"
+    ],
+    "frameworks": [
+      "Apache Axis"
+    ],
+    "id": "web_service:c373ffb7d796c51c",
+    "integrations": [],
+    "name": "QuoteService",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "handler": "com.acme.quote.QuoteService.getQuote",
+        "line": 4,
+        "method": null,
+        "name": "getQuote",
+        "path": "/services/QuoteService",
+        "service_id": "service:409219de8e876f04"
+      },
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "handler": "com.acme.quote.QuoteService.listQuotes",
+        "line": 4,
+        "method": null,
+        "name": "listQuotes",
+        "path": "/services/QuoteService",
+        "service_id": "service:12ca1ec0ec1f0837"
+      }
+    ],
+    "side": "offered",
+    "style": "SOAP",
+    "url": "/services/QuoteService",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+    ],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Calls the payment-service REST service at https://payments.acme.local from 1 file (Feign, 2 operations seen).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": 13,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+      "orders-ws/src/main/resources/application.properties"
+    ],
+    "frameworks": [
+      "Feign"
+    ],
+    "id": "web_service:85115b94c1551c96",
+    "integrations": [
+      "integration:f4a0187a667c2878"
+    ],
+    "name": "payment-service",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "handler": "com.acme.orders.client.PaymentClient.charge",
+        "line": 13,
+        "method": "POST",
+        "name": "POST /api/charges",
+        "path": "/api/charges",
+        "service_id": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "handler": "com.acme.orders.client.PaymentClient.get",
+        "line": 16,
+        "method": "GET",
+        "name": "GET /api/charges/{id}",
+        "path": "/api/charges/{id}",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://payments.acme.local",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "component": "rate-feed",
+    "components": [
+      "rate-feed"
+    ],
+    "description": "Calls the rates.acme.local REST service at https://rates.acme.local from 1 file (libcurl, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "frameworks": [
+      "libcurl"
+    ],
+    "id": "web_service:ba0da9723a80e7d8",
+    "integrations": [
+      "integration:43e266087f4f8d30"
+    ],
+    "name": "rates.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "handler": null,
+        "line": 11,
+        "method": "ANY",
+        "name": "ANY /api/v1/rates/EUR",
+        "path": "/api/v1/rates/EUR",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://rates.acme.local",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+    ],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Calls the stock.acme.local REST service at https://stock.acme.local from 1 file (RestTemplate, 2 operations seen).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 13,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+    ],
+    "frameworks": [
+      "RestTemplate"
+    ],
+    "id": "web_service:ca15c1152e252aaf",
+    "integrations": [
+      "integration:60363d17c8e04144"
+    ],
+    "name": "stock.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "handler": "com.acme.orders.client.StockClient",
+        "line": 13,
+        "method": "GET",
+        "name": "GET /api/v2/items/?",
+        "path": "/api/v2/items/?",
+        "service_id": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "handler": "com.acme.orders.client.StockClient",
+        "line": 17,
+        "method": "POST",
+        "name": "POST /api/v2/reservations",
+        "path": "/api/v2/reservations",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://stock.acme.local",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+      "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java"
+    ],
+    "component": "orders-ws",
+    "components": [
+      "orders-ws"
+    ],
+    "description": "Calls the CrmService SOAP service at https://crm.acme.local/services/CrmService from 2 files (JAX-WS client, WSDL, 2 operations seen).",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": 9,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+      "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+      "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+    ],
+    "frameworks": [
+      "JAX-WS client",
+      "WSDL"
+    ],
+    "id": "web_service:02a212143b2db016",
+    "integrations": [
+      "integration:7e0557b523c338be"
+    ],
+    "name": "CrmService",
+    "namespace": "http://crm.acme.com/",
+    "operations": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "handler": null,
+        "line": 7,
+        "method": null,
+        "name": "findAccountManager",
+        "path": null,
+        "service_id": null
+      },
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "handler": null,
+        "line": 8,
+        "method": null,
+        "name": "updateContact",
+        "path": null,
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "SOAP",
+    "url": "https://crm.acme.local/services/CrmService",
+    "wsdl": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+  },
+  {
+    "callers": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "component": "rate-feed",
+    "components": [
+      "rate-feed"
+    ],
+    "description": "Calls the RateService SOAP service at http://treasury.acme.local/soap/RateService from 1 file (gSOAP, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "rate-feed/src/rate_feed.c"
+    ],
+    "frameworks": [
+      "gSOAP"
+    ],
+    "id": "web_service:e0e3d8e438b7b0d4",
+    "integrations": [
+      "integration:68a857b4b89335c7"
+    ],
+    "name": "RateService",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "handler": null,
+        "line": 16,
+        "method": null,
+        "name": "confirmRate",
+        "path": "/soap/RateService",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "SOAP",
+    "url": "http://treasury.acme.local/soap/RateService",
+    "wsdl": null
+  }
+]

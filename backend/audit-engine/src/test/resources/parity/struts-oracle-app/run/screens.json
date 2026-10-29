@@ -1,0 +1,145 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 1.09,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/error.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "WebContent/jsp/error.jsp",
+    "id": "screen:5c7d3fcc0e7289e9",
+    "name": "WebContent/jsp/error.jsp",
+    "partial": false,
+    "targeted_by": [
+      "file:7dfd681b2ad9e265",
+      "file:cba429da7240a83c",
+      "service:7faeee752a0d66a4"
+    ],
+    "technology": "jsp"
+  },
+  {
+    "action": "/login",
+    "complexity": "Simple",
+    "complexity_score": 3.59,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/login.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 2,
+    "file": "WebContent/jsp/login.jsp",
+    "id": "screen:05aa629fbec46620",
+    "name": "WebContent/jsp/login.jsp",
+    "partial": false,
+    "targeted_by": [
+      "file:7dfd681b2ad9e265",
+      "file:cba429da7240a83c",
+      "screen:5c7d3fcc0e7289e9",
+      "service:e238462a66aa312f"
+    ],
+    "technology": "jsp"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 3.14,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "WebContent/jsp/orderDetail.jsp",
+    "id": "screen:81b23756f56db307",
+    "name": "WebContent/jsp/orderDetail.jsp",
+    "partial": false,
+    "targeted_by": [
+      "service:7faeee752a0d66a4"
+    ],
+    "technology": "jsp"
+  },
+  {
+    "action": "/orderSearch",
+    "complexity": "Simple",
+    "complexity_score": 4.76,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 2,
+    "file": "WebContent/jsp/orderSearch.jsp",
+    "id": "screen:927c65728f5fbfe5",
+    "name": "WebContent/jsp/orderSearch.jsp",
+    "partial": false,
+    "targeted_by": [
+      "service:f1d82f2dd35b68cd"
+    ],
+    "technology": "jsp"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/common/footer.jspf",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "WebContent/jsp/common/footer.jspf",
+    "id": "screen:286d7c35a1040235",
+    "name": "WebContent/jsp/common/footer.jspf",
+    "partial": true,
+    "targeted_by": [
+      "screen:05aa629fbec46620",
+      "screen:81b23756f56db307",
+      "screen:927c65728f5fbfe5",
+      "tiles:base.layout"
+    ],
+    "technology": "jsp"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/common/header.jspf",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "WebContent/jsp/common/header.jspf",
+    "id": "screen:0b261a26c1e8c52d",
+    "name": "WebContent/jsp/common/header.jspf",
+    "partial": true,
+    "targeted_by": [
+      "screen:05aa629fbec46620",
+      "screen:81b23756f56db307",
+      "screen:927c65728f5fbfe5",
+      "tiles:base.layout"
+    ],
+    "technology": "jsp"
+  }
+]

@@ -1,0 +1,758 @@
+[
+  {
+    "category": "app-server",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/tomcat/context.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "deploy/tomcat/server.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:6ccbde39dad91df8",
+    "name": "Apache Tomcat",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "app-server",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b96d437f7945bd38",
+    "name": "IBM WebSphere Application Server",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "app-server",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/liberty/server.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:c9a3982a84279c2e",
+    "name": "IBM WebSphere Liberty",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "app-server",
+    "eol": true,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d490405950ac1564",
+    "name": "JBoss / WildFly",
+    "replacement": "Spring Boot 4 executable jar on GKE / Cloud Run",
+    "usages": 2,
+    "version": "4.2"
+  },
+  {
+    "category": "app-server",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/weblogic/config.xml",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "deploy/apache/httpd.conf",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:33a776db1385994d",
+    "name": "Oracle WebLogic Server",
+    "replacement": null,
+    "usages": 2,
+    "version": "12.2.1.4.0"
+  },
+  {
+    "category": "app-server",
+    "eol": true,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:c10d614413a6cf03",
+    "name": "Oracle WebLogic Server",
+    "replacement": "Spring Boot 4 executable jar on GKE / Cloud Run",
+    "usages": 1,
+    "version": "8.1"
+  },
+  {
+    "category": "auth",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "tech:dbd1bc994342cda5",
+    "name": "Okta SDK",
+    "replacement": null,
+    "usages": 1,
+    "version": "6.3.2"
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "deploy/tomcat/context.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/prisma/schema.prisma",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/db/pool.ts",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:aed3bfc155f4a24c",
+    "name": "PostgreSQL",
+    "replacement": null,
+    "usages": 4,
+    "version": "8.11.3"
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2025-05-15",
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f682bb78d8950800",
+    "name": "Angular",
+    "replacement": "Angular 21",
+    "usages": 12,
+    "version": "17.3.12"
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2021-12-31",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "legacy-portal/WebContent/js/controllers.js",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:26b4c9d2df520d21",
+    "name": "AngularJS",
+    "replacement": "Angular 21",
+    "usages": 5,
+    "version": "1.5.8"
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/server.ts",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 6,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d588f0aa1212f41e",
+    "name": "Express",
+    "replacement": null,
+    "usages": 7,
+    "version": "4.18.2"
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:6ceecfb4e390f21b",
+    "name": "NestJS",
+    "replacement": null,
+    "usages": 2,
+    "version": "10.3.0"
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/package.json",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "tech:3dd2760068ec2740",
+    "name": "Prisma",
+    "replacement": null,
+    "usages": 2,
+    "version": "5.10.0"
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "tech:00bd73573defe05d",
+    "name": "TypeORM",
+    "replacement": null,
+    "usages": 1,
+    "version": "0.3.20"
+  },
+  {
+    "category": "language",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d022745d9c5bd8e0",
+    "name": "TypeScript",
+    "replacement": null,
+    "usages": 1,
+    "version": "5.4.2"
+  },
+  {
+    "category": "language",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 22,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/prisma.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/db/pool.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/entities/order.entity.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/main.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/auth/auth.config.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-web/src/environments/environment.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:3784c378834d45d2",
+    "name": "TypeScript",
+    "replacement": null,
+    "usages": 25,
+    "version": "5.4.5"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "tech:74b8ae6a9fb14134",
+    "name": "Angular Material",
+    "replacement": null,
+    "usages": 1,
+    "version": "17.3.10"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d3a4a4b881867864",
+    "name": "Bootstrap",
+    "replacement": null,
+    "usages": 1,
+    "version": "3.3.7"
+  },
+  {
+    "category": "library",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "id": "tech:44be982129666129",
+    "name": "RxJS",
+    "replacement": null,
+    "usages": 1,
+    "version": "7.8.1"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2025-04-30",
+    "evidence": [
+      {
+        "file": "orders-api/Dockerfile",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:9a56887fbf4e6d4a",
+    "name": "Node.js",
+    "replacement": "Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "usages": 1,
+    "version": "18"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2025-04-30",
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "tech:3f936eb3bd0ceaec",
+    "name": "Node.js",
+    "replacement": "Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "usages": 1,
+    "version": "18.17"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2026-04-30",
+    "evidence": [
+      {
+        "file": "billing-api/.nvmrc",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/server.ts",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7f88b11e077ad391",
+    "name": "Node.js",
+    "replacement": "Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+    "usages": 4,
+    "version": "20.11"
+  },
+  {
+    "category": "runtime",
+    "eol": true,
+    "eol_date": "2013-06-12",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b3699c7001040a8e",
+    "name": "Servlet API",
+    "replacement": "Jakarta Servlet 6.1",
+    "usages": 1,
+    "version": "2.5"
+  },
+  {
+    "category": "scheduler",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4830cb7e7b42edab",
+    "name": "NestJS Schedule",
+    "replacement": null,
+    "usages": 1,
+    "version": "4.0.1"
+  },
+  {
+    "category": "scheduler",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "tech:ee6bfebdf55f62d2",
+    "name": "node-cron",
+    "replacement": null,
+    "usages": 1,
+    "version": "3.0.3"
+  },
+  {
+    "category": "web-server",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/apache/httpd.conf",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:20f30256ea9f4f27",
+    "name": "Apache HTTP Server",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "web-server",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "deploy/nginx/Dockerfile",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "deploy/nginx/nginx.conf",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:a4eb1d7f977b82bd",
+    "name": "Nginx",
+    "replacement": null,
+    "usages": 2,
+    "version": "1.25"
+  }
+]

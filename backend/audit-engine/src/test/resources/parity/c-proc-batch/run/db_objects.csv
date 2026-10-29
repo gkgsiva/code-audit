@@ -1,0 +1,5 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:239e17adfac9e411,src/settle_load.pc:18,CARD_TRANSACTIONS,table,,,sql:3324194cd7bafec9,"{""R"": [""sql:3324194cd7bafec9""]}",,
+db_object:9cb6e4dbb187c74b,sql/settle_report.sql:5,MERCHANTS,table,,,sql:dedf92e03171733a;sql:3324194cd7bafec9,"{""R"": [""sql:dedf92e03171733a"", ""sql:3324194cd7bafec9""]}",,
+db_object:67ea081cf7aa19f4,scripts/run_settlement.ksh:13,SETTLEMENT_LINES,table,,,sql:9916ac3a838164e5;sql:dedf92e03171733a;sql:7c7e766b1fca83a9,"{""C"": [""sql:7c7e766b1fca83a9""], ""R"": [""sql:9916ac3a838164e5"", ""sql:dedf92e03171733a""]}",,
+db_object:7b7be5baa02adf39,src/settle_load.pc:46,SETTLEMENT_RUNS,table,,,sql:4b592e7c074853a8,"{""U"": [""sql:4b592e7c074853a8""]}",,

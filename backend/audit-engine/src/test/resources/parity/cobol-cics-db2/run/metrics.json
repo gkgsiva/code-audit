@@ -1,0 +1,94 @@
+[
+  {
+    "bands": {
+      "Medium": 2,
+      "Simple": 3
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.62,
+    "complexity_max": 3,
+    "complexity_score": 6.15,
+    "component": "cobol-online",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 6,
+    "files": 8,
+    "id": "metric:d1d79fab4141688e",
+    "loc_blank": 0,
+    "loc_code": 185,
+    "loc_comment": 23,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 8
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": null,
+    "complexity_max": null,
+    "complexity_score": null,
+    "component": "ddl",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 1,
+    "id": "metric:de8f25c93b8c3f2a",
+    "loc_blank": 3,
+    "loc_code": 18,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 0
+  },
+  {
+    "bands": {
+      "Medium": 1
+    },
+    "complex_units": 0,
+    "complexity": "Medium",
+    "complexity_avg": null,
+    "complexity_max": null,
+    "complexity_score": 11.0,
+    "component": "jcl-jobs",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 2,
+    "files": 2,
+    "id": "metric:a2707fac53f075d8",
+    "loc_blank": 0,
+    "loc_code": 24,
+    "loc_comment": 6,
+    "test_files": 0,
+    "test_ratio": null,
+    "units": 0
+  }
+]

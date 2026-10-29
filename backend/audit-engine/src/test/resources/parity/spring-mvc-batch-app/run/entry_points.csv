@@ -1,0 +1,2 @@
+id,evidence,name,kind,file,line,component
+entry:8b73a66b154c7377,billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java:13,com.acme.billing.batch.PaymentListener,message-listener,billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java,13,billing-batch

@@ -1,0 +1,3 @@
+id,evidence,name,scheduler,kind,description,schedule,box,command,machine,condition,component,steps,programs,datasets,predecessors,on_failure,complexity,complexity_score
+batch_job:b72feb01614747e3,billing-api/src/invoices/invoices.service.ts:23,month-end-close,node-cron,job,Scheduled in the code with NestJS @Cron,30 1 1 * *,,billing-api/src/invoices/invoices.service.ts,,,billing-api,,InvoicesService.closeMonth,,,,Simple,5.11
+batch_job:e03b4d269df831f9,orders-api/src/jobs/nightly.ts:10,purge-old-orders,node-cron,job,Scheduled in the code with node-cron,0 2 * * *,,orders-api/src/jobs/nightly.ts,,,orders-api,,purgeOldOrders,,,,Simple,2.98

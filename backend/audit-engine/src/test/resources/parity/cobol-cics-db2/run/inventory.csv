@@ -1,0 +1,12 @@
+id,evidence,path,root,origin,component,language,category,size,sha256,encoding,loc_code,loc_comment,loc_blank
+file:14a39e5e45f6a9a5,bms/ORDMS1.bms,bms/ORDMS1.bms,mainframe,source,cobol-online,bms,screen,760,d932cca325293041d5ecd878828fe716b44de325aa334fc99b9bacbd4345005a,utf-8,14,1,0
+file:af67c464e1cafafe,cobol/DATECONV.cbl,cobol/DATECONV.cbl,mainframe,source,cobol-online,cobol,source,552,1667ea4acdbc9014f00baf731ea99240b90e3006777beed9a98ba3a66428c9d9,utf-8,10,3,0
+file:8dcb75eaa970ab4d,cobol/ORDBATCH.cbl,cobol/ORDBATCH.cbl,mainframe,source,cobol-online,cobol,source,1692,7f5d92a29d573d7f345df95be97c7e4fb1bbd629d567d4f55c82bbc5f4881ad9,utf-8,42,3,0
+file:558ee7a09cfe475b,cobol/ORDINQ.cbl,cobol/ORDINQ.cbl,mainframe,source,cobol-online,cobol,source,1549,8d51a74b152cef264a5e369163520515d0e1346cf7873e29f463acd43f2275d2,utf-8,35,3,0
+file:8cea60a5885e91e6,cobol/ORDRPT.cbl,cobol/ORDRPT.cbl,mainframe,source,cobol-online,cobol,source,2128,ab96746c0b8981f6a088e9685d2497cd1e54ceeb623b72475be9a4fd4f737a29,utf-8,48,4,0
+file:56b61ea2279a5781,cobol/ORDVAL.cbl,cobol/ORDVAL.cbl,mainframe,source,cobol-online,cobol,source,837,8e04814eecbfc8ab67d35169b0bcdfac70312f093f682ba28046b1f5234283b3,utf-8,19,3,0
+file:99876954b7288958,copybook/CUSTDCL.cpy,copybook/CUSTDCL.cpy,mainframe,source,cobol-online,cobol,source,628,a87d2192e6da3384788af1c775f4474e9dca73bcbc0f6ab7ecfc78ffac34d29f,utf-8,9,3,0
+file:72866e90da93653f,copybook/ORDREC.cpy,copybook/ORDREC.cpy,mainframe,source,cobol-online,cobol,source,570,b62c4c526b04d881b358c77c830a6a70e03bdc9dcab6a910b9f15326ce462759,utf-8,8,3,0
+file:074f720580d550aa,ddl/orders_db2.sql,ddl/orders_db2.sql,mainframe,source,ddl,sql,sql,542,aa391196f8a689a8c1ad674c8328b0098d1397a51189ac812bf3409aa99f22f2,utf-8,18,1,3
+file:223c56fe14adc296,jcl/ORDNIGHT.jcl,jcl/ORDNIGHT.jcl,mainframe,source,jcl-jobs,jcl,job,724,4143c74dfa562bc61446dbcc01172195acd2e8d41b9420c6dae1e6407184a9b7,utf-8,14,3,0
+file:f8df012f502a0c80,proclib/ORDRPTP.jcl,proclib/ORDRPTP.jcl,mainframe,source,jcl-jobs,jcl,job,418,8bbb09acb2c38d872224f0c306eb7b08c3460732591e4b7644e950fcc61a4a80,utf-8,10,3,0

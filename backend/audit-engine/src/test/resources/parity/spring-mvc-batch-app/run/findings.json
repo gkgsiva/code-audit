@@ -1,0 +1,401 @@
+[
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:4ae649e1116bc513",
+    "line": 24,
+    "message": "log4j 1.2.17 has 1 known vulnerabilities (CVE-2019-17571); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "critical"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:8734bfe9cd56b8bb",
+    "line": 16,
+    "message": "hibernate-core 4.3.11.Final has 1 known vulnerabilities (CVE-2020-25638); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:82ee68fa3b2478c4",
+    "line": 20,
+    "message": "mybatis 3.4.6 has 1 known vulnerabilities (CVE-2020-26945); OWASP A06 Vulnerable and Outdated Components",
+    "remediation": "Upgrade to the recommended version (see the library's recommendation).",
+    "rule_id": "vulnerable-library",
+    "severity": "high"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/pom.xml",
+    "id": "finding:1e941eb75c90c7be",
+    "line": 17,
+    "message": "spring-batch-core 3.0.10.RELEASE is end of life since 2023-11-18; replace with Spring Batch 6 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/pom.xml",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/pom.xml",
+    "id": "finding:a4f61e92245fef35",
+    "line": 21,
+    "message": "spring-jms 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:06bada770fa2693e",
+    "line": 12,
+    "message": "spring-jdbc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:ffd6a4aeed1f34cc",
+    "line": 16,
+    "message": "hibernate-core 4.3.11.Final is end of life since 2022-12-31; replace with Hibernate ORM 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:47d5ec8149a5ddc4",
+    "line": 24,
+    "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "file": "billing-web/pom.xml",
+    "id": "finding:d0efae924941a613",
+    "line": 18,
+    "message": "spring-webmvc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "file": "billing-web/pom.xml",
+    "id": "finding:d3406a0920ea3d35",
+    "line": 26,
+    "message": "spring-security-ldap 4.2.20.RELEASE is end of life since 2024-02-28; replace with Spring Security 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/pom.xml",
+    "id": "finding:b3fd02bce50baaf9",
+    "line": 17,
+    "message": "Spring Batch 3.0.10.RELEASE is end of life since 2023-11-18; target Spring Batch 6",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/pom.xml",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/pom.xml",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/pom.xml",
+    "id": "finding:4cd3c009ebb2f2d6",
+    "line": 21,
+    "message": "Spring Framework 4.3.30.RELEASE is end of life since 2024-08-31; target Spring Framework 7 (Spring Boot 4)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:57c7f2ac3634241f",
+    "line": 16,
+    "message": "Hibernate 4.3.11.Final is end of life since 2022-12-31; target Hibernate ORM 7",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:a7b78166e395a4d5",
+    "line": 24,
+    "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+    "id": "finding:9a8bd5cc6f729639",
+    "line": 2,
+    "message": "Servlet API 2.5 is end of life since 2013-06-12; target Jakarta Servlet 6.1",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "pom.xml",
+    "id": "finding:ff819d6ec0a64416",
+    "line": 2,
+    "message": "Java 1.8 is end of life since 2019-01-31; target Java 25",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 40,
+        "snippet": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "id": "finding:4633b01b2242fe25",
+    "line": 40,
+    "message": "Manual PostgreSQL conversion (1x): SELECT at billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java:40 — part of the statement is only known at run time (1 place(s))",
+    "remediation": "Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.",
+    "rule_id": "pg-manual-sql",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 40,
+        "snippet": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "id": "finding:ab11ae29b69f9ea1",
+    "line": 40,
+    "message": "Part of the SQL statement is only known at run time (1x; jdbc-template) in billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "remediation": "Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.",
+    "rule_id": "sql-runtime-structure",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/pom.xml",
+    "id": "finding:37b94840fe0e7b8e",
+    "line": null,
+    "message": "Component billing-batch has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/pom.xml",
+    "id": "finding:6c36fcc3c821e70b",
+    "line": null,
+    "message": "Component billing-common has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-web/pom.xml",
+    "id": "finding:395be9c8ee470ddb",
+    "line": null,
+    "message": "Component billing-web has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "linking",
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 27,
+        "snippet": null
+      }
+    ],
+    "file": "audit-inputs/autosys/billing.jil",
+    "id": "finding:20f6c408d033b845",
+    "line": 27,
+    "message": "BIL_ARCHIVE invokes 'archive_usage.sh', which was not found in the scanned files (looked for: file-name, c-executable)",
+    "remediation": null,
+    "rule_id": "unresolved-reference",
+    "severity": "info"
+  }
+]

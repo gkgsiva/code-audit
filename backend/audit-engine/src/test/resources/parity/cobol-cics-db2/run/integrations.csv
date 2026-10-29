@@ -1,0 +1,4 @@
+id,evidence,type,target,direction,protocol,usages,source_files,producers,consumers,components,details,purpose,endpoints,grouped_ids,description
+integration:ee357e873520c56e,cobol/ORDBATCH.cbl:9,FILE,DD:ORDIN,inbound,,1,cobol/ORDBATCH.cbl,,,cobol-online,"{""select"": ""ORDER-IN""}",file,,,Reads the file DD:ORDIN; 1 place in the code.
+integration:32a1c02ac6897e0d,cobol/ORDBATCH.cbl:10,FILE,DD:ORDOUT,outbound,,1,cobol/ORDBATCH.cbl,,,cobol-online,"{""select"": ""ORDER-OUT""}",file,,,Writes the file DD:ORDOUT; 1 place in the code.
+integration:8b09638797fc554e,cobol/ORDRPT.cbl:9,FILE,DD:RPTOUT,outbound,,1,cobol/ORDRPT.cbl,,,cobol-online,"{""select"": ""REPORT-FILE""}",file,,,Writes the file DD:RPTOUT; 1 place in the code.

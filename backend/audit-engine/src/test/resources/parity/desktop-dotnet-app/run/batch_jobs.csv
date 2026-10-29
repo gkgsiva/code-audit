@@ -1,0 +1,4 @@
+id,evidence,name,scheduler,kind,description,schedule,box,command,machine,condition,component,steps,programs,datasets,predecessors,on_failure,complexity,complexity_score
+batch_job:ac2f740964945358,billing-api-cs/Program.cs:9,close-invoices,hangfire,job,Scheduled in the code with Hangfire RecurringJob,daily at 02:00,,billing-api-cs/Program.cs,,,billing-api-cs,,j.CloseOverdue(),,,,Simple,0.09
+batch_job:69caee0fdafdc640,nightly-export-cs/tasks/NightlyExport.xml:2,NightlyExport,windows-task,job,Exports the day's invoices to the file server for the ledger team.,daily at 01:30,,C:\Billing\NightlyExport\NightlyExport.exe,,,nightly-export-cs,,NightlyExport.exe,,,,Simple,0.0
+batch_job:b84be3d07278c9a9,nightly-export-cs/tasks/install-tasks.cmd:3,WeeklyPurge,windows-task,job,Windows Task Scheduler task,weekly on SUN at 03:00,,C:\Billing\NightlyExport\NightlyExport.exe /purge,,,nightly-export-cs,,NightlyExport.exe,,,,Simple,0.23

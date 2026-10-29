@@ -1,0 +1,9 @@
+id,evidence,source,target,kind,resolved
+edge:48a24f17e926ed09,apps/orders-web/WebContent/WEB-INF/struts-config.xml:4,service:c7e610da228b1314,file:2cce1d0e5263bfab,calls,true
+edge:03730dbd1f911555,apps/orders-web/WebContent/WEB-INF/struts-config.xml:5,service:c7e610da228b1314,screen:bcfc28694d8460e2,forwards,true
+edge:fca1918520028a55,apps/billing-batch/ksh/run_invoices.ksh:4,file:701038ea6711cc09,file:4b447c43f65d4d6c,invokes,true
+edge:f2990e02fdac18e2,apps/billing-batch/ksh/run_invoices.ksh:3,file:701038ea6711cc09,file:cc4e652655509787,invokes,true
+edge:6f8b7168b131df82,settlement-c/scripts/run_settle.ksh:3,file:92e0a15174f0100a,service:6944fc5f2e382c7c,invokes,true
+edge:5b9d339e1cd9013b,apps/orders-web/WebContent/jsp/orderList.jsp:5,screen:bcfc28694d8460e2,service:c7e610da228b1314,submits,true
+edge:85ae2f7ae105c5af,apps/orders-web/src/com/acme/orders/OrderListAction.java,file:2cce1d0e5263bfab,file:d850d9707d5dd44e,uses,true
+edge:adb45f410054b21f,apps/orders-web/src/com/acme/orders/OrderDao.java,file:d850d9707d5dd44e,file:1978d0c7415c175d,uses,true

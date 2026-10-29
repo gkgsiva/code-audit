@@ -1,0 +1,204 @@
+[
+  {
+    "components": [
+      "deploy"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://portaldb.acme.local:1521/PORTAL; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "deploy/tomcat/context.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:5a89274168e5aa23",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "deploy/jboss/standalone.xml",
+      "deploy/tomcat/context.xml"
+    ],
+    "target": "oracle://portaldb.acme.local:1521/PORTAL",
+    "type": "DB",
+    "usages": 2
+  },
+  {
+    "components": [
+      "orders-api"
+    ],
+    "consumers": [],
+    "description": "Connects to the database postgres://ordersdb.acme.local:5432/orders; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:260b572e1b09e8d0",
+    "producers": [],
+    "protocol": "postgres",
+    "purpose": "database",
+    "source_files": [
+      "orders-api/src/db/data-source.ts"
+    ],
+    "target": "postgres://ordersdb.acme.local:5432/orders",
+    "type": "DB",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Login / authentication with Okta (OAuth 2.0 / OpenID Connect) at acme.okta.com; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-web/src/app/auth/auth.config.ts",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:0542a33759468c83",
+    "producers": [],
+    "protocol": null,
+    "purpose": "login / authentication",
+    "source_files": [
+      "orders-web/src/app/auth/auth.config.ts"
+    ],
+    "target": "https://acme.okta.com/oauth2/default",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api on billing-api.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:5a123c69b99a3916",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-web/src/environments/environment.prod.ts"
+    ],
+    "target": "https://billing-api.acme.local/api",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api/v1/geocode on geo.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 36,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:c7b2d46e15e598fc",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-web/src/app/orders/order.service.ts"
+    ],
+    "target": "https://geo.acme.local/api/v1/geocode",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api on orders-api.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:b27194334635ce02",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-web/src/environments/environment.prod.ts"
+    ],
+    "target": "https://orders-api.acme.local/api",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-api"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api/v1/charges on payments.acme.local; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:75d19e48e7cc3446",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "orders-api/src/services/order.service.ts"
+    ],
+    "target": "https://payments.acme.local/api/v1/charges",
+    "type": "HTTP",
+    "usages": 1
+  }
+]

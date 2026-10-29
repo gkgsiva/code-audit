@@ -1,0 +1,17 @@
+[
+  {
+    "component": "billing-batch",
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+    "id": "entry:8b73a66b154c7377",
+    "kind": "message-listener",
+    "line": 13,
+    "name": "com.acme.billing.batch.PaymentListener"
+  }
+]

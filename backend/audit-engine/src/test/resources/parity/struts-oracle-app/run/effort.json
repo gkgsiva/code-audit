@@ -1,0 +1,234 @@
+{
+  "by_component": {
+    "(database)": {
+      "high": 8.0,
+      "likely": 4.0,
+      "low": 2.0
+    },
+    "orders-web": {
+      "high": 113.4,
+      "likely": 60.2,
+      "low": 32.5
+    }
+  },
+  "high": 121.4,
+  "label": "estimate — weights from config",
+  "likely": 64.2,
+  "lines": [
+    {
+      "component": "(database)",
+      "count": 1,
+      "high": 8.0,
+      "item": "stored_procedure",
+      "level": "manual",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "orders-web",
+      "count": 3,
+      "high": 24.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 12.0,
+      "low": 6.0
+    },
+    {
+      "component": "orders-web",
+      "count": 5,
+      "high": 50.0,
+      "item": "library",
+      "level": "replace",
+      "likely": 25.0,
+      "low": 15.0
+    },
+    {
+      "component": "orders-web",
+      "count": 4,
+      "high": 8.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "orders-web",
+      "count": 3,
+      "high": 18.0,
+      "item": "service",
+      "level": "medium",
+      "likely": 12.0,
+      "low": 6.0
+    },
+    {
+      "component": "orders-web",
+      "count": 1,
+      "high": 3.0,
+      "item": "service",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "orders-web",
+      "count": 4,
+      "high": 0.4,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.2,
+      "low": 0.0
+    },
+    {
+      "component": "orders-web",
+      "count": 10,
+      "high": 10.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 5.0,
+      "low": 2.5
+    }
+  ],
+  "low": 34.5,
+  "unit": "person-days",
+  "weights": {
+    "batch_job": {
+      "complex": [
+        4,
+        6,
+        9
+      ],
+      "medium": [
+        2,
+        3,
+        5
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        8,
+        12,
+        18
+      ]
+    },
+    "integration": {
+      "each": [
+        2,
+        4,
+        8
+      ]
+    },
+    "library": {
+      "keep": [
+        0,
+        0,
+        0
+      ],
+      "migrate-jakarta": [
+        0.5,
+        1,
+        2
+      ],
+      "remove": [
+        0.5,
+        1,
+        2
+      ],
+      "replace": [
+        3,
+        5,
+        10
+      ],
+      "rewrite": [
+        10,
+        20,
+        40
+      ],
+      "upgrade": [
+        0.25,
+        0.5,
+        1
+      ],
+      "use-bom": [
+        0,
+        0.1,
+        0.25
+      ]
+    },
+    "screen": {
+      "complex": [
+        2,
+        4,
+        6
+      ],
+      "medium": [
+        1,
+        2,
+        3
+      ],
+      "simple": [
+        0.5,
+        1,
+        2
+      ],
+      "very_complex": [
+        4,
+        7,
+        10
+      ]
+    },
+    "service": {
+      "complex": [
+        5,
+        8,
+        12
+      ],
+      "medium": [
+        2,
+        4,
+        6
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        10,
+        15,
+        25
+      ]
+    },
+    "sql": {
+      "auto": [
+        0,
+        0.05,
+        0.1
+      ],
+      "manual": [
+        1,
+        2,
+        3
+      ],
+      "review": [
+        0.25,
+        0.5,
+        1
+      ]
+    },
+    "stored_procedure": {
+      "manual": [
+        2,
+        4,
+        8
+      ],
+      "review": [
+        1,
+        2,
+        4
+      ]
+    }
+  }
+}

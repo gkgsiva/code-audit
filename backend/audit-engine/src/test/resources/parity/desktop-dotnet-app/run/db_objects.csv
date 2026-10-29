@@ -1,0 +1,11 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:ebdc58cf261664f1,billing-desk-vb6/modDb.bas:28,AUDIT_LOG,table,,,sql:1ded0793b141bdda,"{""C"": [""sql:1ded0793b141bdda""]}",,
+db_object:92dea19f59c41297,legacy-webforms/Default.aspx.cs:15,CRM_CONTACT,table,,,sql:df82b48f9feee43a,"{""R"": [""sql:df82b48f9feee43a""]}",,
+db_object:269797a20e5dd176,legacy-webforms/Default.aspx:9,CRM_REGION,table,,,sql:64aec38ead3f0edc,"{""R"": [""sql:64aec38ead3f0edc""]}",,
+db_object:ba880a1b125aeb90,billing-desk-vb6/frmCustomer.frm:62,CUSTOMER,table,,,sql:961ff522a90f3d93;sql:ecb410d75dd43168;sql:a30a7675778ff289,"{""R"": [""sql:961ff522a90f3d93"", ""sql:ecb410d75dd43168"", ""sql:a30a7675778ff289""]}",,
+db_object:912701167cd05f10,billing-api-cs/Controllers/InvoicesController.cs:19,INVOICE,table,,,sql:307ee3cf768bf3fb;sql:18644c4468df79da;sql:0c3a8acd0af64c2f;sql:248d8a6b25f70955,"{""C"": [""sql:18644c4468df79da""], ""R"": [""sql:307ee3cf768bf3fb"", ""sql:248d8a6b25f70955""], ""U"": [""sql:0c3a8acd0af64c2f""]}",,
+db_object:ef97536d0298e878,orders-winforms-vbnet/OrderRepository.vb:30,ORDERS,table,,,sql:a30a7675778ff289;sql:7e35f06e6f2b49c5,"{""R"": [""sql:a30a7675778ff289"", ""sql:7e35f06e6f2b49c5""]}",,
+db_object:e7da5d3ac14d9736,orders-winforms-vbnet/OrderRepository.vb:42,ORDER_LINE,table,,,sql:dbaf56c9f1f35d5b,"{""R"": [""sql:dbaf56c9f1f35d5b""]}",,
+db_object:147f8a823ecc978c,billing-desk-vb6/frmCustomer.frm:34,REGION,table,,,sql:a47fa3a24b31517d,"{""R"": [""sql:a47fa3a24b31517d""]}",,
+db_object:1d31458047c524b9,inventory-wpf-cs/Data/StockRepository.cs:24,STOCK_ITEM,table,,,sql:c0c944541637be6e;sql:8e8c9d376e871144;sql:5d2079f54f251065;sql:56c7b323297b90f7;sql:007661f9e5e5b50f,"{""R"": [""sql:c0c944541637be6e"", ""sql:5d2079f54f251065"", ""sql:56c7b323297b90f7"", ""sql:007661f9e5e5b50f""], ""U"": [""sql:8e8c9d376e871144""]}",,
+db_object:b124a84fd557efdf,inventory-wpf-cs/Data/StockRepository.cs:24,WAREHOUSE,table,,,sql:c0c944541637be6e,"{""R"": [""sql:c0c944541637be6e""]}",,

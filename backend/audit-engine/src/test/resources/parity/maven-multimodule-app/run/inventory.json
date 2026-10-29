@@ -1,0 +1,640 @@
+[
+  {
+    "category": "doc",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "README.md",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1aeeb3e77b5cb1b4",
+    "language": "markdown",
+    "loc_blank": 1,
+    "loc_code": 0,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "README.md",
+    "root": "estate",
+    "sha256": "b95814107f0709f5020062872cd05533aa2e5cf114df2a0df2ba44bfc2f10cc2",
+    "size": 114
+  },
+  {
+    "category": "build",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-core/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8b82f971110d56cd",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-core/pom.xml",
+    "root": "estate",
+    "sha256": "b0cfc9b5e7f49c30585b470c47ee94b26c36f1079544ee5cd5bb58182b720c3c",
+    "size": 387
+  },
+  {
+    "category": "source",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ed876e91f1e12086",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 15,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+    "root": "estate",
+    "sha256": "443be16ab03c55d41dd0f5ab271a587d201350312cf87bded81af62965c8d101",
+    "size": 527
+  },
+  {
+    "category": "build",
+    "component": "acme-ear",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-ear/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d2701acea310c651",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 21,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-ear/pom.xml",
+    "root": "estate",
+    "sha256": "e9283260d0fe8cb9ae45324c06a7e7f35260c6e41943e0d6d991efb8abea8b9e",
+    "size": 584
+  },
+  {
+    "category": "config",
+    "component": "acme-ear",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-ear/src/main/application/META-INF/application.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:557f70cee25ef6a4",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-ear/src/main/application/META-INF/application.xml",
+    "root": "estate",
+    "sha256": "4d0a1f8ebe82ef003892e52f30e0523f8878a7388dbe244105609d40e9a6f0d7",
+    "size": 191
+  },
+  {
+    "category": "build",
+    "component": "acme-tools",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-tools/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:579debdb80d8646e",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-tools/pom.xml",
+    "root": "estate",
+    "sha256": "9c80f24bf162ab8fc77eaa0457b09626e9a96b1abe14b97a966cdfdd656d27a7",
+    "size": 388
+  },
+  {
+    "category": "source",
+    "component": "acme-tools",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-tools/src/main/java/com/acme/tools/Checksum.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:258939ccb302dad0",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 12,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "acme-tools/src/main/java/com/acme/tools/Checksum.java",
+    "root": "estate",
+    "sha256": "c3885fac5f8fec231db037c9e0e94f3e5e332c5d88b4215417d8a8bfcec6581d",
+    "size": 299
+  },
+  {
+    "category": "build",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e8ef87929a7529be",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 20,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-web/pom.xml",
+    "root": "estate",
+    "sha256": "2c78b795e1d118658493ab0cb40d08ce8ec064d5ba75a24ee2c421462453bddd",
+    "size": 562
+  },
+  {
+    "category": "source",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-web/src/main/java/com/acme/web/CustomerServlet.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:13319a9b7f8fdcc5",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 10,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "acme-web/src/main/java/com/acme/web/CustomerServlet.java",
+    "root": "estate",
+    "sha256": "3583f77b573f3760a0fc6a724989db601eff6fde09b316bf360356d66a10362e",
+    "size": 389
+  },
+  {
+    "category": "config",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-web/src/main/webapp/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d93a4caf96436af4",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-web/src/main/webapp/WEB-INF/web.xml",
+    "root": "estate",
+    "sha256": "9a014e25db308d580455215eb1558f2b6004c8ac8a288502f2956ff12aac9e04",
+    "size": 315
+  },
+  {
+    "category": "screen",
+    "component": "acme-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "acme-web/src/main/webapp/customer.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:33ab3aaa52592683",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "acme-web/src/main/webapp/customer.jsp",
+    "root": "estate",
+    "sha256": "86955eca374a7938959981777a8f9c61646d98432c5a931df83f567c188e099f",
+    "size": 118
+  },
+  {
+    "category": "build",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "batches/billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:2167487a2539778e",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "batches/billing-batch/pom.xml",
+    "root": "estate",
+    "sha256": "9bb6be8bf7c67bebc332df9544d3886a7c7ba2b717a74e9a2396660ca4e9f5f0",
+    "size": 392
+  },
+  {
+    "category": "source",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3df129812f335192",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java",
+    "root": "estate",
+    "sha256": "02c65edd8e3dce6d631d5d6c4af085611979b6e6dc80f54463664f94a6e3ec12",
+    "size": 274
+  },
+  {
+    "category": "build",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "batches/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7b5a15f4377f9dc1",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 17,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "batches/pom.xml",
+    "root": "estate",
+    "sha256": "091b17d6affd5e6e81e1252fa1fad3f47ae4be7736fb8b431a6836fa5b81dbc5",
+    "size": 484
+  },
+  {
+    "category": "build",
+    "component": "report-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "batches/report-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:47d57afb09e012dd",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "batches/report-batch/pom.xml",
+    "root": "estate",
+    "sha256": "4b44c9d7a5389cd046f49db4fc313d700276081790315552e5c31deae2698e54",
+    "size": 391
+  },
+  {
+    "category": "source",
+    "component": "report-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "batches/report-batch/src/main/java/com/acme/report/ReportMain.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f28bab12b87ae159",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "batches/report-batch/src/main/java/com/acme/report/ReportMain.java",
+    "root": "estate",
+    "sha256": "551d249d534deeb604916c56a6c7923d1d7ac43d5ff74779c5b0b9d61e3ea5a4",
+    "size": 263
+  },
+  {
+    "category": "config",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:65659a04fc26d109",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "config/app.properties",
+    "root": "estate",
+    "sha256": "75fb5b529f38eeddd616a116f72ddaff28033c578a8c86a8cb6a4d64047d074e",
+    "size": 129
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/archive/archive.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7f96df664cef5cd9",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "ops/batch/archive/archive.ksh",
+    "root": "estate",
+    "sha256": "2435aadf5eff8d80eab6eb2cdfd58e716041c0a5c098d3b58fa7874eb4781aa6",
+    "size": 165
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/common/functions.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e647eb938eef0e3c",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "ops/batch/common/functions.ksh",
+    "root": "estate",
+    "sha256": "8a3faef3fb730966a34bf4c1641f3eb2ea41656fc4a9e1d22fbf41d23fd27988",
+    "size": 95
+  },
+  {
+    "category": "config",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/env.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e7fa4b0675c4479a",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "ops/batch/env.properties",
+    "root": "estate",
+    "sha256": "b4320c67c51cce9b8f93e5cd81a031bb62aa8af6dfc507354a8cb8c2004acf54",
+    "size": 60
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/eod/ksh/run_eod.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a2d77c7787541297",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "ops/batch/eod/ksh/run_eod.ksh",
+    "root": "estate",
+    "sha256": "4a79e7ea49562c263e74a3a638397d4a9cde15df5d8435c6276cee413ef49180",
+    "size": 107
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/eod/ksh/run_eod_report.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:064b3693f9f9ee5a",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "ops/batch/eod/ksh/run_eod_report.ksh",
+    "root": "estate",
+    "sha256": "c777fdfd204f7a1c5466a80ea03f11bbac2fef2de6193744ad438d2667346758",
+    "size": 115
+  },
+  {
+    "category": "sql",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_close.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5ea8e9a95848318c",
+    "language": "sql",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "ops/batch/eod/sql/eod_close.sql",
+    "root": "estate",
+    "sha256": "2f0b80ae1c37cca7f33a31023206a22a167eb728c4eccf5d4a3f376676d74602",
+    "size": 99
+  },
+  {
+    "category": "sql",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_report.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:22abe6486d722765",
+    "language": "sql",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "ops/batch/eod/sql/eod_report.sql",
+    "root": "estate",
+    "sha256": "62fee22b3d4c43bf0bf4d98bb9935dae477dcecb1df7b8c42221afbca52ade6f",
+    "size": 85
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:32af7ce796abc3e0",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "ops/batch/purge/purge.ksh",
+    "root": "estate",
+    "sha256": "a282a0907e3196d933aaf4f99382543dfb7db16559ea47cee3e2a30179cab08a",
+    "size": 149
+  },
+  {
+    "category": "sql",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:40be2fabecc5a2b1",
+    "language": "sql",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "ops/batch/purge/purge.sql",
+    "root": "estate",
+    "sha256": "6b4b95c57524abcaca5d488d143d9012a5e3dd7a43ed049c7295c62efbb4dade",
+    "size": 93
+  },
+  {
+    "category": "build",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:76abbddc0ced5706",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 25,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "pom.xml",
+    "root": "estate",
+    "sha256": "920b380bf734b019fb213bb7d2c23ef0183c5cad9ff2ed4a0285704d3d7b3a08",
+    "size": 641
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/run_billing.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fe4d981a1c922970",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "scripts/run_billing.ksh",
+    "root": "estate",
+    "sha256": "6d798c324464ebac9314338251accc19e35af0f5bc0518a6d41144f17e9e73b8",
+    "size": 173
+  },
+  {
+    "category": "script",
+    "component": "acme-parent-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/run_report.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5db508b2db743f52",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "scripts/run_report.ksh",
+    "root": "estate",
+    "sha256": "8c7b771bc83fd3b1515cec78765f06956141999e86a5881fe69d3078ad92fe40",
+    "size": 166
+  }
+]

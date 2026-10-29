@@ -1,0 +1,42 @@
+[
+  {
+    "callers": [],
+    "component": "billing-web",
+    "components": [
+      "billing-web"
+    ],
+    "description": "Offers 1 REST operation under /health (Spring MVC).",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "billing-web/src/main/java/com/acme/billing/web/HealthController.java"
+    ],
+    "frameworks": [
+      "Spring MVC"
+    ],
+    "id": "web_service:b1ec315294363ca9",
+    "integrations": [],
+    "name": "HealthController",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+        "handler": "com.acme.billing.web.HealthController.health",
+        "line": 12,
+        "method": "GET",
+        "name": "GET /health",
+        "path": "/health",
+        "service_id": "service:209770cc4cf1d8ed"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/health",
+    "wsdl": null
+  }
+]

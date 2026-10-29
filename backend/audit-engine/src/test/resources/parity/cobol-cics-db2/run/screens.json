@@ -1,0 +1,44 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.47,
+    "component": "cobol-online",
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "fields_count": 2,
+    "file": "bms/ORDMS1.bms",
+    "id": "screen:b8907223be167a85",
+    "name": "ORDM01",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "BMS"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.47,
+    "component": "cobol-online",
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "fields_count": 2,
+    "file": "bms/ORDMS1.bms",
+    "id": "screen:42959897b9b2041a",
+    "name": "ORDM02",
+    "partial": false,
+    "targeted_by": [
+      "file:558ee7a09cfe475b"
+    ],
+    "technology": "BMS"
+  }
+]

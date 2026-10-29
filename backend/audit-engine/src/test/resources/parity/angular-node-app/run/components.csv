@@ -1,0 +1,6 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:31d81e5cb1476a22,billing-api/package.json,billing-api,api,estate,billing-api,billing-api/package.json,prisma;typescript,api;batch,"{""build"": 1, ""config"": 1, ""doc"": 1, ""source"": 5}",8,97,billing-api/src/main.ts,build-file,,,,
+component:fbc640275fbb1792,deploy/README.md,deploy,config,estate,deploy,,dockerfile;ini;xml,config,"{""config"": 8, ""doc"": 1}",9,83,,folder,,,,
+component:6d3da84cee2bcc72,legacy-portal/bower.json,legacy-portal,frontend,estate,legacy-portal,legacy-portal/bower.json,html;javascript;json;xml,frontend,"{""config"": 5, ""screen"": 4, ""source"": 3}",12,109,portal,build-file,,,,
+component:0aecd616eab59b2f,orders-api/package.json,orders-api,api,estate,orders-api,orders-api/package.json,dockerfile;json;typescript,api;batch,"{""build"": 2, ""config"": 2, ""source"": 8}",12,149,orders-api/src/server.ts,build-file,,,,
+component:05e245f2539b4baf,orders-web/angular.json;orders-web/package.json,orders-web,frontend,estate,orders-web,orders-web/angular.json;orders-web/package.json,css;html;json;typescript,frontend,"{""build"": 3, ""config"": 1, ""screen"": 5, ""source"": 12, ""test"": 1}",22,260,AppComponent,build-file,,,,

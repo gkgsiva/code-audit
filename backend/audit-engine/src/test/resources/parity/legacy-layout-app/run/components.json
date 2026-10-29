@@ -1,0 +1,160 @@
+[
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "config": 2,
+      "other": 1,
+      "script": 2,
+      "source": 1
+    },
+    "detected_by": "folder",
+    "entry_points": [
+      "com.acme.billing.InvoiceRun"
+    ],
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 6,
+    "id": "component:38695ded416e113a",
+    "loc_code": 33,
+    "name": "billing-batch",
+    "packaging": null,
+    "parts": [],
+    "path": "apps/billing-batch",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "java",
+      "properties",
+      "shell",
+      "sqlloader"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "apps/orders-web/.project"
+    ],
+    "build_group": [],
+    "composition": {
+      "config": 5,
+      "screen": 1,
+      "source": 3
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "apps/orders-web/.project",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 9,
+    "id": "component:394d5d933ecc5a16",
+    "loc_code": 87,
+    "name": "orders-web",
+    "packaging": null,
+    "parts": [],
+    "path": "apps/orders-web",
+    "roles": [
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "java",
+      "jsp",
+      "properties",
+      "xml"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "settlement-c/Makefile.aix"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "other": 1,
+      "script": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "settle"
+    ],
+    "evidence": [
+      {
+        "file": "settlement-c/Makefile.aix",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 4,
+    "id": "component:36740b5555da527d",
+    "loc_code": 14,
+    "name": "settlement-c",
+    "packaging": null,
+    "parts": [],
+    "path": "settlement-c",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "proc",
+      "shell"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "config": 2,
+      "other": 1,
+      "script": 1
+    },
+    "detected_by": "grouped",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 4,
+    "id": "component:f12ab614192b9793",
+    "loc_code": 14,
+    "name": "shared-scripts-config",
+    "packaging": null,
+    "parts": [
+      "config",
+      "scripts"
+    ],
+    "path": "",
+    "roles": [
+      "script"
+    ],
+    "root": "estate",
+    "technology": [
+      "properties",
+      "shell",
+      "xml"
+    ],
+    "type": "script"
+  }
+]

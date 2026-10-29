@@ -1,0 +1,20 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:c864f4a53e6f542e,billing-web/src/main/webapp/WEB-INF/spring/security.xml:8,Spring Security (form login),,auth,1,,,
+tech:6cbea109800825dd,billing-web/src/main/webapp/WEB-INF/spring/security.xml:11;billing-web/src/main/webapp/WEB-INF/spring/security.xml:14,Spring Security (LDAP),,auth,2,,,
+tech:f868b8019ca10787,pom.xml:2;billing-batch/pom.xml:2;billing-common/pom.xml:2;billing-web/pom.xml:2,Maven,,build,4,,,
+tech:2f57f26890fd49dc,billing-web/src/main/resources/application.properties:2,Oracle,,database,1,,,
+tech:89cc5b3ef5be85ec,billing-common/pom.xml:16,Hibernate,4.3.11.Final,framework,1,true,2022-12-31,Hibernate ORM 7
+tech:bafcf3a25f0b4fd7,billing-common/pom.xml:20;billing-common/src/main/resources/mappers/PaymentMapper.xml:3,MyBatis,3.4.6,framework,2,false,,
+tech:9af0384a7046fe56,billing-batch/pom.xml:17;billing-batch/src/main/resources/jobs/invoice-job.xml:5,Spring Batch,3.0.10.RELEASE,framework,2,true,2023-11-18,Spring Batch 6
+tech:dba40b85143144e7,billing-batch/pom.xml:21;billing-common/pom.xml:12;billing-web/pom.xml:18;billing-web/src/main/webapp/WEB-INF/web.xml:10,Spring Framework,4.3.30.RELEASE,framework,4,true,2024-08-31,Spring Framework 7 (Spring Boot 4)
+tech:8d21b13dbf66466d,billing-batch/src/main/resources/jobs/invoice-job.xml:2;billing-web/src/main/webapp/WEB-INF/billing-servlet.xml:2;billing-web/src/main/webapp/WEB-INF/spring/jms.xml:2;billing-web/src/main/webapp/WEB-INF/spring/security.xml:2,Spring Framework (XML configuration),,framework,4,,,
+tech:fe517f94dbddf9cc,billing-web/src/main/webapp/WEB-INF/web.xml:23,Spring MVC,,framework,1,,,
+tech:b7f5c474ca0d533a,billing-web/src/main/webapp/WEB-INF/web.xml:14;billing-web/src/main/webapp/WEB-INF/spring/security.xml:5,Spring Security,,framework,2,,,
+tech:94544620f465ab54,pom.xml:2,Java,1.8,language,1,true,2019-01-31,Java 25
+tech:0d4a0015af610eb8,billing-common/pom.xml:24,Log4j 1,1.2.17,library,1,true,2015-08-05,SLF4J + Logback
+tech:02e49533d8619768,audit-inputs/mq/qmbill.mqsc:2,IBM MQ,,middleware,1,,,
+tech:3e6932f1c078b03c,billing-web/src/main/webapp/WEB-INF/spring/jms.xml:4,IBM MQ (JMS),,middleware,1,,,
+tech:8464c7121a8f6dc5,billing-batch/pom.xml:25,IBM MQ client,9.1.0.0,middleware,1,false,,
+tech:b3699c7001040a8e,billing-web/src/main/webapp/WEB-INF/web.xml:2,Servlet API,2.5,runtime,1,true,2013-06-12,Jakarta Servlet 6.1
+tech:b6301f5b8946d652,audit-inputs/autosys/billing.jil:2,Autosys,,scheduler,1,,,
+tech:7c24a97c094e95ae,billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java;billing-common/src/main/java/com/acme/billing/common/model/Customer.java;billing-common/src/main/java/com/acme/billing/common/model/Invoice.java,javax.* namespace (Jakarta EE migration),,upgrade-signal,3,,,

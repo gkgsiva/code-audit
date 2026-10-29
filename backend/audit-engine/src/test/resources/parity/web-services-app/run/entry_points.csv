@@ -1,0 +1,2 @@
+id,evidence,name,kind,file,line,component
+entry:c958144fded31bb7,rate-feed/src/rate_feed.c:5,rate_feed,main,rate-feed/src/rate_feed.c,5,rate-feed

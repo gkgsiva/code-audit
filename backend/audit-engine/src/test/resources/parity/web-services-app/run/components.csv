@@ -1,0 +1,4 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:67b1b53ebbd0b725,orders-ws/pom.xml,orders-ws,web,estate,orders-ws,orders-ws/pom.xml,java;properties;xml,web,"{""build"": 1, ""config"": 5, ""generated"": 2, ""source"": 6}",14,202,,build-file,,orders-ws,war,
+component:19fc6999ed9f7d87,quote-axis/build.xml,quote-axis,web,estate,quote-axis,quote-axis/build.xml,java;xml,web,"{""build"": 1, ""config"": 2, ""source"": 2}",5,43,,build-file,,,,
+component:cff534d0fa896772,rate-feed/Makefile,rate-feed,batch,estate,rate-feed,rate-feed/Makefile,c,batch,"{""build"": 1, ""source"": 1}",2,18,rate_feed,build-file,,,,

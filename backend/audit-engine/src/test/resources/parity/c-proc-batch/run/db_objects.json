@@ -1,0 +1,106 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:3324194cd7bafec9"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:239e17adfac9e411",
+    "members": [],
+    "name": "CARD_TRANSACTIONS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:3324194cd7bafec9"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:dedf92e03171733a",
+        "sql:3324194cd7bafec9"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "sql/settle_report.sql",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:9cb6e4dbb187c74b",
+    "members": [],
+    "name": "MERCHANTS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:dedf92e03171733a",
+      "sql:3324194cd7bafec9"
+    ]
+  },
+  {
+    "crud": {
+      "C": [
+        "sql:7c7e766b1fca83a9"
+      ],
+      "R": [
+        "sql:9916ac3a838164e5",
+        "sql:dedf92e03171733a"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:67ea081cf7aa19f4",
+    "members": [],
+    "name": "SETTLEMENT_LINES",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:9916ac3a838164e5",
+      "sql:dedf92e03171733a",
+      "sql:7c7e766b1fca83a9"
+    ]
+  },
+  {
+    "crud": {
+      "U": [
+        "sql:4b592e7c074853a8"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 46,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:7b7be5baa02adf39",
+    "members": [],
+    "name": "SETTLEMENT_RUNS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:4b592e7c074853a8"
+    ]
+  }
+]

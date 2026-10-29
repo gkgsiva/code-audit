@@ -1,0 +1,207 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "build.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:033ac96aeec1d8ea",
+    "name": "Ant",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:da9377de059c7edf",
+    "name": "Oracle JDBC driver",
+    "replacement": null,
+    "usages": 1,
+    "version": "10.2.0.4.0"
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "scripts/deploy.ksh",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4cb01f14a2ae602e",
+    "name": "SQL*Plus",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2006-04-22",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7d5e7c95336f821a",
+    "name": "Apache Axis",
+    "replacement": "Spring Web Services or a REST client",
+    "usages": 1,
+    "version": "1.4"
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2013-04-05",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "tech:8614d61b40a77bfe",
+    "name": "Struts 1",
+    "replacement": "Spring MVC (Spring Boot 4)",
+    "usages": 3,
+    "version": "1.2.9"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:bb05828810f93439",
+    "name": "Tiles",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": true,
+    "eol_date": "2009-10-30",
+    "evidence": [
+      {
+        "file": "build.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "tech:accefd5b96380425",
+    "name": "Java",
+    "replacement": "Java 25",
+    "usages": 1,
+    "version": "1.5"
+  },
+  {
+    "category": "library",
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:0d4a0015af610eb8",
+    "name": "Log4j 1",
+    "replacement": "SLF4J + Logback",
+    "usages": 1,
+    "version": "1.2.17"
+  },
+  {
+    "category": "upgrade-signal",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/LoginAction.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/action/OrderDetailAction.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/action/OrderSearchAction.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/form/LoginForm.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/servlet/HealthServlet.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7c24a97c094e95ae",
+    "name": "javax.* namespace (Jakarta EE migration)",
+    "replacement": null,
+    "usages": 5,
+    "version": null
+  }
+]

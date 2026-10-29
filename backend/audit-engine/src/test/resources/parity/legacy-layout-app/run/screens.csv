@@ -1,0 +1,2 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:bcfc28694d8460e2,apps/orders-web/WebContent/jsp/orderList.jsp:1,apps/orders-web/WebContent/jsp/orderList.jsp,jsp,apps/orders-web/WebContent/jsp/orderList.jsp,orderList.do,1,orders-web,Simple,1.3,false,service:c7e610da228b1314

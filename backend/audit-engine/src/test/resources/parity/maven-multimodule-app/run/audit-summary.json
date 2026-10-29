@@ -1,0 +1,690 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 5
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 16
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 28
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 12
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "sql": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 10
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 8,
+      "loc_blank": 0,
+      "loc_code": 135,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 23,
+      "loc_comment": 2
+    },
+    "doc": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 2
+    },
+    "screen": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 6,
+      "loc_comment": 0
+    },
+    "script": {
+      "files": 7,
+      "loc_blank": 0,
+      "loc_code": 13,
+      "loc_comment": 14
+    },
+    "source": {
+      "files": 5,
+      "loc_blank": 12,
+      "loc_code": 53,
+      "loc_comment": 5
+    },
+    "sql": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 5,
+      "loc_comment": 3
+    }
+  },
+  "by_language": {
+    "java": {
+      "files": 5,
+      "loc_blank": 12,
+      "loc_code": 53,
+      "loc_comment": 5
+    },
+    "jsp": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 6,
+      "loc_comment": 0
+    },
+    "markdown": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 2
+    },
+    "properties": {
+      "files": 2,
+      "loc_blank": 0,
+      "loc_code": 3,
+      "loc_comment": 2
+    },
+    "shell": {
+      "files": 7,
+      "loc_blank": 0,
+      "loc_code": 13,
+      "loc_comment": 14
+    },
+    "sql": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 5,
+      "loc_comment": 3
+    },
+    "xml": {
+      "files": 10,
+      "loc_blank": 0,
+      "loc_code": 155,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": null,
+      "complexity_avg": null,
+      "component": "acme-ear",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": null
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.71,
+      "component": "acme-parent-scripts-config",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.5,
+      "component": "acme-tools",
+      "dead_code_candidates": 1,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.0,
+      "component": "acme-web",
+      "dead_code_candidates": 1,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.0,
+      "component": "billing-batch",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.0,
+      "component": "report-batch",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 6,
+      "loc_code": 75,
+      "name": "acme-web",
+      "type": "web"
+    },
+    {
+      "files": 2,
+      "loc_code": 30,
+      "name": "acme-ear",
+      "type": "config"
+    },
+    {
+      "files": 2,
+      "loc_code": 25,
+      "name": "acme-tools",
+      "type": "library"
+    },
+    {
+      "files": 12,
+      "loc_code": 21,
+      "name": "acme-parent-scripts-config",
+      "type": "batch"
+    },
+    {
+      "files": 2,
+      "loc_code": 21,
+      "name": "billing-batch",
+      "type": "batch"
+    },
+    {
+      "files": 2,
+      "loc_code": 21,
+      "name": "report-batch",
+      "type": "batch"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {},
+      "scheduled": 0,
+      "total": 6,
+      "unscheduled": 6
+    },
+    "complexity": {
+      "batch_jobs": {},
+      "screens": {
+        "Simple": 1
+      },
+      "services": {
+        "Simple": 1
+      }
+    },
+    "db_objects": {
+      "table": 4
+    },
+    "dependencies": {
+      "resolved": 8,
+      "unresolved": 0
+    },
+    "entry_points": {
+      "main": 2
+    },
+    "eol_libraries": 0,
+    "findings": {
+      "dead-code-candidate": 2,
+      "eol-technology": 1,
+      "no-tests": 5
+    },
+    "findings_by_severity": {
+      "info": 2,
+      "low": 5,
+      "medium": 1
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 1
+      },
+      "total": 1
+    },
+    "libraries": {
+      "declared": 0,
+      "total": 0,
+      "undeclared": 0
+    },
+    "pg_grades": {
+      "auto": 2,
+      "review": 2
+    },
+    "recommendations": {},
+    "screens": {
+      "by_technology": {
+        "jsp": 1
+      },
+      "partials": 0,
+      "total": 1
+    },
+    "services": {
+      "by_kind": {
+        "servlet": 1
+      },
+      "total": 1
+    },
+    "sql": {
+      "by_source": {
+        "jdbc": 1,
+        "sql-file": 3
+      },
+      "by_type": {
+        "DELETE": 1,
+        "SELECT": 2,
+        "UPDATE": 1
+      },
+      "distinct": 4,
+      "dynamic": 0,
+      "not_parsed": 0,
+      "total": 4
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {},
+      "called": 0,
+      "offered": 0,
+      "operations": 0,
+      "total": 0
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 15.2,
+    "label": "estimate — weights from config",
+    "likely": 8.1,
+    "low": 4.0,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://dbhost:1521/ACME",
+      "type": "DB",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "xml",
+      "loc_code": 25,
+      "path": "pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 21,
+      "path": "acme-ear/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 20,
+      "path": "acme-web/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 17,
+      "path": "batches/pom.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 15,
+      "path": "acme-core/src/main/java/com/acme/core/CustomerDao.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 13,
+      "path": "acme-core/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 13,
+      "path": "acme-tools/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 13,
+      "path": "batches/billing-batch/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 13,
+      "path": "batches/report-batch/pom.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 12,
+      "path": "acme-tools/src/main/java/com/acme/tools/Checksum.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 11,
+      "path": "acme-web/src/main/webapp/WEB-INF/web.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 10,
+      "path": "acme-web/src/main/java/com/acme/web/CustomerServlet.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 9,
+      "path": "acme-ear/src/main/application/META-INF/application.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 8,
+      "path": "batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 8,
+      "path": "batches/report-batch/src/main/java/com/acme/report/ReportMain.java"
+    }
+  ],
+  "risky_libraries": [],
+  "run": {
+    "application": "Maven multi-module sample (parents, modules and batch folders)",
+    "run_id": "20261029-205637-815c2a",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/maven-multimodule-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:37+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Maven",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "SQL*Plus",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": true,
+      "name": "Java",
+      "version": "1.8"
+    },
+    {
+      "category": "upgrade-signal",
+      "eol": null,
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "pom.xml",
+      "line": 2,
+      "message": "Java 1.8 is end of life since 2019-01-31; target Java 25",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "acme-core/pom.xml",
+      "line": null,
+      "message": "Component acme-web has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "acme-tools/pom.xml",
+      "line": null,
+      "message": "Component acme-tools has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "batches/billing-batch/pom.xml",
+      "line": null,
+      "message": "Component billing-batch has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "batches/report-batch/pom.xml",
+      "line": null,
+      "message": "Component report-batch has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "config/app.properties",
+      "line": null,
+      "message": "Component acme-parent-scripts-config has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+      "line": null,
+      "message": "Nothing reaches acme-core/src/main/java/com/acme/core/CustomerDao.java from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    },
+    {
+      "file": "acme-tools/src/main/java/com/acme/tools/Checksum.java",
+      "line": null,
+      "message": "Nothing reaches acme-tools/src/main/java/com/acme/tools/Checksum.java from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "acme-web",
+      "kind": "servlet",
+      "name": "customer",
+      "tables": 0
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "AUDIT_LOG",
+      "references": 1
+    },
+    {
+      "crud": [
+        "U"
+      ],
+      "name": "BUSINESS_DAY",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMER",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDERS",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 0,
+    "components": 6,
+    "db_objects": 4,
+    "dependencies": 8,
+    "entry_points": 2,
+    "files": 29,
+    "findings": 8,
+    "input_coverage": 7,
+    "input_files": 0,
+    "integrations": 1,
+    "libraries": 0,
+    "loc_blank": 13,
+    "loc_code": 235,
+    "loc_comment": 26,
+    "metrics": 6,
+    "screens": 1,
+    "services": 1,
+    "sql_statements": 4,
+    "tech_stack": 5,
+    "web_services": 0
+  },
+  "unresolved_references": 0,
+  "unscheduled_batch_entries": {
+    "acme-parent-scripts-config": [
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "ops/batch/archive/archive.ksh",
+        "id": "file:7f96df664cef5cd9",
+        "kind": "script",
+        "line": null,
+        "name": "archive.ksh"
+      },
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "ops/batch/eod/ksh/run_eod.ksh",
+        "id": "file:a2d77c7787541297",
+        "kind": "script",
+        "line": null,
+        "name": "run_eod.ksh"
+      },
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "ops/batch/eod/ksh/run_eod_report.ksh",
+        "id": "file:064b3693f9f9ee5a",
+        "kind": "script",
+        "line": null,
+        "name": "run_eod_report.ksh"
+      },
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "ops/batch/purge/purge.ksh",
+        "id": "file:32af7ce796abc3e0",
+        "kind": "script",
+        "line": null,
+        "name": "purge.ksh"
+      },
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "scripts/run_billing.ksh",
+        "id": "file:fe4d981a1c922970",
+        "kind": "script",
+        "line": null,
+        "name": "run_billing.ksh"
+      },
+      {
+        "component": "acme-parent-scripts-config",
+        "file": "scripts/run_report.ksh",
+        "id": "file:5db508b2db743f52",
+        "kind": "script",
+        "line": null,
+        "name": "run_report.ksh"
+      }
+    ]
+  },
+  "unscheduled_batches": [
+    "acme-parent-scripts-config"
+  ],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "skipped"
+    },
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "skipped"
+    }
+  ],
+  "web_services": []
+}

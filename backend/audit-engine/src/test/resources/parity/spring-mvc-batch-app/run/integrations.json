@@ -1,0 +1,204 @@
+[
+  {
+    "components": [
+      "billing-web"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://billingdb01.acme.local:1521/BILLP; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:b8b6ff8d1703f1ec",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "billing-web/src/main/resources/application.properties"
+    ],
+    "target": "oracle://billingdb01.acme.local:1521/BILLP",
+    "type": "DB",
+    "usages": 1
+  },
+  {
+    "components": [],
+    "consumers": [],
+    "description": "Reads the file /data/billing/in/usage_*.csv; 1 place in the code.",
+    "details": {
+      "job": "BIL_USAGE_WAIT"
+    },
+    "direction": "inbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:009236f06aa5a4c5",
+    "producers": [],
+    "protocol": "autosys-fw",
+    "purpose": "file",
+    "source_files": [
+      "audit-inputs/autosys/billing.jil"
+    ],
+    "target": "/data/billing/in/usage_*.csv",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "billing-web"
+    ],
+    "consumers": [],
+    "description": "Looks up users or groups in the directory ldap://ldap.acme.local:389; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:af87f456fc8ea9c3",
+    "producers": [],
+    "protocol": null,
+    "purpose": "directory",
+    "source_files": [
+      "billing-web/src/main/webapp/WEB-INF/spring/security.xml"
+    ],
+    "target": "ldap://ldap.acme.local:389",
+    "type": "LDAP",
+    "usages": 2
+  },
+  {
+    "components": [
+      "billing-batch",
+      "billing-web"
+    ],
+    "consumers": [
+      "billing-batch/src/main/resources/jobs/invoice-job.xml"
+    ],
+    "description": "Connects to the MQ queue manager QMBILL@mqbill01.acme.local:1414 (queues BILLING.INVOICE.PAID, PAYMENTS.IN; channels BILLING.SVRCONN, QMBILL.QMCRM); 7 places in the code.",
+    "details": {
+      "channel": "BILLING.SVRCONN"
+    },
+    "direction": "both",
+    "endpoints": [
+      "channel BILLING.SVRCONN (inbound)",
+      "channel QMBILL.QMCRM (outbound)",
+      "queue BILLING.INVOICE.PAID (outbound)",
+      "queue PAYMENTS.IN (inbound)"
+    ],
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 9,
+        "snippet": null
+      },
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 26,
+        "snippet": null
+      },
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [
+      "integration:1fdf9b8f4b33fad0",
+      "integration:624c47e17b2fc791",
+      "integration:625dcca02e576e78",
+      "integration:73a1e52732eb05bf"
+    ],
+    "id": "integration:0083b8992c113928",
+    "producers": [
+      "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+      "billing-web/src/main/webapp/WEB-INF/spring/jms.xml"
+    ],
+    "protocol": "JMS",
+    "purpose": "messaging",
+    "source_files": [
+      "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+      "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+      "billing-web/src/main/resources/application.properties",
+      "audit-inputs/mq/qmbill.mqsc",
+      "billing-batch/src/main/resources/jobs/invoice-job.xml"
+    ],
+    "target": "QMBILL@mqbill01.acme.local:1414",
+    "type": "MQ-QMGR",
+    "usages": 7
+  },
+  {
+    "components": [
+      "billing-batch"
+    ],
+    "consumers": [],
+    "description": "Sends email through mail (mailx); 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "billing-batch/scripts/run_invoice_job.sh",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:1794108c601ad87a",
+    "producers": [],
+    "protocol": null,
+    "purpose": "email",
+    "source_files": [
+      "billing-batch/scripts/run_invoice_job.sh"
+    ],
+    "target": "mail (mailx)",
+    "type": "SMTP",
+    "usages": 1
+  }
+]

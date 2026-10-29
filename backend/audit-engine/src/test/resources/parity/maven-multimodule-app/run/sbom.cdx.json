@@ -1,0 +1,31 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [],
+  "dependencies": [
+    {
+      "dependsOn": [],
+      "ref": "application:Maven multi-module sample (parents, modules and batch folders)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Maven multi-module sample (parents, modules and batch folders)",
+      "name": "Maven multi-module sample (parents, modules and batch folders)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:37+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:bd1342ce-f11a-58cf-9402-7e61018e908a",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

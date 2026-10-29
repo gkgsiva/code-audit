@@ -1,0 +1,70 @@
+[
+  {
+    "complexity": "Simple",
+    "complexity_score": 1.74,
+    "component": "settlement-c",
+    "evidence": [
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 1,
+    "fan_out": 0,
+    "file": "settlement-c/src/settle.pc",
+    "framework": null,
+    "handler": "settlement-c/src/settle.pc#main",
+    "id": "service:6944fc5f2e382c7c",
+    "inputs": [],
+    "kind": "c-executable",
+    "name": "settle",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:923bdea558e2b262"
+    ],
+    "tables": [
+      "PAYMENTS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 4.44,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 1,
+    "fan_out": 2,
+    "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+    "framework": null,
+    "handler": "com.acme.orders.OrderListAction",
+    "id": "service:c7e610da228b1314",
+    "inputs": [],
+    "kind": "struts-action",
+    "name": "/orderList",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:bcfc28694d8460e2"
+    ],
+    "sql": [
+      "sql:6dca2caf260f51d4"
+    ],
+    "tables": [
+      "ORDERS"
+    ],
+    "url": "/orderList",
+    "web_service": null
+  }
+]

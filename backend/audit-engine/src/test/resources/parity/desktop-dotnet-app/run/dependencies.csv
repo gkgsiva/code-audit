@@ -1,0 +1,15 @@
+id,evidence,source,target,kind,resolved
+edge:b7da3044afadde66,billing-desk-vb6/BillingDesk.vbp:12,file:413e57197f7d151c,screen:b3b3d484c4b20b61,forwards,true
+edge:d4beae3348f43316,inventory-wpf-cs/App.xaml:1,file:aa8076a2a78c6a95,file:ba1b51dd128a983c,forwards,true
+edge:a33bfe24cdc89112,orders-winforms-vbnet/MainForm.vb:17,file:df501f72aa935b2c,screen:4ed839d73f3ef821,forwards,true
+edge:a6894667e1655442,inventory-wpf-cs/MainWindow.xaml.cs:22,file:ebaa00148f39feb2,screen:f8f8ce984fff8ced,forwards,true
+edge:09c10891de46ec8d,billing-desk-vb6/frmMain.frm:41,screen:b3b3d484c4b20b61,screen:d65d0e16d315adb4,forwards,true
+edge:25f9b287192ccd3d,legacy-webforms/Default.aspx:7,screen:2161c555960f3de3,file:d53126b574e0e06e,links,true
+edge:c0225b19c91ea9b3,billing-desk-vb6/frmMain.frm:46,file:131e3d89369e059a,file:5ba9a37a7159f0be,uses,true
+edge:ef645f11d74dd2a9,invoice-mailer-svc/MailerService.cs:30,file:93431eeb8df53327,file:93431eeb8df53327,uses,true
+edge:7acc61ab5407a405,inventory-wpf-cs/Views/StockDialog.xaml.cs:20,file:bbcf4c20bd87afe8,file:05df052239954bad,uses,true
+edge:d0553a9834e8f847,inventory-wpf-cs/Views/StockDialog.xaml.cs:16;inventory-wpf-cs/Views/StockDialog.xaml.cs:17;inventory-wpf-cs/Views/StockDialog.xaml.cs:20,file:bbcf4c20bd87afe8,file:a77b24a225406dd2,uses,true
+edge:fb7447a16eca24e5,orders-winforms-vbnet/MainForm.vb:5,file:df501f72aa935b2c,file:a26bb11421fc3435,uses,true
+edge:4c1020c3f5ebe893,orders-winforms-vbnet/MainForm.vb:16,file:df501f72aa935b2c,file:df501f72aa935b2c,uses,true
+edge:c046d8d5c3c285c6,inventory-wpf-cs/MainWindow.xaml.cs:9,file:ebaa00148f39feb2,file:582dbe1bd2f7830a,uses,true
+edge:2f911a4185832e89,inventory-wpf-cs/MainWindow.xaml.cs:21,file:ebaa00148f39feb2,file:bbcf4c20bd87afe8,uses,true

@@ -1,0 +1,459 @@
+[
+  {
+    "built_with": [],
+    "component": "billing-batch",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 20,
+        "snippet": "INSERT INTO invoices (invoice_id, customer_id, amount, status, due_date) VALUES (invoices_seq.NEXTVAL, ?, ?, 'OPEN', ADD"
+      },
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+    "fingerprint": "c08b979485153bc4",
+    "fragments": 2,
+    "id": "sql:8e78affb5765b4c7",
+    "line": 20,
+    "normalized": "INSERT INTO INVOICES (INVOICE_ID, CUSTOMER_ID, AMOUNT, STATUS, DUE_DATE) VALUES (INVOICES_SEQ.NEXTVAL, ?, ?, ?, ADD_MONTHS(SYSDATE, ?))",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone); seq.NEXTVAL → nextval('seq'); not converted automatically",
+    "source": "jdbc-template",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "INSERT INTO invoices (invoice_id, customer_id, amount, status, due_date) VALUES (invoices_seq.NEXTVAL, ?, ?, 'OPEN', ADD_MONTHS(SYSDATE, 1))",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE",
+      "ADD_MONTHS",
+      "SEQUENCE.NEXTVAL"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "billing-batch",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 23,
+        "snippet": "INSERT INTO invoice_audit (customer_id, created_on) VALUES (?, SYSDATE)"
+      }
+    ],
+    "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+    "fingerprint": "5a6acbdd5804f267",
+    "fragments": 1,
+    "id": "sql:023f5e846d4f16f1",
+    "line": 23,
+    "normalized": "INSERT INTO INVOICE_AUDIT (CUSTOMER_ID, CREATED_ON) VALUES (?, SYSDATE)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "INSERT INTO invoice_audit (customer_id, created_on) VALUES (?, CURRENT_TIMESTAMP)",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "jdbc-template",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICE_AUDIT"
+    ],
+    "text": "INSERT INTO invoice_audit (customer_id, created_on) VALUES (?, SYSDATE)",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "billing-batch",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 18,
+        "snippet": "SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id"
+      }
+    ],
+    "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+    "fingerprint": "b8ea56cf594d7ed6",
+    "fragments": 1,
+    "id": "sql:8e1ce8cc4cb44aba",
+    "line": 18,
+    "normalized": "SELECT CUSTOMER_ID, SUM(UNITS * RATE) AS AMOUNT FROM USAGE_RECORDS WHERE BILLED = ? GROUP BY CUSTOMER_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id",
+    "procedures": [],
+    "reason": null,
+    "source": "spring-xml",
+    "structural_holes": 0,
+    "tables": [
+      "USAGE_RECORDS"
+    ],
+    "text": "SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 22,
+        "snippet": "from Customer c where c.segment = :segment order by c.name"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+    "fingerprint": "ab76bd9b34631b2b",
+    "fragments": 1,
+    "id": "sql:1cc978d4745b8d93",
+    "line": 22,
+    "normalized": "FROM CUSTOMER C WHERE C.SEGMENT = ? ORDER BY C.NAME",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "hql",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS"
+    ],
+    "text": "from Customer c where c.segment = :segment order by c.name",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 30,
+        "snippet": "select count(i) from Invoice i where i.customerId = :id"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+    "fingerprint": "ddca8959598591d9",
+    "fragments": 1,
+    "id": "sql:47f6833ff1c952ce",
+    "line": 30,
+    "normalized": "SELECT COUNT(I) FROM INVOICE I WHERE I.CUSTOMERID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "hql",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "select count(i) from Invoice i where i.customerId = :id",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 15,
+        "snippet": "SELECT invoice_id, customer_id, amount, NVL(status, 'OPEN') AS status FROM invoices WHERE status = 'OPEN' AND ROWNUM <= "
+      },
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "fingerprint": "3fc7b7d7d1a2cc44",
+    "fragments": 2,
+    "id": "sql:d733fc8a1c4c931b",
+    "line": 15,
+    "normalized": "SELECT INVOICE_ID, CUSTOMER_ID, AMOUNT, NVL(STATUS, ?) AS STATUS FROM INVOICES WHERE STATUS = ? AND ROWNUM <= ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "NVL → COALESCE; ROWNUM → LIMIT / ROW_NUMBER(); not converted automatically",
+    "source": "jdbc-template",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "SELECT invoice_id, customer_id, amount, NVL(status, 'OPEN') AS status FROM invoices WHERE status = 'OPEN' AND ROWNUM <= ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "NVL",
+      "ROWNUM"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 19,
+        "snippet": "UPDATE invoices SET status = 'PAID', paid_on = SYSDATE WHERE invoice_id = ?"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "fingerprint": "ef502699d2dc9c9e",
+    "fragments": 1,
+    "id": "sql:6a39ad4b1c349236",
+    "line": 19,
+    "normalized": "UPDATE INVOICES SET STATUS = ?, PAID_ON = SYSDATE WHERE INVOICE_ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "UPDATE invoices SET status = 'PAID', paid_on = CURRENT_TIMESTAMP WHERE invoice_id = ?",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "jdbc-template",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "UPDATE invoices SET status = 'PAID', paid_on = SYSDATE WHERE invoice_id = ?",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 34,
+        "snippet": "SELECT COUNT(*) FROM invoices i, customers c WHERE i.customer_id = c.id(+) AND i.due_date < SYSDATE"
+      },
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 35,
+        "snippet": null
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "fingerprint": "44e8734fd3e5cb57",
+    "fragments": 2,
+    "id": "sql:427df8511ee576ee",
+    "line": 34,
+    "normalized": "SELECT COUNT(*) FROM INVOICES I, CUSTOMERS C WHERE I.CUSTOMER_ID = C.ID(+) AND I.DUE_DATE < SYSDATE",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "Oracle (+) outer join → ANSI LEFT/RIGHT JOIN; SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone); not converted automatically",
+    "source": "jdbc-template",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS",
+      "INVOICES"
+    ],
+    "text": "SELECT COUNT(*) FROM invoices i, customers c WHERE i.customer_id = c.id(+) AND i.due_date < SYSDATE",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "OUTER JOIN (+)",
+      "SYSDATE"
+    ]
+  },
+  {
+    "built_with": [
+      "concatenation"
+    ],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 40,
+        "snippet": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?"
+      }
+    ],
+    "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+    "fingerprint": "18f89325217a6d4c",
+    "fragments": 1,
+    "id": "sql:b5cd602de0357f37",
+    "line": 40,
+    "normalized": "SELECT INVOICE_ID, AMOUNT FROM INVOICES WHERE STATUS = ? ORDER BY ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "manual",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "part of the statement is only known at run time (1 place(s))",
+    "source": "jdbc-template",
+    "structural_holes": 1,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "mybatis-dynamic-tags"
+    ],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 5,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.findPayments"
+      }
+    ],
+    "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+    "fingerprint": "7f737d16ebc928d2",
+    "fragments": 1,
+    "id": "sql:98aaa3c6505180d1",
+    "line": 5,
+    "normalized": "SELECT PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON FROM PAYMENTS WHERE ? = ? AND INVOICE_ID = ? AND RECEIVED_ON >= ?",
+    "optional_fragments": 2,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT payment_id, invoice_id, amount, received_on FROM payments WHERE 1 = 1 AND invoice_id = ? AND received_on >= ?",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 1 fragment(s), 2 optional",
+    "source": "mybatis",
+    "structural_holes": 0,
+    "tables": [
+      "PAYMENTS"
+    ],
+    "text": "SELECT payment_id, invoice_id, amount, received_on\n      FROM payments\n     WHERE 1 = 1 AND invoice_id = ? AND received_on >= ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 17,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.insertPayment"
+      }
+    ],
+    "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+    "fingerprint": "2a27e43508e1feb9",
+    "fragments": 1,
+    "id": "sql:8c0ce291ac5f8f24",
+    "line": 17,
+    "normalized": "INSERT INTO PAYMENTS (PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON) VALUES (PAYMENTS_SEQ.NEXTVAL, ?, ?, SYSDATE)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone); seq.NEXTVAL → nextval('seq'); not converted automatically",
+    "source": "mybatis",
+    "structural_holes": 0,
+    "tables": [
+      "PAYMENTS"
+    ],
+    "text": "INSERT INTO payments (payment_id, invoice_id, amount, received_on)\n    VALUES (payments_seq.NEXTVAL, ?, ?, SYSDATE)",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE",
+      "SEQUENCE.NEXTVAL"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "billing-common",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 22,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.settle"
+      }
+    ],
+    "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+    "fingerprint": "fd9768d3fdb42a6e",
+    "fragments": 1,
+    "id": "sql:fe9e48b64b7e4429",
+    "line": 22,
+    "normalized": "UPDATE PAYMENTS SET SETTLED = ? WHERE PAYMENT_ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE payments SET settled = 'Y' WHERE payment_id = ?",
+    "procedures": [],
+    "reason": null,
+    "source": "mybatis",
+    "structural_holes": 0,
+    "tables": [
+      "PAYMENTS"
+    ],
+    "text": "UPDATE payments SET settled = 'Y' WHERE payment_id = ?",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  }
+]

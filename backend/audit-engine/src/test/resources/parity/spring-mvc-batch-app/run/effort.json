@@ -1,0 +1,361 @@
+{
+  "by_component": {
+    "(shared)": {
+      "high": 22.25,
+      "likely": 12.1,
+      "low": 6.0
+    },
+    "billing-batch": {
+      "high": 20.35,
+      "likely": 11.15,
+      "low": 6.5
+    },
+    "billing-common": {
+      "high": 19.8,
+      "likely": 10.35,
+      "low": 5.5
+    },
+    "billing-web": {
+      "high": 50.5,
+      "likely": 29.2,
+      "low": 14.5
+    }
+  },
+  "high": 112.9,
+  "label": "estimate — weights from config",
+  "likely": 62.8,
+  "lines": [
+    {
+      "component": "(shared)",
+      "count": 2,
+      "high": 6.0,
+      "item": "batch_job",
+      "level": "simple",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "(shared)",
+      "count": 2,
+      "high": 16.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 8.0,
+      "low": 4.0
+    },
+    {
+      "component": "(shared)",
+      "count": 1,
+      "high": 0.25,
+      "item": "library",
+      "level": "use-bom",
+      "likely": 0.1,
+      "low": 0.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 2,
+      "high": 10.0,
+      "item": "batch_job",
+      "level": "medium",
+      "likely": 6.0,
+      "low": 4.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 1,
+      "high": 8.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 1,
+      "high": 0.0,
+      "item": "library",
+      "level": "keep",
+      "likely": 0.0,
+      "low": 0.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 1,
+      "high": 0.25,
+      "item": "library",
+      "level": "use-bom",
+      "likely": 0.1,
+      "low": 0.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 1,
+      "high": 0.1,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.05,
+      "low": 0.0
+    },
+    {
+      "component": "billing-batch",
+      "count": 2,
+      "high": 2.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 1.0,
+      "low": 0.5
+    },
+    {
+      "component": "billing-common",
+      "count": 1,
+      "high": 10.0,
+      "item": "library",
+      "level": "replace",
+      "likely": 5.0,
+      "low": 3.0
+    },
+    {
+      "component": "billing-common",
+      "count": 1,
+      "high": 1.0,
+      "item": "library",
+      "level": "upgrade",
+      "likely": 0.5,
+      "low": 0.25
+    },
+    {
+      "component": "billing-common",
+      "count": 2,
+      "high": 0.5,
+      "item": "library",
+      "level": "use-bom",
+      "likely": 0.2,
+      "low": 0.0
+    },
+    {
+      "component": "billing-common",
+      "count": 3,
+      "high": 0.3,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.15,
+      "low": 0.0
+    },
+    {
+      "component": "billing-common",
+      "count": 1,
+      "high": 3.0,
+      "item": "sql",
+      "level": "manual",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "billing-common",
+      "count": 5,
+      "high": 5.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 2.5,
+      "low": 1.25
+    },
+    {
+      "component": "billing-web",
+      "count": 2,
+      "high": 16.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 8.0,
+      "low": 4.0
+    },
+    {
+      "component": "billing-web",
+      "count": 1,
+      "high": 2.0,
+      "item": "library",
+      "level": "migrate-jakarta",
+      "likely": 1.0,
+      "low": 0.5
+    },
+    {
+      "component": "billing-web",
+      "count": 2,
+      "high": 0.5,
+      "item": "library",
+      "level": "use-bom",
+      "likely": 0.2,
+      "low": 0.0
+    },
+    {
+      "component": "billing-web",
+      "count": 4,
+      "high": 8.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "billing-web",
+      "count": 3,
+      "high": 18.0,
+      "item": "service",
+      "level": "medium",
+      "likely": 12.0,
+      "low": 6.0
+    },
+    {
+      "component": "billing-web",
+      "count": 2,
+      "high": 6.0,
+      "item": "service",
+      "level": "simple",
+      "likely": 4.0,
+      "low": 2.0
+    }
+  ],
+  "low": 32.5,
+  "unit": "person-days",
+  "weights": {
+    "batch_job": {
+      "complex": [
+        4,
+        6,
+        9
+      ],
+      "medium": [
+        2,
+        3,
+        5
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        8,
+        12,
+        18
+      ]
+    },
+    "integration": {
+      "each": [
+        2,
+        4,
+        8
+      ]
+    },
+    "library": {
+      "keep": [
+        0,
+        0,
+        0
+      ],
+      "migrate-jakarta": [
+        0.5,
+        1,
+        2
+      ],
+      "remove": [
+        0.5,
+        1,
+        2
+      ],
+      "replace": [
+        3,
+        5,
+        10
+      ],
+      "rewrite": [
+        10,
+        20,
+        40
+      ],
+      "upgrade": [
+        0.25,
+        0.5,
+        1
+      ],
+      "use-bom": [
+        0,
+        0.1,
+        0.25
+      ]
+    },
+    "screen": {
+      "complex": [
+        2,
+        4,
+        6
+      ],
+      "medium": [
+        1,
+        2,
+        3
+      ],
+      "simple": [
+        0.5,
+        1,
+        2
+      ],
+      "very_complex": [
+        4,
+        7,
+        10
+      ]
+    },
+    "service": {
+      "complex": [
+        5,
+        8,
+        12
+      ],
+      "medium": [
+        2,
+        4,
+        6
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        10,
+        15,
+        25
+      ]
+    },
+    "sql": {
+      "auto": [
+        0,
+        0.05,
+        0.1
+      ],
+      "manual": [
+        1,
+        2,
+        3
+      ],
+      "review": [
+        0.25,
+        0.5,
+        1
+      ]
+    },
+    "stored_procedure": {
+      "manual": [
+        2,
+        4,
+        8
+      ],
+      "review": [
+        1,
+        2,
+        4
+      ]
+    }
+  }
+}

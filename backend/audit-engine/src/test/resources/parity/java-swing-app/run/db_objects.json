@@ -1,0 +1,26 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:c52a96d12224016b"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ba880a1b125aeb90",
+    "members": [],
+    "name": "CUSTOMER",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:c52a96d12224016b"
+    ]
+  }
+]

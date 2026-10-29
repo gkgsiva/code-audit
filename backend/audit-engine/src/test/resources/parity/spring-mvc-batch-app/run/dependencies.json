@@ -1,0 +1,362 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b44b9ed85cc4f6fa",
+    "kind": "calls",
+    "resolved": true,
+    "source": "batch_job:5e1224c95b219205",
+    "target": "file:56e3f187c7988bcd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b6da9eaa4194ae50",
+    "kind": "contains",
+    "resolved": true,
+    "source": "batch_job:08cced84c58c5822",
+    "target": "batch_job:073329b732a04908"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "id": "edge:372018cd4d787477",
+    "kind": "contains",
+    "resolved": true,
+    "source": "batch_job:08cced84c58c5822",
+    "target": "batch_job:4730468a094e0a59"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c8fdd0a63c2f7f48",
+    "kind": "contains",
+    "resolved": true,
+    "source": "batch_job:08cced84c58c5822",
+    "target": "batch_job:953a414754a6347d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "id": "edge:208b2d3d976fbfe7",
+    "kind": "depends-on",
+    "resolved": true,
+    "source": "batch_job:073329b732a04908",
+    "target": "batch_job:953a414754a6347d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 29,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2dde73df983a23bf",
+    "kind": "depends-on",
+    "resolved": true,
+    "source": "batch_job:4730468a094e0a59",
+    "target": "batch_job:073329b732a04908"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5bc9125cc2ef2e65",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:01e5975666c97869",
+    "target": "screen:fe290097d692789b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "edge:481b2cbfdd74e434",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:8f683aecfbbcde40",
+    "target": "screen:fe290097d692789b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8058409c1f987fe4",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:97d933ecf95c2a5e",
+    "target": "screen:fe290097d692789b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:35186fbf57585e19",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:c6a61f35f0d54a46",
+    "target": "screen:fe290097d692789b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f9763dc29508ac72",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "batch_job:073329b732a04908",
+    "target": "file:86c5a9cd6b7f33e6"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 27,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2ed2bb9f6a08d3ec",
+    "kind": "invokes",
+    "resolved": false,
+    "source": "batch_job:4730468a094e0a59",
+    "target": "unresolved:archive_usage.sh"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:018e66d575fc6750",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:ea10d2247b5548e1",
+    "target": "screen:97d933ecf95c2a5e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 31,
+        "snippet": null
+      }
+    ],
+    "id": "edge:fa6be78c743c4804",
+    "kind": "renders",
+    "resolved": true,
+    "source": "service:32c0d8031410b4e1",
+    "target": "screen:01e5975666c97869"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a5d4fc4e146fcd7f",
+    "kind": "renders",
+    "resolved": true,
+    "source": "service:f83e485622850acf",
+    "target": "screen:8f683aecfbbcde40"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "id": "edge:da2903b5e35b8c54",
+    "kind": "renders",
+    "resolved": true,
+    "source": "service:fda29992cfe62bf9",
+    "target": "screen:c6a61f35f0d54a46"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-batch/scripts/run_invoice_job.sh",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:cc91f325ee9c3d82",
+    "kind": "triggers",
+    "resolved": true,
+    "source": "file:86c5a9cd6b7f33e6",
+    "target": "batch_job:5e1224c95b219205"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e22934ccbb10f937",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:36c06021df4a76dd",
+    "target": "file:5c9ce959f610e69f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a844792f630b98a2",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:36c06021df4a76dd",
+    "target": "file:e17da66cb5dd5376"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:000bddb09e104b33",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:78008ba9d3475c23",
+    "target": "file:3a59a3fbba90ad62"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:016ee1b36d9afab6",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:78008ba9d3475c23",
+    "target": "file:529f82ad69f9c50c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "edge:066ebb27e9b8c9af",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a9fc73428336e248",
+    "target": "file:56e3f187c7988bcd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 24,
+        "snippet": null
+      },
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "id": "edge:22ed3b37e939a016",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a9fc73428336e248",
+    "target": "file:d4092875766572a1"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f015d6e0d40d68db",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:aefe62a5ba27eff1",
+    "target": "file:36c06021df4a76dd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:afc941d301d40ddd",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:d4092875766572a1",
+    "target": "file:9b6626de797d8429"
+  }
+]

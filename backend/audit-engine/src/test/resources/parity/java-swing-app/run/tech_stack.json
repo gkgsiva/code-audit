@@ -1,0 +1,141 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f868b8019ca10787",
+    "name": "Maven",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/config/teller.properties",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f03dfb317edbf142",
+    "name": "Oracle JDBC driver",
+    "replacement": null,
+    "usages": 1,
+    "version": "19.3.0.0"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7125de26846df728",
+    "name": "Java Swing",
+    "replacement": null,
+    "usages": 3,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:149f93029c45f0a1",
+    "name": "JavaFX",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": true,
+    "eol_date": "2019-01-31",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:94544620f465ab54",
+    "name": "Java",
+    "replacement": "Java 25",
+    "usages": 1,
+    "version": "1.8"
+  },
+  {
+    "category": "library",
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "tech:0d4a0015af610eb8",
+    "name": "Log4j 1",
+    "replacement": "SLF4J + Logback",
+    "usages": 1,
+    "version": "1.2.17"
+  }
+]

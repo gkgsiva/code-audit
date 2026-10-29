@@ -1,0 +1,324 @@
+[
+  {
+    "callers": [],
+    "component": "orders-api",
+    "components": [
+      "orders-api"
+    ],
+    "description": "Offers 1 REST operation under /api/customers (Express).",
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-api/src/routes/customers.ts"
+    ],
+    "frameworks": [
+      "Express"
+    ],
+    "id": "web_service:6d987af6a2c6a921",
+    "integrations": [],
+    "name": "customers",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "handler": "orders-api/src/routes/customers.ts:6",
+        "line": 6,
+        "method": "GET",
+        "name": "GET /api/customers/:id",
+        "path": "/api/customers/:id",
+        "service_id": "service:ff8f25ba02fe7b02"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/api/customers",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "10e6d77af1ab7b85"
+    ],
+    "component": "billing-api",
+    "components": [
+      "billing-api"
+    ],
+    "description": "Offers 3 REST operations under /api/invoices (NestJS). Called by 1 file of the scanned code.",
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 9,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "billing-api/src/invoices/invoices.controller.ts"
+    ],
+    "frameworks": [
+      "NestJS"
+    ],
+    "id": "web_service:5f2e8060ffcb5bf8",
+    "integrations": [],
+    "name": "InvoicesController",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "handler": "InvoicesController.list",
+        "line": 9,
+        "method": "GET",
+        "name": "GET /api/invoices",
+        "path": "/api/invoices",
+        "service_id": "service:ad7fb229dbdd8807"
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "handler": "InvoicesController.create",
+        "line": 19,
+        "method": "POST",
+        "name": "POST /api/invoices",
+        "path": "/api/invoices",
+        "service_id": "service:58e82f0a13a51255"
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "handler": "InvoicesController.get",
+        "line": 14,
+        "method": "GET",
+        "name": "GET /api/invoices/:id",
+        "path": "/api/invoices/:id",
+        "service_id": "service:ef1d7af6600c9ddc"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/api/invoices",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "10e6d77af1ab7b85"
+    ],
+    "component": "orders-api",
+    "components": [
+      "orders-api"
+    ],
+    "description": "Offers 4 REST operations under /api/orders (Express). Called by 1 file of the scanned code.",
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-api/src/routes/orders.ts"
+    ],
+    "frameworks": [
+      "Express"
+    ],
+    "id": "web_service:de9ada6269d8b196",
+    "integrations": [],
+    "name": "orders",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "handler": "orders-api/src/routes/orders.ts:7",
+        "line": 7,
+        "method": "GET",
+        "name": "GET /api/orders",
+        "path": "/api/orders",
+        "service_id": "service:2e164ae3f6c876c0"
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "handler": "orders-api/src/routes/orders.ts:15",
+        "line": 15,
+        "method": "POST",
+        "name": "POST /api/orders",
+        "path": "/api/orders",
+        "service_id": "service:4c47b3141da521f7"
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "handler": "orders-api/src/routes/orders.ts:19",
+        "line": 19,
+        "method": "DELETE",
+        "name": "DELETE /api/orders/:id",
+        "path": "/api/orders/:id",
+        "service_id": "service:2cfd9b508e3671ae"
+      },
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "handler": "orders-api/src/routes/orders.ts:11",
+        "line": 11,
+        "method": "GET",
+        "name": "GET /api/orders/:id",
+        "path": "/api/orders/:id",
+        "service_id": "service:a6820dbbb15b7572"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/api/orders",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "orders-api",
+    "components": [
+      "orders-api"
+    ],
+    "description": "Offers 1 REST operation under /health (Express).",
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-api/src/server.ts"
+    ],
+    "frameworks": [
+      "Express"
+    ],
+    "id": "web_service:ef9fbd14652e6dc4",
+    "integrations": [],
+    "name": "server",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-api/src/server.ts",
+        "handler": "orders-api/src/server.ts:12",
+        "line": 12,
+        "method": "GET",
+        "name": "GET /health",
+        "path": "/health",
+        "service_id": "service:5b8342af88b9c1e6"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/health",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "orders-web/src/app/orders/order.service.ts"
+    ],
+    "component": "orders-web",
+    "components": [
+      "orders-web"
+    ],
+    "description": "Calls the geo.acme.local REST service at https://geo.acme.local from 1 file (Angular HttpClient, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 36,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-web/src/app/orders/order.service.ts"
+    ],
+    "frameworks": [
+      "Angular HttpClient"
+    ],
+    "id": "web_service:8c93f85b7901828f",
+    "integrations": [
+      "integration:c7b2d46e15e598fc"
+    ],
+    "name": "geo.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "handler": null,
+        "line": 36,
+        "method": "GET",
+        "name": "GET /api/v1/geocode",
+        "path": "/api/v1/geocode",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://geo.acme.local",
+    "wsdl": null
+  },
+  {
+    "callers": [
+      "orders-api/src/services/order.service.ts"
+    ],
+    "component": "orders-api",
+    "components": [
+      "orders-api"
+    ],
+    "description": "Calls the payments.acme.local REST service at https://payments.acme.local from 1 file (HTTP client (Node.js), 1 operation seen).",
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-api/src/services/order.service.ts"
+    ],
+    "frameworks": [
+      "HTTP client (Node.js)"
+    ],
+    "id": "web_service:85115b94c1551c96",
+    "integrations": [
+      "integration:75d19e48e7cc3446"
+    ],
+    "name": "payments.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "handler": null,
+        "line": 16,
+        "method": "POST",
+        "name": "POST /api/v1/charges",
+        "path": "/api/v1/charges",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://payments.acme.local",
+    "wsdl": null
+  }
+]

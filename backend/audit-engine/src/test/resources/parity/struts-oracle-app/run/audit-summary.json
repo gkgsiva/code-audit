@@ -1,0 +1,793 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "deps": {
+      "coverage_pct": 100.0,
+      "files": 5
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 11
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 22
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 29
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 11
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "sql": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 9
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 4
+    }
+  },
+  "by_category": {
+    "binary": {
+      "files": 5,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "build": {
+      "files": 1,
+      "loc_blank": 4,
+      "loc_code": 34,
+      "loc_comment": 1
+    },
+    "config": {
+      "files": 6,
+      "loc_blank": 10,
+      "loc_code": 94,
+      "loc_comment": 4
+    },
+    "doc": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 4
+    },
+    "screen": {
+      "files": 6,
+      "loc_blank": 0,
+      "loc_code": 86,
+      "loc_comment": 4
+    },
+    "script": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 10,
+      "loc_comment": 3
+    },
+    "source": {
+      "files": 11,
+      "loc_blank": 66,
+      "loc_code": 321,
+      "loc_comment": 18
+    },
+    "sql": {
+      "files": 3,
+      "loc_blank": 6,
+      "loc_code": 35,
+      "loc_comment": 5
+    },
+    "test": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 7,
+      "loc_comment": 1
+    }
+  },
+  "by_language": {
+    "archive": {
+      "files": 5,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "css": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 6,
+      "loc_comment": 2
+    },
+    "java": {
+      "files": 11,
+      "loc_blank": 68,
+      "loc_code": 322,
+      "loc_comment": 17
+    },
+    "jsp": {
+      "files": 6,
+      "loc_blank": 0,
+      "loc_code": 86,
+      "loc_comment": 4
+    },
+    "plsql": {
+      "files": 2,
+      "loc_blank": 3,
+      "loc_code": 25,
+      "loc_comment": 2
+    },
+    "properties": {
+      "files": 3,
+      "loc_blank": 1,
+      "loc_code": 17,
+      "loc_comment": 3
+    },
+    "shell": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 10,
+      "loc_comment": 3
+    },
+    "sql": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 10,
+      "loc_comment": 3
+    },
+    "text": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 4
+    },
+    "xml": {
+      "files": 4,
+      "loc_blank": 13,
+      "loc_code": 111,
+      "loc_comment": 2
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.69,
+      "component": "orders-web",
+      "dead_code_candidates": 1,
+      "duplication_pct": 4.1,
+      "test_ratio": 0.05
+    }
+  ],
+  "components": [
+    {
+      "files": 35,
+      "loc_code": 587,
+      "name": "orders-web",
+      "type": "web"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {},
+      "scheduled": 0,
+      "total": 0,
+      "unscheduled": 0
+    },
+    "complexity": {
+      "batch_jobs": {},
+      "screens": {
+        "Simple": 4
+      },
+      "services": {
+        "Medium": 3,
+        "Simple": 1
+      }
+    },
+    "db_objects": {
+      "package": 1,
+      "table": 4
+    },
+    "dependencies": {
+      "resolved": 37,
+      "unresolved": 1
+    },
+    "entry_points": {},
+    "eol_libraries": 5,
+    "findings": {
+      "config-credential": 1,
+      "dead-code-candidate": 1,
+      "eol-library": 5,
+      "eol-technology": 4,
+      "hardcoded-endpoint": 3,
+      "pg-manual-object": 1,
+      "sql-concatenation": 1,
+      "unresolved-reference": 1,
+      "vulnerable-library": 4
+    },
+    "findings_by_severity": {
+      "critical": 2,
+      "high": 4,
+      "info": 2,
+      "medium": 13
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 1,
+        "SMTP": 1,
+        "SOAP": 1
+      },
+      "total": 3
+    },
+    "libraries": {
+      "declared": 0,
+      "total": 5,
+      "undeclared": 5
+    },
+    "pg_grades": {
+      "auto": 4,
+      "review": 10
+    },
+    "recommendations": {
+      "replace": 5
+    },
+    "screens": {
+      "by_technology": {
+        "jsp": 4
+      },
+      "partials": 2,
+      "total": 4
+    },
+    "services": {
+      "by_kind": {
+        "servlet": 1,
+        "struts-action": 3
+      },
+      "total": 4
+    },
+    "sql": {
+      "by_source": {
+        "jdbc": 7,
+        "plsql": 3,
+        "script": 1,
+        "sql-file": 3
+      },
+      "by_type": {
+        "CALL": 2,
+        "SELECT": 10,
+        "UPDATE": 2
+      },
+      "distinct": 13,
+      "dynamic": 2,
+      "not_parsed": 0,
+      "total": 14
+    },
+    "stored_procedures": 1,
+    "vulnerable_libraries": {
+      "by_severity": {
+        "critical": 2,
+        "high": 2
+      },
+      "total": 4,
+      "vulnerabilities": 8
+    },
+    "web_services": {
+      "by_style": {
+        "SOAP called": 1
+      },
+      "called": 1,
+      "offered": 0,
+      "operations": 1,
+      "total": 1
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: 1 file(s)",
+    "dependency-check": "OWASP Dependency-Check: 1 file(s)",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "osv-scanner": "OSV-Scanner (not installed): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): 1 file(s)",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 121.4,
+    "label": "estimate — weights from config",
+    "likely": 64.2,
+    "low": 34.5,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://ordersdb01.acme.local:1521/ORDP",
+      "type": "DB",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "web service",
+      "target": "http://pricing.acme.local:8080/axis/services/PricingService",
+      "type": "SOAP",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "email",
+      "target": "smtp.acme.local",
+      "type": "SMTP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "java",
+      "loc_code": 139,
+      "path": "src/com/acme/orders/dao/OrderDao.java"
+    },
+    {
+      "language": "jsp",
+      "loc_code": 36,
+      "path": "WebContent/jsp/orderSearch.jsp"
+    },
+    {
+      "language": "xml",
+      "loc_code": 34,
+      "path": "WebContent/WEB-INF/web.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 34,
+      "path": "build.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 33,
+      "path": "WebContent/WEB-INF/struts-config.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 27,
+      "path": "src/com/acme/orders/action/LoginAction.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 24,
+      "path": "src/com/acme/orders/form/LoginForm.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 23,
+      "path": "src/com/acme/orders/action/OrderDetailAction.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 23,
+      "path": "src/com/acme/orders/dao/ConnectionFactory.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 22,
+      "path": "src/com/acme/orders/service/OrderService.java"
+    },
+    {
+      "language": "plsql",
+      "loc_code": 20,
+      "path": "sql/pkg_order_pricing.pkb"
+    },
+    {
+      "language": "java",
+      "loc_code": 20,
+      "path": "src/com/acme/orders/action/OrderSearchAction.java"
+    },
+    {
+      "language": "jsp",
+      "loc_code": 19,
+      "path": "WebContent/jsp/login.jsp"
+    },
+    {
+      "language": "java",
+      "loc_code": 16,
+      "path": "src/com/acme/orders/client/PricingSoapClient.java"
+    },
+    {
+      "language": "jsp",
+      "loc_code": 14,
+      "path": "WebContent/jsp/orderDetail.jsp"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 3,
+      "eol": true,
+      "max_severity": "critical",
+      "name": "log4j",
+      "recommendation": "replace",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "version": "1.2.17"
+    },
+    {
+      "cves": 1,
+      "eol": true,
+      "max_severity": "critical",
+      "name": "commons-collections",
+      "recommendation": "replace",
+      "target": "org.apache.commons:commons-collections4",
+      "version": "3.2.1"
+    },
+    {
+      "cves": 2,
+      "eol": true,
+      "max_severity": "high",
+      "name": "axis",
+      "recommendation": "replace",
+      "target": "Spring Web Services or a REST client (RestClient)",
+      "version": "1.4"
+    },
+    {
+      "cves": 2,
+      "eol": true,
+      "max_severity": "high",
+      "name": "struts",
+      "recommendation": "replace",
+      "target": "Spring MVC (Spring Boot 4)",
+      "version": "1.2.9"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "ojdbc14",
+      "recommendation": "replace",
+      "target": "org.postgresql:postgresql (target database)",
+      "version": "10.2.0.4.0"
+    }
+  ],
+  "run": {
+    "application": "Orders (Struts/Oracle sample)",
+    "run_id": "20261029-205639-ea62d9",
+    "sources": [
+      {
+        "commit": null,
+        "name": "orders-web",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/struts-oracle-app/orders-web",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:39+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Ant",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": false,
+      "name": "Oracle JDBC driver",
+      "version": "10.2.0.4.0"
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "SQL*Plus",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Apache Axis",
+      "version": "1.4"
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Struts 1",
+      "version": "1.2.9"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Tiles",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": true,
+      "name": "Java",
+      "version": "1.5"
+    },
+    {
+      "category": "library",
+      "eol": true,
+      "name": "Log4j 1",
+      "version": "1.2.17"
+    },
+    {
+      "category": "upgrade-signal",
+      "eol": null,
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+      "line": null,
+      "message": "commons-collections 3.2.1 has 1 known vulnerabilities (CVE-2015-7501); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "critical"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+      "line": null,
+      "message": "log4j 1.2.17 has 3 known vulnerabilities (CVE-2019-17571, CVE-2021-4104, CVE-2022-23305); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "critical"
+    },
+    {
+      "file": "conf/orders-app.properties",
+      "line": 4,
+      "message": "Credential 'db.password' is set in configuration (value masked)",
+      "rule": "config-credential",
+      "severity": "high"
+    },
+    {
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "line": 69,
+      "message": "Values concatenated into SQL text (1x; jdbc, SELECT) in src/com/acme/orders/dao/OrderDao.java",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+      "line": null,
+      "message": "axis 1.4 has 2 known vulnerabilities (CVE-2018-8032, CVE-2019-0227); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "high"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+      "line": null,
+      "message": "struts 1.2.9 has 2 known vulnerabilities (CVE-2014-0114, CVE-2016-1182); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "high"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+      "line": null,
+      "message": "axis 1.4 is end of life since 2006-04-22; replace with Spring Web Services or a REST client (RestClient)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+      "line": null,
+      "message": "commons-collections 3.2.1 is end of life since 2015-11-12; replace with org.apache.commons:commons-collections4",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+      "line": null,
+      "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+      "line": null,
+      "message": "ojdbc14 10.2.0.4.0 is end of life since 2013-07-31; replace with org.postgresql:postgresql (target database)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+      "line": null,
+      "message": "struts 1.2.9 is end of life since 2013-04-05; replace with Spring MVC (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+      "line": null,
+      "message": "Apache Axis 1.4 is end of life since 2006-04-22; target Spring Web Services or a REST client",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+      "line": null,
+      "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+      "line": null,
+      "message": "Struts 1 1.2.9 is end of life since 2013-04-05; target Spring MVC (Spring Boot 4)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "build.xml",
+      "line": 23,
+      "message": "Java 1.5 is end of life since 2009-10-30; target Java 25",
+      "rule": "eol-technology",
+      "severity": "medium"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "orders-web",
+      "kind": "struts-action",
+      "name": "/login",
+      "tables": 3
+    },
+    {
+      "component": "orders-web",
+      "kind": "struts-action",
+      "name": "/orderDetail",
+      "tables": 3
+    },
+    {
+      "component": "orders-web",
+      "kind": "struts-action",
+      "name": "/orderSearch",
+      "tables": 3
+    },
+    {
+      "component": "orders-web",
+      "kind": "servlet",
+      "name": "health",
+      "tables": 0
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "R",
+        "U"
+      ],
+      "name": "ORDERS",
+      "references": 10
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMERS",
+      "references": 3
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDER_LINES",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "USERS",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 0,
+    "components": 1,
+    "db_objects": 5,
+    "dependencies": 38,
+    "entry_points": 0,
+    "files": 35,
+    "findings": 21,
+    "input_coverage": 9,
+    "input_files": 2,
+    "integrations": 3,
+    "libraries": 5,
+    "loc_blank": 93,
+    "loc_code": 587,
+    "loc_comment": 40,
+    "metrics": 1,
+    "screens": 6,
+    "services": 4,
+    "sql_statements": 14,
+    "tech_stack": 10,
+    "web_services": 1
+  },
+  "unresolved_references": 1,
+  "unscheduled_batch_entries": {},
+  "unscheduled_batches": [],
+  "vulnerability_sources": [
+    {
+      "database_date": "2026-09-30",
+      "detail": null,
+      "name": "dependency-check",
+      "reports": [
+        "audit-inputs/security/dependency-check-report.json"
+      ],
+      "status": "imported"
+    },
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "missing"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "orders-web",
+      "name": "PricingService",
+      "operations": 1,
+      "side": "called",
+      "style": "SOAP",
+      "url": "http://pricing.acme.local:8080/axis/services/PricingService"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:9b1ef58834cfa1ed,apps/billing-batch/java/com/acme/billing/InvoiceRun.java,billing-batch,33,7,2,6,3,1.33,2,0,0,0.0,0,0.0,0,0,0,,,{}
+metric:a45838746afe78d4,apps/orders-web/.project,orders-web,87,2,7,9,3,1.33,2,0,0,0.0,0,0.0,0,1,2,Simple,2.87,"{""Simple"": 2}"
+metric:97ec22fbdab53825,settlement-c/Makefile.aix,settlement-c,14,4,2,4,2,1.5,2,0,0,0.0,0,0.0,0,1,0,Simple,1.74,"{""Simple"": 1}"
+metric:65da916a42e9eff5,config/common.properties,shared-scripts-config,14,3,0,4,1,2.0,2,0,0,0.0,0,0.0,1,0,0,,,{}

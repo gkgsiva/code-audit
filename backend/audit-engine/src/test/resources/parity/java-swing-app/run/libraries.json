@@ -1,0 +1,116 @@
+[
+  {
+    "artifact": "ojdbc8",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "group": "com.oracle.database.jdbc",
+    "id": "library:dc30e95e628bacd9",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "replace",
+      "effort": "low",
+      "reason": "Target database is PostgreSQL",
+      "recipe": null,
+      "rule": "replace",
+      "target": "org.postgresql:postgresql",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "19.3.0.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "teller-desk/pom.xml"
+    ]
+  },
+  {
+    "artifact": "jcalendar",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "group": "com.toedter",
+    "id": "library:1decf5cadd40f3dc",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "1.4",
+    "vulnerabilities": [],
+    "where_used": [
+      "teller-desk/pom.xml"
+    ]
+  },
+  {
+    "artifact": "log4j",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "group": "log4j",
+    "id": "library:c90a9abc591adbb1",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2015-08-05",
+      "recipe": "org.openrewrite.java.logging.log4j.Log4j1ToLog4j2",
+      "rule": "eol",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "SLF4J + Logback (Spring Boot default)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "1.2.17",
+    "vulnerabilities": [],
+    "where_used": [
+      "teller-desk/pom.xml"
+    ]
+  }
+]

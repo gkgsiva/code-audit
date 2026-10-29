@@ -1,0 +1,114 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:48a24f17e926ed09",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:c7e610da228b1314",
+    "target": "file:2cce1d0e5263bfab"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "edge:03730dbd1f911555",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:c7e610da228b1314",
+    "target": "screen:bcfc28694d8460e2"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/billing-batch/ksh/run_invoices.ksh",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:fca1918520028a55",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:701038ea6711cc09",
+    "target": "file:4b447c43f65d4d6c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/billing-batch/ksh/run_invoices.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f2990e02fdac18e2",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:701038ea6711cc09",
+    "target": "file:cc4e652655509787"
+  },
+  {
+    "evidence": [
+      {
+        "file": "settlement-c/scripts/run_settle.ksh",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6f8b7168b131df82",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:92e0a15174f0100a",
+    "target": "service:6944fc5f2e382c7c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5b9d339e1cd9013b",
+    "kind": "submits",
+    "resolved": true,
+    "source": "screen:bcfc28694d8460e2",
+    "target": "service:c7e610da228b1314"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:85ae2f7ae105c5af",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:2cce1d0e5263bfab",
+    "target": "file:d850d9707d5dd44e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:adb45f410054b21f",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:d850d9707d5dd44e",
+    "target": "file:1978d0c7415c175d"
+  }
+]

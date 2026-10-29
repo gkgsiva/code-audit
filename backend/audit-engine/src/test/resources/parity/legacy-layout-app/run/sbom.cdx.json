@@ -1,0 +1,31 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [],
+  "dependencies": [
+    {
+      "dependsOn": [],
+      "ref": "application:Legacy layout (Eclipse, ksh and Pro*C sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Legacy layout (Eclipse, ksh and Pro*C sample)",
+      "name": "Legacy layout (Eclipse, ksh and Pro*C sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:36+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:2e59683a-a928-5358-815a-8f46584babc3",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

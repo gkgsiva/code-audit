@@ -1,0 +1,183 @@
+[
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": null,
+    "complexity_max": null,
+    "complexity_score": null,
+    "component": "acme-ear",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "acme-ear/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:bc05c51e8cdc7299",
+    "loc_blank": 0,
+    "loc_code": 30,
+    "loc_comment": 0,
+    "test_files": 0,
+    "test_ratio": null,
+    "units": 0
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.71,
+    "complexity_max": 2,
+    "complexity_score": null,
+    "component": "acme-parent-scripts-config",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 12,
+    "id": "metric:6f65f8d78d335792",
+    "loc_blank": 0,
+    "loc_code": 21,
+    "loc_comment": 19,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 7
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.5,
+    "complexity_max": 2,
+    "complexity_score": null,
+    "component": "acme-tools",
+    "dead_code_candidates": 1,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "acme-tools/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:ddc3c2c8b7bfc9b2",
+    "loc_blank": 2,
+    "loc_code": 25,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": 0.68,
+    "component": "acme-web",
+    "dead_code_candidates": 1,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "acme-core/pom.xml",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "acme-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 1,
+    "files": 6,
+    "id": "metric:5c8c79b1f6567f34",
+    "loc_blank": 6,
+    "loc_code": 75,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 3
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": null,
+    "component": "billing-batch",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "batches/billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:c3fae5260aee37cf",
+    "loc_blank": 2,
+    "loc_code": 21,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": null,
+    "component": "report-batch",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "batches/report-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:7062f605d58ec223",
+    "loc_blank": 2,
+    "loc_code": 21,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  }
+]

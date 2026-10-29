@@ -1,0 +1,246 @@
+[
+  {
+    "built_with": [],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 22,
+        "snippet": "DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE"
+      }
+    ],
+    "file": "cobol/ORDBATCH.cbl",
+    "fingerprint": "d70753ba5d07cc44",
+    "fragments": 1,
+    "id": "sql:22e666b1f881dfbc",
+    "line": 22,
+    "normalized": "DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT_DATE",
+    "procedures": [],
+    "reason": "DB2 special register → CURRENT_DATE / CURRENT_TIMESTAMP / current_user",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "SHIPMENTS"
+    ],
+    "text": "DECLARE SHIP-CUR CURSOR FOR\n        SELECT ORD_ID, SHIP_DATE\n          FROM SHIPMENTS\n         WHERE SHIP_DATE = CURRENT DATE",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "CURRENT DATE/TIMESTAMP"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 40,
+        "snippet": "UPDATE ORDERS SET ORD_STATUS = 'S' WHERE ORD_ID = :ORD-ID"
+      }
+    ],
+    "file": "cobol/ORDBATCH.cbl",
+    "fingerprint": "21f3012afa3a3b6e",
+    "fragments": 1,
+    "id": "sql:a8a07a6d211422de",
+    "line": 40,
+    "normalized": "UPDATE ORDERS SET ORD_STATUS = ? WHERE ORD_ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE ORDERS SET ORD_STATUS = 'S' WHERE ORD_ID = ?",
+    "procedures": [],
+    "reason": null,
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "UPDATE ORDERS SET ORD_STATUS = 'S'\n            WHERE ORD_ID = :ORD-ID",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 25,
+        "snippet": "SELECT O.ORD_AMOUNT, C.CUST_NAME INTO :ORD-AMOUNT, :WS-CUST-NAME FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID "
+      }
+    ],
+    "file": "cobol/ORDINQ.cbl",
+    "fingerprint": "dfebef4c9b593e74",
+    "fragments": 1,
+    "id": "sql:8d425f56e1c4ea3e",
+    "line": 25,
+    "normalized": "SELECT O.ORD_AMOUNT, C.CUST_NAME INTO ?, ? FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ? WITH UR",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT O.ORD_AMOUNT, C.CUST_NAME FROM ORDERS AS O JOIN CUSTOMER AS C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ?",
+    "procedures": [],
+    "reason": "DB2 isolation clause (WITH UR/CS/RS/RR) dropped; INTO :host variables become JDBC result mapping",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMER",
+      "ORDERS"
+    ],
+    "text": "SELECT O.ORD_AMOUNT, C.CUST_NAME\n          INTO :ORD-AMOUNT, :WS-CUST-NAME\n          FROM ORDERS O\n          JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID\n         WHERE O.ORD_ID = :WS-ORDER-ID\n          WITH UR",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "DB2 WITH UR"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 27,
+        "snippet": "SELECT SUM(ORD_AMOUNT) INTO :WS-TOTAL FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST 1 ROW ONLY"
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "fingerprint": "a9daf64322322162",
+    "fragments": 1,
+    "id": "sql:dea1e97f95240ca2",
+    "line": 27,
+    "normalized": "SELECT SUM(ORD_AMOUNT) INTO ? FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST ? ROW ONLY",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT SUM(ORD_AMOUNT) FROM ORDERS WHERE ORD_DATE = CURRENT_DATE FETCH FIRST 1 ROWS ONLY",
+    "procedures": [],
+    "reason": "FETCH FIRST: check row-limit and ordering semantics; DB2 special register → CURRENT_DATE / CURRENT_TIMESTAMP / current_user; INTO :host variables become JDBC result mapping",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT SUM(ORD_AMOUNT) INTO :WS-TOTAL\n          FROM ORDERS\n         WHERE ORD_DATE = CURRENT DATE\n         FETCH FIRST 1 ROW ONLY",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "DB2 FETCH FIRST",
+      "CURRENT DATE/TIMESTAMP"
+    ]
+  },
+  {
+    "built_with": [
+      "conditional",
+      "prepare-from-variable",
+      "string-statement"
+    ],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 51,
+        "snippet": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?"
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 41,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 43,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "fingerprint": "375a68c390d6d5b4",
+    "fragments": 4,
+    "id": "sql:49f749d475666ab6",
+    "line": 51,
+    "normalized": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = ? ORDER BY ?",
+    "optional_fragments": 2,
+    "parsed": true,
+    "pg_grade": "manual",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "part of the statement is only known at run time (1 place(s))",
+    "source": "embedded",
+    "structural_holes": 1,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?",
+    "type": "SELECT",
+    "value_holes": 1,
+    "variants": [
+      "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? ORDER BY ?"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "cobol-online",
+    "dialect": "db2",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 14,
+        "snippet": "SELECT COUNT(*) INTO :WS-COUNT FROM ORDERS WHERE ORD_ID = :DFHCOMMAREA"
+      }
+    ],
+    "file": "cobol/ORDVAL.cbl",
+    "fingerprint": "6314e6ba55bc79f8",
+    "fragments": 1,
+    "id": "sql:e8ec7b254953308f",
+    "line": 14,
+    "normalized": "SELECT COUNT(*) INTO ? FROM ORDERS WHERE ORD_ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT COUNT(*) FROM ORDERS WHERE ORD_ID = ?",
+    "procedures": [],
+    "reason": "INTO :host variables become JDBC result mapping",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT COUNT(*) INTO :WS-COUNT\n          FROM ORDERS\n         WHERE ORD_ID = :DFHCOMMAREA",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  }
+]

@@ -1,0 +1,1028 @@
+{
+  "analyzer_coverage": {
+    "config": {
+      "coverage_pct": 81.0,
+      "files": 14
+    },
+    "deps": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 9
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 28
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 61
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 12
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 9
+    },
+    "typescript": {
+      "coverage_pct": 100.0,
+      "files": 28
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 9
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 6,
+      "loc_blank": 0,
+      "loc_code": 81,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 17,
+      "loc_blank": 8,
+      "loc_code": 158,
+      "loc_comment": 1
+    },
+    "doc": {
+      "files": 2,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 5
+    },
+    "screen": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 77,
+      "loc_comment": 0
+    },
+    "source": {
+      "files": 28,
+      "loc_blank": 58,
+      "loc_code": 373,
+      "loc_comment": 12
+    },
+    "test": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 9,
+      "loc_comment": 0
+    }
+  },
+  "by_language": {
+    "css": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 5,
+      "loc_comment": 0
+    },
+    "dockerfile": {
+      "files": 2,
+      "loc_blank": 0,
+      "loc_code": 9,
+      "loc_comment": 0
+    },
+    "html": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 77,
+      "loc_comment": 0
+    },
+    "ini": {
+      "files": 2,
+      "loc_blank": 5,
+      "loc_code": 29,
+      "loc_comment": 1
+    },
+    "javascript": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 42,
+      "loc_comment": 6
+    },
+    "json": {
+      "files": 7,
+      "loc_blank": 0,
+      "loc_code": 108,
+      "loc_comment": 0
+    },
+    "lockfile": {
+      "files": 2,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "markdown": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 0,
+      "loc_comment": 4
+    },
+    "prisma": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 16,
+      "loc_comment": 0
+    },
+    "text": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 1
+    },
+    "typescript": {
+      "files": 25,
+      "loc_blank": 59,
+      "loc_code": 335,
+      "loc_comment": 6
+    },
+    "xml": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 77,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.18,
+      "component": "billing-api",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": null,
+      "component": "deploy",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": null
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.29,
+      "component": "legacy-portal",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.08,
+      "component": "orders-api",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.38,
+      "component": "orders-web",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.091
+    }
+  ],
+  "components": [
+    {
+      "files": 22,
+      "loc_code": 260,
+      "name": "orders-web",
+      "type": "frontend"
+    },
+    {
+      "files": 12,
+      "loc_code": 149,
+      "name": "orders-api",
+      "type": "api"
+    },
+    {
+      "files": 12,
+      "loc_code": 109,
+      "name": "legacy-portal",
+      "type": "frontend"
+    },
+    {
+      "files": 8,
+      "loc_code": 97,
+      "name": "billing-api",
+      "type": "api"
+    },
+    {
+      "files": 9,
+      "loc_code": 83,
+      "name": "deploy",
+      "type": "config"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {
+        "node-cron": 2
+      },
+      "scheduled": 2,
+      "total": 2,
+      "unscheduled": 0
+    },
+    "complexity": {
+      "batch_jobs": {
+        "Simple": 2
+      },
+      "screens": {
+        "Simple": 5
+      },
+      "services": {
+        "Medium": 1,
+        "Simple": 10
+      }
+    },
+    "db_objects": {
+      "table": 4
+    },
+    "dependencies": {
+      "resolved": 45,
+      "unresolved": 0
+    },
+    "entry_points": {
+      "angular-app": 1,
+      "angularjs-app": 1,
+      "node-server": 2
+    },
+    "eol_libraries": 2,
+    "findings": {
+      "build-output-skipped": 1,
+      "eol-library": 2,
+      "eol-technology": 8,
+      "no-tests": 3,
+      "server-specific-config": 8
+    },
+    "findings_by_severity": {
+      "info": 1,
+      "low": 11,
+      "medium": 10
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 2,
+        "HTTP": 5
+      },
+      "total": 7
+    },
+    "libraries": {
+      "declared": 26,
+      "total": 30,
+      "undeclared": 4
+    },
+    "pg_grades": {
+      "auto": 9,
+      "review": 1
+    },
+    "recommendations": {
+      "keep": 27,
+      "replace": 1,
+      "rewrite": 1,
+      "upgrade": 1
+    },
+    "screens": {
+      "by_technology": {
+        "angular": 3,
+        "angularjs": 2
+      },
+      "partials": 4,
+      "total": 5
+    },
+    "services": {
+      "by_kind": {
+        "batch-job": 2,
+        "nest-route": 3,
+        "node-route": 6
+      },
+      "total": 11
+    },
+    "sql": {
+      "by_source": {
+        "node-db": 4,
+        "prisma": 3,
+        "typeorm": 3
+      },
+      "by_type": {
+        "DELETE": 1,
+        "INSERT": 2,
+        "SELECT": 5,
+        "UPDATE": 2
+      },
+      "distinct": 9,
+      "dynamic": 1,
+      "not_parsed": 6,
+      "total": 10
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {
+        "REST called": 2,
+        "REST offered": 4
+      },
+      "called": 2,
+      "offered": 4,
+      "operations": 11,
+      "total": 6
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "dependency-check": "OWASP Dependency-Check (not installed): not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "osv-scanner": "OSV-Scanner (not installed): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 154.9,
+    "label": "estimate — weights from config",
+    "likely": 83.45,
+    "low": 42.0,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://portaldb.acme.local:1521/PORTAL",
+      "type": "DB",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "postgres://ordersdb.acme.local:5432/orders",
+      "type": "DB",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "login / authentication",
+      "target": "https://acme.okta.com/oauth2/default",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://billing-api.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://geo.acme.local/api/v1/geocode",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://orders-api.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://payments.acme.local/api/v1/charges",
+      "type": "HTTP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "typescript",
+      "loc_code": 33,
+      "path": "orders-api/src/services/order.service.ts"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 30,
+      "path": "orders-web/src/app/orders/order.service.ts"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 26,
+      "path": "orders-web/src/app/orders/order-detail.component.ts"
+    },
+    {
+      "language": "json",
+      "loc_code": 24,
+      "path": "orders-api/package.json"
+    },
+    {
+      "language": "json",
+      "loc_code": 24,
+      "path": "orders-web/package.json"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 21,
+      "path": "orders-web/src/app/orders/order-list.component.ts"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 20,
+      "path": "billing-api/src/invoices/invoices.service.ts"
+    },
+    {
+      "language": "javascript",
+      "loc_code": 20,
+      "path": "legacy-portal/WebContent/js/app.js"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 18,
+      "path": "billing-api/src/invoices/invoices.controller.ts"
+    },
+    {
+      "language": "javascript",
+      "loc_code": 18,
+      "path": "legacy-portal/WebContent/js/controllers.js"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 18,
+      "path": "orders-api/src/routes/orders.ts"
+    },
+    {
+      "language": "json",
+      "loc_code": 17,
+      "path": "orders-web/angular.json"
+    },
+    {
+      "language": "typescript",
+      "loc_code": 17,
+      "path": "orders-web/src/app/app.routes.ts"
+    },
+    {
+      "language": "json",
+      "loc_code": 16,
+      "path": "billing-api/package.json"
+    },
+    {
+      "language": "prisma",
+      "loc_code": 16,
+      "path": "billing-api/prisma/schema.prisma"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "@angular/core",
+      "recommendation": "upgrade",
+      "target": "Angular 21",
+      "version": "17.3.12"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "angular",
+      "recommendation": "rewrite",
+      "target": "Angular 21",
+      "version": "1.5.8"
+    }
+  ],
+  "run": {
+    "application": "Angular and Node.js orders (sample)",
+    "run_id": "20261029-205633-d8acfc",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/angular-node-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:33+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "app-server",
+      "eol": null,
+      "name": "Apache Tomcat",
+      "version": null
+    },
+    {
+      "category": "app-server",
+      "eol": null,
+      "name": "IBM WebSphere Application Server",
+      "version": null
+    },
+    {
+      "category": "app-server",
+      "eol": null,
+      "name": "IBM WebSphere Liberty",
+      "version": null
+    },
+    {
+      "category": "app-server",
+      "eol": true,
+      "name": "JBoss / WildFly",
+      "version": "4.2"
+    },
+    {
+      "category": "app-server",
+      "eol": false,
+      "name": "Oracle WebLogic Server",
+      "version": "12.2.1.4.0"
+    },
+    {
+      "category": "app-server",
+      "eol": true,
+      "name": "Oracle WebLogic Server",
+      "version": "8.1"
+    },
+    {
+      "category": "auth",
+      "eol": false,
+      "name": "Okta SDK",
+      "version": "6.3.2"
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": false,
+      "name": "PostgreSQL",
+      "version": "8.11.3"
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Angular",
+      "version": "17.3.12"
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "AngularJS",
+      "version": "1.5.8"
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "Express",
+      "version": "4.18.2"
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "NestJS",
+      "version": "10.3.0"
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "Prisma",
+      "version": "5.10.0"
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "TypeORM",
+      "version": "0.3.20"
+    },
+    {
+      "category": "language",
+      "eol": false,
+      "name": "TypeScript",
+      "version": "5.4.2"
+    },
+    {
+      "category": "language",
+      "eol": false,
+      "name": "TypeScript",
+      "version": "5.4.5"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Angular Material",
+      "version": "17.3.10"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Bootstrap",
+      "version": "3.3.7"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "RxJS",
+      "version": "7.8.1"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": "Node.js",
+      "version": "18"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": "Node.js",
+      "version": "18.17"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": "Node.js",
+      "version": "20.11"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": "Servlet API",
+      "version": "2.5"
+    },
+    {
+      "category": "scheduler",
+      "eol": false,
+      "name": "NestJS Schedule",
+      "version": "4.0.1"
+    },
+    {
+      "category": "scheduler",
+      "eol": false,
+      "name": "node-cron",
+      "version": "3.0.3"
+    },
+    {
+      "category": "web-server",
+      "eol": null,
+      "name": "Apache HTTP Server",
+      "version": null
+    },
+    {
+      "category": "web-server",
+      "eol": false,
+      "name": "Nginx",
+      "version": "1.25"
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "legacy-portal/bower.json",
+      "line": 5,
+      "message": "angular 1.5.8 is end of life since 2021-12-31; replace with Angular 21",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-web/package.json",
+      "line": 12,
+      "message": "@angular/core 17.3.12 is end of life since 2025-05-15; replace with Angular 21",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-api/.nvmrc",
+      "line": 1,
+      "message": "Node.js 20.11 is end of life since 2026-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+      "line": 1,
+      "message": "JBoss / WildFly 4.2 is end of life since ?; target Spring Boot 4 executable jar on GKE / Cloud Run",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+      "line": 2,
+      "message": "Servlet API 2.5 is end of life since 2013-06-12; target Jakarta Servlet 6.1",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+      "line": 1,
+      "message": "Oracle WebLogic Server 8.1 is end of life since ?; target Spring Boot 4 executable jar on GKE / Cloud Run",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "legacy-portal/bower.json",
+      "line": 5,
+      "message": "AngularJS 1.5.8 is end of life since 2021-12-31; target Angular 21",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-api/Dockerfile",
+      "line": 1,
+      "message": "Node.js 18 is end of life since 2025-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-api/package.json",
+      "line": 7,
+      "message": "Node.js 18.17 is end of life since 2025-04-30; target Node.js 24 LTS, or Spring Boot 4 (Java 25)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-web/package.json",
+      "line": 12,
+      "message": "Angular 17.3.12 is end of life since 2025-05-15; target Angular 21",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-api/package.json",
+      "line": null,
+      "message": "Component billing-api has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "legacy-portal/bower.json",
+      "line": null,
+      "message": "Component legacy-portal has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "orders-api/package.json",
+      "line": null,
+      "message": "Component orders-api has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "deploy/jboss/standalone.xml",
+      "line": 1,
+      "message": "JBoss/WildFly server configuration (standalone.xml): data sources, JMS resources, security realms and tuning set here for JBoss / WildFly and must move to Spring Boot 4 configuration (application.yaml",
+      "rule": "server-specific-config",
+      "severity": "low"
+    },
+    {
+      "file": "deploy/liberty/server.xml",
+      "line": 1,
+      "message": "WebSphere Liberty server configuration: data sources, JMS resources, security realms and tuning set here for IBM WebSphere Liberty and must move to Spring Boot 4 configuration (application.yaml, Kuber",
+      "rule": "server-specific-config",
+      "severity": "low"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "GET /health",
+      "tables": 3
+    },
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "DELETE /api/orders/:id",
+      "tables": 2
+    },
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "GET /api/orders",
+      "tables": 2
+    },
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "GET /api/orders/:id",
+      "tables": 2
+    },
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "POST /api/orders",
+      "tables": 2
+    },
+    {
+      "component": "orders-api",
+      "kind": "node-route",
+      "name": "GET /api/customers/:id",
+      "tables": 1
+    },
+    {
+      "component": "billing-api",
+      "kind": "nest-route",
+      "name": "GET /api/invoices",
+      "tables": 1
+    },
+    {
+      "component": "billing-api",
+      "kind": "nest-route",
+      "name": "GET /api/invoices/:id",
+      "tables": 1
+    },
+    {
+      "component": "billing-api",
+      "kind": "nest-route",
+      "name": "POST /api/invoices",
+      "tables": 1
+    },
+    {
+      "component": "billing-api",
+      "kind": "batch-job",
+      "name": "month-end-close",
+      "tables": 1
+    },
+    {
+      "component": "orders-api",
+      "kind": "batch-job",
+      "name": "purge-old-orders",
+      "tables": 1
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "R",
+        "U"
+      ],
+      "name": "INVOICES",
+      "references": 4
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDERS",
+      "references": 4
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMERS",
+      "references": 2
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDER_AUDIT",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 2,
+    "components": 5,
+    "db_objects": 4,
+    "dependencies": 45,
+    "entry_points": 4,
+    "files": 63,
+    "findings": 22,
+    "input_coverage": 9,
+    "input_files": 0,
+    "integrations": 7,
+    "libraries": 30,
+    "loc_blank": 68,
+    "loc_code": 698,
+    "loc_comment": 18,
+    "metrics": 5,
+    "screens": 9,
+    "services": 11,
+    "sql_statements": 10,
+    "tech_stack": 28,
+    "web_services": 6
+  },
+  "unresolved_references": 0,
+  "unscheduled_batch_entries": {},
+  "unscheduled_batches": [],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "missing"
+    },
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "missing"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "orders-api",
+      "name": "orders",
+      "operations": 4,
+      "side": "offered",
+      "style": "REST",
+      "url": "/api/orders"
+    },
+    {
+      "component": "billing-api",
+      "name": "InvoicesController",
+      "operations": 3,
+      "side": "offered",
+      "style": "REST",
+      "url": "/api/invoices"
+    },
+    {
+      "component": "orders-api",
+      "name": "customers",
+      "operations": 1,
+      "side": "offered",
+      "style": "REST",
+      "url": "/api/customers"
+    },
+    {
+      "component": "orders-api",
+      "name": "server",
+      "operations": 1,
+      "side": "offered",
+      "style": "REST",
+      "url": "/health"
+    },
+    {
+      "component": "orders-web",
+      "name": "geo.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://geo.acme.local"
+    },
+    {
+      "component": "orders-api",
+      "name": "payments.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://payments.acme.local"
+    }
+  ]
+}

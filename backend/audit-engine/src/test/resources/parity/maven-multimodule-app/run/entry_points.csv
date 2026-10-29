@@ -1,0 +1,3 @@
+id,evidence,name,kind,file,line,component
+entry:8140070bf5ee040d,batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java:8,com.acme.billing.BillingMain,main,batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java,8,billing-batch
+entry:be94f8187afe4583,batches/report-batch/src/main/java/com/acme/report/ReportMain.java:8,com.acme.report.ReportMain,main,batches/report-batch/src/main/java/com/acme/report/ReportMain.java,8,report-batch

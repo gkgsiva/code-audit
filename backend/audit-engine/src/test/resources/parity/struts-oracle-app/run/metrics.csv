@@ -1,0 +1,2 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:7a90f74d2945f65a,build.xml,orders-web,587,40,93,35,29,1.69,7,0,24,4.1,1,0.05,1,3,3,Simple,6.89,"{""Medium"": 3, ""Simple"": 5}"

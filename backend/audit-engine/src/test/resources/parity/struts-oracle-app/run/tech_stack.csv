@@ -1,0 +1,11 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:033ac96aeec1d8ea,build.xml:3,Ant,,build,1,,,
+tech:2f57f26890fd49dc,conf/orders-app.properties:2;src/com/acme/orders/dao/ConnectionFactory.java:13,Oracle,,database,2,,,
+tech:da9377de059c7edf,WebContent/WEB-INF/lib/ojdbc14.jar,Oracle JDBC driver,10.2.0.4.0,database,1,false,,
+tech:4cb01f14a2ae602e,scripts/deploy.ksh:13,SQL*Plus,,database,1,,,
+tech:7d5e7c95336f821a,WebContent/WEB-INF/lib/axis-1.4.jar,Apache Axis,1.4,framework,1,true,2006-04-22,Spring Web Services or a REST client
+tech:8614d61b40a77bfe,WebContent/WEB-INF/lib/struts-1.2.9.jar;WebContent/WEB-INF/struts-config.xml:5;WebContent/WEB-INF/web.xml:8,Struts 1,1.2.9,framework,3,true,2013-04-05,Spring MVC (Spring Boot 4)
+tech:bb05828810f93439,WebContent/WEB-INF/tiles-defs.xml:5,Tiles,,framework,1,,,
+tech:accefd5b96380425,build.xml:23,Java,1.5,language,1,true,2009-10-30,Java 25
+tech:0d4a0015af610eb8,WebContent/WEB-INF/lib/log4j-1.2.17.jar,Log4j 1,1.2.17,library,1,true,2015-08-05,SLF4J + Logback
+tech:7c24a97c094e95ae,src/com/acme/orders/action/LoginAction.java;src/com/acme/orders/action/OrderDetailAction.java;src/com/acme/orders/action/OrderSearchAction.java;src/com/acme/orders/form/LoginForm.java;src/com/acme/orders/servlet/HealthServlet.java,javax.* namespace (Jakarta EE migration),,upgrade-signal,5,,,

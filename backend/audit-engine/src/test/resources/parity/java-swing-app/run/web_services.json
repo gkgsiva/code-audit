@@ -1,0 +1,52 @@
+[
+  {
+    "callers": [
+      "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+    ],
+    "component": "teller-desk",
+    "components": [
+      "teller-desk"
+    ],
+    "description": "Calls the rates.acme.local REST service at https://rates.acme.local from 1 file (java.net.http.HttpClient, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/config/teller.properties",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "teller-desk/config/teller.properties",
+      "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+    ],
+    "frameworks": [
+      "java.net.http.HttpClient"
+    ],
+    "id": "web_service:ba0da9723a80e7d8",
+    "integrations": [
+      "integration:f7d2f886cf042519"
+    ],
+    "name": "rates.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "handler": "com.acme.teller.ui.RatesController",
+        "line": 12,
+        "method": "GET",
+        "name": "GET /api/fx",
+        "path": "/api/fx",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://rates.acme.local",
+    "wsdl": null
+  }
+]

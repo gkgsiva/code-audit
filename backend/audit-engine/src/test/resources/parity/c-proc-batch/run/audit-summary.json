@@ -1,0 +1,568 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "c_cpp": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "cft": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "proc": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "sql": {
+      "coverage_pct": 100.0,
+      "files": 1
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 1,
+      "loc_blank": 5,
+      "loc_code": 13,
+      "loc_comment": 1
+    },
+    "script": {
+      "files": 2,
+      "loc_blank": 3,
+      "loc_code": 21,
+      "loc_comment": 4
+    },
+    "source": {
+      "files": 4,
+      "loc_blank": 16,
+      "loc_code": 125,
+      "loc_comment": 12
+    },
+    "sql": {
+      "files": 1,
+      "loc_blank": 2,
+      "loc_code": 8,
+      "loc_comment": 1
+    }
+  },
+  "by_language": {
+    "c": {
+      "files": 3,
+      "loc_blank": 9,
+      "loc_code": 63,
+      "loc_comment": 7
+    },
+    "make": {
+      "files": 1,
+      "loc_blank": 5,
+      "loc_code": 13,
+      "loc_comment": 1
+    },
+    "proc": {
+      "files": 1,
+      "loc_blank": 7,
+      "loc_code": 62,
+      "loc_comment": 5
+    },
+    "shell": {
+      "files": 2,
+      "loc_blank": 3,
+      "loc_code": 21,
+      "loc_comment": 4
+    },
+    "sql": {
+      "files": 1,
+      "loc_blank": 2,
+      "loc_code": 8,
+      "loc_comment": 1
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Medium",
+      "complexity_avg": 2.1,
+      "component": "settlement",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 8,
+      "loc_code": 167,
+      "name": "settlement",
+      "type": "batch"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {
+        "cron": 2
+      },
+      "scheduled": 2,
+      "total": 2,
+      "unscheduled": 0
+    },
+    "complexity": {
+      "batch_jobs": {
+        "Medium": 1,
+        "Simple": 1
+      },
+      "screens": {},
+      "services": {
+        "Medium": 3,
+        "Simple": 1
+      }
+    },
+    "db_objects": {
+      "table": 4
+    },
+    "dependencies": {
+      "resolved": 10,
+      "unresolved": 1
+    },
+    "entry_points": {
+      "main": 2
+    },
+    "eol_libraries": 0,
+    "findings": {
+      "filesystem-path": 3,
+      "no-tests": 1,
+      "pg-manual-sql": 1,
+      "sql-runtime-structure": 1,
+      "unresolved-reference": 1
+    },
+    "findings_by_severity": {
+      "info": 1,
+      "low": 4,
+      "medium": 2
+    },
+    "integrations": {
+      "by_type": {
+        "CFT": 2,
+        "FILE": 2,
+        "MQ-QMGR": 1,
+        "SCP": 1
+      },
+      "total": 6
+    },
+    "libraries": {
+      "declared": 0,
+      "total": 0,
+      "undeclared": 0
+    },
+    "pg_grades": {
+      "auto": 3,
+      "manual": 1,
+      "review": 3
+    },
+    "recommendations": {},
+    "screens": {
+      "by_technology": {},
+      "partials": 0,
+      "total": 0
+    },
+    "services": {
+      "by_kind": {
+        "batch-job": 2,
+        "c-executable": 2
+      },
+      "total": 4
+    },
+    "sql": {
+      "by_source": {
+        "embedded": 5,
+        "script": 1,
+        "sql-file": 1
+      },
+      "by_type": {
+        "CALL": 1,
+        "DELETE": 1,
+        "INSERT": 1,
+        "SELECT": 3,
+        "UPDATE": 1
+      },
+      "distinct": 7,
+      "dynamic": 1,
+      "not_parsed": 0,
+      "total": 7
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {},
+      "called": 0,
+      "offered": 0,
+      "operations": 0,
+      "total": 0
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: 1 file(s)",
+    "crontab": "Crontab entries: 1 file(s)",
+    "ddl": "Database DDL: not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 74.3,
+    "label": "estimate — weights from config",
+    "likely": 40.65,
+    "low": 20.75,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [
+        "queue SETTLE.TO.BANK (outbound)"
+      ],
+      "purpose": "messaging",
+      "target": "QMSETL",
+      "type": "MQ-QMGR",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "file transfer",
+      "target": "BANKFR/SETTLE",
+      "type": "CFT",
+      "usages": 1
+    },
+    {
+      "direction": "inbound",
+      "endpoints": [],
+      "purpose": "file",
+      "target": "/data/settlement/out/settlement.dat",
+      "type": "FILE",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "file",
+      "target": "/var/log/settlement/settle.log",
+      "type": "FILE",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "file transfer",
+      "target": "archive01.acme.local",
+      "type": "SCP",
+      "usages": 1
+    },
+    {
+      "direction": "inbound",
+      "endpoints": [],
+      "purpose": "file transfer",
+      "target": "*/SETTACK",
+      "type": "CFT",
+      "usages": 0
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "proc",
+      "loc_code": 62,
+      "path": "src/settle_load.pc"
+    },
+    {
+      "language": "c",
+      "loc_code": 30,
+      "path": "src/settle_send.c"
+    },
+    {
+      "language": "c",
+      "loc_code": 27,
+      "path": "src/common/settle_util.c"
+    },
+    {
+      "language": "shell",
+      "loc_code": 17,
+      "path": "scripts/run_settlement.ksh"
+    },
+    {
+      "language": "make",
+      "loc_code": 13,
+      "path": "Makefile"
+    },
+    {
+      "language": "sql",
+      "loc_code": 8,
+      "path": "sql/settle_report.sql"
+    },
+    {
+      "language": "c",
+      "loc_code": 6,
+      "path": "src/common/settle_util.h"
+    },
+    {
+      "language": "shell",
+      "loc_code": 4,
+      "path": "scripts/archive.sh"
+    }
+  ],
+  "risky_libraries": [],
+  "run": {
+    "application": "Settlement (C/Pro*C batch sample)",
+    "run_id": "20261029-205633-11423c",
+    "sources": [
+      {
+        "commit": null,
+        "name": "settlement",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/c-proc-batch/settlement",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:33+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "C compiler (cc)",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Make",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Oracle Pro*C",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "SQL*Plus",
+      "version": null
+    },
+    {
+      "category": "middleware",
+      "eol": null,
+      "name": "Axway CFT",
+      "version": null
+    },
+    {
+      "category": "middleware",
+      "eol": null,
+      "name": "IBM MQ (MQI)",
+      "version": null
+    },
+    {
+      "category": "scheduler",
+      "eol": null,
+      "name": "cron",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "src/settle_load.pc",
+      "line": 59,
+      "message": "Manual PostgreSQL conversion (1x): DELETE at src/settle_load.pc:59 — part of the statement is only known at run time (1 place(s)); SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+      "rule": "pg-manual-sql",
+      "severity": "medium"
+    },
+    {
+      "file": "src/settle_load.pc",
+      "line": 59,
+      "message": "Part of the SQL statement is only known at run time (1x; embedded) in src/settle_load.pc",
+      "rule": "sql-runtime-structure",
+      "severity": "medium"
+    },
+    {
+      "file": "src/common/settle_util.c",
+      "line": 11,
+      "message": "Absolute file-system path in code: \"/var/log/settlement/settle.log\"",
+      "rule": "filesystem-path",
+      "severity": "low"
+    },
+    {
+      "file": "src/settle_send.c",
+      "line": 25,
+      "message": "Absolute file-system path in code: \"/data/settlement/out/settlement.dat\"",
+      "rule": "filesystem-path",
+      "severity": "low"
+    },
+    {
+      "file": "src/settle_send.c",
+      "line": 35,
+      "message": "Absolute file-system path in code: \"/data/settlement/out/settlement.dat\"",
+      "rule": "filesystem-path",
+      "severity": "low"
+    },
+    {
+      "file": "Makefile",
+      "line": null,
+      "message": "Component settlement has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "audit-inputs/crontab/settlement.cron",
+      "line": 4,
+      "message": "purge_logs.sh invokes 'purge_logs.sh', which was not found in the scanned files (looked for: file-name, c-executable)",
+      "rule": "unresolved-reference",
+      "severity": "info"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "settlement",
+      "kind": "batch-job",
+      "name": "run_settlement.ksh",
+      "tables": 4
+    },
+    {
+      "component": "settlement",
+      "kind": "c-executable",
+      "name": "settle_load",
+      "tables": 4
+    },
+    {
+      "component": null,
+      "kind": "batch-job",
+      "name": "purge_logs.sh",
+      "tables": 0
+    },
+    {
+      "component": "settlement",
+      "kind": "c-executable",
+      "name": "settle_send",
+      "tables": 0
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "C",
+        "R"
+      ],
+      "name": "SETTLEMENT_LINES",
+      "references": 3
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "MERCHANTS",
+      "references": 2
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CARD_TRANSACTIONS",
+      "references": 1
+    },
+    {
+      "crud": [
+        "U"
+      ],
+      "name": "SETTLEMENT_RUNS",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 2,
+    "components": 1,
+    "db_objects": 4,
+    "dependencies": 11,
+    "entry_points": 2,
+    "files": 8,
+    "findings": 7,
+    "input_coverage": 7,
+    "input_files": 2,
+    "integrations": 6,
+    "libraries": 0,
+    "loc_blank": 26,
+    "loc_code": 167,
+    "loc_comment": 18,
+    "metrics": 1,
+    "screens": 0,
+    "services": 4,
+    "sql_statements": 7,
+    "tech_stack": 7,
+    "web_services": 0
+  },
+  "unresolved_references": 1,
+  "unscheduled_batch_entries": {},
+  "unscheduled_batches": [],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "skipped"
+    },
+    {
+      "database_date": null,
+      "detail": "no libraries found",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "skipped"
+    }
+  ],
+  "web_services": []
+}

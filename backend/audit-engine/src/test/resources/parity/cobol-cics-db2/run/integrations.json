@@ -1,0 +1,92 @@
+[
+  {
+    "components": [
+      "cobol-online"
+    ],
+    "consumers": [],
+    "description": "Reads the file DD:ORDIN; 1 place in the code.",
+    "details": {
+      "select": "ORDER-IN"
+    },
+    "direction": "inbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:ee357e873520c56e",
+    "producers": [],
+    "protocol": null,
+    "purpose": "file",
+    "source_files": [
+      "cobol/ORDBATCH.cbl"
+    ],
+    "target": "DD:ORDIN",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "cobol-online"
+    ],
+    "consumers": [],
+    "description": "Writes the file DD:ORDOUT; 1 place in the code.",
+    "details": {
+      "select": "ORDER-OUT"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:32a1c02ac6897e0d",
+    "producers": [],
+    "protocol": null,
+    "purpose": "file",
+    "source_files": [
+      "cobol/ORDBATCH.cbl"
+    ],
+    "target": "DD:ORDOUT",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "cobol-online"
+    ],
+    "consumers": [],
+    "description": "Writes the file DD:RPTOUT; 1 place in the code.",
+    "details": {
+      "select": "REPORT-FILE"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:8b09638797fc554e",
+    "producers": [],
+    "protocol": null,
+    "purpose": "file",
+    "source_files": [
+      "cobol/ORDRPT.cbl"
+    ],
+    "target": "DD:RPTOUT",
+    "type": "FILE",
+    "usages": 1
+  }
+]

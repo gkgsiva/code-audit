@@ -1,0 +1,11 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:033ac96aeec1d8ea,quote-axis/build.xml:1,Ant,,build,1,,,
+tech:51fcdf02f3bc41e9,rate-feed/Makefile:1,Make,,build,1,,,
+tech:f868b8019ca10787,orders-ws/pom.xml:1,Maven,,build,1,,,
+tech:3576a1eb85f0be61,quote-axis/WebContent/WEB-INF/server-config.wsdd:2;quote-axis/WebContent/WEB-INF/web.xml:3,Apache Axis,,framework,2,true,2006-04-22,Spring Web Services or a REST client
+tech:d428c6364177d691,orders-ws/pom.xml:8;orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml:2;orders-ws/src/main/webapp/WEB-INF/web.xml:4,Apache CXF,3.1.18,framework,3,false,,
+tech:708ade08495d7128,orders-ws/src/main/webapp/WEB-INF/web.xml:8,Jersey (JAX-RS),,framework,1,,,
+tech:dba40b85143144e7,orders-ws/pom.xml:18,Spring Framework,4.3.30.RELEASE,framework,1,true,2024-08-31,Spring Framework 7 (Spring Boot 4)
+tech:8d21b13dbf66466d,orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml:2,Spring Framework (XML configuration),,framework,1,,,
+tech:9df3a9611d3b3b7d,orders-ws/src/main/webapp/WEB-INF/web.xml:2,Servlet API,3.1,runtime,1,false,,
+tech:7c24a97c094e95ae,orders-ws/src/main/java/com/acme/crm/CrmService.java;orders-ws/src/main/java/com/acme/orders/client/CrmClient.java;orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java,javax.* namespace (Jakarta EE migration),,upgrade-signal,3,,,

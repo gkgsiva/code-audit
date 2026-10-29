@@ -1,0 +1,250 @@
+[
+  {
+    "artifact": "acme-ear",
+    "build_files": [
+      "acme-ear/pom.xml"
+    ],
+    "build_group": [
+      "acme-parent"
+    ],
+    "composition": {
+      "build": 1,
+      "config": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "acme-ear/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:c37ccae49590d4c8",
+    "loc_code": 30,
+    "name": "acme-ear",
+    "packaging": "ear",
+    "parts": [],
+    "path": "acme-ear",
+    "roles": [
+      "config"
+    ],
+    "root": "estate",
+    "technology": [
+      "xml"
+    ],
+    "type": "config"
+  },
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "config": 2,
+      "script": 7,
+      "sql": 3
+    },
+    "detected_by": "grouped",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 12,
+    "id": "component:c457e0d6f417f5d2",
+    "loc_code": 21,
+    "name": "acme-parent-scripts-config",
+    "packaging": null,
+    "parts": [
+      "config",
+      "ops/batch",
+      "ops/batch/archive",
+      "ops/batch/eod",
+      "ops/batch/purge",
+      "scripts"
+    ],
+    "path": "",
+    "roles": [
+      "batch",
+      "db"
+    ],
+    "root": "estate",
+    "technology": [
+      "properties",
+      "shell",
+      "sql"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": "acme-tools",
+    "build_files": [
+      "acme-tools/pom.xml"
+    ],
+    "build_group": [
+      "acme-parent"
+    ],
+    "composition": {
+      "build": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "acme-tools/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:b71f728b71f260f6",
+    "loc_code": 25,
+    "name": "acme-tools",
+    "packaging": "jar",
+    "parts": [],
+    "path": "acme-tools",
+    "roles": [
+      "library"
+    ],
+    "root": "estate",
+    "technology": [
+      "java"
+    ],
+    "type": "library"
+  },
+  {
+    "artifact": "acme-web",
+    "build_files": [
+      "acme-core/pom.xml",
+      "acme-web/pom.xml"
+    ],
+    "build_group": [
+      "acme-parent"
+    ],
+    "composition": {
+      "build": 2,
+      "config": 1,
+      "screen": 1,
+      "source": 2
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "acme-core/pom.xml",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "acme-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 6,
+    "id": "component:709adee8f93ee645",
+    "loc_code": 75,
+    "name": "acme-web",
+    "packaging": "war",
+    "parts": [
+      "acme-web",
+      "acme-core"
+    ],
+    "path": "acme-web",
+    "roles": [
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "java",
+      "jsp",
+      "xml"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": "billing-batch",
+    "build_files": [
+      "batches/billing-batch/pom.xml"
+    ],
+    "build_group": [
+      "acme-parent",
+      "acme-batches"
+    ],
+    "composition": {
+      "build": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "com.acme.billing.BillingMain"
+    ],
+    "evidence": [
+      {
+        "file": "batches/billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:4dce3a489ecb61fa",
+    "loc_code": 21,
+    "name": "billing-batch",
+    "packaging": "jar",
+    "parts": [],
+    "path": "batches/billing-batch",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "java"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": "report-batch",
+    "build_files": [
+      "batches/report-batch/pom.xml"
+    ],
+    "build_group": [
+      "acme-parent",
+      "acme-batches"
+    ],
+    "composition": {
+      "build": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "com.acme.report.ReportMain"
+    ],
+    "evidence": [
+      {
+        "file": "batches/report-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:b9ce12a7b975aa9a",
+    "loc_code": 21,
+    "name": "report-batch",
+    "packaging": "jar",
+    "parts": [],
+    "path": "batches/report-batch",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "java"
+    ],
+    "type": "batch"
+  }
+]

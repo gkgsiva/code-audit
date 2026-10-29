@@ -1,0 +1,539 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7a8e3e34301e9737",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:414d74348603b2b4",
+    "target": "file:5710e99bd9e57b0f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b9c156e5b5701451",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:7faeee752a0d66a4",
+    "target": "file:99a28f1003eede2b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "id": "edge:11ae8f2b813a92a5",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:e238462a66aa312f",
+    "target": "file:bf60c8465a11caaa"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e737160655c2c0bf",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:f1d82f2dd35b68cd",
+    "target": "file:c891b41943dada1e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 33,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e6e3dc89563d5ecb",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:7dfd681b2ad9e265",
+    "target": "screen:05aa629fbec46620"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 38,
+        "snippet": null
+      }
+    ],
+    "id": "edge:323ff024cdffba31",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:7dfd681b2ad9e265",
+    "target": "screen:5c7d3fcc0e7289e9"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7e97e4e329745264",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:cba429da7240a83c",
+    "target": "screen:05aa629fbec46620"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2b04f312e24714d8",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:cba429da7240a83c",
+    "target": "screen:5c7d3fcc0e7289e9"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 28,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7ffcf338f26b616d",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:7faeee752a0d66a4",
+    "target": "screen:5c7d3fcc0e7289e9"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 27,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8239e9ab3a423da2",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:7faeee752a0d66a4",
+    "target": "screen:81b23756f56db307"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7f7f04ed0bbe8c46",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:e238462a66aa312f",
+    "target": "screen:05aa629fbec46620"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "id": "edge:345e4871b031ef96",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:e238462a66aa312f",
+    "target": "service:f1d82f2dd35b68cd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a0ef527868dc3c97",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "service:f1d82f2dd35b68cd",
+    "target": "screen:927c65728f5fbfe5"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/login.jsp",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "edge:1ea305b18ec43d3f",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:05aa629fbec46620",
+    "target": "screen:0b261a26c1e8c52d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/login.jsp",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "edge:31a149a2f8af8c97",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:05aa629fbec46620",
+    "target": "screen:286d7c35a1040235"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:1aa5bbb7f8607dbb",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:81b23756f56db307",
+    "target": "screen:0b261a26c1e8c52d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8be2d7fb40d7e81c",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:81b23756f56db307",
+    "target": "screen:286d7c35a1040235"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:aea63a9b911c25e1",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:927c65728f5fbfe5",
+    "target": "screen:0b261a26c1e8c52d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 34,
+        "snippet": null
+      }
+    ],
+    "id": "edge:fe8e7bc66acf7a44",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:927c65728f5fbfe5",
+    "target": "screen:286d7c35a1040235"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:3b1b73d15da1cfa7",
+    "kind": "includes",
+    "resolved": true,
+    "source": "tiles:base.layout",
+    "target": "screen:0b261a26c1e8c52d"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:0845abd6b4b65327",
+    "kind": "includes",
+    "resolved": true,
+    "source": "tiles:base.layout",
+    "target": "screen:286d7c35a1040235"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:38bb1c3c2a2276ea",
+    "kind": "includes",
+    "resolved": false,
+    "source": "tiles:base.layout",
+    "target": "unresolved:/jsp/common/layout.jsp"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/error.jsp",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "edge:04c90b9049e31350",
+    "kind": "links",
+    "resolved": true,
+    "source": "screen:5c7d3fcc0e7289e9",
+    "target": "screen:05aa629fbec46620"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5e20e2530788d63a",
+    "kind": "links",
+    "resolved": true,
+    "source": "screen:81b23756f56db307",
+    "target": "service:f1d82f2dd35b68cd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "edge:328036931952a912",
+    "kind": "links",
+    "resolved": true,
+    "source": "screen:927c65728f5fbfe5",
+    "target": "service:7faeee752a0d66a4"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/login.jsp",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "edge:53a48300ff5dabd0",
+    "kind": "submits",
+    "resolved": true,
+    "source": "screen:05aa629fbec46620",
+    "target": "service:e238462a66aa312f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c70cc48b5fcd5ac5",
+    "kind": "submits",
+    "resolved": true,
+    "source": "screen:927c65728f5fbfe5",
+    "target": "service:f1d82f2dd35b68cd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:dad7dd5dd693765c",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:3b2a4cdb245c15d6",
+    "target": "file:ae1c9277c02eee82"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/service/OrderService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6f0a6f924ab9c950",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:4d42fa0eac77191b",
+    "target": "file:873162c3a3a19121"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/service/OrderService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:345ae3047d0d7bc3",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:4d42fa0eac77191b",
+    "target": "file:ae1c9277c02eee82"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/OrderDetailAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:0cf60cb8022c74a0",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:99a28f1003eede2b",
+    "target": "file:4d42fa0eac77191b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:770304d136788f51",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ae1c9277c02eee82",
+    "target": "file:fce1cd1c0bf310d4"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/LoginAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:4e329ad0d561f909",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:bf60c8465a11caaa",
+    "target": "file:4d42fa0eac77191b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/LoginAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:9ce753d43391028e",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:bf60c8465a11caaa",
+    "target": "file:baf06be425865cf5"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/OrderSearchAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c0e7fc503f527b63",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:c891b41943dada1e",
+    "target": "file:4d42fa0eac77191b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/OrderSearchAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c34b441cc9d4bc76",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:c891b41943dada1e",
+    "target": "file:ca893cd7b05b6830"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "edge:bd331cde73ba569a",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:cba429da7240a83c",
+    "target": "file:baf06be425865cf5"
+  },
+  {
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:0979f187184f234a",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:cba429da7240a83c",
+    "target": "file:ca893cd7b05b6830"
+  }
+]

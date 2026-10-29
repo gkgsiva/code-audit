@@ -1,0 +1,44 @@
+[
+  {
+    "callers": [],
+    "component": "shared-scripts-config",
+    "components": [
+      "shared-scripts-config"
+    ],
+    "description": "Calls the pricing.acme.local REST service at https://pricing.acme.local from 1 file (address in code or configuration, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "config/common.properties"
+    ],
+    "frameworks": [
+      "address in code or configuration"
+    ],
+    "id": "web_service:b113c8e1739712b2",
+    "integrations": [
+      "integration:56ef1f8d99906807"
+    ],
+    "name": "pricing.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "config/common.properties",
+        "handler": null,
+        "line": 6,
+        "method": "ANY",
+        "name": "ANY /api/v2/prices",
+        "path": "/api/v2/prices",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://pricing.acme.local",
+    "wsdl": null
+  }
+]

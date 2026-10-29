@@ -1,0 +1,102 @@
+[
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://ordersdb01.acme.local:1521/ORDP; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:3828cb56be38871b",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "conf/orders-app.properties",
+      "src/com/acme/orders/dao/ConnectionFactory.java"
+    ],
+    "target": "oracle://ordersdb01.acme.local:1521/ORDP",
+    "type": "DB",
+    "usages": 2
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Sends email through smtp.acme.local; 1 place in the code.",
+    "details": {
+      "key": "mail.smtp"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:51275d88f40325a2",
+    "producers": [],
+    "protocol": null,
+    "purpose": "email",
+    "source_files": [
+      "conf/orders-app.properties"
+    ],
+    "target": "smtp.acme.local",
+    "type": "SMTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "orders-web"
+    ],
+    "consumers": [],
+    "description": "Calls the PricingService web service on pricing.acme.local (HTTP); 2 places in the code.",
+    "details": {
+      "key": "pricing.endpoint"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:35476cbb77b19985",
+    "producers": [],
+    "protocol": null,
+    "purpose": "web service",
+    "source_files": [
+      "conf/orders-app.properties",
+      "src/com/acme/orders/client/PricingSoapClient.java"
+    ],
+    "target": "http://pricing.acme.local:8080/axis/services/PricingService",
+    "type": "SOAP",
+    "usages": 2
+  }
+]

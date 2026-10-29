@@ -1,0 +1,182 @@
+[
+  {
+    "callers": [],
+    "component": "billing-api-cs",
+    "components": [
+      "billing-api-cs"
+    ],
+    "description": "Offers 2 REST operations under /api/Invoices (ASP.NET Core).",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "billing-api-cs/Controllers/InvoicesController.cs"
+    ],
+    "frameworks": [
+      "ASP.NET Core"
+    ],
+    "id": "web_service:17b6a83a23847c36",
+    "integrations": [],
+    "name": "InvoicesController",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "handler": "InvoicesController.Create",
+        "line": 23,
+        "method": "POST",
+        "name": "POST /api/Invoices",
+        "path": "/api/Invoices",
+        "service_id": "service:39f71e7269bde6dd"
+      },
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "handler": "InvoicesController.Get",
+        "line": 15,
+        "method": "GET",
+        "name": "GET /api/Invoices/{id}",
+        "path": "/api/Invoices/{id}",
+        "service_id": "service:180e1bc51601730e"
+      }
+    ],
+    "side": "offered",
+    "style": "REST",
+    "url": "/api/Invoices",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "legacy-webforms",
+    "components": [
+      "legacy-webforms"
+    ],
+    "description": "Offers 1 SOAP operation under /ContactService.asmx (ASP.NET Web Services (ASMX)).",
+    "evidence": [
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "legacy-webforms/ContactService.asmx.cs"
+    ],
+    "frameworks": [
+      "ASP.NET Web Services (ASMX)"
+    ],
+    "id": "web_service:cbaea388c5760a0f",
+    "integrations": [],
+    "name": "ContactService",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "handler": "ContactService.GetContactName",
+        "line": 8,
+        "method": null,
+        "name": "GetContactName",
+        "path": "ContactService.asmx/GetContactName",
+        "service_id": "service:76a948e0694ee85b"
+      }
+    ],
+    "side": "offered",
+    "style": "SOAP",
+    "url": "/ContactService.asmx",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "billing-api-cs",
+    "components": [
+      "billing-api-cs",
+      "billing-desk-vb6"
+    ],
+    "description": "Calls the ledger.acme.local REST service at https://ledger.acme.local from 2 files (address in code or configuration, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 40,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "billing-api-cs/Services/LedgerClient.cs",
+      "billing-desk-vb6/clsInvoice.cls"
+    ],
+    "frameworks": [
+      "address in code or configuration"
+    ],
+    "id": "web_service:035b38ca5d8b6195",
+    "integrations": [
+      "integration:27dca5f61fc50ffa"
+    ],
+    "name": "ledger.acme.local",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "handler": null,
+        "line": 40,
+        "method": "ANY",
+        "name": "ANY /api/postings",
+        "path": "/api/postings",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "REST",
+    "url": "https://ledger.acme.local",
+    "wsdl": null
+  },
+  {
+    "callers": [],
+    "component": "orders-winforms-vbnet",
+    "components": [
+      "orders-winforms-vbnet"
+    ],
+    "description": "Calls the PricingService SOAP service at http://pricing.acme.local/PricingService.svc from 1 file (address in code or configuration).",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 7,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "orders-winforms-vbnet/App.config"
+    ],
+    "frameworks": [
+      "address in code or configuration"
+    ],
+    "id": "web_service:a5f56f7d85a0b61f",
+    "integrations": [
+      "integration:88f61a2eac7a2b06"
+    ],
+    "name": "PricingService",
+    "namespace": null,
+    "operations": [],
+    "side": "called",
+    "style": "SOAP",
+    "url": "http://pricing.acme.local/PricingService.svc",
+    "wsdl": null
+  }
+]

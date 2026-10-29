@@ -1,0 +1,217 @@
+[
+  {
+    "bands": {
+      "Simple": 5
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.14,
+    "complexity_max": 2,
+    "complexity_score": 0.86,
+    "component": "billing-api-cs",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 9,
+    "id": "metric:3e2e20647226f4e5",
+    "loc_blank": 15,
+    "loc_code": 89,
+    "loc_comment": 0,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 7
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.67,
+    "complexity_max": 5,
+    "complexity_score": 2.19,
+    "component": "billing-desk-vb6",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 6,
+    "id": "metric:37707ffa79c88b9c",
+    "loc_blank": 21,
+    "loc_code": 259,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 15
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.5,
+    "complexity_max": 3,
+    "complexity_score": 0.82,
+    "component": "inventory-wpf-cs",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 12,
+    "id": "metric:4dc375a3fdc1f760",
+    "loc_blank": 13,
+    "loc_code": 174,
+    "loc_comment": 0,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 8
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": null,
+    "component": "invoice-mailer-svc",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 2,
+    "id": "metric:428761287de8279c",
+    "loc_blank": 4,
+    "loc_code": 37,
+    "loc_comment": 4,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 3
+  },
+  {
+    "bands": {
+      "Simple": 3
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.5,
+    "complexity_max": 2,
+    "complexity_score": 0.81,
+    "component": "legacy-webforms",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 8,
+    "id": "metric:6d224e4c705d89ac",
+    "loc_blank": 2,
+    "loc_code": 76,
+    "loc_comment": 0,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.5,
+    "complexity_max": 2,
+    "complexity_score": 0.12,
+    "component": "nightly-export-cs",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 4,
+    "id": "metric:5a0fc91b698b8d32",
+    "loc_blank": 1,
+    "loc_code": 55,
+    "loc_comment": 5,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.71,
+    "complexity_max": 5,
+    "complexity_score": 2.12,
+    "component": "orders-winforms-vbnet",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 7,
+    "id": "metric:a2614c237b9bd525",
+    "loc_blank": 18,
+    "loc_code": 157,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 7
+  }
+]

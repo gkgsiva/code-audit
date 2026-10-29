@@ -1,0 +1,98 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:f7bb65aee6fb600a"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.sql",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ebdc58cf261664f1",
+    "members": [],
+    "name": "AUDIT_LOG",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:f7bb65aee6fb600a"
+    ]
+  },
+  {
+    "crud": {
+      "U": [
+        "sql:b38920ef7918d91b"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_close.sql",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:929f7ecf1e77e5d5",
+    "members": [],
+    "name": "BUSINESS_DAY",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:b38920ef7918d91b"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:b7737c7e53c98cdc"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ba880a1b125aeb90",
+    "members": [],
+    "name": "CUSTOMER",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:b7737c7e53c98cdc"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:841307534fc029c6"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_report.sql",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:841307534fc029c6"
+    ]
+  }
+]

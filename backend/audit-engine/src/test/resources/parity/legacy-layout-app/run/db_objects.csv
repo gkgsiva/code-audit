@@ -1,0 +1,5 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:1ad299b389c5a36a,apps/billing-batch/java/com/acme/billing/InvoiceRun.java:16,INVOICES,table,,,sql:d55d40c3b5014222,"{""C"": [""sql:d55d40c3b5014222""]}",,
+db_object:ef97536d0298e878,apps/orders-web/src/com/acme/orders/OrderDao.java:14,ORDERS,table,,,sql:6dca2caf260f51d4,"{""R"": [""sql:6dca2caf260f51d4""]}",,
+db_object:93965c008900fd96,settlement-c/src/settle.pc:8,PAYMENTS,table,,,sql:923bdea558e2b262,"{""U"": [""sql:923bdea558e2b262""]}",,
+db_object:ea972605d9500612,apps/billing-batch/java/com/acme/billing/InvoiceRun.java:16,USAGE_RECORDS,table,,,sql:d55d40c3b5014222,"{""R"": [""sql:d55d40c3b5014222""]}",,

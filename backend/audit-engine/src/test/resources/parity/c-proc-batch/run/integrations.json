@@ -1,0 +1,196 @@
+[
+  {
+    "components": [],
+    "consumers": [],
+    "description": "Receives files from */SETTACK by CFT, flow SETTACK; defined in the inputs, not used by the code.",
+    "details": {
+      "defined_by_export": "true",
+      "file": "/data/settlement/in/&IDF.&FDATE.ack",
+      "idf": "SETTACK",
+      "partner": "*"
+    },
+    "direction": "inbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:594928fc968e3e6a",
+    "producers": [],
+    "protocol": "CFT",
+    "purpose": "file transfer",
+    "source_files": [
+      "audit-inputs/cft/cft_settlement.cfg"
+    ],
+    "target": "*/SETTACK",
+    "type": "CFT",
+    "usages": 0
+  },
+  {
+    "components": [
+      "settlement"
+    ],
+    "consumers": [],
+    "description": "Sends files to BANKFR/SETTLE by CFT, flow SETTLE, partner host cft.bank-fr.example.net; 1 place in the code.",
+    "details": {
+      "defined_by_export": "true",
+      "file": "/data/settlement/out/settlement.dat",
+      "host": "cft.bank-fr.example.net",
+      "idf": "SETTLE",
+      "nspart": "BANKFR01",
+      "partner": "BANKFR"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 20,
+        "snippet": null
+      },
+      {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:05322129f49fa7b7",
+    "producers": [],
+    "protocol": "CFT",
+    "purpose": "file transfer",
+    "source_files": [
+      "scripts/run_settlement.ksh"
+    ],
+    "target": "BANKFR/SETTLE",
+    "type": "CFT",
+    "usages": 1
+  },
+  {
+    "components": [
+      "settlement"
+    ],
+    "consumers": [],
+    "description": "Reads the file /data/settlement/out/settlement.dat; 1 place in the code.",
+    "details": {},
+    "direction": "inbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 25,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:8d291ea912999758",
+    "producers": [],
+    "protocol": "fopen",
+    "purpose": "file",
+    "source_files": [
+      "src/settle_send.c"
+    ],
+    "target": "/data/settlement/out/settlement.dat",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "settlement"
+    ],
+    "consumers": [],
+    "description": "Writes the file /var/log/settlement/settle.log; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "src/common/settle_util.c",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:20f0a19cf3675c05",
+    "producers": [],
+    "protocol": "fopen",
+    "purpose": "file",
+    "source_files": [
+      "src/common/settle_util.c"
+    ],
+    "target": "/var/log/settlement/settle.log",
+    "type": "FILE",
+    "usages": 1
+  },
+  {
+    "components": [
+      "settlement"
+    ],
+    "consumers": [],
+    "description": "Connects to the MQ queue manager QMSETL (queue SETTLE.TO.BANK); 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [
+      "queue SETTLE.TO.BANK (outbound)"
+    ],
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_send.c",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [
+      "integration:9799284bc5aedb7d"
+    ],
+    "id": "integration:00c3b7589b23f21e",
+    "producers": [
+      "src/settle_send.c"
+    ],
+    "protocol": "MQI",
+    "purpose": "messaging",
+    "source_files": [
+      "src/settle_send.c"
+    ],
+    "target": "QMSETL",
+    "type": "MQ-QMGR",
+    "usages": 2
+  },
+  {
+    "components": [
+      "settlement"
+    ],
+    "consumers": [],
+    "description": "Sends files to archive01.acme.local by SCP; 1 place in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "scripts/archive.sh",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:aca6beedce2cb129",
+    "producers": [],
+    "protocol": "scp",
+    "purpose": "file transfer",
+    "source_files": [
+      "scripts/archive.sh"
+    ],
+    "target": "archive01.acme.local",
+    "type": "SCP",
+    "usages": 1
+  }
+]

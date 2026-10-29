@@ -1,0 +1,2 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:8fbc6b7a7bdc4f74,teller-desk/pom.xml,teller-desk,desktop,estate,teller-desk,teller-desk/pom.xml,fxml;java;properties,desktop,"{""build"": 1, ""config"": 1, ""screen"": 1, ""source"": 7}",10,175,com.acme.teller.TellerApp;com.acme.teller.ui.RatesView,build-file,,teller-desk,jar,

@@ -1,0 +1,152 @@
+[
+  {
+    "complexity": "Medium",
+    "complexity_score": 11.0,
+    "component": "jcl-jobs",
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "FILE DD:ORDIN",
+      "FILE DD:ORDOUT",
+      "FILE DD:RPTOUT"
+    ],
+    "fan_in": 0,
+    "fan_out": 2,
+    "file": "jcl/ORDNIGHT.jcl",
+    "framework": null,
+    "handler": "ORDBATCH,SORT",
+    "id": "service:870fea41262d4f1f",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "ORDNIGHT",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:22e666b1f881dfbc",
+      "sql:49f749d475666ab6",
+      "sql:a8a07a6d211422de",
+      "sql:dea1e97f95240ca2"
+    ],
+    "tables": [
+      "ORDERS",
+      "SHIPMENTS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 11.86,
+    "component": "cobol-online",
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDINQ"
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 6,
+    "file": "cobol/ORDINQ.cbl",
+    "framework": null,
+    "handler": "ORDINQ",
+    "id": "service:774375acd8ffce5c",
+    "inputs": [],
+    "kind": "cics-transaction",
+    "name": "ORDI",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:8d425f56e1c4ea3e",
+      "sql:e8ec7b254953308f"
+    ],
+    "tables": [
+      "CUSTOMER",
+      "ORDERS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 12.06,
+    "component": "cobol-online",
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDBATCH"
+      }
+    ],
+    "external_calls": [
+      "FILE DD:ORDIN",
+      "FILE DD:ORDOUT"
+    ],
+    "fan_in": 1,
+    "fan_out": 2,
+    "file": "cobol/ORDBATCH.cbl",
+    "framework": null,
+    "handler": "ORDBATCH",
+    "id": "service:aea815ac073f1742",
+    "inputs": [],
+    "kind": "cobol-program",
+    "name": "ORDBATCH",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:22e666b1f881dfbc",
+      "sql:a8a07a6d211422de"
+    ],
+    "tables": [
+      "ORDERS",
+      "SHIPMENTS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 5.87,
+    "component": "cobol-online",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDRPT"
+      }
+    ],
+    "external_calls": [
+      "FILE DD:RPTOUT"
+    ],
+    "fan_in": 1,
+    "fan_out": 0,
+    "file": "cobol/ORDRPT.cbl",
+    "framework": null,
+    "handler": "ORDRPT",
+    "id": "service:2c9b980f84f9a364",
+    "inputs": [],
+    "kind": "cobol-program",
+    "name": "ORDRPT",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:49f749d475666ab6",
+      "sql:dea1e97f95240ca2"
+    ],
+    "tables": [
+      "ORDERS"
+    ],
+    "url": null,
+    "web_service": null
+  }
+]

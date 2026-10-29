@@ -1,0 +1,6 @@
+id,evidence,name,scheduler,kind,description,schedule,box,command,machine,condition,component,steps,programs,datasets,predecessors,on_failure,complexity,complexity_score
+batch_job:4730468a094e0a59,audit-inputs/autosys/billing.jil:25,BIL_ARCHIVE,autosys,job,,,BIL_NIGHTLY_BOX,/opt/billing/scripts/archive_usage.sh,bilbatch01,s(BIL_INVOICE) | f(BIL_INVOICE),,,,,BIL_INVOICE,,Simple,1.0
+batch_job:073329b732a04908,audit-inputs/autosys/billing.jil:15,BIL_INVOICE,autosys,job,Price the day's usage and write the invoices,,BIL_NIGHTLY_BOX,/opt/billing/scripts/run_invoice_job.sh,bilbatch01,s(BIL_USAGE_WAIT),billing-batch,,,,BIL_USAGE_WAIT,alarm_if_fail: 1;n_retrys: 1,Medium,10.99
+batch_job:08cced84c58c5822,audit-inputs/autosys/billing.jil:2,BIL_NIGHTLY_BOX,autosys,box,Billing nightly cycle,"date_conditions: 1; days_of_week: mo,tu,we,th,fr; start_times: 01:30",,,,,,,,,,,,
+batch_job:953a414754a6347d,audit-inputs/autosys/billing.jil:9,BIL_USAGE_WAIT,autosys,file-watcher,,,BIL_NIGHTLY_BOX,,bilbatch01,,,,,,,,,
+batch_job:5e1224c95b219205,billing-batch/src/main/resources/jobs/invoice-job.xml:5,invoiceJob,spring-batch,job,,,,,,,billing-batch,generateInvoices;notifyCustomers,org.springframework.batch.item.database.JdbcCursorItemReader;com.acme.billing.batch.InvoiceWriter,,,,Medium,11.11

@@ -1,0 +1,439 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "library:a25e14a2a90a884a",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "WebContent/WEB-INF/lib/axis-1.4.jar"
+          }
+        ]
+      },
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "5b4ff5e75bd75ed8f8e2becab121b4530e450b41"
+        }
+      ],
+      "name": "axis",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "jar"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2006-04-22"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "scope": "required",
+      "type": "library",
+      "version": "1.4"
+    },
+    {
+      "bom-ref": "library:0ef8ab1200668a4c",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"
+          }
+        ]
+      },
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "ec4c3ee2789500f41cda5035734acc8655bdd55e"
+        }
+      ],
+      "name": "commons-collections",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "jar"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2015-11-12"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "scope": "required",
+      "type": "library",
+      "version": "3.2.1"
+    },
+    {
+      "bom-ref": "library:bbf8de6407d3894f",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "WebContent/WEB-INF/lib/log4j-1.2.17.jar"
+          }
+        ]
+      },
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "a59f3266b95978777beb3c7c82fc33a3fcd8d397"
+        }
+      ],
+      "name": "log4j",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "jar"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2015-08-05"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.17"
+    },
+    {
+      "bom-ref": "library:d03caf2483a2c784",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "WebContent/WEB-INF/lib/ojdbc14.jar"
+          }
+        ]
+      },
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "0de624ed6af0a9e1bbb22ecc8e8ac4dc3ea2fd9c"
+        }
+      ],
+      "name": "ojdbc14",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "jar"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2013-07-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "scope": "required",
+      "type": "library",
+      "version": "10.2.0.4.0"
+    },
+    {
+      "bom-ref": "library:5dd851d68f0474c1",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "WebContent/WEB-INF/lib/struts-1.2.9.jar"
+          }
+        ]
+      },
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "ec5f28e65f568958505f7bb22aa32cc3730485a3"
+        }
+      ],
+      "name": "struts",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "jar"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2013-04-05"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.9"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "library:a25e14a2a90a884a",
+        "library:0ef8ab1200668a4c",
+        "library:bbf8de6407d3894f",
+        "library:d03caf2483a2c784",
+        "library:5dd851d68f0474c1"
+      ],
+      "ref": "application:Orders (Struts/Oracle sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Orders (Struts/Oracle sample)",
+      "name": "Orders (Struts/Oracle sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:39+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:b77cd711-2028-5312-8f49-5300083a3785",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": [
+    {
+      "affects": [
+        {
+          "ref": "library:5dd851d68f0474c1"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2014-0114",
+      "description": "Apache Commons BeanUtils as used in Struts 1 allows ClassLoader manipulation.",
+      "id": "CVE-2014-0114",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 7.5,
+          "severity": "high"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:0ef8ab1200668a4c"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2015-7501",
+      "description": "Deserialization of untrusted data with InvokerTransformer.",
+      "id": "CVE-2015-7501",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 9.8,
+          "severity": "critical"
+        }
+      ],
+      "recommendation": "Fixed in 3.2.2",
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:5dd851d68f0474c1"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2016-1182",
+      "description": "ActionServlet.java in Apache Struts 1 does not properly restrict the Validator configuration.",
+      "id": "CVE-2016-1182",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 8.2,
+          "severity": "high"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:a25e14a2a90a884a"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2018-8032",
+      "description": "Cross-site scripting in the default servlet of Apache Axis 1.x.",
+      "id": "CVE-2018-8032",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 6.1,
+          "severity": "medium"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:a25e14a2a90a884a"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2019-0227",
+      "description": "Server-side request forgery in Apache Axis 1.4.",
+      "id": "CVE-2019-0227",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 7.5,
+          "severity": "high"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:bbf8de6407d3894f"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2019-17571",
+      "description": "Included in Log4j 1.2 is a SocketServer class that is vulnerable to deserialization of untrusted data.",
+      "id": "CVE-2019-17571",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 9.8,
+          "severity": "critical"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:bbf8de6407d3894f"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2021-4104",
+      "description": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data.",
+      "id": "CVE-2021-4104",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 7.5,
+          "severity": "high"
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:bbf8de6407d3894f"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2022-23305",
+      "description": "JDBCAppender in Log4j 1.2.x is vulnerable to SQL injection.",
+      "id": "CVE-2022-23305",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "dependency-check"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 9.8,
+          "severity": "critical"
+        }
+      ],
+      "recommendation": "Fixed in 2.0",
+      "source": {
+        "name": "NVD"
+      }
+    }
+  ]
+}

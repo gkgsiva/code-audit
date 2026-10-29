@@ -1,0 +1,2 @@
+id,evidence,name,scheduler,kind,description,schedule,box,command,machine,condition,component,steps,programs,datasets,predecessors,on_failure,complexity,complexity_score
+batch_job:effeadeb068eb7db,jcl/ORDNIGHT.jcl:1,ORDNIGHT,jcl,job,,,,,,,jcl-jobs,STEP010;STEP020;STEP030,ORDBATCH;SORT,PROD.ORDERS.LOADLIB;PROD.ORDERS.DAILY;PROD.ORDERS.SHIPPED;PROD.ORDERS.SHIPPED.SORTED,,,Medium,11.0

@@ -1,0 +1,8 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:f868b8019ca10787,teller-desk/pom.xml:2,Maven,,build,1,,,
+tech:2f57f26890fd49dc,teller-desk/config/teller.properties:2;teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java:12,Oracle,,database,2,,,
+tech:f03dfb317edbf142,teller-desk/pom.xml:13,Oracle JDBC driver,19.3.0.0,database,1,false,,
+tech:7125de26846df728,teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java:7;teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java:15;teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java:10,Java Swing,,framework,3,,,
+tech:149f93029c45f0a1,teller-desk/src/main/java/com/acme/teller/ui/RatesView.java:8;teller-desk/src/main/resources/fxml/Rates.fxml:4,JavaFX,,framework,2,,,
+tech:94544620f465ab54,teller-desk/pom.xml:2,Java,1.8,language,1,true,2019-01-31,Java 25
+tech:0d4a0015af610eb8,teller-desk/pom.xml:23,Log4j 1,1.2.17,library,1,true,2015-08-05,SLF4J + Logback

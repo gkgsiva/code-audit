@@ -23,7 +23,8 @@ import tools.jackson.databind.node.ObjectNode;
  * Every sample scanned by the Java engine gives what the Python tool wrote for it
  * ({@code parity/<sample>/}): the same inventory file byte for byte, the same components, the
  * same coverage findings and input coverage. Fields later phases fill (component type, roles and
- * entry points from the linker; vulnerability-source coverage) are left out of the comparison.
+ * entry points from the linker; vulnerability-source coverage) are left out of the comparison;
+ * {@link RunParityTest} compares the rest of the run.
  */
 class ParityTest {
 
@@ -58,6 +59,11 @@ class ParityTest {
         return out;
     }
 
+    private static Map<String, JsonNode> coverageOnly(Map<String, JsonNode> findings) {
+        findings.values().removeIf(f -> !f.get("category").asString().equals("coverage"));
+        return findings;
+    }
+
     @ParameterizedTest
     @MethodSource("samples")
     void sampleMatchesThePythonTool(String sample, @TempDir Path out) throws Exception {
@@ -68,7 +74,7 @@ class ParityTest {
         assertEquals(byId(fixture(sample, "components"), LATER_COMPONENT_FIELDS, Set.of()),
                 byId(Files.readString(data.resolve("components.json")), LATER_COMPONENT_FIELDS, Set.of()), "components");
         assertEquals(byId(fixture(sample, "findings"), Set.of(), Set.of()),
-                byId(Files.readString(data.resolve("findings.json")), Set.of(), Set.of()), "coverage findings");
+                coverageOnly(byId(Files.readString(data.resolve("findings.json")), Set.of(), Set.of())), "coverage findings");
         assertEquals(byId(fixture(sample, "input_coverage"), Set.of(), LATER_COVERAGE_KINDS),
                 byId(Files.readString(data.resolve("input_coverage.json")), Set.of(), LATER_COVERAGE_KINDS), "input coverage");
         assertEquals(List.of(), result.run().warnings);

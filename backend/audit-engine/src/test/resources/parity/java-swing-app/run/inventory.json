@@ -1,0 +1,222 @@
+[
+  {
+    "category": "config",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/config/teller.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b8c02e21c86dbadc",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "teller-desk/config/teller.properties",
+    "root": "estate",
+    "sha256": "11814859dfa47d6ab4e8f5552c01ec69f51334a479fddf513f403b3c0be75261",
+    "size": 152
+  },
+  {
+    "category": "build",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:113faed779590038",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 29,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/pom.xml",
+    "root": "estate",
+    "sha256": "f93066444b8adae1224b6b3d66cd35c0cbd068984008d18b8e21e37b0fe9b08e",
+    "size": 874
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:72d3757ceacc1072",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+    "root": "estate",
+    "sha256": "e2c0f6a28e0845fad120d175ad5a5aee1421a0611ec8a6e0b6b5ab3663052273",
+    "size": 378
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:08776b02691b8cb0",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 28,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+    "root": "estate",
+    "sha256": "6fc364233ad611c8a168601b529dcd27bd6e3145b489b8bb4f5aa62b0c8394e1",
+    "size": 1106
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f79adbbfeb0e862f",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+    "root": "estate",
+    "sha256": "ec44d6f59fe9f19db4bbedce9c262d417282132a59f11f670e0cc05116ef15f3",
+    "size": 312
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a5dbb90546f001cd",
+    "language": "java",
+    "loc_blank": 5,
+    "loc_code": 36,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+    "root": "estate",
+    "sha256": "fff3d90edea058031cd9aa35968f6a4f0ba2faa97dd5dc2c4ebe302ab3a58e3d",
+    "size": 1398
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a13e30b92bdab055",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+    "root": "estate",
+    "sha256": "b664acc77a9554ba18d14586f91a92162c287bb992f37aafd1e16aaffbdc5328",
+    "size": 847
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:49be8163da71865d",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+    "root": "estate",
+    "sha256": "74b2cd38a16e17cdaa45a7b5a07cd023e42c5f71a4d66d2ae1c4ddfce08bb224",
+    "size": 435
+  },
+  {
+    "category": "source",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ca566d0576601618",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+    "root": "estate",
+    "sha256": "d80c9c010d63ebe9589caaa9c33b2dfc7eff1a7f3144e7b3ee57313645680f0c",
+    "size": 393
+  },
+  {
+    "category": "screen",
+    "component": "teller-desk",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c2f460ae3270b090",
+    "language": "fxml",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "teller-desk/src/main/resources/fxml/Rates.fxml",
+    "root": "estate",
+    "sha256": "a8ced6e9cb164adf65a1e09c45ef6f90949c0824895479ccd686d5bfdf8d261c",
+    "size": 354
+  }
+]

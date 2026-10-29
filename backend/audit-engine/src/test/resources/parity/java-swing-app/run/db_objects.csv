@@ -1,0 +1,2 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:ba880a1b125aeb90,teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java:15,CUSTOMER,table,,,sql:c52a96d12224016b,"{""R"": [""sql:c52a96d12224016b""]}",,

@@ -1,0 +1,813 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "c_cpp": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 9
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 19
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 6
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 8
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 38,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 7,
+      "loc_blank": 0,
+      "loc_code": 83,
+      "loc_comment": 1
+    },
+    "generated": {
+      "files": 2,
+      "loc_blank": 6,
+      "loc_code": 20,
+      "loc_comment": 2
+    },
+    "source": {
+      "files": 9,
+      "loc_blank": 34,
+      "loc_code": 122,
+      "loc_comment": 10
+    }
+  },
+  "by_language": {
+    "c": {
+      "files": 1,
+      "loc_blank": 3,
+      "loc_code": 16,
+      "loc_comment": 1
+    },
+    "java": {
+      "files": 10,
+      "loc_blank": 37,
+      "loc_code": 126,
+      "loc_comment": 11
+    },
+    "make": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 0
+    },
+    "properties": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 1
+    },
+    "xml": {
+      "files": 8,
+      "loc_blank": 0,
+      "loc_code": 117,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.0,
+      "component": "orders-ws",
+      "dead_code_candidates": 3,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.0,
+      "component": "quote-axis",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.0,
+      "component": "rate-feed",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 14,
+      "loc_code": 202,
+      "name": "orders-ws",
+      "type": "web"
+    },
+    {
+      "files": 5,
+      "loc_code": 43,
+      "name": "quote-axis",
+      "type": "web"
+    },
+    {
+      "files": 2,
+      "loc_code": 18,
+      "name": "rate-feed",
+      "type": "batch"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {},
+      "scheduled": 0,
+      "total": 1,
+      "unscheduled": 1
+    },
+    "complexity": {
+      "batch_jobs": {},
+      "screens": {},
+      "services": {
+        "Simple": 11
+      }
+    },
+    "db_objects": {},
+    "dependencies": {
+      "resolved": 6,
+      "unresolved": 1
+    },
+    "entry_points": {
+      "main": 1
+    },
+    "eol_libraries": 1,
+    "findings": {
+      "dead-code-candidate": 3,
+      "eol-library": 1,
+      "eol-technology": 2,
+      "hardcoded-endpoint": 4,
+      "no-tests": 3,
+      "unresolved-reference": 1
+    },
+    "findings_by_severity": {
+      "info": 4,
+      "low": 3,
+      "medium": 7
+    },
+    "integrations": {
+      "by_type": {
+        "HTTP": 4,
+        "SOAP": 2
+      },
+      "total": 6
+    },
+    "libraries": {
+      "declared": 4,
+      "total": 4,
+      "undeclared": 0
+    },
+    "pg_grades": {},
+    "recommendations": {
+      "keep": 2,
+      "use-bom": 2
+    },
+    "screens": {
+      "by_technology": {},
+      "partials": 0,
+      "total": 0
+    },
+    "services": {
+      "by_kind": {
+        "c-executable": 1,
+        "rest-operation": 2,
+        "soap-operation": 6,
+        "spring-handler": 2
+      },
+      "total": 11
+    },
+    "sql": {
+      "by_source": {},
+      "by_type": {},
+      "distinct": 0,
+      "dynamic": 0,
+      "not_parsed": 0,
+      "total": 0
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {
+        "REST called": 3,
+        "REST offered": 2,
+        "SOAP called": 2,
+        "SOAP offered": 3
+      },
+      "called": 5,
+      "offered": 5,
+      "operations": 18,
+      "total": 10
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "dependency-check": "OWASP Dependency-Check (not installed): not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "osv-scanner": "OSV-Scanner (not installed): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 81.5,
+    "label": "estimate — weights from config",
+    "likely": 46.2,
+    "low": 23.0,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [
+        "/api/v2/items",
+        "/api/v2/reservations"
+      ],
+      "purpose": "HTTP API",
+      "target": "https://stock.acme.local",
+      "type": "HTTP",
+      "usages": 2
+    },
+    {
+      "direction": "inbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://orders.acme.local/orders-ws/ws/OrderStatus",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://payments.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://rates.acme.local/api/v1/rates/EUR",
+      "type": "HTTP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "web service",
+      "target": "http://treasury.acme.local/soap/RateService",
+      "type": "SOAP",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "web service",
+      "target": "https://crm.acme.local/services/CrmService",
+      "type": "SOAP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "xml",
+      "loc_code": 29,
+      "path": "orders-ws/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 20,
+      "path": "orders-ws/src/main/webapp/WEB-INF/web.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 19,
+      "path": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 18,
+      "path": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+    },
+    {
+      "language": "xml",
+      "loc_code": 18,
+      "path": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+    },
+    {
+      "language": "java",
+      "loc_code": 17,
+      "path": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 17,
+      "path": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java"
+    },
+    {
+      "language": "c",
+      "loc_code": 16,
+      "path": "rate-feed/src/rate_feed.c"
+    },
+    {
+      "language": "java",
+      "loc_code": 15,
+      "path": "orders-ws/src/main/java/com/acme/crm/CrmService.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 13,
+      "path": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 13,
+      "path": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 11,
+      "path": "quote-axis/WebContent/WEB-INF/web.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 10,
+      "path": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 9,
+      "path": "quote-axis/src/com/acme/quote/QuoteService.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 8,
+      "path": "quote-axis/WebContent/Calculator.jws"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework:spring-webmvc",
+      "recommendation": "use-bom",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.3.30.RELEASE"
+    }
+  ],
+  "run": {
+    "application": "Web services (sample)",
+    "run_id": "20261029-205640-ba8f79",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/web-services-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:40+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Ant",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Make",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Maven",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Apache Axis",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "Apache CXF",
+      "version": "3.1.18"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Jersey (JAX-RS)",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Spring Framework",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Spring Framework (XML configuration)",
+      "version": null
+    },
+    {
+      "category": "runtime",
+      "eol": false,
+      "name": "Servlet API",
+      "version": "3.1"
+    },
+    {
+      "category": "upgrade-signal",
+      "eol": null,
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "orders-ws/pom.xml",
+      "line": 18,
+      "message": "spring-webmvc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-ws/pom.xml",
+      "line": 18,
+      "message": "Spring Framework 4.3.30.RELEASE is end of life since 2024-08-31; target Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+      "line": 2,
+      "message": "Apache Axis ? is end of life since 2006-04-22; target Spring Web Services or a REST client",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+      "line": 8,
+      "message": "Hard-coded endpoint in code: \"https://stock.acme.local/api/v2\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+      "line": 9,
+      "message": "Hard-coded endpoint in code: \"http://orders.acme.com/status\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "rate-feed/src/rate_feed.c",
+      "line": 11,
+      "message": "Hard-coded endpoint in code: \"https://rates.acme.local/api/v1/rates/EUR\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "rate-feed/src/rate_feed.c",
+      "line": 16,
+      "message": "Hard-coded endpoint in code: \"http://treasury.acme.local/soap/RateService\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "orders-ws/pom.xml",
+      "line": null,
+      "message": "Component orders-ws has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "quote-axis/build.xml",
+      "line": null,
+      "message": "Component quote-axis has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "rate-feed/Makefile",
+      "line": null,
+      "message": "Component rate-feed has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    },
+    {
+      "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+      "line": null,
+      "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/CrmClient.java from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    },
+    {
+      "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+      "line": null,
+      "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    },
+    {
+      "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+      "line": null,
+      "message": "Nothing reaches orders-ws/src/main/java/com/acme/orders/client/StockClient.java from any service, screen, job, entry point or configuration",
+      "rule": "dead-code-candidate",
+      "severity": "info"
+    },
+    {
+      "file": "rate-feed/src/rate_feed.c",
+      "line": 3,
+      "message": "rate-feed/src/rate_feed.c includes 'soapH.h', which was not found in the scanned files (looked for: file-name)",
+      "rule": "unresolved-reference",
+      "severity": "info"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "quote-axis",
+      "kind": "soap-operation",
+      "name": "Calculator.add",
+      "tables": 0
+    },
+    {
+      "component": "quote-axis",
+      "kind": "soap-operation",
+      "name": "Calculator.subtract",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "spring-handler",
+      "name": "GET /api/customers/{id}",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "rest-operation",
+      "name": "GET /orders/{id}",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "soap-operation",
+      "name": "OrderStatusEndpoint.cancelOrder",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "soap-operation",
+      "name": "OrderStatusEndpoint.getStatus",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "rest-operation",
+      "name": "POST /orders",
+      "tables": 0
+    },
+    {
+      "component": "orders-ws",
+      "kind": "spring-handler",
+      "name": "PUT /api/customers/{id}",
+      "tables": 0
+    },
+    {
+      "component": "quote-axis",
+      "kind": "soap-operation",
+      "name": "QuoteService.getQuote",
+      "tables": 0
+    },
+    {
+      "component": "quote-axis",
+      "kind": "soap-operation",
+      "name": "QuoteService.listQuotes",
+      "tables": 0
+    },
+    {
+      "component": "rate-feed",
+      "kind": "c-executable",
+      "name": "rate_feed",
+      "tables": 0
+    }
+  ],
+  "top_tables": [],
+  "totals": {
+    "batch_jobs": 0,
+    "components": 3,
+    "db_objects": 0,
+    "dependencies": 7,
+    "entry_points": 1,
+    "files": 21,
+    "findings": 14,
+    "input_coverage": 9,
+    "input_files": 0,
+    "integrations": 6,
+    "libraries": 4,
+    "loc_blank": 40,
+    "loc_code": 263,
+    "loc_comment": 13,
+    "metrics": 3,
+    "screens": 0,
+    "services": 11,
+    "sql_statements": 0,
+    "tech_stack": 10,
+    "web_services": 10
+  },
+  "unresolved_references": 1,
+  "unscheduled_batch_entries": {
+    "rate-feed": [
+      {
+        "component": "rate-feed",
+        "file": "rate-feed/src/rate_feed.c",
+        "id": "service:4b1559bdc3561e97",
+        "kind": "program",
+        "line": 5,
+        "name": "rate_feed",
+        "service_id": "service:4b1559bdc3561e97"
+      }
+    ]
+  },
+  "unscheduled_batches": [
+    "rate-feed"
+  ],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "missing"
+    },
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "missing"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "quote-axis",
+      "name": "Calculator",
+      "operations": 2,
+      "side": "offered",
+      "style": "SOAP",
+      "url": "/Calculator.jws"
+    },
+    {
+      "component": "orders-ws",
+      "name": "CustomerController",
+      "operations": 2,
+      "side": "offered",
+      "style": "REST",
+      "url": "/api/customers"
+    },
+    {
+      "component": "orders-ws",
+      "name": "OrderResource",
+      "operations": 2,
+      "side": "offered",
+      "style": "REST",
+      "url": "/rest/orders"
+    },
+    {
+      "component": "orders-ws",
+      "name": "OrderStatusService",
+      "operations": 2,
+      "side": "offered",
+      "style": "SOAP",
+      "url": "/ws/OrderStatus"
+    },
+    {
+      "component": "quote-axis",
+      "name": "QuoteService",
+      "operations": 2,
+      "side": "offered",
+      "style": "SOAP",
+      "url": "/services/QuoteService"
+    },
+    {
+      "component": "orders-ws",
+      "name": "CrmService",
+      "operations": 2,
+      "side": "called",
+      "style": "SOAP",
+      "url": "https://crm.acme.local/services/CrmService"
+    },
+    {
+      "component": "orders-ws",
+      "name": "payment-service",
+      "operations": 2,
+      "side": "called",
+      "style": "REST",
+      "url": "https://payments.acme.local"
+    },
+    {
+      "component": "orders-ws",
+      "name": "stock.acme.local",
+      "operations": 2,
+      "side": "called",
+      "style": "REST",
+      "url": "https://stock.acme.local"
+    },
+    {
+      "component": "rate-feed",
+      "name": "RateService",
+      "operations": 1,
+      "side": "called",
+      "style": "SOAP",
+      "url": "http://treasury.acme.local/soap/RateService"
+    },
+    {
+      "component": "rate-feed",
+      "name": "rates.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://rates.acme.local"
+    }
+  ]
+}
