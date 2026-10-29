@@ -1,5 +1,10 @@
 package com.legacyaudit.engine.scan;
 
+import com.legacyaudit.engine.analyzers.Analyzer;
+import com.legacyaudit.engine.analyzers.AnalyzerContext;
+import com.legacyaudit.engine.analyzers.Analyzers;
+import com.legacyaudit.engine.analyzers.Coverage;
+import com.legacyaudit.engine.analyzers.Facts;
 import com.legacyaudit.engine.components.ComponentDetector;
 import com.legacyaudit.engine.components.ComponentOverrides;
 import com.legacyaudit.engine.inventory.FileAnalyzer;
@@ -53,9 +58,9 @@ import java.util.stream.Stream;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
- * The scan pipeline: sources -> inventory -> components -> overrides -> coverage -> export, into a
- * new run folder {@code <output>/runs/<run-id>/}. Later phases add the analyzers, linking, metrics
- * and assessment between components and export.
+ * The scan pipeline: sources -> inventory (with the analyzers, file by file) -> components ->
+ * overrides -> coverage -> export, into a new run folder {@code <output>/runs/<run-id>/}. Later
+ * phases add linking, metrics and assessment between components and export.
  */
 public final class Scanner {
 
@@ -95,7 +100,12 @@ public final class Scanner {
 
     /** What a scan wrote. */
     public record Result(Path runDir, RunInfo run, List<FileRecord> inventory, List<Component> components, List<Finding> findings,
-            List<InputCoverage> coverage) {}
+            List<InputCoverage> coverage, List<FileFacts> fileFacts) {}
+
+    /** What one analyzer found in one file. */
+    public record FileFacts(String analyzer, String path, Facts facts) {}
+
+    private record Analysed(FileAnalyzer.Result result, String payload) {}
 
     /** Options of one scan; every field may be left null. */
     public record Options(boolean full, Path outputDir, Progress progress, AtomicBoolean cancel, Consumer<String> logListener) {
@@ -163,6 +173,16 @@ public final class Scanner {
         }
     }
 
+    /** Files each analyzer read, for the log and the command line: {@code java 11 files, sql 2 files}. */
+    public static String analyzerLine(Map<String, Object> analyzers) {
+        List<String> parts = new ArrayList<>();
+        analyzers.forEach((name, cov) -> {
+            Object files = cov instanceof Map<?, ?> m ? m.get("files") : null;
+            parts.add(name + " " + files + (Long.valueOf(1).equals(files) ? " file" : " files"));
+        });
+        return String.join(", ", parts);
+    }
+
     private static final class Run {
         private final LoadedConfig loaded;
         private final AuditConfig cfg;
@@ -174,6 +194,9 @@ public final class Scanner {
         private final ScanLog log;
         private final Map<String, Double> timings = new LinkedHashMap<>();
         private final List<String> warnings = new ArrayList<>();
+        private final List<FileFacts> fileFacts = new ArrayList<>();
+        private final List<Analyzer> analyzers = Analyzers.registered();
+        private final List<String> analyzerWarnings = new ArrayList<>();
 
         Run(LoadedConfig loaded, Path outDir, String runId, Path runDir, OffsetDateTime started, Options options, ScanLog log) {
             this.loaded = loaded;
@@ -246,7 +269,7 @@ public final class Scanner {
             }
 
             // Settings that change per-file results are part of the cache key.
-            String cacheVersion = FileAnalyzer.VERSION + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb();
+            String cacheVersion = Analyzers.versionKey(FileAnalyzer.VERSION) + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb();
             long maxBytes = (long) (inv.maxFileSizeMb() * 1024 * 1024);
             List<String> unreadable = new ArrayList<>(); // "path\u001fwhy"
             String[] slots = new String[walked.size()]; // cache payload per walked file, in walk order
@@ -295,8 +318,9 @@ public final class Scanner {
                     for (Job job : todo) {
                         futures.add(pool.submit(() -> {
                             try {
-                                return FileAnalyzer.analyze(job.item().file().absPath(), job.item().path(), job.item().file().root(),
-                                        job.item().origin(), inv.includeBinaries(), maxBytes);
+                                FileAnalyzer.Result res = FileAnalyzer.analyze(job.item().file().absPath(), job.item().path(),
+                                        job.item().file().root(), job.item().origin(), inv.includeBinaries(), maxBytes);
+                                return new Analysed(res, payload(res, job.item().file().absPath()));
                             } catch (IOException e) {
                                 return e;
                             }
@@ -319,7 +343,7 @@ public final class Scanner {
                             unreadable.add(job.item().path() + "\u001f" + why(e));
                             continue;
                         }
-                        FileAnalyzer.Result res = (FileAnalyzer.Result) done;
+                        FileAnalyzer.Result res = ((Analysed) done).result();
                         String sha = res.record() != null ? res.record().sha256 : "";
                         if (job.entry() != null && !sha.isEmpty() && job.entry().sha256().equals(sha)) {
                             // Touched but unchanged: refresh the stat fields, keep the cached analysis.
@@ -330,10 +354,7 @@ public final class Scanner {
                             continue;
                         }
                         analyzed++;
-                        Map<String, Object> payload = new LinkedHashMap<>();
-                        payload.put("facts", Map.of());
-                        payload.put("record", res.record() != null ? res.record().toMap() : null);
-                        String text = PyJson.compact(payload);
+                        String text = ((Analysed) done).payload();
                         cache.put(job.item().file().root(), job.item().path(), new FileCache.Entry(job.size(), job.mtimeNs(), sha, text));
                         slots[job.slot()] = text;
                         if (res.record() == null) {
@@ -355,10 +376,21 @@ public final class Scanner {
                     @SuppressWarnings("unchecked")
                     Map<String, Object> rec = (Map<String, Object>) p.get("record");
                     if (rec != null) { // null: binary skipped by content
-                        records.add(FileRecord.fromMap(rec));
+                        FileRecord fr = FileRecord.fromMap(rec);
+                        records.add(fr);
+                        @SuppressWarnings("unchecked")
+                        Map<String, Object> facts = (Map<String, Object>) p.getOrDefault("facts", Map.of());
+                        facts.forEach((name, data) -> {
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> d = (Map<String, Object>) data;
+                            fileFacts.add(new FileFacts(name, fr.path, Facts.load(d)));
+                        });
                     }
                 }
                 removed = cache.prune();
+            }
+            for (String w : analyzerWarnings) {
+                log.warning(w);
             }
             List<Finding> findings = new ArrayList<>(limitFindings(records, unreadable, maxBytes));
             findings.addAll(skippedFindings(leftOut, multi));
@@ -405,6 +437,10 @@ public final class Scanner {
             run.overrides = overrideReport;
             run.countingRules = cfg.counting();
             run.target = cfg.target().info();
+            run.analyzers = analyzerCoverage(fileFacts);
+            if (!run.analyzers.isEmpty()) {
+                log.info("Analyzers: " + analyzerLine(run.analyzers));
+            }
 
             stage("export");
             t = System.nanoTime();
@@ -432,7 +468,64 @@ public final class Scanner {
             List<FileRecord> files = (List<FileRecord>) entities.get(0).items();
             @SuppressWarnings("unchecked")
             List<Finding> found = (List<Finding>) entities.get(2).items();
-            return new Result(runDir, run, files, comps, found, coverage);
+            return new Result(runDir, run, files, comps, found, coverage, fileFacts);
+        }
+
+        /** The file-cache payload of one file: its record and what each analyzer found. */
+        private String payload(FileAnalyzer.Result res, Path absPath) {
+            Map<String, Object> facts = new LinkedHashMap<>();
+            FileRecord rec = res.record();
+            if (rec != null && (res.text() != null || rec.language.equals("archive"))) {
+                AnalyzerContext ctx = new AnalyzerContext(cfg, absPath, res.text(), null);
+                Analyzers.run(analyzers, rec, ctx, analyzerWarnings).forEach((name, f) -> facts.put(name, f.dump()));
+            }
+            Map<String, Object> payload = new LinkedHashMap<>();
+            payload.put("facts", facts);
+            payload.put("record", rec != null ? rec.toMap() : null);
+            return PyJson.compact(payload);
+        }
+
+        /** Files, lines and unparsed lines per analyzer, with the first 50 unparsed regions. */
+        private static Map<String, Object> analyzerCoverage(List<FileFacts> fileFacts) {
+            record Cov(int[] counts, List<Map<String, Object>> regions) {}
+            Map<String, Cov> out = new java.util.TreeMap<>();
+            for (FileFacts ff : fileFacts) {
+                Cov cov = out.computeIfAbsent(ff.analyzer(), k -> new Cov(new int[3], new ArrayList<>()));
+                cov.counts()[0]++;
+                int lines = Math.max(ff.facts().coverage.lines, 0);
+                cov.counts()[1] += lines;
+                java.util.Set<Integer> covered = new java.util.HashSet<>();
+                for (Coverage.Unparsed u : ff.facts().coverage.unparsed) {
+                    for (int i = Math.max(u.start(), 1); i <= Math.min(u.end(), lines); i++) {
+                        covered.add(i);
+                    }
+                    if (cov.regions().size() < 50) {
+                        Map<String, Object> r = new LinkedHashMap<>();
+                        r.put("file", ff.path());
+                        r.put("start", (long) u.start());
+                        r.put("end", (long) u.end());
+                        r.put("reason", u.reason());
+                        cov.regions().add(r);
+                    }
+                }
+                cov.counts()[2] += covered.size();
+            }
+            Map<String, Object> result = new LinkedHashMap<>();
+            out.forEach((name, cov) -> {
+                Map<String, Object> m = new LinkedHashMap<>();
+                m.put("files", (long) cov.counts()[0]);
+                m.put("lines", (long) cov.counts()[1]);
+                m.put("unparsed_lines", (long) cov.counts()[2]);
+                double pct = 100.0;
+                if (cov.counts()[1] != 0) {
+                    pct = new java.math.BigDecimal(100.0 * (cov.counts()[1] - cov.counts()[2]) / cov.counts()[1])
+                            .setScale(1, java.math.RoundingMode.HALF_EVEN).doubleValue();
+                }
+                m.put("coverage_pct", pct);
+                m.put("regions", cov.regions());
+                result.put(name, m);
+            });
+            return result;
         }
 
         /** Build files only, never written to. */

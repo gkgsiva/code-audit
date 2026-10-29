@@ -42,6 +42,9 @@ final class ScanCommand implements Callable<Integer> {
         System.out.println("Run " + run.runId + " -> " + result.runDir());
         System.out.println("  files: " + run.filesTotal + ", analyzed: " + run.filesAnalyzed + ", from cache: " + run.filesCached
                 + ", components: " + result.components().size());
+        if (!run.analyzers.isEmpty()) {
+            System.out.println("  analyzers: " + Scanner.analyzerLine(run.analyzers));
+        }
         for (InputCoverage c : run.coverage) {
             System.out.println("  " + c.line());
         }

@@ -16,7 +16,7 @@ for the earlier Python tool are on the `office-main` branch; it is no longer use
 3. What each task needs on the machine:
    - Tasks 1 to 3: Docker only (Docker Desktop on Windows, Docker Engine or Docker Desktop in
      WSL2).
-   - Tasks 4, 6 and 7: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
+   - Tasks 4 and 6 to 9: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
      both on PATH. **WSL2**: `sudo apt install openjdk-25-jdk maven`.
    - Task 5: Node.js 22 (it includes npm).
 
@@ -92,3 +92,33 @@ tool's.
 
 The web project shows a few more files than the command line on the samples because the
 sample's own `audit.yaml` and `audit-inputs` sit inside its code folder; on real code they do not.
+
+## Phase 2: Java, SQL and configuration analyzers
+
+What is new: the scan now reads what is inside the files: build files and libraries,
+configuration files, Java classes, Struts/JSF/JSP pages, Spring XML, SQL scripts and the SQL
+inside Java code, and application server files. The results are checked against the earlier
+Python tool. They are shown as screens in Phase 5; for now the scan log and the command line
+list how many files each analyzer read.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (51 tests).
+3. Run **`audit: 8. compare the analyzers with the Python tool`**. It ends with
+   `Tests run: 19, Failures: 0` and `BUILD SUCCESS`: every analyzer gives the same results as
+   the Python tool on the 10 sample apps and on more than 2,000 recorded files.
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **struts-oracle-app**. Below
+   the files line it now prints
+   `analyzers: build 1 file, config 7 files, deps 5 files, java 11 files, servers 11 files, spring 3 files, sql 4 files, web 9 files`.
+   Run it again with **spring-mvc-batch-app**: `build 4 files, config 8 files, java 11 files,
+   servers 12 files, spring 6 files, web 6 files`.
+5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva**, open your project and click **Full rescan**. When it is **done**, the log shows a
+   line starting with `Analyzers:` with the same kind of counts.
+6. Developer reference: run **`audit: 9. build the developer reference (Javadoc)`**. Open
+   `backend/target/reports/apidocs/index.html` in a browser (in VS Code: right-click the file,
+   **Reveal in File Explorer**, then double-click it; on WSL2 run
+   `explorer.exe "$(wslpath -w backend/target/reports/apidocs/index.html)"`). It lists every package and class
+   with its description. The guides per module are in `docs/developer/` (start with
+   `docs/developer/README.md`).

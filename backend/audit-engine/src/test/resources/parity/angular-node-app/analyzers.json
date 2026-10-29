@@ -1,0 +1,9393 @@
+{
+ "billing-api/.nvmrc": {
+  "deps": {
+   "coverage": {
+    "lines": 2,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/.nvmrc",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7f88b11e077ad391",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": "20.11"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/package.json": {
+  "deps": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "@nestjs/common",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:a164cce2969a3967",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "10.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "@nestjs/core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:49c9bca190601354",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "10.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "@nestjs/platform-express",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:c1444a602543ba7d",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "10.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "@nestjs/schedule",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:28f170027281737c",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "4.0.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "@prisma/client",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:7dd10af0003fd5d1",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "5.10.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "prisma",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:1fc824f3cb22999c",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "5.10.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     },
+     {
+      "artifact": "typescript",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/package.json",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:696fefc365886a68",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "5.4.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api/package.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/prisma/schema.prisma": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 20,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/prisma/schema.prisma",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f417589156e9ff13",
+      "name": "PostgreSQL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "orm": "prisma",
+      "table": "INVOICES"
+     },
+     "file": "billing-api/prisma/schema.prisma",
+     "kind": "jpa-entity",
+     "line": 10,
+     "name": "Invoice",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/src/app.module.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     8776254508495293423,
+     1,
+     9
+    ],
+    [
+     7178940475809674904,
+     2,
+     10
+    ],
+    [
+     1053693023625119737,
+     3,
+     11
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api/src/app.module.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/app.module.ts",
+     "source_label": "billing-api/src/app.module.ts",
+     "target": "billing-api/src/invoices/invoices.controller",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/app.module.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/app.module.ts",
+     "source_label": "billing-api/src/app.module.ts",
+     "target": "billing-api/src/invoices/invoices.service",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/app.module.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/app.module.ts",
+     "source_label": "billing-api/src/app.module.ts",
+     "target": "billing-api/src/prisma.service",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/src/invoices/invoices.controller.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 6,
+     "kind": "method",
+     "line": 6,
+     "loc": 1,
+     "name": "constructor"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 11,
+     "kind": "method",
+     "line": 9,
+     "loc": 3,
+     "name": "list"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 14,
+     "loc": 3,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 21,
+     "kind": "method",
+     "line": 19,
+     "loc": 3,
+     "name": "create"
+    }
+   ],
+   "windows": [
+    [
+     8048138382606767291,
+     1,
+     9
+    ],
+    [
+     4110084674247104563,
+     2,
+     10
+    ],
+    [
+     5630060694620791793,
+     4,
+     10
+    ],
+    [
+     428992671504142392,
+     5,
+     13
+    ],
+    [
+     5615481425268371150,
+     6,
+     14
+    ],
+    [
+     7894093000345588549,
+     8,
+     15
+    ],
+    [
+     4322772864107124788,
+     9,
+     15
+    ],
+    [
+     3988317638012457659,
+     10,
+     18
+    ],
+    [
+     7118626462725201783,
+     11,
+     19
+    ],
+    [
+     4915826654978273759,
+     13,
+     19
+    ],
+    [
+     5937802527179212287,
+     14,
+     20
+    ],
+    [
+     4112301285970765813,
+     15,
+     20
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api/src/invoices/invoices.controller.ts",
+      "framework": null,
+      "handler": "InvoicesController.list",
+      "id": "service:ad7fb229dbdd8807",
+      "inputs": [],
+      "kind": "nest-route",
+      "name": "GET /invoices",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api/src/invoices/invoices.controller.ts",
+      "framework": null,
+      "handler": "InvoicesController.get",
+      "id": "service:ef1d7af6600c9ddc",
+      "inputs": [],
+      "kind": "nest-route",
+      "name": "GET /invoices/:id",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices/:id",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 19,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api/src/invoices/invoices.controller.ts",
+      "framework": null,
+      "handler": "InvoicesController.create",
+      "id": "service:58e82f0a13a51255",
+      "inputs": [],
+      "kind": "nest-route",
+      "name": "POST /invoices",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:935eb5608da61dca",
+      "name": "NestJS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.controller.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/invoices/invoices.controller.ts",
+     "source_label": "billing-api/src/invoices/invoices.controller.ts",
+     "target": "billing-api/src/invoices/invoices.service",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "path": "invoices"
+     },
+     "file": "billing-api/src/invoices/invoices.controller.ts",
+     "kind": "nest-controller",
+     "line": 5,
+     "name": "InvoicesController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.controller.ts",
+     "kind": "service",
+     "line": 9,
+     "name": "InvoicesController.list",
+     "owner": "service:ad7fb229dbdd8807"
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.controller.ts",
+     "kind": "service",
+     "line": 14,
+     "name": "InvoicesController.get",
+     "owner": "service:ef1d7af6600c9ddc"
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.controller.ts",
+     "kind": "service",
+     "line": 19,
+     "name": "InvoicesController.create",
+     "owner": "service:58e82f0a13a51255"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/src/invoices/invoices.service.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 7,
+     "kind": "method",
+     "line": 7,
+     "loc": 1,
+     "name": "constructor"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 11,
+     "kind": "method",
+     "line": 9,
+     "loc": 3,
+     "name": "forOrder"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 15,
+     "kind": "method",
+     "line": 13,
+     "loc": 3,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 19,
+     "kind": "method",
+     "line": 17,
+     "loc": 3,
+     "name": "issue"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 25,
+     "kind": "method",
+     "line": 23,
+     "loc": 3,
+     "name": "closeMonth"
+    }
+   ],
+   "windows": [
+    [
+     7935089692079848973,
+     1,
+     10
+    ],
+    [
+     70903262577215102,
+     2,
+     10
+    ],
+    [
+     5338466751108412925,
+     3,
+     10
+    ],
+    [
+     3180255517053660490,
+     5,
+     13
+    ],
+    [
+     4644187691898648307,
+     6,
+     13
+    ],
+    [
+     3175262804293297430,
+     7,
+     14
+    ],
+    [
+     4036097447206049112,
+     9,
+     14
+    ],
+    [
+     8153140195408802621,
+     10,
+     15
+    ],
+    [
+     4087679420535015287,
+     11,
+     18
+    ],
+    [
+     3502923684898825750,
+     13,
+     18
+    ],
+    [
+     2201583486924305086,
+     14,
+     18
+    ],
+    [
+     8690736534549283840,
+     15,
+     22
+    ],
+    [
+     8699698905028985339,
+     17,
+     22
+    ],
+    [
+     6429696295520640428,
+     18,
+     23
+    ],
+    [
+     4392166008035977741,
+     19,
+     24
+    ],
+    [
+     5694197075082856713,
+     22,
+     24
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "billing-api/src/invoices/invoices.service.ts",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Scheduled in the code with NestJS @Cron",
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 23,
+        "snippet": "NestJS @Cron"
+       }
+      ],
+      "id": "batch_job:b72feb01614747e3",
+      "kind": "job",
+      "machine": null,
+      "name": "month-end-close",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "InvoicesService.closeMonth"
+      ],
+      "schedule": "30 1 1 * *",
+      "scheduler": "node-cron",
+      "steps": []
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 10,
+        "snippet": "SELECT /* Prisma findMany */ FROM Invoice"
+       }
+      ],
+      "file": "billing-api/src/invoices/invoices.service.ts",
+      "fingerprint": "eb1eaaf2f212b398",
+      "fragments": 1,
+      "id": "sql:c6034aaa15b96a96",
+      "line": 10,
+      "normalized": "SELECT FROM INVOICE",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "Prisma findMany: the ORM generates the SQL at run time",
+      "source": "prisma",
+      "structural_holes": 0,
+      "tables": [
+       "Invoice"
+      ],
+      "text": "SELECT /* Prisma findMany */ FROM Invoice",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 14,
+        "snippet": "SELECT /* Prisma findUnique */ FROM Invoice"
+       }
+      ],
+      "file": "billing-api/src/invoices/invoices.service.ts",
+      "fingerprint": "eb1eaaf2f212b398",
+      "fragments": 1,
+      "id": "sql:2fb9f218eb02ee44",
+      "line": 14,
+      "normalized": "SELECT FROM INVOICE",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "Prisma findUnique: the ORM generates the SQL at run time",
+      "source": "prisma",
+      "structural_holes": 0,
+      "tables": [
+       "Invoice"
+      ],
+      "text": "SELECT /* Prisma findUnique */ FROM Invoice",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 18,
+        "snippet": "INSERT /* Prisma create */ INTO Invoice"
+       }
+      ],
+      "file": "billing-api/src/invoices/invoices.service.ts",
+      "fingerprint": "cc4a94939f302d89",
+      "fragments": 1,
+      "id": "sql:17be6491c10ba6eb",
+      "line": 18,
+      "normalized": "INSERT INTO INVOICE",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "Prisma create: the ORM generates the SQL at run time",
+      "source": "prisma",
+      "structural_holes": 0,
+      "tables": [
+       "Invoice"
+      ],
+      "text": "INSERT /* Prisma create */ INTO Invoice",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 24,
+        "snippet": "UPDATE INVOICES SET status = 'CLOSED' WHERE status = 'ISSUED' AND issued_at < date_trunc('month', now())"
+       }
+      ],
+      "file": "billing-api/src/invoices/invoices.service.ts",
+      "fingerprint": "3351895f289b0402",
+      "fragments": 1,
+      "id": "sql:9ef6e6cda503cff0",
+      "line": 24,
+      "normalized": "UPDATE INVOICES SET STATUS = ? WHERE STATUS = ? AND ISSUED_AT < DATE_TRUNC(?, NOW())",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "node-db",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICES"
+      ],
+      "text": "UPDATE INVOICES SET status = 'CLOSED' WHERE status = 'ISSUED' AND issued_at < date_trunc('month', now())",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.service.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/invoices/invoices.service.ts",
+     "source_label": "billing-api/src/invoices/invoices.service.ts",
+     "target": "billing-api/src/prisma.service",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.service.ts",
+     "kind": "injectable",
+     "line": 6,
+     "name": "InvoicesService",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-api/src/invoices/invoices.service.ts",
+     "kind": "cron-job",
+     "line": 23,
+     "name": "month-end-close",
+     "owner": "batch_job:b72feb01614747e3"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/src/main.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 8,
+     "kind": "function",
+     "line": 4,
+     "loc": 5,
+     "name": "bootstrap"
+    }
+   ],
+   "windows": [
+    [
+     407638407253844133,
+     1,
+     7
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/main.ts",
+        "line": 5,
+        "snippet": "NestFactory.create"
+       }
+      ],
+      "file": "billing-api/src/main.ts",
+      "id": "entry:0094b4d734267da0",
+      "kind": "node-server",
+      "line": 5,
+      "name": "billing-api/src/main.ts"
+     },
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/main.ts",
+        "line": 7,
+        "snippet": "app.listen"
+       }
+      ],
+      "file": "billing-api/src/main.ts",
+      "id": "entry:0094b4d734267da0",
+      "kind": "node-server",
+      "line": 7,
+      "name": "billing-api/src/main.ts"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/main.ts",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:403ba6a4e3aa0285",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/main.ts",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:403ba6a4e3aa0285",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/main.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api/src/main.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:billing-api/src/main.ts",
+     "source_label": "billing-api/src/main.ts",
+     "target": "billing-api/src/app.module",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api/src/main.ts",
+     "kind": "nest-global-prefix",
+     "line": 6,
+     "name": "api",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api/src/prisma.service.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 8,
+     "kind": "method",
+     "line": 6,
+     "loc": 3,
+     "name": "onModuleInit"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api/src/prisma.service.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api/src/prisma.service.ts",
+     "kind": "injectable",
+     "line": 5,
+     "name": "PrismaService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/apache/httpd.conf": {
+  "config": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": [
+     {
+      "end": 2,
+      "reason": "not a key/value line",
+      "start": 2
+     },
+     {
+      "end": 3,
+      "reason": "not a key/value line",
+      "start": 3
+     },
+     {
+      "end": 4,
+      "reason": "not a key/value line",
+      "start": 4
+     },
+     {
+      "end": 5,
+      "reason": "not a key/value line",
+      "start": 5
+     },
+     {
+      "end": 7,
+      "reason": "not a key/value line",
+      "start": 7
+     },
+     {
+      "end": 8,
+      "reason": "not a key/value line",
+      "start": 8
+     },
+     {
+      "end": 9,
+      "reason": "not a key/value line",
+      "start": 9
+     },
+     {
+      "end": 10,
+      "reason": "not a key/value line",
+      "start": 10
+     },
+     {
+      "end": 11,
+      "reason": "not a key/value line",
+      "start": 11
+     },
+     {
+      "end": 12,
+      "reason": "not a key/value line",
+      "start": 12
+     },
+     {
+      "end": 13,
+      "reason": "not a key/value line",
+      "start": 13
+     },
+     {
+      "end": 14,
+      "reason": "not a key/value line",
+      "start": 14
+     },
+     {
+      "end": 15,
+      "reason": "not a key/value line",
+      "start": 15
+     }
+    ]
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "web-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/apache/httpd.conf",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:20f30256ea9f4f27",
+      "name": "Apache HTTP Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/apache/httpd.conf",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:31e04263f9b02419",
+      "name": "Oracle WebLogic Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/jboss/standalone.xml": {
+  "config": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:5a89274168e5aa23",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "deploy/jboss/standalone.xml"
+      ],
+      "target": "oracle://portaldb.acme.local:1521/PORTAL",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "deploy/jboss/standalone.xml",
+      "id": "finding:d6cc81fc4655e785",
+      "line": 1,
+      "message": "JBoss/WildFly server configuration (standalone.xml): data sources, JMS resources, security realms and tuning set here for JBoss / WildFly [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/jboss/standalone.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:0907c137bbfe5b9e",
+      "name": "JBoss / WildFly",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/liberty/server.xml": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "deploy/liberty/server.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "deploy/liberty/server.xml",
+      "id": "finding:a9811a5dd129a145",
+      "line": 1,
+      "message": "WebSphere Liberty server configuration: data sources, JMS resources, security realms and tuning set here for IBM WebSphere Liberty [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/liberty/server.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:c9a3982a84279c2e",
+      "name": "IBM WebSphere Liberty",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/nginx/Dockerfile": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "web-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/nginx/Dockerfile",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a4eb1d7f977b82bd",
+      "name": "Nginx",
+      "replacement": null,
+      "usages": 1,
+      "version": "1.25"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/nginx/nginx.conf": {
+  "config": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": [
+     {
+      "end": 1,
+      "reason": "not a key/value line",
+      "start": 1
+     },
+     {
+      "end": 3,
+      "reason": "not a key/value line",
+      "start": 3
+     },
+     {
+      "end": 4,
+      "reason": "not a key/value line",
+      "start": 4
+     },
+     {
+      "end": 5,
+      "reason": "not a key/value line",
+      "start": 5
+     },
+     {
+      "end": 6,
+      "reason": "not a key/value line",
+      "start": 6
+     },
+     {
+      "end": 8,
+      "reason": "not a key/value line",
+      "start": 8
+     },
+     {
+      "end": 9,
+      "reason": "not a key/value line",
+      "start": 9
+     },
+     {
+      "end": 10,
+      "reason": "not a key/value line",
+      "start": 10
+     },
+     {
+      "end": 12,
+      "reason": "not a key/value line",
+      "start": 12
+     },
+     {
+      "end": 13,
+      "reason": "not a key/value line",
+      "start": 13
+     },
+     {
+      "end": 14,
+      "reason": "not a key/value line",
+      "start": 14
+     },
+     {
+      "end": 16,
+      "reason": "not a key/value line",
+      "start": 16
+     },
+     {
+      "end": 17,
+      "reason": "not a key/value line",
+      "start": 17
+     },
+     {
+      "end": 18,
+      "reason": "not a key/value line",
+      "start": 18
+     },
+     {
+      "end": 19,
+      "reason": "not a key/value line",
+      "start": 19
+     },
+     {
+      "end": 20,
+      "reason": "not a key/value line",
+      "start": 20
+     }
+    ]
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "web-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/nginx/nginx.conf",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4117b281a5a4d7eb",
+      "name": "Nginx",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/tomcat/context.xml": {
+  "config": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "deploy/tomcat/context.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:5a89274168e5aa23",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "deploy/tomcat/context.xml"
+      ],
+      "target": "oracle://portaldb.acme.local:1521/PORTAL",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/tomcat/context.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "deploy/tomcat/context.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "deploy/tomcat/context.xml",
+      "id": "finding:53e42b9f0ffa1883",
+      "line": 1,
+      "message": "Tomcat context (context.xml): data sources, JMS resources, security realms and tuning set here for Apache Tomcat [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/tomcat/context.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:6ccbde39dad91df8",
+      "name": "Apache Tomcat",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/tomcat/server.xml": {
+  "config": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "deploy/tomcat/server.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "deploy/tomcat/server.xml",
+      "id": "finding:f508349908c20c48",
+      "line": 1,
+      "message": "Tomcat server configuration (server.xml): data sources, JMS resources, security realms and tuning set here for Apache Tomcat [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/tomcat/server.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:6ccbde39dad91df8",
+      "name": "Apache Tomcat",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "deploy/weblogic/config.xml": {
+  "config": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "deploy/weblogic/config.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "deploy/weblogic/config.xml",
+      "id": "finding:7041fc1fd034531e",
+      "line": 1,
+      "message": "WebLogic domain configuration (config.xml): data sources, JMS resources, security realms and tuning set here for Oracle WebLogic Server [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "deploy/weblogic/config.xml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:33a776db1385994d",
+      "name": "Oracle WebLogic Server",
+      "replacement": null,
+      "usages": 1,
+      "version": "12.2.1.4.0"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi": {
+  "config": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+      "id": "finding:6c71548fa1729fbb",
+      "line": 1,
+      "message": "WebSphere binding/extension file (ibm-web-bnd.xmi, XMI format of WebSphere 6.x/7): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to IBM WebSphere Application Server [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b96d437f7945bd38",
+      "name": "IBM WebSphere Application Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/WEB-INF/jboss-web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+      "id": "finding:23c8d8360d8620ed",
+      "line": 1,
+      "message": "JBoss deployment descriptor (jboss-web.xml): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to JBoss / WildFly [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d490405950ac1564",
+      "name": "JBoss / WildFly",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.2"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b3699c7001040a8e",
+      "name": "Servlet API",
+      "replacement": null,
+      "usages": 1,
+      "version": "2.5"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+     "kind": "forwards",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/WEB-INF/web.xml",
+     "source_label": "legacy-portal/WebContent/WEB-INF/web.xml",
+     "target": "/index.html",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/WEB-INF/weblogic.xml": {
+  "config": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "migration",
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+      "id": "finding:7b003836c5eaf4a8",
+      "line": 1,
+      "message": "WebLogic deployment descriptor (weblogic.xml): its settings (context root, JNDI names, data sources, security roles, class loading) are specific to Oracle WebLogic Server [[server-move]]",
+      "remediation": "[[server-remediation]]",
+      "rule_id": "server-specific-config",
+      "severity": "low"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "app-server",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:c10d614413a6cf03",
+      "name": "Oracle WebLogic Server",
+      "replacement": null,
+      "usages": 1,
+      "version": "8.1"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/index.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/index.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "legacy-portal/WebContent/index.html",
+      "id": "screen:08add36d295dfd74",
+      "name": "legacy-portal/WebContent/index.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angularjs"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/index.html",
+     "kind": "includes",
+     "line": 10,
+     "report_unresolved": false,
+     "source": "screen:screen:08add36d295dfd74",
+     "source_label": "legacy-portal/WebContent/index.html",
+     "target": "account-summary",
+     "target_kinds": [
+      "angular-selector",
+      "angularjs-component",
+      "angularjs-directive"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/index.html",
+     "kind": "page",
+     "line": 1,
+     "name": "legacy-portal/WebContent/index.html",
+     "owner": "screen:08add36d295dfd74"
+    },
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/index.html",
+     "kind": "spa-shell",
+     "line": 1,
+     "name": "legacy-portal/WebContent/index.html",
+     "owner": "screen:08add36d295dfd74"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/js/app.js": {
+  "deps": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "angularjs",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:b94404750de550a1",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "js-file",
+      "version": "1.5",
+      "vulnerabilities": [],
+      "where_used": [
+       "legacy-portal/WebContent/js/app.js"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "function",
+     "line": 3,
+     "loc": 12,
+     "name": "config callback"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "function",
+     "line": 17,
+     "loc": 4,
+     "name": "controller"
+    }
+   ],
+   "windows": [
+    [
+     2287900583341609201,
+     2,
+     11
+    ],
+    [
+     590377098225892924,
+     3,
+     13
+    ],
+    [
+     727361102432358835,
+     4,
+     15
+    ],
+    [
+     3129975817279423347,
+     5,
+     16
+    ],
+    [
+     1734811826201243448,
+     6,
+     17
+    ],
+    [
+     5297926358028465685,
+     7,
+     17
+    ],
+    [
+     993907283642189270,
+     8,
+     18
+    ],
+    [
+     4956102774174872310,
+     9,
+     18
+    ],
+    [
+     3697346810979639121,
+     10,
+     19
+    ],
+    [
+     7567091371867482633,
+     11,
+     19
+    ],
+    [
+     5222262813028738686,
+     12,
+     19
+    ],
+    [
+     190621951414025877,
+     13,
+     19
+    ],
+    [
+     8310518246284205916,
+     14,
+     19
+    ],
+    [
+     7325359878591468172,
+     15,
+     21
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": "angular.module"
+       }
+      ],
+      "file": "legacy-portal/WebContent/js/app.js",
+      "id": "entry:046a9c59dfa36312",
+      "kind": "angularjs-app",
+      "line": 2,
+      "name": "portal"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f24baca07afd933b",
+      "name": "AngularJS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f24baca07afd933b",
+      "name": "AngularJS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "renders",
+     "line": 15,
+     "report_unresolved": true,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "accountSummary",
+     "target": "views/account-summary.html",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {
+      "route": "/accounts/:id"
+     },
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "forwards",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "legacy-portal/WebContent/js/app.js",
+     "target": "views/account-detail.html",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "uses",
+     "line": 4,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "legacy-portal/WebContent/js/app.js",
+     "target": "AccountDetailCtrl",
+     "target_kinds": [
+      "angularjs-controller"
+     ]
+    },
+    {
+     "data": {
+      "route": "/accounts"
+     },
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "forwards",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "legacy-portal/WebContent/js/app.js",
+     "target": "views/accounts.html",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "uses",
+     "line": 4,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "legacy-portal/WebContent/js/app.js",
+     "target": "AccountsCtrl",
+     "target_kinds": [
+      "angularjs-controller"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "calls",
+     "line": 19,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/app.js",
+     "source_label": "legacy-portal/WebContent/js/app.js",
+     "target": "/portal/api/accounts/summary",
+     "target_kinds": [
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "angularjs-component",
+     "line": 2,
+     "name": "accountSummary",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/app.js",
+     "kind": "angularjs-component",
+     "line": 2,
+     "name": "account-summary",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/js/controllers.js": {
+  "deps": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 7,
+     "kind": "function",
+     "line": 2,
+     "loc": 6,
+     "name": "controller AccountsCtrl"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 6,
+     "kind": "function",
+     "line": 3,
+     "loc": 4,
+     "name": "$scope.search"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 18,
+     "kind": "function",
+     "line": 8,
+     "loc": 11,
+     "name": "controller AccountDetailCtrl"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "function",
+     "line": 9,
+     "loc": 3,
+     "name": "then callback"
+    },
+    {
+     "cyclomatic": 3,
+     "end_line": 17,
+     "kind": "function",
+     "line": 12,
+     "loc": 6,
+     "name": "$scope.save"
+    }
+   ],
+   "windows": [
+    [
+     927608533718854506,
+     1,
+     5
+    ],
+    [
+     7740023995394043546,
+     2,
+     5
+    ],
+    [
+     1447778335851354370,
+     3,
+     7
+    ],
+    [
+     5578550496873761460,
+     4,
+     8
+    ],
+    [
+     6831566457157859054,
+     5,
+     9
+    ],
+    [
+     4574685078911118970,
+     6,
+     10
+    ],
+    [
+     4510974252267700825,
+     7,
+     10
+    ],
+    [
+     8559336306734557429,
+     8,
+     11
+    ],
+    [
+     593163940422284626,
+     9,
+     13
+    ],
+    [
+     3522332074667910508,
+     10,
+     16
+    ],
+    [
+     6117972098442205254,
+     11,
+     16
+    ],
+    [
+     7876572766259278675,
+     12,
+     17
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/controllers.js",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f24baca07afd933b",
+      "name": "AngularJS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/js/controllers.js",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f24baca07afd933b",
+      "name": "AngularJS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "legacy-portal/WebContent/js/controllers.js",
+     "kind": "calls",
+     "line": 4,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/controllers.js",
+     "source_label": "legacy-portal/WebContent/js/controllers.js",
+     "target": "/portal/api/accounts",
+     "target_kinds": [
+      "url"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "legacy-portal/WebContent/js/controllers.js",
+     "kind": "calls",
+     "line": 9,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/controllers.js",
+     "source_label": "legacy-portal/WebContent/js/controllers.js",
+     "target": "/portal/api/accounts/?",
+     "target_kinds": [
+      "url"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "PUT"
+     },
+     "file": "legacy-portal/WebContent/js/controllers.js",
+     "kind": "calls",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:legacy-portal/WebContent/js/controllers.js",
+     "source_label": "legacy-portal/WebContent/js/controllers.js",
+     "target": "/portal/api/accounts/?",
+     "target_kinds": [
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/controllers.js",
+     "kind": "angularjs-controller",
+     "line": 1,
+     "name": "AccountDetailCtrl",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/js/controllers.js",
+     "kind": "angularjs-controller",
+     "line": 1,
+     "name": "AccountsCtrl",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/lib/angular-1.5.8.js": {
+  "deps": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "angular",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/lib/angular-1.5.8.js",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:e54dee248aae6790",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "js-file",
+      "version": "1.5.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "legacy-portal/WebContent/lib/angular-1.5.8.js"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/views/account-detail.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/views/account-detail.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 3,
+      "file": "legacy-portal/WebContent/views/account-detail.html",
+      "id": "screen:e3686719539f7784",
+      "name": "legacy-portal/WebContent/views/account-detail.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angularjs"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/views/account-detail.html",
+     "kind": "page",
+     "line": 1,
+     "name": "legacy-portal/WebContent/views/account-detail.html",
+     "owner": "screen:e3686719539f7784"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/views/account-summary.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/views/account-summary.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "legacy-portal/WebContent/views/account-summary.html",
+      "id": "screen:464b2922a861d0f1",
+      "name": "legacy-portal/WebContent/views/account-summary.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angularjs"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/views/account-summary.html",
+     "kind": "page",
+     "line": 1,
+     "name": "legacy-portal/WebContent/views/account-summary.html",
+     "owner": "screen:464b2922a861d0f1"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/WebContent/views/accounts.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/WebContent/views/accounts.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "legacy-portal/WebContent/views/accounts.html",
+      "id": "screen:6766cb7d4d1adef8",
+      "name": "legacy-portal/WebContent/views/accounts.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angularjs"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-portal/WebContent/views/accounts.html",
+     "kind": "page",
+     "line": 1,
+     "name": "legacy-portal/WebContent/views/accounts.html",
+     "owner": "screen:6766cb7d4d1adef8"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-portal/bower.json": {
+  "config": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "deps": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "angular",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/bower.json",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:e54dee248aae6790",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "bower",
+      "version": "1.5.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "legacy-portal/bower.json"
+      ]
+     },
+     {
+      "artifact": "angular-route",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/bower.json",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:e102de573006b8c4",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "bower",
+      "version": "1.5.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "legacy-portal/bower.json"
+      ]
+     },
+     {
+      "artifact": "bootstrap",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-portal/bower.json",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:9e37e86756733a95",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "bower",
+      "version": "3.3.7",
+      "vulnerabilities": [],
+      "where_used": [
+       "legacy-portal/bower.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/Dockerfile": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/Dockerfile",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:9a56887fbf4e6d4a",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": "18"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/package-lock.json": {
+  "deps": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "@types/express",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:8a869cfd3e585a8e",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "4.17.21",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "axios",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:cee997e0518868a4",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "1.6.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "body-parser",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:788b0648e715f50c",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "1.20.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "express",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:697d890a949db2be",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "4.18.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "follow-redirects",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:d78f70f8222e1696",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "1.15.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "node-cron",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:1b896e99a24aa502",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "3.0.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "pg",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:281c711f91729f66",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "8.11.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "typeorm",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:bffb1b79f6fc510d",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "0.3.20",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "typescript",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:38994d40f5ba65fe",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "5.4.5",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package-lock.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/package.json": {
+  "deps": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "axios",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:cee997e0518868a4",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "1.6.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "express",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:697d890a949db2be",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "4.18.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "node-cron",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:1b896e99a24aa502",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "3.0.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "pg",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:281c711f91729f66",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "8.11.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "typeorm",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:bffb1b79f6fc510d",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "0.3.20",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "@types/express",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:8a869cfd3e585a8e",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "4.17.21",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     },
+     {
+      "artifact": "typescript",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:696fefc365886a68",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "5.4.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-api/package.json"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/package.json",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:3f936eb3bd0ceaec",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": "18.17"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/db/data-source.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     1347369446740792377,
+     1,
+     10
+    ],
+    [
+     6301204284881894343,
+     2,
+     11
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:260b572e1b09e8d0",
+      "producers": [],
+      "protocol": "postgres",
+      "purpose": null,
+      "source_files": [
+       "orders-api/src/db/data-source.ts"
+      ],
+      "target": "postgres://ordersdb.acme.local:5432/orders",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f417589156e9ff13",
+      "name": "PostgreSQL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/db/data-source.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/db/data-source.ts",
+     "source_label": "orders-api/src/db/data-source.ts",
+     "target": "orders-api/src/entities/order.entity",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/db/pool.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/db/pool.ts",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f417589156e9ff13",
+      "name": "PostgreSQL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/db/pool.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/entities/order.entity.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     6522813189067120445,
+     1,
+     14
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/entities/order.entity.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "orm": "typeorm",
+      "table": "ORDERS"
+     },
+     "file": "orders-api/src/entities/order.entity.ts",
+     "kind": "jpa-entity",
+     "line": 4,
+     "name": "Order",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/jobs/nightly.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 7,
+     "kind": "function",
+     "line": 5,
+     "loc": 3,
+     "name": "purgeOldOrders"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "function",
+     "line": 9,
+     "loc": 3,
+     "name": "startJobs"
+    }
+   ],
+   "windows": [
+    [
+     6804264034420872613,
+     1,
+     9
+    ],
+    [
+     2800500655229364162,
+     2,
+     10
+    ],
+    [
+     5806950373634292151,
+     5,
+     10
+    ],
+    [
+     2138470059762029534,
+     6,
+     10
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "orders-api/src/jobs/nightly.ts",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Scheduled in the code with node-cron",
+      "evidence": [
+       {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": 10,
+        "snippet": "node-cron"
+       }
+      ],
+      "id": "batch_job:e03b4d269df831f9",
+      "kind": "job",
+      "machine": null,
+      "name": "purge-old-orders",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "purgeOldOrders"
+      ],
+      "schedule": "0 2 * * *",
+      "scheduler": "node-cron",
+      "steps": []
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": 6,
+        "snippet": "DELETE FROM ORDER_AUDIT WHERE created_at < now() - interval '90 days'"
+       }
+      ],
+      "file": "orders-api/src/jobs/nightly.ts",
+      "fingerprint": "2c84c21beffc5a93",
+      "fragments": 1,
+      "id": "sql:3d10d5e742a52559",
+      "line": 6,
+      "normalized": "DELETE FROM ORDER_AUDIT WHERE CREATED_AT < NOW() - INTERVAL ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "node-db",
+      "structural_holes": 0,
+      "tables": [
+       "ORDER_AUDIT"
+      ],
+      "text": "DELETE FROM ORDER_AUDIT WHERE created_at < now() - interval '90 days'",
+      "type": "DELETE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/jobs/nightly.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/jobs/nightly.ts",
+     "source_label": "orders-api/src/jobs/nightly.ts",
+     "target": "orders-api/src/db/pool",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-api/src/jobs/nightly.ts",
+     "kind": "cron-job",
+     "line": 10,
+     "name": "purge-old-orders",
+     "owner": "batch_job:e03b4d269df831f9"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/routes/customers.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "function",
+     "line": 6,
+     "loc": 7,
+     "name": "get /:id"
+    }
+   ],
+   "windows": [
+    [
+     4437358189518538936,
+     1,
+     9
+    ],
+    [
+     6178406008075275265,
+     2,
+     11
+    ],
+    [
+     7326294870056274861,
+     4,
+     11
+    ],
+    [
+     3953320647434774375,
+     6,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/routes/customers.ts",
+      "framework": null,
+      "handler": "orders-api/src/routes/customers.ts:6",
+      "id": "service:ff8f25ba02fe7b02",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "GET /:id",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/:id",
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 8,
+        "snippet": "SELECT c.id, c.name, c.segment FROM CUSTOMERS c WHERE c.id = $1"
+       }
+      ],
+      "file": "orders-api/src/routes/customers.ts",
+      "fingerprint": "7c8aa403604a5d6a",
+      "fragments": 1,
+      "id": "sql:63921d7b415cc862",
+      "line": 8,
+      "normalized": "SELECT C.ID, C.NAME, C.SEGMENT FROM CUSTOMERS C WHERE C.ID = $1",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "node-db",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS"
+      ],
+      "text": "SELECT c.id, c.name, c.segment FROM CUSTOMERS c WHERE c.id = $1",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/routes/customers.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/routes/customers.ts",
+     "source_label": "orders-api/src/routes/customers.ts",
+     "target": "orders-api/src/db/pool",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-api/src/routes/customers.ts",
+     "kind": "service",
+     "line": 6,
+     "name": "orders-api/src/routes/customers.ts:6",
+     "owner": "service:ff8f25ba02fe7b02"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/customers.ts",
+     "kind": "node-router",
+     "line": 6,
+     "name": "orders-api/src/routes/customers.ts#router",
+     "owner": "service:ff8f25ba02fe7b02"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/routes/orders.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 9,
+     "kind": "function",
+     "line": 7,
+     "loc": 3,
+     "name": "get /"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "function",
+     "line": 11,
+     "loc": 3,
+     "name": "get /:id"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "function",
+     "line": 15,
+     "loc": 3,
+     "name": "post /"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 22,
+     "kind": "function",
+     "line": 19,
+     "loc": 4,
+     "name": "delete /:id"
+    }
+   ],
+   "windows": [
+    [
+     8810846753239306751,
+     1,
+     8
+    ],
+    [
+     5188130662710393131,
+     2,
+     8
+    ],
+    [
+     7218495778982804810,
+     4,
+     8
+    ],
+    [
+     1062773226106390981,
+     5,
+     11
+    ],
+    [
+     8242159866261100731,
+     7,
+     11
+    ],
+    [
+     4154871471227080142,
+     8,
+     12
+    ],
+    [
+     2084806300732645448,
+     9,
+     15
+    ],
+    [
+     8947738933205606208,
+     11,
+     15
+    ],
+    [
+     4056137638737386180,
+     12,
+     16
+    ],
+    [
+     3993877384411159580,
+     13,
+     19
+    ],
+    [
+     2666431318334482244,
+     15,
+     19
+    ],
+    [
+     549291776906138894,
+     16,
+     20
+    ],
+    [
+     4552710532201724625,
+     17,
+     24
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/routes/orders.ts",
+      "framework": null,
+      "handler": "orders-api/src/routes/orders.ts:7",
+      "id": "service:2e164ae3f6c876c0",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "GET /",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/routes/orders.ts",
+      "framework": null,
+      "handler": "orders-api/src/routes/orders.ts:11",
+      "id": "service:a6820dbbb15b7572",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "GET /:id",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/:id",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/routes/orders.ts",
+      "framework": null,
+      "handler": "orders-api/src/routes/orders.ts:15",
+      "id": "service:4c47b3141da521f7",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "POST /",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 19,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/routes/orders.ts",
+      "framework": null,
+      "handler": "orders-api/src/routes/orders.ts:19",
+      "id": "service:2cfd9b508e3671ae",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "DELETE /:id",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/:id",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": 19,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/routes/orders.ts",
+     "source_label": "orders-api/src/routes/orders.ts",
+     "target": "orders-api/src/services/order.service",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "service",
+     "line": 7,
+     "name": "orders-api/src/routes/orders.ts:7",
+     "owner": "service:2e164ae3f6c876c0"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "node-router",
+     "line": 7,
+     "name": "orders-api/src/routes/orders.ts#router",
+     "owner": "service:2e164ae3f6c876c0"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "service",
+     "line": 11,
+     "name": "orders-api/src/routes/orders.ts:11",
+     "owner": "service:a6820dbbb15b7572"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "node-router",
+     "line": 11,
+     "name": "orders-api/src/routes/orders.ts#router",
+     "owner": "service:a6820dbbb15b7572"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "service",
+     "line": 15,
+     "name": "orders-api/src/routes/orders.ts:15",
+     "owner": "service:4c47b3141da521f7"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "node-router",
+     "line": 15,
+     "name": "orders-api/src/routes/orders.ts#router",
+     "owner": "service:4c47b3141da521f7"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "service",
+     "line": 19,
+     "name": "orders-api/src/routes/orders.ts:19",
+     "owner": "service:2cfd9b508e3671ae"
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/routes/orders.ts",
+     "kind": "node-router",
+     "line": 19,
+     "name": "orders-api/src/routes/orders.ts#router",
+     "owner": "service:2cfd9b508e3671ae"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/server.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "function",
+     "line": 14,
+     "loc": 4,
+     "name": "then callback"
+    }
+   ],
+   "windows": [
+    [
+     3632458430062842021,
+     1,
+     9
+    ],
+    [
+     1798894987525407245,
+     2,
+     9
+    ],
+    [
+     3590138207783650686,
+     3,
+     10
+    ],
+    [
+     3203863578497790207,
+     4,
+     10
+    ],
+    [
+     1022409563227418057,
+     5,
+     12
+    ],
+    [
+     7330250942860627659,
+     7,
+     12
+    ],
+    [
+     4260447741338057933,
+     8,
+     12
+    ],
+    [
+     5642990212129227226,
+     9,
+     14
+    ],
+    [
+     6467619387288450189,
+     10,
+     15
+    ],
+    [
+     3421491828468096639,
+     12,
+     16
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/server.ts",
+        "line": 16,
+        "snippet": "app.listen"
+       }
+      ],
+      "file": "orders-api/src/server.ts",
+      "id": "entry:d7030e1082d72970",
+      "kind": "node-server",
+      "line": 16,
+      "name": "orders-api/src/server.ts"
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/server.ts",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-api/src/server.ts",
+      "framework": null,
+      "handler": "orders-api/src/server.ts:12",
+      "id": "service:5b8342af88b9c1e6",
+      "inputs": [],
+      "kind": "node-route",
+      "name": "GET /health",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/health",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/server.ts",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8ddf457081cc26ba",
+      "name": "Express",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/server.ts",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "id": "tech:403ba6a4e3aa0285",
+      "name": "Node.js",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/server.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/server.ts",
+     "source_label": "orders-api/src/server.ts",
+     "target": "orders-api/src/db/data-source",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/server.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/server.ts",
+     "source_label": "orders-api/src/server.ts",
+     "target": "orders-api/src/jobs/nightly",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/server.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/server.ts",
+     "source_label": "orders-api/src/server.ts",
+     "target": "orders-api/src/routes/customers",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/server.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/server.ts",
+     "source_label": "orders-api/src/server.ts",
+     "target": "orders-api/src/routes/orders",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "prefix": "/api/orders"
+     },
+     "file": "orders-api/src/server.ts",
+     "kind": "node-route-mount",
+     "line": 9,
+     "name": "orders-api/src/routes/orders",
+     "owner": null
+    },
+    {
+     "data": {
+      "prefix": "/api/customers"
+     },
+     "file": "orders-api/src/server.ts",
+     "kind": "node-route-mount",
+     "line": 10,
+     "name": "orders-api/src/routes/customers",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/server.ts",
+     "kind": "service",
+     "line": 12,
+     "name": "orders-api/src/server.ts:12",
+     "owner": "service:5b8342af88b9c1e6"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/src/services/order.service.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 40,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 10,
+     "loc": 3,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 21,
+     "kind": "method",
+     "line": 14,
+     "loc": 8,
+     "name": "create"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 25,
+     "kind": "method",
+     "line": 23,
+     "loc": 3,
+     "name": "cancel"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 38,
+     "kind": "method",
+     "line": 28,
+     "loc": 11,
+     "name": "search"
+    }
+   ],
+   "windows": [
+    [
+     4183181509753566733,
+     1,
+     8
+    ],
+    [
+     7621538042105730627,
+     2,
+     10
+    ],
+    [
+     9168731066844232140,
+     3,
+     10
+    ],
+    [
+     3295146780879546851,
+     4,
+     11
+    ],
+    [
+     6034921960231421491,
+     5,
+     11
+    ],
+    [
+     7450361968335073289,
+     7,
+     14
+    ],
+    [
+     5693348360641537769,
+     8,
+     14
+    ],
+    [
+     3375743107507349961,
+     10,
+     15
+    ],
+    [
+     7583622793496956428,
+     11,
+     16
+    ],
+    [
+     8425821525005267162,
+     12,
+     18
+    ],
+    [
+     6427918134397587435,
+     14,
+     19
+    ],
+    [
+     3554447732887608530,
+     15,
+     23
+    ],
+    [
+     651046644171201802,
+     16,
+     24
+    ],
+    [
+     7343989867954309543,
+     17,
+     28
+    ],
+    [
+     1410046271706990898,
+     18,
+     28
+    ],
+    [
+     5516395001442508782,
+     19,
+     28
+    ],
+    [
+     2938927243487960465,
+     20,
+     28
+    ],
+    [
+     4212154413829615863,
+     21,
+     29
+    ],
+    [
+     6843474102591845678,
+     23,
+     29
+    ],
+    [
+     2084124050808498552,
+     24,
+     31
+    ],
+    [
+     8357274285805712265,
+     25,
+     34
+    ],
+    [
+     1515783891147962527,
+     28,
+     35
+    ],
+    [
+     1339438104673125069,
+     29,
+     36
+    ],
+    [
+     7614340602684841706,
+     30,
+     37
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 40,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:75d19e48e7cc3446",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-api/src/services/order.service.ts"
+      ],
+      "target": "https://payments.acme.local/api/v1/charges",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 11,
+        "snippet": "SELECT /* TypeORM findOneBy */ FROM Order"
+       }
+      ],
+      "file": "orders-api/src/services/order.service.ts",
+      "fingerprint": "ba59b0060f1378c3",
+      "fragments": 1,
+      "id": "sql:5ec69775b9f67e75",
+      "line": 11,
+      "normalized": "SELECT FROM ORDER",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "TypeORM findOneBy: the ORM generates the SQL at run time",
+      "source": "typeorm",
+      "structural_holes": 0,
+      "tables": [
+       "Order"
+      ],
+      "text": "SELECT /* TypeORM findOneBy */ FROM Order",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 15,
+        "snippet": "INSERT /* TypeORM save */ INTO Order"
+       }
+      ],
+      "file": "orders-api/src/services/order.service.ts",
+      "fingerprint": "5c32120493091f28",
+      "fragments": 1,
+      "id": "sql:71e7fd38c0d7b860",
+      "line": 15,
+      "normalized": "INSERT INTO ORDER",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "TypeORM save: the ORM generates the SQL at run time",
+      "source": "typeorm",
+      "structural_holes": 0,
+      "tables": [
+       "Order"
+      ],
+      "text": "INSERT /* TypeORM save */ INTO Order",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 24,
+        "snippet": "UPDATE Order /* TypeORM update */"
+       }
+      ],
+      "file": "orders-api/src/services/order.service.ts",
+      "fingerprint": "29a4a46efb442126",
+      "fragments": 1,
+      "id": "sql:39825778f0bf8c76",
+      "line": 24,
+      "normalized": "UPDATE ORDER",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "TypeORM update: the ORM generates the SQL at run time",
+      "source": "typeorm",
+      "structural_holes": 0,
+      "tables": [
+       "Order"
+      ],
+      "text": "UPDATE Order /* TypeORM update */",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "conditional"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 29,
+        "snippet": "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id WHERE o.status = $1 ORDER "
+       },
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 32,
+        "snippet": null
+       },
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 35,
+        "snippet": null
+       }
+      ],
+      "file": "orders-api/src/services/order.service.ts",
+      "fingerprint": "b31f634759f80341",
+      "fragments": 3,
+      "id": "sql:0226340a4933bbaa",
+      "line": 29,
+      "normalized": "SELECT O.ID, O.STATUS, O.TOTAL, C.NAME FROM ORDERS O JOIN CUSTOMERS C ON C.ID = O.CUSTOMER_ID WHERE O.STATUS = $1 ORDER BY O.ID DESC",
+      "optional_fragments": 1,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "node-db",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS",
+       "ORDERS"
+      ],
+      "text": "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id WHERE o.status = $1 ORDER BY o.id DESC",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [
+       "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id ORDER BY o.id DESC"
+      ],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "orders-api/src/services/order.service.ts"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-api/src/services/order.service.ts"
+      ],
+      "frameworks": [
+       "HTTP client (Node.js)"
+      ],
+      "id": "websvc-use:0bff9b8b6dd32e25",
+      "integrations": [],
+      "name": "payments.acme.local",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-api/src/services/order.service.ts",
+        "handler": null,
+        "line": 16,
+        "method": "POST",
+        "name": "POST /api/v1/charges",
+        "path": "/api/v1/charges",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://payments.acme.local/api/v1/charges",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-api/src/services/order.service.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/services/order.service.ts",
+     "source_label": "orders-api/src/services/order.service.ts",
+     "target": "orders-api/src/db/data-source",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/services/order.service.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/services/order.service.ts",
+     "source_label": "orders-api/src/services/order.service.ts",
+     "target": "orders-api/src/db/pool",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-api/src/services/order.service.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-api/src/services/order.service.ts",
+     "source_label": "orders-api/src/services/order.service.ts",
+     "target": "orders-api/src/entities/order.entity",
+     "target_kinds": [
+      "module"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-api/tsconfig.json": {
+  "config": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/angular.json": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/package-lock.json": {
+  "deps": {
+   "coverage": {
+    "lines": 24,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "@angular/cli",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:db74e2d3ebe23142",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@angular/common",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:2ddf66a992885e94",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.12",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@angular/core",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:5e86d7df4205d504",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.12",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@angular/forms",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:c98153ca0644583a",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.12",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@angular/material",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:cf342cf53a8b74cb",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.10",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@angular/router",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:019eabe7b1db4a0c",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "17.3.12",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "@okta/okta-angular",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:bbc2f0d4c79fc8b5",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "6.3.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "rxjs",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:57d79788624e8824",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "7.8.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "tslib",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:fbbbca193c8736b0",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "2.6.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "typescript",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:38994d40f5ba65fe",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "5.4.5",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     },
+     {
+      "artifact": "zone.js",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:0a15a54400825285",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "npm-lock",
+      "version": "0.14.4",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package-lock.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/package.json": {
+  "deps": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "@angular/common",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:da3e5d307bd85be8",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@angular/core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:81bdd0e12e7e436c",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@angular/forms",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:ffce413aafeee032",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@angular/material",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:67a8c8a27afb551d",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@angular/router",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:2e5a22659791eca5",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@okta/okta-angular",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:85863bbd82f212f6",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "6.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "rxjs",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:4921f34b68420264",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "7.8.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "zone.js",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:0a15a54400825285",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "dependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "0.14.4",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "@angular/cli",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:20e6b9ef6ee933d9",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "17.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     },
+     {
+      "artifact": "typescript",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/package.json",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:696fefc365886a68",
+      "language": "javascript",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "devDependencies",
+      "sha1": null,
+      "source": "npm",
+      "version": "5.4.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-web/package.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/app.component.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/app.component.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "orders-web/src/app/app.component.html",
+      "id": "screen:e5d0035a5e52c463",
+      "name": "orders-web/src/app/app.component.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angular"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.html",
+     "kind": "includes",
+     "line": 1,
+     "report_unresolved": false,
+     "source": "screen:screen:e5d0035a5e52c463",
+     "source_label": "orders-web/src/app/app.component.html",
+     "target": "app-header",
+     "target_kinds": [
+      "angular-selector",
+      "angularjs-component",
+      "angularjs-directive"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.html",
+     "kind": "page",
+     "line": 1,
+     "name": "orders-web/src/app/app.component.html",
+     "owner": "screen:e5d0035a5e52c463"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/app.component.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     3832742456201784471,
+     1,
+     11
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/app.component.ts",
+     "source_label": "orders-web/src/app/app.component.ts",
+     "target": "orders-web/src/app/header/header.component",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.ts",
+     "kind": "renders",
+     "line": 11,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/app.component.ts",
+     "source_label": "AppComponent",
+     "target": "orders-web/src/app/app.component.html",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.ts",
+     "kind": "angular-component",
+     "line": 11,
+     "name": "AppComponent",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.component.ts",
+     "kind": "angular-selector",
+     "line": 11,
+     "name": "app-root",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/app.routes.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "function",
+     "line": 16,
+     "loc": 1,
+     "name": "loadComponent"
+    }
+   ],
+   "windows": [
+    [
+     1866491810580959000,
+     1,
+     9
+    ],
+    [
+     282312598076355121,
+     2,
+     10
+    ],
+    [
+     7297430589981379423,
+     3,
+     11
+    ],
+    [
+     2170679159758204327,
+     5,
+     12
+    ],
+    [
+     131659792530351997,
+     6,
+     15
+    ],
+    [
+     3290311375080728496,
+     7,
+     16
+    ],
+    [
+     5748525240718011715,
+     8,
+     16
+    ],
+    [
+     3201865902531631757,
+     9,
+     16
+    ],
+    [
+     158758584010566322,
+     10,
+     16
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.routes.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/app.routes.ts",
+     "source_label": "orders-web/src/app/app.routes.ts",
+     "target": "orders-web/src/app/orders/order-detail.component",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/app.routes.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/app.routes.ts",
+     "source_label": "orders-web/src/app/app.routes.ts",
+     "target": "orders-web/src/app/orders/order-list.component",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {
+      "route": "/orders"
+     },
+     "file": "orders-web/src/app/app.routes.ts",
+     "kind": "forwards",
+     "line": 10,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/app.routes.ts",
+     "source_label": "orders-web/src/app/app.routes.ts",
+     "target": "OrderListComponent",
+     "target_kinds": [
+      "angular-component"
+     ]
+    },
+    {
+     "data": {
+      "route": "/orders/:id"
+     },
+     "file": "orders-web/src/app/app.routes.ts",
+     "kind": "forwards",
+     "line": 11,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/app.routes.ts",
+     "source_label": "orders-web/src/app/app.routes.ts",
+     "target": "OrderDetailComponent",
+     "target_kinds": [
+      "angular-component"
+     ]
+    },
+    {
+     "data": {
+      "route": "/reports"
+     },
+     "file": "orders-web/src/app/app.routes.ts",
+     "kind": "forwards",
+     "line": 14,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/app.routes.ts",
+     "source_label": "orders-web/src/app/app.routes.ts",
+     "target": "ReportsComponent",
+     "target_kinds": [
+      "angular-component"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/auth/auth.config.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-web/src/app/auth/auth.config.ts",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:0542a33759468c83",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-web/src/app/auth/auth.config.ts"
+      ],
+      "target": "https://acme.okta.com/oauth2/default",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/auth/auth.config.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/header/header.component.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     9021678891395636296,
+     1,
+     12
+    ],
+    [
+     8879182334169460140,
+     2,
+     12
+    ],
+    [
+     7932188449522276140,
+     5,
+     13
+    ],
+    [
+     5589434197641188613,
+     6,
+     13
+    ],
+    [
+     1534181761933513677,
+     7,
+     14
+    ],
+    [
+     2287947458277520754,
+     8,
+     15
+    ],
+    [
+     6816280181818568764,
+     9,
+     17
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "orders-web/src/app/header/header.component.ts",
+      "id": "screen:c101b168b056604c",
+      "name": "HeaderComponent",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angular"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/header/header.component.ts",
+     "kind": "angular-component",
+     "line": 17,
+     "name": "HeaderComponent",
+     "owner": "screen:c101b168b056604c"
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/header/header.component.ts",
+     "kind": "angular-selector",
+     "line": 17,
+     "name": "app-header",
+     "owner": "screen:c101b168b056604c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order-detail.component.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-detail.component.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 3,
+      "file": "orders-web/src/app/orders/order-detail.component.html",
+      "id": "screen:b16360a779862f1f",
+      "name": "orders-web/src/app/orders/order-detail.component.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angular"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.html",
+     "kind": "includes",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "screen:screen:b16360a779862f1f",
+     "source_label": "orders-web/src/app/orders/order-detail.component.html",
+     "target": "mat-select",
+     "target_kinds": [
+      "angular-selector",
+      "angularjs-component",
+      "angularjs-directive"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.html",
+     "kind": "includes",
+     "line": 6,
+     "report_unresolved": false,
+     "source": "screen:screen:b16360a779862f1f",
+     "source_label": "orders-web/src/app/orders/order-detail.component.html",
+     "target": "mat-option",
+     "target_kinds": [
+      "angular-selector",
+      "angularjs-component",
+      "angularjs-directive"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.html",
+     "kind": "page",
+     "line": 1,
+     "name": "orders-web/src/app/orders/order-detail.component.html",
+     "owner": "screen:b16360a779862f1f"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order-detail.component.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 15,
+     "kind": "method",
+     "line": 15,
+     "loc": 1,
+     "name": "constructor"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 21,
+     "kind": "method",
+     "line": 17,
+     "loc": 5,
+     "name": "ngOnInit"
+    },
+    {
+     "cyclomatic": 3,
+     "end_line": 29,
+     "kind": "method",
+     "line": 23,
+     "loc": 7,
+     "name": "save"
+    }
+   ],
+   "windows": [
+    [
+     8556645342066995239,
+     1,
+     10
+    ],
+    [
+     6320345114280340311,
+     2,
+     12
+    ],
+    [
+     4374637453795148381,
+     3,
+     13
+    ],
+    [
+     9166366110576083248,
+     5,
+     13
+    ],
+    [
+     8658935202271565963,
+     6,
+     13
+    ],
+    [
+     4730440948285280938,
+     7,
+     13
+    ],
+    [
+     4199042788115550988,
+     8,
+     13
+    ],
+    [
+     2171500666692615297,
+     9,
+     15
+    ],
+    [
+     8801626935241245033,
+     10,
+     15
+    ],
+    [
+     2845299591641187612,
+     11,
+     15
+    ],
+    [
+     4357185305495244330,
+     12,
+     15
+    ],
+    [
+     7698098785579745796,
+     13,
+     18
+    ],
+    [
+     3639044651603086281,
+     15,
+     19
+    ],
+    [
+     8484222697658059927,
+     17,
+     23
+    ],
+    [
+     7340569080588603294,
+     18,
+     24
+    ],
+    [
+     7539501517207004834,
+     19,
+     24
+    ],
+    [
+     4843972686700602687,
+     20,
+     28
+    ],
+    [
+     5987380420616900120,
+     21,
+     28
+    ],
+    [
+     4868984046692998295,
+     23,
+     28
+    ],
+    [
+     3799850119230195422,
+     24,
+     28
+    ],
+    [
+     340481587543174709,
+     25,
+     28
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order-detail.component.ts",
+     "source_label": "orders-web/src/app/orders/order-detail.component.ts",
+     "target": "orders-web/src/app/orders/order.service",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.ts",
+     "kind": "renders",
+     "line": 11,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/orders/order-detail.component.ts",
+     "source_label": "OrderDetailComponent",
+     "target": "orders-web/src/app/orders/order-detail.component.html",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.ts",
+     "kind": "angular-component",
+     "line": 11,
+     "name": "OrderDetailComponent",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-detail.component.ts",
+     "kind": "angular-selector",
+     "line": 11,
+     "name": "app-order-detail",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order-list.component.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-list.component.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "orders-web/src/app/orders/order-list.component.html",
+      "id": "screen:7b3bcc123238791b",
+      "name": "orders-web/src/app/orders/order-list.component.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angular"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-list.component.html",
+     "kind": "page",
+     "line": 1,
+     "name": "orders-web/src/app/orders/order-list.component.html",
+     "owner": "screen:7b3bcc123238791b"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order-list.component.spec.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 10,
+     "kind": "function",
+     "line": 3,
+     "loc": 8,
+     "name": "describe OrderListComponent"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 9,
+     "kind": "function",
+     "line": 4,
+     "loc": 6,
+     "name": "it reloads on init"
+    }
+   ],
+   "windows": [
+    [
+     8771496402458075119,
+     1,
+     6
+    ],
+    [
+     5476387280179841333,
+     3,
+     8
+    ],
+    [
+     8177597930664601925,
+     4,
+     8
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order-list.component.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 16,
+     "loc": 1,
+     "name": "constructor"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 18,
+     "loc": 3,
+     "name": "ngOnInit"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 24,
+     "kind": "method",
+     "line": 22,
+     "loc": 3,
+     "name": "reload"
+    }
+   ],
+   "windows": [
+    [
+     3858310962263739592,
+     1,
+     9
+    ],
+    [
+     1431216168951714010,
+     2,
+     11
+    ],
+    [
+     930925822232581485,
+     3,
+     13
+    ],
+    [
+     1641944228826461507,
+     4,
+     13
+    ],
+    [
+     2922940086107756053,
+     6,
+     16
+    ],
+    [
+     6636350384930866800,
+     7,
+     16
+    ],
+    [
+     29963862913021458,
+     8,
+     18
+    ],
+    [
+     8557472228288391608,
+     9,
+     19
+    ],
+    [
+     2975148877857659685,
+     10,
+     22
+    ],
+    [
+     8816819845140693895,
+     11,
+     22
+    ],
+    [
+     5689120523115682168,
+     12,
+     23
+    ],
+    [
+     5798155519724165400,
+     13,
+     23
+    ],
+    [
+     2322800504709244231,
+     14,
+     23
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-list.component.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order-list.component.ts",
+     "source_label": "orders-web/src/app/orders/order-list.component.ts",
+     "target": "orders-web/src/app/orders/order.service",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-list.component.ts",
+     "kind": "renders",
+     "line": 12,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/orders/order-list.component.ts",
+     "source_label": "OrderListComponent",
+     "target": "orders-web/src/app/orders/order-list.component.html",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-list.component.ts",
+     "kind": "angular-component",
+     "line": 12,
+     "name": "OrderListComponent",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order-list.component.ts",
+     "kind": "angular-selector",
+     "line": 12,
+     "name": "app-order-list",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/orders/order.service.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 17,
+     "loc": 1,
+     "name": "constructor"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 21,
+     "kind": "method",
+     "line": 19,
+     "loc": 3,
+     "name": "list"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 25,
+     "kind": "method",
+     "line": 23,
+     "loc": 3,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 29,
+     "kind": "method",
+     "line": 27,
+     "loc": 3,
+     "name": "save"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 33,
+     "kind": "method",
+     "line": 31,
+     "loc": 3,
+     "name": "invoices"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 37,
+     "kind": "method",
+     "line": 35,
+     "loc": 3,
+     "name": "geocode"
+    }
+   ],
+   "windows": [
+    [
+     8344127864708753710,
+     1,
+     13
+    ],
+    [
+     6622035600676557383,
+     2,
+     13
+    ],
+    [
+     2823233621325831298,
+     3,
+     15
+    ],
+    [
+     6710102583254164579,
+     4,
+     15
+    ],
+    [
+     8218149982848381599,
+     6,
+     17
+    ],
+    [
+     2094637879135464,
+     7,
+     17
+    ],
+    [
+     943184189539714191,
+     8,
+     19
+    ],
+    [
+     2493993767759946551,
+     9,
+     19
+    ],
+    [
+     6427274186080070887,
+     10,
+     19
+    ],
+    [
+     90990903663523920,
+     11,
+     19
+    ],
+    [
+     1277523153559531403,
+     13,
+     19
+    ],
+    [
+     1683687652217695748,
+     14,
+     20
+    ],
+    [
+     1394496130677348692,
+     15,
+     20
+    ],
+    [
+     7037582811263783549,
+     17,
+     20
+    ],
+    [
+     3968001377533634210,
+     19,
+     23
+    ],
+    [
+     4050002144865734068,
+     20,
+     24
+    ],
+    [
+     3373973430717159349,
+     21,
+     27
+    ],
+    [
+     4739920358462367993,
+     23,
+     27
+    ],
+    [
+     548456479799968069,
+     24,
+     28
+    ],
+    [
+     5073059430854704768,
+     25,
+     32
+    ],
+    [
+     9073695560206384044,
+     27,
+     32
+    ],
+    [
+     6671257600787242250,
+     28,
+     32
+    ],
+    [
+     1349681140149948648,
+     29,
+     35
+    ],
+    [
+     3820212580848952878,
+     31,
+     35
+    ],
+    [
+     4544314492740505653,
+     32,
+     36
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 36,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:c7b2d46e15e598fc",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-web/src/app/orders/order.service.ts"
+      ],
+      "target": "https://geo.acme.local/api/v1/geocode",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "orders-web/src/app/orders/order.service.ts"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 36,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-web/src/app/orders/order.service.ts"
+      ],
+      "frameworks": [
+       "Angular HttpClient"
+      ],
+      "id": "websvc-use:c7effe77cb32ac5a",
+      "integrations": [],
+      "name": "geo.acme.local",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "handler": null,
+        "line": 36,
+        "method": "GET",
+        "name": "GET /api/v1/geocode",
+        "path": "/api/v1/geocode",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://geo.acme.local/api/v1/geocode",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order.service.ts",
+     "source_label": "orders-web/src/app/orders/order.service.ts",
+     "target": "orders-web/src/environments/environment",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "calls",
+     "line": 20,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order.service.ts",
+     "source_label": "orders-web/src/app/orders/order.service.ts",
+     "target": "/orders",
+     "target_kinds": [
+      "url"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "calls",
+     "line": 24,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order.service.ts",
+     "source_label": "orders-web/src/app/orders/order.service.ts",
+     "target": "/orders/?",
+     "target_kinds": [
+      "url"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "POST"
+     },
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "calls",
+     "line": 28,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order.service.ts",
+     "source_label": "orders-web/src/app/orders/order.service.ts",
+     "target": "/orders",
+     "target_kinds": [
+      "url"
+     ]
+    },
+    {
+     "data": {
+      "match": "api",
+      "method": "GET"
+     },
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "calls",
+     "line": 32,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/app/orders/order.service.ts",
+     "source_label": "orders-web/src/app/orders/order.service.ts",
+     "target": "/invoices",
+     "target_kinds": [
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/orders/order.service.ts",
+     "kind": "injectable",
+     "line": 14,
+     "name": "OrderService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/reports/reports.component.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/reports/reports.component.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "orders-web/src/app/reports/reports.component.html",
+      "id": "screen:72bc0388c7b08a4a",
+      "name": "orders-web/src/app/reports/reports.component.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "angular"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/reports/reports.component.html",
+     "kind": "page",
+     "line": 1,
+     "name": "orders-web/src/app/reports/reports.component.html",
+     "owner": "screen:72bc0388c7b08a4a"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/app/reports/reports.component.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:053381a3961341ab",
+      "name": "Angular",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/reports/reports.component.ts",
+     "kind": "renders",
+     "line": 8,
+     "report_unresolved": true,
+     "source": "file:orders-web/src/app/reports/reports.component.ts",
+     "source_label": "ReportsComponent",
+     "target": "orders-web/src/app/reports/reports.component.html",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/app/reports/reports.component.ts",
+     "kind": "angular-component",
+     "line": 8,
+     "name": "ReportsComponent",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/app/reports/reports.component.ts",
+     "kind": "angular-selector",
+     "line": 8,
+     "name": "app-reports",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/environments/environment.prod.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:b27194334635ce02",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-web/src/environments/environment.prod.ts"
+      ],
+      "target": "https://orders-api.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:5a123c69b99a3916",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-web/src/environments/environment.prod.ts"
+      ],
+      "target": "https://billing-api.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/environments/environment.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/environments/environment.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/index.html": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/index.html",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "orders-web/src/index.html",
+      "id": "screen:e64ec531a8fe47df",
+      "name": "orders-web/src/index.html",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "html"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-web/src/index.html",
+     "kind": "page",
+     "line": 1,
+     "name": "orders-web/src/index.html",
+     "owner": "screen:e64ec531a8fe47df"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/main.ts": {
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     4739866837277454152,
+     1,
+     8
+    ],
+    [
+     7632445194536077361,
+     2,
+     9
+    ],
+    [
+     4975347133812317666,
+     3,
+     9
+    ],
+    [
+     603022687444648935,
+     4,
+     9
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "typescript": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/main.ts",
+        "line": 7,
+        "snippet": "bootstrapApplication"
+       }
+      ],
+      "file": "orders-web/src/main.ts",
+      "id": "entry:b58a8373dce85184",
+      "kind": "angular-app",
+      "line": 7,
+      "name": "AppComponent"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-web/src/main.ts",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2c2a23e1e46a2e7a",
+      "name": "TypeScript",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-web/src/main.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/main.ts",
+     "source_label": "orders-web/src/main.ts",
+     "target": "orders-web/src/app/app.component",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/main.ts",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/main.ts",
+     "source_label": "orders-web/src/main.ts",
+     "target": "orders-web/src/app/app.routes",
+     "target_kinds": [
+      "module"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-web/src/main.ts",
+     "kind": "bootstraps",
+     "line": 7,
+     "report_unresolved": false,
+     "source": "file:orders-web/src/main.ts",
+     "source_label": "orders-web/src/main.ts",
+     "target": "AppComponent",
+     "target_kinds": [
+      "angular-component"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/src/styles.scss": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-web/tsconfig.json": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

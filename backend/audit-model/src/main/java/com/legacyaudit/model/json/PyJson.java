@@ -31,6 +31,33 @@ public final class PyJson {
         return out.toString();
     }
 
+    /**
+     * Python's default {@code json.dumps(value)} ({@code sortKeys} for {@code sort_keys=True}):
+     * {@code ", "} and {@code ": "} separators, non-ASCII characters escaped as {@code \\uXXXX}.
+     */
+    public static String dumps(Object value, boolean sortKeys) {
+        StringBuilder out = new StringBuilder();
+        boolean saved = SORT.get();
+        SORT.set(sortKeys);
+        try {
+            write(out, value, 0, false);
+        } finally {
+            SORT.set(saved);
+        }
+        StringBuilder ascii = new StringBuilder(out.length());
+        for (int i = 0; i < out.length(); i++) {
+            char c = out.charAt(i);
+            if (c >= 0x80) {
+                ascii.append(String.format("\\u%04x", (int) c));
+            } else {
+                ascii.append(c);
+            }
+        }
+        return ascii.toString();
+    }
+
+    private static final ThreadLocal<Boolean> SORT = ThreadLocal.withInitial(() -> true);
+
     private static void write(StringBuilder out, Object value, int depth, boolean pretty) {
         switch (value) {
             case null -> out.append("null");
@@ -55,7 +82,9 @@ public final class PyJson {
         for (Object k : map.keySet()) {
             keys.add(String.valueOf(k));
         }
-        keys.sort(PyJson::compareCodePoints);
+        if (SORT.get()) {
+            keys.sort(PyJson::compareCodePoints);
+        }
         out.append('{');
         boolean first = true;
         for (String k : keys) {
@@ -125,6 +154,11 @@ public final class PyJson {
             }
         }
         out.append('"');
+    }
+
+    /** Python's {@code repr(float)}. */
+    public static String repr(double d) {
+        return number(d);
     }
 
     /** Python's {@code repr(float)}: shortest digits, exponent below 1e-4 and from 1e16. */

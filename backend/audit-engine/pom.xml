@@ -29,6 +29,10 @@
     </dependency>
     <dependency>
       <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-java</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
       <artifactId>tree-sitter-c</artifactId>
     </dependency>
     <dependency>

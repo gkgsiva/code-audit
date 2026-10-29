@@ -9,7 +9,7 @@ import java.util.Set;
  * The tables behind language, category and build-output detection, as the Python tool had them
  * (inventory/language.py, walker.py, components.py on office-main). Keep the two in step.
  */
-final class LanguageTables {
+public final class LanguageTables {
 
     private LanguageTables() {}
 
@@ -234,11 +234,11 @@ final class LanguageTables {
             "makefile", "package.json", "pom.xml", "settings.gradle");
 
     /** npm lock files. */
-    static final Set<String> NPM_LOCK_FILES = Set.of(
+    public static final Set<String> NPM_LOCK_FILES = Set.of(
             "npm-shrinkwrap.json", "package-lock.json", "pnpm-lock.yaml", "yarn.lock");
 
     /** NuGet package lists. */
-    static final Set<String> NUGET_FILES = Set.of(
+    public static final Set<String> NUGET_FILES = Set.of(
             "directory.packages.props", "packages.config", "packages.lock.json");
 
     /** Project files whose language is a build language. */

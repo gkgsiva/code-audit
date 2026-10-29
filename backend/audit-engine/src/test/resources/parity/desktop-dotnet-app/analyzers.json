@@ -1,0 +1,9350 @@
+{
+ "billing-api-cs/BillingApi.csproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "Hangfire.AspNetCore",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:7f3dba1cd76965e4",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "1.8.6",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api-cs/BillingApi.csproj"
+      ]
+     },
+     {
+      "artifact": "Hangfire.Core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:99c0ae7e12b960a3",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "1.8.6",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api-cs/BillingApi.csproj"
+      ]
+     },
+     {
+      "artifact": "Microsoft.Data.SqlClient",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:ee0a9ca44b46805a",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "5.1.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api-cs/BillingApi.csproj"
+      ]
+     },
+     {
+      "artifact": "Dapper",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:f0c860c87ea56bcc",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.1.24",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-api-cs/BillingApi.csproj"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:cc4193930963b58d",
+      "name": ".NET",
+      "replacement": null,
+      "usages": 1,
+      "version": "8.0"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Controllers/HomeController.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api-cs/Controllers/HomeController.cs",
+      "framework": null,
+      "handler": "HomeController.Index",
+      "id": "service:31ed77b49a07c7a0",
+      "inputs": [],
+      "kind": "aspnet-mvc",
+      "name": "GET /Home/Index",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/Home/Index",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/HomeController.cs",
+     "kind": "dotnet-class",
+     "line": 5,
+     "name": "HomeController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/HomeController.cs",
+     "kind": "service",
+     "line": 7,
+     "name": "HomeController.Index",
+     "owner": "service:31ed77b49a07c7a0"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 7,
+     "kind": "method",
+     "line": 7,
+     "loc": 1,
+     "name": "Index"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Controllers/InvoicesController.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api-cs/Controllers/InvoicesController.cs",
+      "framework": "ASP.NET Core",
+      "handler": "InvoicesController.Get",
+      "id": "service:180e1bc51601730e",
+      "inputs": [],
+      "kind": "rest-operation",
+      "name": "GET /api/Invoices/{id}",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/api/Invoices/{id}",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-api-cs/Controllers/InvoicesController.cs",
+      "framework": "ASP.NET Core",
+      "handler": "InvoicesController.Create",
+      "id": "service:39f71e7269bde6dd",
+      "inputs": [],
+      "kind": "rest-operation",
+      "name": "POST /api/Invoices",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/api/Invoices",
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 19,
+        "snippet": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @id"
+       }
+      ],
+      "file": "billing-api-cs/Controllers/InvoicesController.cs",
+      "fingerprint": "7f31a952bc9c06d7",
+      "fragments": 1,
+      "id": "sql:307ee3cf768bf3fb",
+      "line": 19,
+      "normalized": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dapper",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICE"
+      ],
+      "text": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @id",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 27,
+        "snippet": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CustId, @Amount, 'N')"
+       }
+      ],
+      "file": "billing-api-cs/Controllers/InvoicesController.cs",
+      "fingerprint": "839243c0200a0989",
+      "fragments": 1,
+      "id": "sql:18644c4468df79da",
+      "line": 27,
+      "normalized": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CUSTID, @AMOUNT, ?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dapper",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICE"
+      ],
+      "text": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CustId, @Amount, 'N')",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4d1548115d5baa6a",
+      "name": "Dapper",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b86a731f1bce42d4",
+      "name": "ASP.NET Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "uses",
+     "line": 18,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Controllers/InvoicesController.cs",
+     "source_label": "billing-api-cs/Controllers/InvoicesController.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "uses",
+     "line": 26,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Controllers/InvoicesController.cs",
+     "source_label": "billing-api-cs/Controllers/InvoicesController.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "dotnet-class",
+     "line": 7,
+     "name": "InvoicesController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "service",
+     "line": 15,
+     "name": "InvoicesController.Get",
+     "owner": "service:180e1bc51601730e"
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "service",
+     "line": 23,
+     "name": "InvoicesController.Create",
+     "owner": "service:39f71e7269bde6dd"
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Controllers/InvoicesController.cs",
+     "kind": "dotnet-class",
+     "line": 32,
+     "name": "InvoiceDto",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 13,
+     "loc": 1,
+     "name": "InvoicesController"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 21,
+     "kind": "method",
+     "line": 15,
+     "loc": 7,
+     "name": "Get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 29,
+     "kind": "method",
+     "line": 23,
+     "loc": 7,
+     "name": "Create"
+    }
+   ],
+   "windows": [
+    [
+     932365760159629563,
+     1,
+     13
+    ],
+    [
+     7729686478214362867,
+     2,
+     13
+    ],
+    [
+     857048773574636658,
+     3,
+     13
+    ],
+    [
+     8770162885151408730,
+     5,
+     16
+    ],
+    [
+     8767832177408739673,
+     7,
+     16
+    ],
+    [
+     7405051068369877548,
+     8,
+     18
+    ],
+    [
+     4242803533992275666,
+     9,
+     18
+    ],
+    [
+     2908143155547946179,
+     10,
+     19
+    ],
+    [
+     2457321158980826916,
+     11,
+     19
+    ],
+    [
+     273277192353568062,
+     13,
+     19
+    ],
+    [
+     3551025927153866066,
+     15,
+     20
+    ],
+    [
+     1003504138119367574,
+     16,
+     23
+    ],
+    [
+     7738544367435450030,
+     17,
+     24
+    ],
+    [
+     8767261348300682244,
+     18,
+     24
+    ],
+    [
+     1277366485584847527,
+     19,
+     26
+    ],
+    [
+     3468609324507531952,
+     20,
+     28
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Jobs/InvoiceJobs.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 15,
+        "snippet": "UPDATE INVOICE SET STATUS = 'O' WHERE DUE_DATE < GETDATE() AND STATUS = 'N'"
+       }
+      ],
+      "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+      "fingerprint": "4844c84aa42974af",
+      "fragments": 1,
+      "id": "sql:0c3a8acd0af64c2f",
+      "line": 15,
+      "normalized": "UPDATE INVOICE SET STATUS = ? WHERE DUE_DATE < GETDATE() AND STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dapper",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICE"
+      ],
+      "text": "UPDATE INVOICE SET STATUS = 'O' WHERE DUE_DATE < GETDATE() AND STATUS = 'N'",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4d1548115d5baa6a",
+      "name": "Dapper",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+     "kind": "uses",
+     "line": 14,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Jobs/InvoiceJobs.cs",
+     "source_label": "billing-api-cs/Jobs/InvoiceJobs.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+     "kind": "dotnet-class",
+     "line": 6,
+     "name": "InvoiceJobs",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 10,
+     "kind": "method",
+     "line": 10,
+     "loc": 1,
+     "name": "InvoiceJobs"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 12,
+     "loc": 5,
+     "name": "CloseOverdue"
+    }
+   ],
+   "windows": [
+    [
+     2889510731634554960,
+     1,
+     14
+    ],
+    [
+     4748417529869881144,
+     2,
+     14
+    ],
+    [
+     8033753211524319905,
+     4,
+     15
+    ],
+    [
+     9097862457481401229,
+     6,
+     16
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Program.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "billing-api-cs/Program.cs",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Scheduled in the code with Hangfire RecurringJob",
+      "evidence": [
+       {
+        "file": "billing-api-cs/Program.cs",
+        "line": 9,
+        "snippet": "Hangfire RecurringJob"
+       }
+      ],
+      "id": "batch_job:ac2f740964945358",
+      "kind": "job",
+      "machine": null,
+      "name": "close-invoices",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "j.CloseOverdue()"
+      ],
+      "schedule": "daily at 02:00",
+      "scheduler": "hangfire",
+      "steps": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Program.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "scheduler",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Program.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:17fc0de847319ae9",
+      "name": "Hangfire",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Program.cs",
+     "kind": "cron-job",
+     "line": 9,
+     "name": "close-invoices",
+     "owner": "batch_job:ac2f740964945358"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     3103945644987641916,
+     1,
+     6
+    ],
+    [
+     6642164675252698594,
+     2,
+     7
+    ],
+    [
+     5765986511511974830,
+     4,
+     7
+    ],
+    [
+     1671594433735472100,
+     5,
+     9
+    ],
+    [
+     1913698346390042192,
+     6,
+     9
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Services/LedgerClient.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:8c78b2a52f31a0bd",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-api-cs/Services/LedgerClient.cs"
+      ],
+      "target": "https://ledger.acme.local",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Services/LedgerClient.cs",
+     "kind": "uses",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Services/LedgerClient.cs",
+     "source_label": "billing-api-cs/Services/LedgerClient.cs",
+     "target": "HttpClient",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Services/LedgerClient.cs",
+     "kind": "uses",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Services/LedgerClient.cs",
+     "source_label": "billing-api-cs/Services/LedgerClient.cs",
+     "target": "Uri",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-api-cs/Services/LedgerClient.cs",
+     "kind": "uses",
+     "line": 8,
+     "report_unresolved": false,
+     "source": "file:billing-api-cs/Services/LedgerClient.cs",
+     "source_label": "billing-api-cs/Services/LedgerClient.cs",
+     "target": "StringContent",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-api-cs/Services/LedgerClient.cs",
+     "kind": "dotnet-class",
+     "line": 3,
+     "name": "LedgerClient",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 8,
+     "kind": "method",
+     "line": 7,
+     "loc": 2,
+     "name": "Post"
+    }
+   ],
+   "windows": [
+    [
+     8076359872265233882,
+     1,
+     8
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     5,
+     "\"https://ledger.acme.local/\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Views/Home/Index.cshtml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Views/Home/Index.cshtml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "billing-api-cs/Views/Home/Index.cshtml",
+      "id": "screen:828d322aa3ec8aa4",
+      "name": "Index.cshtml",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "razor"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Views/Home/Index.cshtml",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:570e876cfa14f9c3",
+      "name": "ASP.NET MVC",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/Views/Shared/_Layout.cshtml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 3,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+      "id": "screen:830b20c110e741f9",
+      "name": "_Layout.cshtml",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "razor"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:570e876cfa14f9c3",
+      "name": "ASP.NET MVC",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-api-cs/appsettings.json": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-api-cs/appsettings.json",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:091de97762c869c6",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "billing-api-cs/appsettings.json"
+      ],
+      "target": "sqlserver://BILLSRV01/BILLING",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-api-cs/appsettings.json",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/BillingDesk.vbp": {
+  "basic": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 1,
+        "snippet": "Type=Exe Startup=frmMain"
+       }
+      ],
+      "file": "billing-desk-vb6/BillingDesk.vbp",
+      "id": "entry:5456b08cd4c2cbec",
+      "kind": "desktop-app",
+      "line": 1,
+      "name": "BillingDesk"
+     }
+    ],
+    "findings": [
+     {
+      "category": "portability",
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": "Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX"
+       }
+      ],
+      "file": "billing-desk-vb6/BillingDesk.vbp",
+      "id": "finding:c521894c56ac7165",
+      "line": 5,
+      "message": "ActiveX control MSCOMCTL.OCX is used by the forms; it has no web equivalent and must be replaced in the new user interface",
+      "remediation": "List the screens using it and pick an Angular component (grid, date picker, tree, chart) to replace it.",
+      "rule_id": "vb6-activex-control",
+      "severity": "medium"
+     },
+     {
+      "category": "portability",
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": "Object={86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCT2.OCX"
+       }
+      ],
+      "file": "billing-desk-vb6/BillingDesk.vbp",
+      "id": "finding:0a75c2b952258221",
+      "line": 6,
+      "message": "ActiveX control MSCOMCT2.OCX is used by the forms; it has no web equivalent and must be replaced in the new user interface",
+      "remediation": "List the screens using it and pick an Angular component (grid, date picker, tree, chart) to replace it.",
+      "rule_id": "vb6-activex-control",
+      "severity": "medium"
+     }
+    ],
+    "libraries": [
+     {
+      "artifact": "Microsoft ActiveX Data Objects 2.8 Library",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:d19f17642d5e5378",
+      "language": "vb6",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "com-reference",
+      "sha1": null,
+      "source": "com",
+      "version": "2.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-desk-vb6/BillingDesk.vbp"
+      ]
+     },
+     {
+      "artifact": "Microsoft XML, v6.0",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:b57620938fc2d17c",
+      "language": "vb6",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "com-reference",
+      "sha1": null,
+      "source": "com",
+      "version": "6.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-desk-vb6/BillingDesk.vbp"
+      ]
+     },
+     {
+      "artifact": "MSCOMCTL.OCX",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:07bed656119b1332",
+      "language": "vb6",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "activex-control",
+      "sha1": null,
+      "source": "com",
+      "version": "2.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-desk-vb6/BillingDesk.vbp"
+      ]
+     },
+     {
+      "artifact": "MSCOMCT2.OCX",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:2d6e0ff0fb3bbaf2",
+      "language": "vb6",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "activex-control",
+      "sha1": null,
+      "source": "com",
+      "version": "2.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-desk-vb6/BillingDesk.vbp"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:acb303576aa8cf00",
+      "name": "ADO",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:283af15b4b78effa",
+      "name": "MSXML",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:9f9d43b01f7e46d1",
+      "name": "Windows Common Controls (OCX)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "id": "tech:9f9d43b01f7e46d1",
+      "name": "Windows Common Controls (OCX)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:cd784fbff32b95a1",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": "6.0"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/BillingDesk.vbp",
+     "kind": "forwards",
+     "line": 12,
+     "report_unresolved": false,
+     "source": "file:billing-desk-vb6/BillingDesk.vbp",
+     "source_label": "BillingDesk",
+     "target": "frmMain",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/clsInvoice.cls": {
+  "basic": {
+   "coverage": {
+    "lines": 44,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 40,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:27dca5f61fc50ffa",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-desk-vb6/clsInvoice.cls"
+      ],
+      "target": "http://ledger.acme.local/api/postings",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 24,
+        "snippet": "CALL usp_OpenInvoices"
+       }
+      ],
+      "file": "billing-desk-vb6/clsInvoice.cls",
+      "fingerprint": "6cf8ffaddc0faf41",
+      "fragments": 1,
+      "id": "sql:9a30cfccc6de2cda",
+      "line": 24,
+      "normalized": "CALL USP_OPENINVOICES",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [
+       "USP_OPENINVOICES"
+      ],
+      "reason": null,
+      "source": "ado",
+      "structural_holes": 0,
+      "tables": [],
+      "text": "CALL usp_OpenInvoices",
+      "type": "CALL",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:5ef0387d014a112e",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/clsInvoice.cls",
+     "kind": "vb-class",
+     "line": 1,
+     "name": "clsInvoice",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 44,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 5,
+     "end_line": 34,
+     "kind": "method",
+     "line": 16,
+     "loc": 17,
+     "name": "PrintOpen"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 43,
+     "kind": "function",
+     "line": 36,
+     "loc": 8,
+     "name": "PostToLedger"
+    }
+   ],
+   "windows": [
+    [
+     2484903254044214034,
+     1,
+     16
+    ],
+    [
+     3599986122805057741,
+     2,
+     17
+    ],
+    [
+     1785260682200308897,
+     3,
+     17
+    ],
+    [
+     8675615285026754911,
+     4,
+     17
+    ],
+    [
+     1363106901848142678,
+     5,
+     18
+    ],
+    [
+     3807822148272350211,
+     6,
+     18
+    ],
+    [
+     534689074695402554,
+     7,
+     19
+    ],
+    [
+     5134375266993381394,
+     8,
+     21
+    ],
+    [
+     7838802751751888270,
+     9,
+     21
+    ],
+    [
+     572968349324477887,
+     10,
+     21
+    ],
+    [
+     8335601330691409826,
+     11,
+     22
+    ],
+    [
+     745354045186019292,
+     12,
+     22
+    ],
+    [
+     3367751732349959899,
+     13,
+     23
+    ],
+    [
+     5736927269073913030,
+     14,
+     24
+    ],
+    [
+     3170870857397783561,
+     16,
+     24
+    ],
+    [
+     7910023181260285136,
+     17,
+     27
+    ],
+    [
+     1806033158928884064,
+     18,
+     28
+    ],
+    [
+     7780793304598978099,
+     19,
+     29
+    ],
+    [
+     4640391884878519186,
+     21,
+     30
+    ],
+    [
+     367814035033661208,
+     22,
+     31
+    ],
+    [
+     2590353275089964233,
+     23,
+     36
+    ],
+    [
+     5361336748583871424,
+     24,
+     36
+    ],
+    [
+     5424281615366693487,
+     25,
+     37
+    ],
+    [
+     1598824064939951448,
+     27,
+     38
+    ],
+    [
+     7984642069735778741,
+     28,
+     39
+    ],
+    [
+     6754646536619686076,
+     29,
+     40
+    ],
+    [
+     6056845143783080404,
+     30,
+     40
+    ],
+    [
+     7122940466429188597,
+     31,
+     41
+    ],
+    [
+     1027068289847161543,
+     32,
+     42
+    ],
+    [
+     6436684929694232482,
+     33,
+     42
+    ],
+    [
+     4895596871441922110,
+     34,
+     42
+    ],
+    [
+     8122336387270774619,
+     36,
+     42
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "com-late-binding",
+     39,
+     "CreateObject(\"MSXML2.ServerXMLHTTP\""
+    ],
+    [
+     "hardcoded-endpoint",
+     40,
+     "\"http://ledger.acme.local/api/postings\""
+    ],
+    [
+     "on-error-resume-next",
+     38,
+     "On Error Resume Next"
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/ctlAddress.ctl": {
+  "basic": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": 2,
+        "snippet": "VB.UserControl ctlAddress"
+       }
+      ],
+      "fields_count": 2,
+      "file": "billing-desk-vb6/ctlAddress.ctl",
+      "id": "screen:f0020188baf4555b",
+      "name": "ctlAddress",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "vb6"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:5ef0387d014a112e",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/ctlAddress.ctl",
+     "kind": "desktop-form",
+     "line": 2,
+     "name": "ctlAddress",
+     "owner": "screen:f0020188baf4555b"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 21,
+     "kind": "method",
+     "line": 19,
+     "loc": 3,
+     "name": "Street.get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 25,
+     "kind": "method",
+     "line": 23,
+     "loc": 3,
+     "name": "Street.let"
+    }
+   ],
+   "windows": [
+    [
+     3532484096942767619,
+     1,
+     16
+    ],
+    [
+     3368680591885605259,
+     2,
+     16
+    ],
+    [
+     1714099960916516963,
+     3,
+     19
+    ],
+    [
+     6249838267524405,
+     4,
+     19
+    ],
+    [
+     779708627378257359,
+     5,
+     20
+    ],
+    [
+     3201460954806820789,
+     6,
+     21
+    ],
+    [
+     7751446114936465633,
+     7,
+     23
+    ],
+    [
+     7585305633646210938,
+     8,
+     23
+    ],
+    [
+     3858598778439706972,
+     9,
+     23
+    ],
+    [
+     9087569726288671524,
+     10,
+     24
+    ],
+    [
+     8634618246044484677,
+     11,
+     24
+    ],
+    [
+     2923460271989690114,
+     12,
+     24
+    ],
+    [
+     2838538692522425225,
+     13,
+     25
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/frmCustomer.frm": {
+  "basic": {
+   "coverage": {
+    "lines": 77,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 33,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:c04c9122eaa2f9a8",
+      "producers": [],
+      "protocol": "dao",
+      "purpose": null,
+      "source_files": [
+       "billing-desk-vb6/frmCustomer.frm"
+      ],
+      "target": "access://regions.mdb",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 3,
+        "snippet": "VB.Form frmCustomer: Customer search"
+       }
+      ],
+      "fields_count": 6,
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "id": "screen:d65d0e16d315adb4",
+      "name": "frmCustomer",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "vb6"
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 34,
+        "snippet": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME"
+       }
+      ],
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "fingerprint": "b5693e8fb455b724",
+      "fragments": 1,
+      "id": "sql:a47fa3a24b31517d",
+      "line": 34,
+      "normalized": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dao",
+      "structural_holes": 0,
+      "tables": [
+       "REGION"
+      ],
+      "text": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "concatenation",
+       "conditional"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER "
+       },
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 51,
+        "snippet": null
+       },
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 53,
+        "snippet": null
+       },
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 55,
+        "snippet": null
+       },
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 57,
+        "snippet": null
+       },
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 59,
+        "snippet": null
+       }
+      ],
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "fingerprint": "268a5aae91151faf",
+      "fragments": 7,
+      "id": "sql:961ff522a90f3d93",
+      "line": 62,
+      "normalized": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE ? = ? AND CUST_NAME LIKE ? AND CITY = ? AND STATUS = ? ORDER BY ?",
+      "optional_fragments": 5,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado",
+      "structural_holes": 1,
+      "tables": [
+       "CUSTOMER"
+      ],
+      "text": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER BY ?",
+      "type": "SELECT",
+      "value_holes": 2,
+      "variants": [
+       "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 ORDER BY ?"
+      ],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "concatenation"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 74,
+        "snippet": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'"
+       }
+      ],
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "fingerprint": "5fa5c492735157e1",
+      "fragments": 2,
+      "id": "sql:ecb410d75dd43168",
+      "line": 74,
+      "normalized": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "vb-string",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMER"
+      ],
+      "text": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'",
+      "type": "SELECT",
+      "value_holes": 1,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 33,
+        "snippet": null
+       }
+      ],
+      "id": "tech:32827bc290f48b0a",
+      "name": "Microsoft Access",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:5ef0387d014a112e",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/frmCustomer.frm",
+     "kind": "desktop-form",
+     "line": 3,
+     "name": "frmCustomer",
+     "owner": "screen:d65d0e16d315adb4"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 77,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 5,
+     "end_line": 69,
+     "kind": "method",
+     "line": 47,
+     "loc": 21,
+     "name": "cmdSearch_Click"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 76,
+     "kind": "method",
+     "line": 71,
+     "loc": 6,
+     "name": "lstResults_DblClick"
+    }
+   ],
+   "windows": [
+    [
+     5134672434157178099,
+     1,
+     15
+    ],
+    [
+     367589352035411078,
+     2,
+     17
+    ],
+    [
+     6283134238493863625,
+     3,
+     18
+    ],
+    [
+     2793528310052620870,
+     4,
+     20
+    ],
+    [
+     9107522467927695534,
+     5,
+     20
+    ],
+    [
+     4605856130229257202,
+     6,
+     21
+    ],
+    [
+     5088684047939498406,
+     7,
+     23
+    ],
+    [
+     3683444604247253268,
+     8,
+     24
+    ],
+    [
+     4661033568779847410,
+     9,
+     25
+    ],
+    [
+     1910993855413125034,
+     10,
+     25
+    ],
+    [
+     6636159471462990021,
+     11,
+     27
+    ],
+    [
+     6243958690479125487,
+     12,
+     28
+    ],
+    [
+     3294188190335443867,
+     13,
+     28
+    ],
+    [
+     2451161903995957712,
+     14,
+     30
+    ],
+    [
+     6670716182881782924,
+     15,
+     31
+    ],
+    [
+     6028531281951125553,
+     16,
+     32
+    ],
+    [
+     7962301589764528474,
+     17,
+     32
+    ],
+    [
+     2029621469985264449,
+     18,
+     34
+    ],
+    [
+     852814595028698282,
+     19,
+     35
+    ],
+    [
+     7340316518874270194,
+     20,
+     36
+    ],
+    [
+     4490537373786398440,
+     21,
+     37
+    ],
+    [
+     6968726980903306098,
+     22,
+     38
+    ],
+    [
+     2357543502103983053,
+     23,
+     39
+    ],
+    [
+     922510205484127513,
+     24,
+     41
+    ],
+    [
+     8814696246518155574,
+     25,
+     41
+    ],
+    [
+     4208273228321231628,
+     26,
+     42
+    ],
+    [
+     352513263370467495,
+     27,
+     43
+    ],
+    [
+     8713587954406794956,
+     28,
+     44
+    ],
+    [
+     3811111607949338591,
+     29,
+     45
+    ],
+    [
+     6142700541614645207,
+     30,
+     45
+    ],
+    [
+     2783232733421634757,
+     31,
+     47
+    ],
+    [
+     3152187577517216816,
+     32,
+     48
+    ],
+    [
+     3671788463005476166,
+     33,
+     49
+    ],
+    [
+     1387471975978292422,
+     34,
+     49
+    ],
+    [
+     4123233095859836965,
+     35,
+     51
+    ],
+    [
+     4496673242328428274,
+     36,
+     51
+    ],
+    [
+     7507838319841575084,
+     37,
+     52
+    ],
+    [
+     1539791009563389095,
+     38,
+     52
+    ],
+    [
+     499838280511497703,
+     39,
+     52
+    ],
+    [
+     1110030995556039037,
+     40,
+     52
+    ],
+    [
+     295529922711239209,
+     41,
+     53
+    ],
+    [
+     4287042965453348156,
+     42,
+     53
+    ],
+    [
+     9086643408385887831,
+     43,
+     53
+    ],
+    [
+     1709687931117011402,
+     44,
+     53
+    ],
+    [
+     9052332481386243501,
+     45,
+     54
+    ],
+    [
+     5671133086533930347,
+     47,
+     55
+    ],
+    [
+     3001653759526798335,
+     48,
+     55
+    ],
+    [
+     979202562266841126,
+     49,
+     55
+    ],
+    [
+     2576642501351557909,
+     51,
+     55
+    ],
+    [
+     4665855489663423204,
+     52,
+     55
+    ],
+    [
+     8254240819160960386,
+     53,
+     57
+    ],
+    [
+     4620329577303463883,
+     54,
+     61
+    ],
+    [
+     459903747460089270,
+     55,
+     62
+    ],
+    [
+     7992000714758162801,
+     56,
+     64
+    ],
+    [
+     1767215724683052089,
+     57,
+     65
+    ],
+    [
+     4076287062622234427,
+     58,
+     68
+    ],
+    [
+     595286218856519809,
+     59,
+     68
+    ],
+    [
+     6718978814846902268,
+     61,
+     73
+    ],
+    [
+     2433517866377406026,
+     62,
+     74
+    ],
+    [
+     3736586137949153881,
+     63,
+     76
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "windows-path",
+     33,
+     "\"C:\\BillingDesk\\regions.mdb\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/frmMain.frm": {
+  "basic": {
+   "coverage": {
+    "lines": 53,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": 3,
+        "snippet": "VB.Form frmMain: Billing Desk"
+       }
+      ],
+      "fields_count": 0,
+      "file": "billing-desk-vb6/frmMain.frm",
+      "id": "screen:b3b3d484c4b20b61",
+      "name": "frmMain",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "vb6"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:5ef0387d014a112e",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/frmMain.frm",
+     "kind": "forwards",
+     "line": 41,
+     "report_unresolved": false,
+     "source": "screen:screen:b3b3d484c4b20b61",
+     "source_label": "frmMain",
+     "target": "frmCustomer",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-desk-vb6/frmMain.frm",
+     "kind": "uses",
+     "line": 46,
+     "report_unresolved": false,
+     "source": "file:billing-desk-vb6/frmMain.frm",
+     "source_label": "billing-desk-vb6/frmMain.frm",
+     "target": "clsInvoice",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/frmMain.frm",
+     "kind": "desktop-form",
+     "line": 3,
+     "name": "frmMain",
+     "owner": "screen:b3b3d484c4b20b61"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 53,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 38,
+     "kind": "method",
+     "line": 34,
+     "loc": 5,
+     "name": "Form_Load"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 42,
+     "kind": "method",
+     "line": 40,
+     "loc": 3,
+     "name": "cmdCustomers_Click"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 48,
+     "kind": "method",
+     "line": 44,
+     "loc": 5,
+     "name": "cmdInvoices_Click"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 52,
+     "kind": "method",
+     "line": 50,
+     "loc": 3,
+     "name": "mnuExit_Click"
+    }
+   ],
+   "windows": [
+    [
+     555686513775273004,
+     1,
+     16
+    ],
+    [
+     6271519196774026238,
+     2,
+     16
+    ],
+    [
+     807218439834474653,
+     3,
+     18
+    ],
+    [
+     3756834999676864409,
+     4,
+     20
+    ],
+    [
+     8327259275761162040,
+     5,
+     20
+    ],
+    [
+     3457221530465705271,
+     6,
+     21
+    ],
+    [
+     8237997100776216360,
+     7,
+     22
+    ],
+    [
+     6698835833301537150,
+     8,
+     23
+    ],
+    [
+     8741246128165507719,
+     9,
+     26
+    ],
+    [
+     5996168902383983333,
+     10,
+     27
+    ],
+    [
+     2455836197070789170,
+     11,
+     28
+    ],
+    [
+     3976012988191475408,
+     12,
+     28
+    ],
+    [
+     813538765057272395,
+     13,
+     29
+    ],
+    [
+     7834625231577949682,
+     14,
+     30
+    ],
+    [
+     3485541339577061452,
+     15,
+     31
+    ],
+    [
+     6800187923447921578,
+     16,
+     31
+    ],
+    [
+     911114227075002661,
+     17,
+     34
+    ],
+    [
+     5334407217052056300,
+     18,
+     34
+    ],
+    [
+     3845876137784901384,
+     19,
+     36
+    ],
+    [
+     6095912948905248722,
+     20,
+     37
+    ],
+    [
+     997234275079795497,
+     21,
+     38
+    ],
+    [
+     5277970965377504408,
+     22,
+     40
+    ],
+    [
+     1234555113866818723,
+     23,
+     41
+    ],
+    [
+     4384966351332198661,
+     24,
+     42
+    ],
+    [
+     8003391697872272746,
+     25,
+     42
+    ],
+    [
+     7106535299195314371,
+     26,
+     44
+    ],
+    [
+     3215314902602552945,
+     27,
+     44
+    ],
+    [
+     8154438231779173814,
+     28,
+     45
+    ],
+    [
+     5860346821901332520,
+     29,
+     46
+    ],
+    [
+     9087861694119292097,
+     30,
+     46
+    ],
+    [
+     4588942046575762190,
+     31,
+     47
+    ],
+    [
+     8220132932159640847,
+     32,
+     50
+    ],
+    [
+     3436738366930301878,
+     34,
+     50
+    ],
+    [
+     3585954263501477008,
+     36,
+     52
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-desk-vb6/modDb.bas": {
+  "basic": {
+   "coverage": {
+    "lines": 47,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "security",
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": "Password=****"
+       }
+      ],
+      "file": "billing-desk-vb6/modDb.bas",
+      "id": "finding:8be3d0f676b98061",
+      "line": 5,
+      "message": "Password written in a connection string to sqlserver://BILLSRV01/BILLING (value masked)",
+      "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+      "rule_id": "connection-string-password",
+      "severity": "high"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:091de97762c869c6",
+      "producers": [],
+      "protocol": "ado",
+      "purpose": null,
+      "source_files": [
+       "billing-desk-vb6/modDb.bas"
+      ],
+      "target": "sqlserver://BILLSRV01/BILLING",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 35,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:b9623b64716d3189",
+      "producers": [],
+      "protocol": "VB Open",
+      "purpose": null,
+      "source_files": [
+       "billing-desk-vb6/modDb.bas"
+      ],
+      "target": "C:\\BillingDesk\\export\\customers.csv",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 28,
+        "snippet": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)"
+       },
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "file": "billing-desk-vb6/modDb.bas",
+      "fingerprint": "794594989682c248",
+      "fragments": 1,
+      "id": "sql:1ded0793b141bdda",
+      "line": 28,
+      "normalized": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado",
+      "structural_holes": 0,
+      "tables": [
+       "AUDIT_LOG"
+      ],
+      "text": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:5ef0387d014a112e",
+      "name": "Visual Basic 6",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-desk-vb6/modDb.bas",
+     "kind": "vb-module",
+     "line": 1,
+     "name": "modDb",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 47,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 10,
+     "loc": 8,
+     "name": "OpenDb"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 23,
+     "kind": "function",
+     "line": 19,
+     "loc": 5,
+     "name": "LookupValue"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 30,
+     "kind": "method",
+     "line": 25,
+     "loc": 6,
+     "name": "LogAction"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 38,
+     "kind": "method",
+     "line": 32,
+     "loc": 7,
+     "name": "ExportCustomers"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 46,
+     "kind": "function",
+     "line": 40,
+     "loc": 7,
+     "name": "CurrentUser"
+    }
+   ],
+   "windows": [
+    [
+     6208410482713189335,
+     1,
+     11
+    ],
+    [
+     3772679456236430159,
+     2,
+     12
+    ],
+    [
+     8044943700180487116,
+     4,
+     12
+    ],
+    [
+     7183137645480207886,
+     5,
+     13
+    ],
+    [
+     2057577138566829995,
+     6,
+     16
+    ],
+    [
+     6939057764688060379,
+     8,
+     16
+    ],
+    [
+     8338080784823961265,
+     10,
+     21
+    ],
+    [
+     2305146434287916783,
+     11,
+     21
+    ],
+    [
+     4562213567076211771,
+     12,
+     22
+    ],
+    [
+     6030832332926045513,
+     13,
+     22
+    ],
+    [
+     1293065179478063207,
+     14,
+     22
+    ],
+    [
+     4446204822856617743,
+     15,
+     22
+    ],
+    [
+     2306591176288493066,
+     16,
+     22
+    ],
+    [
+     5357915321018605787,
+     17,
+     25
+    ],
+    [
+     2093592385255134676,
+     19,
+     25
+    ],
+    [
+     1611680092227766840,
+     20,
+     27
+    ],
+    [
+     284390299029287732,
+     21,
+     28
+    ],
+    [
+     2018251554408024975,
+     22,
+     29
+    ],
+    [
+     5065851000384721917,
+     23,
+     32
+    ],
+    [
+     474066074425312837,
+     25,
+     32
+    ],
+    [
+     2938855144022488191,
+     26,
+     35
+    ],
+    [
+     1925098946711364484,
+     27,
+     36
+    ],
+    [
+     234203133650030500,
+     28,
+     40
+    ],
+    [
+     7054286006447128202,
+     29,
+     40
+    ],
+    [
+     4774186756182191252,
+     30,
+     43
+    ],
+    [
+     265020727809600425,
+     32,
+     43
+    ],
+    [
+     2630901210942648515,
+     33,
+     45
+    ],
+    [
+     7040798044939447575,
+     34,
+     45
+    ],
+    [
+     3432340561350434517,
+     35,
+     46
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "win32-api",
+     8,
+     "Declare Function GetUserName Lib \"advapi32.dll\""
+    ],
+    [
+     "windows-path",
+     35,
+     "\"C:\\BillingDesk\\export\\customers.csv\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/App.xaml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": 1,
+        "snippet": "WPF Application"
+       }
+      ],
+      "file": "inventory-wpf-cs/App.xaml",
+      "id": "entry:79e291cf2b677f0f",
+      "kind": "desktop-app",
+      "line": 1,
+      "name": "InventoryApp.App"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:615db84b59501b8a",
+      "name": "WPF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/App.xaml",
+     "kind": "forwards",
+     "line": 1,
+     "report_unresolved": true,
+     "source": "file:inventory-wpf-cs/App.xaml",
+     "source_label": "InventoryApp.App",
+     "target": "inventory-wpf-cs/MainWindow.xaml",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/App.xaml.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/App.xaml.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/App.xaml.cs",
+     "kind": "dotnet-class",
+     "line": 5,
+     "name": "App",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Controls/ItemCard.xaml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+        "line": 1,
+        "snippet": "<UserControl> InventoryApp.Controls.ItemCard"
+       }
+      ],
+      "fields_count": 0,
+      "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+      "id": "screen:6a88aa490e1259ea",
+      "name": "ItemCard",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "wpf"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:615db84b59501b8a",
+      "name": "WPF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+     "kind": "desktop-form",
+     "line": 1,
+     "name": "ItemCard",
+     "owner": "screen:6a88aa490e1259ea"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Data/InventoryContext.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "security",
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": "Password=****"
+       }
+      ],
+      "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+      "id": "finding:10e119df9e699b13",
+      "line": 11,
+      "message": "Password written in a connection string to sqlserver://INVSRV01/INVENTORY (value masked)",
+      "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+      "rule_id": "connection-string-password",
+      "severity": "high"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:8302c7163e41c6b1",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "inventory-wpf-cs/Data/InventoryContext.cs"
+      ],
+      "target": "sqlserver://INVSRV01/INVENTORY",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:021dafb3ec46f97b",
+      "name": "Entity Framework Core",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+     "kind": "dotnet-class",
+     "line": 5,
+     "name": "InventoryContext",
+     "owner": null
+    },
+    {
+     "data": {
+      "entity": "StockItem",
+      "orm": "ef",
+      "table": "STOCKITEM"
+     },
+     "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+     "kind": "jpa-entity",
+     "line": 7,
+     "name": "StockItems",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 9,
+     "loc": 4,
+     "name": "OnConfiguring"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Data/StockItem.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockItem.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/StockItem.cs",
+     "kind": "dotnet-class",
+     "line": 5,
+     "name": "StockItem",
+     "owner": null
+    },
+    {
+     "data": {
+      "orm": "ef",
+      "table": "STOCK_ITEM"
+     },
+     "file": "inventory-wpf-cs/Data/StockItem.cs",
+     "kind": "jpa-entity",
+     "line": 5,
+     "name": "StockItem",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     8605626246995171784,
+     1,
+     10
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Data/StockRepository.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 51,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:8302c7163e41c6b1",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "inventory-wpf-cs/Data/StockRepository.cs"
+      ],
+      "target": "sqlserver://INVSRV01/INVENTORY",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [
+       "conditional",
+       "interpolation",
+       "string-builder"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 24,
+        "snippet": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?"
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 15,
+        "snippet": null
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 16,
+        "snippet": null
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 19,
+        "snippet": null
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "fingerprint": "dc9147efe4be0d47",
+      "fragments": 5,
+      "id": "sql:c0c944541637be6e",
+      "line": 24,
+      "normalized": "SELECT S.ID, S.SKU, S.QUANTITY FROM STOCK_ITEM S JOIN WAREHOUSE W ON W.ID = S.WAREHOUSE_ID WHERE ? = ? AND S.SKU LIKE ? AND W.NAME = @WAREHOUSE",
+      "optional_fragments": 3,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dapper",
+      "structural_holes": 0,
+      "tables": [
+       "STOCK_ITEM",
+       "WAREHOUSE"
+      ],
+      "text": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?%' AND w.NAME = @warehouse",
+      "type": "SELECT",
+      "value_holes": 1,
+      "variants": [
+       "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1"
+      ],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "concatenation"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 32,
+        "snippet": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0"
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 29,
+        "snippet": null
+       },
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 30,
+        "snippet": null
+       }
+      ],
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "fingerprint": "c181d59dcfbe583f",
+      "fragments": 2,
+      "id": "sql:8e8c9d376e871144",
+      "line": 32,
+      "normalized": "UPDATE STOCK_ITEM SET REORDER = ? WHERE QUANTITY < ? AND DISCONTINUED = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [
+       "STOCK_ITEM"
+      ],
+      "text": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0",
+      "type": "UPDATE",
+      "value_holes": 1,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 43,
+        "snippet": "CALL dbo.usp_StockReport"
+       }
+      ],
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "fingerprint": "30ebbb79e2140691",
+      "fragments": 1,
+      "id": "sql:7c1e341c972d0c5c",
+      "line": 43,
+      "normalized": "CALL DBO.USP_STOCKREPORT",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [
+       "DBO.USP_STOCKREPORT"
+      ],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [],
+      "text": "CALL dbo.usp_StockReport",
+      "type": "CALL",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "string-format"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 44,
+        "snippet": "SELECT * FROM STOCK_ITEM ORDER BY ?"
+       }
+      ],
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "fingerprint": "bf969a195b98e960",
+      "fragments": 2,
+      "id": "sql:5d2079f54f251065",
+      "line": 44,
+      "normalized": "SELECT * FROM STOCK_ITEM ORDER BY ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 1,
+      "tables": [
+       "STOCK_ITEM"
+      ],
+      "text": "SELECT * FROM STOCK_ITEM ORDER BY ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4d1548115d5baa6a",
+      "name": "Dapper",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/StockRepository.cs",
+     "kind": "uses",
+     "line": 23,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/Data/StockRepository.cs",
+     "source_label": "inventory-wpf-cs/Data/StockRepository.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/StockRepository.cs",
+     "kind": "uses",
+     "line": 31,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/Data/StockRepository.cs",
+     "source_label": "inventory-wpf-cs/Data/StockRepository.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/StockRepository.cs",
+     "kind": "uses",
+     "line": 45,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/Data/StockRepository.cs",
+     "source_label": "inventory-wpf-cs/Data/StockRepository.cs",
+     "target": "DataTable",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Data/StockRepository.cs",
+     "kind": "dotnet-class",
+     "line": 9,
+     "name": "StockRepository",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 51,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 3,
+     "end_line": 25,
+     "kind": "method",
+     "line": 13,
+     "loc": 13,
+     "name": "Find"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 37,
+     "kind": "method",
+     "line": 27,
+     "loc": 11,
+     "name": "Restock"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 48,
+     "kind": "method",
+     "line": 39,
+     "loc": 10,
+     "name": "Report"
+    }
+   ],
+   "windows": [
+    [
+     3897828215119498328,
+     1,
+     13
+    ],
+    [
+     4992002705301604461,
+     2,
+     14
+    ],
+    [
+     7636467892227144393,
+     3,
+     15
+    ],
+    [
+     7782436565209065204,
+     4,
+     16
+    ],
+    [
+     4015416626491390241,
+     5,
+     17
+    ],
+    [
+     8839258257898664277,
+     7,
+     17
+    ],
+    [
+     3371763201629027818,
+     8,
+     17
+    ],
+    [
+     3727607147995776009,
+     9,
+     17
+    ],
+    [
+     7159046686838483489,
+     10,
+     19
+    ],
+    [
+     1831834740890617609,
+     11,
+     19
+    ],
+    [
+     449246033863858199,
+     13,
+     20
+    ],
+    [
+     6857041236363576929,
+     14,
+     22
+    ],
+    [
+     6378899243033951920,
+     15,
+     22
+    ],
+    [
+     4343078178115311800,
+     16,
+     23
+    ],
+    [
+     335420636956075817,
+     17,
+     24
+    ],
+    [
+     3731839103379497904,
+     18,
+     24
+    ],
+    [
+     5904545322574171407,
+     19,
+     24
+    ],
+    [
+     871895692842255541,
+     20,
+     27
+    ],
+    [
+     8179524228254548946,
+     21,
+     27
+    ],
+    [
+     6305878123660074263,
+     22,
+     29
+    ],
+    [
+     5153650596576601565,
+     23,
+     30
+    ],
+    [
+     7013383074870383901,
+     24,
+     31
+    ],
+    [
+     3576192502198897286,
+     25,
+     34
+    ],
+    [
+     4470200285781380898,
+     27,
+     34
+    ],
+    [
+     8859796255244063327,
+     28,
+     35
+    ],
+    [
+     2803689970477542362,
+     29,
+     35
+    ],
+    [
+     8284069401372363489,
+     30,
+     39
+    ],
+    [
+     3755436205020486365,
+     31,
+     41
+    ],
+    [
+     8422542751041011283,
+     32,
+     42
+    ],
+    [
+     8222443832271974487,
+     33,
+     44
+    ],
+    [
+     1382243320335552486,
+     34,
+     44
+    ],
+    [
+     2646553102575269570,
+     35,
+     44
+    ],
+    [
+     3493439570673296155,
+     36,
+     44
+    ],
+    [
+     4470966685573933780,
+     37,
+     45
+    ],
+    [
+     2960212264653334911,
+     39,
+     45
+    ],
+    [
+     5234238543210217554,
+     40,
+     46
+    ],
+    [
+     2833606621766648293,
+     41,
+     46
+    ],
+    [
+     6979668120181177283,
+     42,
+     47
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/InventoryApp.csproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 3,
+        "snippet": "OutputType WinExe"
+       }
+      ],
+      "file": "inventory-wpf-cs/InventoryApp.csproj",
+      "id": "entry:188fffe876c60fce",
+      "kind": "desktop-app",
+      "line": 3,
+      "name": "InventoryApp"
+     }
+    ],
+    "libraries": [
+     {
+      "artifact": "Microsoft.EntityFrameworkCore.SqlServer",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:7b295ce6c12d7905",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "6.0.10",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/InventoryApp.csproj"
+      ]
+     },
+     {
+      "artifact": "Dapper",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:b5f6d8e8cd9c35f1",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.0.123",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/InventoryApp.csproj"
+      ]
+     },
+     {
+      "artifact": "System.Data.SqlClient",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:56cbc9d38eddfeb0",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "4.8.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/InventoryApp.csproj"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b1fda5cfb9441c3c",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": "10.0"
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:dec8e8b4321650ee",
+      "name": ".NET",
+      "replacement": null,
+      "usages": 1,
+      "version": "6.0"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:615db84b59501b8a",
+      "name": "WPF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/MainWindow.xaml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/MainWindow.xaml",
+        "line": 1,
+        "snippet": "<Window> InventoryApp.MainWindow"
+       }
+      ],
+      "fields_count": 3,
+      "file": "inventory-wpf-cs/MainWindow.xaml",
+      "id": "screen:a97ca6ab6581950a",
+      "name": "MainWindow",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "wpf"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/MainWindow.xaml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:615db84b59501b8a",
+      "name": "WPF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/MainWindow.xaml",
+     "kind": "desktop-form",
+     "line": 1,
+     "name": "MainWindow",
+     "owner": "screen:a97ca6ab6581950a"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/MainWindow.xaml.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "kind": "uses",
+     "line": 9,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/MainWindow.xaml.cs",
+     "source_label": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "target": "StockRepository",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "kind": "uses",
+     "line": 21,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/MainWindow.xaml.cs",
+     "source_label": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "target": "StockDialog",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "kind": "forwards",
+     "line": 22,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/MainWindow.xaml.cs",
+     "source_label": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "target": "StockDialog",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+     "kind": "dotnet-class",
+     "line": 7,
+     "name": "MainWindow",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "method",
+     "line": 11,
+     "loc": 4,
+     "name": "MainWindow"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 24,
+     "kind": "method",
+     "line": 16,
+     "loc": 9,
+     "name": "Search_Click"
+    }
+   ],
+   "windows": [
+    [
+     7108341270546054068,
+     1,
+     16
+    ],
+    [
+     8492579276562718274,
+     2,
+     16
+    ],
+    [
+     851265683243323059,
+     3,
+     18
+    ],
+    [
+     3028526177508592276,
+     5,
+     18
+    ],
+    [
+     7682091840203671577,
+     6,
+     18
+    ],
+    [
+     2763167788917617657,
+     7,
+     18
+    ],
+    [
+     4244144882529397541,
+     8,
+     19
+    ],
+    [
+     3212536241509044823,
+     9,
+     19
+    ],
+    [
+     968429556633796083,
+     11,
+     20
+    ],
+    [
+     8538341020777875391,
+     12,
+     21
+    ],
+    [
+     51739129200332402,
+     13,
+     21
+    ],
+    [
+     3891738144377660444,
+     14,
+     22
+    ],
+    [
+     2632391504171727484,
+     16,
+     22
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Views/StockDialog.xaml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+        "line": 1,
+        "snippet": "<Window> InventoryApp.Views.StockDialog"
+       }
+      ],
+      "fields_count": 4,
+      "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+      "id": "screen:f8f8ce984fff8ced",
+      "name": "StockDialog",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "wpf"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:615db84b59501b8a",
+      "name": "WPF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+     "kind": "desktop-form",
+     "line": 1,
+     "name": "StockDialog",
+     "owner": "screen:f8f8ce984fff8ced"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/Views/StockDialog.xaml.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 17,
+        "snippet": "SELECT /* FirstOrDefault */ FROM StockItems"
+       }
+      ],
+      "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+      "fingerprint": "8d0b4d3ab0998ccb",
+      "fragments": 1,
+      "id": "sql:56c7b323297b90f7",
+      "line": 17,
+      "normalized": "SELECT FROM STOCKITEMS",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "Entity Framework FirstOrDefault: the ORM generates the SQL at run time",
+      "source": "entity-framework",
+      "structural_holes": 0,
+      "tables": [
+       "StockItems"
+      ],
+      "text": "SELECT /* FirstOrDefault */ FROM StockItems",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 20,
+        "snippet": "INSERT /* Add */ INTO StockItems"
+       }
+      ],
+      "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+      "fingerprint": "fb0ecbd753e4b8bd",
+      "fragments": 1,
+      "id": "sql:007661f9e5e5b50f",
+      "line": 20,
+      "normalized": "INSERT INTO STOCKITEMS",
+      "optional_fragments": 0,
+      "parsed": false,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": "Entity Framework Add: the ORM generates the SQL at run time",
+      "source": "entity-framework",
+      "structural_holes": 0,
+      "tables": [
+       "StockItems"
+      ],
+      "text": "INSERT /* Add */ INTO StockItems",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "kind": "uses",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "source_label": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "target": "InventoryContext",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "kind": "uses",
+     "line": 20,
+     "report_unresolved": false,
+     "source": "file:inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "source_label": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "target": "StockItem",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+     "kind": "dotnet-class",
+     "line": 7,
+     "name": "StockDialog",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 9,
+     "loc": 4,
+     "name": "StockDialog"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 24,
+     "kind": "method",
+     "line": 14,
+     "loc": 11,
+     "name": "Save_Click"
+    }
+   ],
+   "windows": [
+    [
+     4555057379791738921,
+     1,
+     16
+    ],
+    [
+     1523052485854113990,
+     2,
+     16
+    ],
+    [
+     938772103966200618,
+     3,
+     17
+    ],
+    [
+     6447569315526912102,
+     5,
+     17
+    ],
+    [
+     1423790235475276238,
+     6,
+     17
+    ],
+    [
+     6084525733438069957,
+     7,
+     17
+    ],
+    [
+     6541632733173292627,
+     8,
+     17
+    ],
+    [
+     4388346323503375078,
+     9,
+     17
+    ],
+    [
+     5999781060991558968,
+     10,
+     18
+    ],
+    [
+     4205979327162464213,
+     11,
+     18
+    ],
+    [
+     3022271668137515712,
+     12,
+     18
+    ],
+    [
+     7265511575627930256,
+     14,
+     19
+    ],
+    [
+     209153843509375181,
+     15,
+     20
+    ],
+    [
+     660927571298488670,
+     16,
+     20
+    ],
+    [
+     1439439435065048116,
+     17,
+     20
+    ],
+    [
+     7383763630053431423,
+     18,
+     26
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "inventory-wpf-cs/packages.lock.json": {
+  "dotnet": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "Dapper",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:b5f6d8e8cd9c35f1",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.0.123",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/packages.lock.json"
+      ]
+     },
+     {
+      "artifact": "Microsoft.EntityFrameworkCore.SqlServer",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:7b295ce6c12d7905",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "6.0.10",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/packages.lock.json"
+      ]
+     },
+     {
+      "artifact": "System.Data.SqlClient",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:56cbc9d38eddfeb0",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "4.8.3",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/packages.lock.json"
+      ]
+     },
+     {
+      "artifact": "Microsoft.Data.SqlClient",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:4081ccd117149b9a",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "transitive",
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.1.4",
+      "vulnerabilities": [],
+      "where_used": [
+       "inventory-wpf-cs/packages.lock.json"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "invoice-mailer-svc/InvoiceMailer.csproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 4,
+        "snippet": "OutputType WinExe"
+       }
+      ],
+      "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+      "id": "entry:b303599242a8fe3b",
+      "kind": "windows-service",
+      "line": 4,
+      "name": "InvoiceMailer"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "id": "tech:cd4deda0d741486e",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.6.1"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "id": "tech:17398be5bfd4598e",
+      "name": "Windows Service",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:ffe7267df9d77697",
+      "name": "MSMQ",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "invoice-mailer-svc/MailerService.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 11,
+        "snippet": "class MailerService : ServiceBase"
+       }
+      ],
+      "file": "invoice-mailer-svc/MailerService.cs",
+      "id": "entry:aa380e80d82530dd",
+      "kind": "windows-service",
+      "line": 11,
+      "name": "MailerService"
+     },
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 28,
+        "snippet": "static Main"
+       }
+      ],
+      "file": "invoice-mailer-svc/MailerService.cs",
+      "id": "entry:04b9009650839212",
+      "kind": "main",
+      "line": 28,
+      "name": "MailerService.Main"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:82a770d72264cdfd",
+      "producers": [],
+      "protocol": "MSMQ",
+      "purpose": null,
+      "source_files": [
+       "invoice-mailer-svc/MailerService.cs"
+      ],
+      "target": ".\\private$\\invoices-to-mail",
+      "type": "MQ",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 24,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:51275d88f40325a2",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "invoice-mailer-svc/MailerService.cs"
+      ],
+      "target": "smtp.acme.local",
+      "type": "SMTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:ffe7267df9d77697",
+      "name": "MSMQ",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:17398be5bfd4598e",
+      "name": "Windows Service",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "invoice-mailer-svc/MailerService.cs",
+     "kind": "uses",
+     "line": 17,
+     "report_unresolved": false,
+     "source": "file:invoice-mailer-svc/MailerService.cs",
+     "source_label": "invoice-mailer-svc/MailerService.cs",
+     "target": "MessageQueue",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "invoice-mailer-svc/MailerService.cs",
+     "kind": "uses",
+     "line": 24,
+     "report_unresolved": false,
+     "source": "file:invoice-mailer-svc/MailerService.cs",
+     "source_label": "invoice-mailer-svc/MailerService.cs",
+     "target": "SmtpClient",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "invoice-mailer-svc/MailerService.cs",
+     "kind": "uses",
+     "line": 30,
+     "report_unresolved": false,
+     "source": "file:invoice-mailer-svc/MailerService.cs",
+     "source_label": "invoice-mailer-svc/MailerService.cs",
+     "target": "MailerService",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "invoice-mailer-svc/MailerService.cs",
+     "kind": "dotnet-class",
+     "line": 11,
+     "name": "MailerService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 15,
+     "loc": 6,
+     "name": "OnStart"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 26,
+     "kind": "method",
+     "line": 22,
+     "loc": 5,
+     "name": "Send"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 31,
+     "kind": "method",
+     "line": 28,
+     "loc": 4,
+     "name": "Main"
+    }
+   ],
+   "windows": [
+    [
+     808924798778149419,
+     1,
+     17
+    ],
+    [
+     8040372308537282673,
+     2,
+     18
+    ],
+    [
+     2691398668011566943,
+     3,
+     18
+    ],
+    [
+     6676724349657435930,
+     5,
+     18
+    ],
+    [
+     7552070885573388596,
+     6,
+     18
+    ],
+    [
+     6507605228347155215,
+     11,
+     18
+    ],
+    [
+     8259957462222234457,
+     12,
+     19
+    ],
+    [
+     5237516799182407535,
+     13,
+     19
+    ],
+    [
+     8362990784824471420,
+     15,
+     19
+    ],
+    [
+     7501635607584883014,
+     16,
+     24
+    ],
+    [
+     3837407249478305232,
+     17,
+     24
+    ],
+    [
+     861566694778831699,
+     18,
+     25
+    ],
+    [
+     4121857484275143343,
+     19,
+     30
+    ],
+    [
+     526373642898622032,
+     20,
+     32
+    ],
+    [
+     5487331142746401969,
+     22,
+     33
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/Contact.aspx": {
+  "dotnet": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Contact.aspx",
+        "line": 1,
+        "snippet": "<%@ Page Language=\"C#\" MasterPageFile=\"~/Site.master\" CodeBehind=\"Contact.aspx.cs\" Inherits=\"LegacyCrm.ContactPage\" %>"
+       }
+      ],
+      "fields_count": 3,
+      "file": "legacy-webforms/Contact.aspx",
+      "id": "screen:cceb7ee5f286d4c5",
+      "name": "Contact.aspx",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "aspx"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Contact.aspx",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d7ce8f0b14a6bd4a",
+      "name": "ASP.NET Web Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-webforms/Contact.aspx",
+     "kind": "aspx-page",
+     "line": null,
+     "name": "ContactPage",
+     "owner": "screen:cceb7ee5f286d4c5"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/ContactService.asmx": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/ContactService.asmx.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "legacy-webforms/ContactService.asmx.cs",
+      "framework": "ASP.NET Web Services (ASMX)",
+      "handler": "ContactService.GetContactName",
+      "id": "service:76a948e0694ee85b",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "ASMX ContactService.GetContactName",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "ContactService.asmx/GetContactName",
+      "web_service": "ContactService"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f7f181bd15e1cf5a",
+      "name": "ASP.NET Web Services (ASMX)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f7f181bd15e1cf5a",
+      "name": "ASP.NET Web Services (ASMX)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-webforms/ContactService.asmx.cs",
+     "kind": "dotnet-class",
+     "line": 5,
+     "name": "ContactService",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "legacy-webforms/ContactService.asmx.cs",
+     "kind": "service",
+     "line": 8,
+     "name": "ContactService.GetContactName",
+     "owner": "service:76a948e0694ee85b"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 8,
+     "loc": 5,
+     "name": "GetContactName"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/Default.aspx": {
+  "dotnet": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 1,
+        "snippet": "<%@ Page Language=\"C#\" MasterPageFile=\"~/Site.master\" CodeBehind=\"Default.aspx.cs\" Inherits=\"LegacyCrm.DefaultPage\" %>"
+       }
+      ],
+      "fields_count": 2,
+      "file": "legacy-webforms/Default.aspx",
+      "id": "screen:2161c555960f3de3",
+      "name": "Default.aspx",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "aspx"
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 9,
+        "snippet": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME"
+       }
+      ],
+      "file": "legacy-webforms/Default.aspx",
+      "fingerprint": "e75fba9c83be002f",
+      "fragments": 1,
+      "id": "sql:64aec38ead3f0edc",
+      "line": 9,
+      "normalized": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "aspx-datasource",
+      "structural_holes": 0,
+      "tables": [
+       "CRM_REGION"
+      ],
+      "text": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d7ce8f0b14a6bd4a",
+      "name": "ASP.NET Web Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "legacy-webforms/Default.aspx",
+     "kind": "links",
+     "line": 7,
+     "report_unresolved": false,
+     "source": "screen:screen:2161c555960f3de3",
+     "source_label": "Default.aspx",
+     "target": "Contact.aspx",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-webforms/Default.aspx",
+     "kind": "aspx-page",
+     "line": null,
+     "name": "DefaultPage",
+     "owner": "screen:2161c555960f3de3"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/Default.aspx.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [
+       "concatenation",
+       "conditional"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 15,
+        "snippet": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'"
+       },
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 12,
+        "snippet": null
+       },
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "file": "legacy-webforms/Default.aspx.cs",
+      "fingerprint": "425330557b04fe8c",
+      "fragments": 3,
+      "id": "sql:df82b48f9feee43a",
+      "line": 15,
+      "normalized": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE ?",
+      "optional_fragments": 2,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [
+       "CRM_CONTACT"
+      ],
+      "text": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'",
+      "type": "SELECT",
+      "value_holes": 2,
+      "variants": [
+       "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ?"
+      ],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d7ce8f0b14a6bd4a",
+      "name": "ASP.NET Web Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "legacy-webforms/Default.aspx.cs",
+     "kind": "uses",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:legacy-webforms/Default.aspx.cs",
+     "source_label": "legacy-webforms/Default.aspx.cs",
+     "target": "DataTable",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "legacy-webforms/Default.aspx.cs",
+     "kind": "dotnet-class",
+     "line": 8,
+     "name": "DefaultPage",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 20,
+     "kind": "method",
+     "line": 10,
+     "loc": 11,
+     "name": "btnSearch_Click"
+    }
+   ],
+   "windows": [
+    [
+     7309241601400849292,
+     1,
+     12
+    ],
+    [
+     7703253155566730242,
+     2,
+     13
+    ],
+    [
+     2685876340010671857,
+     3,
+     13
+    ],
+    [
+     289379687880489745,
+     4,
+     14
+    ],
+    [
+     3493891884201098703,
+     6,
+     14
+    ],
+    [
+     4736389690628045144,
+     7,
+     15
+    ],
+    [
+     239112996116272173,
+     8,
+     15
+    ],
+    [
+     1333287406957435345,
+     9,
+     15
+    ],
+    [
+     3702884065806583324,
+     10,
+     15
+    ],
+    [
+     5871383145458101098,
+     11,
+     15
+    ],
+    [
+     473267225298172031,
+     12,
+     15
+    ],
+    [
+     2273030663816646443,
+     13,
+     16
+    ],
+    [
+     2658820067507597132,
+     14,
+     18
+    ],
+    [
+     5573769169701340794,
+     15,
+     20
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/LegacyCrm.csproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:50ea2cb0e7dc730b",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "3.5"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d7ce8f0b14a6bd4a",
+      "name": "ASP.NET Web Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/Site.master": {
+  "dotnet": {
+   "coverage": {
+    "lines": 3,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Site.master",
+        "line": 1,
+        "snippet": "<%@ Master Language=\"C#\" %>"
+       }
+      ],
+      "fields_count": 0,
+      "file": "legacy-webforms/Site.master",
+      "id": "screen:8e1313cabc03b381",
+      "name": "Site.master",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "aspx"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Site.master",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:d7ce8f0b14a6bd4a",
+      "name": "ASP.NET Web Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "legacy-webforms/Web.config": {
+  "config": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "security",
+      "evidence": [
+       {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": "Password=****"
+       }
+      ],
+      "file": "legacy-webforms/Web.config",
+      "id": "finding:c1cc94353f222247",
+      "line": 4,
+      "message": "Password written in a connection string to oracle://CRMPROD (value masked)",
+      "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+      "rule_id": "connection-string-password",
+      "severity": "high"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:86f1278aefb8f165",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "legacy-webforms/Web.config"
+      ],
+      "target": "oracle://CRMPROD",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "nightly-export-cs/NightlyExport.csproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "id": "tech:cb4025577e1747c4",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.0"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "nightly-export-cs/Program.cs": {
+  "csharp": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 13,
+        "snippet": "static Main"
+       }
+      ],
+      "file": "nightly-export-cs/Program.cs",
+      "id": "entry:8c39d371ea4b4aab",
+      "kind": "main",
+      "line": 13,
+      "name": "Program.Main"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:091de97762c869c6",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "nightly-export-cs/Program.cs"
+      ],
+      "target": "sqlserver://BILLSRV01/BILLING",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:172924995bdcc2a0",
+      "producers": [],
+      "protocol": "new StreamWriter",
+      "purpose": null,
+      "source_files": [
+       "nightly-export-cs/Program.cs"
+      ],
+      "target": "\\\\fileserver\\exports\\invoices.csv",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 17,
+        "snippet": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = 0"
+       }
+      ],
+      "file": "nightly-export-cs/Program.cs",
+      "fingerprint": "47ca7d29b4993d76",
+      "fragments": 1,
+      "id": "sql:248d8a6b25f70955",
+      "line": 17,
+      "normalized": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICE"
+      ],
+      "text": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = 0",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bdac683e66d1bc26",
+      "name": "C#",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "nightly-export-cs/Program.cs",
+     "kind": "uses",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:nightly-export-cs/Program.cs",
+     "source_label": "nightly-export-cs/Program.cs",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "nightly-export-cs/Program.cs",
+     "kind": "uses",
+     "line": 18,
+     "report_unresolved": false,
+     "source": "file:nightly-export-cs/Program.cs",
+     "source_label": "nightly-export-cs/Program.cs",
+     "target": "StreamWriter",
+     "target_kinds": [
+      "dotnet-class",
+      "vb-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "nightly-export-cs/Program.cs",
+     "kind": "dotnet-class",
+     "line": 11,
+     "name": "Program",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 28,
+     "kind": "method",
+     "line": 13,
+     "loc": 16,
+     "name": "Main"
+    }
+   ],
+   "windows": [
+    [
+     1692935088409121335,
+     1,
+     17
+    ],
+    [
+     2280231340122453095,
+     2,
+     17
+    ],
+    [
+     3497977204773755639,
+     3,
+     17
+    ],
+    [
+     276210008996614846,
+     5,
+     18
+    ],
+    [
+     2091881548484322125,
+     6,
+     18
+    ],
+    [
+     6123797584953268035,
+     11,
+     18
+    ],
+    [
+     815458532020247876,
+     12,
+     18
+    ],
+    [
+     2156992380150407816,
+     13,
+     18
+    ],
+    [
+     6688933538315785882,
+     14,
+     21
+    ],
+    [
+     2758940478569068262,
+     15,
+     21
+    ],
+    [
+     9015523509823445462,
+     16,
+     21
+    ],
+    [
+     8327678717863767121,
+     17,
+     23
+    ],
+    [
+     2615748198574419274,
+     18,
+     24
+    ],
+    [
+     7077604169882563119,
+     19,
+     26
+    ],
+    [
+     962588556904389550,
+     20,
+     27
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "windows-path",
+     18,
+     "@\"\\\\fileserver\\exports\\invoices.csv\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "nightly-export-cs/tasks/NightlyExport.xml": {
+  "config": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "C:\\Billing\\NightlyExport\\NightlyExport.exe",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Exports the day's invoices to the file server for the ledger team.",
+      "evidence": [
+       {
+        "file": "nightly-export-cs/tasks/NightlyExport.xml",
+        "line": 2,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe"
+       }
+      ],
+      "id": "batch_job:69caee0fdafdc640",
+      "kind": "job",
+      "machine": null,
+      "name": "NightlyExport",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "NightlyExport.exe"
+      ],
+      "schedule": "daily at 01:30",
+      "scheduler": "windows-task",
+      "steps": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "nightly-export-cs/tasks/NightlyExport.xml",
+     "kind": "windows-task",
+     "line": 2,
+     "name": "NightlyExport",
+     "owner": "batch_job:69caee0fdafdc640"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "nightly-export-cs/tasks/install-tasks.cmd": {
+  "dotnet": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Windows Task Scheduler task",
+      "evidence": [
+       {
+        "file": "nightly-export-cs/tasks/install-tasks.cmd",
+        "line": 3,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge"
+       }
+      ],
+      "id": "batch_job:b84be3d07278c9a9",
+      "kind": "job",
+      "machine": null,
+      "name": "WeeklyPurge",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "NightlyExport.exe"
+      ],
+      "schedule": "weekly on SUN at 03:00",
+      "scheduler": "windows-task",
+      "steps": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "nightly-export-cs/tasks/install-tasks.cmd",
+     "kind": "windows-task",
+     "line": 3,
+     "name": "WeeklyPurge",
+     "owner": "batch_job:b84be3d07278c9a9"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 3,
+     "kind": "script",
+     "line": 1,
+     "loc": 3,
+     "name": "install-tasks.cmd"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/App.config": {
+  "config": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:88f61a2eac7a2b06",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-winforms-vbnet/App.config"
+      ],
+      "target": "http://pricing.acme.local/PricingService.svc",
+      "type": "SOAP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:88f61a2eac7a2b06",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-winforms-vbnet/App.config"
+      ],
+      "target": "http://pricing.acme.local/PricingService.svc",
+      "type": "SOAP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:c139f5e3896f7a29",
+      "producers": [],
+      "protocol": "ado.net",
+      "purpose": null,
+      "source_files": [
+       "orders-winforms-vbnet/App.config"
+      ],
+      "target": "sqlserver://ORDSRV02\\SQL2008/ORDERS",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "binding": "basicHttpBinding",
+       "contract": "Pricing.IPricingService"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:88f61a2eac7a2b06",
+      "producers": [],
+      "protocol": "WCF",
+      "purpose": null,
+      "source_files": [
+       "orders-winforms-vbnet/App.config"
+      ],
+      "target": "http://pricing.acme.local/PricingService.svc",
+      "type": "SOAP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/MainForm.Designer.vb": {
+  "basic": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": 3,
+        "snippet": "Inherits System.Windows.Forms.Form"
+       }
+      ],
+      "fields_count": 4,
+      "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+      "id": "screen:669c4eca8985259c",
+      "name": "MainForm",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "winforms"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:e2de634d3d345a2a",
+      "name": "VB.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:1e209bdaed967cca",
+      "name": "Windows Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+     "kind": "dotnet-class",
+     "line": 1,
+     "name": "MainForm",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+     "kind": "desktop-form",
+     "line": 3,
+     "name": "MainForm",
+     "owner": "screen:669c4eca8985259c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 27,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     2061005724239770158,
+     1,
+     10
+    ],
+    [
+     6238389986281947052,
+     2,
+     11
+    ],
+    [
+     2717069196749800438,
+     3,
+     11
+    ],
+    [
+     7613654360025239123,
+     6,
+     11
+    ],
+    [
+     1791637390705053847,
+     8,
+     12
+    ],
+    [
+     4158021314158585010,
+     9,
+     13
+    ],
+    [
+     1433807964718148543,
+     10,
+     13
+    ],
+    [
+     1477302695094942720,
+     11,
+     14
+    ],
+    [
+     3244647313702304878,
+     12,
+     16
+    ],
+    [
+     4833849909099098722,
+     13,
+     18
+    ],
+    [
+     4425137653492526985,
+     14,
+     21
+    ],
+    [
+     1980064144327201416,
+     15,
+     23
+    ],
+    [
+     6723418628069749659,
+     16,
+     23
+    ],
+    [
+     5524856089975551400,
+     17,
+     24
+    ],
+    [
+     5752199649758694564,
+     18,
+     24
+    ],
+    [
+     5231439263243886838,
+     19,
+     25
+    ],
+    [
+     1329023551387947774,
+     21,
+     25
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/MainForm.vb": {
+  "basic": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 22,
+        "snippet": "Inherits Form"
+       }
+      ],
+      "fields_count": 0,
+      "file": "orders-winforms-vbnet/MainForm.vb",
+      "id": "screen:4ed839d73f3ef821",
+      "name": "OrderDetailForm",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "winforms"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:e2de634d3d345a2a",
+      "name": "VB.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:1e209bdaed967cca",
+      "name": "Windows Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "id": "tech:1e209bdaed967cca",
+      "name": "Windows Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "uses",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/MainForm.vb",
+     "source_label": "orders-winforms-vbnet/MainForm.vb",
+     "target": "OrderRepository",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "uses",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/MainForm.vb",
+     "source_label": "orders-winforms-vbnet/MainForm.vb",
+     "target": "OrderDetailForm",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "forwards",
+     "line": 17,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/MainForm.vb",
+     "source_label": "MainForm",
+     "target": "OrderDetailForm",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "uses",
+     "line": 24,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/MainForm.vb",
+     "source_label": "orders-winforms-vbnet/MainForm.vb",
+     "target": "TextBox",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "dotnet-class",
+     "line": 3,
+     "name": "MainForm",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "dotnet-class",
+     "line": 21,
+     "name": "OrderDetailForm",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/MainForm.vb",
+     "kind": "desktop-form",
+     "line": 22,
+     "name": "OrderDetailForm",
+     "owner": "screen:4ed839d73f3ef821"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 13,
+     "kind": "method",
+     "line": 7,
+     "loc": 7,
+     "name": "btnSearch_Click"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 18,
+     "kind": "method",
+     "line": 15,
+     "loc": 4,
+     "name": "gridOrders_CellDoubleClick"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 28,
+     "kind": "method",
+     "line": 26,
+     "loc": 3,
+     "name": "New"
+    }
+   ],
+   "windows": [
+    [
+     4337938808838885919,
+     1,
+     9
+    ],
+    [
+     6877832789567603179,
+     3,
+     10
+    ],
+    [
+     7590545226388289805,
+     5,
+     11
+    ],
+    [
+     4708884988015512386,
+     7,
+     12
+    ],
+    [
+     6275229146179687403,
+     8,
+     15
+    ],
+    [
+     5730907259967181917,
+     9,
+     15
+    ],
+    [
+     2433472572165933006,
+     10,
+     21
+    ],
+    [
+     6848452659048360367,
+     11,
+     22
+    ],
+    [
+     8870137598258425425,
+     12,
+     26
+    ],
+    [
+     8754636808642491754,
+     13,
+     26
+    ],
+    [
+     3550636647973203190,
+     15,
+     26
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/My Project/AssemblyInfo.vb": {
+  "basic": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/My Project/AssemblyInfo.vb",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:e2de634d3d345a2a",
+      "name": "VB.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/OrderRepository.vb": {
+  "basic": {
+   "coverage": {
+    "lines": 58,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 55,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:4d714aec61cd58da",
+      "producers": [],
+      "protocol": "File.AppendAllText",
+      "purpose": null,
+      "source_files": [
+       "orders-winforms-vbnet/OrderRepository.vb"
+      ],
+      "target": "\\\\fileserver\\orders\\archive.log",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [
+       "concatenation",
+       "conditional",
+       "string-builder",
+       "string-format",
+       "ternary"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 30,
+        "snippet": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @si"
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 8,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 16,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 17,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 19,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 23,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 25,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 27,
+        "snippet": null
+       }
+      ],
+      "file": "orders-winforms-vbnet/OrderRepository.vb",
+      "fingerprint": "4898230f98adfca5",
+      "fragments": 11,
+      "id": "sql:a30a7675778ff289",
+      "line": 30,
+      "normalized": "SELECT O.ORDER_ID, O.ORDER_DATE, C.NAME FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORDER_DATE >= @SINCE AND C.NAME LIKE ? AND O.STATUS = ? AND O.STATUS = ? ORDER BY O.ORDER_DATE",
+      "optional_fragments": 4,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMER",
+       "ORDERS"
+      ],
+      "text": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since AND c.NAME LIKE '?%' AND o.STATUS = 'O' AND o.STATUS = 'C' ORDER BY o.ORDER_DATE",
+      "type": "SELECT",
+      "value_holes": 1,
+      "variants": [
+       "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since ORDER BY o.ORDER_DATE",
+       "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since AND c.NAME LIKE '?%' AND o.STATUS = 'O' AND o.STATUS = 'C' ORDER BY c.NAME"
+      ],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 42,
+        "snippet": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @id"
+       }
+      ],
+      "file": "orders-winforms-vbnet/OrderRepository.vb",
+      "fingerprint": "0f9bd6747b34fe82",
+      "fragments": 1,
+      "id": "sql:dbaf56c9f1f35d5b",
+      "line": 42,
+      "normalized": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "dapper",
+      "structural_holes": 0,
+      "tables": [
+       "ORDER_LINE"
+      ],
+      "text": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @id",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "concatenation"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 52,
+        "snippet": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'"
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 47,
+        "snippet": null
+       },
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 48,
+        "snippet": null
+       }
+      ],
+      "file": "orders-winforms-vbnet/OrderRepository.vb",
+      "fingerprint": "f26d0084a2ec1a7e",
+      "fragments": 3,
+      "id": "sql:7e35f06e6f2b49c5",
+      "line": 52,
+      "normalized": "DELETE FROM ORDERS WHERE STATUS = ? AND ORDER_DATE < ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "ado.net",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'",
+      "type": "DELETE",
+      "value_holes": 1,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:e2de634d3d345a2a",
+      "name": "VB.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:121ee0f1f467877b",
+      "name": "ADO.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:41ee5840e9c2b0bd",
+      "name": "SQL Server",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "library",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4d1548115d5baa6a",
+      "name": "Dapper",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/OrderRepository.vb",
+     "kind": "uses",
+     "line": 12,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/OrderRepository.vb",
+     "source_label": "orders-winforms-vbnet/OrderRepository.vb",
+     "target": "SqlConnection",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/OrderRepository.vb",
+     "kind": "uses",
+     "line": 30,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/OrderRepository.vb",
+     "source_label": "orders-winforms-vbnet/OrderRepository.vb",
+     "target": "SqlCommand",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/OrderRepository.vb",
+     "kind": "uses",
+     "line": 32,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/OrderRepository.vb",
+     "source_label": "orders-winforms-vbnet/OrderRepository.vb",
+     "target": "DataTable",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/OrderRepository.vb",
+     "kind": "uses",
+     "line": 33,
+     "report_unresolved": false,
+     "source": "file:orders-winforms-vbnet/OrderRepository.vb",
+     "source_label": "orders-winforms-vbnet/OrderRepository.vb",
+     "target": "SqlDataAdapter",
+     "target_kinds": [
+      "vb-class",
+      "dotnet-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-winforms-vbnet/OrderRepository.vb",
+     "kind": "dotnet-class",
+     "line": 6,
+     "name": "OrderRepository",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 58,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "function",
+     "line": 11,
+     "loc": 3,
+     "name": "Connect"
+    },
+    {
+     "cyclomatic": 5,
+     "end_line": 38,
+     "kind": "function",
+     "line": 15,
+     "loc": 23,
+     "name": "Search"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 44,
+     "kind": "function",
+     "line": 40,
+     "loc": 5,
+     "name": "CountLines"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 56,
+     "kind": "method",
+     "line": 46,
+     "loc": 11,
+     "name": "Archive"
+    }
+   ],
+   "windows": [
+    [
+     7114581981417929430,
+     1,
+     13
+    ],
+    [
+     9218372828197011146,
+     2,
+     15
+    ],
+    [
+     4329176426869875709,
+     3,
+     15
+    ],
+    [
+     6775197391756759737,
+     4,
+     15
+    ],
+    [
+     8176122293421042438,
+     6,
+     15
+    ],
+    [
+     6546202905525766310,
+     8,
+     16
+    ],
+    [
+     4395174966582218808,
+     9,
+     17
+    ],
+    [
+     7526895018044848490,
+     11,
+     17
+    ],
+    [
+     8223547218653133038,
+     12,
+     18
+    ],
+    [
+     5871228969254242548,
+     13,
+     19
+    ],
+    [
+     3004510263659058972,
+     15,
+     20
+    ],
+    [
+     8337808826587533322,
+     16,
+     25
+    ],
+    [
+     6276454824139024447,
+     17,
+     27
+    ],
+    [
+     3912646075542619036,
+     18,
+     27
+    ],
+    [
+     476824980540766976,
+     19,
+     27
+    ],
+    [
+     4517808919915621533,
+     20,
+     30
+    ],
+    [
+     7061222064930796692,
+     21,
+     30
+    ],
+    [
+     4507790600687806585,
+     22,
+     30
+    ],
+    [
+     8694650177878546020,
+     23,
+     30
+    ],
+    [
+     8555719206468410248,
+     24,
+     31
+    ],
+    [
+     417188809011663,
+     25,
+     31
+    ],
+    [
+     7134647140056240235,
+     26,
+     32
+    ],
+    [
+     937139628137698737,
+     27,
+     32
+    ],
+    [
+     8316963773739694848,
+     29,
+     34
+    ],
+    [
+     490956276524404802,
+     30,
+     37
+    ],
+    [
+     1558610559695778994,
+     31,
+     41
+    ],
+    [
+     4182863329878111482,
+     32,
+     42
+    ],
+    [
+     64331053613553875,
+     33,
+     42
+    ],
+    [
+     4438435635627591157,
+     34,
+     42
+    ],
+    [
+     1193252917699736414,
+     35,
+     46
+    ],
+    [
+     4806926326489247219,
+     36,
+     46
+    ],
+    [
+     3355154841707763589,
+     37,
+     46
+    ],
+    [
+     73382065108368602,
+     38,
+     46
+    ],
+    [
+     7640774630770737917,
+     40,
+     47
+    ],
+    [
+     934240072443671556,
+     41,
+     48
+    ],
+    [
+     8145986210798315912,
+     42,
+     48
+    ],
+    [
+     4508999088499333281,
+     43,
+     51
+    ],
+    [
+     6167732643509560506,
+     44,
+     52
+    ],
+    [
+     1253383269713990434,
+     46,
+     52
+    ],
+    [
+     7121478847782112049,
+     47,
+     54
+    ],
+    [
+     8142554884287877631,
+     48,
+     55
+    ],
+    [
+     3270144143358888195,
+     49,
+     57
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "windows-path",
+     55,
+     "\"\\\\fileserver\\orders\\archive.log\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/OrdersDesk.vbproj": {
+  "dotnet": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 6,
+        "snippet": "OutputType WinExe"
+       }
+      ],
+      "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+      "id": "entry:1604be2a25d0da89",
+      "kind": "desktop-app",
+      "line": 6,
+      "name": "OrdersDesk"
+     }
+    ],
+    "libraries": [
+     {
+      "artifact": "Dapper",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:d70b59bb9201b671",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "1.50.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-winforms-vbnet/OrdersDesk.vbproj"
+      ]
+     },
+     {
+      "artifact": "log4net",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:8e4dbd90055431ca",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.0.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-winforms-vbnet/OrdersDesk.vbproj"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:e2de634d3d345a2a",
+      "name": "VB.NET",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a902176eaee1646c",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.5.2"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:1e209bdaed967cca",
+      "name": "Windows Forms",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-winforms-vbnet/packages.config": {
+  "dotnet": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "Dapper",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:d70b59bb9201b671",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "1.50.2",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-winforms-vbnet/packages.config"
+      ]
+     },
+     {
+      "artifact": "log4net",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:8e4dbd90055431ca",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "2.0.8",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-winforms-vbnet/packages.config"
+      ]
+     },
+     {
+      "artifact": "Newtonsoft.Json",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:57c2d4acba024daa",
+      "language": "dotnet",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": null,
+      "source": "nuget",
+      "version": "9.0.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-winforms-vbnet/packages.config"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a902176eaee1646c",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.5.2"
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a902176eaee1646c",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.5.2"
+     },
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a902176eaee1646c",
+      "name": ".NET Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": "4.5.2"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}
