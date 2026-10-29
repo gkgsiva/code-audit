@@ -982,3 +982,19 @@ audits folder, scan, follow the scan on Status, read Logs, and set everything on
     `BUILD_PROXY` and `RUN_PROXY` in `.env`, the company certificate in `docker/certs/`, the
     company mirrors, or `WITH_SYSTEM_PACKAGES=false` to get running now. Send `build.log` if it
     still fails.
+
+## Development history, one line per pull request
+
+1. Open `docs/history.md` (**Ctrl+Shift+V** for the preview): one dated line for every pull
+   request from #1, plus the plan and the presentation templates.
+2. To see the same lines as commits, open **Terminal > New Terminal** (on WSL2 the Ubuntu
+   terminal in `~/code-audit`) and run:
+
+   ```bash
+   git fetch origin office-history
+   git log --oneline origin/office-history
+   ```
+
+   It prints one commit per line of `docs/history.md`, newest first. The last commit there has
+   exactly the same files as `office-main` (`git diff origin/office-history origin/office-main`
+   prints nothing once this change is merged).
