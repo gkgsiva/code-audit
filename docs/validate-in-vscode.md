@@ -147,3 +147,30 @@ tool.
    as **siva**, open your project and click **Full rescan**. When it is **done**, the
    `Analyzers:` line in the log also counts these new kinds of files when the project has them.
 
+## Phase 4: web, front-end and desktop analyzers
+
+What is new: the scan now also reads web service definitions (WSDL, Axis, JAX-WS, CXF), .NET
+project, solution and configuration files, VB6 and VB.NET (forms and their controls), C#
+(Windows Forms, WPF, ASP.NET, WCF, Entity Framework) and TypeScript/JavaScript (Angular,
+AngularJS, Node.js with Express or NestJS). With this phase every analyzer of the Python tool
+is ported except `metrics` and `patterns`, which come with Phase 5. The results are checked
+against the earlier Python tool.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (64 tests). The first run downloads one new library (the TSX grammar); that needs the
+   internet or your company's Maven mirror, like the first build did.
+3. Run **`audit: 8. compare the analyzers with the Python tool`**. It ends with
+   `Tests run: 32, Failures: 0` and `BUILD SUCCESS`.
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **angular-node-app**. Below
+   the files line it prints
+   `analyzers: config 14 files, deps 10 files, dotnet 9 files, servers 12 files, spring 9 files, typescript 28 files, web 10 files, webservices 9 files`.
+   Run it again with **desktop-dotnet-app**:
+   `analyzers: basic 10 files, config 4 files, csharp 15 files, dotnet 22 files, servers 2 files, shell 1 file, spring 3 files, webservices 4 files`.
+   With **web-services-app** the line includes `webservices 8 files`. The other samples now
+   also list `dotnet` and `webservices` (they read the XML configuration files too, as in the
+   Python tool).
+5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva**, open your project and click **Full rescan**. When it is **done**, the
+   `Analyzers:` line in the log also counts these new kinds of files when the project has them.
