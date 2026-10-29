@@ -51,14 +51,14 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 | 9 | `csharp` | | C# | | 4 |
 | 10 | `spring` | `SpringAnalyzer` | Spring XML, MyBatis/iBATIS/Hibernate mappings | beans, URL mappings, JMS/MQ wiring, remoting, SQL from mappings | 2, done |
 | 11 | `sql` | `SqlAnalyzer` | `.sql`, PL/SQL packages, DDL | SQL statements, tables, procedures, database objects | 2, done |
-| 12 | `shell` | | shell scripts, crontab | | 3 |
-| 13 | `c_cpp` | | C, C++ | | 3 |
-| 14 | `proc` | | Pro*C | | 3 |
-| 15 | `cobol` | | COBOL, copybooks | | 3 |
-| 16 | `jcl` | | JCL | | 3 |
-| 17 | `autosys` | | Autosys JIL | | 3 |
-| 18 | `mq` | | IBM MQ definitions | | 3 |
-| 19 | `cft` | | CFT configuration | | 3 |
+| 12 | `shell` | `ShellAnalyzer` | sh/ksh/bash, Windows batch, Perl and Python scripts, crontab | scripts and programs called, database client calls with their inline SQL, file transfers and mail (`ftp`, `sftp`, `scp`, `curl`, `mailx`, `CFTUTIL`), cron entries as batch jobs | 3, done |
+| 13 | `c_cpp` | `CAnalyzer` | C, C++ (tree-sitter) | functions, `main()` services, includes, calls, `system()`/`exec` commands, files, sockets, MQI, libcurl/gSOAP calls, SQL at ODBC/OCI/libpq/MySQL/SQLite calls and in buffers (`CSql`) | 3, done |
+| 14 | `proc` | `ProcAnalyzer` | Pro*C (`.pc`) | the C facts (with `EXEC SQL` blanked) plus embedded SQL; `PREPARE ... FROM :buf` rebuilt from the C | 3, done |
+| 15 | `cobol` | `CobolAnalyzer` | COBOL, Pro*COBOL, copybooks, BMS maps | programs and CICS transactions, `CALL`/`COPY`, embedded SQL (`CobolSql` rebuilds dynamic SQL), CICS maps, links, files and web calls, `SELECT ... ASSIGN` files, MQI queues, BMS screens | 3, done |
+| 16 | `jcl` | `JclAnalyzer` | z/OS JCL | batch jobs with steps, `EXEC PGM=` and procedure calls, DD datasets, in-stream procedures, DB2 `RUN PROGRAM` | 3, done |
+| 17 | `autosys` | `AutosysAnalyzer` | Autosys JIL | batch jobs, boxes and file watchers, condition predecessors, the commands they run (read like a script line) | 3, done |
+| 18 | `mq` | `MqAnalyzer` | IBM MQ MQSC exports | queues and channels with their queue manager | 3, done |
+| 19 | `cft` | `CftAnalyzer` | Axway CFT configuration exports | partners (`CFTPART`), send and receive flows, also from `CFTUTIL` calls in scripts | 3, done |
 | 20 | `servers` | `ServersAnalyzer` | app server and web server files | which servers the app is built for or runs on | 2, done |
 | 21 | `webservices` | | WSDL, OpenAPI, SOAP/REST definitions | | 4 |
 | 22 | `metrics` | | every source file | units, duplication windows | 5 |
@@ -71,6 +71,9 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 | `SqlTools` | Finding SQL in strings (`looksLikeSql`, `looksLikeHql`), normalising and fingerprinting it, statement type, vendor features, tables (`parseTables`), splitting scripts into statements, and building the `sql_statements` fact (`sqlFact`) |
 | `SqlParse` | The tables of one statement with JSqlParser, made to answer like the Python tool's sqlglot (dialect rules, `?` placeholders, `RETURNING`, `INSERT ALL`); caches the last 4096 statements |
 | `DynSql` | Rebuilding SQL that code assembles at run time: string concatenation, `StringBuilder.append`, `String.format`/`sprintf`, ternaries and branch-only assignments. A `Built` value tracks the text, the always-present part, the run-time holes (`?`, value or structural) and alternative texts; `fill` copies that onto the statement fact |
+| `Embedded` | `EXEC SQL` blocks in C (`;`) and COBOL (`END-EXEC`): statements, `INCLUDE` members, PL/SQL blocks, `PREPARE`/`EXECUTE IMMEDIATE` from host variables; blanking the blocks so the host language can be read |
+| `CobolSql`, `CSql` | Following the text that COBOL (`MOVE`, `STRING`, `VALUE`) and C (`strcpy`, `strcat`, `sprintf`, assignments, `#define`) put into buffers, for dynamic SQL; `CSql` also lists database API call sites |
+| `PyShlex` | Python's `shlex.split` (used by the shell analyzer to split command lines) |
 | `Integrations` | Integration facts (JDBC URLs, hosts, queues), URL classification, masking of user names and passwords |
 | `WebSvc` | Web service facts: services offered and calls to other systems (REST/SOAP) |
 | `Xml` | XML read as the Python tool read it: no DTD download, namespaces dropped from tag names, a line number on every element |
@@ -79,7 +82,7 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 
 ## tree-sitter (`analyzers.ts`)
 
-Java (and in later phases C, C++, C# and TypeScript) is parsed with tree-sitter, the same
+Java, C and C++ (and in Phase 4 C# and TypeScript) are parsed with tree-sitter, the same
 parser and grammar versions as the Python tool, through the `io.github.bonede` bindings, whose
 jars contain the native libraries for Windows, Linux and macOS.
 

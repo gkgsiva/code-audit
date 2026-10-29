@@ -112,7 +112,8 @@ list how many files each analyzer read.
    the files line it now prints
    `analyzers: build 1 file, config 7 files, deps 5 files, java 11 files, servers 11 files, spring 3 files, sql 4 files, web 9 files`.
    Run it again with **spring-mvc-batch-app**: `build 4 files, config 8 files, java 11 files,
-   servers 12 files, spring 6 files, web 6 files`.
+   servers 12 files, spring 6 files, web 6 files` (from Phase 3 on the line also lists the
+   `autosys`, `mq` and `shell` files).
 5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
    as **siva**, open your project and click **Full rescan**. When it is **done**, the log shows a
    line starting with `Analyzers:` with the same kind of counts.
@@ -122,3 +123,27 @@ list how many files each analyzer read.
    `explorer.exe "$(wslpath -w backend/target/reports/apidocs/index.html)"`). It lists every package and class
    with its description. The guides per module are in `docs/developer/` (start with
    `docs/developer/README.md`).
+
+## Phase 3: mainframe, C and batch analyzers
+
+What is new: the scan now also reads COBOL programs and copybooks (with CICS and BMS screens),
+JCL, C, C++ and Pro*C, the SQL inside COBOL, C and Pro*C, shell scripts and crontabs, Autosys
+jobs, IBM MQ definitions and CFT transfers. The results are checked against the earlier Python
+tool.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (59 tests).
+3. Run **`audit: 8. compare the analyzers with the Python tool`**. It ends with
+   `Tests run: 27, Failures: 0` and `BUILD SUCCESS`.
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **c-proc-batch**. Below the
+   files line it prints
+   `analyzers: build 1 file, c_cpp 3 files, cft 1 file, proc 1 file, servers 2 files, shell 3 files, sql 1 file`.
+   Run it again with **cobol-cics-db2**: `analyzers: cobol 8 files, jcl 2 files, sql 1 file`.
+   With **spring-mvc-batch-app** the line now also has `autosys 1 file`, `mq 1 file` and
+   `shell 1 file`, and with **struts-oracle-app** `shell 1 file`.
+5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva**, open your project and click **Full rescan**. When it is **done**, the
+   `Analyzers:` line in the log also counts these new kinds of files when the project has them.
+

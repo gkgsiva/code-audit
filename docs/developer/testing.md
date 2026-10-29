@@ -12,7 +12,7 @@ and starts the three containers to check health and a login.
 | audit-engine | `RulesParityTest` | Ignore rules, languages, categories, line counts, encodings equal Python's (`parity/rules.json`) |
 | audit-engine | `ParityTest` | Each of the 10 samples: `inventory.json` byte for byte, components, coverage findings and input coverage equal Python's |
 | audit-engine | `AnalyzerParityTest` | Each sample file: every ported analyzer returns the same facts as Python (`parity/<sample>/analyzers.json`) |
-| audit-engine | `CaseParityTest` | Each ported analyzer on the cases recorded from Python (`parity/cases/<analyzer>.json.gz`, 2,000+ for Phase 2) |
+| audit-engine | `CaseParityTest` | Each ported analyzer on the cases recorded from Python (`parity/cases/<analyzer>.json.gz`, 2,000+ for Phase 2, 1,100+ more for Phase 3) |
 | audit-engine | `SqlToolsParityTest` | SQL helpers on 1,458 statements (`parity/sqltools.json.gz`) |
 | audit-engine | `ProofsTest` | The Phase 0 parser proofs |
 | audit-cli | `MainTest` | The `version` command and a clear error for a missing samples folder |

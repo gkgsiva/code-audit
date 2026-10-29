@@ -137,19 +137,20 @@ public final class JavaAnalyzer implements Analyzer {
         facts.coverage.lines = TextUtil.lineCount(text);
         TsNode root = TsTree.parse(PARSER.get(), text);
         if (root.hasError) {
-            errors(root, facts);
+            errors(root, facts, "Java");
         }
         new Visitor(file, ctx, facts).run(root);
         return facts;
     }
 
-    static void errors(TsNode root, Facts facts) {
+    /** One coverage gap per syntax error ({@code label}: the language, as in "Java syntax error"). */
+    static void errors(TsNode root, Facts facts, String label) {
         Deque<TsNode> stack = new ArrayDeque<>();
         stack.push(root);
         while (!stack.isEmpty()) {
             TsNode n = stack.pop();
             if (n.type.equals("ERROR") || n.missing) {
-                facts.coverage.gap(n.startRow + 1, n.endRow + 1, "Java syntax error");
+                facts.coverage.gap(n.startRow + 1, n.endRow + 1, label + " syntax error");
                 continue;
             }
             if (n.hasError) {

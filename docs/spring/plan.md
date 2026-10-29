@@ -47,11 +47,11 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 | Language or feature | Python today | Java choice |
 | --- | --- | --- |
 | Java, Spring, Struts, Swing code | tree-sitter-java | tree-sitter-java, the same grammar (decision 208; JavaParser was the first choice) |
-| C, C++, Pro*C host code | tree-sitter-c / -cpp | tree-sitter (tree-sitter-ng bindings, native libraries inside the jars) |
+| C, C++, Pro*C host code | tree-sitter-c / -cpp | tree-sitter (tree-sitter-ng bindings, native libraries inside the jars); done in Phase 3 (decision 214) |
 | C# | tree-sitter-c-sharp | tree-sitter (tree-sitter-ng) |
 | TypeScript, Angular, AngularJS, Node | tree-sitter-typescript | tree-sitter (tree-sitter-ng) |
 | SQL files, embedded and dynamic SQL | sqlglot | JSqlParser, after the same rewrites and with the same text fallback |
-| COBOL, JCL, shell, Autosys JIL, IBM MQ, CFT, VB6, VB.NET | own text rules | the same rules ported to Java |
+| COBOL, JCL, shell, Autosys JIL, IBM MQ, CFT, VB6, VB.NET | own text rules | the same rules ported to Java (all but VB in Phase 3) |
 | XML (Spring, Struts, web.xml, WSDL, .csproj, servers) | ElementTree | JDK StAX / DOM |
 | Maven pom.xml | own reader | maven-model |
 | YAML and JSON | PyYAML, json | Jackson |
