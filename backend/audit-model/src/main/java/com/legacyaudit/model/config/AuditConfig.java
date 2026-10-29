@@ -31,6 +31,17 @@ public record AuditConfig(
 
     public record Application(String name, String description, String owner) {}
 
+    /** A setting of a section that is not typed yet, from {@link #dump()} (null when absent). */
+    public Object setting(String section, String key) {
+        return dump.get(section) instanceof Map<?, ?> m ? m.get(key) : null;
+    }
+
+    /** {@code sql.dialect}: the database the application's SQL is written for. */
+    public String sqlDialect() {
+        Object d = setting("sql", "dialect");
+        return d == null ? "oracle" : d.toString();
+    }
+
     /** Where the code is: folders on disk or Git repositories. */
     public sealed interface Source permits LocalSource, GitSource {}
 

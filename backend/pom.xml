@@ -31,6 +31,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <javaparser.version>3.27.0</javaparser.version>
     <tree-sitter.version>0.26.6</tree-sitter.version>
+    <tree-sitter-java.version>0.23.5</tree-sitter-java.version>
     <tree-sitter-c.version>0.24.1</tree-sitter-c.version>
     <tree-sitter-cpp.version>0.23.4</tree-sitter-cpp.version>
     <tree-sitter-c-sharp.version>0.23.1</tree-sitter-c-sharp.version>
@@ -76,6 +77,11 @@
         <groupId>io.github.bonede</groupId>
         <artifactId>tree-sitter</artifactId>
         <version>${tree-sitter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-java</artifactId>
+        <version>${tree-sitter-java.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.bonede</groupId>

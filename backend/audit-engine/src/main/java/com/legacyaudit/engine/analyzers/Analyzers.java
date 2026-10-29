@@ -20,7 +20,9 @@ public final class Analyzers {
     public static List<Analyzer> registered() {
         return List.of(
                 new BuildAnalyzer(),
-                new DepsAnalyzer());
+                new DepsAnalyzer(),
+                new ConfigAnalyzer(),
+                new SqlAnalyzer());
     }
 
     /** {@code inventory=<v>;<name>=<version>;...} by name: part of the file-cache key. */
@@ -46,7 +48,7 @@ public final class Analyzers {
         try {
             return a.analyze(rec, ctx);
         } catch (Exception | StackOverflowError err) {
-            String type = err.getClass().getSimpleName();
+            String type = err instanceof PyError pe ? pe.type() : err.getClass().getSimpleName();
             synchronized (warnings) {
                 warnings.add("Analyzer " + a.name() + " failed on " + rec.path + ": " + type + ": " + err.getMessage());
             }

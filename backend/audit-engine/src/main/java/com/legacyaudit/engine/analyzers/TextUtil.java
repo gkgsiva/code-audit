@@ -145,7 +145,51 @@ public final class TextUtil {
 
     /** Python's {@code str.strip()} with no argument: Unicode whitespace. */
     public static String strip(String s) {
-        return s.strip();
+        int a = 0;
+        int b = s.length();
+        while (a < b && isSpace(s.charAt(a))) {
+            a++;
+        }
+        while (b > a && isSpace(s.charAt(b - 1))) {
+            b--;
+        }
+        return s.substring(a, b);
+    }
+
+    public static String lstrip(String s) {
+        int a = 0;
+        while (a < s.length() && isSpace(s.charAt(a))) {
+            a++;
+        }
+        return s.substring(a);
+    }
+
+    public static String rstrip(String s) {
+        int b = s.length();
+        while (b > 0 && isSpace(s.charAt(b - 1))) {
+            b--;
+        }
+        return s.substring(0, b);
+    }
+
+    /** Python's {@code str.isspace()} for one character. */
+    public static boolean isSpace(char c) {
+        return (c >= '\t' && c <= '\r') || (c >= '\u001c' && c <= ' ') || c == '\u0085' || c == '\u00a0' || c == '\u1680'
+                || (c >= '\u2000' && c <= '\u200a') || c == '\u2028' || c == '\u2029' || c == '\u202f' || c == '\u205f'
+                || c == '\u3000';
+    }
+
+    /** Python's {@code str.isdigit()} (ASCII and other decimal digits), false when empty. */
+    public static boolean isDigits(String s) {
+        if (s.isEmpty()) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            if (!Character.isDigit(s.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** {@code s.rsplit(sep, 1)[-1]}. */
@@ -175,9 +219,17 @@ public final class TextUtil {
     /** Python's {@code str.split()} with no argument. */
     public static List<String> words(String s) {
         List<String> out = new ArrayList<>();
-        for (String w : s.strip().split("\\s+")) {
-            if (!w.isEmpty()) {
-                out.add(w);
+        int i = 0;
+        while (i < s.length()) {
+            while (i < s.length() && isSpace(s.charAt(i))) {
+                i++;
+            }
+            int start = i;
+            while (i < s.length() && !isSpace(s.charAt(i))) {
+                i++;
+            }
+            if (i > start) {
+                out.add(s.substring(start, i));
             }
         }
         return out;
@@ -205,12 +257,12 @@ public final class TextUtil {
         return s != null && !s.isEmpty();
     }
 
-    /** {@code a or b} for strings. */
     /** Python's {@code str(value)} in an f-string: None prints as "None". */
     public static String py(Object value) {
         return value == null ? "None" : value.toString();
     }
 
+    /** {@code a or b} for strings. */
     public static String or(String a, String b) {
         return truthy(a) ? a : b;
     }
