@@ -1,0 +1,20 @@
+<header class="top">
+  <strong>legacy-audit</strong>
+  <span class="who">
+    {{ auth.me()?.name }} ({{ auth.me()?.role }})
+    <button type="button" class="btn" (click)="logout()">Log out</button>
+  </span>
+</header>
+<main class="page">
+  <section class="panel">
+    <h1>Welcome, {{ auth.me()?.name }}</h1>
+    <p class="lead">This is the new Spring Boot and Angular version of legacy-audit. Projects, scans and reports arrive in the next phases.</p>
+    @if (health(); as h) {
+      <table class="status">
+        <tr><th>Version</th><td>{{ h.version }}</td></tr>
+        <tr><th>Backend</th><td class="ok">{{ h.status }}</td></tr>
+        <tr><th>Database</th><td [class.ok]="h.database === 'up'" [class.error-text]="h.database !== 'up'">{{ h.database }}</td></tr>
+      </table>
+    }
+  </section>
+</main>

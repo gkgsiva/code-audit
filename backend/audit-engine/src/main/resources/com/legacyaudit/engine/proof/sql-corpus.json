@@ -1,0 +1,1079 @@
+[
+ {
+  "sample": "angular-node-app",
+  "file": "billing-api/src/invoices/invoices.service.ts",
+  "line": 10,
+  "source": "prisma",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "SELECT FROM INVOICE",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "billing-api/src/invoices/invoices.service.ts",
+  "line": 14,
+  "source": "prisma",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "SELECT FROM INVOICE",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "billing-api/src/invoices/invoices.service.ts",
+  "line": 18,
+  "source": "prisma",
+  "dialect": "hql",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "INSERT INTO INVOICE",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "billing-api/src/invoices/invoices.service.ts",
+  "line": 24,
+  "source": "node-db",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE INVOICES SET STATUS = ? WHERE STATUS = ? AND ISSUED_AT < DATE_TRUNC(?, NOW())",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/jobs/nightly.ts",
+  "line": 6,
+  "source": "node-db",
+  "dialect": "oracle",
+  "type": "DELETE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "DELETE FROM ORDER_AUDIT WHERE CREATED_AT < NOW() - INTERVAL ?",
+  "tables": [
+   "ORDER_AUDIT"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/routes/customers.ts",
+  "line": 8,
+  "source": "node-db",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT C.ID, C.NAME, C.SEGMENT FROM CUSTOMERS C WHERE C.ID = $1",
+  "tables": [
+   "CUSTOMERS"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/services/order.service.ts",
+  "line": 11,
+  "source": "typeorm",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "SELECT FROM ORDER",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/services/order.service.ts",
+  "line": 15,
+  "source": "typeorm",
+  "dialect": "hql",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "INSERT INTO ORDER",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/services/order.service.ts",
+  "line": 24,
+  "source": "typeorm",
+  "dialect": "hql",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "UPDATE ORDER",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "angular-node-app",
+  "file": "orders-api/src/services/order.service.ts",
+  "line": 29,
+  "source": "node-db",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT O.ID, O.STATUS, O.TOTAL, C.NAME FROM ORDERS O JOIN CUSTOMERS C ON C.ID = O.CUSTOMER_ID WHERE O.STATUS = $1 ORDER BY O.ID DESC",
+  "tables": [
+   "CUSTOMERS",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "scripts/run_settlement.ksh",
+  "line": 13,
+  "source": "script",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT MERCHANT_ID || ? || TO_CHAR(AMOUNT, ?) FROM SETTLEMENT_LINES WHERE RUN_DATE = TO_DATE(?, ?)",
+  "tables": [
+   "SETTLEMENT_LINES"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "sql/settle_report.sql",
+  "line": 5,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT M.MERCHANT_NAME, L.AMOUNT, DECODE(L.STATUS, ?, ?, ?) AS STATUS FROM SETTLEMENT_LINES L, MERCHANTS M WHERE L.MERCHANT_ID = M.MERCHANT_ID (+) AND L.RUN_DATE = TO_DATE(?, ?)",
+  "tables": [
+   "MERCHANTS",
+   "SETTLEMENT_LINES"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "src/settle_load.pc",
+  "line": 18,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "DECLARE TXN_CUR CURSOR FOR SELECT T.MERCHANT_ID, SUM(T.AMOUNT) FROM CARD_TRANSACTIONS T, MERCHANTS M WHERE T.MERCHANT_ID = M.MERCHANT_ID AND T.TXN_DATE = TO_DATE(?, ?) AND M.STATUS = ? GROUP BY T.MERCHANT_ID",
+  "tables": [
+   "CARD_TRANSACTIONS",
+   "MERCHANTS"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "src/settle_load.pc",
+  "line": 34,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO SETTLEMENT_LINES (MERCHANT_ID, RUN_DATE, AMOUNT, CREATED_ON) VALUES (?, TO_DATE(?, ?), ?, SYSDATE)",
+  "tables": [
+   "SETTLEMENT_LINES"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "src/settle_load.pc",
+  "line": 45,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "CALL",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "CALL PKG_SETTLEMENT.CLOSE_DAY",
+  "tables": []
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "src/settle_load.pc",
+  "line": 46,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE SETTLEMENT_RUNS SET STATUS = ? WHERE RUN_DATE = TO_DATE(?, ?)",
+  "tables": [
+   "SETTLEMENT_RUNS"
+  ]
+ },
+ {
+  "sample": "c-proc-batch",
+  "file": "src/settle_load.pc",
+  "line": 59,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "DELETE",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "DELETE FROM ? WHERE RUN_DATE < ADD_MONTHS(SYSDATE, -?) AND STATUS <> ?",
+  "tables": []
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDBATCH.cbl",
+  "line": 22,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE",
+  "tables": [
+   "SHIPMENTS"
+  ]
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDBATCH.cbl",
+  "line": 40,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE ORDERS SET ORD_STATUS = ? WHERE ORD_ID = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDINQ.cbl",
+  "line": 25,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT O.ORD_AMOUNT, C.CUST_NAME INTO ?, ? FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ? WITH UR",
+  "tables": [
+   "CUSTOMER",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDRPT.cbl",
+  "line": 27,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT SUM(ORD_AMOUNT) INTO ? FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST ? ROW ONLY",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDRPT.cbl",
+  "line": 51,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = ? ORDER BY ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "cobol-cics-db2",
+  "file": "cobol/ORDVAL.cbl",
+  "line": 14,
+  "source": "embedded",
+  "dialect": "db2",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(*) INTO ? FROM ORDERS WHERE ORD_ID = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-api-cs/Controllers/InvoicesController.cs",
+  "line": 19,
+  "source": "dapper",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @ID",
+  "tables": [
+   "INVOICE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-api-cs/Controllers/InvoicesController.cs",
+  "line": 27,
+  "source": "dapper",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CUSTID, @AMOUNT, ?)",
+  "tables": [
+   "INVOICE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+  "line": 15,
+  "source": "dapper",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE INVOICE SET STATUS = ? WHERE DUE_DATE < GETDATE() AND STATUS = ?",
+  "tables": [
+   "INVOICE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-desk-vb6/clsInvoice.cls",
+  "line": 24,
+  "source": "ado",
+  "dialect": "oracle",
+  "type": "CALL",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "CALL USP_OPENINVOICES",
+  "tables": []
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-desk-vb6/frmCustomer.frm",
+  "line": 34,
+  "source": "dao",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+  "tables": [
+   "REGION"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-desk-vb6/frmCustomer.frm",
+  "line": 62,
+  "source": "ado",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE ? = ? AND CUST_NAME LIKE ? AND CITY = ? AND STATUS = ? ORDER BY ?",
+  "tables": [
+   "CUSTOMER"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-desk-vb6/frmCustomer.frm",
+  "line": 74,
+  "source": "vb-string",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = ?",
+  "tables": [
+   "CUSTOMER"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "billing-desk-vb6/modDb.bas",
+  "line": 28,
+  "source": "ado",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+  "tables": [
+   "AUDIT_LOG"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Data/StockRepository.cs",
+  "line": 24,
+  "source": "dapper",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT S.ID, S.SKU, S.QUANTITY FROM STOCK_ITEM S JOIN WAREHOUSE W ON W.ID = S.WAREHOUSE_ID WHERE ? = ? AND S.SKU LIKE ? AND W.NAME = @WAREHOUSE",
+  "tables": [
+   "STOCK_ITEM",
+   "WAREHOUSE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Data/StockRepository.cs",
+  "line": 32,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "UPDATE STOCK_ITEM SET REORDER = ? WHERE QUANTITY < ? AND DISCONTINUED = ?",
+  "tables": [
+   "STOCK_ITEM"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Data/StockRepository.cs",
+  "line": 43,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "CALL",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "CALL DBO.USP_STOCKREPORT",
+  "tables": []
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Data/StockRepository.cs",
+  "line": 44,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT * FROM STOCK_ITEM ORDER BY ?",
+  "tables": [
+   "STOCK_ITEM"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+  "line": 17,
+  "source": "entity-framework",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "SELECT FROM STOCKITEMS",
+  "tables": [
+   "STOCK_ITEM"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+  "line": 20,
+  "source": "entity-framework",
+  "dialect": "hql",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": false,
+  "text": "INSERT INTO STOCKITEMS",
+  "tables": [
+   "STOCK_ITEM"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "legacy-webforms/Default.aspx",
+  "line": 9,
+  "source": "aspx-datasource",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+  "tables": [
+   "CRM_REGION"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "legacy-webforms/Default.aspx.cs",
+  "line": 15,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE ?",
+  "tables": [
+   "CRM_CONTACT"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "nightly-export-cs/Program.cs",
+  "line": 17,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = ?",
+  "tables": [
+   "INVOICE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "orders-winforms-vbnet/OrderRepository.vb",
+  "line": 30,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT O.ORDER_ID, O.ORDER_DATE, C.NAME FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORDER_DATE >= @SINCE AND C.NAME LIKE ? AND O.STATUS = ? AND O.STATUS = ? ORDER BY O.ORDER_DATE",
+  "tables": [
+   "CUSTOMER",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "orders-winforms-vbnet/OrderRepository.vb",
+  "line": 42,
+  "source": "dapper",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @ID",
+  "tables": [
+   "ORDER_LINE"
+  ]
+ },
+ {
+  "sample": "desktop-dotnet-app",
+  "file": "orders-winforms-vbnet/OrderRepository.vb",
+  "line": 52,
+  "source": "ado.net",
+  "dialect": "oracle",
+  "type": "DELETE",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "DELETE FROM ORDERS WHERE STATUS = ? AND ORDER_DATE < ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "java-swing-app",
+  "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+  "line": 15,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE ? AND BRANCH = ?",
+  "tables": [
+   "CUSTOMER"
+  ]
+ },
+ {
+  "sample": "legacy-layout-app",
+  "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+  "line": 16,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO INVOICES (CUSTOMER_ID, AMOUNT) SELECT CUSTOMER_ID, SUM(AMOUNT) FROM USAGE_RECORDS GROUP BY CUSTOMER_ID",
+  "tables": [
+   "INVOICES",
+   "USAGE_RECORDS"
+  ]
+ },
+ {
+  "sample": "legacy-layout-app",
+  "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+  "line": 14,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORDER_ID FROM ORDERS WHERE CUSTOMER_ID = ? AND STATUS = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "legacy-layout-app",
+  "file": "settlement-c/src/settle.pc",
+  "line": 8,
+  "source": "embedded",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE PAYMENTS SET STATUS = ? WHERE STATUS = ?",
+  "tables": [
+   "PAYMENTS"
+  ]
+ },
+ {
+  "sample": "maven-multimodule-app",
+  "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+  "line": 16,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT ID, NAME FROM CUSTOMER WHERE ID = ?",
+  "tables": [
+   "CUSTOMER"
+  ]
+ },
+ {
+  "sample": "maven-multimodule-app",
+  "file": "ops/batch/eod/sql/eod_close.sql",
+  "line": 2,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE BUSINESS_DAY SET STATUS = ? WHERE STATUS = ?",
+  "tables": [
+   "BUSINESS_DAY"
+  ]
+ },
+ {
+  "sample": "maven-multimodule-app",
+  "file": "ops/batch/eod/sql/eod_report.sql",
+  "line": 2,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(*) FROM ORDERS WHERE ORDER_DATE >= TRUNC(SYSDATE)",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "maven-multimodule-app",
+  "file": "ops/batch/purge/purge.sql",
+  "line": 2,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "DELETE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "DELETE FROM AUDIT_LOG WHERE CREATED < SYSDATE - ?",
+  "tables": [
+   "AUDIT_LOG"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+  "line": 20,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO INVOICES (INVOICE_ID, CUSTOMER_ID, AMOUNT, STATUS, DUE_DATE) VALUES (INVOICES_SEQ.NEXTVAL, ?, ?, ?, ADD_MONTHS(SYSDATE, ?))",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+  "line": 23,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO INVOICE_AUDIT (CUSTOMER_ID, CREATED_ON) VALUES (?, SYSDATE)",
+  "tables": [
+   "INVOICE_AUDIT"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+  "line": 18,
+  "source": "spring-xml",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT CUSTOMER_ID, SUM(UNITS * RATE) AS AMOUNT FROM USAGE_RECORDS WHERE BILLED = ? GROUP BY CUSTOMER_ID",
+  "tables": [
+   "USAGE_RECORDS"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+  "line": 22,
+  "source": "hql",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "FROM CUSTOMER C WHERE C.SEGMENT = ? ORDER BY C.NAME",
+  "tables": [
+   "CUSTOMERS"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+  "line": 30,
+  "source": "hql",
+  "dialect": "hql",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(I) FROM INVOICE I WHERE I.CUSTOMERID = ?",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+  "line": 15,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT INVOICE_ID, CUSTOMER_ID, AMOUNT, NVL(STATUS, ?) AS STATUS FROM INVOICES WHERE STATUS = ? AND ROWNUM <= ?",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+  "line": 19,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE INVOICES SET STATUS = ?, PAID_ON = SYSDATE WHERE INVOICE_ID = ?",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+  "line": 34,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(*) FROM INVOICES I, CUSTOMERS C WHERE I.CUSTOMER_ID = C.ID(+) AND I.DUE_DATE < SYSDATE",
+  "tables": [
+   "CUSTOMERS",
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+  "line": 40,
+  "source": "jdbc-template",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT INVOICE_ID, AMOUNT FROM INVOICES WHERE STATUS = ? ORDER BY ?",
+  "tables": [
+   "INVOICES"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+  "line": 5,
+  "source": "mybatis",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON FROM PAYMENTS WHERE ? = ? AND INVOICE_ID = ? AND RECEIVED_ON >= ?",
+  "tables": [
+   "PAYMENTS"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+  "line": 17,
+  "source": "mybatis",
+  "dialect": "oracle",
+  "type": "INSERT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "INSERT INTO PAYMENTS (PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON) VALUES (PAYMENTS_SEQ.NEXTVAL, ?, ?, SYSDATE)",
+  "tables": [
+   "PAYMENTS"
+  ]
+ },
+ {
+  "sample": "spring-mvc-batch-app",
+  "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+  "line": 22,
+  "source": "mybatis",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE PAYMENTS SET SETTLED = ? WHERE PAYMENT_ID = ?",
+  "tables": [
+   "PAYMENTS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "scripts/deploy.ksh",
+  "line": 14,
+  "source": "script",
+  "dialect": "oracle",
+  "type": "CALL",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "EXEC PKG_ORDER_PRICING.RECALC_ALL",
+  "tables": []
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/order_queries.sql",
+  "line": 4,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT C.NAME, COUNT(*) ORDER_COUNT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > SYSDATE - ? GROUP BY C.NAME",
+  "tables": [
+   "CUSTOMERS",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/order_queries.sql",
+  "line": 11,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORDER_ID, NVL(STATUS, ?), TO_CHAR(CREATED_AT, ?) FROM ORDERS WHERE STATUS IS NULL OR STATUS = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/order_queries.sql",
+  "line": 15,
+  "source": "sql-file",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE ORDERS SET STATUS = ? WHERE STATUS = ? AND CREATED_AT < ADD_MONTHS(SYSDATE, -?)",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/pkg_order_pricing.pkb",
+  "line": 6,
+  "source": "plsql",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT SUM(L.QTY * L.UNIT_PRICE) * ? INTO V_TOTAL FROM ORDER_LINES L WHERE L.ORDER_ID = P_ORDER_ID",
+  "tables": [
+   "ORDER_LINES"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/pkg_order_pricing.pkb",
+  "line": 16,
+  "source": "plsql",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "sql/pkg_order_pricing.pkb",
+  "line": 17,
+  "source": "plsql",
+  "dialect": "oracle",
+  "type": "UPDATE",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 21,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+  "tables": [
+   "USERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 24,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, ?) STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID(+) AND UPPER(C.NAME) LIKE UPPER(?) ORDER BY O.CREATED_AT DESC) WHERE ROWNUM <= ?",
+  "tables": [
+   "CUSTOMERS",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 29,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, ?, ?, ?, ?, ?) PRIO FROM ORDERS O WHERE O.ORDER_ID = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 33,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 69,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+  "tables": [
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 96,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "SELECT",
+  "dynamic": true,
+  "sqlglot_parsed": true,
+  "text": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE ? = ? AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+  "tables": [
+   "CUSTOMERS",
+   "ORDERS"
+  ]
+ },
+ {
+  "sample": "struts-oracle-app",
+  "file": "src/com/acme/orders/dao/OrderDao.java",
+  "line": 147,
+  "source": "jdbc",
+  "dialect": "oracle",
+  "type": "CALL",
+  "dynamic": false,
+  "sqlglot_parsed": true,
+  "text": "{? = CALL PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}",
+  "tables": []
+ }
+]

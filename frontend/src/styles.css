@@ -1,0 +1,96 @@
+/* legacy-audit: shared look. Light by default, dark when the system asks for it. */
+:root {
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --text: #1d2330;
+  --muted: #5b6475;
+  --line: #d9dde5;
+  --accent: #1f5fbf;
+  --accent-text: #ffffff;
+  --warn-bg: #fff4cc;
+  --warn-text: #5c4500;
+  --error: #b42318;
+  --ok: #1a7f37;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171d;
+    --panel: #1c2028;
+    --text: #e6e9ef;
+    --muted: #a3abba;
+    --line: #333a46;
+    --accent: #5b9bf0;
+    --accent-text: #0d1420;
+    --warn-bg: #3d3210;
+    --warn-text: #f5e3a8;
+    --error: #ff8a80;
+    --ok: #6fd08c;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+
+h1 { font-size: 1.6rem; margin: 0 0 .5rem; }
+h2 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; }
+
+.lead { color: var(--muted); margin: 0 0 1.25rem; }
+.hint { color: var(--muted); font-size: .9rem; }
+.error-text { color: var(--error); }
+
+.banner {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  border-radius: 6px;
+  padding: .5rem .75rem;
+  margin: 0 0 1rem;
+  font-size: .9rem;
+}
+
+label { display: block; font-weight: 600; margin-bottom: .25rem; }
+
+input[type="text"] {
+  width: 100%;
+  padding: .55rem .7rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+}
+
+.btn {
+  display: inline-block;
+  padding: .5rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  font-weight: 600;
+}
+
+.btn:disabled { opacity: .6; cursor: default; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}

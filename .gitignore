@@ -23,3 +23,9 @@ sources/
 audits-hosted/
 /audits/
 build.log
+
+# Spring Boot / Angular version
+backend/**/target/
+build-spring.log
+# the Angular app installs from its lock file (npm ci, decision 198)
+!frontend/package-lock.json

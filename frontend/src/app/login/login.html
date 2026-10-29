@@ -1,0 +1,19 @@
+<main class="login-box panel">
+  <h1>legacy-audit</h1>
+  <p class="lead">Audit legacy applications before migrating them. Log in to open or create your project.</p>
+  @if (banner()) {
+    <p class="banner">{{ banner() }}</p>
+  }
+  <form (ngSubmit)="submit()">
+    <label for="name">User name</label>
+    <input type="text" id="name" name="name" autocomplete="username" required autofocus
+           placeholder="e.g. siva" [(ngModel)]="name">
+    <button type="submit" class="btn primary" [disabled]="busy() || !name.trim()">Log in</button>
+  </form>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (version()) {
+    <p class="hint">Version {{ version() }}</p>
+  }
+</main>

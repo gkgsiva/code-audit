@@ -16,3 +16,8 @@ audits
 sources
 audits-hosted
 .env
+# Spring Boot / Angular version: build output and downloaded packages
+**/target
+**/node_modules
+frontend/dist
+frontend/.angular

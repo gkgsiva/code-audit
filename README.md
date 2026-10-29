@@ -151,6 +151,14 @@ users and roles, AI, scanners and limits; Status shows progress and time left, L
 logs. Settings come from environment variables. Step by step: [`docs/hosting.md`](docs/hosting.md).
 Without Docker: `legacy-audit host --audits-root <folder>`.
 
+## Spring Boot and Angular version (in progress)
+
+On the branch `spring-boot-angular`, the tool is being rebuilt on Spring Boot 4 (Java 25,
+Maven), Angular 21 and PostgreSQL, phase by phase: see `docs/spring/plan.md` and
+`docs/progress.md`. Start it with `docker compose -f docker-compose.spring.yml up -d --build`
+and open http://localhost:8770 (`docs/spring/docker.md`). The PowerPoint report is not part of
+the new version.
+
 ## Validating from VS Code
 
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. set up`, `2. tests`,
