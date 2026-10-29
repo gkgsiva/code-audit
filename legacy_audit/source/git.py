@@ -14,8 +14,11 @@ import logging
 import os
 import re
 import shutil
+import stat
 import subprocess
+import sys
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlsplit, urlunsplit
@@ -68,6 +71,20 @@ def clone_dir(repo: GitRepo, cache_dir: Path) -> Path:
     return cache_dir / host / owner / f"{name}@{ref}"
 
 
+def _rmtree(folder: Path) -> None:
+    """Delete a clone. Git writes its object files read-only, which Windows refuses to delete
+    until the read-only flag is cleared."""
+
+    def retry(func: Callable[..., object], path: str, *_: object) -> None:
+        os.chmod(path, stat.S_IWRITE)
+        func(path)
+
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(folder, onexc=retry)
+    else:
+        shutil.rmtree(folder, onerror=retry)
+
+
 def _git_env(token: str | None) -> dict[str, str]:
     env = dict(os.environ)
     env["GIT_TERMINAL_PROMPT"] = "0"
@@ -117,7 +134,7 @@ def fetch_repo(repo: GitRepo, cache_dir: str | None) -> tuple[Path, str, str]:
 
     if not (dest / ".git").is_dir():
         if dest.exists():
-            shutil.rmtree(dest)
+            _rmtree(dest)
         dest.mkdir(parents=True)
         _run(["init", "-q"], dest, env, secrets)
         _run(["remote", "add", "origin", url], dest, env, secrets)
@@ -206,7 +223,7 @@ def remove_clone(cache_dir: Path, key: str) -> Path:
     root = cache_dir.resolve()
     if target.parent.parent.parent != root or not (target / ".git").is_dir():
         raise SourceError(f"No clone '{key}' in the cache")
-    shutil.rmtree(target)
+    _rmtree(target)
     for parent in (target.parent, target.parent.parent):  # empty owner and host folders
         try:
             parent.rmdir()
@@ -218,5 +235,5 @@ def remove_clone(cache_dir: Path, key: str) -> Path:
 def purge_cache(cache_dir: Path | None = None) -> Path:
     target = cache_dir or default_cache_dir()
     if target.exists():
-        shutil.rmtree(target)
+        _rmtree(target)
     return target
