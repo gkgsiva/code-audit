@@ -11,6 +11,7 @@ Roles: admin (everything), owner (creates projects, runs and manages their own),
 
 from __future__ import annotations
 
+import contextlib
 import csv
 import io
 import json
@@ -19,12 +20,16 @@ import logging.handlers
 import os
 import re
 import shutil
+import threading
+import time
 from collections import deque
 from collections.abc import Awaitable, Callable, MutableMapping
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlsplit
 
+import yaml
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import (
     FileResponse,
@@ -44,6 +49,7 @@ from legacy_audit.gui.app import STATIC as GUI_STATIC
 from legacy_audit.gui.jobs import Gate, Job
 from legacy_audit.hosted.auth import COOKIE, AuthError, Sessions, provider_for
 from legacy_audit.hosted.layer import AdminLayer
+from legacy_audit.hosted.metrics import Sampler, system, usage
 from legacy_audit.hosted.registry import (
     PROJECT_ID,
     RANK,
@@ -61,6 +67,8 @@ from legacy_audit.hosted.settings import (
     LimitSettings,
     SettingsError,
 )
+from legacy_audit.source.base import SourceError
+from legacy_audit.source.git import Clone, list_clones, remove_clone, strip_credentials
 
 log = logging.getLogger("legacy_audit.hosted")
 
@@ -84,6 +92,7 @@ source:
     - "."
 """
 JOB_HISTORY = 200
+CLONE_CHECK_SECONDS = 3600
 LOG_TAIL = 2000
 Scope = MutableMapping[str, Any]
 Receive = Callable[[], Awaitable[MutableMapping[str, Any]]]
@@ -150,6 +159,10 @@ class DeleteBody(BaseModel):
     confirm: str
 
 
+class CloneBody(BaseModel):
+    key: str
+
+
 class DefaultsBody(BaseModel):
     text: str
 
@@ -157,13 +170,31 @@ class DefaultsBody(BaseModel):
 # ---- the site ------------------------------------------------------------------------------------
 
 
+def _check_writable(host: HostSettings) -> None:
+    """Create the audits folder and the site's own folder in it, or stop with what to do: on
+    Linux and WSL2 a folder on the host is often owned by another user id than the site's."""
+    probe = host.admin_dir / ".write-test"
+    try:
+        host.admin_dir.mkdir(parents=True, exist_ok=True)
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+    except OSError as err:
+        uid = os.getuid() if hasattr(os, "getuid") else None
+        who = f" (user id {uid})" if uid is not None else ""
+        raise SettingsError(
+            f"The audits folder {host.audits_root} cannot be written by the site{who}: "
+            f"{err.strerror or err}. With Docker on Linux or WSL2, set AUDIT_UID and AUDIT_GID "
+            "in .env to the owner of the folder (run: id -u and id -g), or give the folder "
+            "to user id 10001 (sudo chown -R 10001:10001 <folder>). See docs/hosting.md"
+        ) from None
+
+
 class Site:
     """State shared by the portal and every project app."""
 
     def __init__(self, host: HostSettings) -> None:
         self.host = host
-        host.audits_root.mkdir(parents=True, exist_ok=True)
-        host.admin_dir.mkdir(parents=True, exist_ok=True)
+        _check_writable(host)
         self.admin = AdminStore(host)
         self.registry = Registry(host)
         self.provider = provider_for(host)
@@ -173,7 +204,96 @@ class Site:
         self.remove_layer = add_config_layer(self.layer)
         self.jobs: deque[Job] = deque(maxlen=JOB_HISTORY)
         self.apps: dict[str, Any] = {}
+        self.sampler = Sampler()
+        self.sampler.start()
+        self._stop = threading.Event()
+        self._clone_lock = threading.Lock()
+        threading.Thread(target=self._housekeeping, name="la-clones", daemon=True).start()
         self.apply_paths()
+
+    # ---- Git clones ----
+
+    def _housekeeping(self) -> None:
+        """Delete unused clones at start and every hour."""
+        while True:
+            try:
+                self.prune_clones()
+            except Exception:  # never stops the site
+                log.exception("Cleaning up the Git clones failed")
+            if self._stop.wait(CLONE_CHECK_SECONDS):
+                return
+
+    def project_repo_urls(self) -> dict[str, set[str]]:
+        """The Git addresses each project scans (from its own audit.yaml)."""
+        out: dict[str, set[str]] = {}
+        for meta in self.registry.projects():
+            path = self.registry.project_dir(meta.id) / "audit.yaml"
+            try:
+                data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            except (OSError, yaml.YAMLError):
+                continue
+            source = data.get("source") if isinstance(data, dict) else None
+            if isinstance(source, dict) and source.get("type") == "git":
+                urls = {
+                    strip_credentials(str(r.get("url")))
+                    for r in source.get("repos") or []
+                    if isinstance(r, dict) and r.get("url")
+                }
+                out[meta.id] = urls
+        return out
+
+    def _busy_since(self) -> float | None:
+        """Start (epoch seconds) of the oldest job running or waiting: clones used since then
+        may be in use and are kept."""
+        snap = self.gate.snapshot()
+        starts = []
+        for job in [*snap["running"], *snap["waiting"]]:
+            with contextlib.suppress(ValueError):
+                starts.append(datetime.fromisoformat(job.started_at).timestamp())
+        return min(starts) - 60 if starts else None
+
+    def remove_clone(self, clone: Clone, reason: str, user: str | None = None) -> None:
+        remove_clone(self.layer.git_cache(), clone.key)
+        self.registry.log(user, "delete clone", None, clone=clone.key, reason=reason)
+
+    def prune_clones(self) -> list[str]:
+        """Delete clones not used for ``clone_keep_days``, then, while the disk has less than
+        ``min_free_gb`` free, the least recently used ones. Clones a running or waiting job
+        may use are kept."""
+        limits = self.admin.get().limits
+        cache = self.layer.git_cache()
+        if not cache.is_dir():
+            return []
+        removed: list[str] = []
+        with self._clone_lock:
+            busy = self._busy_since()
+            clones = [
+                c for c in list_clones(cache, sizes=False) if busy is None or c.last_used < busy
+            ]
+            cutoff = time.time() - limits.clone_keep_days * 86400
+            for c in list(clones):
+                if c.last_used < cutoff:
+                    self.remove_clone(c, f"not used for {limits.clone_keep_days} days")
+                    removed.append(c.key)
+                    clones.remove(c)
+            need = limits.min_free_gb * 1024**3
+            for c in clones:  # least recently used first
+                if shutil.disk_usage(cache).free >= need:
+                    break
+                self.remove_clone(c, f"less than {limits.min_free_gb:g} GB free")
+                removed.append(c.key)
+        return removed
+
+    def clones_of(self, project_id: str) -> list[Clone]:
+        """Clones only this project uses (other projects scanning the same address keep them)."""
+        urls = self.project_repo_urls()
+        mine = urls.pop(project_id, set())
+        others = set().union(*urls.values()) if urls else set()
+        return [
+            c
+            for c in list_clones(self.layer.git_cache(), sizes=False)
+            if c.url in mine and c.url not in others
+        ]
 
     def apply_paths(self) -> None:
         templates = self.admin.get().paths.templates_dir
@@ -237,6 +357,25 @@ class Site:
         def after_scan(project: str, result: dict[str, Any]) -> None:
             self.registry.log(None, "scan finished", project, run=result.get("run_id"))
 
+        def on_job_end(job: Job) -> None:
+            if job.kind == "scan":
+                try:
+                    self.prune_clones()
+                except Exception:
+                    log.exception("Cleaning up the Git clones failed")
+            waited, worked = job.timings()
+            self.registry.log(
+                job.user,
+                "job finished",
+                project_id,
+                kind=job.kind,
+                title=job.title,
+                state=job.state,
+                seconds=round(worked, 1) if worked is not None else None,
+                wait_seconds=round(waited, 1) if waited is not None else None,
+                error=job.error,
+            )
+
         def limits() -> LimitSettings:
             return self.admin.get().limits
 
@@ -251,6 +390,7 @@ class Site:
             scan_timeout_minutes=lambda: limits().scan_timeout_minutes,
             user=user_of,
             after_scan=after_scan,
+            on_job_end=on_job_end,
         )
         app = create_app(
             self.registry.project_dir(project_id),
@@ -363,6 +503,8 @@ class HostedApp:
     def close(self) -> None:
         """Remove the config layer and the server log handler (tests; the server just exits)."""
         self.site.remove_layer()
+        self.site.sampler.stop()
+        self.site._stop.set()
         logging.getLogger("legacy_audit").removeHandler(self.log_handler)
         self.log_handler.close()
 
@@ -685,8 +827,14 @@ def create_site(host: HostSettings) -> HostedApp:
         if app is not None and app.state.jobs.current and app.state.jobs.current.active:
             site.apps[meta.id] = app
             raise HTTPException(409, "A job is running on this project; cancel it first")
+        clones = site.clones_of(meta.id)
         site.registry.delete_project(meta.id)
         site.registry.log(user.name, "delete project", meta.id)
+        for clone in clones:
+            try:
+                site.remove_clone(clone, f"project {meta.id} deleted", user.name)
+            except (OSError, SourceError) as err:
+                log.warning("Could not delete the clone %s: %s", clone.key, err)
         return {"deleted": meta.id}
 
     # ---- status ----
@@ -931,6 +1079,82 @@ def create_site(host: HostSettings) -> HostedApp:
             media_type="text/csv",
             headers={"Content-Disposition": 'attachment; filename="legacy-audit-activity.csv"'},
         )
+
+    @portal.get("/api/admin/dashboard/usage")
+    def dashboard_usage(request: Request, days: int = 30) -> dict[str, Any]:
+        admin_only(request)
+        days = max(1, min(days, 366))
+        start = (datetime.now(UTC).date() - timedelta(days=days - 1)).isoformat()
+        return usage(
+            site.registry.activity_since(start),
+            days,
+            site.registry.users(),
+            site.registry.projects(),
+        )
+
+    @portal.get("/api/admin/dashboard/system")
+    def dashboard_system(request: Request) -> dict[str, Any]:
+        admin_only(request)
+        snap = site.gate.snapshot()
+        jobs = {"running": len(snap["running"]), "waiting": len(snap["waiting"])}
+        return {
+            **system(site.sampler, host.audits_root, jobs),
+            "version": __version__,
+            "slots": site.admin.get().limits.max_scans,
+            "now": [j.info() for j in [*snap["running"], *snap["waiting"]]],
+        }
+
+    @portal.get("/api/admin/clones")
+    def clones(request: Request) -> dict[str, Any]:
+        admin_only(request)
+        cache = site.layer.git_cache()
+        by_url: dict[str, list[str]] = {}
+        for pid, urls in site.project_repo_urls().items():
+            for u in urls:
+                by_url.setdefault(u, []).append(pid)
+        rows = [
+            {
+                "key": c.key,
+                "url": c.url,
+                "ref": c.ref,
+                "commit": (c.commit or "")[:12],
+                "last_used": datetime.fromtimestamp(c.last_used, UTC).isoformat(timespec="seconds"),
+                "size": c.size,
+                "projects": sorted(by_url.get(c.url or "", [])),
+            }
+            for c in reversed(list_clones(cache))
+        ]
+        limits = site.admin.get().limits
+        disk = shutil.disk_usage(cache if cache.is_dir() else host.audits_root)
+        return {
+            "cache": str(cache),
+            "clones": rows,
+            "total": sum(r["size"] for r in rows),
+            "free": disk.free,
+            "keep_days": limits.clone_keep_days,
+            "min_free_gb": limits.min_free_gb,
+        }
+
+    @portal.post("/api/admin/clones/delete")
+    def delete_clone(body: CloneBody, request: Request) -> dict[str, Any]:
+        admin = admin_only(request)
+        cache = site.layer.git_cache()
+        match = [c for c in list_clones(cache, sizes=False) if c.key == body.key]
+        if not match:
+            raise HTTPException(404, f"No clone '{body.key}'")
+        busy = site._busy_since()
+        if busy is not None and match[0].last_used >= busy:
+            raise HTTPException(409, "A running or waiting job may use this clone; try later")
+        with site._clone_lock:
+            site.remove_clone(match[0], "deleted on the admin page", admin.name)
+        return {"deleted": body.key}
+
+    @portal.post("/api/admin/clones/prune")
+    def prune(request: Request) -> dict[str, Any]:
+        admin = admin_only(request)
+        removed = site.prune_clones()
+        site.registry.log(admin.name, "clean up clones", None, removed=len(removed))
+        return {"removed": removed}
 
     @portal.get("/api/admin/health")
     def health(request: Request) -> dict[str, Any]:

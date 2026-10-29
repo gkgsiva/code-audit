@@ -32,3 +32,7 @@ pre.logview .lv-warning { color: var(--serious); }
 .folder-list { max-height: 220px; overflow: auto; border: 1px solid var(--border); border-radius: 6px; padding: 4px 0; margin: 4px 0; background: var(--surface); }
 .folder-list button { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 3px 10px; font: inherit; color: var(--text); cursor: pointer; }
 .folder-list button:hover { background: var(--surface-2); }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; margin: 10px 0; }
+.chart-table { margin-top: 6px; font-size: 13px; }
+.chart-table summary { cursor: pointer; color: var(--text-2); }
+.chart-table .table-wrap { max-height: 260px; overflow: auto; }

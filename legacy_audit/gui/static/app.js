@@ -455,9 +455,25 @@
     add(node, heading("Run", "Re-run analyses only changed files (the rest comes from the cache); linking, metrics, rules and totals are always recomputed. Full rescan ignores the cache."));
     if (needConfig(node)) return;
     var running = jobActive(state.job);
+    var git = state.ws && state.ws.git;
+    var refBox = null;
+    if (git && git.length) {
+      var current = git[0].ref || "";
+      refBox = el("input", { type: "text", id: "scan-ref", value: current, placeholder: "default branch", "aria-describedby": "scan-ref-hint", size: 24 });
+      node.appendChild(el("div", { class: "row" }, [
+        el("label", { for: "scan-ref", text: "Branch or tag" }), refBox,
+        el("span", { class: "hint", id: "scan-ref-hint", text: "This scan only. The project's own branch is " + (current || "the default branch") + "; change it on 1. Project setup." + (git.length > 1 ? " Applies to all " + git.length + " repositories." : "") })
+      ]));
+    }
+    function scanBody(full) {
+      var body = { full: full };
+      var ref = refBox ? refBox.value.trim() : "";
+      if (ref && ref !== (git[0].ref || "")) body.ref = ref;
+      return body;
+    }
     node.appendChild(el("div", { class: "row" }, [
-      el("button", { class: "btn primary", text: "Re-run", disabled: running, onclick: function () { startJob(api("POST", "api/scan", { full: false })); } }),
-      el("button", { class: "btn", text: "Full rescan", disabled: running, onclick: function () { startJob(api("POST", "api/scan", { full: true })); } }),
+      el("button", { class: "btn primary", text: "Re-run", disabled: running, onclick: function () { startJob(api("POST", "api/scan", scanBody(false))); } }),
+      el("button", { class: "btn", text: "Full rescan", disabled: running, onclick: function () { startJob(api("POST", "api/scan", scanBody(true))); } }),
       el("button", { class: "btn danger", text: "Cancel", disabled: !running, onclick: function () { api("POST", "api/jobs/" + state.job.id + "/cancel").catch(fail); } })
     ]));
     var bar = el("div", { class: "progress indeterminate", role: "progressbar", "aria-label": "Scan progress" }, [el("div")]);
@@ -510,6 +526,9 @@
       { label: "Run", value: function (r) { return el("a", { href: "#dashboard?run=" + r.run_id, text: r.run_id + (r.latest ? " (latest)" : "") }); } },
       { key: "started_at", label: "Started" },
       { label: "Kind", value: function (r) { return r.full_scan ? "full" : "re-run"; } },
+      git && git.length ? { label: "Branch and commit", value: function (r) {
+        return (r.git || []).map(function (g) { return (g.ref || "default") + (g.commit ? " @ " + g.commit : ""); }).join(", ");
+      } } : null,
       { key: "files", label: "Files", num: true },
       { key: "analyzed", label: "Analysed", num: true },
       { key: "cached", label: "From cache", num: true },
@@ -517,7 +536,7 @@
       { key: "findings", label: "Findings", num: true },
       { key: "warnings", label: "Warnings", num: true },
       { key: "seconds", label: "Seconds", num: true }
-    ], state.runs));
+    ].filter(Boolean), state.runs));
   }
 
   // ---------------------------------------------------------------- 5. dashboard
