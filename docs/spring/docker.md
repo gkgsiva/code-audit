@@ -1,8 +1,7 @@
-# Running the Spring Boot and Angular version with Docker
+# Running legacy-audit with Docker
 
-This is the new version of legacy-audit, still being built phase by phase. In Phase 0 it shows
-the login page and a status page; projects, scans and reports arrive in the next phases. The
-Python version (`docker-compose.yml`, port 8765) keeps working beside it.
+legacy-audit is being rebuilt on Spring Boot and Angular, phase by phase. Three containers run
+together: the web pages (`frontend`), the backend and its PostgreSQL database (`db`).
 
 ## 1. What you need
 
@@ -13,12 +12,11 @@ Python version (`docker-compose.yml`, port 8765) keeps working beside it.
 
 ## 2. Settings (once)
 
-The new version reads the same `.env` file as the Python version.
-
-1. If there is no `.env` file next to `docker-compose.spring.yml` yet, copy `docker/env.example`
+1. If there is no `.env` file next to `docker-compose.yml` yet, copy `docker/env.example`
    to `.env`.
-2. Set `AUDITS_DIR` and `SOURCES_DIR` as for the Python version (forward slashes on Windows, for
-   example `C:/legacy-audit/audits`). Create the audits folder first.
+2. Set `AUDITS_DIR` (where projects and scan results are kept) and `SOURCES_DIR` (the code to
+   scan). Use forward slashes on Windows, for example `C:/legacy-audit/audits`. Create the
+   audits folder first.
 3. On WSL2 with Docker Engine, set `AUDIT_UID` and `AUDIT_GID` to the output of `id -u` and
    `id -g`.
 4. Optional: `WEB_PORT` (default 8770) if that port is taken, and `LEGACY_AUDIT_DB_PASSWORD` for
@@ -36,14 +34,14 @@ The new version reads the same `.env` file as the Python version.
 The same from a terminal:
 
 ```bash
-docker compose -f docker-compose.spring.yml up -d --build
-docker compose -f docker-compose.spring.yml down
+docker compose up -d --build
+docker compose down
 ```
 
 ## 4. Building at the office
 
-If the build stops, run **`audit: 3. build the web app and save build-spring.log`**.
-The end of `build-spring.log` shows a box "legacy-audit build stopped: ..." with what to set.
+If the build stops, run **`audit: 3. build the web app and save build.log`**.
+The end of `build.log` shows a box "legacy-audit build stopped: ..." with what to set.
 These `.env` values help (ask IT for the addresses):
 
 | Setting | When |
@@ -55,4 +53,4 @@ These `.env` values help (ask IT for the addresses):
 | `POSTGRES_IMAGE`, `BACKEND_BUILD_IMAGE`, `BACKEND_BASE_IMAGE`, `FRONTEND_BUILD_IMAGE`, `FRONTEND_BASE_IMAGE` | Docker Hub is blocked; the same images from the company registry |
 | `RUN_PROXY`, `RUN_NO_PROXY` | The running app needs the proxy (Git clones and vulnerability lookups, later phases) |
 
-Send `build-spring.log` if it still fails.
+Send `build.log` if it still fails.

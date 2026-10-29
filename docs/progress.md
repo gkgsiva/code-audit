@@ -576,7 +576,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase, each started after Siva
 
 | Phase | Status | Notes |
 | --- | --- | --- |
-| 0 – Skeleton and proof | Done (2026-10-29) | Maven modules `audit-model`, `audit-engine`, `audit-cli`, `audit-server`; Angular 21 login and home page; `docker-compose.spring.yml` with PostgreSQL; test login with roles; CI on Ubuntu and Windows; proofs: JavaParser, tree-sitter and JSqlParser all go (`docs/spring/phase-0-proofs.md`). PowerPoint dropped from the rewrite |
+| 0 – Skeleton and proof | Done (2026-10-29) | Maven modules `audit-model`, `audit-engine`, `audit-cli`, `audit-server`; Angular 21 login and home page; `docker-compose.yml` with PostgreSQL; test login with roles; CI on Ubuntu and Windows; proofs: JavaParser, tree-sitter and JSqlParser all go (`docs/spring/phase-0-proofs.md`). PowerPoint dropped from the rewrite |
 | 1 – Core and first screens | Not started | |
 | 2 – Analyzers: Java and SQL | Not started | |
 | 3 – Analyzers: mainframe and batch | Not started | |

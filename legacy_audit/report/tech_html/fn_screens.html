@@ -1,8 +1,0 @@
-{% extends "base.html" %}{% import "_macros.html" as m with context %}
-{% block content %}
-{% include "_fn_missing.html" %}
-<p class="lead">Every screen users see, with what they do there. Open a screen for its flow: the services it calls, the data it reads and changes, and where the user goes next.</p>
-{{ m.diagram(nav_map) }}
-<h2>All screens</h2>
-{% include "_screen_cards.html" %}
-{% endblock %}

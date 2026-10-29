@@ -1,9 +1,0 @@
-{
-  "servers": {
-    "legacy-audit": {
-      "type": "stdio",
-      "command": "legacy-audit",
-      "args": ["mcp", "--config", "${workspaceFolder}/audit.yaml"]
-    }
-  }
-}

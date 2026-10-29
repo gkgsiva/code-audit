@@ -46,7 +46,7 @@ Node.js 22 on the machine.
    `BUILD SUCCESS`; the four modules report 16 tests, none failing.
 6. Run **`audit: 6. parser proof report`** (after task 4). It prints three tables:
    JavaParser 47 of 47 files, tree-sitter with one Pro*C file with errors (the same as the
-   Python tool), and JSqlParser 67 of 67 statements with the same tables as sqlglot. Compare
+   earlier Python tool), and JSqlParser 67 of 67 statements with the same tables. Compare
    with [docs/spring/phase-0-proofs.md](spring/phase-0-proofs.md).
 7. Frontend (Node.js 22 installed): run **`audit: 5. frontend build and tests (Node.js)`**.
    It shows `Tests 2 passed` and ends with `Application bundle generation complete`.

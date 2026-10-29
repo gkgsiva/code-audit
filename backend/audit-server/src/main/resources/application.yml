@@ -1,4 +1,4 @@
-# legacy-audit backend. Every value can be set from the environment (docker-compose.spring.yml).
+# legacy-audit backend. Every value can be set from the environment (docker-compose.yml).
 server:
   port: ${LEGACY_AUDIT_PORT:8080}
   servlet:

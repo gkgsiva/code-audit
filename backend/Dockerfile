@@ -1,4 +1,4 @@
-# legacy-audit backend (Spring Boot). Built by docker-compose.spring.yml from the repository root.
+# legacy-audit backend (Spring Boot). Built by docker-compose.yml from the repository root.
 ARG BUILD_IMAGE=maven:3.9-eclipse-temurin-25
 ARG BASE_IMAGE=eclipse-temurin:25-jre
 

@@ -1,0 +1,276 @@
+[
+  {
+    "artifact": null,
+    "build_files": [
+      "billing-api-cs/BillingApi.csproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "screen": 2,
+      "source": 5
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 9,
+    "id": "component:07f423af62c4eaf7",
+    "loc_code": 89,
+    "name": "billing-api-cs",
+    "packaging": null,
+    "parts": [],
+    "path": "billing-api-cs",
+    "roles": [
+      "batch",
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "csharp",
+      "json",
+      "razor"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "billing-desk-vb6/BillingDesk.vbp"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "source": 5
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "BillingDesk"
+    ],
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 6,
+    "id": "component:279b4b8e41b1e8d6",
+    "loc_code": 259,
+    "name": "billing-desk-vb6",
+    "packaging": null,
+    "parts": [],
+    "path": "billing-desk-vb6",
+    "roles": [
+      "desktop"
+    ],
+    "root": "estate",
+    "technology": [
+      "vb6"
+    ],
+    "type": "desktop"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "inventory-wpf-cs/InventoryApp.csproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 2,
+      "screen": 4,
+      "source": 6
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "InventoryApp.App"
+    ],
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 12,
+    "id": "component:97004170b34b16f8",
+    "loc_code": 174,
+    "name": "inventory-wpf-cs",
+    "packaging": null,
+    "parts": [],
+    "path": "inventory-wpf-cs",
+    "roles": [
+      "desktop"
+    ],
+    "root": "estate",
+    "technology": [
+      "csharp",
+      "xaml"
+    ],
+    "type": "desktop"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "invoice-mailer-svc/InvoiceMailer.csproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "MailerService",
+      "MailerService.Main"
+    ],
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:60a3e4bd38299215",
+    "loc_code": 37,
+    "name": "invoice-mailer-svc",
+    "packaging": null,
+    "parts": [],
+    "path": "invoice-mailer-svc",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "csharp"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "legacy-webforms/LegacyCrm.csproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "screen": 3,
+      "source": 3
+    },
+    "detected_by": "build-file",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 8,
+    "id": "component:e0f42f47dc474ba2",
+    "loc_code": 76,
+    "name": "legacy-webforms",
+    "packaging": null,
+    "parts": [],
+    "path": "legacy-webforms",
+    "roles": [
+      "web"
+    ],
+    "root": "estate",
+    "technology": [
+      "aspnet",
+      "aspx",
+      "csharp",
+      "xml"
+    ],
+    "type": "web"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "nightly-export-cs/NightlyExport.csproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 1,
+      "config": 1,
+      "script": 1,
+      "source": 1
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "Program.Main"
+    ],
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 4,
+    "id": "component:4cf8fbf392e9a0bf",
+    "loc_code": 55,
+    "name": "nightly-export-cs",
+    "packaging": null,
+    "parts": [],
+    "path": "nightly-export-cs",
+    "roles": [
+      "batch"
+    ],
+    "root": "estate",
+    "technology": [
+      "batch",
+      "csharp",
+      "xml"
+    ],
+    "type": "batch"
+  },
+  {
+    "artifact": null,
+    "build_files": [
+      "orders-winforms-vbnet/OrdersDesk.vbproj"
+    ],
+    "build_group": [],
+    "composition": {
+      "build": 2,
+      "config": 1,
+      "source": 4
+    },
+    "detected_by": "build-file",
+    "entry_points": [
+      "OrdersDesk"
+    ],
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 7,
+    "id": "component:0c1a9f2038d58b83",
+    "loc_code": 157,
+    "name": "orders-winforms-vbnet",
+    "packaging": null,
+    "parts": [],
+    "path": "orders-winforms-vbnet",
+    "roles": [
+      "desktop"
+    ],
+    "root": "estate",
+    "technology": [
+      "vbnet",
+      "xml"
+    ],
+    "type": "desktop"
+  }
+]

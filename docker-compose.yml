@@ -1,71 +1,81 @@
-# legacy-audit hosted site. Start: docker compose up -d   Stop: docker compose down
-# Then open http://localhost:8765 and log in as "admin" (the test login asks for a name only).
-# Every LEGACY_AUDIT_* value below can be changed here; restart with docker compose up -d.
+# legacy-audit, Spring Boot and Angular version.
+#   Start: docker compose up -d --build
+#   Stop:  docker compose down
+# Then open http://localhost:8770 and log in as "admin" (the test login asks for a name only).
+# Settings come from .env (copy docker/env.example).
+name: legacy-audit-spring
+
 services:
-  legacy-audit:
+  db:
+    image: ${POSTGRES_IMAGE:-postgres:17-alpine}
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: legacyaudit
+      POSTGRES_USER: legacyaudit
+      POSTGRES_PASSWORD: ${LEGACY_AUDIT_DB_PASSWORD:-legacyaudit}
+    volumes:
+      # A Docker volume, not a host folder: PostgreSQL cannot keep its files on a Windows folder.
+      - legacy-audit-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U legacyaudit -d legacyaudit"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
     build:
       context: .
-      # Build options, read from .env (see docker/env.example and docs/hosting.md).
+      dockerfile: backend/Dockerfile
       args:
+        BUILD_IMAGE: ${BACKEND_BUILD_IMAGE:-maven:3.9-eclipse-temurin-25}
+        BASE_IMAGE: ${BACKEND_BASE_IMAGE:-eclipse-temurin:25-jre}
         BUILD_PROXY: ${BUILD_PROXY:-}
         BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
-        APT_MIRROR: ${APT_MIRROR:-}
-        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
-        PIP_INDEX_URL: ${PIP_INDEX_URL:-}
-        NPM_REGISTRY: ${NPM_REGISTRY:-}
-        BASE_IMAGE: ${BASE_IMAGE:-python:3.12-slim}
-        WITH_SYSTEM_PACKAGES: ${WITH_SYSTEM_PACKAGES:-true}
-        WITH_CHROMIUM: ${WITH_CHROMIUM:-true}
-        WITH_MERMAID: ${WITH_MERMAID:-true}
-        WITH_OSV: ${WITH_OSV:-true}
-    image: legacy-audit:latest
+        MAVEN_MIRROR: ${MAVEN_MIRROR:-}
+    image: legacy-audit-backend:latest
     restart: unless-stopped
-    # A small init process, so scanner and Git processes stop cleanly.
     init: true
-    # The user id the site runs as. Docker Desktop on Windows: leave as is. Docker Engine on
-    # Linux or WSL2: set AUDIT_UID and AUDIT_GID in .env to your own (id -u, id -g) so the site
-    # can write the audits folder.
+    # Docker Engine on Linux or WSL2: set AUDIT_UID and AUDIT_GID in .env to your own (id -u, id -g).
     user: "${AUDIT_UID:-10001}:${AUDIT_GID:-10001}"
-    ports:
-      - "8765:8765"
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      # Top-level audits folder inside the container: one sub-folder per project.
-      LEGACY_AUDIT_AUDITS_ROOT: /audits
-      # Code people may scan (read-only mounts below). Several: separate with commas.
-      LEGACY_AUDIT_SOURCES_ROOT: /sources
-      LEGACY_AUDIT_PORT: "8765"
-      # Address users type in the browser; set it when the site sits behind a proxy or DNS name.
-      LEGACY_AUDIT_PUBLIC_URL: ""
-      # dummy = test login (name only). okta comes later.
+      LEGACY_AUDIT_DB_URL: jdbc:postgresql://db:5432/legacyaudit
+      LEGACY_AUDIT_DB_USER: legacyaudit
+      LEGACY_AUDIT_DB_PASSWORD: ${LEGACY_AUDIT_DB_PASSWORD:-legacyaudit}
       LEGACY_AUDIT_AUTH: dummy
-      # These user names are always admins.
-      LEGACY_AUDIT_ADMINS: admin
-      # Signs the login cookie. Set a long random value so logins survive a restart.
-      LEGACY_AUDIT_SESSION_SECRET: ${LEGACY_AUDIT_SESSION_SECRET:-}
+      LEGACY_AUDIT_ADMINS: ${LEGACY_AUDIT_ADMINS:-admin}
       LEGACY_AUDIT_SESSION_HOURS: "12"
-      # Leave empty to set them on the admin page instead (Limits tab).
-      LEGACY_AUDIT_MAX_SCANS: ""
-      LEGACY_AUDIT_KEEP_RUNS: ""
-      # AI enrichment keys and Git tokens: put the values in a .env file next to this one.
-      # The admin page and audit.yaml only name the variable, never the value.
+      LEGACY_AUDIT_AUDITS_ROOT: /audits
+      LEGACY_AUDIT_SOURCES_ROOT: /sources
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       GIT_TOKEN: ${GIT_TOKEN:-}
-      # Reserved for the Okta step.
-      OKTA_ISSUER: ""
-      OKTA_CLIENT_ID: ""
-      OKTA_CLIENT_SECRET: ${OKTA_CLIENT_SECRET:-}
-      # Company proxy for Git clones and osv.dev lookups while the site runs (set it in .env).
       HTTPS_PROXY: ${RUN_PROXY:-}
       HTTP_PROXY: ${RUN_PROXY:-}
       NO_PROXY: ${RUN_NO_PROXY:-localhost,127.0.0.1}
-    # Everything the site keeps lives in folders on your machine, outside the container:
-    # removing or rebuilding the container keeps every project, report, log and setting.
     volumes:
-      # The audits folder: one sub-folder per project, plus .legacy-audit/ (admin settings,
-      # users, activity, server log, Git clones). Set AUDITS_DIR in .env, e.g.
-      # C:/legacy-audit/audits (Windows) or /home/siva/legacy-audit/audits (WSL2).
       - ${AUDITS_DIR:-./audits}:/audits
-      # The code to scan, read-only. Set SOURCES_DIR in .env, e.g. C:/code or /home/siva/code.
       - ${SOURCES_DIR:-./sources}:/sources:ro
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        BUILD_IMAGE: ${FRONTEND_BUILD_IMAGE:-node:22-alpine}
+        BASE_IMAGE: ${FRONTEND_BASE_IMAGE:-nginx:1.29-alpine}
+        BUILD_PROXY: ${BUILD_PROXY:-}
+        BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
+        NPM_REGISTRY: ${NPM_REGISTRY:-}
+    image: legacy-audit-frontend:latest
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${WEB_PORT:-8770}:80"
+
+volumes:
+  legacy-audit-db:

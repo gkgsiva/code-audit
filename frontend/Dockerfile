@@ -1,4 +1,4 @@
-# legacy-audit frontend (Angular), served by nginx. Built by docker-compose.spring.yml from the repository root.
+# legacy-audit frontend (Angular), served by nginx. Built by docker-compose.yml from the repository root.
 ARG BUILD_IMAGE=node:22-alpine
 ARG BASE_IMAGE=nginx:1.29-alpine
 

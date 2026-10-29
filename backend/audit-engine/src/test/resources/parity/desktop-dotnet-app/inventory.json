@@ -1,0 +1,1058 @@
+[
+  {
+    "category": "build",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0a9a651879b1c8ab",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/BillingApi.csproj",
+    "root": "estate",
+    "sha256": "6db858c9f7934fb44d1ed013d9a57c2a83ad059ef8f61ecb5434a080f2474957",
+    "size": 464
+  },
+  {
+    "category": "source",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/HomeController.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cded8bf5ddd2bba4",
+    "language": "csharp",
+    "loc_blank": 2,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Controllers/HomeController.cs",
+    "root": "estate",
+    "sha256": "92955e4fc53915841584ac88a3b19ee8c69888bc2109cb6759b513d5bdb076b5",
+    "size": 157
+  },
+  {
+    "category": "source",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a62a29ad7564e61a",
+    "language": "csharp",
+    "loc_blank": 6,
+    "loc_code": 26,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Controllers/InvoicesController.cs",
+    "root": "estate",
+    "sha256": "a1776b46df9fc7d4ba318dcffff550294793c0e03793ed2e5f591dbb9ece90a8",
+    "size": 960
+  },
+  {
+    "category": "source",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:64fa41f5d4c65ce0",
+    "language": "csharp",
+    "loc_blank": 4,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Jobs/InvoiceJobs.cs",
+    "root": "estate",
+    "sha256": "d162c8a8b3dd19a1113aa0b9273bb061789fd9cf5f6879babcebfe3df60288bd",
+    "size": 442
+  },
+  {
+    "category": "source",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Program.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:83f388660378dbbc",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Program.cs",
+    "root": "estate",
+    "sha256": "7c5e5d85fb4290afb68383dbf39daf8219b7981ac9b92ca6facfd10b3108b38f",
+    "size": 401
+  },
+  {
+    "category": "source",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:88b9ad54e568cf5f",
+    "language": "csharp",
+    "loc_blank": 2,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Services/LedgerClient.cs",
+    "root": "estate",
+    "sha256": "d17ea05164d19c3b4741d2ca2552b29dc794951afa8f7c303078348c8fa511cf",
+    "size": 304
+  },
+  {
+    "category": "screen",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Views/Home/Index.cshtml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:616368013bfdb8ca",
+    "language": "razor",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Views/Home/Index.cshtml",
+    "root": "estate",
+    "sha256": "83498cd37d37300385cd6ff1ae7a871eb86bbd31f42e2f7f6d22255dfd56ce7a",
+    "size": 184
+  },
+  {
+    "category": "screen",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3ec47acd69829ffa",
+    "language": "razor",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/Views/Shared/_Layout.cshtml",
+    "root": "estate",
+    "sha256": "7518f8e9c8c2d1e364f0bf5d01768614a09579f4eba57fb98ce60fc0cdedadb8",
+    "size": 56
+  },
+  {
+    "category": "config",
+    "component": "billing-api-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api-cs/appsettings.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3b072256cb992a28",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api-cs/appsettings.json",
+    "root": "estate",
+    "sha256": "5149fd936bd4c7505a6e4391685a7da925982831f6ac5ce3fff9ced8538ffd44",
+    "size": 167
+  },
+  {
+    "category": "build",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:413e57197f7d151c",
+    "language": "vb6-project",
+    "loc_blank": 0,
+    "loc_code": 40,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-desk-vb6/BillingDesk.vbp",
+    "root": "estate",
+    "sha256": "0c7ac63b26129effe58b89f4b1969a4bb252319062ffc48fc0d90555706bcb5f",
+    "size": 1137
+  },
+  {
+    "category": "source",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5ba9a37a7159f0be",
+    "language": "vb6",
+    "loc_blank": 4,
+    "loc_code": 39,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-desk-vb6/clsInvoice.cls",
+    "root": "estate",
+    "sha256": "d7d156e95a9a787602ef3d84b0c251caaac488dbfd34364590c3763d1439f810",
+    "size": 1199
+  },
+  {
+    "category": "source",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:652c3ab238fefe0c",
+    "language": "vb6",
+    "loc_blank": 2,
+    "loc_code": 23,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-desk-vb6/ctlAddress.ctl",
+    "root": "estate",
+    "sha256": "a94f2137779737683cc3d0cbbcb095f7b7c1b0d863672d2ad732b985fd767a85",
+    "size": 591
+  },
+  {
+    "category": "source",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cb89683ddb57f7aa",
+    "language": "vb6",
+    "loc_blank": 4,
+    "loc_code": 71,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-desk-vb6/frmCustomer.frm",
+    "root": "estate",
+    "sha256": "9761e77daa216ed0f2e9676eda656d3f405fb03b88cbc114544bfd4872195cee",
+    "size": 2276
+  },
+  {
+    "category": "source",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:131e3d89369e059a",
+    "language": "vb6",
+    "loc_blank": 4,
+    "loc_code": 47,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-desk-vb6/frmMain.frm",
+    "root": "estate",
+    "sha256": "ecf2d4729ff80852a23282a8d316f9ae10d63ea2162574dce0fb2c8054b4e215",
+    "size": 1286
+  },
+  {
+    "category": "source",
+    "component": "billing-desk-vb6",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:885b5d04869185aa",
+    "language": "vb6",
+    "loc_blank": 7,
+    "loc_code": 39,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-desk-vb6/modDb.bas",
+    "root": "estate",
+    "sha256": "f6c46c2db4dc16c69eae0aeb12cf81f5a884544a8af2c7ab4ffb96371e6f3276",
+    "size": 1376
+  },
+  {
+    "category": "screen",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:aa8076a2a78c6a95",
+    "language": "xaml",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/App.xaml",
+    "root": "estate",
+    "sha256": "0fd3f9ade730243e0c2b3a35b92c74173ade1a2ce6b6fc99cdaf307202c2d5b9",
+    "size": 245
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/App.xaml.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7da0769d3e1a614c",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/App.xaml.cs",
+    "root": "estate",
+    "sha256": "269f44de0c4e8dcd39e8bbcfbd3488519d5b433604b49b987018daa3c0a09b8e",
+    "size": 105
+  },
+  {
+    "category": "screen",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e4d9d0e27d9fe1b8",
+    "language": "xaml",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Controls/ItemCard.xaml",
+    "root": "estate",
+    "sha256": "1e93000711152e521aa9b0a91c9aeda74819aefacad4ef7dcb7cd2b2ce9e0ac4",
+    "size": 288
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a77b24a225406dd2",
+    "language": "csharp",
+    "loc_blank": 2,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Data/InventoryContext.cs",
+    "root": "estate",
+    "sha256": "62cfcf6ddb54d4274ce3bc34587a62eb8abc5494ca571541e2bf1156c8890c14",
+    "size": 391
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockItem.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:05df052239954bad",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Data/StockItem.cs",
+    "root": "estate",
+    "sha256": "452abdfc00eef6bb72d83193e33bcc3c76c9f63b86860a4e58dc5b906fb49478",
+    "size": 268
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:582dbe1bd2f7830a",
+    "language": "csharp",
+    "loc_blank": 4,
+    "loc_code": 46,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Data/StockRepository.cs",
+    "root": "estate",
+    "sha256": "e1f4aa99c050dd5df07f60766baaddf17b25e771639d9f3b111e2f469f9ec619",
+    "size": 1832
+  },
+  {
+    "category": "build",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:6d2cd4d0350b125c",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/InventoryApp.csproj",
+    "root": "estate",
+    "sha256": "d5d48ca91e8459ad8568c213733bfd0829c4060884077a4c61865832928289d7",
+    "size": 534
+  },
+  {
+    "category": "screen",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ba1b51dd128a983c",
+    "language": "xaml",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/MainWindow.xaml",
+    "root": "estate",
+    "sha256": "f341969c106c15b5fdb66ecee794c3a3b56d095729cede6fc0ea94ef89495a9e",
+    "size": 531
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ebaa00148f39feb2",
+    "language": "csharp",
+    "loc_blank": 3,
+    "loc_code": 23,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/MainWindow.xaml.cs",
+    "root": "estate",
+    "sha256": "db496037e5941fcd8c9dc28200a77d1e109e8845f81a01ec4443e55ab460f55e",
+    "size": 640
+  },
+  {
+    "category": "screen",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:6162dece355209f6",
+    "language": "xaml",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Views/StockDialog.xaml",
+    "root": "estate",
+    "sha256": "16e71f2fd8f2fe00d6524a781e8970fcee0ab07d2f58d04438a658ab6ba53129",
+    "size": 466
+  },
+  {
+    "category": "source",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:bbcf4c20bd87afe8",
+    "language": "csharp",
+    "loc_blank": 2,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+    "root": "estate",
+    "sha256": "67bdfc30560e4dda46c6c057bcfa0ff041c432407cbd814ab0f0dc6ce96187c7",
+    "size": 667
+  },
+  {
+    "category": "build",
+    "component": "inventory-wpf-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:37eed6c249ff6bf2",
+    "language": "lockfile",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "inventory-wpf-cs/packages.lock.json",
+    "root": "estate",
+    "sha256": "7e35ae30b40a750a3aad7e3289f70c1688b0ec04a3cc40b4c34cece622cf3ba8",
+    "size": 458
+  },
+  {
+    "category": "build",
+    "component": "invoice-mailer-svc",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ce50c0861b746f1e",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "invoice-mailer-svc/InvoiceMailer.csproj",
+    "root": "estate",
+    "sha256": "be978b7361f03516f4fd27c5785627a2b42f84f638762cd9f3b0dad6e01a5fdd",
+    "size": 444
+  },
+  {
+    "category": "source",
+    "component": "invoice-mailer-svc",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:93431eeb8df53327",
+    "language": "csharp",
+    "loc_blank": 4,
+    "loc_code": 25,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "invoice-mailer-svc/MailerService.cs",
+    "root": "estate",
+    "sha256": "c0431f0d697684f614bbf325cd685be4ec5e7e6bbf374629c437e6f8a8085ce1",
+    "size": 916
+  },
+  {
+    "category": "screen",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Contact.aspx",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d53126b574e0e06e",
+    "language": "aspx",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/Contact.aspx",
+    "root": "estate",
+    "sha256": "66b2778c44f3f55f3f522dba7605d0d0fa257f31b5dfdb280f4a67c32c71445c",
+    "size": 397
+  },
+  {
+    "category": "source",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/ContactService.asmx",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:54d6ce188e1d0389",
+    "language": "aspnet",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/ContactService.asmx",
+    "root": "estate",
+    "sha256": "6b877baf15ca7ad430c54a5916fcada3b948a129748e136af2e09fa8c6de3e5c",
+    "size": 101
+  },
+  {
+    "category": "source",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/ContactService.asmx.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8a27a9f44f6ddc64",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/ContactService.asmx.cs",
+    "root": "estate",
+    "sha256": "c75717a0f3c35a2b91687cec0ec5bf38d76a765af93a4de58085caf295cf3bd4",
+    "size": 276
+  },
+  {
+    "category": "screen",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:68e4dc1327ebe5d2",
+    "language": "aspx",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/Default.aspx",
+    "root": "estate",
+    "sha256": "7965265b376864a544de3ccd3dc5d4921761c6c7043a37b38d1bf99f84c5534c",
+    "size": 742
+  },
+  {
+    "category": "source",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c840e76be7b8a30e",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 21,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/Default.aspx.cs",
+    "root": "estate",
+    "sha256": "df9c970043b401b7348c831e28363ff6a72f6be752f558fd767e1833a4867f66",
+    "size": 761
+  },
+  {
+    "category": "build",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f5fa8986c62fa917",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/LegacyCrm.csproj",
+    "root": "estate",
+    "sha256": "3ebfa0b69f2d388a06ac81d5ac397d6b95b84b477f2fed756f4994986f07c589",
+    "size": 572
+  },
+  {
+    "category": "screen",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Site.master",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:64448f618f6ad11b",
+    "language": "aspx",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/Site.master",
+    "root": "estate",
+    "sha256": "da1edaba17d0795a5b2938b1c6ec3fa25c52536f5055f596771cdb694943090f",
+    "size": 134
+  },
+  {
+    "category": "config",
+    "component": "legacy-webforms",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Web.config",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cf0aed1a77433f37",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-webforms/Web.config",
+    "root": "estate",
+    "sha256": "067e77d39cd7133b082a15e139c7216c00477e4c915b8123062d644236e2200a",
+    "size": 325
+  },
+  {
+    "category": "build",
+    "component": "nightly-export-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7438e40e873cf2fe",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "nightly-export-cs/NightlyExport.csproj",
+    "root": "estate",
+    "sha256": "90cb96860b058d32887eb2fda4e55b38f3fa6b9f96d7182932599671dd29e2b4",
+    "size": 337
+  },
+  {
+    "category": "source",
+    "component": "nightly-export-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e9c02f5f2c63c096",
+    "language": "csharp",
+    "loc_blank": 1,
+    "loc_code": 25,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "nightly-export-cs/Program.cs",
+    "root": "estate",
+    "sha256": "43b38e88c8fcf005492519e19f0ed6864db3dbc3b1503d63d5a581aaa58515f5",
+    "size": 988
+  },
+  {
+    "category": "config",
+    "component": "nightly-export-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/NightlyExport.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7b1651d1ee36ef10",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 20,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "nightly-export-cs/tasks/NightlyExport.xml",
+    "root": "estate",
+    "sha256": "1f8369f045bacb9ec816b3925a13db2bcd68666500cb064e8ececb259bde79de",
+    "size": 656
+  },
+  {
+    "category": "script",
+    "component": "nightly-export-cs",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/install-tasks.cmd",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f99bed3d8db125b5",
+    "language": "batch",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "nightly-export-cs/tasks/install-tasks.cmd",
+    "root": "estate",
+    "sha256": "7e0d39043d356d978d0cb164ef0c239d6e00bac104817c0c94770999a174f2c4",
+    "size": 187
+  },
+  {
+    "category": "config",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/App.config",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e977b7daebdc7e17",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/App.config",
+    "root": "estate",
+    "sha256": "89868efae48e04040b0402eeb84a023b19c1a72ceacbe1d784fb20ae1f06f5b5",
+    "size": 651
+  },
+  {
+    "category": "source",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7a87c33dc58350a6",
+    "language": "vbnet",
+    "loc_blank": 3,
+    "loc_code": 22,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/MainForm.Designer.vb",
+    "root": "estate",
+    "sha256": "5740b0ce10947a1a1e2e62bf416c78e66ca5e0817f55a508c697a898d52f7bd4",
+    "size": 1104
+  },
+  {
+    "category": "source",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:df501f72aa935b2c",
+    "language": "vbnet",
+    "loc_blank": 7,
+    "loc_code": 22,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/MainForm.vb",
+    "root": "estate",
+    "sha256": "35f8cd0a0b27a8085db14af90d0299d5eeadcbfc1db2c6d733c9694221d035f0",
+    "size": 786
+  },
+  {
+    "category": "source",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/My Project/AssemblyInfo.vb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:75dc504d15b0b263",
+    "language": "vbnet",
+    "loc_blank": 1,
+    "loc_code": 3,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/My Project/AssemblyInfo.vb",
+    "root": "estate",
+    "sha256": "f0f2c36023a70f62604d8a30e78fda2238a892e9b64087c61458e76d1eb8f062",
+    "size": 106
+  },
+  {
+    "category": "source",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a26bb11421fc3435",
+    "language": "vbnet",
+    "loc_blank": 7,
+    "loc_code": 50,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/OrderRepository.vb",
+    "root": "estate",
+    "sha256": "ed58ae5ea80c68a67013effac7b5b51f2c3123742e5bdd84d76c175bd2f66dd5",
+    "size": 2121
+  },
+  {
+    "category": "build",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f882605e3204a5cf",
+    "language": "msbuild",
+    "loc_blank": 0,
+    "loc_code": 40,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/OrdersDesk.vbproj",
+    "root": "estate",
+    "sha256": "ff54dec957cb94a3a0896e399865ac682afd6b615803b0665cefa06e84b7af0d",
+    "size": 1702
+  },
+  {
+    "category": "build",
+    "component": "orders-winforms-vbnet",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:33675b2bc3e8346f",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-winforms-vbnet/packages.config",
+    "root": "estate",
+    "sha256": "6cdde80ff8fc93a340dd8120ba7204521984dd8b43bcb3a0631c26c24e3317e3",
+    "size": 274
+  }
+]

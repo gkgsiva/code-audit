@@ -1,0 +1,508 @@
+[
+  {
+    "category": "source",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4b447c43f65d4d6c",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 18,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+    "root": "estate",
+    "sha256": "00d65ab5985c1065bb416a4a810d7333c09a6d2c478ef04ae7b1fae4ec26cdd9",
+    "size": 761
+  },
+  {
+    "category": "script",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/ksh/billing_env.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cc4e652655509787",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "apps/billing-batch/ksh/billing_env.ksh",
+    "root": "estate",
+    "sha256": "5e394784691c22e82bb657a4b973fa6a7234dbb25f79802fa4121e91750ffeac",
+    "size": 116
+  },
+  {
+    "category": "script",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/ksh/run_invoices.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:701038ea6711cc09",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "apps/billing-batch/ksh/run_invoices.ksh",
+    "root": "estate",
+    "sha256": "743868b2e75089bf328635c1974ec86b2c8906ad662d293f2c4aca14a34ab89e",
+    "size": 273
+  },
+  {
+    "category": "other",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/ksh/run_invoices.ksh.bak",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b769375d16d53eae",
+    "language": "backup",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/billing-batch/ksh/run_invoices.ksh.bak",
+    "root": "estate",
+    "sha256": "743868b2e75089bf328635c1974ec86b2c8906ad662d293f2c4aca14a34ab89e",
+    "size": 273
+  },
+  {
+    "category": "config",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b8049db1015ad39a",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "apps/billing-batch/properties/billing.properties",
+    "root": "estate",
+    "sha256": "998dba0ab77c7d15655eb8f28442611e43e0baca43c44d2d36277a500186eb8b",
+    "size": 164
+  },
+  {
+    "category": "config",
+    "component": "billing-batch",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/sqlldr/invoices.ctl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:08994cc6e837e0bf",
+    "language": "sqlloader",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "apps/billing-batch/sqlldr/invoices.ctl",
+    "root": "estate",
+    "sha256": "6464ad327622d6c54896ac0c32c1d73047f6a381f73dfe34e7909d2fe33a8a0c",
+    "size": 207
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/.classpath",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1063732b6e724021",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/.classpath",
+    "root": "estate",
+    "sha256": "86a7939d979dcd2c82e2f51ce54f451dcf150fe74d0739cbe7adfd8be35d4ab0",
+    "size": 226
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/.project",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:9b05a2d31d5c0d09",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/.project",
+    "root": "estate",
+    "sha256": "c5f95e4f1a04e2ebdcd87b2449acdb4537ef338aa91df99e7a994b29177696bb",
+    "size": 280
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:018b196c236db5cf",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+    "root": "estate",
+    "sha256": "7f06ad9df1a4d205300e785185d692e0c0f77d785f30433fedb0065a1c670a5a",
+    "size": 255
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b041f5380bebb3ea",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/WebContent/WEB-INF/web.xml",
+    "root": "estate",
+    "sha256": "cc56b1789dce0f3f21dfb5275a8c2c3806cc834c20e285bef47ceb1ff0feb62f",
+    "size": 417
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:77428aea23a5d0b7",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/WebContent/jsp/orderList.jsp",
+    "root": "estate",
+    "sha256": "3ebed4ae4c620e0b405eb2488a2dd67535eed91d4c675f1f71bf0d125f99693d",
+    "size": 262
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/ApplicationResources.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:feff250a0f032bc7",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "apps/orders-web/src/ApplicationResources.properties",
+    "root": "estate",
+    "sha256": "b60baf6d67a4efbf38e04267c894d67d095400175932a0fa8894f2a6785609ed",
+    "size": 82
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1978d0c7415c175d",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+    "root": "estate",
+    "sha256": "8c372dfb526994281242bba52a70a338f69c846abf4db090d7c3129ef50a6304",
+    "size": 345
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d850d9707d5dd44e",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 20,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+    "root": "estate",
+    "sha256": "03c5632c0146afe708a12a675c1e9b235677ba80717e151ef16a5f699737b651",
+    "size": 685
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:2cce1d0e5263bfab",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 14,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+    "root": "estate",
+    "sha256": "8924aeb19f7e4eec0c4179295493020f1fe9fcde855acbf61b49e674637f9dc9",
+    "size": 707
+  },
+  {
+    "category": "config",
+    "component": "shared-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a549353bf6b4cf36",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "config/common.properties",
+    "root": "estate",
+    "sha256": "23d6c4c21adfa2b03b8fc6405260c2dbce29955b54a03ef839a348a702f8e3da",
+    "size": 251
+  },
+  {
+    "category": "config",
+    "component": "shared-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "config/log4j.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3640639e9112675e",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "config/log4j.xml",
+    "root": "estate",
+    "sha256": "71126298345cb34ccd882ffca318a81dc1fd50cf20ef3b79f041969622ba8b3f",
+    "size": 171
+  },
+  {
+    "category": "other",
+    "component": "shared-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "config/mail.tpl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:00cb5a9644c767f7",
+    "language": "other (.tpl)",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "config/mail.tpl",
+    "root": "estate",
+    "sha256": "bcc79d436c18da1863493845a3771282dfe8be6bda3f1f8426a430cbc7901a73",
+    "size": 52
+  },
+  {
+    "category": "script",
+    "component": "shared-scripts-config",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/deploy_all.sh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f73101633babbb68",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "scripts/deploy_all.sh",
+    "root": "estate",
+    "sha256": "c3b2add39374cbe6b037052a20284ada282fd8d39590f4523f18d12c4408058e",
+    "size": 120
+  },
+  {
+    "category": "build",
+    "component": "settlement-c",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "settlement-c/Makefile.aix",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:beb6a18be57eb0ea",
+    "language": "make",
+    "loc_blank": 1,
+    "loc_code": 4,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "settlement-c/Makefile.aix",
+    "root": "estate",
+    "sha256": "321be7153f281d2912510a6dd96deb3a943f4dc42dadaf94e4aade183baa93eb",
+    "size": 148
+  },
+  {
+    "category": "other",
+    "component": "settlement-c",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "settlement-c/data/rates.dat",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:91b4882ef6388c78",
+    "language": "data",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "settlement-c/data/rates.dat",
+    "root": "estate",
+    "sha256": "9a59cf3e1a275f61202f535dda9a4eef90ab1d9eceb980ba778d1e4c082bc025",
+    "size": 29
+  },
+  {
+    "category": "script",
+    "component": "settlement-c",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "settlement-c/scripts/run_settle.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:92e0a15174f0100a",
+    "language": "shell",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "settlement-c/scripts/run_settle.ksh",
+    "root": "estate",
+    "sha256": "8dd25b881f259804a5e172ae01df9b4d6bfef07fab10fcadbf404479565d212a",
+    "size": 84
+  },
+  {
+    "category": "source",
+    "component": "settlement-c",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:9818b1fa22023e1c",
+    "language": "proc",
+    "loc_blank": 1,
+    "loc_code": 9,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "settlement-c/src/settle.pc",
+    "root": "estate",
+    "sha256": "5f68a6e04ac7220e077a1d85336576727ee206a69d74087c308b37b2ea8d0dc2",
+    "size": 294
+  }
+]

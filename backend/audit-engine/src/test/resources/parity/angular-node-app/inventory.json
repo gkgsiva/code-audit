@@ -1,0 +1,1388 @@
+[
+  {
+    "category": "doc",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/.nvmrc",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a292da2863943d82",
+    "language": "text",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-api/.nvmrc",
+    "root": "estate",
+    "sha256": "068f688a6a9b066ba8c547527df5359505e3e0cae71d49351bf5134b26f71bcd",
+    "size": 6
+  },
+  {
+    "category": "build",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fc868d9c97b3393b",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 16,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/package.json",
+    "root": "estate",
+    "sha256": "ab171ec6ac1ac1b421be9c6c51c824e5ba6a875f803c28001736616979f2f4ca",
+    "size": 347
+  },
+  {
+    "category": "config",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/prisma/schema.prisma",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:632ce32d461e032a",
+    "language": "prisma",
+    "loc_blank": 3,
+    "loc_code": 16,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/prisma/schema.prisma",
+    "root": "estate",
+    "sha256": "75596fea015c3768adbc94101f38998b93c61d8108d06e6558fbeee0f8b008a2",
+    "size": 356
+  },
+  {
+    "category": "source",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ba344a602d20ce90",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/src/app.module.ts",
+    "root": "estate",
+    "sha256": "0497628b2455bda65801a88c1c76f6feb8a6c29d094fbc07b830e2bd9c54cbc1",
+    "size": 437
+  },
+  {
+    "category": "source",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4eca79792cfa0b93",
+    "language": "typescript",
+    "loc_blank": 4,
+    "loc_code": 18,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/src/invoices/invoices.controller.ts",
+    "root": "estate",
+    "sha256": "dc3378bc74c7a9875eaa87a4206c1f9943abe47985bf0c624a5ffcd0407c02ad",
+    "size": 613
+  },
+  {
+    "category": "source",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ebf6d8a14ef7a32e",
+    "language": "typescript",
+    "loc_blank": 5,
+    "loc_code": 20,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "billing-api/src/invoices/invoices.service.ts",
+    "root": "estate",
+    "sha256": "eb78e5f173b431014e93ed8826a47681914354b9c5a0fa616eb6fc413d9180dc",
+    "size": 911
+  },
+  {
+    "category": "source",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/src/main.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a3fb52561023a2c0",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/src/main.ts",
+    "root": "estate",
+    "sha256": "895f30769310bb9c5d986b47d6f7878296aa839b97292f0c42d6d8078049b635",
+    "size": 253
+  },
+  {
+    "category": "source",
+    "component": "billing-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "billing-api/src/prisma.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1d14513d384f9b94",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "billing-api/src/prisma.service.ts",
+    "root": "estate",
+    "sha256": "64035e078563ec3a024cef463d3e976d81fab0506d16687dabd37daa88b99fdf",
+    "size": 268
+  },
+  {
+    "category": "doc",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/README.md",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:afa5d1b34cfedab8",
+    "language": "markdown",
+    "loc_blank": 1,
+    "loc_code": 0,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "deploy/README.md",
+    "root": "estate",
+    "sha256": "995d91b56142ff80fd084476097aa41b48d16142f8b9c3b70ff4fc65f5eca703",
+    "size": 267
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/apache/httpd.conf",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:91f8f928a50119ce",
+    "language": "ini",
+    "loc_blank": 1,
+    "loc_code": 13,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "deploy/apache/httpd.conf",
+    "root": "estate",
+    "sha256": "311832e71912063dec0c5b0c7a2e168e59cadf4bd2adfe8fed162443e0c6283b",
+    "size": 427
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/jboss/standalone.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:6f1502f1bca11f81",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/jboss/standalone.xml",
+    "root": "estate",
+    "sha256": "c3a610cb8cc0dc4fae2a2fd30c9e19947ebe15e31143c2739a7aa88825df5e1d",
+    "size": 429
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/liberty/server.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:14e8ad778fdbf186",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/liberty/server.xml",
+    "root": "estate",
+    "sha256": "fa54c515ddf39052134cf22c81955934e04f71c1b34c6caee816dad94dacd58b",
+    "size": 321
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/nginx/Dockerfile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e4fe5b63b6fa205c",
+    "language": "dockerfile",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/nginx/Dockerfile",
+    "root": "estate",
+    "sha256": "a1d458dec19db55dfe017d879c0bdb4bc51aea43fd91e9a668355192b5a36bf3",
+    "size": 112
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/nginx/nginx.conf",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c297445e79bc247a",
+    "language": "ini",
+    "loc_blank": 4,
+    "loc_code": 16,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/nginx/nginx.conf",
+    "root": "estate",
+    "sha256": "096fd97731b980168ddf3bd6e07a1b0f7071a1edf5ac9b827e313ea029c775f3",
+    "size": 291
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/tomcat/context.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b7dc51c653fc5d6c",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/tomcat/context.xml",
+    "root": "estate",
+    "sha256": "b8b0ceefcc850054df911ce5b82193a99c4e50392e82553d1467e961c355e072",
+    "size": 290
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/tomcat/server.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:6d51ca540672f7f3",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/tomcat/server.xml",
+    "root": "estate",
+    "sha256": "c56029ff12a56c5cdd50ec7a98e5de78390307f2b5e7ea38dd02dcfc6db3ad3f",
+    "size": 449
+  },
+  {
+    "category": "config",
+    "component": "deploy",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "deploy/weblogic/config.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8a5f588d7bc0174d",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "deploy/weblogic/config.xml",
+    "root": "estate",
+    "sha256": "15717b9c9773fef57069c1a12c5f829bf8403f6461c42e6e6bdbb726607c281b",
+    "size": 437
+  },
+  {
+    "category": "config",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:777c67577adc4df7",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi",
+    "root": "estate",
+    "sha256": "f32383eb35a3e3dcba45684d7704fe76806d48e4dc390c9357f6207676813416",
+    "size": 233
+  },
+  {
+    "category": "config",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5e8ccbfacb0a34da",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/WEB-INF/jboss-web.xml",
+    "root": "estate",
+    "sha256": "3c2c621dd234ceb46b35a3fd5f0692637980ff7a4b7c4257095253a5a30302b9",
+    "size": 221
+  },
+  {
+    "category": "config",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0f86d188926d849d",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/WEB-INF/web.xml",
+    "root": "estate",
+    "sha256": "336d76884a41e6efa6af13aca47fdce3b48e164ac0a1db87973fe86f7373cea5",
+    "size": 252
+  },
+  {
+    "category": "config",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1be4a9f94bd2f5df",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/WEB-INF/weblogic.xml",
+    "root": "estate",
+    "sha256": "57321983dc236d14c80b9cfa586f5f586cb858a4f7a92b62f1aaa21f9c604510",
+    "size": 437
+  },
+  {
+    "category": "screen",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/index.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:07320f6da1ef3a86",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 13,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/index.html",
+    "root": "estate",
+    "sha256": "d4b1ae69c2976a8840d70a31df4c91951c09c6605f96abc23564bdd7df04e7cf",
+    "size": 297
+  },
+  {
+    "category": "source",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:76de9f41beb0b43b",
+    "language": "javascript",
+    "loc_blank": 0,
+    "loc_code": 20,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/js/app.js",
+    "root": "estate",
+    "sha256": "86333f6133d1ecdc9658220f6f6e0d17e42abc2d06f13da69f1ff9fe956fa463",
+    "size": 730
+  },
+  {
+    "category": "source",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/controllers.js",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:152665bb535a41e4",
+    "language": "javascript",
+    "loc_blank": 0,
+    "loc_code": 18,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/js/controllers.js",
+    "root": "estate",
+    "sha256": "922a75b741f010272318763dc65fe32c917bd9770a6fe4d35f5cb8646b7bd7c7",
+    "size": 732
+  },
+  {
+    "category": "source",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/lib/angular-1.5.8.js",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:de5c6a28f66dc40b",
+    "language": "javascript",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 5,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/lib/angular-1.5.8.js",
+    "root": "estate",
+    "sha256": "884dde902356729ef3f782a8b5912329265f83cadb71f5c5c85ec3e3c24678f5",
+    "size": 193
+  },
+  {
+    "category": "screen",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/account-detail.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:2298f5f7018cbee9",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/views/account-detail.html",
+    "root": "estate",
+    "sha256": "c7f6183064945b834faa2f6e8894a2d3e28a5c19433be6f3caa8c523326fde39",
+    "size": 307
+  },
+  {
+    "category": "screen",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/account-summary.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d9e0e48a8232e621",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/views/account-summary.html",
+    "root": "estate",
+    "sha256": "d517197c94b2ab2c1d494136569dcc4494c17d565ddf52704be9191c5515c062",
+    "size": 86
+  },
+  {
+    "category": "screen",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/accounts.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f3b94179462730e0",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/WebContent/views/accounts.html",
+    "root": "estate",
+    "sha256": "8082d251b69ae5cf143c258f245ca3d2e118aef8d11c0b7b70c68bf36f3bf334",
+    "size": 219
+  },
+  {
+    "category": "config",
+    "component": "legacy-portal",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "legacy-portal/bower.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e066479399a86795",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "legacy-portal/bower.json",
+    "root": "estate",
+    "sha256": "a5b07aca15e867d61dbbe35b23a5f0ec8926fc0f17b064ace00d9d3bff6be77a",
+    "size": 156
+  },
+  {
+    "category": "config",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/Dockerfile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0408eaa880b1dfe9",
+    "language": "dockerfile",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/Dockerfile",
+    "root": "estate",
+    "sha256": "2ce4740c718286e15447248473d5f4732f98d3bffb6703f8f17e0ce7010aec79",
+    "size": 127
+  },
+  {
+    "category": "build",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c77be91e704a04a8",
+    "language": "lockfile",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/package-lock.json",
+    "root": "estate",
+    "sha256": "5723bd7c2e11c001431ec4a9eac5b666cb72c46dbcf5271f42018ddc5af5f90f",
+    "size": 666
+  },
+  {
+    "category": "build",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:75c129186b5c469b",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/package.json",
+    "root": "estate",
+    "sha256": "b2603177c37d2e8ce7fad9e9293ac0500c7d74333aaa7d18ebcf502004f5152e",
+    "size": 449
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f0d22640e49cd46a",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/src/db/data-source.ts",
+    "root": "estate",
+    "sha256": "9c35c3bc7b317739711d33189761a4e01d5f24aabaca157bb11ca3da849196b0",
+    "size": 317
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/db/pool.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:902dc4a032515b06",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-api/src/db/pool.ts",
+    "root": "estate",
+    "sha256": "2e2bdcc9a1d161b9d7c0e921da83be525c6d9879105af509e839ada25355e626",
+    "size": 172
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/entities/order.entity.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:35dcf950ccdeabd0",
+    "language": "typescript",
+    "loc_blank": 4,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/src/entities/order.entity.ts",
+    "root": "estate",
+    "sha256": "47b70fe0e811db70d8beda6cdcf5d0acb9ba4079886aedc6a59d91e80d159f97",
+    "size": 282
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8279cddaa3a779f9",
+    "language": "typescript",
+    "loc_blank": 2,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-api/src/jobs/nightly.ts",
+    "root": "estate",
+    "sha256": "4cf56774a9e0dff89d95bf299472e1323c5d0c7362516c08055300d2b884e8d1",
+    "size": 406
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0f9bd3f41c019344",
+    "language": "typescript",
+    "loc_blank": 3,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/src/routes/customers.ts",
+    "root": "estate",
+    "sha256": "8bf569f79c4cd1bc454ba454c4558214b917b9dd48de2454547d1bcb803174ab",
+    "size": 325
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ca0ed6e5730b3b3e",
+    "language": "typescript",
+    "loc_blank": 6,
+    "loc_code": 18,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/src/routes/orders.ts",
+    "root": "estate",
+    "sha256": "ae5f7f98392d15e7918b08969d1c9fd5e8331f8e26c242c9b2ab95cefa8ab7b3",
+    "size": 616
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ac972d7cfc2b8f32",
+    "language": "typescript",
+    "loc_blank": 3,
+    "loc_code": 14,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/src/server.ts",
+    "root": "estate",
+    "sha256": "287ce90eb7166915a663e2ee521d538411a7443503f2dbe5b2efd48dea37bb00",
+    "size": 545
+  },
+  {
+    "category": "source",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:54bbd5446a5cfbe2",
+    "language": "typescript",
+    "loc_blank": 5,
+    "loc_code": 33,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-api/src/services/order.service.ts",
+    "root": "estate",
+    "sha256": "7072794a9fd00e206a1cd034cb8a337c17a055a2e2d57e445365c2f16abdfde3",
+    "size": 1248
+  },
+  {
+    "category": "config",
+    "component": "orders-api",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-api/tsconfig.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:02bd246a60f58dc4",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-api/tsconfig.json",
+    "root": "estate",
+    "sha256": "995ddfac52827df3e0f76673457f9b4eefbbcfb09bd14994d2533b3f07f6e697",
+    "size": 193
+  },
+  {
+    "category": "build",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/angular.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:aa7fb863fa9d9e21",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 17,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/angular.json",
+    "root": "estate",
+    "sha256": "fcb9c8d16c9f1585cadcba79fad48b1eaa8abeb4b190ec829d59db263fc28637",
+    "size": 450
+  },
+  {
+    "category": "build",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/package-lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:83d33988c163c617",
+    "language": "lockfile",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/package-lock.json",
+    "root": "estate",
+    "sha256": "c61806784d4fc66d40ef43cbabdd1bc65e42d88c941bd85aa20165cda127393c",
+    "size": 824
+  },
+  {
+    "category": "build",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/package.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3e54c2722ec8a804",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/package.json",
+    "root": "estate",
+    "sha256": "af3d34b8d3ad0c57d87c2f8d28defce34d0a450085d44bb336b54b6766d2fc90",
+    "size": 550
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:148430aa0980d4b9",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 4,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/app.component.html",
+    "root": "estate",
+    "sha256": "81e8b5d0c0b7bc25ca736b28cdd760b899ffe62c710e199171d80d375df9561a",
+    "size": 75
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5351c26dc5161062",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/app.component.ts",
+    "root": "estate",
+    "sha256": "d18b492b0db3bfc52eba6e065ea90312b0ca30d2433f719c876ad7de2d30fa7a",
+    "size": 325
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:931f5d69504fdfc0",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 17,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/app.routes.ts",
+    "root": "estate",
+    "sha256": "9baf79d8870185a981fb0a5e32f531dc0ef257eff7d80242c86c33a44d2933b6",
+    "size": 560
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/auth/auth.config.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:6f99e4fda237799b",
+    "language": "typescript",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-web/src/app/auth/auth.config.ts",
+    "root": "estate",
+    "sha256": "9ac5e44a60b6aa2ff2bf9d6eb8d36e16c0f5bcf863c2960023f02b60be3a7fb7",
+    "size": 208
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:57a41c3056900715",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 15,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-web/src/app/header/header.component.ts",
+    "root": "estate",
+    "sha256": "65426d7adc202ea7da8e363291d160974c6310ae5ab15eb8b05db0516c0d0ac7",
+    "size": 427
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f31d4d046468bb66",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 12,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order-detail.component.html",
+    "root": "estate",
+    "sha256": "0a559c631cb610d9373d295ec8381a270b5c1d75e6dfa644414246002fec76e9",
+    "size": 453
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cbb2523d8e01fd90",
+    "language": "typescript",
+    "loc_blank": 4,
+    "loc_code": 26,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order-detail.component.ts",
+    "root": "estate",
+    "sha256": "be10deb45e6dd41bb464a3953a21df16e877038104da219e6d8bc93b24a30ccf",
+    "size": 899
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0fd2c5b458962586",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 15,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order-list.component.html",
+    "root": "estate",
+    "sha256": "e66cdd2b37dac9c4496e2766c0d2270b03b69032fe11d0cf69644a7d86b69613",
+    "size": 406
+  },
+  {
+    "category": "test",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.spec.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:acff4bde706fdab5",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order-list.component.spec.ts",
+    "root": "estate",
+    "sha256": "32fcfbc0f3ebeb0a0498a80adf2eb0ece8fd1db9d5ce8f3371fa8f2c3ff464ca",
+    "size": 319
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ddca30f6902da76c",
+    "language": "typescript",
+    "loc_blank": 4,
+    "loc_code": 21,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order-list.component.ts",
+    "root": "estate",
+    "sha256": "1a0480a3f28416d1bf715b64b2209feed46cd19d2692f5cf1011c93d7413c636",
+    "size": 619
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:10e6d77af1ab7b85",
+    "language": "typescript",
+    "loc_blank": 8,
+    "loc_code": 30,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/orders/order.service.ts",
+    "root": "estate",
+    "sha256": "9ad0237ffac261bef450cb70f4f49dd301b31dc43fc8e94739befa348c683c4a",
+    "size": 1103
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/reports/reports.component.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3206a41f157b0106",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 3,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/reports/reports.component.html",
+    "root": "estate",
+    "sha256": "dcd6473b591ebc11f586a2d3cf999db31dde93137c0bc1d393bc9b59310bd7c9",
+    "size": 131
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d10931cfa32c245e",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/app/reports/reports.component.ts",
+    "root": "estate",
+    "sha256": "5914d6e30338436e8531a8a5e4430b318b6f090094c6ee2efc341e313aa4b656",
+    "size": 208
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/environments/environment.prod.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b6fb17193aa34eca",
+    "language": "typescript",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/environments/environment.prod.ts",
+    "root": "estate",
+    "sha256": "bb88cc129d2185517910245e04f3085c31210853551fa2767f212b93c4cbb781",
+    "size": 151
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/environments/environment.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c8ce41a015ade895",
+    "language": "typescript",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/environments/environment.ts",
+    "root": "estate",
+    "sha256": "ef277c22b0a301157080f4a948390a0ce12169252f67464c77eed36429e466cc",
+    "size": 101
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/index.html",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:537c019bd86004c9",
+    "language": "html",
+    "loc_blank": 0,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/index.html",
+    "root": "estate",
+    "sha256": "6911413c00a5a387939351582e6539054d0a6c0790ad0c0afe97d6493003eeff",
+    "size": 162
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/main.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:33d86453e04a440c",
+    "language": "typescript",
+    "loc_blank": 1,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/main.ts",
+    "root": "estate",
+    "sha256": "3676b42c8cd1497d9cfe9f4182c2bbd4d6828ef6de7231d0684c978e6c80e505",
+    "size": 404
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/src/styles.scss",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e88b2af4bee50b32",
+    "language": "css",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/src/styles.scss",
+    "root": "estate",
+    "sha256": "5331398d465df5a3f12b223ac345c985be548495b7bc98e78711b1b44f53f94a",
+    "size": 100
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-web/tsconfig.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e5b58f424a7b976d",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-web/tsconfig.json",
+    "root": "estate",
+    "sha256": "9e43ca8a019a25cfe994b5bd5b3cd82c00d3d56c0e5e2c64cccb9ebb4a5f9eed",
+    "size": 130
+  }
+]

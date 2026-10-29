@@ -1,0 +1,19 @@
+[
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-web/src/assets/vendor/chart.min.js",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-web/src/assets/vendor/chart.min.js",
+    "id": "finding:427d72894939594c",
+    "line": null,
+    "message": "Left out of the scan: minified or bundled code; the file. Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  }
+]

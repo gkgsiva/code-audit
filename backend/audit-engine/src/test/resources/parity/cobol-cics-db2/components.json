@@ -1,0 +1,108 @@
+[
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "screen": 1,
+      "source": 7
+    },
+    "detected_by": "grouped",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 8,
+    "id": "component:c369d90f7a741ee3",
+    "loc_code": 185,
+    "name": "cobol-online",
+    "packaging": null,
+    "parts": [
+      "bms",
+      "cobol",
+      "copybook"
+    ],
+    "path": "",
+    "roles": [
+      "batch",
+      "online-mainframe"
+    ],
+    "root": "mainframe",
+    "technology": [
+      "bms",
+      "cobol"
+    ],
+    "type": "online-mainframe"
+  },
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "sql": 1
+    },
+    "detected_by": "folder",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 1,
+    "id": "component:ab26fdbd893d9247",
+    "loc_code": 18,
+    "name": "ddl",
+    "packaging": null,
+    "parts": [],
+    "path": "ddl",
+    "roles": [
+      "db"
+    ],
+    "root": "mainframe",
+    "technology": [
+      "sql"
+    ],
+    "type": "db"
+  },
+  {
+    "artifact": null,
+    "build_files": [],
+    "build_group": [],
+    "composition": {
+      "job": 2
+    },
+    "detected_by": "grouped",
+    "entry_points": [],
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "files": 2,
+    "id": "component:1c6fbf448f6ec29d",
+    "loc_code": 24,
+    "name": "jcl-jobs",
+    "packaging": null,
+    "parts": [
+      "jcl",
+      "proclib"
+    ],
+    "path": "",
+    "roles": [
+      "batch"
+    ],
+    "root": "mainframe",
+    "technology": [
+      "jcl"
+    ],
+    "type": "batch"
+  }
+]
