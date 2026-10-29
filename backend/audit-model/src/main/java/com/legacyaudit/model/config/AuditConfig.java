@@ -42,6 +42,12 @@ public record AuditConfig(
         return d == null ? "oracle" : d.toString();
     }
 
+    /** {@code cobol.sql_dialect}: the database of the SQL embedded in COBOL. */
+    public String cobolSqlDialect() {
+        Object d = setting("cobol", "sql_dialect");
+        return d == null ? "db2" : d.toString();
+    }
+
     /** Where the code is: folders on disk or Git repositories. */
     public sealed interface Source permits LocalSource, GitSource {}
 

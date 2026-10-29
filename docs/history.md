@@ -53,3 +53,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #37 | 2026-10-29 | Spring Boot and Angular version, phase 0: skeleton, Docker compose and parser proofs |
 | #38 | 2026-10-29 | Spring Boot and Angular version, phase 1: projects, scans and inventory |
 | #39 | 2026-10-29 | Spring Boot and Angular version, phase 2: Java, SQL and configuration analyzers |
+| #40 | 2026-10-29 | Spring Boot and Angular version, phase 3: mainframe, C and batch analyzers |

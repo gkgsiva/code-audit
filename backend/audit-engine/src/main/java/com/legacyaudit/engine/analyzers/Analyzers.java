@@ -26,6 +26,14 @@ public final class Analyzers {
                 new WebAnalyzer(),
                 new SpringAnalyzer(),
                 new SqlAnalyzer(),
+                new ShellAnalyzer(),
+                new CAnalyzer(),
+                new ProcAnalyzer(),
+                new CobolAnalyzer(),
+                new JclAnalyzer(),
+                new AutosysAnalyzer(),
+                new MqAnalyzer(),
+                new CftAnalyzer(),
                 new ServersAnalyzer());
     }
 

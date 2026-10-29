@@ -579,7 +579,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
 | 0 – Skeleton and proof | Done (2026-10-29) | Maven modules `audit-model`, `audit-engine`, `audit-cli`, `audit-server`; Angular 21 login and home page; `docker-compose.yml` with PostgreSQL; test login with roles; CI on Ubuntu and Windows; proofs: JavaParser, tree-sitter and JSqlParser all go (`docs/spring/phase-0-proofs.md`). PowerPoint dropped from the rewrite |
 | 1 – Core and first screens | Done (2026-10-29) | Config and overrides, file walk with .gitignore rules, languages, encodings, LOC, components (Maven/Gradle/layout, grouping), file cache, run folders with JSON/CSV/SQLite exports and the `scan` command. `inventory.json` is byte-identical to the Python tool on all 10 samples and the component ids match (`ParityTest`). Web app: projects with members, folder picker, background scans (queue, live step, log, cancel), inventory and components stored in PostgreSQL and shown with filters |
 | 2 – Analyzers: Java and SQL | Done (2026-10-29) | Analyzers for build files, dependencies, configuration files, Java (tree-sitter-java, the same grammar as Python), Struts/JSF/JSP web tier, Spring XML, SQL files with embedded and dynamic SQL in Java, and application servers. Their facts match the Python tool on all 10 samples and on 2,000+ recorded cases (`AnalyzerParityTest`, `CaseParityTest`); SQL tables come from JSqlParser shaped like sqlglot. Scan log and command line show the files per analyzer. Developer docs started (`docs/developer/`, Javadoc task 9) |
-| 3 – Analyzers: mainframe and batch | Not started | |
+| 3 – Analyzers: mainframe and batch | Done (2026-10-29) | Analyzers for shell scripts and crontabs, JCL, Autosys JIL, IBM MQ definitions, CFT, COBOL with copybooks, CICS and BMS maps, C and C++ (tree-sitter), Pro*C, and the SQL embedded in C, Pro*C and COBOL (with dynamic SQL rebuilt from the code that fills the buffers). Their facts match the Python tool on the samples and on 1,100+ more recorded cases |
 | 4 – Analyzers: web, front ends, desktop | Not started | |
 | 5 – Linking and assessment | Not started | |
 | 6 – Reports | Not started | |
@@ -597,4 +597,6 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
   files and screens; on unusual SQL syntax (about 5% of hand-written exotic statements) the table
   list can differ from sqlglot's; on Windows the tree-sitter tree is copied through the binding
   (same results, slower).
-- Next: Phase 3 (C, C++, Pro*C, COBOL, JCL, shell, Autosys, MQ, CFT).
+- Known gaps after Phase 3: as after Phase 2, the facts stay per file until the linker
+  (Phase 5); calls between COBOL programs, scripts and C functions become links there.
+- Next: Phase 4 (web services, TypeScript/Angular/Node, .NET, VB6/VB.NET, C#).

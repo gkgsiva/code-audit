@@ -220,11 +220,16 @@ public final class DynSql {
 
     /** Values of text variables in source order; {@code at} answers "what did it hold here". */
     public static final class Tracker {
-        private final Map<String, Built> current = new HashMap<>();
+        private final Map<String, Built> current = new java.util.LinkedHashMap<>();
         private final Map<String, List<Map.Entry<Integer, Built>>> history = new HashMap<>();
 
         public Built get(String name) {
             return current.get(name);
+        }
+
+        /** Every variable's current value, in the order the variables were first assigned. */
+        public Map<String, Built> current() {
+            return java.util.Collections.unmodifiableMap(current);
         }
 
         public void assign(String name, Built nw, int line, boolean cond, boolean append) {
