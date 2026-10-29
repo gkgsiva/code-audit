@@ -46,7 +46,7 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 
 | Language or feature | Python today | Java choice |
 | --- | --- | --- |
-| Java, Spring, Struts, Swing code | tree-sitter-java | JavaParser (pure Java, full syntax tree, type resolution) |
+| Java, Spring, Struts, Swing code | tree-sitter-java | tree-sitter-java, the same grammar (decision 208; JavaParser was the first choice) |
 | C, C++, Pro*C host code | tree-sitter-c / -cpp | tree-sitter (tree-sitter-ng bindings, native libraries inside the jars) |
 | C# | tree-sitter-c-sharp | tree-sitter (tree-sitter-ng) |
 | TypeScript, Angular, AngularJS, Node | tree-sitter-typescript | tree-sitter (tree-sitter-ng) |
@@ -95,5 +95,5 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
   `doctor`, `purge-cache`); `serve` and `host` are replaced by the containers.
 - Hosted-site behaviour: roles admin, owner, contributor, viewer; Git branch per scan; clone
   cleanup; the `.env` names for proxy, mirrors, certificates and host folders.
-- One PR per phase, Siva's OK before each, VS Code steps for Windows and WSL2 in
+- One PR per phase (Siva's OK before each until 2026-10-29, then all remaining phases in a row), VS Code steps for Windows and WSL2 in
   `docs/validate-in-vscode.md`, a line per PR in `docs/history.md`.

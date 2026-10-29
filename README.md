@@ -36,10 +36,15 @@ Maven), an **Angular 21 frontend** and a **PostgreSQL** database, started with o
 
 Open the folder in VS Code and use **Terminal > Run Task...**: `audit: 1. start the web app
 (Docker)`, `2. stop the web app`, `3. build the web app and save build.log`, `4. backend
-build and tests`, `5. frontend build and tests` and `6. parser proof report`. What to check
+build and tests`, `5. frontend build and tests`, `6. parser proof report`, `7. scan a sample
+app`, `8. compare the analyzers with the Python tool` and `9. build the developer reference`.
+What to check
 after each phase is in [`docs/validate-in-vscode.md`](docs/validate-in-vscode.md).
 
 ## Development
+
+How the code is organised, class by class and module by module:
+[`docs/developer/README.md`](docs/developer/README.md).
 
 ```
 cd backend && mvn -B verify                     # Java 25 and Maven

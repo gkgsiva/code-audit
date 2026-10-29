@@ -52,6 +52,19 @@
             <argLine>--enable-native-access=ALL-UNNAMED</argLine>
           </configuration>
         </plugin>
+        <plugin>
+          <!-- Developer reference: mvn javadoc:aggregate writes target/reports/apidocs/index.html. -->
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.12.0</version>
+          <configuration>
+            <doctitle>legacy-audit backend ${project.version}</doctitle>
+            <windowtitle>legacy-audit backend</windowtitle>
+            <show>package</show>
+            <doclint>none</doclint>
+            <quiet>true</quiet>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>

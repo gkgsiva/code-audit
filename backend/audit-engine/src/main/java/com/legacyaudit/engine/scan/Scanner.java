@@ -58,9 +58,9 @@ import java.util.stream.Stream;
 import tools.jackson.databind.json.JsonMapper;
 
 /**
- * The scan pipeline: sources -> inventory -> components -> overrides -> coverage -> export, into a
- * new run folder {@code <output>/runs/<run-id>/}. Later phases add the analyzers, linking, metrics
- * and assessment between components and export.
+ * The scan pipeline: sources -> inventory (with the analyzers, file by file) -> components ->
+ * overrides -> coverage -> export, into a new run folder {@code <output>/runs/<run-id>/}. Later
+ * phases add linking, metrics and assessment between components and export.
  */
 public final class Scanner {
 

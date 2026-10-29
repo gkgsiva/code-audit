@@ -57,6 +57,22 @@
       "command": "java -jar audit-cli/target/legacy-audit.jar scan -c ../samples/${input:sample}/audit.yaml -o target/sample-scans/${input:sample}",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 8. compare the analyzers with the Python tool",
+      "detail": "Runs every ported analyzer on the sample apps and on the cases recorded from the Python tool, and fails on any difference",
+      "type": "shell",
+      "command": "mvn -B -pl audit-engine -am test \"-Dtest=AnalyzerParityTest,CaseParityTest,SqlToolsParityTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 9. build the developer reference (Javadoc)",
+      "detail": "Writes the class reference of all backend modules to backend/target/reports/apidocs/index.html (open it in a browser)",
+      "type": "shell",
+      "command": "mvn -B javadoc:aggregate",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [
