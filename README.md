@@ -18,7 +18,7 @@ GitHub Copilot agent and prompt files (installed by `init`), validated enrichmen
 tracking, a read-only MCP server, the management HTML deck and the editable PPTX. Phase 6 adds
 the local GUI (`legacy-audit serve`), `legacy-audit doctor`, parallel analysis (2M lines in
 3 to 4 minutes on 4 CPUs) and hardening for interrupted runs, odd files and long Windows paths. See
-`docs/progress.md` and `CHANGELOG.md`.
+`docs/progress.md`, `CHANGELOG.md` and `docs/history.md` (one line per pull request).
 
 ## Documents
 
