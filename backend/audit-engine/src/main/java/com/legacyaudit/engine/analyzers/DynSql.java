@@ -63,6 +63,24 @@ public final class DynSql {
             return b;
         }
 
+        /**
+         * Python's {@code dataclasses.replace(b, lines=...)}: a new value with its own copy of
+         * {@code lines}, sharing {@code how} and {@code variants} with this one (as Python
+         * does, so a later change to one shows in both).
+         */
+        public Built replaced() {
+            Built b = new Built(text, line);
+            b.minimal = minimal;
+            b.valueHoles = valueHoles;
+            b.structuralHoles = structuralHoles;
+            b.fragments = fragments;
+            b.optional = optional;
+            b.how = how;
+            b.lines = new LinkedHashSet<>(lines);
+            b.variants = variants;
+            return b;
+        }
+
         public String base() {
             return minimal == null ? text : minimal;
         }
@@ -227,13 +245,26 @@ public final class DynSql {
             return current.get(name);
         }
 
+        /** A new tracker with the same values and history (the values themselves are shared). */
+        public Tracker copy() {
+            Tracker t = new Tracker();
+            t.current.putAll(current);
+            history.forEach((k, v) -> t.history.put(k, new ArrayList<>(v)));
+            return t;
+        }
+
+        /** Forgets the current value of {@code name} (its history stays). */
+        public void remove(String name) {
+            current.remove(name);
+        }
+
         /** Every variable's current value, in the order the variables were first assigned. */
         public Map<String, Built> current() {
             return java.util.Collections.unmodifiableMap(current);
         }
 
         public void assign(String name, Built nw, int line, boolean cond, boolean append) {
-            Built withLine = nw.copy(); // the statement is evidence too
+            Built withLine = nw.replaced(); // the statement is evidence too
             withLine.lines.add(line);
             Built value = update(current.get(name), withLine, cond, append);
             current.put(name, value);

@@ -45,10 +45,10 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 | 3 | `config` | `ConfigAnalyzer` | properties, XML, YAML, INI, JSON config | integrations (JDBC, hosts, URLs, queues, CFT partners), masked credentials | 2, done |
 | 4 | `java` | `JavaAnalyzer` | `.java` | classes, methods, entry points, endpoints, JMS, SQL in strings (JDBC, JdbcTemplate, JPA, Spring Data), web service calls, Swing screens | 2, done |
 | 5 | `web` | `WebAnalyzer` | Struts 1/2, `web.xml`, Tiles, JSF, JSP, HTML, Velocity, FreeMarker | screens, actions, forwards, servlets, filters | 2, done |
-| 6 | `typescript` | | TypeScript, Angular, AngularJS, Node | | 4 |
-| 7 | `dotnet` | | `.csproj`, `web.config`, ASMX/WCF | | 4 |
-| 8 | `basic` | | VB6, VB.NET | | 4 |
-| 9 | `csharp` | | C# | | 4 |
+| 6 | `typescript` | `TypeScriptAnalyzer` | TypeScript, JavaScript, Prisma schemas (tree-sitter) | Angular components, routes and templates; AngularJS modules, controllers and routes; Express/Koa/Fastify/NestJS routes as services; HTTP calls to APIs; SQL in strings and template literals; TypeORM, Prisma, Sequelize and Knex calls; entity tables; database settings; node-cron, Agenda and NestJS `@Cron` jobs | 4, done |
+| 7 | `dotnet` | `DotnetAnalyzer` | `.csproj`/`.vbproj`, `.sln`, `packages.config`, NuGet lock files, `web.config`/`app.config`, `appsettings.json`, ASPX/Razor pages, Windows Task Scheduler XML, `schtasks` | libraries, target framework, connection strings (masked) as integrations, ASP.NET pages as screens, scheduled tasks as batch jobs, entry points | 4, done |
+| 8 | `basic` | `BasicAnalyzer` | VB6 (`.frm`, `.bas`, `.cls`, `.vbp`), VB.NET | forms and their controls as screens, navigation between forms, procedures, COM references, ADO/ADO.NET SQL (rebuilt when built in code), files, URLs, services | 4, done |
+| 9 | `csharp` | `CSharpAnalyzer` | C# (tree-sitter) | WinForms/WPF screens and navigation; MVC, Web API, ASMX and WCF operations as services; `Main`, Windows and hosted services; Hangfire and Quartz.NET jobs; ADO.NET, Dapper and Entity Framework SQL (rebuilt when built in code); entity tables; URLs, queues, mail, files | 4, done |
 | 10 | `spring` | `SpringAnalyzer` | Spring XML, MyBatis/iBATIS/Hibernate mappings | beans, URL mappings, JMS/MQ wiring, remoting, SQL from mappings | 2, done |
 | 11 | `sql` | `SqlAnalyzer` | `.sql`, PL/SQL packages, DDL | SQL statements, tables, procedures, database objects | 2, done |
 | 12 | `shell` | `ShellAnalyzer` | sh/ksh/bash, Windows batch, Perl and Python scripts, crontab | scripts and programs called, database client calls with their inline SQL, file transfers and mail (`ftp`, `sftp`, `scp`, `curl`, `mailx`, `CFTUTIL`), cron entries as batch jobs | 3, done |
@@ -60,7 +60,7 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 | 18 | `mq` | `MqAnalyzer` | IBM MQ MQSC exports | queues and channels with their queue manager | 3, done |
 | 19 | `cft` | `CftAnalyzer` | Axway CFT configuration exports | partners (`CFTPART`), send and receive flows, also from `CFTUTIL` calls in scripts | 3, done |
 | 20 | `servers` | `ServersAnalyzer` | app server and web server files | which servers the app is built for or runs on | 2, done |
-| 21 | `webservices` | | WSDL, OpenAPI, SOAP/REST definitions | | 4 |
+| 21 | `webservices` | `WebServicesAnalyzer` | WSDL, Axis `.wsdd`, Axis2 `services.xml`, `sun-jaxws.xml`, CXF Spring XML, servlets in `web.xml` | SOAP services offered with their operations, endpoints and implementing classes | 4, done |
 | 22 | `metrics` | | every source file | units, duplication windows | 5 |
 | 23 | `patterns` | | every text file | text-rule hits (risk and PostgreSQL rules) | 5 |
 
@@ -76,15 +76,20 @@ Order and status. "Python" is the module on `office-main` it was ported from.
 | `PyShlex` | Python's `shlex.split` (used by the shell analyzer to split command lines) |
 | `Integrations` | Integration facts (JDBC URLs, hosts, queues), URL classification, masking of user names and passwords |
 | `WebSvc` | Web service facts: services offered and calls to other systems (REST/SOAP) |
+| `DotnetAnalyzer` (static parts) | .NET knowledge shared with the C# and VB analyzers: connection strings (`connectionString`, `addConnection`), namespaces that show a database or a framework (`DB_NAMESPACES`, `NAMESPACE_TECH`), target framework names |
+| `BasicAnalyzer` (static parts) | VB text helpers: comments, logical lines with `_` continuations, procedure starts and ends (also used by the metrics in Phase 5), the VB6 form header and its controls |
 | `Xml` | XML read as the Python tool read it: no DTD download, namespaces dropped from tag names, a line number on every element |
 | `TextUtil`, `PyUrl`, `PyError`, `PyJsonRead` | Python behaviour for strings, URLs, errors and JSON (see [audit-engine.md](audit-engine.md)) |
 | `Coverage`, `Symbol`, `Ref` | Parts of `Facts` |
 
 ## tree-sitter (`analyzers.ts`)
 
-Java, C and C++ (and in Phase 4 C# and TypeScript) are parsed with tree-sitter, the same
-parser and grammar versions as the Python tool, through the `io.github.bonede` bindings, whose
-jars contain the native libraries for Windows, Linux and macOS.
+Java, C, C++, C# and TypeScript/JavaScript are parsed with tree-sitter, with the grammars the
+Python tool used, through the `io.github.bonede` bindings, whose jars contain the native
+libraries for Windows, Linux and macOS: `TreeSitterJava`, `TreeSitterC`, `TreeSitterCpp`,
+`TreeSitterCSharp`, `TreeSitterTypescript` (`.ts`, `.mts`, `.cts`) and `TreeSitterTsx`
+(JavaScript and `.tsx`, which may contain JSX). Versions are in `backend/pom.xml`; decisions 214
+and 216 list where a binding is a patch version away from Python's.
 
 - `TsTree.parsers(TreeSitterJava::new)` gives one parser per thread (parsers are not
   thread-safe); `TsTree.parse(parser, text)` returns the root `TsNode`.
@@ -116,6 +121,26 @@ A port of `java.py`, function by function. Per file:
    SOAP clients.
 4. SQL found this way becomes `sql_statements` with `DynSql` details; imports and class
    references become refs for the linker.
+
+## The C#, VB and TypeScript analyzers
+
+They follow the Java analyzer's pattern: one pass over the file, a `Visitor` (or `Reader` for
+VB, which is read line by line) that keeps what is known so far, and the shared helpers for the
+facts.
+
+- **Variables holding text.** SQL and URLs are often built in steps (`sql += " WHERE ..."`). A
+  `DynSql.Tracker` (C#) or a `Scope` map (TypeScript, per function) keeps each variable's
+  `Built` text; code under `if`, loops, `switch`, `catch` and `?:` marks the change as
+  conditional. When a database call uses the variable its SQL is recorded there; text that no
+  call used is checked once more at the end of the function (`leftovers`).
+- **ORMs.** Entity Framework, TypeORM, Prisma, Sequelize and Knex calls do not contain SQL. They
+  become readable statements such as `SELECT /* TypeORM find */ FROM Order` with
+  `parsed: false`, so the tables and the CRUD matrix still see them.
+- **Screens and navigation.** WinForms/VB forms come with their designer controls (the field
+  count); `new X().Show()` and Angular/AngularJS routes become `forwards` references that the
+  linker resolves to the target screen.
+- **Services and jobs.** MVC/Web API actions, ASMX/WCF operations, Express and NestJS routes
+  become `services`; Hangfire, Quartz.NET, node-cron and NestJS `@Cron` become `batch_jobs`.
 
 ## Adding or changing an analyzer
 

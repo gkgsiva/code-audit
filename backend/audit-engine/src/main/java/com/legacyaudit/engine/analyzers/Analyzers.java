@@ -24,6 +24,10 @@ public final class Analyzers {
                 new ConfigAnalyzer(),
                 new JavaAnalyzer(),
                 new WebAnalyzer(),
+                new TypeScriptAnalyzer(),
+                new DotnetAnalyzer(),
+                new BasicAnalyzer(),
+                new CSharpAnalyzer(),
                 new SpringAnalyzer(),
                 new SqlAnalyzer(),
                 new ShellAnalyzer(),
@@ -34,7 +38,8 @@ public final class Analyzers {
                 new AutosysAnalyzer(),
                 new MqAnalyzer(),
                 new CftAnalyzer(),
-                new ServersAnalyzer());
+                new ServersAnalyzer(),
+                new WebServicesAnalyzer());
     }
 
     /** {@code inventory=<v>;<name>=<version>;...} by name: part of the file-cache key. */

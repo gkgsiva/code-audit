@@ -36,6 +36,7 @@
     <tree-sitter-cpp.version>0.23.4</tree-sitter-cpp.version>
     <tree-sitter-c-sharp.version>0.23.1</tree-sitter-c-sharp.version>
     <tree-sitter-typescript.version>0.23.2</tree-sitter-typescript.version>
+    <tree-sitter-tsx.version>0.23.2</tree-sitter-tsx.version>
     <jsqlparser.version>5.3</jsqlparser.version>
     <picocli.version>4.7.7</picocli.version>
     <juniversalchardet.version>2.5.0</juniversalchardet.version>
@@ -115,6 +116,11 @@
         <groupId>io.github.bonede</groupId>
         <artifactId>tree-sitter-typescript</artifactId>
         <version>${tree-sitter-typescript.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.bonede</groupId>
+        <artifactId>tree-sitter-tsx</artifactId>
+        <version>${tree-sitter-tsx.version}</version>
       </dependency>
       <dependency>
         <groupId>com.github.jsqlparser</groupId>

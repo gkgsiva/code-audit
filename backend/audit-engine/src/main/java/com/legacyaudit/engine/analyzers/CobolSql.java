@@ -233,7 +233,7 @@ public final class CobolSql {
             String name = name(target);
             boolean append = target.contains("("); // reference modification: writes into the middle/end
             Built prev = tracker.get(name);
-            Built value = operand(src, prev != null && append ? prev.text : "", line).copy();
+            Built value = operand(src, prev != null && append ? prev.text : "", line).replaced();
             value.lines.add(line);
             if (value.valueHoles + value.structuralHoles == 0 || prev != null) {
                 tracker.assign(name, value, line, cond, append && prev != null);

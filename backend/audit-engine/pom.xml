@@ -47,6 +47,10 @@
       <groupId>io.github.bonede</groupId>
       <artifactId>tree-sitter-typescript</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.github.bonede</groupId>
+      <artifactId>tree-sitter-tsx</artifactId>
+    </dependency>
     <!-- SQL statements (decision 193). -->
     <dependency>
       <groupId>com.github.jsqlparser</groupId>

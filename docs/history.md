@@ -54,3 +54,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #38 | 2026-10-29 | Spring Boot and Angular version, phase 1: projects, scans and inventory |
 | #39 | 2026-10-29 | Spring Boot and Angular version, phase 2: Java, SQL and configuration analyzers |
 | #40 | 2026-10-29 | Spring Boot and Angular version, phase 3: mainframe, C and batch analyzers |
+| #41 | 2026-10-29 | Spring Boot and Angular version, phase 4: web, front-end and desktop analyzers |
