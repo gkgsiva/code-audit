@@ -1,0 +1,2110 @@
+{
+ "Makefile": {
+  "build": {
+   "coverage": {
+    "lines": 20,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "Makefile",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:51fcdf02f3bc41e9",
+      "name": "Make",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "Makefile",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4f77c0580c943e2d",
+      "name": "C compiler (cc)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "Makefile",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7e2e17d7f37a26ed",
+      "name": "Oracle Pro*C",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "Makefile",
+     "kind": "c-executable",
+     "line": 12,
+     "name": "settle_load",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "Makefile",
+     "kind": "c-executable",
+     "line": 13,
+     "name": "settle_load",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "Makefile",
+     "kind": "c-executable",
+     "line": 15,
+     "name": "settle_send",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "Makefile",
+     "kind": "c-executable",
+     "line": 16,
+     "name": "settle_send",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/cft/cft_settlement.cfg": {
+  "cft": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "defined_by_export": "true",
+       "file": "/data/settlement/out/settlement.dat",
+       "idf": "SETTLE",
+       "partner": "*"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:9c1eb97778150cd7",
+      "producers": [],
+      "protocol": "CFT",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/cft/cft_settlement.cfg"
+      ],
+      "target": "*/SETTLE",
+      "type": "CFT",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "defined_by_export": "true",
+       "file": "/data/settlement/in/&IDF.&FDATE.ack",
+       "idf": "SETTACK",
+       "partner": "*"
+      },
+      "direction": "inbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:594928fc968e3e6a",
+      "producers": [],
+      "protocol": "CFT",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/cft/cft_settlement.cfg"
+      ],
+      "target": "*/SETTACK",
+      "type": "CFT",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:a7762226ef3fc085",
+      "name": "Axway CFT",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "host": "cft.bank-fr.example.net",
+      "nspart": "BANKFR01"
+     },
+     "file": "audit-inputs/cft/cft_settlement.cfg",
+     "kind": "cft-partner",
+     "line": 2,
+     "name": "BANKFR",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/crontab/settlement.cron": {
+  "shell": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": "/opt/settlement/scripts/run_settlement.ksh >> /var/log/settlement/run.log 2>&1",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "batch_job:b93f58228776492a",
+      "kind": "job",
+      "machine": null,
+      "name": "run_settlement.ksh",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [],
+      "schedule": "30 1 * * 1-5",
+      "scheduler": "cron",
+      "steps": []
+     },
+     {
+      "box": null,
+      "command": "/opt/settlement/scripts/purge_logs.sh",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "batch_job:2ffa150d59479cb2",
+      "kind": "job",
+      "machine": null,
+      "name": "purge_logs.sh",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [],
+      "schedule": "0 6 1 * *",
+      "scheduler": "cron",
+      "steps": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "scheduler",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:70a190013ceec0de",
+      "name": "cron",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "audit-inputs/crontab/settlement.cron",
+     "kind": "invokes",
+     "line": 3,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:b93f58228776492a",
+     "source_label": "run_settlement.ksh",
+     "target": "run_settlement.ksh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/crontab/settlement.cron",
+     "kind": "invokes",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:2ffa150d59479cb2",
+     "source_label": "purge_logs.sh",
+     "target": "purge_logs.sh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "audit-inputs/crontab/settlement.cron",
+     "kind": "cron-job",
+     "line": 3,
+     "name": "run_settlement.ksh",
+     "owner": "batch_job:b93f58228776492a"
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/crontab/settlement.cron",
+     "kind": "cron-job",
+     "line": 4,
+     "name": "purge_logs.sh",
+     "owner": "batch_job:2ffa150d59479cb2"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "scripts/archive.sh": {
+  "metrics": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 6,
+     "kind": "script",
+     "line": 1,
+     "loc": 4,
+     "name": "archive.sh"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "scripts/archive.sh",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:aca6beedce2cb129",
+      "producers": [],
+      "protocol": "scp",
+      "purpose": null,
+      "source_files": [
+       "scripts/archive.sh"
+      ],
+      "target": "archive01.acme.local",
+      "type": "SCP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "scripts/run_settlement.ksh": {
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 4,
+     "end_line": 22,
+     "kind": "script",
+     "line": 1,
+     "loc": 17,
+     "name": "run_settlement.ksh"
+    }
+   ],
+   "windows": [
+    [
+     7764027807815064381,
+     3,
+     8
+    ],
+    [
+     2505947849857818986,
+     4,
+     10
+    ],
+    [
+     6110276406125017903,
+     5,
+     12
+    ],
+    [
+     589541136263650910,
+     6,
+     14
+    ],
+    [
+     8584652768453477450,
+     8,
+     15
+    ],
+    [
+     1791561272683164585,
+     10,
+     20
+    ],
+    [
+     7712616245732682758,
+     11,
+     20
+    ],
+    [
+     6144616992315604178,
+     12,
+     20
+    ],
+    [
+     2834329107522252021,
+     13,
+     21
+    ],
+    [
+     2482247583410409639,
+     14,
+     22
+    ],
+    [
+     1385404306076280487,
+     15,
+     22
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "file": "/data/settlement/out/settlement.dat",
+       "idf": "SETTLE",
+       "partner": "BANKFR"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "scripts/run_settlement.ksh",
+        "line": 20,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:05322129f49fa7b7",
+      "producers": [],
+      "protocol": "CFT",
+      "purpose": null,
+      "source_files": [
+       "scripts/run_settlement.ksh"
+      ],
+      "target": "BANKFR/SETTLE",
+      "type": "CFT",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "scripts/run_settlement.ksh",
+        "line": 13,
+        "snippet": "SELECT merchant_id || ';' || TO_CHAR(amount, 'FM999999990.00') FROM settlement_lines WHERE run_date = TO_DATE('$RUN_DATE"
+       }
+      ],
+      "file": "scripts/run_settlement.ksh",
+      "fingerprint": "7535fe66f0b3c67d",
+      "fragments": 1,
+      "id": "sql:9916ac3a838164e5",
+      "line": 13,
+      "normalized": "SELECT MERCHANT_ID || ? || TO_CHAR(AMOUNT, ?) FROM SETTLEMENT_LINES WHERE RUN_DATE = TO_DATE(?, ?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "script",
+      "structural_holes": 0,
+      "tables": [
+       "SETTLEMENT_LINES"
+      ],
+      "text": "SELECT merchant_id || ';' || TO_CHAR(amount, 'FM999999990.00')\n  FROM settlement_lines\n WHERE run_date = TO_DATE('$RUN_DATE', 'YYYYMMDD')",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "TO_CHAR/TO_DATE"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "scripts/run_settlement.ksh",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4cb01f14a2ae602e",
+      "name": "SQL*Plus",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "scripts/run_settlement.ksh",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4cb01f14a2ae602e",
+      "name": "SQL*Plus",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "scripts/run_settlement.ksh",
+     "kind": "invokes",
+     "line": 3,
+     "report_unresolved": false,
+     "source": "file:scripts/run_settlement.ksh",
+     "source_label": "scripts/run_settlement.ksh",
+     "target": "settle.env",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "scripts/run_settlement.ksh",
+     "kind": "invokes",
+     "line": 8,
+     "report_unresolved": false,
+     "source": "file:scripts/run_settlement.ksh",
+     "source_label": "scripts/run_settlement.ksh",
+     "target": "settle_load",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "scripts/run_settlement.ksh",
+     "kind": "invokes",
+     "line": 21,
+     "report_unresolved": false,
+     "source": "file:scripts/run_settlement.ksh",
+     "source_label": "scripts/run_settlement.ksh",
+     "target": "settle_send",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "scripts/run_settlement.ksh",
+     "kind": "invokes",
+     "line": 22,
+     "report_unresolved": true,
+     "source": "file:scripts/run_settlement.ksh",
+     "source_label": "scripts/run_settlement.ksh",
+     "target": "settle_report.sql",
+     "target_kinds": [
+      "file-name"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "sql/settle_report.sql": {
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     7366426587930271607,
+     2,
+     7
+    ],
+    [
+     5335682186018615607,
+     3,
+     7
+    ],
+    [
+     9214290285983181090,
+     5,
+     8
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "sql": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/settle_report.sql",
+        "line": 5,
+        "snippet": "SELECT m.merchant_name, l.amount, DECODE(l.status, 'P', 'Paid', 'Pending') AS status FROM settlement_lines l, merchants "
+       }
+      ],
+      "file": "sql/settle_report.sql",
+      "fingerprint": "b4abe5ee439c2051",
+      "fragments": 1,
+      "id": "sql:dedf92e03171733a",
+      "line": 5,
+      "normalized": "SELECT M.MERCHANT_NAME, L.AMOUNT, DECODE(L.STATUS, ?, ?, ?) AS STATUS FROM SETTLEMENT_LINES L, MERCHANTS M WHERE L.MERCHANT_ID = M.MERCHANT_ID (+) AND L.RUN_DATE = TO_DATE(?, ?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "sql-file",
+      "structural_holes": 0,
+      "tables": [
+       "MERCHANTS",
+       "SETTLEMENT_LINES"
+      ],
+      "text": "SELECT m.merchant_name, l.amount, DECODE(l.status, 'P', 'Paid', 'Pending') AS status\n  FROM settlement_lines l, merchants m\n WHERE l.merchant_id = m.merchant_id (+)\n   AND l.run_date = TO_DATE('&1', 'YYYYMMDD')",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "DECODE",
+       "OUTER JOIN (+)",
+       "TO_CHAR/TO_DATE"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/common/settle_util.c": {
+  "c_cpp": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/common/settle_util.c",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:20f0a19cf3675c05",
+      "producers": [],
+      "protocol": "fopen",
+      "purpose": null,
+      "source_files": [
+       "src/common/settle_util.c"
+      ],
+      "target": "/var/log/settlement/settle.log",
+      "type": "FILE",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "includes",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "file:src/common/settle_util.c",
+     "source_label": "src/common/settle_util.c",
+     "target": "settle_util.h",
+     "target_kinds": [
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "invokes",
+     "line": 24,
+     "report_unresolved": true,
+     "source": "file:src/common/settle_util.c",
+     "source_label": "src/common/settle_util.c",
+     "target": "archive.sh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "calls",
+     "line": 11,
+     "report_unresolved": false,
+     "source": "file:src/common/settle_util.c",
+     "source_label": "src/common/settle_util.c",
+     "target": "fopen",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "calls",
+     "line": 25,
+     "report_unresolved": false,
+     "source": "file:src/common/settle_util.c",
+     "source_label": "src/common/settle_util.c",
+     "target": "system",
+     "target_kinds": [
+      "c-function"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "c-function",
+     "line": 9,
+     "name": "settle_log",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "c-function",
+     "line": 21,
+     "name": "settle_archive",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/common/settle_util.c",
+     "kind": "c-function",
+     "line": 28,
+     "name": "settle_run_date",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 18,
+     "kind": "function",
+     "line": 9,
+     "loc": 10,
+     "name": "settle_log"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 26,
+     "kind": "function",
+     "line": 21,
+     "loc": 6,
+     "name": "settle_archive"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 33,
+     "kind": "function",
+     "line": 28,
+     "loc": 6,
+     "name": "settle_run_date"
+    }
+   ],
+   "windows": [
+    [
+     6473269325584041292,
+     1,
+     12
+    ],
+    [
+     3356380005184935552,
+     2,
+     13
+    ],
+    [
+     2084684386337254323,
+     3,
+     15
+    ],
+    [
+     1371719324964488824,
+     4,
+     15
+    ],
+    [
+     8749244995218736452,
+     6,
+     15
+    ],
+    [
+     1127562847597453420,
+     9,
+     16
+    ],
+    [
+     7591369443182905283,
+     10,
+     21
+    ],
+    [
+     8214604454899053189,
+     11,
+     21
+    ],
+    [
+     4893227328636583503,
+     12,
+     23
+    ],
+    [
+     7481917458267923692,
+     13,
+     24
+    ],
+    [
+     861637276110361337,
+     14,
+     24
+    ],
+    [
+     4122291560223309771,
+     15,
+     25
+    ],
+    [
+     6797737743855047725,
+     16,
+     28
+    ],
+    [
+     8096032447136174065,
+     17,
+     30
+    ],
+    [
+     4274018028630259253,
+     18,
+     30
+    ],
+    [
+     9108891119985951463,
+     21,
+     30
+    ],
+    [
+     2276947229096208581,
+     22,
+     31
+    ],
+    [
+     7667965271787813404,
+     23,
+     31
+    ],
+    [
+     4864687642884163967,
+     24,
+     31
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "filesystem-path",
+     11,
+     "\"/var/log/settlement/settle.log\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/common/settle_util.h": {
+  "c_cpp": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/settle_load.pc": {
+  "metrics": {
+   "coverage": {
+    "lines": 75,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 3,
+     "end_line": 39,
+     "kind": "function",
+     "line": 26,
+     "loc": 9,
+     "name": "load_lines"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 50,
+     "kind": "function",
+     "line": 41,
+     "loc": 4,
+     "name": "close_day"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 62,
+     "kind": "function",
+     "line": 52,
+     "loc": 8,
+     "name": "purge_old"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 74,
+     "kind": "function",
+     "line": 64,
+     "loc": 9,
+     "name": "main"
+    }
+   ],
+   "windows": [
+    [
+     4312891587729965821,
+     5,
+     31
+    ],
+    [
+     2935109057743194825,
+     6,
+     31
+    ],
+    [
+     4553724634204520945,
+     7,
+     36
+    ],
+    [
+     4611987857550763259,
+     12,
+     38
+    ],
+    [
+     3045156381412012594,
+     13,
+     41
+    ],
+    [
+     3666192707669820073,
+     14,
+     42
+    ],
+    [
+     5857815471329452970,
+     15,
+     52
+    ],
+    [
+     2919516163841806327,
+     26,
+     52
+    ],
+    [
+     6123696414598433637,
+     27,
+     55
+    ],
+    [
+     8734883123574488090,
+     29,
+     55
+    ],
+    [
+     8844859755252908739,
+     31,
+     55
+    ],
+    [
+     5061128309739234550,
+     32,
+     57
+    ],
+    [
+     4469714081914045223,
+     33,
+     57
+    ],
+    [
+     6022640696860432605,
+     36,
+     57
+    ],
+    [
+     1458406454311174328,
+     38,
+     58
+    ],
+    [
+     8044229227957242587,
+     39,
+     61
+    ],
+    [
+     7451727348128103222,
+     41,
+     62
+    ],
+    [
+     6291535343949654857,
+     42,
+     64
+    ],
+    [
+     4423941556055538118,
+     49,
+     64
+    ],
+    [
+     5772655468941019320,
+     50,
+     64
+    ],
+    [
+     2268247760755465024,
+     52,
+     64
+    ],
+    [
+     7783393569233799057,
+     53,
+     66
+    ],
+    [
+     4227067975049383105,
+     55,
+     66
+    ],
+    [
+     5717605792020159943,
+     56,
+     68
+    ],
+    [
+     6174042358325261944,
+     57,
+     69
+    ],
+    [
+     2127961232362865634,
+     58,
+     70
+    ],
+    [
+     1360481575529501683,
+     61,
+     72
+    ],
+    [
+     6122808290907201356,
+     62,
+     72
+    ],
+    [
+     3808986149227851891,
+     64,
+     72
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "proc": {
+   "coverage": {
+    "lines": 75,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 64,
+        "snippet": null
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "id": "entry:69dc82c4e5f0b51d",
+      "kind": "main",
+      "line": 64,
+      "name": "settle_load"
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 64,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "src/settle_load.pc",
+      "framework": null,
+      "handler": "src/settle_load.pc#main",
+      "id": "service:5bacd51cf4fbfb5c",
+      "inputs": [],
+      "kind": "c-executable",
+      "name": "settle_load",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 18,
+        "snippet": "DECLARE txn_cur CURSOR FOR SELECT t.merchant_id, SUM(t.amount) FROM card_transactions t, merchants m WHERE t.merchant_id"
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "fingerprint": "0a50c8b743bb0a04",
+      "fragments": 1,
+      "id": "sql:3324194cd7bafec9",
+      "line": 18,
+      "normalized": "DECLARE TXN_CUR CURSOR FOR SELECT T.MERCHANT_ID, SUM(T.AMOUNT) FROM CARD_TRANSACTIONS T, MERCHANTS M WHERE T.MERCHANT_ID = M.MERCHANT_ID AND T.TXN_DATE = TO_DATE(?, ?) AND M.STATUS = ? GROUP BY T.MERCHANT_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "CARD_TRANSACTIONS",
+       "MERCHANTS"
+      ],
+      "text": "DECLARE txn_cur CURSOR FOR\n    SELECT t.merchant_id, SUM(t.amount)\n      FROM card_transactions t, merchants m\n     WHERE t.merchant_id = m.merchant_id\n       AND t.txn_date = TO_DATE(:run_date, 'YYYYMMDD')\n       AND m.status = 'A'\n     GROUP BY t.merchant_id",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "TO_CHAR/TO_DATE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 34,
+        "snippet": "INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on) VALUES (:merchant_id, TO_DATE(:run_date, 'YYYYM"
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "fingerprint": "f5ae5da80fa7b1cb",
+      "fragments": 1,
+      "id": "sql:7c7e766b1fca83a9",
+      "line": 34,
+      "normalized": "INSERT INTO SETTLEMENT_LINES (MERCHANT_ID, RUN_DATE, AMOUNT, CREATED_ON) VALUES (?, TO_DATE(?, ?), ?, SYSDATE)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "SETTLEMENT_LINES"
+      ],
+      "text": "INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on)\n                 VALUES (:merchant_id, TO_DATE(:run_date, 'YYYYMMDD'), :amount, SYSDATE)",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE",
+       "TO_CHAR/TO_DATE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 45,
+        "snippet": "CALL pkg_settlement.close_day"
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "fingerprint": "8bdc4b695b4855bc",
+      "fragments": 1,
+      "id": "sql:0b142e2b85363f72",
+      "line": 45,
+      "normalized": "CALL PKG_SETTLEMENT.CLOSE_DAY",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [
+       "PKG_SETTLEMENT.CLOSE_DAY"
+      ],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [],
+      "text": "CALL pkg_settlement.close_day",
+      "type": "CALL",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 46,
+        "snippet": "UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(:run_date, 'YYYYMMDD')"
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "fingerprint": "3cf1c8a51c3c022a",
+      "fragments": 1,
+      "id": "sql:4b592e7c074853a8",
+      "line": 46,
+      "normalized": "UPDATE SETTLEMENT_RUNS SET STATUS = ? WHERE RUN_DATE = TO_DATE(?, ?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "SETTLEMENT_RUNS"
+      ],
+      "text": "UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(:run_date, 'YYYYMMDD')",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "TO_CHAR/TO_DATE"
+      ]
+     },
+     {
+      "built_with": [
+       "concatenation",
+       "conditional",
+       "prepare-from-variable",
+       "string-format"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 59,
+        "snippet": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'"
+       },
+       {
+        "file": "src/settle_load.pc",
+        "line": 55,
+        "snippet": null
+       },
+       {
+        "file": "src/settle_load.pc",
+        "line": 57,
+        "snippet": null
+       }
+      ],
+      "file": "src/settle_load.pc",
+      "fingerprint": "32e1e638d496406d",
+      "fragments": 2,
+      "id": "sql:285c81a26a358c5a",
+      "line": 59,
+      "normalized": "DELETE FROM ? WHERE RUN_DATE < ADD_MONTHS(SYSDATE, -?) AND STATUS <> ?",
+      "optional_fragments": 1,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 1,
+      "tables": [],
+      "text": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'",
+      "type": "DELETE",
+      "value_holes": 0,
+      "variants": [
+       "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13)"
+      ],
+      "vendor_features": [
+       "SYSDATE",
+       "ADD_MONTHS"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/settle_load.pc",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7e2e17d7f37a26ed",
+      "name": "Oracle Pro*C",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "includes",
+     "line": 7,
+     "report_unresolved": true,
+     "source": "file:src/settle_load.pc",
+     "source_label": "src/settle_load.pc",
+     "target": "settle_util.h",
+     "target_kinds": [
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "calls",
+     "line": 72,
+     "report_unresolved": false,
+     "source": "file:src/settle_load.pc",
+     "source_label": "src/settle_load.pc",
+     "target": "settle_log",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "calls",
+     "line": 66,
+     "report_unresolved": false,
+     "source": "file:src/settle_load.pc",
+     "source_label": "src/settle_load.pc",
+     "target": "settle_run_date",
+     "target_kinds": [
+      "c-function"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-function",
+     "line": 26,
+     "name": "load_lines",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-function",
+     "line": 41,
+     "name": "close_day",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-function",
+     "line": 52,
+     "name": "purge_old",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-function",
+     "line": 64,
+     "name": "main",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-executable",
+     "line": 64,
+     "name": "settle_load",
+     "owner": "service:5bacd51cf4fbfb5c"
+    },
+    {
+     "data": {},
+     "file": "src/settle_load.pc",
+     "kind": "c-main",
+     "line": 64,
+     "name": "settle_load",
+     "owner": "service:5bacd51cf4fbfb5c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/settle_send.c": {
+  "c_cpp": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "file": "src/settle_send.c",
+      "id": "entry:acecc555228bf667",
+      "kind": "main",
+      "line": 10,
+      "name": "settle_send"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:00c3b7589b23f21e",
+      "producers": [],
+      "protocol": "MQI",
+      "purpose": null,
+      "source_files": [
+       "src/settle_send.c"
+      ],
+      "target": "QMSETL",
+      "type": "MQ-QMGR",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "inbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 25,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:8d291ea912999758",
+      "producers": [],
+      "protocol": "fopen",
+      "purpose": null,
+      "source_files": [
+       "src/settle_send.c"
+      ],
+      "target": "/data/settlement/out/settlement.dat",
+      "type": "FILE",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:9799284bc5aedb7d",
+      "producers": [
+       "src/settle_send.c"
+      ],
+      "protocol": "MQI",
+      "purpose": null,
+      "source_files": [
+       "src/settle_send.c"
+      ],
+      "target": "SETTLE.TO.BANK",
+      "type": "MQ",
+      "usages": 1
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "src/settle_send.c",
+      "framework": null,
+      "handler": "src/settle_send.c#main",
+      "id": "service:804b089e6a4bde98",
+      "inputs": [],
+      "kind": "c-executable",
+      "name": "settle_send",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/settle_send.c",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:70d3db27a32a6606",
+      "name": "IBM MQ (MQI)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "includes",
+     "line": 8,
+     "report_unresolved": true,
+     "source": "file:src/settle_send.c",
+     "source_label": "src/settle_send.c",
+     "target": "settle_util.h",
+     "target_kinds": [
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "calls",
+     "line": 25,
+     "report_unresolved": false,
+     "source": "file:src/settle_send.c",
+     "source_label": "src/settle_send.c",
+     "target": "fopen",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "calls",
+     "line": 35,
+     "report_unresolved": false,
+     "source": "file:src/settle_send.c",
+     "source_label": "src/settle_send.c",
+     "target": "settle_archive",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "calls",
+     "line": 34,
+     "report_unresolved": false,
+     "source": "file:src/settle_send.c",
+     "source_label": "src/settle_send.c",
+     "target": "settle_log",
+     "target_kinds": [
+      "c-function"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "c-function",
+     "line": 10,
+     "name": "main",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "c-executable",
+     "line": 10,
+     "name": "settle_send",
+     "owner": "service:804b089e6a4bde98"
+    },
+    {
+     "data": {},
+     "file": "src/settle_send.c",
+     "kind": "c-main",
+     "line": 10,
+     "name": "settle_send",
+     "owner": "service:804b089e6a4bde98"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 4,
+     "end_line": 37,
+     "kind": "function",
+     "line": 10,
+     "loc": 26,
+     "name": "main"
+    }
+   ],
+   "windows": [
+    [
+     8456456051093405822,
+     5,
+     15
+    ],
+    [
+     4973373563026150148,
+     6,
+     16
+    ],
+    [
+     17113343918818687,
+     7,
+     17
+    ],
+    [
+     3790003129870833700,
+     8,
+     18
+    ],
+    [
+     3017994049363417944,
+     10,
+     18
+    ],
+    [
+     2212567120802366618,
+     11,
+     21
+    ],
+    [
+     1653780590952818202,
+     12,
+     21
+    ],
+    [
+     6051295825620610137,
+     13,
+     21
+    ],
+    [
+     2088610916228106866,
+     14,
+     21
+    ],
+    [
+     8459556845527986271,
+     15,
+     22
+    ],
+    [
+     1168120001377390934,
+     16,
+     23
+    ],
+    [
+     2072453349301785199,
+     17,
+     23
+    ],
+    [
+     7883316768007094067,
+     18,
+     23
+    ],
+    [
+     5172159538805450127,
+     19,
+     25
+    ],
+    [
+     5960470873422284993,
+     21,
+     25
+    ],
+    [
+     7672522614016545293,
+     22,
+     26
+    ],
+    [
+     830957069817589058,
+     23,
+     26
+    ],
+    [
+     3845377325360079813,
+     25,
+     27
+    ],
+    [
+     6865026539876298058,
+     26,
+     27
+    ],
+    [
+     407484944747927647,
+     27,
+     32
+    ],
+    [
+     1770329360666563776,
+     28,
+     35
+    ],
+    [
+     6368371082103152703,
+     29,
+     35
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "filesystem-path",
+     25,
+     "\"/data/settlement/out/settlement.dat\""
+    ],
+    [
+     "filesystem-path",
+     35,
+     "\"/data/settlement/out/settlement.dat\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

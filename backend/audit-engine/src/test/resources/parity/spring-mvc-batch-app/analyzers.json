@@ -1,0 +1,6823 @@
+{
+ "audit-inputs/autosys/billing.jil": {
+  "autosys": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": "Billing nightly cycle",
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 2,
+        "snippet": "insert_job: BIL_NIGHTLY_BOX job_type: BOX"
+       }
+      ],
+      "id": "batch_job:08cced84c58c5822",
+      "kind": "box",
+      "machine": null,
+      "name": "BIL_NIGHTLY_BOX",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [],
+      "schedule": "date_conditions: 1; days_of_week: mo,tu,we,th,fr; start_times: 01:30",
+      "scheduler": "autosys",
+      "steps": []
+     },
+     {
+      "box": "BIL_NIGHTLY_BOX",
+      "command": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 9,
+        "snippet": "insert_job: BIL_USAGE_WAIT job_type: FW"
+       }
+      ],
+      "id": "batch_job:953a414754a6347d",
+      "kind": "file-watcher",
+      "machine": "bilbatch01",
+      "name": "BIL_USAGE_WAIT",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [],
+      "schedule": null,
+      "scheduler": "autosys",
+      "steps": []
+     },
+     {
+      "box": "BIL_NIGHTLY_BOX",
+      "command": "/opt/billing/scripts/run_invoice_job.sh",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": "s(BIL_USAGE_WAIT)",
+      "datasets": [],
+      "description": "Price the day's usage and write the invoices",
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 15,
+        "snippet": "insert_job: BIL_INVOICE job_type: CMD"
+       }
+      ],
+      "id": "batch_job:073329b732a04908",
+      "kind": "job",
+      "machine": "bilbatch01",
+      "name": "BIL_INVOICE",
+      "on_failure": [
+       "alarm_if_fail: 1",
+       "n_retrys: 1"
+      ],
+      "predecessors": [
+       "BIL_USAGE_WAIT"
+      ],
+      "programs": [],
+      "schedule": null,
+      "scheduler": "autosys",
+      "steps": []
+     },
+     {
+      "box": "BIL_NIGHTLY_BOX",
+      "command": "/opt/billing/scripts/archive_usage.sh",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": "s(BIL_INVOICE) | f(BIL_INVOICE)",
+      "datasets": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 25,
+        "snippet": "insert_job: BIL_ARCHIVE job_type: CMD"
+       }
+      ],
+      "id": "batch_job:4730468a094e0a59",
+      "kind": "job",
+      "machine": "bilbatch01",
+      "name": "BIL_ARCHIVE",
+      "on_failure": [],
+      "predecessors": [
+       "BIL_INVOICE"
+      ],
+      "programs": [],
+      "schedule": null,
+      "scheduler": "autosys",
+      "steps": []
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "job": "BIL_USAGE_WAIT"
+      },
+      "direction": "inbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:009236f06aa5a4c5",
+      "producers": [],
+      "protocol": "autosys-fw",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/autosys/billing.jil"
+      ],
+      "target": "/data/billing/in/usage_*.csv",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "scheduler",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b6301f5b8946d652",
+      "name": "Autosys",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "reverse": "true"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "contains",
+     "line": 10,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:953a414754a6347d",
+     "source_label": "BIL_USAGE_WAIT",
+     "target": "BIL_NIGHTLY_BOX",
+     "target_kinds": [
+      "autosys-job"
+     ]
+    },
+    {
+     "data": {
+      "reverse": "true"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "contains",
+     "line": 16,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:073329b732a04908",
+     "source_label": "BIL_INVOICE",
+     "target": "BIL_NIGHTLY_BOX",
+     "target_kinds": [
+      "autosys-job"
+     ]
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "depends-on",
+     "line": 19,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:073329b732a04908",
+     "source_label": "BIL_INVOICE",
+     "target": "BIL_USAGE_WAIT",
+     "target_kinds": [
+      "autosys-job"
+     ]
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "invokes",
+     "line": 17,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:073329b732a04908",
+     "source_label": "BIL_INVOICE",
+     "target": "run_invoice_job.sh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {
+      "reverse": "true"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "contains",
+     "line": 26,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:4730468a094e0a59",
+     "source_label": "BIL_ARCHIVE",
+     "target": "BIL_NIGHTLY_BOX",
+     "target_kinds": [
+      "autosys-job"
+     ]
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "depends-on",
+     "line": 29,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:4730468a094e0a59",
+     "source_label": "BIL_ARCHIVE",
+     "target": "BIL_INVOICE",
+     "target_kinds": [
+      "autosys-job"
+     ]
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "invokes",
+     "line": 27,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:4730468a094e0a59",
+     "source_label": "BIL_ARCHIVE",
+     "target": "archive_usage.sh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "kind": "box"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "autosys-job",
+     "line": 2,
+     "name": "BIL_NIGHTLY_BOX",
+     "owner": "batch_job:08cced84c58c5822"
+    },
+    {
+     "data": {
+      "kind": "file-watcher"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "autosys-job",
+     "line": 9,
+     "name": "BIL_USAGE_WAIT",
+     "owner": "batch_job:953a414754a6347d"
+    },
+    {
+     "data": {
+      "kind": "job"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "autosys-job",
+     "line": 15,
+     "name": "BIL_INVOICE",
+     "owner": "batch_job:073329b732a04908"
+    },
+    {
+     "data": {
+      "kind": "job"
+     },
+     "file": "audit-inputs/autosys/billing.jil",
+     "kind": "autosys-job",
+     "line": 25,
+     "name": "BIL_ARCHIVE",
+     "owner": "batch_job:4730468a094e0a59"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/mq/qmbill.mqsc": {
+  "mq": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "defined_as": "QLOCAL",
+       "descr": "Payment notifications from the bank",
+       "qmgr": "QMBILL"
+      },
+      "direction": "defined",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:624c47e17b2fc791",
+      "producers": [],
+      "protocol": "MQ",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/mq/qmbill.mqsc"
+      ],
+      "target": "PAYMENTS.IN",
+      "type": "MQ",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "defined_as": "QREMOTE",
+       "qmgr": "QMBILL",
+       "rname": "CRM.INVOICE.EVENTS",
+       "rqmname": "QMCRM",
+       "xmitq": "QMCRM.XMIT"
+      },
+      "direction": "defined",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:1fdf9b8f4b33fad0",
+      "producers": [],
+      "protocol": "MQ",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/mq/qmbill.mqsc"
+      ],
+      "target": "BILLING.INVOICE.PAID",
+      "type": "MQ",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "chltype": "SDR",
+       "conname": "mqcrm01.acme.local(1414)",
+       "qmgr": "QMBILL",
+       "xmitq": "QMCRM.XMIT"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:73a1e52732eb05bf",
+      "producers": [],
+      "protocol": "MQ",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/mq/qmbill.mqsc"
+      ],
+      "target": "QMBILL.QMCRM",
+      "type": "MQ-CHANNEL",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "chltype": "SVRCONN",
+       "qmgr": "QMBILL"
+      },
+      "direction": "inbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:625dcca02e576e78",
+      "producers": [],
+      "protocol": "MQ",
+      "purpose": null,
+      "source_files": [
+       "audit-inputs/mq/qmbill.mqsc"
+      ],
+      "target": "BILLING.SVRCONN",
+      "type": "MQ-CHANNEL",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "audit-inputs/mq/qmbill.mqsc",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:02e49533d8619768",
+      "name": "IBM MQ",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "defined_as": "QLOCAL",
+      "descr": "Payment notifications from the bank",
+      "qmgr": "QMBILL"
+     },
+     "file": "audit-inputs/mq/qmbill.mqsc",
+     "kind": "mq-queue",
+     "line": 2,
+     "name": "PAYMENTS.IN",
+     "owner": null
+    },
+    {
+     "data": {
+      "defined_as": "QREMOTE",
+      "qmgr": "QMBILL",
+      "rname": "CRM.INVOICE.EVENTS",
+      "rqmname": "QMCRM",
+      "xmitq": "QMCRM.XMIT"
+     },
+     "file": "audit-inputs/mq/qmbill.mqsc",
+     "kind": "mq-queue",
+     "line": 5,
+     "name": "BILLING.INVOICE.PAID",
+     "owner": null
+    },
+    {
+     "data": {
+      "defined_as": "QLOCAL",
+      "qmgr": "QMBILL",
+      "usage": "XMITQ"
+     },
+     "file": "audit-inputs/mq/qmbill.mqsc",
+     "kind": "mq-queue",
+     "line": 7,
+     "name": "QMCRM.XMIT",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/security/osv-scanner.json": {
+  "config": {
+   "coverage": {
+    "lines": 53,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-batch/pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "billing-common",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/pom.xml",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "group": "com.acme.billing",
+      "id": "library:779f19114c2e2c79",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "2.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-batch/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-batch-core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/pom.xml",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework.batch",
+      "id": "library:221cc2f1349d2695",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-batch/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-jms",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/pom.xml",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework",
+      "id": "library:103fd74cef7d7ee1",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-batch/pom.xml"
+      ]
+     },
+     {
+      "artifact": "com.ibm.mq.allclient",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/pom.xml",
+        "line": 25,
+        "snippet": null
+       }
+      ],
+      "group": "com.ibm.mq",
+      "id": "library:c63c52064809e1ef",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-batch/pom.xml"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "com.acme.billing:billing-parent",
+      "properties": "{\"pom.version\": \"2.3.0\", \"project.artifactId\": \"billing-batch\", \"project.groupId\": \"com.acme.billing\", \"project.parent.version\": \"2.3.0\", \"project.version\": \"2.3.0\"}",
+      "version": "2.3.0"
+     },
+     "file": "billing-batch/pom.xml",
+     "kind": "maven-pom",
+     "line": 2,
+     "name": "com.acme.billing:billing-batch",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework.batch:spring-batch-core",
+      "pom": "com.acme.billing:billing-batch",
+      "raw": ""
+     },
+     "file": "billing-batch/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 17,
+     "name": "library:221cc2f1349d2695",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework:spring-jms",
+      "pom": "com.acme.billing:billing-batch",
+      "raw": ""
+     },
+     "file": "billing-batch/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 21,
+     "name": "library:103fd74cef7d7ee1",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "com.ibm.mq:com.ibm.mq.allclient",
+      "pom": "com.acme.billing:billing-batch",
+      "raw": ""
+     },
+     "file": "billing-batch/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 25,
+     "name": "library:c63c52064809e1ef",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-batch/scripts/run_invoice_job.sh": {
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 12,
+     "kind": "script",
+     "line": 1,
+     "loc": 9,
+     "name": "run_invoice_job.sh"
+    }
+   ],
+   "windows": [
+    [
+     7065386834716293424,
+     3,
+     7
+    ],
+    [
+     585574764576407196,
+     4,
+     7
+    ],
+    [
+     5801301592962003202,
+     6,
+     9
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-batch/scripts/run_invoice_job.sh",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:1794108c601ad87a",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-batch/scripts/run_invoice_job.sh"
+      ],
+      "target": "mail (mailx)",
+      "type": "SMTP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-batch/scripts/run_invoice_job.sh",
+     "kind": "invokes",
+     "line": 6,
+     "report_unresolved": false,
+     "source": "file:billing-batch/scripts/run_invoice_job.sh",
+     "source_label": "billing-batch/scripts/run_invoice_job.sh",
+     "target": "org.springframework.batch.core.launch.support.CommandLineJobRunner",
+     "target_kinds": [
+      "java-main",
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/scripts/run_invoice_job.sh",
+     "kind": "triggers",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "file:billing-batch/scripts/run_invoice_job.sh",
+     "source_label": "billing-batch/scripts/run_invoice_job.sh",
+     "target": "invoiceJob",
+     "target_kinds": [
+      "spring-batch-job"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java": {
+  "java": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 20,
+        "snippet": "INSERT INTO invoices (invoice_id, customer_id, amount, status, due_date) VALUES (invoices_seq.NEXTVAL, ?, ?, 'OPEN', ADD"
+       },
+       {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+      "fingerprint": "c08b979485153bc4",
+      "fragments": 2,
+      "id": "sql:8e78affb5765b4c7",
+      "line": 20,
+      "normalized": "INSERT INTO INVOICES (INVOICE_ID, CUSTOMER_ID, AMOUNT, STATUS, DUE_DATE) VALUES (INVOICES_SEQ.NEXTVAL, ?, ?, ?, ADD_MONTHS(SYSDATE, ?))",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICES"
+      ],
+      "text": "INSERT INTO invoices (invoice_id, customer_id, amount, status, due_date) VALUES (invoices_seq.NEXTVAL, ?, ?, 'OPEN', ADD_MONTHS(SYSDATE, 1))",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE",
+       "ADD_MONTHS",
+       "SEQUENCE.NEXTVAL"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 23,
+        "snippet": "INSERT INTO invoice_audit (customer_id, created_on) VALUES (?, SYSDATE)"
+       }
+      ],
+      "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+      "fingerprint": "5a6acbdd5804f267",
+      "fragments": 1,
+      "id": "sql:023f5e846d4f16f1",
+      "line": 23,
+      "normalized": "INSERT INTO INVOICE_AUDIT (CUSTOMER_ID, CREATED_ON) VALUES (?, SYSDATE)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICE_AUDIT"
+      ],
+      "text": "INSERT INTO invoice_audit (customer_id, created_on) VALUES (?, SYSDATE)",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "org.springframework.batch.item.ItemWriter",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "org.springframework.jdbc.core.JdbcTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "com.acme.billing.batch.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.InvoiceWriter",
+     "source_label": "com.acme.billing.batch.InvoiceWriter",
+     "target": "com.acme.billing.batch.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.billing.batch.InvoiceWriter",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 26,
+     "kind": "method",
+     "line": 16,
+     "loc": 11,
+     "name": "write"
+    }
+   ],
+   "windows": [
+    [
+     6939069242544691275,
+     1,
+     8
+    ],
+    [
+     6984359582307147395,
+     3,
+     11
+    ],
+    [
+     8185247557016614769,
+     4,
+     11
+    ],
+    [
+     144199346854330038,
+     6,
+     13
+    ],
+    [
+     8159839577877680110,
+     7,
+     17
+    ],
+    [
+     6787536257161341136,
+     8,
+     18
+    ],
+    [
+     3281942931803180869,
+     11,
+     18
+    ],
+    [
+     194687656226228318,
+     13,
+     22
+    ],
+    [
+     6512816538089716499,
+     14,
+     22
+    ],
+    [
+     2590058847376118693,
+     16,
+     22
+    ],
+    [
+     6585587277789842123,
+     17,
+     22
+    ],
+    [
+     3113262763872995336,
+     18,
+     24
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java": {
+  "java": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+      "id": "entry:8b73a66b154c7377",
+      "kind": "message-listener",
+      "line": 13,
+      "name": "com.acme.billing.batch.PaymentListener"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "javax.jms.JMSException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "javax.jms.Message",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "javax.jms.MessageListener",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "javax.jms.TextMessage",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "com.acme.billing.common.mapper.PaymentMapper",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "com.acme.billing.batch.IllegalStateException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "com.acme.billing.batch.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.batch.PaymentListener",
+     "source_label": "com.acme.billing.batch.PaymentListener",
+     "target": "com.acme.billing.batch.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java",
+     "kind": "java-class",
+     "line": 13,
+     "name": "com.acme.billing.batch.PaymentListener",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 26,
+     "kind": "method",
+     "line": 18,
+     "loc": 9,
+     "name": "onMessage"
+    }
+   ],
+   "windows": [
+    [
+     2474866521585100041,
+     1,
+     8
+    ],
+    [
+     3499926575358773828,
+     3,
+     10
+    ],
+    [
+     7653231396109546350,
+     4,
+     13
+    ],
+    [
+     6044082101036718976,
+     5,
+     16
+    ],
+    [
+     6051803333494219477,
+     6,
+     19
+    ],
+    [
+     7550560877809875838,
+     8,
+     21
+    ],
+    [
+     6200094120963977441,
+     10,
+     22
+    ],
+    [
+     2726260967366052456,
+     13,
+     22
+    ],
+    [
+     7679293089391666296,
+     15,
+     23
+    ],
+    [
+     2564596328390529617,
+     16,
+     23
+    ],
+    [
+     4225146435129292277,
+     18,
+     24
+    ],
+    [
+     4039760126882817482,
+     19,
+     24
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-batch/src/main/resources/jobs/invoice-job.xml": {
+  "config": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "batch_job:5e1224c95b219205",
+      "kind": "job",
+      "machine": null,
+      "name": "invoiceJob",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "org.springframework.batch.item.database.JdbcCursorItemReader",
+       "com.acme.billing.batch.InvoiceWriter"
+      ],
+      "schedule": null,
+      "scheduler": "spring-batch",
+      "steps": [
+       "generateInvoices",
+       "notifyCustomers"
+      ]
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [
+       "billing-batch/src/main/resources/jobs/invoice-job.xml"
+      ],
+      "description": null,
+      "details": {},
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 26,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:624c47e17b2fc791",
+      "producers": [],
+      "protocol": "JMS",
+      "purpose": null,
+      "source_files": [
+       "billing-batch/src/main/resources/jobs/invoice-job.xml"
+      ],
+      "target": "PAYMENTS.IN",
+      "type": "MQ",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 18,
+        "snippet": "SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id"
+       }
+      ],
+      "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+      "fingerprint": "b8ea56cf594d7ed6",
+      "fragments": 1,
+      "id": "sql:8e1ce8cc4cb44aba",
+      "line": 18,
+      "normalized": "SELECT CUSTOMER_ID, SUM(UNITS * RATE) AS AMOUNT FROM USAGE_RECORDS WHERE BILLED = ? GROUP BY CUSTOMER_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "spring-xml",
+      "structural_holes": 0,
+      "tables": [
+       "USAGE_RECORDS"
+      ],
+      "text": "SELECT customer_id, SUM(units * rate) AS amount FROM usage_records WHERE billed = 'N' GROUP BY customer_id",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8d21b13dbf66466d",
+      "name": "Spring Framework (XML configuration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:c7b9f2324c9feb82",
+      "name": "Spring Batch",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "uses",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "bean:billing-batch/src/main/resources/jobs/invoice-job.xml#usageReader",
+     "source_label": "usageReader",
+     "target": "org.springframework.batch.item.database.JdbcCursorItemReader",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "uses",
+     "line": 22,
+     "report_unresolved": false,
+     "source": "bean:billing-batch/src/main/resources/jobs/invoice-job.xml#invoiceWriter",
+     "source_label": "invoiceWriter",
+     "target": "com.acme.billing.batch.InvoiceWriter",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "uses",
+     "line": 24,
+     "report_unresolved": false,
+     "source": "bean:billing-batch/src/main/resources/jobs/invoice-job.xml#paymentListener",
+     "source_label": "paymentListener",
+     "target": "com.acme.billing.batch.PaymentListener",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "uses",
+     "line": 26,
+     "report_unresolved": false,
+     "source": "bean:billing-batch/src/main/resources/jobs/invoice-job.xml#paymentContainer",
+     "source_label": "paymentContainer",
+     "target": "org.springframework.jms.listener.DefaultMessageListenerContainer",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "uses",
+     "line": 26,
+     "report_unresolved": true,
+     "source": "bean:billing-batch/src/main/resources/jobs/invoice-job.xml#paymentContainer",
+     "source_label": "paymentContainer",
+     "target": "com.acme.billing.batch.PaymentListener",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "calls",
+     "line": 8,
+     "report_unresolved": false,
+     "source": "batch_job:batch_job:5e1224c95b219205",
+     "source_label": "invoiceJob",
+     "target": "org.springframework.batch.item.database.JdbcCursorItemReader",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "calls",
+     "line": 8,
+     "report_unresolved": false,
+     "source": "batch_job:batch_job:5e1224c95b219205",
+     "source_label": "invoiceJob",
+     "target": "com.acme.billing.batch.InvoiceWriter",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.springframework.batch.item.database.JdbcCursorItemReader"
+     },
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "spring-bean",
+     "line": 16,
+     "name": "usageReader",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "com.acme.billing.batch.InvoiceWriter"
+     },
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "spring-bean",
+     "line": 22,
+     "name": "invoiceWriter",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "com.acme.billing.batch.PaymentListener"
+     },
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "spring-bean",
+     "line": 24,
+     "name": "paymentListener",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "org.springframework.jms.listener.DefaultMessageListenerContainer"
+     },
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "spring-bean",
+     "line": 26,
+     "name": "paymentContainer",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+     "kind": "spring-batch-job",
+     "line": 5,
+     "name": "invoiceJob",
+     "owner": "batch_job:5e1224c95b219205"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "spring-jdbc",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/pom.xml",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework",
+      "id": "library:6e5913dfac46cac1",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-common/pom.xml"
+      ]
+     },
+     {
+      "artifact": "hibernate-core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "group": "org.hibernate",
+      "id": "library:619f50d35b46d4c7",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-common/pom.xml"
+      ]
+     },
+     {
+      "artifact": "mybatis",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/pom.xml",
+        "line": 20,
+        "snippet": null
+       }
+      ],
+      "group": "org.mybatis",
+      "id": "library:ca34f9afc69ae072",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-common/pom.xml"
+      ]
+     },
+     {
+      "artifact": "log4j",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+       }
+      ],
+      "group": "log4j",
+      "id": "library:bc25d24032616522",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-common/pom.xml"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "com.acme.billing:billing-parent",
+      "properties": "{\"pom.version\": \"2.3.0\", \"project.artifactId\": \"billing-common\", \"project.groupId\": \"com.acme.billing\", \"project.parent.version\": \"2.3.0\", \"project.version\": \"2.3.0\"}",
+      "version": "2.3.0"
+     },
+     "file": "billing-common/pom.xml",
+     "kind": "maven-pom",
+     "line": 2,
+     "name": "com.acme.billing:billing-common",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework:spring-jdbc",
+      "pom": "com.acme.billing:billing-common",
+      "raw": ""
+     },
+     "file": "billing-common/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 12,
+     "name": "library:6e5913dfac46cac1",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.hibernate:hibernate-core",
+      "pom": "com.acme.billing:billing-common",
+      "raw": ""
+     },
+     "file": "billing-common/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 16,
+     "name": "library:619f50d35b46d4c7",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.mybatis:mybatis",
+      "pom": "com.acme.billing:billing-common",
+      "raw": ""
+     },
+     "file": "billing-common/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 20,
+     "name": "library:ca34f9afc69ae072",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "log4j:log4j",
+      "pom": "com.acme.billing:billing-common",
+      "raw": ""
+     },
+     "file": "billing-common/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 24,
+     "name": "library:bc25d24032616522",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java": {
+  "java": {
+   "coverage": {
+    "lines": 35,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 22,
+        "snippet": "from Customer c where c.segment = :segment order by c.name"
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+      "fingerprint": "ab76bd9b34631b2b",
+      "fragments": 1,
+      "id": "sql:1cc978d4745b8d93",
+      "line": 22,
+      "normalized": "FROM CUSTOMER C WHERE C.SEGMENT = ? ORDER BY C.NAME",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "hql",
+      "structural_holes": 0,
+      "tables": [
+       "Customer"
+      ],
+      "text": "from Customer c where c.segment = :segment order by c.name",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "hql",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 30,
+        "snippet": "select count(i) from Invoice i where i.customerId = :id"
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+      "fingerprint": "ddca8959598591d9",
+      "fragments": 1,
+      "id": "sql:47f6833ff1c952ce",
+      "line": 30,
+      "normalized": "SELECT COUNT(I) FROM INVOICE I WHERE I.CUSTOMERID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "hql",
+      "structural_holes": 0,
+      "tables": [
+       "Invoice"
+      ],
+      "text": "select count(i) from Invoice i where i.customerId = :id",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "org.hibernate.Session",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "org.hibernate.SessionFactory",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "org.springframework.stereotype.Repository",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "com.acme.billing.common.model.Customer",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "com.acme.billing.common.dao.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.CustomerRepository",
+     "source_label": "com.acme.billing.common.dao.CustomerRepository",
+     "target": "com.acme.billing.common.dao.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+     "kind": "java-class",
+     "line": 13,
+     "name": "com.acme.billing.common.dao.CustomerRepository",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 35,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 25,
+     "kind": "method",
+     "line": 19,
+     "loc": 7,
+     "name": "findBySegment"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 33,
+     "kind": "method",
+     "line": 27,
+     "loc": 7,
+     "name": "countInvoices"
+    }
+   ],
+   "windows": [
+    [
+     4206935099176386554,
+     1,
+     8
+    ],
+    [
+     3684976707177167432,
+     3,
+     10
+    ],
+    [
+     1400139765443407864,
+     5,
+     13
+    ],
+    [
+     9212822546759138896,
+     6,
+     17
+    ],
+    [
+     2150385661573329597,
+     7,
+     20
+    ],
+    [
+     6822858426042846911,
+     8,
+     21
+    ],
+    [
+     6315252080993938371,
+     10,
+     22
+    ],
+    [
+     8803626096346170170,
+     13,
+     24
+    ],
+    [
+     8418717435555740632,
+     14,
+     24
+    ],
+    [
+     976712602722048926,
+     16,
+     27
+    ],
+    [
+     4850914508760452367,
+     17,
+     27
+    ],
+    [
+     8252982472355259098,
+     19,
+     27
+    ],
+    [
+     8696900732467132512,
+     20,
+     28
+    ],
+    [
+     7069029603336049694,
+     21,
+     29
+    ],
+    [
+     797979890975841090,
+     22,
+     31
+    ],
+    [
+     7110125596539578709,
+     23,
+     32
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 35,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java": {
+  "java": {
+   "coverage": {
+    "lines": 44,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 15,
+        "snippet": "SELECT invoice_id, customer_id, amount, NVL(status, 'OPEN') AS status FROM invoices WHERE status = 'OPEN' AND ROWNUM <= "
+       },
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+      "fingerprint": "3fc7b7d7d1a2cc44",
+      "fragments": 2,
+      "id": "sql:d733fc8a1c4c931b",
+      "line": 15,
+      "normalized": "SELECT INVOICE_ID, CUSTOMER_ID, AMOUNT, NVL(STATUS, ?) AS STATUS FROM INVOICES WHERE STATUS = ? AND ROWNUM <= ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICES"
+      ],
+      "text": "SELECT invoice_id, customer_id, amount, NVL(status, 'OPEN') AS status FROM invoices WHERE status = 'OPEN' AND ROWNUM <= ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "NVL",
+       "ROWNUM"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 19,
+        "snippet": "UPDATE invoices SET status = 'PAID', paid_on = SYSDATE WHERE invoice_id = ?"
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+      "fingerprint": "ef502699d2dc9c9e",
+      "fragments": 1,
+      "id": "sql:6a39ad4b1c349236",
+      "line": 19,
+      "normalized": "UPDATE INVOICES SET STATUS = ?, PAID_ON = SYSDATE WHERE INVOICE_ID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICES"
+      ],
+      "text": "UPDATE invoices SET status = 'PAID', paid_on = SYSDATE WHERE invoice_id = ?",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 34,
+        "snippet": "SELECT COUNT(*) FROM invoices i, customers c WHERE i.customer_id = c.id(+) AND i.due_date < SYSDATE"
+       },
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 35,
+        "snippet": null
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+      "fingerprint": "44e8734fd3e5cb57",
+      "fragments": 2,
+      "id": "sql:427df8511ee576ee",
+      "line": 34,
+      "normalized": "SELECT COUNT(*) FROM INVOICES I, CUSTOMERS C WHERE I.CUSTOMER_ID = C.ID(+) AND I.DUE_DATE < SYSDATE",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS",
+       "INVOICES"
+      ],
+      "text": "SELECT COUNT(*) FROM invoices i, customers c WHERE i.customer_id = c.id(+) AND i.due_date < SYSDATE",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "OUTER JOIN (+)",
+       "SYSDATE"
+      ]
+     },
+     {
+      "built_with": [
+       "concatenation"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+        "line": 40,
+        "snippet": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?"
+       }
+      ],
+      "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+      "fingerprint": "18f89325217a6d4c",
+      "fragments": 1,
+      "id": "sql:b5cd602de0357f37",
+      "line": 40,
+      "normalized": "SELECT INVOICE_ID, AMOUNT FROM INVOICES WHERE STATUS = ? ORDER BY ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc-template",
+      "structural_holes": 1,
+      "tables": [
+       "INVOICES"
+      ],
+      "text": "SELECT invoice_id, amount FROM invoices WHERE status = ? ORDER BY ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "org.springframework.jdbc.core.JdbcTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "org.springframework.stereotype.Repository",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "com.acme.billing.common.dao.Integer",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "com.acme.billing.common.dao.MARK_PAID",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "com.acme.billing.common.dao.OPEN_INVOICES",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "com.acme.billing.common.dao.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.dao.InvoiceDao",
+     "source_label": "com.acme.billing.common.dao.InvoiceDao",
+     "target": "com.acme.billing.common.dao.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.billing.common.dao.InvoiceDao",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 44,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 26,
+     "kind": "method",
+     "line": 24,
+     "loc": 3,
+     "name": "openInvoices"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 30,
+     "kind": "method",
+     "line": 28,
+     "loc": 3,
+     "name": "markPaid"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 36,
+     "kind": "method",
+     "line": 32,
+     "loc": 5,
+     "name": "countOverdue"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 42,
+     "kind": "method",
+     "line": 38,
+     "loc": 4,
+     "name": "search"
+    }
+   ],
+   "windows": [
+    [
+     7069414147085986185,
+     1,
+     8
+    ],
+    [
+     3516342256937626914,
+     3,
+     12
+    ],
+    [
+     3753120449359178633,
+     4,
+     14
+    ],
+    [
+     7969056346753338974,
+     6,
+     18
+    ],
+    [
+     6162586463823637166,
+     7,
+     24
+    ],
+    [
+     4012141259957888740,
+     8,
+     24
+    ],
+    [
+     26945527662852933,
+     11,
+     25
+    ],
+    [
+     974396270745453535,
+     12,
+     25
+    ],
+    [
+     2810339468682593938,
+     14,
+     26
+    ],
+    [
+     6649021034092616435,
+     15,
+     28
+    ],
+    [
+     9070440807073614269,
+     16,
+     28
+    ],
+    [
+     8803052764846265788,
+     18,
+     29
+    ],
+    [
+     7801071468410351039,
+     19,
+     29
+    ],
+    [
+     4654179421220750473,
+     21,
+     29
+    ],
+    [
+     33498630392151146,
+     22,
+     30
+    ],
+    [
+     8628890698461989636,
+     24,
+     32
+    ],
+    [
+     1589248649752509984,
+     25,
+     35
+    ],
+    [
+     514621645137134576,
+     26,
+     38
+    ],
+    [
+     9029419882614585247,
+     28,
+     38
+    ],
+    [
+     4173043674383741669,
+     29,
+     38
+    ],
+    [
+     2758161309865219956,
+     30,
+     41
+    ],
+    [
+     8755455447593509326,
+     32,
+     41
+    ],
+    [
+     118195757744532606,
+     33,
+     41
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 44,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java": {
+  "java": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.mapper.PaymentMapper",
+     "source_label": "com.acme.billing.common.mapper.PaymentMapper",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.mapper.PaymentMapper",
+     "source_label": "com.acme.billing.common.mapper.PaymentMapper",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.mapper.PaymentMapper",
+     "source_label": "com.acme.billing.common.mapper.PaymentMapper",
+     "target": "com.acme.billing.common.mapper.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.mapper.PaymentMapper",
+     "source_label": "com.acme.billing.common.mapper.PaymentMapper",
+     "target": "com.acme.billing.common.mapper.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/mapper/PaymentMapper.java",
+     "kind": "java-class",
+     "line": 7,
+     "name": "com.acme.billing.common.mapper.PaymentMapper",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 9,
+     "kind": "method",
+     "line": 9,
+     "loc": 1,
+     "name": "findPayments"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "method",
+     "line": 11,
+     "loc": 1,
+     "name": "insertPayment"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 13,
+     "loc": 1,
+     "name": "settle"
+    }
+   ],
+   "windows": [
+    [
+     4655009741105266660,
+     1,
+     11
+    ],
+    [
+     8946248551966744452,
+     3,
+     11
+    ],
+    [
+     4456733640283589563,
+     4,
+     13
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/java/com/acme/billing/common/model/Customer.java": {
+  "java": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Customer",
+     "source_label": "com.acme.billing.common.model.Customer",
+     "target": "javax.persistence.Entity",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Customer",
+     "source_label": "com.acme.billing.common.model.Customer",
+     "target": "javax.persistence.Id",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Customer",
+     "source_label": "com.acme.billing.common.model.Customer",
+     "target": "javax.persistence.Table",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Customer",
+     "source_label": "com.acme.billing.common.model.Customer",
+     "target": "com.acme.billing.common.model.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Customer",
+     "source_label": "com.acme.billing.common.model.Customer",
+     "target": "com.acme.billing.common.model.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "java-class",
+     "line": 7,
+     "name": "com.acme.billing.common.model.Customer",
+     "owner": null
+    },
+    {
+     "data": {
+      "fqn": "com.acme.billing.common.model.Customer",
+      "table": "CUSTOMERS"
+     },
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Customer.java",
+     "kind": "jpa-entity",
+     "line": 7,
+     "name": "Customer",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 18,
+     "kind": "method",
+     "line": 18,
+     "loc": 1,
+     "name": "getId"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 19,
+     "kind": "method",
+     "line": 19,
+     "loc": 1,
+     "name": "getName"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 20,
+     "loc": 1,
+     "name": "getSegment"
+    }
+   ],
+   "windows": [
+    [
+     7067216230803157400,
+     1,
+     14
+    ],
+    [
+     6165759911969213973,
+     3,
+     18
+    ],
+    [
+     1267926651994126654,
+     4,
+     19
+    ],
+    [
+     2179288151661909136,
+     5,
+     19
+    ],
+    [
+     2184731625568823183,
+     7,
+     20
+    ],
+    [
+     6787037966230226312,
+     8,
+     20
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java": {
+  "java": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "java.math.BigDecimal",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "java.util.Date",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "javax.persistence.Column",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "javax.persistence.Entity",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "javax.persistence.Id",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "javax.persistence.Table",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "com.acme.billing.common.model.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.common.model.Invoice",
+     "source_label": "com.acme.billing.common.model.Invoice",
+     "target": "com.acme.billing.common.model.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.billing.common.model.Invoice",
+     "owner": null
+    },
+    {
+     "data": {
+      "fqn": "com.acme.billing.common.model.Invoice",
+      "table": "INVOICES"
+     },
+     "file": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java",
+     "kind": "jpa-entity",
+     "line": 11,
+     "name": "Invoice",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 28,
+     "kind": "method",
+     "line": 28,
+     "loc": 1,
+     "name": "getId"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 29,
+     "kind": "method",
+     "line": 29,
+     "loc": 1,
+     "name": "getCustomerId"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 30,
+     "kind": "method",
+     "line": 30,
+     "loc": 1,
+     "name": "getAmount"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 31,
+     "kind": "method",
+     "line": 31,
+     "loc": 1,
+     "name": "getStatus"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 32,
+     "kind": "method",
+     "line": 32,
+     "loc": 1,
+     "name": "getDueDate"
+    }
+   ],
+   "windows": [
+    [
+     1685734058949847334,
+     1,
+     9
+    ],
+    [
+     6828088831897485206,
+     3,
+     13
+    ],
+    [
+     6544185900799956617,
+     4,
+     16
+    ],
+    [
+     5112185079800744760,
+     6,
+     17
+    ],
+    [
+     6026558383768178765,
+     7,
+     20
+    ],
+    [
+     410139140381944046,
+     8,
+     22
+    ],
+    [
+     5471346232113907025,
+     9,
+     26
+    ],
+    [
+     1297750810254688164,
+     11,
+     28
+    ],
+    [
+     8775193588888434972,
+     12,
+     28
+    ],
+    [
+     983419132820291762,
+     13,
+     29
+    ],
+    [
+     8752644602106186955,
+     15,
+     29
+    ],
+    [
+     2520268793818457437,
+     16,
+     29
+    ],
+    [
+     3520679034965683051,
+     17,
+     30
+    ],
+    [
+     5703326057728001715,
+     19,
+     30
+    ],
+    [
+     4655241026262920519,
+     20,
+     31
+    ],
+    [
+     8377442497982693338,
+     22,
+     31
+    ],
+    [
+     5166686482462841266,
+     24,
+     32
+    ],
+    [
+     3202732372472984123,
+     26,
+     32
+    ],
+    [
+     5945306817636664485,
+     28,
+     32
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 34,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-common/src/main/resources/mappers/PaymentMapper.xml": {
+  "config": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [
+       "mybatis-dynamic-tags"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 5,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.findPayments"
+       }
+      ],
+      "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+      "fingerprint": "7f737d16ebc928d2",
+      "fragments": 1,
+      "id": "sql:98aaa3c6505180d1",
+      "line": 5,
+      "normalized": "SELECT PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON FROM PAYMENTS WHERE ? = ? AND INVOICE_ID = ? AND RECEIVED_ON >= ?",
+      "optional_fragments": 2,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "mybatis",
+      "structural_holes": 0,
+      "tables": [
+       "PAYMENTS"
+      ],
+      "text": "SELECT payment_id, invoice_id, amount, received_on\n      FROM payments\n     WHERE 1 = 1 AND invoice_id = ? AND received_on >= ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 17,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.insertPayment"
+       }
+      ],
+      "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+      "fingerprint": "2a27e43508e1feb9",
+      "fragments": 1,
+      "id": "sql:8c0ce291ac5f8f24",
+      "line": 17,
+      "normalized": "INSERT INTO PAYMENTS (PAYMENT_ID, INVOICE_ID, AMOUNT, RECEIVED_ON) VALUES (PAYMENTS_SEQ.NEXTVAL, ?, ?, SYSDATE)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "mybatis",
+      "structural_holes": 0,
+      "tables": [
+       "PAYMENTS"
+      ],
+      "text": "INSERT INTO payments (payment_id, invoice_id, amount, received_on)\n    VALUES (payments_seq.NEXTVAL, ?, ?, SYSDATE)",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE",
+       "SEQUENCE.NEXTVAL"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 22,
+        "snippet": "com.acme.billing.common.mapper.PaymentMapper.settle"
+       }
+      ],
+      "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+      "fingerprint": "fd9768d3fdb42a6e",
+      "fragments": 1,
+      "id": "sql:fe9e48b64b7e4429",
+      "line": 22,
+      "normalized": "UPDATE PAYMENTS SET SETTLED = ? WHERE PAYMENT_ID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "mybatis",
+      "structural_holes": 0,
+      "tables": [
+       "PAYMENTS"
+      ],
+      "text": "UPDATE payments SET settled = 'Y' WHERE payment_id = ?",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:452233b43ff29d89",
+      "name": "MyBatis",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "billing-common",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "group": "com.acme.billing",
+      "id": "library:779f19114c2e2c79",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "2.3.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-web/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-webmvc",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework",
+      "id": "library:52ac8db2dec31f07",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-web/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-jms",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework",
+      "id": "library:103fd74cef7d7ee1",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-web/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-security-ldap",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 26,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework.security",
+      "id": "library:df1f8324974d5d0a",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": null,
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-web/pom.xml"
+      ]
+     },
+     {
+      "artifact": "servlet-api",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 30,
+        "snippet": null
+       }
+      ],
+      "group": "javax.servlet",
+      "id": "library:222e768201a05e05",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "provided",
+      "sha1": null,
+      "source": "maven",
+      "version": "2.5",
+      "vulnerabilities": [],
+      "where_used": [
+       "billing-web/pom.xml"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "com.acme.billing:billing-parent",
+      "properties": "{\"pom.version\": \"2.3.0\", \"project.artifactId\": \"billing-web\", \"project.groupId\": \"com.acme.billing\", \"project.parent.version\": \"2.3.0\", \"project.version\": \"2.3.0\"}",
+      "version": "2.3.0"
+     },
+     "file": "billing-web/pom.xml",
+     "kind": "maven-pom",
+     "line": 2,
+     "name": "com.acme.billing:billing-web",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework:spring-webmvc",
+      "pom": "com.acme.billing:billing-web",
+      "raw": ""
+     },
+     "file": "billing-web/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 18,
+     "name": "library:52ac8db2dec31f07",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework:spring-jms",
+      "pom": "com.acme.billing:billing-web",
+      "raw": ""
+     },
+     "file": "billing-web/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 22,
+     "name": "library:103fd74cef7d7ee1",
+     "owner": null
+    },
+    {
+     "data": {
+      "key": "org.springframework.security:spring-security-ldap",
+      "pom": "com.acme.billing:billing-web",
+      "raw": ""
+     },
+     "file": "billing-web/pom.xml",
+     "kind": "maven-unresolved",
+     "line": 26,
+     "name": "library:df1f8324974d5d0a",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/java/com/acme/billing/web/CustomerController.java": {
+  "java": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+      "framework": null,
+      "handler": "com.acme.billing.web.CustomerController.search",
+      "id": "service:f83e485622850acf",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "GET /customers/search",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/customers/search",
+      "web_service": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "renders",
+     "line": 23,
+     "report_unresolved": true,
+     "source": "service:com.acme.billing.web.CustomerController.search",
+     "source_label": "com.acme.billing.web.CustomerController.search",
+     "target": "customers/search",
+     "target_kinds": [
+      "view"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "org.springframework.stereotype.Controller",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "org.springframework.ui.Model",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "org.springframework.web.bind.annotation.GetMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "org.springframework.web.bind.annotation.RequestParam",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "com.acme.billing.common.dao.CustomerRepository",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.CustomerController",
+     "source_label": "com.acme.billing.web.CustomerController",
+     "target": "com.acme.billing.web.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.billing.web.CustomerController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+     "kind": "service",
+     "line": 17,
+     "name": "com.acme.billing.web.CustomerController.search",
+     "owner": "service:f83e485622850acf"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 24,
+     "kind": "method",
+     "line": 17,
+     "loc": 8,
+     "name": "search"
+    }
+   ],
+   "windows": [
+    [
+     6348904609064947952,
+     1,
+     6
+    ],
+    [
+     2692810804231412036,
+     3,
+     7
+    ],
+    [
+     446038282554044579,
+     4,
+     9
+    ],
+    [
+     4254086333343585233,
+     5,
+     12
+    ],
+    [
+     2432478953183110431,
+     6,
+     17
+    ],
+    [
+     1105054449452002565,
+     7,
+     18
+    ],
+    [
+     3400096975288931636,
+     9,
+     20
+    ],
+    [
+     7926295644198414178,
+     11,
+     21
+    ],
+    [
+     1961508179485001905,
+     12,
+     21
+    ],
+    [
+     6208589815549991391,
+     14,
+     21
+    ],
+    [
+     2572435112513466518,
+     15,
+     21
+    ],
+    [
+     793845741585563732,
+     17,
+     23
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/java/com/acme/billing/web/HealthController.java": {
+  "java": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+      "framework": "Spring MVC",
+      "handler": "com.acme.billing.web.HealthController.health",
+      "id": "service:209770cc4cf1d8ed",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "GET /health",
+      "outputs": [],
+      "protocol": "REST",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/health",
+      "web_service": "HealthController"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.HealthController",
+     "source_label": "com.acme.billing.web.HealthController",
+     "target": "java.util.Collections",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.HealthController",
+     "source_label": "com.acme.billing.web.HealthController",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.HealthController",
+     "source_label": "com.acme.billing.web.HealthController",
+     "target": "org.springframework.web.bind.annotation.GetMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.HealthController",
+     "source_label": "com.acme.billing.web.HealthController",
+     "target": "org.springframework.web.bind.annotation.RestController",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.HealthController",
+     "source_label": "com.acme.billing.web.HealthController",
+     "target": "com.acme.billing.web.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.billing.web.HealthController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+     "kind": "service",
+     "line": 12,
+     "name": "com.acme.billing.web.HealthController.health",
+     "owner": "service:209770cc4cf1d8ed"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 15,
+     "kind": "method",
+     "line": 12,
+     "loc": 4,
+     "name": "health"
+    }
+   ],
+   "windows": [
+    [
+     5368772572485841320,
+     1,
+     9
+    ],
+    [
+     7550855905220569513,
+     3,
+     13
+    ],
+    [
+     6606676054420486260,
+     4,
+     13
+    ],
+    [
+     7716603713247968042,
+     6,
+     14
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java": {
+  "java": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+      "framework": null,
+      "handler": "com.acme.billing.web.InvoiceController.list",
+      "id": "service:fda29992cfe62bf9",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "GET /invoices",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 29,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+      "framework": null,
+      "handler": "com.acme.billing.web.InvoiceController.detail",
+      "id": "service:32c0d8031410b4e1",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "GET /invoices/{id}",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices/{id}",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 34,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+      "framework": null,
+      "handler": "com.acme.billing.web.InvoiceController.pay",
+      "id": "service:8443745aed316fda",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "POST /invoices/{id}/pay",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/invoices/{id}/pay",
+      "web_service": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "renders",
+     "line": 26,
+     "report_unresolved": true,
+     "source": "service:com.acme.billing.web.InvoiceController.list",
+     "source_label": "com.acme.billing.web.InvoiceController.list",
+     "target": "invoices/list",
+     "target_kinds": [
+      "view"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "renders",
+     "line": 31,
+     "report_unresolved": true,
+     "source": "service:com.acme.billing.web.InvoiceController.detail",
+     "source_label": "com.acme.billing.web.InvoiceController.detail",
+     "target": "invoices/detail",
+     "target_kinds": [
+      "view"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.stereotype.Controller",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.ui.Model",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.web.bind.annotation.PathVariable",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.web.bind.annotation.RequestMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.web.bind.annotation.RequestMethod",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "org.springframework.web.servlet.ModelAndView",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "com.acme.billing.common.dao.InvoiceDao",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "com.acme.billing.web.InvoiceEventPublisher",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceController",
+     "source_label": "com.acme.billing.web.InvoiceController",
+     "target": "com.acme.billing.web.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "java-class",
+     "line": 13,
+     "name": "com.acme.billing.web.InvoiceController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "service",
+     "line": 23,
+     "name": "com.acme.billing.web.InvoiceController.list",
+     "owner": "service:fda29992cfe62bf9"
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "service",
+     "line": 29,
+     "name": "com.acme.billing.web.InvoiceController.detail",
+     "owner": "service:32c0d8031410b4e1"
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+     "kind": "service",
+     "line": 34,
+     "name": "com.acme.billing.web.InvoiceController.pay",
+     "owner": "service:8443745aed316fda"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 27,
+     "kind": "method",
+     "line": 23,
+     "loc": 5,
+     "name": "list"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 32,
+     "kind": "method",
+     "line": 29,
+     "loc": 4,
+     "name": "detail"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 39,
+     "kind": "method",
+     "line": 34,
+     "loc": 6,
+     "name": "pay"
+    }
+   ],
+   "windows": [
+    [
+     6348904609064947952,
+     1,
+     6
+    ],
+    [
+     5369127253094748900,
+     3,
+     7
+    ],
+    [
+     8022590544622768670,
+     4,
+     8
+    ],
+    [
+     402020404533951277,
+     5,
+     9
+    ],
+    [
+     6136588314766952659,
+     6,
+     9
+    ],
+    [
+     6047395198258712945,
+     7,
+     11
+    ],
+    [
+     5082315428514119384,
+     8,
+     18
+    ],
+    [
+     3136936947689176269,
+     9,
+     23
+    ],
+    [
+     4352720497603633607,
+     11,
+     25
+    ],
+    [
+     6287969164408242505,
+     13,
+     26
+    ],
+    [
+     4575603563643652456,
+     14,
+     26
+    ],
+    [
+     1855289494964915110,
+     15,
+     29
+    ],
+    [
+     1192626061129983911,
+     17,
+     29
+    ],
+    [
+     7908857171097440285,
+     18,
+     29
+    ],
+    [
+     8595446262922488027,
+     20,
+     29
+    ],
+    [
+     7996660117903009155,
+     21,
+     29
+    ],
+    [
+     4886028973494194559,
+     23,
+     30
+    ],
+    [
+     1207038663366186493,
+     24,
+     30
+    ],
+    [
+     7879045861645182805,
+     25,
+     31
+    ],
+    [
+     3862134734651463312,
+     26,
+     34
+    ],
+    [
+     3258247017256409116,
+     27,
+     35
+    ],
+    [
+     8618567357182057931,
+     29,
+     35
+    ],
+    [
+     3571076589449018574,
+     30,
+     36
+    ],
+    [
+     2311370210298341245,
+     31,
+     37
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java": {
+  "java": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:1fdf9b8f4b33fad0",
+      "producers": [
+       "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java"
+      ],
+      "protocol": "JMS",
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java"
+      ],
+      "target": "BILLING.INVOICE.PAID",
+      "type": "MQ",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceEventPublisher",
+     "source_label": "com.acme.billing.web.InvoiceEventPublisher",
+     "target": "org.springframework.beans.factory.annotation.Autowired",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceEventPublisher",
+     "source_label": "com.acme.billing.web.InvoiceEventPublisher",
+     "target": "org.springframework.jms.core.JmsTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceEventPublisher",
+     "source_label": "com.acme.billing.web.InvoiceEventPublisher",
+     "target": "org.springframework.stereotype.Component",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.web.InvoiceEventPublisher",
+     "source_label": "com.acme.billing.web.InvoiceEventPublisher",
+     "target": "com.acme.billing.web.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceEventPublisher.java",
+     "kind": "java-class",
+     "line": 8,
+     "name": "com.acme.billing.web.InvoiceEventPublisher",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 14,
+     "loc": 3,
+     "name": "invoicePaid"
+    }
+   ],
+   "windows": [
+    [
+     7195040592821839134,
+     1,
+     12
+    ],
+    [
+     6584716877468616781,
+     3,
+     14
+    ],
+    [
+     6027589554853197064,
+     4,
+     15
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/resources/application.properties": {
+  "config": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:b8b6ff8d1703f1ec",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/resources/application.properties"
+      ],
+      "target": "oracle://billingdb01.acme.local:1521/BILLP",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "mq.queue.paid"
+      },
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:1fdf9b8f4b33fad0",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/resources/application.properties"
+      ],
+      "target": "BILLING.INVOICE.PAID",
+      "type": "MQ",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml": {
+  "config": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8d21b13dbf66466d",
+      "name": "Spring Framework (XML configuration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "uses",
+     "line": 14,
+     "report_unresolved": false,
+     "source": "bean:billing-web/src/main/webapp/WEB-INF/billing-servlet.xml#viewResolver",
+     "source_label": "viewResolver",
+     "target": "org.springframework.web.servlet.view.InternalResourceViewResolver",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "uses",
+     "line": 19,
+     "report_unresolved": false,
+     "source": "bean:billing-web/src/main/webapp/WEB-INF/billing-servlet.xml#dataSource",
+     "source_label": "dataSource",
+     "target": "org.springframework.jdbc.datasource.DriverManagerDataSource",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "uses",
+     "line": 26,
+     "report_unresolved": false,
+     "source": "bean:billing-web/src/main/webapp/WEB-INF/billing-servlet.xml#jdbcTemplate",
+     "source_label": "jdbcTemplate",
+     "target": "org.springframework.jdbc.core.JdbcTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "renders",
+     "line": 12,
+     "report_unresolved": true,
+     "source": "file:billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "source_label": "/",
+     "target": "home",
+     "target_kinds": [
+      "view"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.springframework.web.servlet.view.InternalResourceViewResolver"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "spring-bean",
+     "line": 14,
+     "name": "viewResolver",
+     "owner": null
+    },
+    {
+     "data": {
+      "prefix": "/WEB-INF/views/",
+      "suffix": ".jsp",
+      "tiles": ""
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "view-resolver",
+     "line": 14,
+     "name": "InternalResourceViewResolver",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "org.springframework.jdbc.datasource.DriverManagerDataSource"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "spring-bean",
+     "line": 19,
+     "name": "dataSource",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "org.springframework.jdbc.core.JdbcTemplate"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "spring-bean",
+     "line": 26,
+     "name": "jdbcTemplate",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml",
+     "kind": "component-scan",
+     "line": 10,
+     "name": "com.acme.billing.web",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/spring/jms.xml": {
+  "config": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "channel": "BILLING.SVRCONN"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:0083b8992c113928",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/webapp/WEB-INF/spring/jms.xml"
+      ],
+      "target": "QMBILL@mqbill01.acme.local:1414",
+      "type": "MQ-QMGR",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "unknown",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:1fdf9b8f4b33fad0",
+      "producers": [
+       "billing-web/src/main/webapp/WEB-INF/spring/jms.xml"
+      ],
+      "protocol": "JMS",
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/webapp/WEB-INF/spring/jms.xml"
+      ],
+      "target": "BILLING.INVOICE.PAID",
+      "type": "MQ",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8d21b13dbf66466d",
+      "name": "Spring Framework (XML configuration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:3e6932f1c078b03c",
+      "name": "IBM MQ (JMS)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+     "kind": "uses",
+     "line": 4,
+     "report_unresolved": false,
+     "source": "bean:billing-web/src/main/webapp/WEB-INF/spring/jms.xml#mqConnectionFactory",
+     "source_label": "mqConnectionFactory",
+     "target": "com.ibm.mq.jms.MQQueueConnectionFactory",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+     "kind": "uses",
+     "line": 12,
+     "report_unresolved": false,
+     "source": "bean:billing-web/src/main/webapp/WEB-INF/spring/jms.xml#jmsTemplate",
+     "source_label": "jmsTemplate",
+     "target": "org.springframework.jms.core.JmsTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "class": "com.ibm.mq.jms.MQQueueConnectionFactory"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+     "kind": "spring-bean",
+     "line": 4,
+     "name": "mqConnectionFactory",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "org.springframework.jms.core.JmsTemplate"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/spring/jms.xml",
+     "kind": "spring-bean",
+     "line": 12,
+     "name": "jmsTemplate",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/spring/security.xml": {
+  "config": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:af87f456fc8ea9c3",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/webapp/WEB-INF/spring/security.xml"
+      ],
+      "target": "ldap://ldap.acme.local:389",
+      "type": "LDAP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:af87f456fc8ea9c3",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "billing-web/src/main/webapp/WEB-INF/spring/security.xml"
+      ],
+      "target": "ldap://ldap.acme.local:389",
+      "type": "LDAP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8d21b13dbf66466d",
+      "name": "Spring Framework (XML configuration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "auth",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b7f5c474ca0d533a",
+      "name": "Spring Security",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "auth",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:c864f4a53e6f542e",
+      "name": "Spring Security (form login)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "auth",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "id": "tech:6cbea109800825dd",
+      "name": "Spring Security (LDAP)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "auth",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/spring/security.xml",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "id": "tech:6cbea109800825dd",
+      "name": "Spring Security (LDAP)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf": {
+  "metrics": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+      "id": "screen:fe290097d692789b",
+      "name": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "kind": "page",
+     "line": 1,
+     "name": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "owner": "screen:fe290097d692789b"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     9057496901642104948,
+     1,
+     8
+    ],
+    [
+     4478979749170685952,
+     2,
+     8
+    ],
+    [
+     8361811939012059574,
+     3,
+     9
+    ],
+    [
+     4681418386734111237,
+     4,
+     10
+    ],
+    [
+     8356508170285379518,
+     5,
+     10
+    ],
+    [
+     7554525445331729725,
+     6,
+     11
+    ],
+    [
+     5537371538641247927,
+     7,
+     13
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": "search",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+      "id": "screen:8f683aecfbbcde40",
+      "name": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "kind": "includes",
+     "line": 2,
+     "report_unresolved": true,
+     "source": "screen:screen:8f683aecfbbcde40",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "target": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "kind": "submits",
+     "line": 6,
+     "report_unresolved": false,
+     "source": "screen:screen:8f683aecfbbcde40",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "target": "/search",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "billing-web/src/main/webapp/WEB-INF/views/customers/search.jsp",
+     "owner": "screen:8f683aecfbbcde40"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/views/home.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     8777105763356929873,
+     1,
+     8
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+      "id": "screen:97d933ecf95c2a5e",
+      "name": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "billing-web/src/main/webapp/WEB-INF/views/home.jsp"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+     "kind": "includes",
+     "line": 2,
+     "report_unresolved": true,
+     "source": "screen:screen:97d933ecf95c2a5e",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+     "target": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "billing-web/src/main/webapp/WEB-INF/views/home.jsp",
+     "owner": "screen:97d933ecf95c2a5e"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     1488923441646762908,
+     1,
+     7
+    ],
+    [
+     4112012602939098484,
+     2,
+     8
+    ],
+    [
+     1159459692534663251,
+     3,
+     9
+    ],
+    [
+     8346466622688069891,
+     4,
+     9
+    ],
+    [
+     2323289413988735835,
+     5,
+     9
+    ],
+    [
+     8096026888398220736,
+     6,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": "${id}/pay",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+      "id": "screen:01e5975666c97869",
+      "name": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "kind": "includes",
+     "line": 2,
+     "report_unresolved": true,
+     "source": "screen:screen:01e5975666c97869",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "target": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "kind": "submits",
+     "line": 6,
+     "report_unresolved": false,
+     "source": "screen:screen:01e5975666c97869",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "target": "/pay",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "billing-web/src/main/webapp/WEB-INF/views/invoices/detail.jsp",
+     "owner": "screen:01e5975666c97869"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     6081571720042297589,
+     1,
+     8
+    ],
+    [
+     8625516129273515426,
+     2,
+     8
+    ],
+    [
+     7056698188816301283,
+     3,
+     10
+    ],
+    [
+     7458591014281820811,
+     4,
+     11
+    ],
+    [
+     7838304541078626653,
+     5,
+     11
+    ],
+    [
+     8056480770376829527,
+     6,
+     11
+    ],
+    [
+     1366389872301223644,
+     7,
+     12
+    ],
+    [
+     6192108863860007232,
+     8,
+     12
+    ],
+    [
+     4259137356295644518,
+     9,
+     13
+    ],
+    [
+     5139828606226671781,
+     10,
+     14
+    ],
+    [
+     4311155851681962096,
+     11,
+     17
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+      "id": "screen:c6a61f35f0d54a46",
+      "name": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+     "kind": "includes",
+     "line": 3,
+     "report_unresolved": true,
+     "source": "screen:screen:c6a61f35f0d54a46",
+     "source_label": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+     "target": "billing-web/src/main/webapp/WEB-INF/views/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "billing-web/src/main/webapp/WEB-INF/views/invoices/list.jsp",
+     "owner": "screen:c6a61f35f0d54a46"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "billing-web/src/main/webapp/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b3699c7001040a8e",
+      "name": "Servlet API",
+      "replacement": null,
+      "usages": 1,
+      "version": "2.5"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "id": "tech:fe517f94dbddf9cc",
+      "name": "Spring MVC",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b7f5c474ca0d533a",
+      "name": "Spring Security",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:910e91a3a037738b",
+      "name": "Spring Framework",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.springframework.web.servlet.DispatcherServlet",
+      "patterns": "/"
+     },
+     "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 23,
+     "name": "billing",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 73,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:94544620f465ab54",
+      "name": "Java",
+      "replacement": null,
+      "usages": 1,
+      "version": "1.8"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "",
+      "properties": "{\"hibernate.version\": \"4.3.11.Final\", \"java.version\": \"1.8\", \"maven.compiler.source\": \"1.8\", \"pom.version\": \"2.3.0\", \"project.artifactId\": \"billing-parent\", \"project.groupId\": \"com.acme.billing\", \"project.parent.version\": \"\", \"project.version\": \"2.3.0\", \"spring.batch.version\": \"3.0.10.RELEASE\", \"spring.version\": \"4.3.30.RELEASE\"}",
+      "version": "2.3.0"
+     },
+     "file": "pom.xml",
+     "kind": "maven-pom",
+     "line": 2,
+     "name": "com.acme.billing:billing-parent",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "4.3.30.RELEASE"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 25,
+     "name": "com.acme.billing:billing-parent|org.springframework:spring-webmvc",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "4.3.30.RELEASE"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 30,
+     "name": "com.acme.billing:billing-parent|org.springframework:spring-jdbc",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "4.3.30.RELEASE"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 35,
+     "name": "com.acme.billing:billing-parent|org.springframework:spring-jms",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "3.0.10.RELEASE"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 40,
+     "name": "com.acme.billing:billing-parent|org.springframework.batch:spring-batch-core",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "4.2.20.RELEASE"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 45,
+     "name": "com.acme.billing:billing-parent|org.springframework.security:spring-security-ldap",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "4.3.11.Final"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 50,
+     "name": "com.acme.billing:billing-parent|org.hibernate:hibernate-core",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "3.4.6"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 55,
+     "name": "com.acme.billing:billing-parent|org.mybatis:mybatis",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "9.1.0.0"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 60,
+     "name": "com.acme.billing:billing-parent|com.ibm.mq:com.ibm.mq.allclient",
+     "owner": null
+    },
+    {
+     "data": {
+      "version": "1.2.17"
+     },
+     "file": "pom.xml",
+     "kind": "maven-managed",
+     "line": 65,
+     "name": "com.acme.billing:billing-parent|log4j:log4j",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 73,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 73,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

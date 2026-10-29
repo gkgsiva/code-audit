@@ -1,0 +1,2282 @@
+{
+ "bms/ORDMS1.bms": {
+  "cobol": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "bms/ORDMS1.bms",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "bms/ORDMS1.bms",
+      "id": "screen:b8907223be167a85",
+      "name": "ORDM01",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "BMS"
+     },
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "bms/ORDMS1.bms",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "bms/ORDMS1.bms",
+      "id": "screen:42959897b9b2041a",
+      "name": "ORDM02",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "BMS"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "bms/ORDMS1.bms",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:366c79439637dcd9",
+      "name": "CICS BMS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "mapset": "ORDMS1"
+     },
+     "file": "bms/ORDMS1.bms",
+     "kind": "bms-map",
+     "line": 4,
+     "name": "ORDM01",
+     "owner": "screen:b8907223be167a85"
+    },
+    {
+     "data": {
+      "mapset": "ORDMS1"
+     },
+     "file": "bms/ORDMS1.bms",
+     "kind": "bms-map",
+     "line": 9,
+     "name": "ORDM02",
+     "owner": "screen:42959897b9b2041a"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "cobol/DATECONV.cbl": {
+  "cobol": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "cobol/DATECONV.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. DATECONV"
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "cobol/DATECONV.cbl",
+      "framework": null,
+      "handler": "DATECONV",
+      "id": "service:05480e1d727f2587",
+      "inputs": [],
+      "kind": "cobol-program",
+      "name": "DATECONV",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/DATECONV.cbl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:223ba3ba63c8752b",
+      "name": "COBOL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "cics": "false",
+      "paragraphs": "1"
+     },
+     "file": "cobol/DATECONV.cbl",
+     "kind": "cobol-program",
+     "line": 2,
+     "name": "DATECONV",
+     "owner": "service:05480e1d727f2587"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "paragraph",
+     "line": 11,
+     "loc": 3,
+     "name": "MAIN-PARA"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "cobol/ORDBATCH.cbl": {
+  "cobol": {
+   "coverage": {
+    "lines": 46,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "select": "ORDER-IN"
+      },
+      "direction": "inbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:ee357e873520c56e",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "cobol/ORDBATCH.cbl"
+      ],
+      "target": "DD:ORDIN",
+      "type": "FILE",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "select": "ORDER-OUT"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:32a1c02ac6897e0d",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "cobol/ORDBATCH.cbl"
+      ],
+      "target": "DD:ORDOUT",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDBATCH"
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "cobol/ORDBATCH.cbl",
+      "framework": null,
+      "handler": "ORDBATCH",
+      "id": "service:aea815ac073f1742",
+      "inputs": [],
+      "kind": "cobol-program",
+      "name": "ORDBATCH",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 22,
+        "snippet": "DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE"
+       }
+      ],
+      "file": "cobol/ORDBATCH.cbl",
+      "fingerprint": "d70753ba5d07cc44",
+      "fragments": 1,
+      "id": "sql:22e666b1f881dfbc",
+      "line": 22,
+      "normalized": "DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "SHIPMENTS"
+      ],
+      "text": "DECLARE SHIP-CUR CURSOR FOR\n        SELECT ORD_ID, SHIP_DATE\n          FROM SHIPMENTS\n         WHERE SHIP_DATE = CURRENT DATE",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "CURRENT DATE/TIMESTAMP"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 40,
+        "snippet": "UPDATE ORDERS SET ORD_STATUS = 'S' WHERE ORD_ID = :ORD-ID"
+       }
+      ],
+      "file": "cobol/ORDBATCH.cbl",
+      "fingerprint": "21f3012afa3a3b6e",
+      "fragments": 1,
+      "id": "sql:a8a07a6d211422de",
+      "line": 40,
+      "normalized": "UPDATE ORDERS SET ORD_STATUS = ? WHERE ORD_ID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "UPDATE ORDERS SET ORD_STATUS = 'S'\n            WHERE ORD_ID = :ORD-ID",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:223ba3ba63c8752b",
+      "name": "COBOL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "id": "tech:13afbe15064532cc",
+      "name": "DB2",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "cobol/ORDBATCH.cbl",
+     "kind": "includes",
+     "line": 14,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDBATCH.cbl",
+     "source_label": "ORDBATCH",
+     "target": "ORDREC",
+     "target_kinds": [
+      "cobol-copybook",
+      "file-name"
+     ]
+    },
+    {
+     "data": {
+      "dynamic": "true"
+     },
+     "file": "cobol/ORDBATCH.cbl",
+     "kind": "calls",
+     "line": 39,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDBATCH.cbl",
+     "source_label": "ORDBATCH",
+     "target": "DATECONV",
+     "target_kinds": [
+      "cobol-program",
+      "c-function",
+      "c-executable"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "cics": "false",
+      "paragraphs": "2"
+     },
+     "file": "cobol/ORDBATCH.cbl",
+     "kind": "cobol-program",
+     "line": 2,
+     "name": "ORDBATCH",
+     "owner": "service:aea815ac073f1742"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 46,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 35,
+     "kind": "paragraph",
+     "line": 28,
+     "loc": 8,
+     "name": "MAIN-PARA"
+    },
+    {
+     "cyclomatic": 3,
+     "end_line": 45,
+     "kind": "paragraph",
+     "line": 36,
+     "loc": 10,
+     "name": "READ-ORDER"
+    }
+   ],
+   "windows": [
+    [
+     6905881232159901181,
+     1,
+     16
+    ],
+    [
+     1081582939740069033,
+     2,
+     17
+    ],
+    [
+     8749806503071118118,
+     6,
+     18
+    ],
+    [
+     8193688816678379635,
+     7,
+     18
+    ],
+    [
+     5100784871863912870,
+     8,
+     19
+    ],
+    [
+     8055456348699381318,
+     9,
+     19
+    ],
+    [
+     7479930559756628804,
+     10,
+     20
+    ],
+    [
+     3135271348929402997,
+     11,
+     20
+    ],
+    [
+     1331896992024904925,
+     12,
+     21
+    ],
+    [
+     7731580140831203190,
+     13,
+     21
+    ],
+    [
+     7415957300437499165,
+     14,
+     22
+    ],
+    [
+     2979805288073410668,
+     15,
+     22
+    ],
+    [
+     6680740393697441967,
+     16,
+     23
+    ],
+    [
+     1376372845695742063,
+     17,
+     25
+    ],
+    [
+     5026388288239826319,
+     18,
+     26
+    ],
+    [
+     6959494484563041515,
+     19,
+     29
+    ],
+    [
+     6776785263000850573,
+     20,
+     31
+    ],
+    [
+     3018567517177695777,
+     21,
+     33
+    ],
+    [
+     3883643356524012109,
+     22,
+     34
+    ],
+    [
+     2854234211528466072,
+     23,
+     35
+    ],
+    [
+     8424217664809616122,
+     24,
+     37
+    ],
+    [
+     1050471355178391460,
+     25,
+     37
+    ],
+    [
+     74160933568262516,
+     26,
+     37
+    ],
+    [
+     694649542047991660,
+     27,
+     38
+    ],
+    [
+     2246032003638855378,
+     28,
+     39
+    ],
+    [
+     7820854802858781952,
+     29,
+     39
+    ],
+    [
+     5079821594306292359,
+     30,
+     40
+    ],
+    [
+     1505775151029679255,
+     31,
+     41
+    ],
+    [
+     7274344670100149355,
+     32,
+     42
+    ],
+    [
+     9198624122041943816,
+     33,
+     44
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "cobol/ORDINQ.cbl": {
+  "cobol": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDINQ"
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "cobol/ORDINQ.cbl",
+      "framework": null,
+      "handler": "ORDINQ",
+      "id": "service:774375acd8ffce5c",
+      "inputs": [],
+      "kind": "cics-transaction",
+      "name": "ORDI",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 25,
+        "snippet": "SELECT O.ORD_AMOUNT, C.CUST_NAME INTO :ORD-AMOUNT, :WS-CUST-NAME FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID "
+       }
+      ],
+      "file": "cobol/ORDINQ.cbl",
+      "fingerprint": "dfebef4c9b593e74",
+      "fragments": 1,
+      "id": "sql:8d425f56e1c4ea3e",
+      "line": 25,
+      "normalized": "SELECT O.ORD_AMOUNT, C.CUST_NAME INTO ?, ? FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ? WITH UR",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMER",
+       "ORDERS"
+      ],
+      "text": "SELECT O.ORD_AMOUNT, C.CUST_NAME\n          INTO :ORD-AMOUNT, :WS-CUST-NAME\n          FROM ORDERS O\n          JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID\n         WHERE O.ORD_ID = :WS-ORDER-ID\n          WITH UR",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "DB2 WITH UR"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:223ba3ba63c8752b",
+      "name": "COBOL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 25,
+        "snippet": null
+       }
+      ],
+      "id": "tech:13afbe15064532cc",
+      "name": "DB2",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4b82cbaab42bdc03",
+      "name": "CICS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "includes",
+     "line": 14,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "CUSTDCL",
+     "target_kinds": [
+      "cobol-copybook",
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "includes",
+     "line": 12,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "ORDREC",
+     "target_kinds": [
+      "cobol-copybook",
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "includes",
+     "line": 15,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "ORDMS1",
+     "target_kinds": [
+      "cobol-copybook",
+      "file-name"
+     ]
+    },
+    {
+     "data": {
+      "mapset": "ORDMS1"
+     },
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "reads",
+     "line": 20,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "ORDM01",
+     "target_kinds": [
+      "bms-map"
+     ]
+    },
+    {
+     "data": {},
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "calls",
+     "line": 23,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "ORDVAL",
+     "target_kinds": [
+      "cobol-program"
+     ]
+    },
+    {
+     "data": {
+      "mapset": "ORDMS1"
+     },
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "forwards",
+     "line": 37,
+     "report_unresolved": true,
+     "source": "file:cobol/ORDINQ.cbl",
+     "source_label": "ORDINQ",
+     "target": "ORDM02",
+     "target_kinds": [
+      "bms-map"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "cics": "true",
+      "paragraphs": "2"
+     },
+     "file": "cobol/ORDINQ.cbl",
+     "kind": "cobol-program",
+     "line": 2,
+     "name": "ORDINQ",
+     "owner": "service:774375acd8ffce5c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 35,
+     "kind": "paragraph",
+     "line": 19,
+     "loc": 17,
+     "name": "MAIN-PARA"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 38,
+     "kind": "paragraph",
+     "line": 36,
+     "loc": 3,
+     "name": "SEND-RESULT"
+    }
+   ],
+   "windows": [
+    [
+     2092784974075311444,
+     1,
+     13
+    ],
+    [
+     8558871880635358354,
+     2,
+     14
+    ],
+    [
+     6549933629395979322,
+     6,
+     15
+    ],
+    [
+     9076708431307515213,
+     7,
+     16
+    ],
+    [
+     8616564113885494260,
+     8,
+     17
+    ],
+    [
+     8979482706011555116,
+     9,
+     17
+    ],
+    [
+     1615129498970283249,
+     10,
+     19
+    ],
+    [
+     755718974145179021,
+     11,
+     20
+    ],
+    [
+     6030793513438986045,
+     12,
+     21
+    ],
+    [
+     6983987761898118583,
+     13,
+     21
+    ],
+    [
+     5058895201166601154,
+     14,
+     22
+    ],
+    [
+     2810090394642204572,
+     15,
+     23
+    ],
+    [
+     8769849374940985621,
+     16,
+     23
+    ],
+    [
+     8718300147066401228,
+     17,
+     23
+    ],
+    [
+     619940468695637201,
+     18,
+     26
+    ],
+    [
+     8560434132902058696,
+     19,
+     26
+    ],
+    [
+     1466894770963808002,
+     20,
+     27
+    ],
+    [
+     2667556077459344736,
+     21,
+     29
+    ],
+    [
+     104529905001023827,
+     22,
+     30
+    ],
+    [
+     5643413588621598635,
+     23,
+     30
+    ],
+    [
+     2063002325088548419,
+     24,
+     34
+    ],
+    [
+     5968562687867327900,
+     25,
+     34
+    ],
+    [
+     4934830965413981149,
+     26,
+     34
+    ],
+    [
+     6327344149589023835,
+     27,
+     37
+    ],
+    [
+     5524073361622710434,
+     28,
+     37
+    ],
+    [
+     8043871958385002419,
+     29,
+     37
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "cobol/ORDRPT.cbl": {
+  "cobol": {
+   "coverage": {
+    "lines": 53,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "select": "REPORT-FILE"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:8b09638797fc554e",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "cobol/ORDRPT.cbl"
+      ],
+      "target": "DD:RPTOUT",
+      "type": "FILE",
+      "usages": 1
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDRPT"
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "cobol/ORDRPT.cbl",
+      "framework": null,
+      "handler": "ORDRPT",
+      "id": "service:2c9b980f84f9a364",
+      "inputs": [],
+      "kind": "cobol-program",
+      "name": "ORDRPT",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 27,
+        "snippet": "SELECT SUM(ORD_AMOUNT) INTO :WS-TOTAL FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST 1 ROW ONLY"
+       }
+      ],
+      "file": "cobol/ORDRPT.cbl",
+      "fingerprint": "a9daf64322322162",
+      "fragments": 1,
+      "id": "sql:dea1e97f95240ca2",
+      "line": 27,
+      "normalized": "SELECT SUM(ORD_AMOUNT) INTO ? FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST ? ROW ONLY",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT SUM(ORD_AMOUNT) INTO :WS-TOTAL\n          FROM ORDERS\n         WHERE ORD_DATE = CURRENT DATE\n         FETCH FIRST 1 ROW ONLY",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "DB2 FETCH FIRST",
+       "CURRENT DATE/TIMESTAMP"
+      ]
+     },
+     {
+      "built_with": [
+       "conditional",
+       "prepare-from-variable",
+       "string-statement"
+      ],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 51,
+        "snippet": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?"
+       },
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 18,
+        "snippet": null
+       },
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 41,
+        "snippet": null
+       },
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 43,
+        "snippet": null
+       },
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 48,
+        "snippet": null
+       }
+      ],
+      "file": "cobol/ORDRPT.cbl",
+      "fingerprint": "375a68c390d6d5b4",
+      "fragments": 4,
+      "id": "sql:49f749d475666ab6",
+      "line": 51,
+      "normalized": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = ? ORDER BY ?",
+      "optional_fragments": 2,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 1,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?",
+      "type": "SELECT",
+      "value_holes": 1,
+      "variants": [
+       "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? ORDER BY ?"
+      ],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:223ba3ba63c8752b",
+      "name": "COBOL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 27,
+        "snippet": null
+       }
+      ],
+      "id": "tech:13afbe15064532cc",
+      "name": "DB2",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "cics": "false",
+      "paragraphs": "2"
+     },
+     "file": "cobol/ORDRPT.cbl",
+     "kind": "cobol-program",
+     "line": 2,
+     "name": "ORDRPT",
+     "owner": "service:2c9b980f84f9a364"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 53,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 36,
+     "kind": "paragraph",
+     "line": 25,
+     "loc": 12,
+     "name": "MAIN-PARA"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 52,
+     "kind": "paragraph",
+     "line": 37,
+     "loc": 15,
+     "name": "DETAIL-PARA"
+    }
+   ],
+   "windows": [
+    [
+     8817846463103855224,
+     1,
+     15
+    ],
+    [
+     8015450947195112955,
+     2,
+     16
+    ],
+    [
+     8200910071593606583,
+     6,
+     16
+    ],
+    [
+     424889000679200053,
+     7,
+     17
+    ],
+    [
+     5614797708242536392,
+     8,
+     17
+    ],
+    [
+     1918678175700860751,
+     9,
+     17
+    ],
+    [
+     1414565341539181630,
+     10,
+     18
+    ],
+    [
+     6306361290380001849,
+     11,
+     18
+    ],
+    [
+     1599587371239779763,
+     12,
+     19
+    ],
+    [
+     2316178090200038669,
+     13,
+     20
+    ],
+    [
+     3469596691600455130,
+     14,
+     21
+    ],
+    [
+     3950031490358926003,
+     15,
+     22
+    ],
+    [
+     703175165660716802,
+     16,
+     23
+    ],
+    [
+     6366538941485433113,
+     17,
+     26
+    ],
+    [
+     3050232077270191842,
+     18,
+     28
+    ],
+    [
+     1689728679244199065,
+     19,
+     30
+    ],
+    [
+     6768481008705894050,
+     20,
+     30
+    ],
+    [
+     25133441168683306,
+     21,
+     31
+    ],
+    [
+     6596870686938093256,
+     22,
+     33
+    ],
+    [
+     7690804083292254874,
+     23,
+     35
+    ],
+    [
+     255324337551914253,
+     24,
+     39
+    ],
+    [
+     536168682989168186,
+     25,
+     40
+    ],
+    [
+     7008155780640736190,
+     26,
+     40
+    ],
+    [
+     9147910866117129114,
+     27,
+     41
+    ],
+    [
+     419300486087562384,
+     28,
+     42
+    ],
+    [
+     9177388515534583780,
+     29,
+     43
+    ],
+    [
+     8749425188105118511,
+     30,
+     44
+    ],
+    [
+     815537197351771328,
+     31,
+     45
+    ],
+    [
+     8628784200345182993,
+     32,
+     48
+    ],
+    [
+     972862138120912686,
+     33,
+     48
+    ],
+    [
+     1234675336387803528,
+     34,
+     50
+    ],
+    [
+     8363843968673753932,
+     35,
+     50
+    ],
+    [
+     5567631077951789109,
+     36,
+     51
+    ],
+    [
+     8537700403220887828,
+     37,
+     51
+    ],
+    [
+     8632969635819052158,
+     39,
+     51
+    ],
+    [
+     8908388182831924733,
+     40,
+     52
+    ],
+    [
+     7320261768842579933,
+     41,
+     52
+    ],
+    [
+     8868317611951354923,
+     42,
+     52
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "ebcdic-packed-decimal",
+     15,
+     "COMP-3"
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "cobol/ORDVAL.cbl": {
+  "cobol": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 2,
+        "snippet": "PROGRAM-ID. ORDVAL"
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "cobol/ORDVAL.cbl",
+      "framework": null,
+      "handler": "ORDVAL",
+      "id": "service:645ba7ca0c214e3d",
+      "inputs": [],
+      "kind": "cics-transaction",
+      "name": "ORDVAL",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "db2",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 14,
+        "snippet": "SELECT COUNT(*) INTO :WS-COUNT FROM ORDERS WHERE ORD_ID = :DFHCOMMAREA"
+       }
+      ],
+      "file": "cobol/ORDVAL.cbl",
+      "fingerprint": "6314e6ba55bc79f8",
+      "fragments": 1,
+      "id": "sql:e8ec7b254953308f",
+      "line": 14,
+      "normalized": "SELECT COUNT(*) INTO ? FROM ORDERS WHERE ORD_ID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT COUNT(*) INTO :WS-COUNT\n          FROM ORDERS\n         WHERE ORD_ID = :DFHCOMMAREA",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:223ba3ba63c8752b",
+      "name": "COBOL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "id": "tech:13afbe15064532cc",
+      "name": "DB2",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "middleware",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "cobol/ORDVAL.cbl",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4b82cbaab42bdc03",
+      "name": "CICS",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "cics": "true",
+      "paragraphs": "1"
+     },
+     "file": "cobol/ORDVAL.cbl",
+     "kind": "cobol-program",
+     "line": 2,
+     "name": "ORDVAL",
+     "owner": "service:645ba7ca0c214e3d"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 22,
+     "kind": "paragraph",
+     "line": 13,
+     "loc": 10,
+     "name": "MAIN-PARA"
+    }
+   ],
+   "windows": [
+    [
+     3554336040051967158,
+     1,
+     15
+    ],
+    [
+     7478805835984058810,
+     2,
+     15
+    ],
+    [
+     7917138418435440514,
+     6,
+     17
+    ],
+    [
+     7759895084707361664,
+     7,
+     17
+    ],
+    [
+     131442141699398522,
+     8,
+     18
+    ],
+    [
+     7780588705270036532,
+     9,
+     20
+    ],
+    [
+     7016883660083903092,
+     10,
+     22
+    ],
+    [
+     2735757561884979667,
+     11,
+     22
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "copybook/CUSTDCL.cpy": {
+  "cobol": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "copybook/CUSTDCL.cpy",
+     "kind": "cobol-copybook",
+     "line": 1,
+     "name": "CUSTDCL",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     800472165788770322,
+     4,
+     12
+    ],
+    [
+     9078222702813284974,
+     5,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "copybook/ORDREC.cpy": {
+  "cobol": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "copybook/ORDREC.cpy",
+     "kind": "cobol-copybook",
+     "line": 1,
+     "name": "ORDREC",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     1825315974965412927,
+     4,
+     11
+    ],
+    [
+     7757124001319117168,
+     5,
+     11
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "ebcdic-packed-decimal",
+     7,
+     "COMP-3"
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "ddl/orders_db2.sql": {
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     1752285324501450678,
+     2,
+     12
+    ],
+    [
+     1160686754223082169,
+     3,
+     13
+    ],
+    [
+     3382552278885946676,
+     4,
+     16
+    ],
+    [
+     3349344688709823109,
+     5,
+     17
+    ],
+    [
+     2586472489815686888,
+     6,
+     19
+    ],
+    [
+     7873289799492265322,
+     7,
+     22
+    ],
+    [
+     626274491648213909,
+     8,
+     22
+    ],
+    [
+     8968168632071789405,
+     10,
+     22
+    ],
+    [
+     6609973110002293620,
+     11,
+     22
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "sql": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "db_objects": [
+     {
+      "crud": {},
+      "defined_in": "ddl/orders_db2.sql",
+      "evidence": [
+       {
+        "file": "ddl/orders_db2.sql",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:ef97536d0298e878",
+      "members": [],
+      "name": "ORDERS",
+      "object_type": "table",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     },
+     {
+      "crud": {},
+      "defined_in": "ddl/orders_db2.sql",
+      "evidence": [
+       {
+        "file": "ddl/orders_db2.sql",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:ba880a1b125aeb90",
+      "members": [],
+      "name": "CUSTOMER",
+      "object_type": "table",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     },
+     {
+      "crud": {},
+      "defined_in": "ddl/orders_db2.sql",
+      "evidence": [
+       {
+        "file": "ddl/orders_db2.sql",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:d42f88d5ef59a27c",
+      "members": [],
+      "name": "SHIPMENTS",
+      "object_type": "table",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     },
+     {
+      "crud": {},
+      "defined_in": "ddl/orders_db2.sql",
+      "evidence": [
+       {
+        "file": "ddl/orders_db2.sql",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:fdfa797f324f2a66",
+      "members": [],
+      "name": "OPEN_ORDERS",
+      "object_type": "view",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "ddl/orders_db2.sql",
+     "kind": "db-table",
+     "line": 2,
+     "name": "ORDERS",
+     "owner": "db_object:ef97536d0298e878"
+    },
+    {
+     "data": {},
+     "file": "ddl/orders_db2.sql",
+     "kind": "db-table",
+     "line": 10,
+     "name": "CUSTOMER",
+     "owner": "db_object:ba880a1b125aeb90"
+    },
+    {
+     "data": {},
+     "file": "ddl/orders_db2.sql",
+     "kind": "db-table",
+     "line": 16,
+     "name": "SHIPMENTS",
+     "owner": "db_object:d42f88d5ef59a27c"
+    },
+    {
+     "data": {},
+     "file": "ddl/orders_db2.sql",
+     "kind": "db-view",
+     "line": 21,
+     "name": "OPEN_ORDERS",
+     "owner": "db_object:fdfa797f324f2a66"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "jcl/ORDNIGHT.jcl": {
+  "jcl": {
+   "coverage": {
+    "lines": 18,
+    "unparsed": []
+   },
+   "entities": {
+    "batch_jobs": [
+     {
+      "box": null,
+      "command": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "condition": null,
+      "datasets": [
+       "PROD.ORDERS.LOADLIB",
+       "PROD.ORDERS.DAILY",
+       "PROD.ORDERS.SHIPPED",
+       "PROD.ORDERS.SHIPPED.SORTED"
+      ],
+      "description": null,
+      "evidence": [
+       {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "batch_job:effeadeb068eb7db",
+      "kind": "job",
+      "machine": null,
+      "name": "ORDNIGHT",
+      "on_failure": [],
+      "predecessors": [],
+      "programs": [
+       "ORDBATCH",
+       "SORT"
+      ],
+      "schedule": null,
+      "scheduler": "jcl",
+      "steps": [
+       "STEP010",
+       "STEP020",
+       "STEP030"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "scheduler",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bd3ddb22b1cd0d3f",
+      "name": "JCL",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "proc": "",
+      "step": "STEP010"
+     },
+     "file": "jcl/ORDNIGHT.jcl",
+     "kind": "runs",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:effeadeb068eb7db",
+     "source_label": "ORDNIGHT",
+     "target": "ORDBATCH",
+     "target_kinds": [
+      "cobol-program",
+      "c-executable",
+      "file-name"
+     ]
+    },
+    {
+     "data": {
+      "step": "STEP030"
+     },
+     "file": "jcl/ORDNIGHT.jcl",
+     "kind": "runs",
+     "line": 17,
+     "report_unresolved": true,
+     "source": "batch_job:batch_job:effeadeb068eb7db",
+     "source_label": "ORDNIGHT",
+     "target": "ORDRPTP",
+     "target_kinds": [
+      "jcl-proc"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "jcl/ORDNIGHT.jcl",
+     "kind": "jcl-job",
+     "line": 1,
+     "name": "ORDNIGHT",
+     "owner": "batch_job:effeadeb068eb7db"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "proclib/ORDRPTP.jcl": {
+  "jcl": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "proclib/ORDRPTP.jcl",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:13afbe15064532cc",
+      "name": "DB2",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "plan": "ORDPLAN",
+      "step": "RPT"
+     },
+     "file": "proclib/ORDRPTP.jcl",
+     "kind": "runs",
+     "line": 10,
+     "report_unresolved": true,
+     "source": "file:proclib/ORDRPTP.jcl",
+     "source_label": "ORDRPTP",
+     "target": "ORDRPT",
+     "target_kinds": [
+      "cobol-program",
+      "c-executable"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "proclib/ORDRPTP.jcl",
+     "kind": "jcl-proc",
+     "line": 1,
+     "name": "ORDRPTP",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

@@ -1,0 +1,3712 @@
+{
+ "orders-ws/pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "cxf-core",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/pom.xml",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "group": "org.apache.cxf",
+      "id": "library:8ea61c469b9b479f",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "3.1.18",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-ws/pom.xml"
+      ]
+     },
+     {
+      "artifact": "jersey-container-servlet",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/pom.xml",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "group": "org.glassfish.jersey.containers",
+      "id": "library:d416a04226f402e9",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "2.25.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-ws/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-webmvc",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/pom.xml",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework",
+      "id": "library:42ad27ac6283ac46",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "4.3.30.RELEASE",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-ws/pom.xml"
+      ]
+     },
+     {
+      "artifact": "spring-cloud-starter-openfeign",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/pom.xml",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "group": "org.springframework.cloud",
+      "id": "library:efd8311753bd7b53",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "2.2.10.RELEASE",
+      "vulnerabilities": [],
+      "where_used": [
+       "orders-ws/pom.xml"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/pom.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "",
+      "properties": "{\"pom.version\": \"2.3.0\", \"project.artifactId\": \"orders-ws\", \"project.groupId\": \"com.acme.orders\", \"project.parent.version\": \"\", \"project.version\": \"2.3.0\"}",
+      "version": "2.3.0"
+     },
+     "file": "orders-ws/pom.xml",
+     "kind": "maven-pom",
+     "line": 1,
+     "name": "com.acme.orders:orders-ws",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/crm/CrmPort.java": {
+  "java": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmPort.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmPort",
+     "source_label": "com.acme.crm.CrmPort",
+     "target": "javax.jws.WebService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmPort.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmPort",
+     "source_label": "com.acme.crm.CrmPort",
+     "target": "com.acme.crm.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmPort.java",
+     "kind": "java-class",
+     "line": 6,
+     "name": "com.acme.crm.CrmPort",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/crm/CrmService.java": {
+  "java": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/crm/CrmService.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/crm/CrmService.java"
+      ],
+      "frameworks": [
+       "JAX-WS client"
+      ],
+      "id": "websvc-use:3c5c6cdf75566929",
+      "integrations": [],
+      "name": "CrmService",
+      "namespace": "http://crm.acme.com/",
+      "operations": [],
+      "side": "called",
+      "style": "SOAP",
+      "url": null,
+      "wsdl": "WEB-INF/wsdl/crm.wsdl"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmService",
+     "source_label": "com.acme.crm.CrmService",
+     "target": "java.net.URL",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmService",
+     "source_label": "com.acme.crm.CrmService",
+     "target": "javax.xml.namespace.QName",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmService",
+     "source_label": "com.acme.crm.CrmService",
+     "target": "javax.xml.ws.Service",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmService",
+     "source_label": "com.acme.crm.CrmService",
+     "target": "javax.xml.ws.WebServiceClient",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.crm.CrmService",
+     "source_label": "com.acme.crm.CrmService",
+     "target": "com.acme.crm.CrmPort",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.crm.CrmService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java": {
+  "java": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java"
+      ],
+      "frameworks": [
+       "JAX-WS client"
+      ],
+      "id": "websvc-use:aa8db71fe564cd28",
+      "integrations": [],
+      "name": "CrmService",
+      "namespace": null,
+      "operations": [],
+      "side": "called",
+      "style": "SOAP",
+      "url": null,
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.CrmClient",
+     "source_label": "com.acme.orders.client.CrmClient",
+     "target": "com.acme.crm.CrmPort",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.CrmClient",
+     "source_label": "com.acme.orders.client.CrmClient",
+     "target": "com.acme.crm.CrmService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.CrmClient",
+     "source_label": "com.acme.orders.client.CrmClient",
+     "target": "javax.xml.ws.BindingProvider",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.CrmClient",
+     "source_label": "com.acme.orders.client.CrmClient",
+     "target": "com.acme.orders.client.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+     "kind": "java-class",
+     "line": 8,
+     "name": "com.acme.orders.client.CrmClient",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 10,
+     "loc": 4,
+     "name": "accountManager"
+    }
+   ],
+   "windows": [
+    [
+     7537239944606585445,
+     1,
+     11
+    ],
+    [
+     4475817644679251953,
+     3,
+     11
+    ],
+    [
+     603434018065039745,
+     4,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java": {
+  "java": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "web_services": [
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+      ],
+      "frameworks": [
+       "Feign"
+      ],
+      "id": "websvc-use:5ad5fa8b4568b75a",
+      "integrations": [],
+      "name": "payment-service",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "handler": "com.acme.orders.client.PaymentClient.charge",
+        "line": 13,
+        "method": "POST",
+        "name": "POST /charges",
+        "path": "/charges",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "${payment.url}/charges",
+      "wsdl": null
+     },
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java"
+      ],
+      "frameworks": [
+       "Feign"
+      ],
+      "id": "websvc-use:950c1f4d36d7508a",
+      "integrations": [],
+      "name": "payment-service",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "handler": "com.acme.orders.client.PaymentClient.get",
+        "line": 16,
+        "method": "GET",
+        "name": "GET /charges/{id}",
+        "path": "/charges/{id}",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "${payment.url}/charges/{id}",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "org.springframework.cloud.openfeign.FeignClient",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "org.springframework.web.bind.annotation.GetMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "org.springframework.web.bind.annotation.PathVariable",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "org.springframework.web.bind.annotation.PostMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "org.springframework.web.bind.annotation.RequestBody",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PaymentClient",
+     "source_label": "com.acme.orders.client.PaymentClient",
+     "target": "com.acme.orders.client.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+     "kind": "java-class",
+     "line": 10,
+     "name": "com.acme.orders.client.PaymentClient",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "method",
+     "line": 13,
+     "loc": 2,
+     "name": "charge"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 16,
+     "loc": 2,
+     "name": "get"
+    }
+   ],
+   "windows": [
+    [
+     1786568342268424343,
+     1,
+     6
+    ],
+    [
+     3059358775905103272,
+     3,
+     6
+    ],
+    [
+     2700155644345827024,
+     4,
+     7
+    ],
+    [
+     5926192003752484880,
+     5,
+     11
+    ],
+    [
+     6337387409745163441,
+     6,
+     14
+    ],
+    [
+     2719468317401241358,
+     7,
+     17
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/client/StockClient.java": {
+  "java": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:60363d17c8e04144",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "target": "https://stock.acme.local/api/v2/items",
+      "type": "HTTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:72cf683008329582",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "target": "https://stock.acme.local/api/v2/reservations",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "frameworks": [
+       "RestTemplate"
+      ],
+      "id": "websvc-use:ba99d55a898ef225",
+      "integrations": [],
+      "name": "StockClient",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "handler": "com.acme.orders.client.StockClient",
+        "line": 13,
+        "method": "GET",
+        "name": "GET /api/v2/items/?",
+        "path": "/api/v2/items/?",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://stock.acme.local/api/v2/items/?",
+      "wsdl": null
+     },
+     {
+      "callers": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/java/com/acme/orders/client/StockClient.java"
+      ],
+      "frameworks": [
+       "RestTemplate"
+      ],
+      "id": "websvc-use:9e270fadc04e4a91",
+      "integrations": [],
+      "name": "StockClient",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "handler": "com.acme.orders.client.StockClient",
+        "line": 17,
+        "method": "POST",
+        "name": "POST /api/v2/reservations",
+        "path": "/api/v2/reservations",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://stock.acme.local/api/v2/reservations",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.StockClient",
+     "source_label": "com.acme.orders.client.StockClient",
+     "target": "org.springframework.web.client.RestTemplate",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.StockClient",
+     "source_label": "com.acme.orders.client.StockClient",
+     "target": "com.acme.orders.client.Integer",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.StockClient",
+     "source_label": "com.acme.orders.client.StockClient",
+     "target": "com.acme.orders.client.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.StockClient",
+     "source_label": "com.acme.orders.client.StockClient",
+     "target": "com.acme.orders.client.STOCK_API",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.StockClient",
+     "source_label": "com.acme.orders.client.StockClient",
+     "target": "com.acme.orders.client.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+     "kind": "java-class",
+     "line": 6,
+     "name": "com.acme.orders.client.StockClient",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "method",
+     "line": 12,
+     "loc": 3,
+     "name": "available"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 19,
+     "kind": "method",
+     "line": 16,
+     "loc": 4,
+     "name": "reserve"
+    }
+   ],
+   "windows": [
+    [
+     4057921206014999571,
+     1,
+     12
+    ],
+    [
+     6399639709592537089,
+     3,
+     13
+    ],
+    [
+     2547110618564872405,
+     6,
+     16
+    ],
+    [
+     6685222079429062678,
+     8,
+     16
+    ],
+    [
+     9111922549998984319,
+     10,
+     17
+    ],
+    [
+     4187538155191664098,
+     12,
+     17
+    ],
+    [
+     1118897887934368523,
+     13,
+     18
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     8,
+     "\"https://stock.acme.local/api/v2\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java": {
+  "java": {
+   "coverage": {
+    "lines": 24,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "line": 14,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+      "framework": "Spring MVC",
+      "handler": "com.acme.orders.rest.CustomerController.get",
+      "id": "service:1293784c8af29efc",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "GET /api/customers/{id}",
+      "outputs": [],
+      "protocol": "REST",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/api/customers/{id}",
+      "web_service": "CustomerController"
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "line": 19,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+      "framework": "Spring MVC",
+      "handler": "com.acme.orders.rest.CustomerController.update",
+      "id": "service:4117cc4df4479b03",
+      "inputs": [],
+      "kind": "spring-handler",
+      "name": "PUT /api/customers/{id}",
+      "outputs": [],
+      "protocol": "REST",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/api/customers/{id}",
+      "web_service": "CustomerController"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.GetMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.PathVariable",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.PutMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.RequestBody",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.RequestMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "org.springframework.web.bind.annotation.RestController",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.CustomerController",
+     "source_label": "com.acme.orders.rest.CustomerController",
+     "target": "com.acme.orders.rest.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "java-class",
+     "line": 10,
+     "name": "com.acme.orders.rest.CustomerController",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "service",
+     "line": 14,
+     "name": "com.acme.orders.rest.CustomerController.get",
+     "owner": "service:1293784c8af29efc"
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+     "kind": "service",
+     "line": 19,
+     "name": "com.acme.orders.rest.CustomerController.update",
+     "owner": "service:4117cc4df4479b03"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 24,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 14,
+     "loc": 4,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 22,
+     "kind": "method",
+     "line": 19,
+     "loc": 4,
+     "name": "update"
+    }
+   ],
+   "windows": [
+    [
+     2410498002767772695,
+     1,
+     6
+    ],
+    [
+     6366396401914019460,
+     3,
+     6
+    ],
+    [
+     7765800583817926031,
+     4,
+     7
+    ],
+    [
+     8745294832613518166,
+     5,
+     8
+    ],
+    [
+     8772771559248794833,
+     6,
+     14
+    ],
+    [
+     4542088727478670008,
+     7,
+     16
+    ],
+    [
+     8419572211669741144,
+     8,
+     20
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 24,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java": {
+  "java": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+      "framework": "JAX-RS",
+      "handler": "com.acme.orders.rest.OrderResource.get",
+      "id": "service:28af2fb2caf14d2a",
+      "inputs": [],
+      "kind": "rest-operation",
+      "name": "GET /orders/{id}",
+      "outputs": [],
+      "protocol": "REST",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/orders/{id}",
+      "web_service": "OrderResource"
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+      "framework": "JAX-RS",
+      "handler": "com.acme.orders.rest.OrderResource.create",
+      "id": "service:00afadb0e15c7c1f",
+      "inputs": [],
+      "kind": "rest-operation",
+      "name": "POST /orders",
+      "outputs": [],
+      "protocol": "REST",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/orders",
+      "web_service": "OrderResource"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.OrderResource",
+     "source_label": "com.acme.orders.rest.OrderResource",
+     "target": "javax.ws.rs.GET",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.OrderResource",
+     "source_label": "com.acme.orders.rest.OrderResource",
+     "target": "javax.ws.rs.POST",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.OrderResource",
+     "source_label": "com.acme.orders.rest.OrderResource",
+     "target": "javax.ws.rs.Path",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.OrderResource",
+     "source_label": "com.acme.orders.rest.OrderResource",
+     "target": "javax.ws.rs.PathParam",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.rest.OrderResource",
+     "source_label": "com.acme.orders.rest.OrderResource",
+     "target": "com.acme.orders.rest.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.orders.rest.OrderResource",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "service",
+     "line": 12,
+     "name": "com.acme.orders.rest.OrderResource.get",
+     "owner": "service:28af2fb2caf14d2a"
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+     "kind": "service",
+     "line": 18,
+     "name": "com.acme.orders.rest.OrderResource.create",
+     "owner": "service:00afadb0e15c7c1f"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 12,
+     "loc": 5,
+     "name": "get"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 21,
+     "kind": "method",
+     "line": 18,
+     "loc": 4,
+     "name": "create"
+    }
+   ],
+   "windows": [
+    [
+     7348703100653734009,
+     1,
+     10
+    ],
+    [
+     4420504144341283432,
+     3,
+     14
+    ],
+    [
+     2649142043354619720,
+     4,
+     14
+    ],
+    [
+     3205528564784449171,
+     5,
+     19
+    ],
+    [
+     1162924271546412274,
+     6,
+     20
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java": {
+  "java": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+      "framework": "JAX-WS",
+      "handler": "com.acme.orders.ws.OrderStatusEndpoint.getStatus",
+      "id": "service:fb4769b771fa9be6",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "OrderStatusEndpoint.getStatus",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": "OrderStatusService"
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+      "framework": "JAX-WS",
+      "handler": "com.acme.orders.ws.OrderStatusEndpoint.cancelOrder",
+      "id": "service:b795b40a65017c9e",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "OrderStatusEndpoint.cancelOrder",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": "OrderStatusService"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ws.OrderStatusEndpoint",
+     "source_label": "com.acme.orders.ws.OrderStatusEndpoint",
+     "target": "javax.jws.WebMethod",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ws.OrderStatusEndpoint",
+     "source_label": "com.acme.orders.ws.OrderStatusEndpoint",
+     "target": "javax.jws.WebService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ws.OrderStatusEndpoint",
+     "source_label": "com.acme.orders.ws.OrderStatusEndpoint",
+     "target": "com.acme.orders.ws.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.orders.ws.OrderStatusEndpoint",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "service",
+     "line": 12,
+     "name": "com.acme.orders.ws.OrderStatusEndpoint.getStatus",
+     "owner": "service:fb4769b771fa9be6"
+    },
+    {
+     "data": {},
+     "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+     "kind": "service",
+     "line": 17,
+     "name": "com.acme.orders.ws.OrderStatusEndpoint.cancelOrder",
+     "owner": "service:b795b40a65017c9e"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 15,
+     "kind": "method",
+     "line": 12,
+     "loc": 4,
+     "name": "getStatus"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 17,
+     "loc": 4,
+     "name": "cancelOrder"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 24,
+     "kind": "method",
+     "line": 22,
+     "loc": 3,
+     "name": "reload"
+    }
+   ],
+   "windows": [
+    [
+     7393667023798387450,
+     1,
+     15
+    ],
+    [
+     9187669824857892664,
+     3,
+     18
+    ],
+    [
+     4332441402557382017,
+     4,
+     20
+    ],
+    [
+     3771753598114747467,
+     9,
+     23
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     9,
+     "\"http://orders.acme.com/status\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/resources/application.properties": {
+  "config": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "payment.url"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/resources/application.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:f4a0187a667c2878",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-ws/src/main/resources/application.properties"
+      ],
+      "target": "https://payments.acme.local/api",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:8d21b13dbf66466d",
+      "name": "Spring Framework (XML configuration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+     "kind": "uses",
+     "line": 4,
+     "report_unresolved": false,
+     "source": "bean:orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml#orderStatus",
+     "source_label": "orderStatus",
+     "target": "com.acme.orders.ws.OrderStatusEndpoint",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "class": "com.acme.orders.ws.OrderStatusEndpoint"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+     "kind": "spring-bean",
+     "line": 4,
+     "name": "orderStatus",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bca201eb5c0be234",
+      "name": "Apache CXF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "framework": "Apache CXF",
+      "url": "/OrderStatus"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+     "kind": "ws-endpoint",
+     "line": 5,
+     "name": "com.acme.orders.ws.OrderStatusEndpoint",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/webapp/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "runtime",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:9df3a9611d3b3b7d",
+      "name": "Servlet API",
+      "replacement": null,
+      "usages": 1,
+      "version": "3.1"
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bca201eb5c0be234",
+      "name": "Apache CXF",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:708ade08495d7128",
+      "name": "Jersey (JAX-RS)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.apache.cxf.transport.servlet.CXFServlet",
+      "patterns": "/ws/*"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 4,
+     "name": "cxf",
+     "owner": null
+    },
+    {
+     "data": {
+      "class": "org.glassfish.jersey.servlet.ServletContainer",
+      "patterns": "/rest/*"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 8,
+     "name": "jersey",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "url": "/ws"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+     "kind": "ws-servlet",
+     "line": 14,
+     "name": "Apache CXF",
+     "owner": null
+    },
+    {
+     "data": {
+      "url": "/rest"
+     },
+     "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+     "kind": "ws-servlet",
+     "line": 18,
+     "name": "JAX-RS",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl": {
+  "config": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:18457dac69d9969a",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+      ],
+      "target": "https://orders.acme.local/orders-ws/ws/OrderStatus",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "web_services": [
+     {
+      "callers": [],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+      ],
+      "frameworks": [
+       "WSDL"
+      ],
+      "id": "websvc-use:c3392a4aa0bf1dff",
+      "integrations": [],
+      "name": "OrderStatusService",
+      "namespace": "http://orders.acme.com/status",
+      "operations": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "handler": null,
+        "line": 7,
+        "method": null,
+        "name": "getStatus",
+        "path": null,
+        "service_id": null
+       },
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "handler": null,
+        "line": 8,
+        "method": null,
+        "name": "cancelOrder",
+        "path": null,
+        "service_id": null
+       }
+      ],
+      "side": "contract",
+      "style": "SOAP",
+      "url": "https://orders.acme.local/orders-ws/ws/OrderStatus",
+      "wsdl": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl": {
+  "config": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:7e0557b523c338be",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+      ],
+      "target": "https://crm.acme.local/services/CrmService",
+      "type": "SOAP",
+      "usages": 1
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "web_services": [
+     {
+      "callers": [],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+      ],
+      "frameworks": [
+       "WSDL"
+      ],
+      "id": "websvc-use:408e11bece755e9f",
+      "integrations": [],
+      "name": "CrmService",
+      "namespace": "http://crm.acme.com/",
+      "operations": [
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "handler": null,
+        "line": 7,
+        "method": null,
+        "name": "findAccountManager",
+        "path": null,
+        "service_id": null
+       },
+       {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "handler": null,
+        "line": 8,
+        "method": null,
+        "name": "updateContact",
+        "path": null,
+        "service_id": null
+       }
+      ],
+      "side": "contract",
+      "style": "SOAP",
+      "url": "https://crm.acme.local/services/CrmService",
+      "wsdl": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "quote-axis/WebContent/Calculator.jws": {
+  "java": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "quote-axis/WebContent/Calculator.jws",
+      "framework": "Apache Axis (JWS)",
+      "handler": "Calculator.add",
+      "id": "service:46b2cbdfaf324d27",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "Calculator.add",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/Calculator.jws",
+      "web_service": "Calculator"
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "quote-axis/WebContent/Calculator.jws",
+      "framework": "Apache Axis (JWS)",
+      "handler": "Calculator.subtract",
+      "id": "service:c145515570eb1822",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "Calculator.subtract",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/Calculator.jws",
+      "web_service": "Calculator"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/Calculator.jws",
+     "kind": "java-class",
+     "line": 2,
+     "name": "Calculator",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/Calculator.jws",
+     "kind": "service",
+     "line": 4,
+     "name": "Calculator.add",
+     "owner": "service:46b2cbdfaf324d27"
+    },
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/Calculator.jws",
+     "kind": "service",
+     "line": 8,
+     "name": "Calculator.subtract",
+     "owner": "service:c145515570eb1822"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 6,
+     "kind": "method",
+     "line": 4,
+     "loc": 3,
+     "name": "add"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 10,
+     "kind": "method",
+     "line": 8,
+     "loc": 3,
+     "name": "subtract"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "quote-axis/WebContent/WEB-INF/server-config.wsdd": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+      "framework": "Apache Axis",
+      "handler": "com.acme.quote.QuoteService.getQuote",
+      "id": "service:409219de8e876f04",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "QuoteService.getQuote",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/services/QuoteService",
+      "web_service": "QuoteService"
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+      "framework": "Apache Axis",
+      "handler": "com.acme.quote.QuoteService.listQuotes",
+      "id": "service:12ca1ec0ec1f0837",
+      "inputs": [],
+      "kind": "soap-operation",
+      "name": "QuoteService.listQuotes",
+      "outputs": [],
+      "protocol": "SOAP",
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/services/QuoteService",
+      "web_service": "QuoteService"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:3576a1eb85f0be61",
+      "name": "Apache Axis",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+     "kind": "calls",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "service:service:409219de8e876f04",
+     "source_label": "QuoteService.getQuote",
+     "target": "com.acme.quote.QuoteService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+     "kind": "calls",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "service:service:12ca1ec0ec1f0837",
+     "source_label": "QuoteService.listQuotes",
+     "target": "com.acme.quote.QuoteService",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+     "kind": "service",
+     "line": 4,
+     "name": "com.acme.quote.QuoteService.getQuote",
+     "owner": "service:409219de8e876f04"
+    },
+    {
+     "data": {},
+     "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+     "kind": "service",
+     "line": 4,
+     "name": "com.acme.quote.QuoteService.listQuotes",
+     "owner": "service:12ca1ec0ec1f0837"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "quote-axis/WebContent/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "quote-axis/WebContent/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:3576a1eb85f0be61",
+      "name": "Apache Axis",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.apache.axis.transport.http.AxisServlet",
+      "patterns": "/services/*"
+     },
+     "file": "quote-axis/WebContent/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 3,
+     "name": "AxisServlet",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "url": "/services"
+     },
+     "file": "quote-axis/WebContent/WEB-INF/web.xml",
+     "kind": "ws-servlet",
+     "line": 9,
+     "name": "Apache Axis",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "quote-axis/build.xml": {
+  "build": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "quote-axis/build.xml",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:033ac96aeec1d8ea",
+      "name": "Ant",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "quote-axis/src/com/acme/quote/QuoteService.java": {
+  "java": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "quote-axis/src/com/acme/quote/QuoteService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.quote.QuoteService",
+     "source_label": "com.acme.quote.QuoteService",
+     "target": "com.acme.quote.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "quote-axis/src/com/acme/quote/QuoteService.java",
+     "kind": "java-class",
+     "line": 4,
+     "name": "com.acme.quote.QuoteService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 8,
+     "kind": "method",
+     "line": 6,
+     "loc": 3,
+     "name": "getQuote"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 10,
+     "loc": 3,
+     "name": "listQuotes"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "rate-feed/Makefile": {
+  "build": {
+   "coverage": {
+    "lines": 3,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "rate-feed/Makefile",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:51fcdf02f3bc41e9",
+      "name": "Make",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "rate-feed/Makefile",
+     "kind": "c-executable",
+     "line": 1,
+     "name": "rate_feed",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "rate-feed/Makefile",
+     "kind": "c-executable",
+     "line": 2,
+     "name": "rate_feed",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "rate-feed/src/rate_feed.c": {
+  "c_cpp": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "file": "rate-feed/src/rate_feed.c",
+      "id": "entry:c958144fded31bb7",
+      "kind": "main",
+      "line": 5,
+      "name": "rate_feed"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:43e266087f4f8d30",
+      "producers": [],
+      "protocol": "libcurl",
+      "purpose": null,
+      "source_files": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "target": "https://rates.acme.local/api/v1/rates/EUR",
+      "type": "HTTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:68a857b4b89335c7",
+      "producers": [],
+      "protocol": "gSOAP",
+      "purpose": null,
+      "source_files": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "target": "http://treasury.acme.local/soap/RateService",
+      "type": "SOAP",
+      "usages": 1
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "rate-feed/src/rate_feed.c",
+      "framework": null,
+      "handler": "rate-feed/src/rate_feed.c#main",
+      "id": "service:4b1559bdc3561e97",
+      "inputs": [],
+      "kind": "c-executable",
+      "name": "rate_feed",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "frameworks": [
+       "libcurl"
+      ],
+      "id": "websvc-use:411a7fe8de8797f7",
+      "integrations": [],
+      "name": "https://rates.acme.local",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "handler": null,
+        "line": 11,
+        "method": "ANY",
+        "name": "ANY /api/v1/rates/EUR",
+        "path": "/api/v1/rates/EUR",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://rates.acme.local/api/v1/rates/EUR",
+      "wsdl": null
+     },
+     {
+      "callers": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 16,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "rate-feed/src/rate_feed.c"
+      ],
+      "frameworks": [
+       "gSOAP"
+      ],
+      "id": "websvc-use:097e451ddd7b5770",
+      "integrations": [],
+      "name": "RateService",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "rate-feed/src/rate_feed.c",
+        "handler": null,
+        "line": 16,
+        "method": null,
+        "name": "confirmRate",
+        "path": "/soap/RateService",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "SOAP",
+      "url": "http://treasury.acme.local/soap/RateService",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "includes",
+     "line": 3,
+     "report_unresolved": true,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "soapH.h",
+     "target_kinds": [
+      "file-name"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 13,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "curl_easy_cleanup",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 7,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "curl_easy_init",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 12,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "curl_easy_perform",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 11,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "curl_easy_setopt",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 16,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "soap_call_ns__confirmRate",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 18,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "soap_end",
+     "target_kinds": [
+      "c-function"
+     ]
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "calls",
+     "line": 15,
+     "report_unresolved": false,
+     "source": "file:rate-feed/src/rate_feed.c",
+     "source_label": "rate-feed/src/rate_feed.c",
+     "target": "soap_init",
+     "target_kinds": [
+      "c-function"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "c-function",
+     "line": 5,
+     "name": "main",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "c-executable",
+     "line": 5,
+     "name": "rate_feed",
+     "owner": "service:4b1559bdc3561e97"
+    },
+    {
+     "data": {},
+     "file": "rate-feed/src/rate_feed.c",
+     "kind": "c-main",
+     "line": 5,
+     "name": "rate_feed",
+     "owner": "service:4b1559bdc3561e97"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "function",
+     "line": 5,
+     "loc": 14,
+     "name": "main"
+    }
+   ],
+   "windows": [
+    [
+     9112475235979958460,
+     2,
+     13
+    ],
+    [
+     6959473030086254446,
+     3,
+     15
+    ],
+    [
+     6405979995128191719,
+     5,
+     16
+    ],
+    [
+     6622191982566984747,
+     6,
+     16
+    ],
+    [
+     3056546167819101389,
+     7,
+     16
+    ],
+    [
+     1880808293425390539,
+     8,
+     18
+    ],
+    [
+     2934525085950199546,
+     9,
+     18
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     11,
+     "\"https://rates.acme.local/api/v1/rates/EUR\""
+    ],
+    [
+     "hardcoded-endpoint",
+     16,
+     "\"http://treasury.acme.local/soap/RateService\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

@@ -1,0 +1,2426 @@
+{
+ "teller-desk/config/teller.properties": {
+  "config": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "teller-desk/config/teller.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:557838e4ffcb7860",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "teller-desk/config/teller.properties"
+      ],
+      "target": "oracle://tellerdb.acme.local:1521/TELLER",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "rates.url"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "teller-desk/config/teller.properties",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:f7d2f886cf042519",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "teller-desk/config/teller.properties"
+      ],
+      "target": "https://rates.acme.local/api/fx",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/config/teller.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/pom.xml": {
+  "build": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "ojdbc8",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/pom.xml",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "group": "com.oracle.database.jdbc",
+      "id": "library:dc30e95e628bacd9",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "19.3.0.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "teller-desk/pom.xml"
+      ]
+     },
+     {
+      "artifact": "jcalendar",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/pom.xml",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "group": "com.toedter",
+      "id": "library:1decf5cadd40f3dc",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "1.4",
+      "vulnerabilities": [],
+      "where_used": [
+       "teller-desk/pom.xml"
+      ]
+     },
+     {
+      "artifact": "log4j",
+      "cves": [],
+      "declared": true,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/pom.xml",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "group": "log4j",
+      "id": "library:c90a9abc591adbb1",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": "compile",
+      "sha1": null,
+      "source": "maven",
+      "version": "1.2.17",
+      "vulnerabilities": [],
+      "where_used": [
+       "teller-desk/pom.xml"
+      ]
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:f868b8019ca10787",
+      "name": "Maven",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/pom.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:94544620f465ab54",
+      "name": "Java",
+      "replacement": null,
+      "usages": 1,
+      "version": "1.8"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "parent": "",
+      "properties": "{\"maven.compiler.source\": \"1.8\", \"maven.compiler.target\": \"1.8\", \"pom.version\": \"1.4.0\", \"project.artifactId\": \"teller-desk\", \"project.groupId\": \"com.acme\", \"project.parent.version\": \"\", \"project.version\": \"1.4.0\"}",
+      "version": "1.4.0"
+     },
+     "file": "teller-desk/pom.xml",
+     "kind": "maven-pom",
+     "line": 2,
+     "name": "com.acme:teller-desk",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/TellerApp.java": {
+  "java": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+        "line": 9,
+        "snippet": null
+       }
+      ],
+      "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+      "id": "entry:9af0edcd2c311d20",
+      "kind": "desktop-app",
+      "line": 9,
+      "name": "com.acme.teller.TellerApp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.TellerApp",
+     "source_label": "com.acme.teller.TellerApp",
+     "target": "javax.swing.SwingUtilities",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.TellerApp",
+     "source_label": "com.acme.teller.TellerApp",
+     "target": "javax.swing.UIManager",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.TellerApp",
+     "source_label": "com.acme.teller.TellerApp",
+     "target": "com.acme.teller.ui.MainFrame",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.TellerApp",
+     "source_label": "com.acme.teller.TellerApp",
+     "target": "com.acme.teller.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.TellerApp",
+     "source_label": "com.acme.teller.TellerApp",
+     "target": "com.acme.teller.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "java-class",
+     "line": 8,
+     "name": "com.acme.teller.TellerApp",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+     "kind": "java-main",
+     "line": 9,
+     "name": "com.acme.teller.TellerApp",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 9,
+     "loc": 4,
+     "name": "main"
+    }
+   ],
+   "windows": [
+    [
+     8102452248030997791,
+     1,
+     10
+    ],
+    [
+     7815583039563392556,
+     3,
+     10
+    ],
+    [
+     7038073561977970378,
+     4,
+     11
+    ],
+    [
+     2525549273519613543,
+     6,
+     11
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 14,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java": {
+  "java": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:557838e4ffcb7860",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java"
+      ],
+      "target": "oracle://tellerdb.acme.local:1521/TELLER",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [
+       "concatenation",
+       "conditional"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 15,
+        "snippet": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'"
+       },
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+      "fingerprint": "b5e6790468ec13fb",
+      "fragments": 4,
+      "id": "sql:c52a96d12224016b",
+      "line": 15,
+      "normalized": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE ? AND BRANCH = ?",
+      "optional_fragments": 2,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMER"
+      ],
+      "text": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'",
+      "type": "SELECT",
+      "value_holes": 2,
+      "variants": [
+       "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%'"
+      ],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.sql.DriverManager",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.sql.ResultSet",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.sql.SQLException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.sql.Statement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.util.ArrayList",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "com.acme.teller.dao.IllegalStateException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "com.acme.teller.dao.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "com.acme.teller.dao.System",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.dao.CustomerDao",
+     "source_label": "com.acme.teller.dao.CustomerDao",
+     "target": "com.acme.teller.dao.URL",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.teller.dao.CustomerDao",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 4,
+     "end_line": 30,
+     "kind": "method",
+     "line": 14,
+     "loc": 17,
+     "name": "find"
+    }
+   ],
+   "windows": [
+    [
+     8801320190626342481,
+     1,
+     8
+    ],
+    [
+     7373424293188393762,
+     3,
+     11
+    ],
+    [
+     7219264973738334867,
+     4,
+     12
+    ],
+    [
+     7403018330302532315,
+     5,
+     14
+    ],
+    [
+     3724816071024212297,
+     6,
+     14
+    ],
+    [
+     1422439343039380054,
+     7,
+     15
+    ],
+    [
+     1632675115964301596,
+     8,
+     15
+    ],
+    [
+     6516210730787885668,
+     9,
+     16
+    ],
+    [
+     4930042354785985589,
+     11,
+     17
+    ],
+    [
+     7634132469444238857,
+     12,
+     17
+    ],
+    [
+     978784107867719965,
+     14,
+     19
+    ],
+    [
+     6783672879122850216,
+     15,
+     20
+    ],
+    [
+     5111688181973925495,
+     16,
+     20
+    ],
+    [
+     8061968664984306211,
+     17,
+     21
+    ],
+    [
+     6969536067100494375,
+     18,
+     22
+    ],
+    [
+     8548522809369289015,
+     19,
+     22
+    ],
+    [
+     1011368238760352076,
+     20,
+     23
+    ],
+    [
+     5111471767733209224,
+     21,
+     24
+    ],
+    [
+     941457467028915538,
+     22,
+     26
+    ],
+    [
+     9074277590555911016,
+     23,
+     28
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     12,
+     "\"jdbc:oracle:thin:@tellerdb.acme.local:1521/TELLER\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 32,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java": {
+  "java": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+        "line": 7,
+        "snippet": "AccountPanel extends JPanel"
+       }
+      ],
+      "fields_count": 1,
+      "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+      "id": "screen:bfd92173aee9343c",
+      "name": "AccountPanel",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "swing"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7125de26846df728",
+      "name": "Java Swing",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.AccountPanel",
+     "source_label": "com.acme.teller.ui.AccountPanel",
+     "target": "javax.swing.JLabel",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.AccountPanel",
+     "source_label": "com.acme.teller.ui.AccountPanel",
+     "target": "javax.swing.JPanel",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.AccountPanel",
+     "source_label": "com.acme.teller.ui.AccountPanel",
+     "target": "javax.swing.JTextField",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+     "kind": "java-class",
+     "line": 7,
+     "name": "com.acme.teller.ui.AccountPanel",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java",
+     "kind": "desktop-form",
+     "line": 7,
+     "name": "AccountPanel",
+     "owner": "screen:bfd92173aee9343c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 10,
+     "loc": 4,
+     "name": "AccountPanel"
+    }
+   ],
+   "windows": [
+    [
+     2555276849123791904,
+     1,
+     10
+    ],
+    [
+     4375052514417041215,
+     3,
+     11
+    ],
+    [
+     8271235908771206291,
+     4,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java": {
+  "java": {
+   "coverage": {
+    "lines": 42,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": 15,
+        "snippet": "CustomerDialog extends JDialog"
+       }
+      ],
+      "fields_count": 4,
+      "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+      "id": "screen:83a5b67d242896a4",
+      "name": "CustomerDialog",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "swing"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7125de26846df728",
+      "name": "Java Swing",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "forwards",
+     "line": 15,
+     "report_unresolved": false,
+     "source": "screen:screen:83a5b67d242896a4",
+     "source_label": "CustomerDialog",
+     "target": "CustomerDao",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "forwards",
+     "line": 15,
+     "report_unresolved": false,
+     "source": "screen:screen:83a5b67d242896a4",
+     "source_label": "CustomerDialog",
+     "target": "DefaultTableModel",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "java.awt.GridLayout",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JButton",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JComboBox",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JDialog",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JFrame",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JLabel",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JTable",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "javax.swing.JTextField",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "com.acme.teller.dao.CustomerDao",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "com.acme.teller.ui.DefaultTableModel",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "com.acme.teller.ui.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.CustomerDialog",
+     "source_label": "com.acme.teller.ui.CustomerDialog",
+     "target": "com.acme.teller.ui.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "java-class",
+     "line": 15,
+     "name": "com.acme.teller.ui.CustomerDialog",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+     "kind": "desktop-form",
+     "line": 15,
+     "name": "CustomerDialog",
+     "owner": "screen:83a5b67d242896a4"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 42,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 35,
+     "kind": "method",
+     "line": 22,
+     "loc": 14,
+     "name": "CustomerDialog"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 40,
+     "kind": "method",
+     "line": 37,
+     "loc": 4,
+     "name": "search"
+    }
+   ],
+   "windows": [
+    [
+     3183818423466108684,
+     1,
+     8
+    ],
+    [
+     5357067854284945801,
+     3,
+     10
+    ],
+    [
+     7491354144609111650,
+     4,
+     11
+    ],
+    [
+     4095930834558868019,
+     5,
+     13
+    ],
+    [
+     8896236788592552135,
+     6,
+     13
+    ],
+    [
+     7252791875227366873,
+     7,
+     15
+    ],
+    [
+     298286822316352253,
+     8,
+     16
+    ],
+    [
+     5497361003258878346,
+     9,
+     17
+    ],
+    [
+     9202150138869273887,
+     10,
+     17
+    ],
+    [
+     737131037205350448,
+     11,
+     18
+    ],
+    [
+     6207604884717580510,
+     13,
+     18
+    ],
+    [
+     2031698887371748712,
+     15,
+     18
+    ],
+    [
+     1133773641599758606,
+     16,
+     19
+    ],
+    [
+     4567377979571362612,
+     17,
+     20
+    ],
+    [
+     7693177992242597897,
+     18,
+     22
+    ],
+    [
+     7000718884892287395,
+     19,
+     25
+    ],
+    [
+     7816634777356916073,
+     20,
+     26
+    ],
+    [
+     4907068110823479970,
+     22,
+     27
+    ],
+    [
+     6910477656248108948,
+     23,
+     29
+    ],
+    [
+     3895171186718456086,
+     24,
+     30
+    ],
+    [
+     4331314427575689505,
+     25,
+     31
+    ],
+    [
+     1248406771936978450,
+     26,
+     32
+    ],
+    [
+     8374478218451487733,
+     27,
+     33
+    ],
+    [
+     3589887386255128526,
+     28,
+     37
+    ],
+    [
+     4755011630283147136,
+     29,
+     38
+    ],
+    [
+     911484344560620699,
+     30,
+     38
+    ],
+    [
+     1575827117560500539,
+     31,
+     38
+    ],
+    [
+     4212544068065280286,
+     32,
+     39
+    ],
+    [
+     8529379260718255227,
+     33,
+     39
+    ],
+    [
+     7430885556004368737,
+     34,
+     39
+    ],
+    [
+     2029966608793972765,
+     35,
+     39
+    ],
+    [
+     4742212908134746737,
+     37,
+     39
+    ],
+    [
+     4986562309082283926,
+     38,
+     39
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 42,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java": {
+  "java": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": "MainFrame extends JFrame"
+       }
+      ],
+      "fields_count": 0,
+      "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+      "id": "screen:a2cbfb040e34c0ac",
+      "name": "MainFrame",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "swing"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7125de26846df728",
+      "name": "Java Swing",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "forwards",
+     "line": 10,
+     "report_unresolved": false,
+     "source": "screen:screen:a2cbfb040e34c0ac",
+     "source_label": "MainFrame",
+     "target": "AccountPanel",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "forwards",
+     "line": 10,
+     "report_unresolved": false,
+     "source": "screen:screen:a2cbfb040e34c0ac",
+     "source_label": "MainFrame",
+     "target": "CustomerDialog",
+     "target_kinds": [
+      "desktop-form"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "java.awt.BorderLayout",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "javax.swing.JButton",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "javax.swing.JFrame",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "javax.swing.JMenu",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "javax.swing.JMenuBar",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "javax.swing.JMenuItem",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "com.acme.teller.ui.AccountPanel",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.MainFrame",
+     "source_label": "com.acme.teller.ui.MainFrame",
+     "target": "com.acme.teller.ui.CustomerDialog",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "java-class",
+     "line": 10,
+     "name": "com.acme.teller.ui.MainFrame",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+     "kind": "desktop-form",
+     "line": 10,
+     "name": "MainFrame",
+     "owner": "screen:a2cbfb040e34c0ac"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 26,
+     "kind": "method",
+     "line": 13,
+     "loc": 14,
+     "name": "MainFrame"
+    }
+   ],
+   "windows": [
+    [
+     2303816949067303486,
+     1,
+     8
+    ],
+    [
+     4408362549942770996,
+     3,
+     11
+    ],
+    [
+     5581389557506128806,
+     4,
+     11
+    ],
+    [
+     6497038259500542782,
+     5,
+     14
+    ],
+    [
+     1551401255500612623,
+     6,
+     15
+    ],
+    [
+     5093955889323516122,
+     7,
+     16
+    ],
+    [
+     7733264205301032867,
+     8,
+     16
+    ],
+    [
+     874332012967761936,
+     10,
+     17
+    ],
+    [
+     8214479154431893813,
+     11,
+     18
+    ],
+    [
+     2075353928070553677,
+     13,
+     18
+    ],
+    [
+     3311577347905624944,
+     14,
+     18
+    ],
+    [
+     7656379106272678362,
+     15,
+     19
+    ],
+    [
+     877459122859200553,
+     16,
+     20
+    ],
+    [
+     8497179049980823793,
+     17,
+     22
+    ],
+    [
+     9189572511497952567,
+     18,
+     23
+    ],
+    [
+     1736833969086513438,
+     19,
+     25
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java": {
+  "java": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:f7d2f886cf042519",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+      ],
+      "target": "https://rates.acme.local/api/fx",
+      "type": "HTTP",
+      "usages": 1
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": 12,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+      ],
+      "frameworks": [
+       "java.net.http.HttpClient"
+      ],
+      "id": "websvc-use:c7f206dc2618ea4d",
+      "integrations": [],
+      "name": "RatesController",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "handler": "com.acme.teller.ui.RatesController",
+        "line": 12,
+        "method": "GET",
+        "name": "GET /api/fx",
+        "path": "/api/fx",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "REST",
+      "url": "https://rates.acme.local/api/fx",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesController",
+     "source_label": "com.acme.teller.ui.RatesController",
+     "target": "java.net.URI",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesController",
+     "source_label": "com.acme.teller.ui.RatesController",
+     "target": "java.net.http.HttpClient",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesController",
+     "source_label": "com.acme.teller.ui.RatesController",
+     "target": "java.net.http.HttpRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesController",
+     "source_label": "com.acme.teller.ui.RatesController",
+     "target": "javafx.fxml.FXML",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesController",
+     "source_label": "com.acme.teller.ui.RatesController",
+     "target": "com.acme.teller.ui.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+     "kind": "java-class",
+     "line": 8,
+     "name": "com.acme.teller.ui.RatesController",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "method",
+     "line": 9,
+     "loc": 6,
+     "name": "refresh"
+    }
+   ],
+   "windows": [
+    [
+     8918272255593985972,
+     1,
+     10
+    ],
+    [
+     758763259842559023,
+     3,
+     11
+    ],
+    [
+     6400973033565727932,
+     4,
+     12
+    ],
+    [
+     3757273450045563899,
+     5,
+     12
+    ],
+    [
+     1804248616441276372,
+     6,
+     13
+    ],
+    [
+     3714108744670615350,
+     8,
+     13
+    ],
+    [
+     1349810771285564809,
+     9,
+     15
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     12,
+     "\"https://rates.acme.local/api/fx\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java": {
+  "java": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+        "line": 8,
+        "snippet": "JavaFX Application"
+       }
+      ],
+      "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+      "id": "entry:988b6bee6bd756c5",
+      "kind": "desktop-app",
+      "line": 8,
+      "name": "com.acme.teller.ui.RatesView"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:149f93029c45f0a1",
+      "name": "JavaFX",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesView",
+     "source_label": "com.acme.teller.ui.RatesView",
+     "target": "javafx.application.Application",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesView",
+     "source_label": "com.acme.teller.ui.RatesView",
+     "target": "javafx.fxml.FXMLLoader",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesView",
+     "source_label": "com.acme.teller.ui.RatesView",
+     "target": "javafx.scene.Scene",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesView",
+     "source_label": "com.acme.teller.ui.RatesView",
+     "target": "javafx.stage.Stage",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.teller.ui.RatesView",
+     "source_label": "com.acme.teller.ui.RatesView",
+     "target": "com.acme.teller.ui.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+     "kind": "java-class",
+     "line": 8,
+     "name": "com.acme.teller.ui.RatesView",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 9,
+     "loc": 5,
+     "name": "start"
+    }
+   ],
+   "windows": [
+    [
+     5695749829654164683,
+     1,
+     10
+    ],
+    [
+     4195631022907263946,
+     3,
+     11
+    ],
+    [
+     1550892563537670794,
+     4,
+     11
+    ],
+    [
+     3399252373231319417,
+     5,
+     11
+    ],
+    [
+     6173867073432475665,
+     6,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "teller-desk/src/main/resources/fxml/Rates.fxml": {
+  "dotnet": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": 4,
+        "snippet": "<VBox> com.acme.teller.ui.RatesController"
+       }
+      ],
+      "fields_count": 3,
+      "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+      "id": "screen:cfc1899fd304e7fa",
+      "name": "Rates",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "javafx"
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:149f93029c45f0a1",
+      "name": "JavaFX",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+     "kind": "uses",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "screen:screen:cfc1899fd304e7fa",
+     "source_label": "Rates",
+     "target": "com.acme.teller.ui.RatesController",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+     "kind": "desktop-form",
+     "line": 4,
+     "name": "Rates",
+     "owner": "screen:cfc1899fd304e7fa"
+    },
+    {
+     "data": {},
+     "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+     "kind": "desktop-form",
+     "line": 4,
+     "name": "com.acme.teller.ui.RatesController",
+     "owner": "screen:cfc1899fd304e7fa"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}

@@ -1,0 +1,2389 @@
+{
+ "apps/billing-batch/java/com/acme/billing/InvoiceRun.java": {
+  "java": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 11,
+        "snippet": null
+       }
+      ],
+      "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+      "id": "entry:4ef1da10f3a88821",
+      "kind": "main",
+      "line": 11,
+      "name": "com.acme.billing.InvoiceRun"
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 16,
+        "snippet": "INSERT INTO invoices (customer_id, amount) SELECT customer_id, SUM(amount) FROM usage_records GROUP BY customer_id"
+       },
+       {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+      "fingerprint": "bd2694bb5c0919cb",
+      "fragments": 2,
+      "id": "sql:d55d40c3b5014222",
+      "line": 16,
+      "normalized": "INSERT INTO INVOICES (CUSTOMER_ID, AMOUNT) SELECT CUSTOMER_ID, SUM(AMOUNT) FROM USAGE_RECORDS GROUP BY CUSTOMER_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "INVOICES",
+       "USAGE_RECORDS"
+      ],
+      "text": "INSERT INTO invoices (customer_id, amount) SELECT customer_id, SUM(amount) FROM usage_records GROUP BY customer_id",
+      "type": "INSERT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "java.io.FileInputStream",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "java.sql.DriverManager",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "java.sql.PreparedStatement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "java.util.Properties",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "com.acme.billing.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.billing.InvoiceRun",
+     "source_label": "com.acme.billing.InvoiceRun",
+     "target": "com.acme.billing.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "java-class",
+     "line": 10,
+     "name": "com.acme.billing.InvoiceRun",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+     "kind": "java-main",
+     "line": 11,
+     "name": "com.acme.billing.InvoiceRun",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 11,
+     "loc": 10,
+     "name": "main"
+    }
+   ],
+   "windows": [
+    [
+     426585798909816293,
+     1,
+     11
+    ],
+    [
+     4718978488831946012,
+     3,
+     11
+    ],
+    [
+     3667338027179112403,
+     4,
+     12
+    ],
+    [
+     2753396438445765153,
+     5,
+     13
+    ],
+    [
+     8321764621142914896,
+     6,
+     13
+    ],
+    [
+     484938919280190351,
+     7,
+     14
+    ],
+    [
+     4530744070183736424,
+     10,
+     14
+    ],
+    [
+     4562185709271268980,
+     11,
+     14
+    ],
+    [
+     8388645193708751559,
+     12,
+     18
+    ],
+    [
+     1415315029739427661,
+     13,
+     19
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 22,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/billing-batch/ksh/billing_env.ksh": {
+  "metrics": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 4,
+     "kind": "script",
+     "line": 1,
+     "loc": 2,
+     "name": "billing_env.ksh"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/billing-batch/ksh/run_invoices.ksh": {
+  "metrics": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 5,
+     "kind": "script",
+     "line": 1,
+     "loc": 3,
+     "name": "run_invoices.ksh"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/billing-batch/ksh/run_invoices.ksh",
+     "kind": "invokes",
+     "line": 3,
+     "report_unresolved": true,
+     "source": "file:apps/billing-batch/ksh/run_invoices.ksh",
+     "source_label": "apps/billing-batch/ksh/run_invoices.ksh",
+     "target": "billing_env.ksh",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/billing-batch/ksh/run_invoices.ksh",
+     "kind": "invokes",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "file:apps/billing-batch/ksh/run_invoices.ksh",
+     "source_label": "apps/billing-batch/ksh/run_invoices.ksh",
+     "target": "com.acme.billing.InvoiceRun",
+     "target_kinds": [
+      "java-main",
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/billing-batch/ksh/run_invoices.ksh.bak": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/billing-batch/properties/billing.properties": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:f6209616ad7040a6",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "apps/billing-batch/properties/billing.properties"
+      ],
+      "target": "oracle://billdb:1521/BILL",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:39e822ce76a2278a",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "apps/billing-batch/properties/billing.properties"
+      ],
+      "target": "smtp://mail.acme.local:25",
+      "type": "SMTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "ftp"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:d1c7a1608ee77a07",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "apps/billing-batch/properties/billing.properties"
+      ],
+      "target": "files.acme.local:21",
+      "type": "FTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/billing-batch/sqlldr/invoices.ctl": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/.classpath": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/.project": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/WebContent/WEB-INF/struts-config.xml": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+      "framework": null,
+      "handler": "com.acme.orders.OrderListAction",
+      "id": "service:c7e610da228b1314",
+      "inputs": [],
+      "kind": "struts-action",
+      "name": "/orderList",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/orderList",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b05d0fbde9c34f97",
+      "name": "Struts 1",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+     "kind": "calls",
+     "line": 4,
+     "report_unresolved": true,
+     "source": "service:service:c7e610da228b1314",
+     "source_label": "/orderList",
+     "target": "com.acme.orders.OrderListAction",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 5,
+     "report_unresolved": true,
+     "source": "service:service:c7e610da228b1314",
+     "source_label": "/orderList",
+     "target": "/jsp/orderList.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+     "kind": "struts-action",
+     "line": 4,
+     "name": "/orderList",
+     "owner": "service:c7e610da228b1314"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/WebContent/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "apps/orders-web/WebContent/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b05d0fbde9c34f97",
+      "name": "Struts 1",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.apache.struts.action.ActionServlet",
+      "patterns": "*.do"
+     },
+     "file": "apps/orders-web/WebContent/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 3,
+     "name": "action",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/WebContent/jsp/orderList.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     347859247987923454,
+     1,
+     6
+    ],
+    [
+     3608494438640307348,
+     2,
+     7
+    ],
+    [
+     8791157827672669262,
+     3,
+     8
+    ],
+    [
+     7675473244324906257,
+     4,
+     9
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": "orderList.do",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 1,
+      "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+      "id": "screen:bcfc28694d8460e2",
+      "name": "apps/orders-web/WebContent/jsp/orderList.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+     "kind": "submits",
+     "line": 5,
+     "report_unresolved": false,
+     "source": "screen:screen:bcfc28694d8460e2",
+     "source_label": "apps/orders-web/WebContent/jsp/orderList.jsp",
+     "target": "/orderList",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "apps/orders-web/WebContent/jsp/orderList.jsp",
+     "owner": "screen:bcfc28694d8460e2"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/src/ApplicationResources.properties": {
+  "config": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/src/com/acme/orders/ConnectionFactory.java": {
+  "java": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ConnectionFactory",
+     "source_label": "com.acme.orders.ConnectionFactory",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ConnectionFactory",
+     "source_label": "com.acme.orders.ConnectionFactory",
+     "target": "javax.naming.InitialContext",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ConnectionFactory",
+     "source_label": "com.acme.orders.ConnectionFactory",
+     "target": "javax.sql.DataSource",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.ConnectionFactory",
+     "source_label": "com.acme.orders.ConnectionFactory",
+     "target": "com.acme.orders.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/ConnectionFactory.java",
+     "kind": "java-class",
+     "line": 7,
+     "name": "com.acme.orders.ConnectionFactory",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "method",
+     "line": 8,
+     "loc": 4,
+     "name": "get"
+    }
+   ],
+   "windows": [
+    [
+     5629555376713605939,
+     1,
+     9
+    ],
+    [
+     8021372042064883022,
+     3,
+     9
+    ],
+    [
+     4363478988263030583,
+     4,
+     10
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 13,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/src/com/acme/orders/OrderDao.java": {
+  "java": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+        "line": 14,
+        "snippet": "SELECT order_id FROM orders WHERE customer_id = ? AND status = 'OPEN'"
+       }
+      ],
+      "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+      "fingerprint": "9dac8a4126a6dc07",
+      "fragments": 1,
+      "id": "sql:6dca2caf260f51d4",
+      "line": 14,
+      "normalized": "SELECT ORDER_ID FROM ORDERS WHERE CUSTOMER_ID = ? AND STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT order_id FROM orders WHERE customer_id = ? AND status = 'OPEN'",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "java.sql.PreparedStatement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "java.sql.ResultSet",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "java.util.ArrayList",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "com.acme.orders.ConnectionFactory",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "com.acme.orders.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderDao",
+     "source_label": "com.acme.orders.OrderDao",
+     "target": "com.acme.orders.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.orders.OrderDao",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 21,
+     "kind": "method",
+     "line": 10,
+     "loc": 12,
+     "name": "openOrders"
+    }
+   ],
+   "windows": [
+    [
+     5297607444697096106,
+     1,
+     10
+    ],
+    [
+     942344098164737086,
+     3,
+     10
+    ],
+    [
+     4784086858069025337,
+     4,
+     11
+    ],
+    [
+     4485019305156472144,
+     5,
+     11
+    ],
+    [
+     4852431632457198863,
+     6,
+     12
+    ],
+    [
+     2750223214705697677,
+     7,
+     13
+    ],
+    [
+     3253048413742550299,
+     9,
+     14
+    ],
+    [
+     2443201306318347083,
+     10,
+     15
+    ],
+    [
+     4776086476379651321,
+     11,
+     16
+    ],
+    [
+     4653157489181997600,
+     12,
+     18
+    ],
+    [
+     600400875443478246,
+     13,
+     19
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 23,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "apps/orders-web/src/com/acme/orders/OrderListAction.java": {
+  "java": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "javax.servlet.http.HttpServletResponse",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "org.apache.struts.action.Action",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "org.apache.struts.action.ActionForward",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "org.apache.struts.action.ActionMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "com.acme.orders.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.OrderListAction",
+     "source_label": "com.acme.orders.OrderListAction",
+     "target": "com.acme.orders.OrderDao",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+     "kind": "java-class",
+     "line": 12,
+     "name": "com.acme.orders.OrderListAction",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 13,
+     "loc": 5,
+     "name": "execute"
+    }
+   ],
+   "windows": [
+    [
+     3867223139682838300,
+     1,
+     8
+    ],
+    [
+     6326302093502738032,
+     3,
+     8
+    ],
+    [
+     1855906633438605253,
+     4,
+     9
+    ],
+    [
+     8423690301197844979,
+     6,
+     12
+    ],
+    [
+     3664114331531590429,
+     7,
+     14
+    ],
+    [
+     4321440827719744922,
+     8,
+     15
+    ],
+    [
+     7865844190753071060,
+     9,
+     15
+    ],
+    [
+     3076110522765958,
+     12,
+     16
+    ],
+    [
+     8209785017703437927,
+     13,
+     17
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 19,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "config/common.properties": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "config/common.properties",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:136e5ba64de363f1",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "config/common.properties"
+      ],
+      "target": "oracle://BILLDB:1521/BILL",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "sso.issuer"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "config/common.properties",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:0542a33759468c83",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "config/common.properties"
+      ],
+      "target": "https://acme.okta.com/oauth2/default",
+      "type": "HTTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "pricing.url"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "config/common.properties",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:56ef1f8d99906807",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "config/common.properties"
+      ],
+      "target": "https://pricing.acme.local/api/v2/prices",
+      "type": "HTTP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "smtp"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "config/common.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:bd09db4fe45f6c84",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "config/common.properties"
+      ],
+      "target": "mail.acme.local",
+      "type": "SMTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "config/common.properties",
+        "line": 4,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "config/log4j.xml": {
+  "config": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 5,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "config/mail.tpl": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "scripts/deploy_all.sh": {
+  "metrics": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 5,
+     "kind": "script",
+     "line": 1,
+     "loc": 3,
+     "name": "deploy_all.sh"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 6,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "settlement-c/Makefile.aix": {
+  "build": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "settlement-c/Makefile.aix",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:51fcdf02f3bc41e9",
+      "name": "Make",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "settlement-c/Makefile.aix",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7e2e17d7f37a26ed",
+      "name": "Oracle Pro*C",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "settlement-c/Makefile.aix",
+     "kind": "c-executable",
+     "line": 2,
+     "name": "settle",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "settlement-c/Makefile.aix",
+     "kind": "c-executable",
+     "line": 3,
+     "name": "settle",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "settlement-c/data/rates.dat": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "settlement-c/scripts/run_settle.ksh": {
+  "metrics": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 3,
+     "kind": "script",
+     "line": 1,
+     "loc": 1,
+     "name": "run_settle.ksh"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 4,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "settlement-c/scripts/run_settle.ksh",
+     "kind": "invokes",
+     "line": 3,
+     "report_unresolved": false,
+     "source": "file:settlement-c/scripts/run_settle.ksh",
+     "source_label": "settlement-c/scripts/run_settle.ksh",
+     "target": "settle",
+     "target_kinds": [
+      "file-name",
+      "c-executable"
+     ]
+    }
+   ],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "settlement-c/src/settle.pc": {
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "function",
+     "line": 5,
+     "loc": 4,
+     "name": "main"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "proc": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {
+    "entry_points": [
+     {
+      "component": null,
+      "evidence": [
+       {
+        "file": "settlement-c/src/settle.pc",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "file": "settlement-c/src/settle.pc",
+      "id": "entry:c3e93bc048849a86",
+      "kind": "main",
+      "line": 5,
+      "name": "settle"
+     }
+    ],
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "settlement-c/src/settle.pc",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "settlement-c/src/settle.pc",
+      "framework": null,
+      "handler": "settlement-c/src/settle.pc#main",
+      "id": "service:6944fc5f2e382c7c",
+      "inputs": [],
+      "kind": "c-executable",
+      "name": "settle",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": null,
+      "web_service": null
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "settlement-c/src/settle.pc",
+        "line": 8,
+        "snippet": "UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE'"
+       }
+      ],
+      "file": "settlement-c/src/settle.pc",
+      "fingerprint": "7d2f74281950d3e3",
+      "fragments": 1,
+      "id": "sql:923bdea558e2b262",
+      "line": 8,
+      "normalized": "UPDATE PAYMENTS SET STATUS = ? WHERE STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "embedded",
+      "structural_holes": 0,
+      "tables": [
+       "PAYMENTS"
+      ],
+      "text": "UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE'",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "settlement-c/src/settle.pc",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7e2e17d7f37a26ed",
+      "name": "Oracle Pro*C",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "settlement-c/src/settle.pc",
+     "kind": "c-function",
+     "line": 5,
+     "name": "main",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "settlement-c/src/settle.pc",
+     "kind": "c-executable",
+     "line": 5,
+     "name": "settle",
+     "owner": "service:6944fc5f2e382c7c"
+    },
+    {
+     "data": {},
+     "file": "settlement-c/src/settle.pc",
+     "kind": "c-main",
+     "line": 5,
+     "name": "settle",
+     "owner": "service:6944fc5f2e382c7c"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ }
+}

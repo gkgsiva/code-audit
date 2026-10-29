@@ -1,0 +1,6810 @@
+{
+ "WebContent/WEB-INF/lib/axis-1.4.jar": {
+  "deps": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "axis",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:a25e14a2a90a884a",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": "5b4ff5e75bd75ed8f8e2becab121b4530e450b41",
+      "source": "jar",
+      "version": "1.4",
+      "vulnerabilities": [],
+      "where_used": [
+       "WebContent/WEB-INF/lib/axis-1.4.jar"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar": {
+  "deps": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "commons-collections",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:0ef8ab1200668a4c",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": "ec4c3ee2789500f41cda5035734acc8655bdd55e",
+      "source": "jar",
+      "version": "3.2.1",
+      "vulnerabilities": [],
+      "where_used": [
+       "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/lib/log4j-1.2.17.jar": {
+  "deps": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "log4j",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:bbf8de6407d3894f",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": "a59f3266b95978777beb3c7c82fc33a3fcd8d397",
+      "source": "jar",
+      "version": "1.2.17",
+      "vulnerabilities": [],
+      "where_used": [
+       "WebContent/WEB-INF/lib/log4j-1.2.17.jar"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/lib/ojdbc14.jar": {
+  "deps": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "ojdbc14",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:d03caf2483a2c784",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": "0de624ed6af0a9e1bbb22ecc8e8ac4dc3ea2fd9c",
+      "source": "jar",
+      "version": "10.2.0.4.0",
+      "vulnerabilities": [],
+      "where_used": [
+       "WebContent/WEB-INF/lib/ojdbc14.jar"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/lib/struts-1.2.9.jar": {
+  "deps": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {
+    "libraries": [
+     {
+      "artifact": "struts",
+      "cves": [],
+      "declared": false,
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "group": null,
+      "id": "library:5dd851d68f0474c1",
+      "language": "java",
+      "license": null,
+      "max_severity": null,
+      "recommendation": null,
+      "recommended_version": null,
+      "replacement": null,
+      "scope": null,
+      "sha1": "ec5f28e65f568958505f7bb22aa32cc3730485a3",
+      "source": "jar",
+      "version": "1.2.9",
+      "vulnerabilities": [],
+      "where_used": [
+       "WebContent/WEB-INF/lib/struts-1.2.9.jar"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/struts-config.xml": {
+  "config": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 17,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "WebContent/WEB-INF/struts-config.xml",
+      "framework": null,
+      "handler": "com.acme.orders.action.LoginAction",
+      "id": "service:e238462a66aa312f",
+      "inputs": [
+       "loginForm"
+      ],
+      "kind": "struts-action",
+      "name": "/login",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/login",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 22,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "WebContent/WEB-INF/struts-config.xml",
+      "framework": null,
+      "handler": "com.acme.orders.action.OrderSearchAction",
+      "id": "service:f1d82f2dd35b68cd",
+      "inputs": [
+       "orderSearchForm"
+      ],
+      "kind": "struts-action",
+      "name": "/orderSearch",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/orderSearch",
+      "web_service": null
+     },
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 26,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "WebContent/WEB-INF/struts-config.xml",
+      "framework": null,
+      "handler": "com.acme.orders.action.OrderDetailAction",
+      "id": "service:7faeee752a0d66a4",
+      "inputs": [],
+      "kind": "struts-action",
+      "name": "/orderDetail",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/orderDetail",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b05d0fbde9c34f97",
+      "name": "Struts 1",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "uses",
+     "line": 7,
+     "report_unresolved": true,
+     "source": "file:WebContent/WEB-INF/struts-config.xml",
+     "source_label": "WebContent/WEB-INF/struts-config.xml",
+     "target": "com.acme.orders.form.LoginForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "uses",
+     "line": 8,
+     "report_unresolved": true,
+     "source": "file:WebContent/WEB-INF/struts-config.xml",
+     "source_label": "WebContent/WEB-INF/struts-config.xml",
+     "target": "com.acme.orders.form.OrderSearchForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 12,
+     "report_unresolved": true,
+     "source": "file:WebContent/WEB-INF/struts-config.xml",
+     "source_label": "WebContent/WEB-INF/struts-config.xml",
+     "target": "/jsp/error.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 13,
+     "report_unresolved": true,
+     "source": "file:WebContent/WEB-INF/struts-config.xml",
+     "source_label": "WebContent/WEB-INF/struts-config.xml",
+     "target": "/jsp/login.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "calls",
+     "line": 17,
+     "report_unresolved": true,
+     "source": "service:service:e238462a66aa312f",
+     "source_label": "/login",
+     "target": "com.acme.orders.action.LoginAction",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 17,
+     "report_unresolved": true,
+     "source": "service:service:e238462a66aa312f",
+     "source_label": "/login",
+     "target": "/jsp/login.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 19,
+     "report_unresolved": true,
+     "source": "service:service:e238462a66aa312f",
+     "source_label": "/login",
+     "target": "/orderSearch",
+     "target_kinds": [
+      "struts-action"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 20,
+     "report_unresolved": true,
+     "source": "service:service:e238462a66aa312f",
+     "source_label": "/login",
+     "target": "/jsp/login.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "calls",
+     "line": 22,
+     "report_unresolved": true,
+     "source": "service:service:f1d82f2dd35b68cd",
+     "source_label": "/orderSearch",
+     "target": "com.acme.orders.action.OrderSearchAction",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 24,
+     "report_unresolved": true,
+     "source": "service:service:f1d82f2dd35b68cd",
+     "source_label": "/orderSearch",
+     "target": "/jsp/orderSearch.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "calls",
+     "line": 26,
+     "report_unresolved": true,
+     "source": "service:service:7faeee752a0d66a4",
+     "source_label": "/orderDetail",
+     "target": "com.acme.orders.action.OrderDetailAction",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 27,
+     "report_unresolved": true,
+     "source": "service:service:7faeee752a0d66a4",
+     "source_label": "/orderDetail",
+     "target": "/jsp/orderDetail.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "forwards",
+     "line": 28,
+     "report_unresolved": true,
+     "source": "service:service:7faeee752a0d66a4",
+     "source_label": "/orderDetail",
+     "target": "/jsp/error.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "struts-action",
+     "line": 17,
+     "name": "/login",
+     "owner": "service:e238462a66aa312f"
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "struts-action",
+     "line": 22,
+     "name": "/orderSearch",
+     "owner": "service:f1d82f2dd35b68cd"
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/struts-config.xml",
+     "kind": "struts-action",
+     "line": 26,
+     "name": "/orderDetail",
+     "owner": "service:7faeee752a0d66a4"
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 38,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/tiles-defs.xml": {
+  "config": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "id": "tech:bb05828810f93439",
+      "name": "Tiles",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/tiles-defs.xml",
+     "kind": "includes",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "tiles:base.layout",
+     "source_label": "base.layout",
+     "target": "/jsp/common/layout.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/tiles-defs.xml",
+     "kind": "includes",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "tiles:base.layout",
+     "source_label": "base.layout",
+     "target": "/jsp/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/tiles-defs.xml",
+     "kind": "includes",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "tiles:base.layout",
+     "source_label": "base.layout",
+     "target": "/jsp/common/footer.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/tiles-defs.xml",
+     "kind": "tiles-definition",
+     "line": 6,
+     "name": "base.layout",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 11,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/WEB-INF/web.xml": {
+  "config": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "spring": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {
+    "services": [
+     {
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 18,
+        "snippet": null
+       }
+      ],
+      "external_calls": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "file": "WebContent/WEB-INF/web.xml",
+      "framework": null,
+      "handler": "com.acme.orders.servlet.HealthServlet",
+      "id": "service:414d74348603b2b4",
+      "inputs": [],
+      "kind": "servlet",
+      "name": "health",
+      "outputs": [],
+      "protocol": null,
+      "screens": [],
+      "sql": [],
+      "tables": [],
+      "url": "/health",
+      "web_service": null
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "framework",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 8,
+        "snippet": null
+       }
+      ],
+      "id": "tech:b05d0fbde9c34f97",
+      "name": "Struts 1",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/web.xml",
+     "kind": "calls",
+     "line": 18,
+     "report_unresolved": true,
+     "source": "service:service:414d74348603b2b4",
+     "source_label": "health",
+     "target": "com.acme.orders.servlet.HealthServlet",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/web.xml",
+     "kind": "forwards",
+     "line": 33,
+     "report_unresolved": false,
+     "source": "file:WebContent/WEB-INF/web.xml",
+     "source_label": "WebContent/WEB-INF/web.xml",
+     "target": "/jsp/login.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/WEB-INF/web.xml",
+     "kind": "forwards",
+     "line": 38,
+     "report_unresolved": true,
+     "source": "file:WebContent/WEB-INF/web.xml",
+     "source_label": "WebContent/WEB-INF/web.xml",
+     "target": "/jsp/error.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {
+      "class": "org.apache.struts.action.ActionServlet",
+      "patterns": "*.do"
+     },
+     "file": "WebContent/WEB-INF/web.xml",
+     "kind": "front-controller",
+     "line": 8,
+     "name": "action",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 41,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/css/site.css": {
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/common/footer.jspf": {
+  "metrics": {
+   "coverage": {
+    "lines": 3,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 3,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/common/footer.jspf",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "WebContent/jsp/common/footer.jspf",
+      "id": "screen:286d7c35a1040235",
+      "name": "WebContent/jsp/common/footer.jspf",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/common/footer.jspf",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/common/footer.jspf",
+     "owner": "screen:286d7c35a1040235"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/common/header.jspf": {
+  "metrics": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     8332681754837760163,
+     2,
+     6
+    ],
+    [
+     2536920875954177872,
+     3,
+     6
+    ],
+    [
+     5968696668653910736,
+     4,
+     7
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/common/header.jspf",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "WebContent/jsp/common/header.jspf",
+      "id": "screen:0b261a26c1e8c52d",
+      "name": "WebContent/jsp/common/header.jspf",
+      "partial": true,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/common/header.jspf",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/common/header.jspf",
+     "owner": "screen:0b261a26c1e8c52d"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/error.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     6035906133584302747,
+     1,
+     6
+    ],
+    [
+     7935304694277294215,
+     2,
+     6
+    ],
+    [
+     2073987137967816978,
+     3,
+     6
+    ],
+    [
+     3891025678027751624,
+     4,
+     8
+    ],
+    [
+     653833066713985612,
+     5,
+     8
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 10,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/error.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "WebContent/jsp/error.jsp",
+      "id": "screen:5c7d3fcc0e7289e9",
+      "name": "WebContent/jsp/error.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/error.jsp"
+     },
+     "file": "WebContent/jsp/error.jsp",
+     "kind": "links",
+     "line": 7,
+     "report_unresolved": false,
+     "source": "screen:screen:5c7d3fcc0e7289e9",
+     "source_label": "WebContent/jsp/error.jsp",
+     "target": "WebContent/jsp/login.jsp",
+     "target_kinds": [
+      "path"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/error.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/error.jsp",
+     "owner": "screen:5c7d3fcc0e7289e9"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/login.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     2283534048957077254,
+     1,
+     6
+    ],
+    [
+     8338016959057127124,
+     2,
+     7
+    ],
+    [
+     1657242361747947315,
+     3,
+     8
+    ],
+    [
+     8135936600733591144,
+     5,
+     10
+    ],
+    [
+     7930486199367789799,
+     6,
+     10
+    ],
+    [
+     3359852126477401687,
+     7,
+     13
+    ],
+    [
+     8623283493118067958,
+     8,
+     13
+    ],
+    [
+     3585803597576782964,
+     9,
+     13
+    ],
+    [
+     7292502792517484805,
+     10,
+     13
+    ],
+    [
+     2699301030166322139,
+     11,
+     13
+    ],
+    [
+     1167215790734763553,
+     12,
+     14
+    ],
+    [
+     5734695507026148352,
+     13,
+     14
+    ],
+    [
+     2311534841537497293,
+     14,
+     16
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 21,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": "/login",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/login.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "WebContent/jsp/login.jsp",
+      "id": "screen:05aa629fbec46620",
+      "name": "WebContent/jsp/login.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/login.jsp"
+     },
+     "file": "WebContent/jsp/login.jsp",
+     "kind": "includes",
+     "line": 9,
+     "report_unresolved": true,
+     "source": "screen:screen:05aa629fbec46620",
+     "source_label": "WebContent/jsp/login.jsp",
+     "target": "WebContent/jsp/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/login.jsp"
+     },
+     "file": "WebContent/jsp/login.jsp",
+     "kind": "includes",
+     "line": 18,
+     "report_unresolved": true,
+     "source": "screen:screen:05aa629fbec46620",
+     "source_label": "WebContent/jsp/login.jsp",
+     "target": "WebContent/jsp/common/footer.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/jsp/login.jsp",
+     "kind": "submits",
+     "line": 11,
+     "report_unresolved": false,
+     "source": "screen:screen:05aa629fbec46620",
+     "source_label": "WebContent/jsp/login.jsp",
+     "target": "/login",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/login.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/login.jsp",
+     "owner": "screen:05aa629fbec46620"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/orderDetail.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     2265677459557813937,
+     1,
+     6
+    ],
+    [
+     3191608780666336778,
+     2,
+     7
+    ],
+    [
+     6181190228372681334,
+     3,
+     7
+    ],
+    [
+     8371795200797630694,
+     4,
+     8
+    ],
+    [
+     7831180216370868142,
+     5,
+     8
+    ],
+    [
+     2841125378936970763,
+     6,
+     8
+    ],
+    [
+     386519960814671697,
+     7,
+     9
+    ],
+    [
+     4878446808848319257,
+     8,
+     10
+    ],
+    [
+     3971847792260027019,
+     9,
+     12
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": null,
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 0,
+      "file": "WebContent/jsp/orderDetail.jsp",
+      "id": "screen:81b23756f56db307",
+      "name": "WebContent/jsp/orderDetail.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/orderDetail.jsp"
+     },
+     "file": "WebContent/jsp/orderDetail.jsp",
+     "kind": "includes",
+     "line": 6,
+     "report_unresolved": true,
+     "source": "screen:screen:81b23756f56db307",
+     "source_label": "WebContent/jsp/orderDetail.jsp",
+     "target": "WebContent/jsp/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/orderDetail.jsp"
+     },
+     "file": "WebContent/jsp/orderDetail.jsp",
+     "kind": "includes",
+     "line": 13,
+     "report_unresolved": true,
+     "source": "screen:screen:81b23756f56db307",
+     "source_label": "WebContent/jsp/orderDetail.jsp",
+     "target": "WebContent/jsp/common/footer.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/jsp/orderDetail.jsp",
+     "kind": "links",
+     "line": 12,
+     "report_unresolved": false,
+     "source": "screen:screen:81b23756f56db307",
+     "source_label": "WebContent/jsp/orderDetail.jsp",
+     "target": "/orderSearch",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/orderDetail.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/orderDetail.jsp",
+     "owner": "screen:81b23756f56db307"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "WebContent/jsp/orderSearch.jsp": {
+  "metrics": {
+   "coverage": {
+    "lines": 37,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     6579028170768099633,
+     1,
+     5
+    ],
+    [
+     3170407592604753986,
+     2,
+     6
+    ],
+    [
+     8257283163942387832,
+     3,
+     6
+    ],
+    [
+     2317412487684263049,
+     4,
+     8
+    ],
+    [
+     5618095904963585876,
+     5,
+     10
+    ],
+    [
+     7891060922402759666,
+     6,
+     10
+    ],
+    [
+     1546233077502563079,
+     7,
+     13
+    ],
+    [
+     179578727898549673,
+     8,
+     13
+    ],
+    [
+     3327976910495719805,
+     9,
+     14
+    ],
+    [
+     7059920778320507711,
+     10,
+     14
+    ],
+    [
+     3734992184167101495,
+     11,
+     15
+    ],
+    [
+     8867020141366764302,
+     12,
+     15
+    ],
+    [
+     1247547300832373576,
+     13,
+     16
+    ],
+    [
+     6956868303476068779,
+     14,
+     18
+    ],
+    [
+     6274502059969823238,
+     15,
+     20
+    ],
+    [
+     5011174908898420372,
+     16,
+     20
+    ],
+    [
+     3794674217203270581,
+     17,
+     20
+    ],
+    [
+     2552574641695514487,
+     18,
+     21
+    ],
+    [
+     6602661252898471486,
+     19,
+     22
+    ],
+    [
+     3278250720725297710,
+     20,
+     23
+    ],
+    [
+     2964011616748059851,
+     21,
+     24
+    ],
+    [
+     1938688036072758817,
+     22,
+     24
+    ],
+    [
+     1849619506932806547,
+     23,
+     24
+    ],
+    [
+     1960826593857754134,
+     24,
+     28
+    ],
+    [
+     1351804901592916275,
+     25,
+     31
+    ],
+    [
+     519114488712634257,
+     26,
+     32
+    ],
+    [
+     3840140082685387836,
+     27,
+     32
+    ],
+    [
+     4457807972138616212,
+     28,
+     32
+    ],
+    [
+     7994520500963438497,
+     29,
+     33
+    ],
+    [
+     4942921955282627159,
+     30,
+     34
+    ],
+    [
+     1028515785436123280,
+     31,
+     35
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "web": {
+   "coverage": {
+    "lines": 37,
+    "unparsed": []
+   },
+   "entities": {
+    "screens": [
+     {
+      "action": "/orderSearch",
+      "complexity": null,
+      "complexity_score": null,
+      "component": null,
+      "evidence": [
+       {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "fields_count": 2,
+      "file": "WebContent/jsp/orderSearch.jsp",
+      "id": "screen:927c65728f5fbfe5",
+      "name": "WebContent/jsp/orderSearch.jsp",
+      "partial": false,
+      "targeted_by": [],
+      "technology": "jsp"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/orderSearch.jsp"
+     },
+     "file": "WebContent/jsp/orderSearch.jsp",
+     "kind": "includes",
+     "line": 8,
+     "report_unresolved": true,
+     "source": "screen:screen:927c65728f5fbfe5",
+     "source_label": "WebContent/jsp/orderSearch.jsp",
+     "target": "WebContent/jsp/common/header.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {
+      "relative_to": "WebContent/jsp/orderSearch.jsp"
+     },
+     "file": "WebContent/jsp/orderSearch.jsp",
+     "kind": "includes",
+     "line": 34,
+     "report_unresolved": true,
+     "source": "screen:screen:927c65728f5fbfe5",
+     "source_label": "WebContent/jsp/orderSearch.jsp",
+     "target": "WebContent/jsp/common/footer.jspf",
+     "target_kinds": [
+      "path"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/jsp/orderSearch.jsp",
+     "kind": "submits",
+     "line": 9,
+     "report_unresolved": false,
+     "source": "screen:screen:927c65728f5fbfe5",
+     "source_label": "WebContent/jsp/orderSearch.jsp",
+     "target": "/orderSearch",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    },
+    {
+     "data": {},
+     "file": "WebContent/jsp/orderSearch.jsp",
+     "kind": "links",
+     "line": 23,
+     "report_unresolved": false,
+     "source": "screen:screen:927c65728f5fbfe5",
+     "source_label": "WebContent/jsp/orderSearch.jsp",
+     "target": "/orderDetail",
+     "target_kinds": [
+      "struts-action",
+      "url"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "WebContent/jsp/orderSearch.jsp",
+     "kind": "page",
+     "line": 1,
+     "name": "WebContent/jsp/orderSearch.jsp",
+     "owner": "screen:927c65728f5fbfe5"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/ddl/orders_schema.sql": {
+  "metrics": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     825114461275631868,
+     2,
+     11
+    ],
+    [
+     1657457096110639921,
+     3,
+     12
+    ],
+    [
+     445100983051781234,
+     4,
+     13
+    ],
+    [
+     1815426883748514183,
+     5,
+     14
+    ],
+    [
+     5347037545232448760,
+     7,
+     14
+    ]
+   ]
+  },
+  "sql": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "db_objects": [
+     {
+      "crud": {},
+      "defined_in": "audit-inputs/ddl/orders_schema.sql",
+      "evidence": [
+       {
+        "file": "audit-inputs/ddl/orders_schema.sql",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:02d5a98eab0474e2",
+      "members": [],
+      "name": "CUSTOMERS",
+      "object_type": "table",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     },
+     {
+      "crud": {},
+      "defined_in": "audit-inputs/ddl/orders_schema.sql",
+      "evidence": [
+       {
+        "file": "audit-inputs/ddl/orders_schema.sql",
+        "line": 7,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:ef97536d0298e878",
+      "members": [],
+      "name": "ORDERS",
+      "object_type": "table",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "audit-inputs/ddl/orders_schema.sql",
+     "kind": "db-table",
+     "line": 2,
+     "name": "CUSTOMERS",
+     "owner": "db_object:02d5a98eab0474e2"
+    },
+    {
+     "data": {},
+     "file": "audit-inputs/ddl/orders_schema.sql",
+     "kind": "db-table",
+     "line": 7,
+     "name": "ORDERS",
+     "owner": "db_object:ef97536d0298e878"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "audit-inputs/security/dependency-check-report.json": {
+  "config": {
+   "coverage": {
+    "lines": 81,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "build.xml": {
+  "build": {
+   "coverage": {
+    "lines": 40,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "build",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "build.xml",
+        "line": 3,
+        "snippet": null
+       }
+      ],
+      "id": "tech:033ac96aeec1d8ea",
+      "name": "Ant",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     },
+     {
+      "category": "language",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "build.xml",
+        "line": 23,
+        "snippet": null
+       }
+      ],
+      "id": "tech:accefd5b96380425",
+      "name": "Java",
+      "replacement": null,
+      "usages": 1,
+      "version": "1.5"
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "dotnet": {
+   "coverage": {
+    "lines": 40,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "webservices": {
+   "coverage": {
+    "lines": 40,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "conf/orders-app.properties": {
+  "config": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "findings": [
+     {
+      "category": "security",
+      "evidence": [
+       {
+        "file": "conf/orders-app.properties",
+        "line": 4,
+        "snippet": "db.password=****"
+       }
+      ],
+      "file": "conf/orders-app.properties",
+      "id": "finding:b7eb1e1b0c985c77",
+      "line": 4,
+      "message": "Credential 'db.password' is set in configuration (value masked)",
+      "remediation": null,
+      "rule_id": "config-credential",
+      "severity": "high"
+     }
+    ],
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "conf/orders-app.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:3828cb56be38871b",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "conf/orders-app.properties"
+      ],
+      "target": "oracle://ordersdb01.acme.local:1521/ORDP",
+      "type": "DB",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "pricing.endpoint"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "conf/orders-app.properties",
+        "line": 5,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:35476cbb77b19985",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "conf/orders-app.properties"
+      ],
+      "target": "http://pricing.acme.local:8080/axis/services/PricingService",
+      "type": "SOAP",
+      "usages": 1
+     },
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {
+       "key": "mail.smtp"
+      },
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "conf/orders-app.properties",
+        "line": 6,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:51275d88f40325a2",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "conf/orders-app.properties"
+      ],
+      "target": "smtp.acme.local",
+      "type": "SMTP",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "conf/orders-app.properties",
+        "line": 2,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "scripts/deploy.ksh": {
+  "metrics": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 16,
+     "kind": "script",
+     "line": 1,
+     "loc": 10,
+     "name": "deploy.ksh"
+    }
+   ],
+   "windows": [
+    [
+     574208008034455881,
+     4,
+     14
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "shell": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "scripts/deploy.ksh",
+        "line": 14,
+        "snippet": "EXEC PKG_ORDER_PRICING.RECALC_ALL"
+       }
+      ],
+      "file": "scripts/deploy.ksh",
+      "fingerprint": "9e4929399fe6d01e",
+      "fragments": 1,
+      "id": "sql:c11bf0a70c74cbd5",
+      "line": 14,
+      "normalized": "EXEC PKG_ORDER_PRICING.RECALC_ALL",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [
+       "PKG_ORDER_PRICING.RECALC_ALL"
+      ],
+      "reason": null,
+      "source": "script",
+      "structural_holes": 0,
+      "tables": [],
+      "text": "EXEC PKG_ORDER_PRICING.RECALC_ALL",
+      "type": "CALL",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "scripts/deploy.ksh",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "id": "tech:4cb01f14a2ae602e",
+      "name": "SQL*Plus",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "sql/order_queries.sql": {
+  "metrics": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": [
+    [
+     1341495673104051625,
+     4,
+     11
+    ],
+    [
+     1349572673369754848,
+     5,
+     13
+    ],
+    [
+     8909044142475268391,
+     6,
+     15
+    ],
+    [
+     1544772077279571808,
+     7,
+     16
+    ],
+    [
+     4854669235108053049,
+     8,
+     16
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "sql": {
+   "coverage": {
+    "lines": 17,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/order_queries.sql",
+        "line": 4,
+        "snippet": "SELECT C.NAME, COUNT(*) ORDER_COUNT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > SY"
+       }
+      ],
+      "file": "sql/order_queries.sql",
+      "fingerprint": "f6708d2ab87dbb8f",
+      "fragments": 1,
+      "id": "sql:dae1d15f1f28c324",
+      "line": 4,
+      "normalized": "SELECT C.NAME, COUNT(*) ORDER_COUNT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > SYSDATE - ? GROUP BY C.NAME",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "sql-file",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS",
+       "ORDERS"
+      ],
+      "text": "SELECT C.NAME, COUNT(*) ORDER_COUNT\n  FROM ORDERS O, CUSTOMERS C\n WHERE O.CUSTOMER_ID = C.CUSTOMER_ID\n   AND O.CREATED_AT > SYSDATE - 30\n GROUP BY C.NAME",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/order_queries.sql",
+        "line": 11,
+        "snippet": "SELECT ORDER_ID, NVL(STATUS, 'NEW'), TO_CHAR(CREATED_AT, 'YYYY-MM-DD') FROM ORDERS WHERE STATUS IS NULL OR STATUS = 'PEN"
+       }
+      ],
+      "file": "sql/order_queries.sql",
+      "fingerprint": "70552c596356e0d6",
+      "fragments": 1,
+      "id": "sql:3f99a9f03b91ca88",
+      "line": 11,
+      "normalized": "SELECT ORDER_ID, NVL(STATUS, ?), TO_CHAR(CREATED_AT, ?) FROM ORDERS WHERE STATUS IS NULL OR STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "sql-file",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT ORDER_ID, NVL(STATUS, 'NEW'), TO_CHAR(CREATED_AT, 'YYYY-MM-DD')\n  FROM ORDERS\n WHERE STATUS IS NULL OR STATUS = 'PENDING'",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "NVL",
+       "TO_CHAR/TO_DATE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/order_queries.sql",
+        "line": 15,
+        "snippet": "UPDATE ORDERS SET STATUS = 'CANCELLED' WHERE STATUS = 'PENDING' AND CREATED_AT < ADD_MONTHS(SYSDATE, -6)"
+       }
+      ],
+      "file": "sql/order_queries.sql",
+      "fingerprint": "049048c95895aec1",
+      "fragments": 1,
+      "id": "sql:af564f2b8f197c77",
+      "line": 15,
+      "normalized": "UPDATE ORDERS SET STATUS = ? WHERE STATUS = ? AND CREATED_AT < ADD_MONTHS(SYSDATE, -?)",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "sql-file",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "UPDATE ORDERS SET STATUS = 'CANCELLED'\n WHERE STATUS = 'PENDING' AND CREATED_AT < ADD_MONTHS(SYSDATE, -6)",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "SYSDATE",
+       "ADD_MONTHS"
+      ]
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "sql/pkg_order_pricing.pkb": {
+  "metrics": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "function",
+     "line": 2,
+     "loc": 9,
+     "name": "TOTAL_WITH_TAX"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 23,
+     "kind": "procedure",
+     "line": 12,
+     "loc": 9,
+     "name": "RECALC_ALL"
+    }
+   ],
+   "windows": [
+    [
+     8429863236049013517,
+     1,
+     10
+    ],
+    [
+     2046862951486632929,
+     3,
+     11
+    ],
+    [
+     5764956580491887298,
+     4,
+     16
+    ],
+    [
+     5919448563183843402,
+     5,
+     16
+    ],
+    [
+     632905800793479971,
+     6,
+     16
+    ],
+    [
+     942722350943885084,
+     7,
+     17
+    ],
+    [
+     3920449985927368913,
+     8,
+     17
+    ],
+    [
+     366988035479818210,
+     9,
+     18
+    ],
+    [
+     4951971241883626322,
+     10,
+     19
+    ],
+    [
+     3079269233182183485,
+     11,
+     23
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "sql": {
+   "coverage": {
+    "lines": 25,
+    "unparsed": []
+   },
+   "entities": {
+    "db_objects": [
+     {
+      "crud": {},
+      "defined_in": "sql/pkg_order_pricing.pkb",
+      "evidence": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:680a4965f0bc0c36",
+      "members": [
+       "RECALC_ALL",
+       "TOTAL_WITH_TAX"
+      ],
+      "name": "PKG_ORDER_PRICING",
+      "object_type": "package",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     }
+    ],
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 6,
+        "snippet": "SELECT SUM(L.QTY * L.UNIT_PRICE) * 1.2 INTO V_TOTAL FROM ORDER_LINES L WHERE L.ORDER_ID = P_ORDER_ID"
+       }
+      ],
+      "file": "sql/pkg_order_pricing.pkb",
+      "fingerprint": "527892962cc86eb6",
+      "fragments": 1,
+      "id": "sql:a07252e6d4e6c1b0",
+      "line": 6,
+      "normalized": "SELECT SUM(L.QTY * L.UNIT_PRICE) * ? INTO V_TOTAL FROM ORDER_LINES L WHERE L.ORDER_ID = P_ORDER_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "plsql",
+      "structural_holes": 0,
+      "tables": [
+       "ORDER_LINES"
+      ],
+      "text": "SELECT SUM(L.QTY * L.UNIT_PRICE) * 1.2\n      INTO V_TOTAL\n      FROM ORDER_LINES L\n     WHERE L.ORDER_ID = P_ORDER_ID",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 16,
+        "snippet": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = 'NEW'"
+       }
+      ],
+      "file": "sql/pkg_order_pricing.pkb",
+      "fingerprint": "feefaf38ff4b5f70",
+      "fragments": 1,
+      "id": "sql:470c39a674516e57",
+      "line": 16,
+      "normalized": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "plsql",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = 'NEW'",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 17,
+        "snippet": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID"
+       }
+      ],
+      "file": "sql/pkg_order_pricing.pkb",
+      "fingerprint": "6378c0731547d113",
+      "fragments": 1,
+      "id": "sql:1208a107a9f108ba",
+      "line": 17,
+      "normalized": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "plsql",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID)\n       WHERE ORDER_ID = R.ORDER_ID",
+      "type": "UPDATE",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pkb",
+     "kind": "db-package",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING",
+     "owner": "db_object:680a4965f0bc0c36"
+    },
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pkb",
+     "kind": "db-procedure",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING.RECALC_ALL",
+     "owner": "db_object:680a4965f0bc0c36"
+    },
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pkb",
+     "kind": "db-procedure",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING.TOTAL_WITH_TAX",
+     "owner": "db_object:680a4965f0bc0c36"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "sql/pkg_order_pricing.pks": {
+  "metrics": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "sql": {
+   "coverage": {
+    "lines": 7,
+    "unparsed": []
+   },
+   "entities": {
+    "db_objects": [
+     {
+      "crud": {},
+      "defined_in": "sql/pkg_order_pricing.pks",
+      "evidence": [
+       {
+        "file": "sql/pkg_order_pricing.pks",
+        "line": 1,
+        "snippet": null
+       }
+      ],
+      "id": "db_object:680a4965f0bc0c36",
+      "members": [
+       "RECALC_ALL",
+       "TOTAL_WITH_TAX"
+      ],
+      "name": "PKG_ORDER_PRICING",
+      "object_type": "package",
+      "pg_grade": null,
+      "reason": null,
+      "referenced_by": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [],
+   "symbols": [
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pks",
+     "kind": "db-package",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING",
+     "owner": "db_object:680a4965f0bc0c36"
+    },
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pks",
+     "kind": "db-procedure",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING.RECALC_ALL",
+     "owner": "db_object:680a4965f0bc0c36"
+    },
+    {
+     "data": {},
+     "file": "sql/pkg_order_pricing.pks",
+     "kind": "db-procedure",
+     "line": 1,
+     "name": "PKG_ORDER_PRICING.TOTAL_WITH_TAX",
+     "owner": "db_object:680a4965f0bc0c36"
+    }
+   ],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/ApplicationResources.properties": {
+  "config": {
+   "coverage": {
+    "lines": 9,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/action/LoginAction.java": {
+  "java": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/action/LoginAction.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "javax.servlet.http.HttpServletResponse",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "javax.servlet.http.HttpSession",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "org.apache.log4j.Logger",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "org.apache.struts.action.Action",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "org.apache.struts.action.ActionForward",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "org.apache.struts.action.ActionMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "com.acme.orders.form.LoginForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "com.acme.orders.service.OrderService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "com.acme.orders.action.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.LoginAction",
+     "source_label": "com.acme.orders.action.LoginAction",
+     "target": "com.acme.orders.action.LOG",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/LoginAction.java",
+     "kind": "java-class",
+     "line": 19,
+     "name": "com.acme.orders.action.LoginAction",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 37,
+     "kind": "method",
+     "line": 23,
+     "loc": 13,
+     "name": "execute"
+    }
+   ],
+   "windows": [
+    [
+     4227549261909293988,
+     1,
+     8
+    ],
+    [
+     3879157868406189964,
+     3,
+     9
+    ],
+    [
+     90736977383698357,
+     4,
+     10
+    ],
+    [
+     6692884612442419557,
+     5,
+     10
+    ],
+    [
+     1716656896889673976,
+     7,
+     11
+    ],
+    [
+     5426172054044502104,
+     8,
+     13
+    ],
+    [
+     6068618828311026675,
+     9,
+     14
+    ],
+    [
+     4459312894366194378,
+     10,
+     19
+    ],
+    [
+     1725450759670033980,
+     11,
+     21
+    ],
+    [
+     5907043743399401872,
+     13,
+     23
+    ],
+    [
+     2280246907880418642,
+     14,
+     24
+    ],
+    [
+     3245113810469038711,
+     19,
+     26
+    ],
+    [
+     1470976464802476976,
+     21,
+     26
+    ],
+    [
+     8023385943208036168,
+     23,
+     29
+    ],
+    [
+     1060540567693753925,
+     24,
+     30
+    ],
+    [
+     8653739922548682351,
+     25,
+     31
+    ],
+    [
+     931304005285244931,
+     26,
+     31
+    ],
+    [
+     4432225854970946026,
+     29,
+     32
+    ],
+    [
+     6387902852085141941,
+     30,
+     35
+    ],
+    [
+     4256404026685922401,
+     31,
+     36
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 39,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/action/OrderDetailAction.java": {
+  "java": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/action/OrderDetailAction.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "javax.servlet.http.HttpServletResponse",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "org.apache.struts.action.Action",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "org.apache.struts.action.ActionForward",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "org.apache.struts.action.ActionMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "com.acme.orders.service.OrderService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "com.acme.orders.action.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderDetailAction",
+     "source_label": "com.acme.orders.action.OrderDetailAction",
+     "target": "com.acme.orders.action.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderDetailAction.java",
+     "kind": "java-class",
+     "line": 15,
+     "name": "com.acme.orders.action.OrderDetailAction",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 28,
+     "kind": "method",
+     "line": 17,
+     "loc": 12,
+     "name": "execute"
+    }
+   ],
+   "windows": [
+    [
+     4454520757437618610,
+     1,
+     9
+    ],
+    [
+     4590072077356985157,
+     3,
+     10
+    ],
+    [
+     6326302093502738032,
+     5,
+     10
+    ],
+    [
+     1855906633438605253,
+     6,
+     11
+    ],
+    [
+     5426172054044502104,
+     8,
+     13
+    ],
+    [
+     3773734245208526559,
+     9,
+     15
+    ],
+    [
+     6964944187918025369,
+     10,
+     18
+    ],
+    [
+     5293231483324265505,
+     11,
+     19
+    ],
+    [
+     4782030988425736879,
+     13,
+     19
+    ],
+    [
+     2651926640851738608,
+     15,
+     21
+    ],
+    [
+     5571522840936519341,
+     17,
+     21
+    ],
+    [
+     9128470408471022414,
+     18,
+     22
+    ],
+    [
+     8516565073762098810,
+     19,
+     24
+    ],
+    [
+     4458085683356821269,
+     20,
+     26
+    ],
+    [
+     1080407459686649402,
+     21,
+     26
+    ],
+    [
+     6678222080021494650,
+     22,
+     29
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 30,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/action/OrderSearchAction.java": {
+  "java": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/action/OrderSearchAction.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "javax.servlet.http.HttpServletResponse",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "org.apache.struts.action.Action",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "org.apache.struts.action.ActionForward",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "org.apache.struts.action.ActionMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "com.acme.orders.form.OrderSearchForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "com.acme.orders.service.OrderService",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.action.OrderSearchAction",
+     "source_label": "com.acme.orders.action.OrderSearchAction",
+     "target": "com.acme.orders.action.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/action/OrderSearchAction.java",
+     "kind": "java-class",
+     "line": 16,
+     "name": "com.acme.orders.action.OrderSearchAction",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 26,
+     "kind": "method",
+     "line": 18,
+     "loc": 8,
+     "name": "execute"
+    }
+   ],
+   "windows": [
+    [
+     9199991713589436385,
+     1,
+     9
+    ],
+    [
+     8542702803104094641,
+     3,
+     10
+    ],
+    [
+     6326302093502738032,
+     5,
+     10
+    ],
+    [
+     1855906633438605253,
+     6,
+     11
+    ],
+    [
+     5426172054044502104,
+     8,
+     13
+    ],
+    [
+     7550109430778161936,
+     9,
+     14
+    ],
+    [
+     8869479490002363792,
+     10,
+     16
+    ],
+    [
+     798927487365143465,
+     11,
+     19
+    ],
+    [
+     7787854101702686866,
+     13,
+     20
+    ],
+    [
+     2065515758297686466,
+     14,
+     21
+    ],
+    [
+     7234636778530345623,
+     16,
+     23
+    ],
+    [
+     5751981875300360779,
+     18,
+     23
+    ],
+    [
+     1344232021610497497,
+     19,
+     24
+    ],
+    [
+     1256469104535016339,
+     20,
+     25
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 28,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/client/PricingSoapClient.java": {
+  "java": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 15,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:35476cbb77b19985",
+      "producers": [],
+      "protocol": null,
+      "purpose": null,
+      "source_files": [
+       "src/com/acme/orders/client/PricingSoapClient.java"
+      ],
+      "target": "http://pricing.acme.local:8080/axis/services/PricingService",
+      "type": "SOAP",
+      "usages": 1
+     }
+    ],
+    "web_services": [
+     {
+      "callers": [
+       "src/com/acme/orders/client/PricingSoapClient.java"
+      ],
+      "component": null,
+      "components": [],
+      "description": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 21,
+        "snippet": null
+       }
+      ],
+      "files": [
+       "src/com/acme/orders/client/PricingSoapClient.java"
+      ],
+      "frameworks": [
+       "Apache Axis"
+      ],
+      "id": "websvc-use:5883517cdb8a3837",
+      "integrations": [],
+      "name": "PricingService",
+      "namespace": null,
+      "operations": [
+       {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "handler": null,
+        "line": 21,
+        "method": null,
+        "name": "quote",
+        "path": "/axis/services/PricingService",
+        "service_id": null
+       }
+      ],
+      "side": "called",
+      "style": "SOAP",
+      "url": "http://pricing.acme.local:8080/axis/services/PricingService",
+      "wsdl": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "java.net.URL",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "javax.xml.namespace.QName",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "org.apache.axis.client.Call",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "org.apache.axis.client.Service",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.Double",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.ENDPOINT",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.Object",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.client.PricingSoapClient",
+     "source_label": "com.acme.orders.client.PricingSoapClient",
+     "target": "com.acme.orders.client.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/client/PricingSoapClient.java",
+     "kind": "java-class",
+     "line": 13,
+     "name": "com.acme.orders.client.PricingSoapClient",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 24,
+     "kind": "method",
+     "line": 17,
+     "loc": 8,
+     "name": "quote"
+    }
+   ],
+   "windows": [
+    [
+     4319485518507539200,
+     1,
+     13
+    ],
+    [
+     6186850342251546445,
+     3,
+     15
+    ],
+    [
+     8585181884313365544,
+     5,
+     17
+    ],
+    [
+     3525068943810243753,
+     7,
+     18
+    ],
+    [
+     1967455293586857882,
+     8,
+     19
+    ],
+    [
+     1695068008657787150,
+     13,
+     20
+    ],
+    [
+     3413213820362751515,
+     15,
+     20
+    ],
+    [
+     3742972339554236846,
+     17,
+     21
+    ],
+    [
+     5995743988754817390,
+     18,
+     22
+    ],
+    [
+     5843792460356710140,
+     19,
+     22
+    ],
+    [
+     3097810944436937578,
+     20,
+     22
+    ],
+    [
+     6537864603065152782,
+     21,
+     23
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     15,
+     "\"http://pricing.acme.local:8080/axis/services/PricingService\""
+    ],
+    [
+     "hardcoded-endpoint",
+     21,
+     "\"http://pricing.acme.com\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 26,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/dao/ConnectionFactory.java": {
+  "java": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {
+    "integrations": [
+     {
+      "components": [],
+      "consumers": [],
+      "description": null,
+      "details": {},
+      "direction": "outbound",
+      "endpoints": [],
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "grouped_ids": [],
+      "id": "integration:3828cb56be38871b",
+      "producers": [],
+      "protocol": "jdbc",
+      "purpose": null,
+      "source_files": [
+       "src/com/acme/orders/dao/ConnectionFactory.java"
+      ],
+      "target": "oracle://ordersdb01.acme.local:1521/ORDP",
+      "type": "DB",
+      "usages": 1
+     }
+    ],
+    "tech_stack": [
+     {
+      "category": "database",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": 13,
+        "snippet": null
+       }
+      ],
+      "id": "tech:2f57f26890fd49dc",
+      "name": "Oracle",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "java.sql.DriverManager",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "java.sql.SQLException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "java.util.Properties",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.Class",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.ClassNotFoundException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.ExceptionInInitializerError",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.System",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.ConnectionFactory",
+     "source_label": "com.acme.orders.dao.ConnectionFactory",
+     "target": "com.acme.orders.dao.URL",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+     "kind": "java-class",
+     "line": 11,
+     "name": "com.acme.orders.dao.ConnectionFactory",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 24,
+     "kind": "method",
+     "line": 23,
+     "loc": 2,
+     "name": "ConnectionFactory"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 31,
+     "kind": "method",
+     "line": 26,
+     "loc": 6,
+     "name": "getConnection"
+    }
+   ],
+   "windows": [
+    [
+     7308392965354265739,
+     1,
+     13
+    ],
+    [
+     8595233129521160217,
+     3,
+     17
+    ],
+    [
+     5943989721967135973,
+     4,
+     18
+    ],
+    [
+     4173123424950240135,
+     5,
+     19
+    ],
+    [
+     1615560770613723368,
+     6,
+     23
+    ],
+    [
+     1198755815434242429,
+     11,
+     26
+    ],
+    [
+     3446590150962199787,
+     13,
+     26
+    ],
+    [
+     6093906092945391906,
+     15,
+     27
+    ],
+    [
+     4902527091068976197,
+     16,
+     28
+    ],
+    [
+     6601656590902721616,
+     17,
+     28
+    ],
+    [
+     4038933611487314522,
+     18,
+     29
+    ],
+    [
+     4811216817175614629,
+     19,
+     29
+    ],
+    [
+     6697055956357570429,
+     20,
+     30
+    ],
+    [
+     8284042848900275158,
+     21,
+     30
+    ],
+    [
+     6699467940167630100,
+     23,
+     30
+    ],
+    [
+     6596999053759997983,
+     24,
+     30
+    ],
+    [
+     4997661289925823816,
+     26,
+     30
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [
+    [
+     "hardcoded-endpoint",
+     13,
+     "\"jdbc:oracle:thin:@ordersdb01.acme.local:1521:ORDP\""
+    ]
+   ],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 33,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/dao/OrderDao.java": {
+  "java": {
+   "coverage": {
+    "lines": 157,
+    "unparsed": []
+   },
+   "entities": {
+    "sql_statements": [
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 21,
+        "snippet": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?"
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "8d6de373dbdb5345",
+      "fragments": 1,
+      "id": "sql:cb299e45008db9b8",
+      "line": 21,
+      "normalized": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "USERS"
+      ],
+      "text": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 24,
+        "snippet": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, 'NEW') STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.C"
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 25,
+        "snippet": null
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 26,
+        "snippet": null
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "c16cd414717b1e94",
+      "fragments": 3,
+      "id": "sql:74d178515a7f4399",
+      "line": 24,
+      "normalized": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, ?) STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID(+) AND UPPER(C.NAME) LIKE UPPER(?) ORDER BY O.CREATED_AT DESC) WHERE ROWNUM <= ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS",
+       "ORDERS"
+      ],
+      "text": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, 'NEW') STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID(+) AND UPPER(C.NAME) LIKE UPPER(?) ORDER BY O.CREATED_AT DESC) WHERE ROWNUM <= 50",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "NVL",
+       "ROWNUM",
+       "OUTER JOIN (+)"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 29,
+        "snippet": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, 1, 'HIGH', 2, 'MEDIUM', 'LOW') PRIO FROM ORDERS O WHERE O.ORDER_ID = ?"
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 30,
+        "snippet": null
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "0cfb43d1cb9227e6",
+      "fragments": 2,
+      "id": "sql:df8bbfa606b0adfb",
+      "line": 29,
+      "normalized": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, ?, ?, ?, ?, ?) PRIO FROM ORDERS O WHERE O.ORDER_ID = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, 1, 'HIGH', 2, 'MEDIUM', 'LOW') PRIO FROM ORDERS O WHERE O.ORDER_ID = ?",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "DECODE"
+      ]
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 33,
+        "snippet": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID"
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 34,
+        "snippet": null
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "09fccda3dbea18d0",
+      "fragments": 2,
+      "id": "sql:ce46dc8dd1a138eb",
+      "line": 33,
+      "normalized": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": [
+       "CONNECT BY"
+      ]
+     },
+     {
+      "built_with": [
+       "concatenation"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 69,
+        "snippet": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'"
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "feefaf38ff4b5f70",
+      "fragments": 2,
+      "id": "sql:979cade04721da61",
+      "line": 69,
+      "normalized": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "ORDERS"
+      ],
+      "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'",
+      "type": "SELECT",
+      "value_holes": 1,
+      "variants": [],
+      "vendor_features": []
+     },
+     {
+      "built_with": [
+       "conditional",
+       "string-builder",
+       "ternary"
+      ],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": true,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 96,
+        "snippet": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME"
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 99,
+        "snippet": null
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 103,
+        "snippet": null
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 107,
+        "snippet": null
+       },
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 110,
+        "snippet": null
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "6db149235ceeda22",
+      "fragments": 6,
+      "id": "sql:47da0078761cfe55",
+      "line": 96,
+      "normalized": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE ? = ? AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+      "optional_fragments": 3,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [
+       "CUSTOMERS",
+       "ORDERS"
+      ],
+      "text": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+      "type": "SELECT",
+      "value_holes": 0,
+      "variants": [
+       "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CLOSED_AT IS NULL",
+       "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CREATED_AT > SYSDATE - 365"
+      ],
+      "vendor_features": []
+     },
+     {
+      "built_with": [],
+      "component": null,
+      "dialect": "oracle",
+      "dynamic": false,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 147,
+        "snippet": "{? = call PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}"
+       }
+      ],
+      "file": "src/com/acme/orders/dao/OrderDao.java",
+      "fingerprint": "198ccd1a2da98080",
+      "fragments": 1,
+      "id": "sql:dea8cb163fe0de98",
+      "line": 147,
+      "normalized": "{? = CALL PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}",
+      "optional_fragments": 0,
+      "parsed": true,
+      "pg_grade": null,
+      "pg_text": null,
+      "procedures": [
+       "PKG_ORDER_PRICING.TOTAL_WITH_TAX"
+      ],
+      "reason": null,
+      "source": "jdbc",
+      "structural_holes": 0,
+      "tables": [],
+      "text": "{? = call PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}",
+      "type": "CALL",
+      "value_holes": 0,
+      "variants": [],
+      "vendor_features": []
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.CallableStatement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.Connection",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.PreparedStatement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.ResultSet",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.SQLException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.Statement",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.sql.Types",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.util.ArrayList",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.util.HashMap",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.ConnectionFactory",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.Date",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.FIND_USER",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.GET_ORDER",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.Long",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.ORDER_TREE",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.SEARCH_ORDERS",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDao",
+     "source_label": "com.acme.orders.dao.OrderDao",
+     "target": "com.acme.orders.dao.StringBuffer",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/dao/OrderDao.java",
+     "kind": "java-class",
+     "line": 18,
+     "name": "com.acme.orders.dao.OrderDao",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 157,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 2,
+     "end_line": 47,
+     "kind": "method",
+     "line": 36,
+     "loc": 12,
+     "name": "userExists"
+    },
+    {
+     "cyclomatic": 4,
+     "end_line": 72,
+     "kind": "method",
+     "line": 49,
+     "loc": 23,
+     "name": "search"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 91,
+     "kind": "method",
+     "line": 74,
+     "loc": 18,
+     "name": "find"
+    },
+    {
+     "cyclomatic": 7,
+     "end_line": 126,
+     "kind": "method",
+     "line": 93,
+     "loc": 33,
+     "name": "advancedSearch"
+    },
+    {
+     "cyclomatic": 2,
+     "end_line": 142,
+     "kind": "method",
+     "line": 128,
+     "loc": 15,
+     "name": "orderTree"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 155,
+     "kind": "method",
+     "line": 144,
+     "loc": 12,
+     "name": "totalWithTax"
+    }
+   ],
+   "windows": [
+    [
+     3029095144173743842,
+     1,
+     8
+    ],
+    [
+     4683898425083743382,
+     3,
+     10
+    ],
+    [
+     6578335225797585959,
+     4,
+     11
+    ],
+    [
+     8601210614674475414,
+     5,
+     12
+    ],
+    [
+     6805960388765182781,
+     6,
+     13
+    ],
+    [
+     3168382611162616630,
+     7,
+     18
+    ],
+    [
+     7712992161109017224,
+     8,
+     20
+    ],
+    [
+     6115278968812948823,
+     9,
+     23
+    ],
+    [
+     3694468112712605735,
+     10,
+     26
+    ],
+    [
+     1674054045391111678,
+     11,
+     28
+    ],
+    [
+     2647491059342203201,
+     12,
+     32
+    ],
+    [
+     1022808517300886743,
+     13,
+     34
+    ],
+    [
+     7521503081213099903,
+     18,
+     36
+    ],
+    [
+     5531721236507603539,
+     20,
+     36
+    ],
+    [
+     3001910167067089164,
+     21,
+     37
+    ],
+    [
+     2752693763930855375,
+     23,
+     37
+    ],
+    [
+     5573480837496911510,
+     24,
+     38
+    ],
+    [
+     3665006608482563237,
+     25,
+     39
+    ],
+    [
+     8752484648368958758,
+     26,
+     39
+    ],
+    [
+     7774988081427304157,
+     28,
+     39
+    ],
+    [
+     2051532255343112052,
+     29,
+     40
+    ],
+    [
+     5083512067750533044,
+     30,
+     40
+    ],
+    [
+     3507262396304404983,
+     32,
+     40
+    ],
+    [
+     532062569483478272,
+     33,
+     41
+    ],
+    [
+     3428324952265534747,
+     34,
+     41
+    ],
+    [
+     7550150345792967029,
+     36,
+     41
+    ],
+    [
+     5443564851955423727,
+     37,
+     43
+    ],
+    [
+     6839208188007430892,
+     38,
+     43
+    ],
+    [
+     79844755547166303,
+     39,
+     43
+    ],
+    [
+     4711168690300817402,
+     40,
+     45
+    ],
+    [
+     8683326994284469650,
+     41,
+     49
+    ],
+    [
+     7014257542914831266,
+     42,
+     49
+    ],
+    [
+     7056386416898829400,
+     43,
+     50
+    ],
+    [
+     6341640894746125025,
+     44,
+     53
+    ],
+    [
+     7558499737869100724,
+     45,
+     53
+    ],
+    [
+     738941171578019571,
+     46,
+     54
+    ],
+    [
+     2790549441146578237,
+     47,
+     54
+    ],
+    [
+     3982579890057802170,
+     49,
+     54
+    ],
+    [
+     5006804462256437120,
+     50,
+     55
+    ],
+    [
+     5201779858212088569,
+     51,
+     56
+    ],
+    [
+     1789889591829171141,
+     52,
+     57
+    ],
+    [
+     287046596588046611,
+     53,
+     58
+    ],
+    [
+     5133099490143989093,
+     54,
+     58
+    ],
+    [
+     837553370864400639,
+     55,
+     59
+    ],
+    [
+     1985941806178336026,
+     56,
+     60
+    ],
+    [
+     3103491421896417570,
+     57,
+     60
+    ],
+    [
+     7911839910324792591,
+     58,
+     61
+    ],
+    [
+     6680579943806099293,
+     59,
+     66
+    ],
+    [
+     7857914417149625184,
+     60,
+     68
+    ],
+    [
+     5943471656473861479,
+     61,
+     69
+    ],
+    [
+     5318886160897075931,
+     62,
+     69
+    ],
+    [
+     4672729984455811575,
+     63,
+     69
+    ],
+    [
+     2157338775607803955,
+     64,
+     71
+    ],
+    [
+     8034159522334239081,
+     65,
+     74
+    ],
+    [
+     2368413709716794420,
+     66,
+     74
+    ],
+    [
+     1834451180616131325,
+     68,
+     76
+    ],
+    [
+     8404701676527727009,
+     69,
+     78
+    ],
+    [
+     4676721877089736949,
+     70,
+     79
+    ],
+    [
+     1357784736023872145,
+     71,
+     79
+    ],
+    [
+     6098594865099651945,
+     72,
+     79
+    ],
+    [
+     7619964845093341551,
+     74,
+     80
+    ],
+    [
+     2163027583660337909,
+     75,
+     81
+    ],
+    [
+     7649974420080529885,
+     76,
+     83
+    ],
+    [
+     8548716571519756958,
+     77,
+     83
+    ],
+    [
+     8858760544229174987,
+     78,
+     84
+    ],
+    [
+     9185075976001733017,
+     79,
+     85
+    ],
+    [
+     4155860591713292103,
+     80,
+     85
+    ],
+    [
+     5016579981243810689,
+     81,
+     86
+    ],
+    [
+     4938741401344942365,
+     82,
+     86
+    ],
+    [
+     8797375446694444756,
+     83,
+     86
+    ],
+    [
+     3199429792735503688,
+     84,
+     88
+    ],
+    [
+     1236812202281092654,
+     85,
+     93
+    ],
+    [
+     7218736020681699441,
+     86,
+     94
+    ],
+    [
+     829768344987280702,
+     87,
+     97
+    ],
+    [
+     1128142916814934348,
+     88,
+     97
+    ],
+    [
+     8516928327003666073,
+     89,
+     98
+    ],
+    [
+     1645643125741068664,
+     90,
+     98
+    ],
+    [
+     1954441748360102764,
+     91,
+     99
+    ],
+    [
+     3338370142130963813,
+     93,
+     99
+    ],
+    [
+     5514832606248777768,
+     94,
+     102
+    ],
+    [
+     8485598724883767660,
+     96,
+     102
+    ],
+    [
+     7635359193400282474,
+     97,
+     104
+    ],
+    [
+     5583067547945212316,
+     98,
+     106
+    ],
+    [
+     1509392073427001161,
+     99,
+     107
+    ],
+    [
+     957786865158022427,
+     100,
+     108
+    ],
+    [
+     6804806016457820414,
+     101,
+     110
+    ],
+    [
+     730969279578433226,
+     102,
+     110
+    ],
+    [
+     4682197790010959757,
+     103,
+     111
+    ],
+    [
+     4751991090192218722,
+     104,
+     111
+    ],
+    [
+     4594801736773833892,
+     105,
+     113
+    ],
+    [
+     862553116379502683,
+     106,
+     113
+    ],
+    [
+     1892845490291044214,
+     107,
+     113
+    ],
+    [
+     2185098623512734097,
+     108,
+     114
+    ],
+    [
+     1865841837893128166,
+     109,
+     114
+    ],
+    [
+     1897730685213398201,
+     110,
+     114
+    ],
+    [
+     1033230809758739269,
+     111,
+     115
+    ],
+    [
+     1877171725821387949,
+     112,
+     115
+    ],
+    [
+     3180360177590255885,
+     113,
+     115
+    ],
+    [
+     3535278904122059326,
+     114,
+     118
+    ],
+    [
+     2588707770969426364,
+     115,
+     120
+    ],
+    [
+     4521062071612423477,
+     116,
+     123
+    ],
+    [
+     5773757193456805803,
+     117,
+     124
+    ],
+    [
+     6976337788739765287,
+     118,
+     128
+    ],
+    [
+     7990702756967315545,
+     119,
+     128
+    ],
+    [
+     943750910413116914,
+     120,
+     129
+    ],
+    [
+     8977181756938635444,
+     121,
+     132
+    ],
+    [
+     4046599373953481577,
+     122,
+     132
+    ],
+    [
+     7771244745627725960,
+     123,
+     132
+    ],
+    [
+     5015246335114868694,
+     124,
+     133
+    ],
+    [
+     2968617886409450193,
+     125,
+     133
+    ],
+    [
+     7931602598449903995,
+     126,
+     134
+    ],
+    [
+     7331695885201819860,
+     128,
+     134
+    ],
+    [
+     4807924422033216597,
+     129,
+     135
+    ],
+    [
+     6083022321001913080,
+     130,
+     136
+    ],
+    [
+     207992693529854271,
+     131,
+     136
+    ],
+    [
+     5662235679854118907,
+     132,
+     136
+    ],
+    [
+     3363729718456118628,
+     133,
+     139
+    ],
+    [
+     3743019523747135714,
+     134,
+     144
+    ],
+    [
+     468357322167898886,
+     135,
+     144
+    ],
+    [
+     1118294321030076142,
+     136,
+     145
+    ],
+    [
+     7683750969951235544,
+     137,
+     148
+    ],
+    [
+     7308570066305346442,
+     138,
+     148
+    ],
+    [
+     4807839197754504100,
+     139,
+     148
+    ],
+    [
+     7217069943900235893,
+     140,
+     149
+    ],
+    [
+     5012908781238169449,
+     141,
+     149
+    ],
+    [
+     6575391067754410431,
+     142,
+     149
+    ],
+    [
+     1547018343499996870,
+     144,
+     149
+    ],
+    [
+     5567978480926297122,
+     145,
+     151
+    ],
+    [
+     6181313802358692205,
+     146,
+     153
+    ],
+    [
+     7132959220096523659,
+     147,
+     153
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 157,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/form/LoginForm.java": {
+  "java": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/form/LoginForm.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "org.apache.struts.action.ActionErrors",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "org.apache.struts.action.ActionMapping",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "org.apache.struts.action.ActionMessage",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.LoginForm",
+     "source_label": "com.acme.orders.form.LoginForm",
+     "target": "com.acme.orders.form.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/LoginForm.java",
+     "kind": "java-class",
+     "line": 10,
+     "name": "com.acme.orders.form.LoginForm",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 15,
+     "kind": "method",
+     "line": 15,
+     "loc": 1,
+     "name": "getUsername"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 16,
+     "loc": 1,
+     "name": "setUsername"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 17,
+     "kind": "method",
+     "line": 17,
+     "loc": 1,
+     "name": "getPassword"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 18,
+     "kind": "method",
+     "line": 18,
+     "loc": 1,
+     "name": "setPassword"
+    },
+    {
+     "cyclomatic": 5,
+     "end_line": 29,
+     "kind": "method",
+     "line": 20,
+     "loc": 10,
+     "name": "validate"
+    }
+   ],
+   "windows": [
+    [
+     4871762233543700715,
+     1,
+     7
+    ],
+    [
+     488724231257545551,
+     3,
+     8
+    ],
+    [
+     5819424008672333556,
+     5,
+     10
+    ],
+    [
+     2187437233888850816,
+     6,
+     15
+    ],
+    [
+     2956009588999657867,
+     7,
+     16
+    ],
+    [
+     3693744248463340765,
+     8,
+     16
+    ],
+    [
+     6721870075001023418,
+     10,
+     18
+    ],
+    [
+     6702182629979936049,
+     12,
+     18
+    ],
+    [
+     379606466248809220,
+     13,
+     18
+    ],
+    [
+     6491370259015796994,
+     15,
+     18
+    ],
+    [
+     8676803117697574683,
+     16,
+     20
+    ],
+    [
+     7415001460288861911,
+     17,
+     22
+    ],
+    [
+     1885752926620844451,
+     18,
+     22
+    ],
+    [
+     5603444490216614261,
+     20,
+     23
+    ],
+    [
+     4696578763816768771,
+     21,
+     25
+    ],
+    [
+     4677229033373869233,
+     22,
+     25
+    ],
+    [
+     89313786731915358,
+     23,
+     29
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/form/OrderSearchForm.java": {
+  "java": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/OrderSearchForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.OrderSearchForm",
+     "source_label": "com.acme.orders.form.OrderSearchForm",
+     "target": "org.apache.struts.action.ActionForm",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/OrderSearchForm.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.form.OrderSearchForm",
+     "source_label": "com.acme.orders.form.OrderSearchForm",
+     "target": "com.acme.orders.form.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/form/OrderSearchForm.java",
+     "kind": "java-class",
+     "line": 5,
+     "name": "com.acme.orders.form.OrderSearchForm",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 10,
+     "kind": "method",
+     "line": 10,
+     "loc": 1,
+     "name": "getCustomerName"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 11,
+     "kind": "method",
+     "line": 11,
+     "loc": 1,
+     "name": "setCustomerName"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 12,
+     "kind": "method",
+     "line": 12,
+     "loc": 1,
+     "name": "getStatus"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 13,
+     "kind": "method",
+     "line": 13,
+     "loc": 1,
+     "name": "setStatus"
+    }
+   ],
+   "windows": [
+    [
+     9159128426679646901,
+     1,
+     11
+    ],
+    [
+     1670122158447026001,
+     3,
+     11
+    ],
+    [
+     339066784056717100,
+     5,
+     13
+    ],
+    [
+     3007490623879075698,
+     7,
+     13
+    ],
+    [
+     3776044026173355829,
+     8,
+     13
+    ],
+    [
+     3332283860618340695,
+     10,
+     13
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 15,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/service/OrderService.java": {
+  "java": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "java.util.List",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "java.util.Map",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "com.acme.orders.client.PricingSoapClient",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "com.acme.orders.dao.OrderDao",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "com.acme.orders.service.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.service.OrderService",
+     "source_label": "com.acme.orders.service.OrderService",
+     "target": "com.acme.orders.service.String",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/service/OrderService.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.orders.service.OrderService",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 16,
+     "kind": "method",
+     "line": 14,
+     "loc": 3,
+     "name": "authenticate"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 20,
+     "kind": "method",
+     "line": 18,
+     "loc": 3,
+     "name": "searchOrders"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 24,
+     "kind": "method",
+     "line": 22,
+     "loc": 3,
+     "name": "getOrder"
+    },
+    {
+     "cyclomatic": 1,
+     "end_line": 29,
+     "kind": "method",
+     "line": 26,
+     "loc": 4,
+     "name": "priceOrder"
+    }
+   ],
+   "windows": [
+    [
+     3376205799873892292,
+     1,
+     11
+    ],
+    [
+     5039650426887464513,
+     3,
+     11
+    ],
+    [
+     3878931959161057050,
+     4,
+     12
+    ],
+    [
+     3090623158295047759,
+     6,
+     14
+    ],
+    [
+     4561959073243659616,
+     7,
+     15
+    ],
+    [
+     982527660159767984,
+     9,
+     18
+    ],
+    [
+     559544342397268306,
+     11,
+     18
+    ],
+    [
+     2947946833459292752,
+     12,
+     19
+    ],
+    [
+     6611569839248785388,
+     14,
+     22
+    ],
+    [
+     4025092144221597716,
+     15,
+     23
+    ],
+    [
+     7071008917237397898,
+     16,
+     26
+    ],
+    [
+     1482123344991063252,
+     18,
+     26
+    ],
+    [
+     4547307496715176592,
+     19,
+     27
+    ],
+    [
+     5003188176161276460,
+     20,
+     28
+    ],
+    [
+     5052658042132075631,
+     22,
+     29
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 31,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/com/acme/orders/servlet/HealthServlet.java": {
+  "java": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {
+    "tech_stack": [
+     {
+      "category": "upgrade-signal",
+      "eol": null,
+      "eol_date": null,
+      "evidence": [
+       {
+        "file": "src/com/acme/orders/servlet/HealthServlet.java",
+        "line": null,
+        "snippet": null
+       }
+      ],
+      "id": "tech:7c24a97c094e95ae",
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "replacement": null,
+      "usages": 1,
+      "version": null
+     }
+    ]
+   },
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.servlet.HealthServlet",
+     "source_label": "com.acme.orders.servlet.HealthServlet",
+     "target": "java.io.IOException",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.servlet.HealthServlet",
+     "source_label": "com.acme.orders.servlet.HealthServlet",
+     "target": "javax.servlet.http.HttpServlet",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.servlet.HealthServlet",
+     "source_label": "com.acme.orders.servlet.HealthServlet",
+     "target": "javax.servlet.http.HttpServletRequest",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.servlet.HealthServlet",
+     "source_label": "com.acme.orders.servlet.HealthServlet",
+     "target": "javax.servlet.http.HttpServletResponse",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "java-class",
+     "line": 9,
+     "name": "com.acme.orders.servlet.HealthServlet",
+     "owner": null
+    },
+    {
+     "data": {},
+     "file": "src/com/acme/orders/servlet/HealthServlet.java",
+     "kind": "servlet-class",
+     "line": 9,
+     "name": "com.acme.orders.servlet.HealthServlet",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 14,
+     "kind": "method",
+     "line": 11,
+     "loc": 4,
+     "name": "doGet"
+    }
+   ],
+   "windows": [
+    [
+     6583229031144713921,
+     1,
+     11
+    ],
+    [
+     6878246659453259420,
+     3,
+     11
+    ],
+    [
+     4985063055759366018,
+     5,
+     12
+    ],
+    [
+     713542976007570553,
+     6,
+     13
+    ]
+   ]
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "servers": {
+   "coverage": {
+    "lines": 16,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "src/log4j.properties": {
+  "config": {
+   "coverage": {
+    "lines": 8,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ },
+ "test/com/acme/orders/dao/OrderDaoTest.java": {
+  "java": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [
+    {
+     "data": {},
+     "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDaoTest",
+     "source_label": "com.acme.orders.dao.OrderDaoTest",
+     "target": "junit.framework.TestCase",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDaoTest",
+     "source_label": "com.acme.orders.dao.OrderDaoTest",
+     "target": "com.acme.orders.dao.Exception",
+     "target_kinds": [
+      "java-class"
+     ]
+    },
+    {
+     "data": {},
+     "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+     "kind": "uses",
+     "line": null,
+     "report_unresolved": false,
+     "source": "class:com.acme.orders.dao.OrderDaoTest",
+     "source_label": "com.acme.orders.dao.OrderDaoTest",
+     "target": "com.acme.orders.dao.OrderDao",
+     "target_kinds": [
+      "java-class"
+     ]
+    }
+   ],
+   "symbols": [
+    {
+     "data": {},
+     "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+     "kind": "java-class",
+     "line": 5,
+     "name": "com.acme.orders.dao.OrderDaoTest",
+     "owner": null
+    }
+   ],
+   "units": [],
+   "windows": []
+  },
+  "metrics": {
+   "coverage": {
+    "lines": 12,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [
+    {
+     "cyclomatic": 1,
+     "end_line": 10,
+     "kind": "method",
+     "line": 7,
+     "loc": 3,
+     "name": "testSearchReturnsList"
+    }
+   ],
+   "windows": []
+  },
+  "patterns": {
+   "coverage": {
+    "lines": 0,
+    "unparsed": []
+   },
+   "entities": {},
+   "hits": [],
+   "refs": [],
+   "symbols": [],
+   "units": [],
+   "windows": []
+  }
+ }
+}
