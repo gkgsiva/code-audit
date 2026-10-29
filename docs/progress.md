@@ -577,7 +577,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase, each started after Siva
 | Phase | Status | Notes |
 | --- | --- | --- |
 | 0 – Skeleton and proof | Done (2026-10-29) | Maven modules `audit-model`, `audit-engine`, `audit-cli`, `audit-server`; Angular 21 login and home page; `docker-compose.yml` with PostgreSQL; test login with roles; CI on Ubuntu and Windows; proofs: JavaParser, tree-sitter and JSqlParser all go (`docs/spring/phase-0-proofs.md`). PowerPoint dropped from the rewrite |
-| 1 – Core and first screens | Not started | |
+| 1 – Core and first screens | Done (2026-10-29), PR open | Config and overrides, file walk with .gitignore rules, languages, encodings, LOC, components (Maven/Gradle/layout, grouping), file cache, run folders with JSON/CSV/SQLite exports and the `scan` command. `inventory.json` is byte-identical to the Python tool on all 10 samples and the component ids match (`ParityTest`). Web app: projects with members, folder picker, background scans (queue, live step, log, cancel), inventory and components stored in PostgreSQL and shown with filters |
 | 2 – Analyzers: Java and SQL | Not started | |
 | 3 – Analyzers: mainframe and batch | Not started | |
 | 4 – Analyzers: web, front ends, desktop | Not started | |
@@ -587,6 +587,10 @@ Plan: `docs/spring/plan.md`. One pull request per phase, each started after Siva
 | 8 – Web app complete | Not started | |
 | 9 – Packaging and switch-over | Not started | |
 
-- Known gaps after Phase 0: the backend image has no Git, Chromium, Mermaid CLI or OSV-Scanner
-  yet; no Okta; the login page and a status page are the only screens.
-- Next: Phase 1 (core and first screens), after Siva's OK.
+- Known gaps after Phase 1: Git sources are refused with a plain message (they come with the
+  Git work in a later phase); a component's entry points and the Dependency-Check/OSV coverage
+  lines come with the linker (Phase 5); the encoding guess uses juniversalchardet, so a rare
+  non-UTF-8 file may get another encoding name than in Python; the config hash in `run.json`
+  differs from Python's; project folders copied into the audits folder by hand are not listed
+  (create projects on the web page); no admin, status or logs pages yet (Phase 8); no Okta.
+- Next: Phase 2 (Java and SQL analyzers), after Siva's OK.

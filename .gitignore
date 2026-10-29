@@ -19,3 +19,7 @@ samples/*/.vscode/
 /sources/
 /audits/
 build.log
+
+# Company certificates are copied in locally and never committed
+docker/certs/*
+!docker/certs/README.txt

@@ -1,0 +1,49 @@
+<section class="panel">
+  <h1>New project</h1>
+  <p class="lead">Give the application a name, then open folders below until you are in the folder that holds its code.</p>
+  <form (ngSubmit)="create()">
+    <div class="field">
+      <label for="title">1. Application name</label>
+      <input type="text" id="title" name="title" required placeholder="e.g. Customer billing" [(ngModel)]="title">
+    </div>
+    <div class="field">
+      <label for="description">2. Short description (optional)</label>
+      <input type="text" id="description" name="description" placeholder="e.g. Struts 1 + Oracle" [(ngModel)]="description">
+    </div>
+    <div class="field">
+      <label>3. Folder holding the code</label>
+      @if (folders(); as f) {
+        <p class="hint">
+          @if (f.path) {
+            Selected: <strong>{{ f.path }}</strong>
+          } @else {
+            Open one of these folders:
+          }
+        </p>
+        <div class="row">
+          @if (f.path) {
+            <button type="button" class="btn" (click)="open(f.parent ?? '')">Up one folder</button>
+          }
+        </div>
+        <ul class="folders">
+          @for (d of f.folders; track d.path) {
+            <li><button type="button" class="btn" (click)="open(d.path)">{{ d.name }}</button></li>
+          } @empty {
+            @if (f.path) {
+              <li class="hint">No sub-folders here. This folder is selected.</li>
+            } @else {
+              <li class="hint">No sources folder is set up. Ask the admin to set SOURCES_DIR in .env.</li>
+            }
+          }
+        </ul>
+      }
+    </div>
+    <div class="row">
+      <button type="submit" class="btn primary" [disabled]="busy() || !title.trim() || !picked()">Create project</button>
+      <a class="btn" routerLink="/">Cancel</a>
+    </div>
+  </form>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+</section>

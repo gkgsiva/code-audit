@@ -16,7 +16,7 @@ for the earlier Python tool are on the `office-main` branch; it is no longer use
 3. What each task needs on the machine:
    - Tasks 1 to 3: Docker only (Docker Desktop on Windows, Docker Engine or Docker Desktop in
      WSL2).
-   - Tasks 4 and 6: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
+   - Tasks 4, 6 and 7: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
      both on PATH. **WSL2**: `sudo apt install openjdk-25-jdk maven`.
    - Task 5: Node.js 22 (it includes npm).
 
@@ -34,8 +34,8 @@ Node.js 22 on the machine.
 2. Run **`audit: 1. start the web app (Docker)`**. The first build takes a few
    minutes. At the end the list shows `db` (healthy), `backend` and `frontend` running.
 3. Open http://localhost:8770 (on WSL2 open it in the Windows browser). The login page shows the
-   yellow "Test login" bar and the version. Type **siva** and **Log in**: the page shows
-   "Welcome, siva", your role **owner** at the top right, **Backend ok** and **Database up**.
+   yellow "Test login" bar and the version. Type **siva** and **Log in**: the **Projects** page
+   opens with your role **owner** at the top right (since Phase 1; Phase 0 showed a welcome page).
    **Log out** goes back to the login page; log in as **admin** and the role shows **admin**.
    Type `../x` as the name: the page says to use letters, digits and `. _ @ -` only.
 4. Run **`audit: 2. stop the web app (Docker)`**, then task 1 again and log in as
@@ -43,10 +43,52 @@ Node.js 22 on the machine.
    office, run **`audit: 3`** and follow [docs/spring/docker.md](spring/docker.md), section 4.
 5. Backend tests (Java 25 and Maven installed; on WSL2 `sudo apt install openjdk-25-jdk maven`):
    run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with
-   `BUILD SUCCESS`; the four modules report 16 tests, none failing.
+   `BUILD SUCCESS` and no test fails (32 tests since Phase 1).
 6. Run **`audit: 6. parser proof report`** (after task 4). It prints three tables:
    JavaParser 47 of 47 files, tree-sitter with one Pro*C file with errors (the same as the
    earlier Python tool), and JSqlParser 67 of 67 statements with the same tables. Compare
    with [docs/spring/phase-0-proofs.md](spring/phase-0-proofs.md).
 7. Frontend (Node.js 22 installed): run **`audit: 5. frontend build and tests (Node.js)`**.
-   It shows `Tests 2 passed` and ends with `Application bundle generation complete`.
+   It shows `Tests 5 passed` (since Phase 1) and ends with `Application bundle generation complete`.
+
+## Phase 1: projects, scans and the inventory
+
+What is new: create a project on a code folder, scan it, follow the scan live, and look at
+every file with its language and lines of code. The counts are the same as the earlier Python
+tool's.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Put some code to scan in your sources folder (`SOURCES_DIR` in `.env`, for example
+   `C:/legacy-audit/sources` or `~/legacy-audit/sources`). To try it with the sample apps, copy
+   the repository's `samples` folder into it. New in `.env` (optional): `MAX_SCANS`, the number of
+   scans that may run at the same time (default 2).
+3. Run **`audit: 1. start the web app (Docker)`** (it rebuilds the images; a few minutes).
+4. Open http://localhost:8770 and log in as **siva**. The **Projects** page says there are no
+   projects yet. Click **New project**.
+5. Type the name **Struts orders**, then open folders in the list (for example **sources**, then
+   **samples**, then **struts-oracle-app**) until the line "Selected:" shows the code folder.
+   Click **Create project**. The project page opens.
+6. Click **Start scan**. The badge shows **queued**, then **running** with the step and a bar,
+   and the log below fills. After a few seconds it shows **done** with the number of files,
+   components and lines of code, and a **Components** table.
+7. Click **Open the inventory**. The table "Lines of code per language" lists each language with
+   files, code, comments and blank lines, and a total. Pick **java** in the first list: only Java
+   files remain. Type part of a file name and click **Search**. **Clear** shows all files again.
+8. Back on the project, under **Who has access**, add **anna** as **viewer**. Log out, log in
+   as **anna**: she sees the project and the inventory but has no **Start scan** button. Log in
+   as **bob**: he does not see the project. Log in as **admin**: the admin sees every project.
+9. Start a scan and click **Cancel scan** at once: it ends as **cancelled**. Click
+   **Full rescan**: it reads every file again (the past scans table shows the count under
+   "Read again").
+10. Your audits folder (`AUDITS_DIR`) now has a folder `struts-orders` with `audit.yaml`,
+    `audit-overrides.yaml`, `audit-inputs/` and `audit-output/runs/<run>/` holding
+    `inventory.json`, `components.json`, CSV files and `facts.sqlite`.
+11. Command line (Java 25 and Maven installed): run **`audit: 4`**, then
+    **`audit: 7. scan a sample app (command line)`** and pick **struts-oracle-app**. It prints
+    `files: 37, analyzed: 37, from cache: 0, components: 1` and the late-input lines. Run it again:
+    `from cache` is now 37.
+12. Run **`audit: 5. frontend build and tests (Node.js)`**: `Tests 5 passed`.
+
+The web project shows a few more files than the command line on the samples because the
+sample's own `audit.yaml` and `audit-inputs` sit inside its code folder; on real code they do not.

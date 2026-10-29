@@ -49,6 +49,24 @@
       "command": "java -jar audit-cli/target/legacy-audit.jar proofs --samples ../samples",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 7. scan a sample app (command line)",
+      "detail": "Scans one of the sample apps with the command-line jar and prints the counts (after task 4)",
+      "type": "shell",
+      "command": "java -jar audit-cli/target/legacy-audit.jar scan -c ../samples/${input:sample}/audit.yaml -o target/sample-scans/${input:sample}",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "sample",
+      "type": "pickString",
+      "description": "Sample app to scan",
+      "options": ["struts-oracle-app", "spring-mvc-batch-app", "maven-multimodule-app", "legacy-layout-app", "c-proc-batch",
+        "cobol-cics-db2", "angular-node-app", "web-services-app", "desktop-dotnet-app", "java-swing-app"],
+      "default": "struts-oracle-app"
     }
   ]
 }
