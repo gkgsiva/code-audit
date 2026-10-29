@@ -22,7 +22,8 @@ public final class Analyzers {
                 new BuildAnalyzer(),
                 new DepsAnalyzer(),
                 new ConfigAnalyzer(),
-                new SqlAnalyzer());
+                new SqlAnalyzer(),
+                new ServersAnalyzer());
     }
 
     /** {@code inventory=<v>;<name>=<version>;...} by name: part of the file-cache key. */
