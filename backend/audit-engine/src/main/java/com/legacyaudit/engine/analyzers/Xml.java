@@ -130,6 +130,37 @@ public final class Xml {
             return sb.toString();
         }
 
+        /** The non-empty pieces of {@code el.itertext()}, in document order. */
+        public List<String> texts() {
+            List<String> out = new ArrayList<>();
+            texts(out);
+            return out;
+        }
+
+        private void texts(List<String> out) {
+            if (text != null && !text.isEmpty()) {
+                out.add(text);
+            }
+            for (El c : children) {
+                c.texts(out);
+                if (c.tail != null && !c.tail.isEmpty()) {
+                    out.add(c.tail);
+                }
+            }
+        }
+
+        /** {@code " ".join(t.strip() for t in el.itertext() if t.strip())}. */
+        public String joinedText() {
+            List<String> parts = new ArrayList<>();
+            for (String t : texts()) {
+                String st = TextUtil.strip(t);
+                if (!st.isEmpty()) {
+                    parts.add(st);
+                }
+            }
+            return String.join(" ", parts);
+        }
+
         private void itertext(StringBuilder sb) {
             if (text != null) {
                 sb.append(text);

@@ -23,6 +23,7 @@ public final class Analyzers {
                 new DepsAnalyzer(),
                 new ConfigAnalyzer(),
                 new WebAnalyzer(),
+                new SpringAnalyzer(),
                 new SqlAnalyzer(),
                 new ServersAnalyzer());
     }
