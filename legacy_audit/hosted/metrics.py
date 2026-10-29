@@ -161,9 +161,10 @@ class Sampler:
 
 def system(sampler: Sampler, audits_root: Path, jobs: dict[str, int]) -> dict[str, Any]:
     disk = shutil.disk_usage(audits_root)
+    loadavg = getattr(os, "getloadavg", None)  # not on Windows
     try:
-        load = [round(x, 2) for x in os.getloadavg()]
-    except (AttributeError, OSError):
+        load = [round(x, 2) for x in loadavg()] if loadavg else None
+    except OSError:
         load = None
     history = sampler.history()
     return {
