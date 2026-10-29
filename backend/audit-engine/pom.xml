@@ -48,6 +48,16 @@
       <groupId>com.github.jsqlparser</groupId>
       <artifactId>jsqlparser</artifactId>
     </dependency>
+    <!-- Encoding guess for text that is neither UTF-8 nor EBCDIC (as charset-normalizer did). -->
+    <dependency>
+      <groupId>com.github.albfernandez</groupId>
+      <artifactId>juniversalchardet</artifactId>
+    </dependency>
+    <!-- The file cache and facts.sqlite in each run folder. -->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+    </dependency>
     <dependency>
       <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
