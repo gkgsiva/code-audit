@@ -84,6 +84,11 @@ public final class Scanner {
             ".github/agents", ".github/chatmodes", ".github/prompts", ".github/legacy-audit",
             ".github/copilot-instructions.md", ".github/copilot-instructions.md.new");
 
+    /** Paths {@code init} installs in a project folder, relative to it; never scanned. */
+    static List<String> copilotPaths() {
+        return COPILOT_PATHS;
+    }
+
     private static final List<String> FILE_COLUMNS = List.of("id", "evidence", "path", "root", "origin", "component", "language",
             "category", "size", "sha256", "encoding", "loc_code", "loc_comment", "loc_blank");
     private static final List<String> COMPONENT_COLUMNS = List.of("id", "evidence", "name", "type", "root", "path", "build_files",

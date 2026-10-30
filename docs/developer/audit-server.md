@@ -66,6 +66,25 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `POST /api/projects/{id}/enrichment/validate` | runs the validator on the newest scan; answers the messages and the new stage states | project contributor and up |
 | `POST /api/projects/{id}/enrichment/run` | `{"stale": true, "stages": [...]}`: runs the stages with the model in the background (`EnrichJobs`, one per project, 409 while one runs); 400 with plain words when the provider is `copilot`, the model or key is missing, or nothing is to do | project contributor and up |
 | `GET /api/projects/{id}/runs/{runId}/datapack.zip` | `run.json`, `data/` and the enrichment files as a ZIP | project viewer and up |
+| `GET /api/projects/{id}/runs` | every run, newest first: id, times, files, read again, lines of code, components, findings, warnings, seconds, Git commits, `latest` | project viewer and up |
+| `GET /api/projects/{id}/compare?a=previous&b=latest` | two runs compared (`store.Diff`): counts per kind and the added, removed and changed records, each list cut to 200 with `*_count` the full number | project viewer and up |
+| `GET /api/projects/{id}/runs/{run}/components/{name}` | one component (by name or id) with its services, screens, SQL, batch jobs and integrations (100 rows each with the total) | project viewer and up |
+| `GET /api/projects/{id}/runs/{run}/evidence?file=&line=` | the 15 lines before and after (`start`, `end`, `text`), passwords masked; only files of the scanned source | project viewer and up |
+| `GET /api/projects/{id}/config` | `audit.yaml` as text, the form fields (application, source, target, include, exclude) and its path | project viewer and up |
+| `PUT /api/projects/{id}/config/fields` | changes only the keys that differ, keeps the rest of the file; 422 and the file unchanged when the result is not valid | project owner, admin |
+| `PUT /api/projects/{id}/config/text` | `{"text"}`: the whole file; 422 and the file unchanged when not valid | project owner, admin |
+| `GET /api/projects/{id}/inputs` | each input kind with its label, folder and files | project viewer and up |
+| `PUT /api/projects/{id}/inputs/{kind}/{name}` | the file as the request body (200 MB at most; plain file names only) | project contributor and up |
+| `DELETE /api/projects/{id}/inputs/{kind}/{name}` | removes one input file | project contributor and up |
+| `GET /api/projects/{id}/component-choices` | the pre-scan (`scan.Prescan`) with the latest scan's type per component | project viewer and up |
+| `PUT /api/projects/{id}/component-choices` | `{"included": {"<folders joined by \|>": true}, "types": {"<name>": "batch" \| null}}` to `audit-overrides.yaml` | project owner, admin |
+| `GET /api/projects/{id}/doctor` | the tool checks (`ai.doctor.Doctor`) for this project | project viewer and up |
+
+`run` is `latest`, `previous` or a run id; the dashboard and facts calls also take `?run=` and
+answer the `run_id` they read. Every `audit.yaml` under the audits folder is loaded through
+`projects.HostedLayer`, which refuses output, inputs and overrides outside the project, local
+sources outside `LEGACY_AUDIT_SOURCES_ROOT` and the project, and Git addresses that are not
+https://, ssh:// or git@.
 
 The results calls read the newest finished scan's run folder (`<project>/audit-output/runs/<run-id>/`);
 the inventory and components also live in PostgreSQL for the filters of the inventory page.

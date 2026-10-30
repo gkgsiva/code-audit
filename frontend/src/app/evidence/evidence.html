@@ -1,0 +1,17 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Source</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'facts', 'findings']" [queryParams]="{ run }">Facts</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (evidence(); as e) {
+    <p class="hint">{{ e.file }}, lines {{ e.start }} to {{ e.end }} (run {{ run }}). Passwords and keys are masked.</p>
+    <pre class="log source">@for (l of lines(); track l.number) {<span [class.hit]="l.hit"><span class="lineno">{{ l.number }}</span> {{ l.text }}
+</span>}</pre>
+  }
+</section>

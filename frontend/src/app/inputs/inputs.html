@@ -1,0 +1,40 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Input files</h1>
+    <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+  </div>
+  <p class="lead">Exports that arrive after the code, such as database schemas, job schedules or vulnerability reports.
+    Missing ones are reported as gaps, not errors. Add a file, then start a new scan to include it.</p>
+  @if (folder()) {
+    <p class="hint">Saved in the project's {{ folder() }} folder.</p>
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (saved()) {
+    <p class="hint" role="status">{{ saved() }}</p>
+  }
+</section>
+
+<div class="charts">
+  @for (k of kinds(); track k.kind) {
+    <section class="panel">
+      <h3><span class="badge" [class.done]="k.files.length">{{ k.files.length ? 'present' : 'missing' }}</span> {{ k.label }}</h3>
+      @if (k.files.length) {
+        <ul class="compact">
+          @for (f of k.files; track f.name) {
+            <li>{{ f.name }} ({{ f.size | number }} bytes)
+              @if (canEdit()) { <button type="button" class="btn" (click)="remove(k, f.name)">Remove</button> }
+            </li>
+          }
+        </ul>
+      } @else {
+        <p class="hint">Not provided.</p>
+      }
+      <p class="hint">{{ k.folder }}</p>
+      @if (canEdit()) {
+        <input type="file" multiple [attr.aria-label]="'Add ' + k.label" (change)="upload(k, $event)">
+      }
+    </section>
+  }
+</div>

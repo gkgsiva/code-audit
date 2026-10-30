@@ -341,3 +341,49 @@ A new scan takes over the enrichment of the previous one and marks what has to b
      and stale stages** and **Run all stages**, and the progress of each stage;
    - log in as a **viewer** of the project: the states show, but there are no buttons.
 10. Run **`audit: 5. frontend build and tests (Node.js)`**: `Tests 12 passed`.
+
+## Phase 8a: runs, compare, settings, input files and components to scan
+
+What is new: the web app now does what the Python screens did before a scan and between scans.
+Each project has a **Settings** page (the `audit.yaml` form, the file as text, and the tools
+found on the server), an **Input files** page, a **Components to scan** page, and a **Runs and
+compare** page. The results and facts of any older run can be opened, a component has its own
+page, and a file in the facts opens the source lines around it. The command line gets `doctor`.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (183 tests).
+3. Run **`audit: 17. compare the settings page and component picker with the Python tool`**. It
+   ends with `Tests run: 4, Failures: 0, Errors: 0, Skipped: 0` and `BUILD SUCCESS`.
+4. Run **`audit: 18. check the tools on this computer`** and pick **struts-oracle-app**. It
+   prints a table: **Java** and **Output folder** say `ok`; the others say `ok` or `missing`
+   (they are optional). The last line is `Ready to scan.` followed by the optional tools that
+   are missing, if any.
+5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva** and open your project. Under the project's details there are four new buttons:
+   **Settings**, **Input files**, **Components to scan** and **Runs and compare**.
+6. Click **Settings**:
+   - the form shows the application name, the source folders, the migration target and the
+     include and exclude lists; type a description and click **Save audit.yaml**. It says
+     `audit.yaml saved`. Open **Advanced: edit audit.yaml as text**: your description is there
+     and every other line and comment is unchanged;
+   - in the text, type `[` at the end of the first line and click **Check and save**. A red
+     message starting with `Not valid YAML` appears and the file is not changed (reload the page
+     to see the old text);
+   - **Tools on the server** lists the same checks as step 4, for the server.
+7. Click **Back to the project**, then **Input files**. Each kind of input shows **missing** or
+   **present**. Choose a small file under **Database schemas** (any `.sql` file): it shows
+   `Added to Database schemas` and the file with its size. Click **Remove** and confirm.
+8. Click **Back to the project**, then **Components to scan**. It lists the components found
+   (with files, languages and the Maven group). Untick one and click **Save choices**: it says
+   `Saved to audit-overrides.yaml`. Start a new scan from the project page; that component is
+   not in the results. Tick it again and save to bring it back.
+9. After two scans, click **Runs and compare**. The runs are listed newest first with
+   **Results** and **Facts** links. Under **Compare runs** pick a **Before** and an **After**
+   run: the table shows the counts per kind and the changes (after step 8 the component you
+   left out is under **components: ... change(s)**).
+10. Click **Results** on an older run: the page shows that run, with a **Run** picker at the top.
+    Click **All facts**, pick **sql_statements**: the **component** column links to the
+    component's page and the **file** column to the source lines, with the line highlighted.
+

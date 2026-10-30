@@ -2,11 +2,14 @@
   <div class="row spread">
     <h1>Facts</h1>
     <div class="row">
-      <a class="btn" [routerLink]="['/p', id, 'results']">Results</a>
+      <a class="btn" [routerLink]="['/p', id, 'results']" [queryParams]="runQuery">Results</a>
       <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
     </div>
   </div>
   <p class="lead">Everything the scan found, one kind at a time. Pick a kind, then search or filter.</p>
+  @if (runId()) {
+    <p class="hint">Run {{ runId() }}@if (!run) { (newest finished scan)}. Other runs: <a [routerLink]="['/p', id, 'runs']">Runs and compare</a>.</p>
+  }
   <form class="row" (ngSubmit)="filter()">
     <select name="kind" [ngModel]="kind" (ngModelChange)="pick($event)" aria-label="Kind of fact">
       @for (k of kinds; track k) { <option [value]="k">{{ k }}</option> }
@@ -37,7 +40,17 @@
           <thead><tr>@for (c of columns(); track c) { <th>{{ c }}</th> }</tr></thead>
           <tbody>
             @for (r of d.rows; track $index) {
-              <tr>@for (c of columns(); track c) { <td>{{ text(r[c]) }}</td> }</tr>
+              <tr>
+                @for (c of columns(); track c) {
+                  <td>
+                    @switch (link(c, r)) {
+                      @case ('component') { <a [routerLink]="['/p', id, 'runs', runId(), 'components', r[c]]">{{ text(r[c]) }}</a> }
+                      @case ('evidence') { <a [routerLink]="['/p', id, 'runs', runId(), 'evidence']" [queryParams]="{ file: r[c], line: line(r) }">{{ text(r[c]) }}</a> }
+                      @default { {{ text(r[c]) }} }
+                    }
+                  </td>
+                }
+              </tr>
             }
           </tbody>
         </table>

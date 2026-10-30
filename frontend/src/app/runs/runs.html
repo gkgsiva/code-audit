@@ -1,0 +1,92 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Runs</h1>
+    <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+  </div>
+  <p class="lead">Every scan of this project is kept as a run. Open the results of an older run, or compare two runs.</p>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (loaded() && !runs().length) {
+    <p class="lead">No run yet. Go back to the project and click <strong>Start scan</strong>.</p>
+  }
+  @if (runs().length) {
+    <div class="scroll">
+      <table class="grid">
+        <thead>
+          <tr>
+            <th>Run</th><th>Started</th><th class="num">Files</th><th class="num">Read again</th><th class="num">Lines of code</th>
+            <th class="num">Components</th><th class="num">Findings</th><th class="num">Warnings</th><th class="num">Seconds</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of runs(); track r.run_id) {
+            <tr>
+              <td>{{ r.run_id }} @if (r.latest) { <span class="badge done">latest</span> } @if (r.full_scan) { <span class="hint">full</span> }
+                @for (g of r.git; track $index) { <span class="hint">{{ g.name }} {{ g.ref }} {{ g.commit }}</span> }</td>
+              <td>{{ r.started_at | date: 'medium' }}</td>
+              <td class="num">{{ r.files ?? '' }}</td>
+              <td class="num">{{ r.analyzed ?? '' }}</td>
+              <td class="num">{{ r.loc_code | number }}</td>
+              <td class="num">{{ r.components ?? '' }}</td>
+              <td class="num">{{ r.findings ?? '' }}</td>
+              <td class="num">{{ r.warnings }}</td>
+              <td class="num">{{ r.seconds }}</td>
+              <td>
+                <a [routerLink]="['/p', id, 'results']" [queryParams]="{ run: r.run_id }">Results</a> ·
+                <a [routerLink]="['/p', id, 'facts', 'components']" [queryParams]="{ run: r.run_id }">Facts</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>
+
+@if (runs().length >= 2) {
+  <section class="panel">
+    <h2>Compare runs</h2>
+    <p class="hint">What changed between two runs: counts and added, removed or changed records per kind.</p>
+    <form class="row" (ngSubmit)="pick()">
+      <label>Before
+        <select name="a" [(ngModel)]="a" (ngModelChange)="pick()">
+          @for (r of runs(); track r.run_id) { <option [value]="r.run_id">{{ r.run_id }}</option> }
+        </select>
+      </label>
+      <label>After
+        <select name="b" [(ngModel)]="b" (ngModelChange)="pick()">
+          @for (r of runs(); track r.run_id) { <option [value]="r.run_id">{{ r.run_id }}</option> }
+        </select>
+      </label>
+    </form>
+    @if (diff()) {
+      <p class="lead">{{ changed().length ? changed().length + ' kind(s) changed.' : 'No differences.' }}</p>
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Kind</th><th class="num">Before</th><th class="num">After</th><th class="num">Added</th><th class="num">Removed</th><th class="num">Changed</th></tr></thead>
+          <tbody>
+            @for (r of rows(); track r.entity) {
+              <tr>
+                <td>{{ label(r.entity) }}</td>
+                <td class="num">{{ r.count_a | number }}</td>
+                <td class="num">{{ r.count_b | number }}</td>
+                <td class="num">{{ r.added_count | number }}</td>
+                <td class="num">{{ r.removed_count | number }}</td>
+                <td class="num">{{ r.changed_count | number }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      @for (r of changed(); track r.entity) {
+        <details>
+          <summary>{{ label(r.entity) }}: {{ r.added_count + r.removed_count + r.changed_count }} change(s)</summary>
+          <ul class="compact">
+            @for (t of r.items; track $index) { <li><code>{{ t }}</code></li> }
+          </ul>
+        </details>
+      }
+    }
+  </section>
+}

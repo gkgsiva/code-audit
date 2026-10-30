@@ -1,0 +1,1575 @@
+{
+ "set_top_level": [
+  {
+   "text": "sample",
+   "key": "application",
+   "value": {
+    "name": "Orders",
+    "description": "Order entry (Struts 1)",
+    "owner": null
+   },
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: Orders\n  description: Order entry (Struts 1)\n  owner: null\nsource:\n  type: local\n  paths: [\"orders-web\"]\n"
+  },
+  {
+   "text": "sample",
+   "key": "source",
+   "value": {
+    "type": "local",
+    "paths": [
+     ".",
+     "../other dir",
+     "yes",
+     "123"
+    ]
+   },
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths:\n  - .\n  - ../other dir\n  - 'yes'\n  - '123'\n"
+  },
+  {
+   "text": "sample",
+   "key": "source",
+   "value": {
+    "type": "git",
+    "repos": [
+     {
+      "url": "https://git.example.com/a.git",
+      "ref": "main",
+      "paths": [
+       "src"
+      ],
+      "token_env": "GIT_TOKEN"
+     }
+    ]
+   },
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: git\n  repos:\n  - url: https://git.example.com/a.git\n    ref: main\n    paths:\n    - src\n    token_env: GIT_TOKEN\n"
+  },
+  {
+   "text": "sample",
+   "key": "include",
+   "value": [],
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\ninclude: []\n"
+  },
+  {
+   "text": "sample",
+   "key": "exclude",
+   "value": [
+    "**/target/**",
+    "docs/*.md",
+    "*.bak",
+    "'quoted'",
+    "a: b",
+    "#x"
+   ],
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\nexclude:\n- '**/target/**'\n- docs/*.md\n- '*.bak'\n- '''quoted'''\n- 'a: b'\n- '#x'\n"
+  },
+  {
+   "text": "sample",
+   "key": "target",
+   "value": {
+    "profile": "wildfly-gke",
+    "java": "25",
+    "wildfly": "41",
+    "database": "postgresql 17",
+    "cloud": null
+   },
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\ntarget:\n  profile: wildfly-gke\n  java: '25'\n  wildfly: '41'\n  database: postgresql 17\n  cloud: null\n"
+  },
+  {
+   "text": "sample",
+   "key": "full_scan",
+   "value": true,
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\nfull_scan: true\n"
+  },
+  {
+   "text": "sample",
+   "key": "full_scan",
+   "value": "1.0",
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\nfull_scan: '1.0'\n"
+  },
+  {
+   "text": "sample",
+   "key": "application",
+   "value": {
+    "name": "Ünïcode – app",
+    "description": "line\nbreak"
+   },
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: Ünïcode – app\n  description: 'line\n\n    break'\nsource:\n  type: local\n  paths: [\"orders-web\"]\n"
+  },
+  {
+   "text": "sample",
+   "key": "exclude",
+   "value": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "out": "# Sample: Struts 1 + JSP + JDBC/Oracle order management app, built with Ant.\napplication:\n  name: \"Orders (Struts/Oracle sample)\"\nsource:\n  type: local\n  paths: [\"orders-web\"]\n\nexclude:\n- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+  },
+  {
+   "text": "empty",
+   "key": "application",
+   "value": {
+    "name": "Orders",
+    "description": "Order entry (Struts 1)",
+    "owner": null
+   },
+   "out": "application:\n  name: Orders\n  description: Order entry (Struts 1)\n  owner: null\n"
+  },
+  {
+   "text": "empty",
+   "key": "source",
+   "value": {
+    "type": "local",
+    "paths": [
+     ".",
+     "../other dir",
+     "yes",
+     "123"
+    ]
+   },
+   "out": "source:\n  type: local\n  paths:\n  - .\n  - ../other dir\n  - 'yes'\n  - '123'\n"
+  },
+  {
+   "text": "empty",
+   "key": "source",
+   "value": {
+    "type": "git",
+    "repos": [
+     {
+      "url": "https://git.example.com/a.git",
+      "ref": "main",
+      "paths": [
+       "src"
+      ],
+      "token_env": "GIT_TOKEN"
+     }
+    ]
+   },
+   "out": "source:\n  type: git\n  repos:\n  - url: https://git.example.com/a.git\n    ref: main\n    paths:\n    - src\n    token_env: GIT_TOKEN\n"
+  },
+  {
+   "text": "empty",
+   "key": "include",
+   "value": [],
+   "out": "include: []\n"
+  },
+  {
+   "text": "empty",
+   "key": "exclude",
+   "value": [
+    "**/target/**",
+    "docs/*.md",
+    "*.bak",
+    "'quoted'",
+    "a: b",
+    "#x"
+   ],
+   "out": "exclude:\n- '**/target/**'\n- docs/*.md\n- '*.bak'\n- '''quoted'''\n- 'a: b'\n- '#x'\n"
+  },
+  {
+   "text": "empty",
+   "key": "target",
+   "value": {
+    "profile": "wildfly-gke",
+    "java": "25",
+    "wildfly": "41",
+    "database": "postgresql 17",
+    "cloud": null
+   },
+   "out": "target:\n  profile: wildfly-gke\n  java: '25'\n  wildfly: '41'\n  database: postgresql 17\n  cloud: null\n"
+  },
+  {
+   "text": "empty",
+   "key": "full_scan",
+   "value": true,
+   "out": "full_scan: true\n"
+  },
+  {
+   "text": "empty",
+   "key": "full_scan",
+   "value": "1.0",
+   "out": "full_scan: '1.0'\n"
+  },
+  {
+   "text": "empty",
+   "key": "application",
+   "value": {
+    "name": "Ünïcode – app",
+    "description": "line\nbreak"
+   },
+   "out": "application:\n  name: Ünïcode – app\n  description: 'line\n\n    break'\n"
+  },
+  {
+   "text": "empty",
+   "key": "exclude",
+   "value": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "out": "exclude:\n- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+  },
+  {
+   "text": "comments",
+   "key": "application",
+   "value": {
+    "name": "Orders",
+    "description": "Order entry (Struts 1)",
+    "owner": null
+   },
+   "out": "# head\napplication:\n  name: Orders\n  description: Order entry (Struts 1)\n  owner: null\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n"
+  },
+  {
+   "text": "comments",
+   "key": "source",
+   "value": {
+    "type": "local",
+    "paths": [
+     ".",
+     "../other dir",
+     "yes",
+     "123"
+    ]
+   },
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n\nsource:\n  type: local\n  paths:\n  - .\n  - ../other dir\n  - 'yes'\n  - '123'\n"
+  },
+  {
+   "text": "comments",
+   "key": "source",
+   "value": {
+    "type": "git",
+    "repos": [
+     {
+      "url": "https://git.example.com/a.git",
+      "ref": "main",
+      "paths": [
+       "src"
+      ],
+      "token_env": "GIT_TOKEN"
+     }
+    ]
+   },
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n\nsource:\n  type: git\n  repos:\n  - url: https://git.example.com/a.git\n    ref: main\n    paths:\n    - src\n    token_env: GIT_TOKEN\n"
+  },
+  {
+   "text": "comments",
+   "key": "include",
+   "value": [],
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n\ninclude: []\n"
+  },
+  {
+   "text": "comments",
+   "key": "exclude",
+   "value": [
+    "**/target/**",
+    "docs/*.md",
+    "*.bak",
+    "'quoted'",
+    "a: b",
+    "#x"
+   ],
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n- '**/target/**'\n- docs/*.md\n- '*.bak'\n- '''quoted'''\n- 'a: b'\n- '#x'\n\ntarget:\n  profile: none\n"
+  },
+  {
+   "text": "comments",
+   "key": "target",
+   "value": {
+    "profile": "wildfly-gke",
+    "java": "25",
+    "wildfly": "41",
+    "database": "postgresql 17",
+    "cloud": null
+   },
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: wildfly-gke\n  java: '25'\n  wildfly: '41'\n  database: postgresql 17\n  cloud: null\n"
+  },
+  {
+   "text": "comments",
+   "key": "full_scan",
+   "value": true,
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n\nfull_scan: true\n"
+  },
+  {
+   "text": "comments",
+   "key": "full_scan",
+   "value": "1.0",
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n\nfull_scan: '1.0'\n"
+  },
+  {
+   "text": "comments",
+   "key": "application",
+   "value": {
+    "name": "Ünïcode – app",
+    "description": "line\nbreak"
+   },
+   "out": "# head\napplication:\n  name: Ünïcode – app\n  description: 'line\n\n    break'\n\n# tail comment\nexclude:\n  - a/**\n\ntarget:\n  profile: none\n"
+  },
+  {
+   "text": "comments",
+   "key": "exclude",
+   "value": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "out": "# head\napplication:  # the app\n  name: x\n\n# tail comment\nexclude:\n- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n\ntarget:\n  profile: none\n"
+  },
+  {
+   "text": "inline",
+   "key": "application",
+   "value": {
+    "name": "Orders",
+    "description": "Order entry (Struts 1)",
+    "owner": null
+   },
+   "out": "application:\n  name: Orders\n  description: Order entry (Struts 1)\n  owner: null\nfull_scan: false   # keep me\n"
+  },
+  {
+   "text": "inline",
+   "key": "source",
+   "value": {
+    "type": "local",
+    "paths": [
+     ".",
+     "../other dir",
+     "yes",
+     "123"
+    ]
+   },
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\nsource:\n  type: local\n  paths:\n  - .\n  - ../other dir\n  - 'yes'\n  - '123'\n"
+  },
+  {
+   "text": "inline",
+   "key": "source",
+   "value": {
+    "type": "git",
+    "repos": [
+     {
+      "url": "https://git.example.com/a.git",
+      "ref": "main",
+      "paths": [
+       "src"
+      ],
+      "token_env": "GIT_TOKEN"
+     }
+    ]
+   },
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\nsource:\n  type: git\n  repos:\n  - url: https://git.example.com/a.git\n    ref: main\n    paths:\n    - src\n    token_env: GIT_TOKEN\n"
+  },
+  {
+   "text": "inline",
+   "key": "include",
+   "value": [],
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\ninclude: []\n"
+  },
+  {
+   "text": "inline",
+   "key": "exclude",
+   "value": [
+    "**/target/**",
+    "docs/*.md",
+    "*.bak",
+    "'quoted'",
+    "a: b",
+    "#x"
+   ],
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\nexclude:\n- '**/target/**'\n- docs/*.md\n- '*.bak'\n- '''quoted'''\n- 'a: b'\n- '#x'\n"
+  },
+  {
+   "text": "inline",
+   "key": "target",
+   "value": {
+    "profile": "wildfly-gke",
+    "java": "25",
+    "wildfly": "41",
+    "database": "postgresql 17",
+    "cloud": null
+   },
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\ntarget:\n  profile: wildfly-gke\n  java: '25'\n  wildfly: '41'\n  database: postgresql 17\n  cloud: null\n"
+  },
+  {
+   "text": "inline",
+   "key": "full_scan",
+   "value": true,
+   "out": "application:\n  name: x\nfull_scan: true  # keep me\n"
+  },
+  {
+   "text": "inline",
+   "key": "full_scan",
+   "value": "1.0",
+   "out": "application:\n  name: x\nfull_scan: '1.0'  # keep me\n"
+  },
+  {
+   "text": "inline",
+   "key": "application",
+   "value": {
+    "name": "Ünïcode – app",
+    "description": "line\nbreak"
+   },
+   "out": "application:\n  name: Ünïcode – app\n  description: 'line\n\n    break'\nfull_scan: false   # keep me\n"
+  },
+  {
+   "text": "inline",
+   "key": "exclude",
+   "value": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "out": "application:\n  name: x\nfull_scan: false   # keep me\n\nexclude:\n- xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n"
+  }
+ ],
+ "prescan": {
+  "angular-node-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 63,
+   "components": [
+    {
+     "name": "billing-api",
+     "root": "estate",
+     "path": "billing-api",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 8,
+     "languages": {
+      "typescript": 5,
+      "text": 1,
+      "json": 1,
+      "prisma": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-api/package.json"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "billing-api"
+     ],
+     "included": true
+    },
+    {
+     "name": "deploy",
+     "root": "estate",
+     "path": "deploy",
+     "detected_type": "config",
+     "type_override": null,
+     "files": 9,
+     "languages": {
+      "xml": 5,
+      "ini": 2,
+      "markdown": 1,
+      "dockerfile": 1
+     },
+     "detected_by": "folder",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "deploy"
+     ],
+     "included": true
+    },
+    {
+     "name": "legacy-portal",
+     "root": "estate",
+     "path": "legacy-portal",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 12,
+     "languages": {
+      "html": 4,
+      "xml": 4,
+      "javascript": 3,
+      "json": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "legacy-portal/bower.json"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "legacy-portal"
+     ],
+     "included": true
+    },
+    {
+     "name": "orders-api",
+     "root": "estate",
+     "path": "orders-api",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 12,
+     "languages": {
+      "typescript": 8,
+      "json": 2,
+      "dockerfile": 1,
+      "lockfile": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "orders-api/package.json"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "orders-api"
+     ],
+     "included": true
+    },
+    {
+     "name": "orders-web",
+     "root": "estate",
+     "path": "orders-web",
+     "detected_type": "frontend",
+     "type_override": null,
+     "files": 22,
+     "languages": {
+      "typescript": 12,
+      "html": 5,
+      "json": 3,
+      "lockfile": 1,
+      "css": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "orders-web/angular.json",
+      "orders-web/package.json"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "orders-web"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": [
+    {
+     "path": "orders-web/src/assets/vendor/chart.min.js",
+     "reason": "minified or bundled code",
+     "files": 1
+    }
+   ]
+  },
+  "c-proc-batch": {
+   "roots": [
+    {
+     "name": "settlement"
+    }
+   ],
+   "files": 8,
+   "components": [
+    {
+     "name": "settlement",
+     "root": "settlement",
+     "path": "",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 8,
+     "languages": {
+      "c": 3,
+      "shell": 2,
+      "make": 1,
+      "sql": 1,
+      "proc": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "Makefile"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      ""
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "cobol-cics-db2": {
+   "roots": [
+    {
+     "name": "mainframe"
+    }
+   ],
+   "files": 11,
+   "components": [
+    {
+     "name": "cobol-online",
+     "root": "mainframe",
+     "path": "",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 8,
+     "languages": {
+      "cobol": 7,
+      "bms": 1
+     },
+     "detected_by": "grouped",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [
+      "bms",
+      "cobol",
+      "copybook"
+     ],
+     "folders": [
+      "bms",
+      "cobol",
+      "copybook"
+     ],
+     "included": true
+    },
+    {
+     "name": "jcl-jobs",
+     "root": "mainframe",
+     "path": "",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "jcl": 2
+     },
+     "detected_by": "grouped",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [
+      "jcl",
+      "proclib"
+     ],
+     "folders": [
+      "jcl",
+      "proclib"
+     ],
+     "included": true
+    },
+    {
+     "name": "ddl",
+     "root": "mainframe",
+     "path": "ddl",
+     "detected_type": "db",
+     "type_override": null,
+     "files": 1,
+     "languages": {
+      "sql": 1
+     },
+     "detected_by": "folder",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "ddl"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "desktop-dotnet-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 48,
+   "components": [
+    {
+     "name": "billing-api-cs",
+     "root": "estate",
+     "path": "billing-api-cs",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 9,
+     "languages": {
+      "csharp": 5,
+      "razor": 2,
+      "msbuild": 1,
+      "json": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-api-cs/BillingApi.csproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "billing-api-cs"
+     ],
+     "included": true
+    },
+    {
+     "name": "billing-desk-vb6",
+     "root": "estate",
+     "path": "billing-desk-vb6",
+     "detected_type": "desktop",
+     "type_override": null,
+     "files": 6,
+     "languages": {
+      "vb6": 4,
+      "vb6-project": 1,
+      "sqlloader": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-desk-vb6/BillingDesk.vbp"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "billing-desk-vb6"
+     ],
+     "included": true
+    },
+    {
+     "name": "inventory-wpf-cs",
+     "root": "estate",
+     "path": "inventory-wpf-cs",
+     "detected_type": "desktop",
+     "type_override": null,
+     "files": 12,
+     "languages": {
+      "csharp": 6,
+      "xaml": 4,
+      "msbuild": 1,
+      "lockfile": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "inventory-wpf-cs/InventoryApp.csproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "inventory-wpf-cs"
+     ],
+     "included": true
+    },
+    {
+     "name": "invoice-mailer-svc",
+     "root": "estate",
+     "path": "invoice-mailer-svc",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "msbuild": 1,
+      "csharp": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "invoice-mailer-svc/InvoiceMailer.csproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "invoice-mailer-svc"
+     ],
+     "included": true
+    },
+    {
+     "name": "legacy-webforms",
+     "root": "estate",
+     "path": "legacy-webforms",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 8,
+     "languages": {
+      "aspx": 3,
+      "csharp": 2,
+      "aspnet": 1,
+      "msbuild": 1,
+      "xml": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "legacy-webforms/LegacyCrm.csproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "legacy-webforms"
+     ],
+     "included": true
+    },
+    {
+     "name": "nightly-export-cs",
+     "root": "estate",
+     "path": "nightly-export-cs",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 4,
+     "languages": {
+      "msbuild": 1,
+      "csharp": 1,
+      "xml": 1,
+      "batch": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "nightly-export-cs/NightlyExport.csproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "nightly-export-cs"
+     ],
+     "included": true
+    },
+    {
+     "name": "orders-winforms-vbnet",
+     "root": "estate",
+     "path": "orders-winforms-vbnet",
+     "detected_type": "desktop",
+     "type_override": null,
+     "files": 7,
+     "languages": {
+      "vbnet": 4,
+      "xml": 2,
+      "msbuild": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "orders-winforms-vbnet/OrdersDesk.vbproj"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "orders-winforms-vbnet"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": [
+    {
+     "path": "inventory-wpf-cs/obj/",
+     "reason": ".NET intermediate output (obj next to the project file)",
+     "files": 1
+    },
+    {
+     "path": "orders-winforms-vbnet/bin/",
+     "reason": "compiled output (no source or script inside)",
+     "files": 3
+    },
+    {
+     "path": "orders-winforms-vbnet/obj/",
+     "reason": ".NET intermediate output (obj next to the project file)",
+     "files": 1
+    }
+   ]
+  },
+  "java-swing-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 10,
+   "components": [
+    {
+     "name": "teller-desk",
+     "root": "estate",
+     "path": "teller-desk",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 10,
+     "languages": {
+      "java": 7,
+      "xml": 1,
+      "properties": 1,
+      "fxml": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "teller-desk/pom.xml"
+     ],
+     "build_group": [],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "teller-desk"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "legacy-layout-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 24,
+   "components": [
+    {
+     "name": "shared-scripts-config",
+     "root": "estate",
+     "path": "",
+     "detected_type": "script",
+     "type_override": null,
+     "files": 4,
+     "languages": {
+      "properties": 1,
+      "xml": 1,
+      "binary": 1,
+      "shell": 1
+     },
+     "detected_by": "grouped",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [
+      "config",
+      "scripts"
+     ],
+     "folders": [
+      "config",
+      "scripts"
+     ],
+     "included": true
+    },
+    {
+     "name": "billing-batch",
+     "root": "estate",
+     "path": "apps/billing-batch",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 6,
+     "languages": {
+      "shell": 2,
+      "java": 1,
+      "binary": 1,
+      "properties": 1,
+      "sqlloader": 1
+     },
+     "detected_by": "folder",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "apps/billing-batch"
+     ],
+     "included": true
+    },
+    {
+     "name": "orders-web",
+     "root": "estate",
+     "path": "apps/orders-web",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 9,
+     "languages": {
+      "xml": 4,
+      "java": 3,
+      "jsp": 1,
+      "properties": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "apps/orders-web/.project"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "apps/orders-web"
+     ],
+     "included": true
+    },
+    {
+     "name": "settlement-c",
+     "root": "estate",
+     "path": "settlement-c",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 5,
+     "languages": {
+      "make": 1,
+      "data": 1,
+      "binary": 1,
+      "shell": 1,
+      "proc": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "settlement-c/Makefile.aix"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "settlement-c"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": [
+    {
+     "path": "apps/billing-batch/classes/",
+     "reason": "compiled output (no source or script inside)",
+     "files": 1
+    },
+    {
+     "path": "apps/orders-web/bin/",
+     "reason": "Eclipse output folder (.classpath)",
+     "files": 3
+    },
+    {
+     "path": "settlement-c/obj/",
+     "reason": "compiled output (no source or script inside)",
+     "files": 1
+    },
+    {
+     "path": "settlement-c/src/settle.c",
+     "reason": "generated by the Pro*C precompiler",
+     "files": 1
+    }
+   ]
+  },
+  "maven-multimodule-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 29,
+   "components": [
+    {
+     "name": "acme-parent-scripts-config",
+     "root": "estate",
+     "path": "",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 12,
+     "languages": {
+      "shell": 7,
+      "sql": 3,
+      "properties": 2
+     },
+     "detected_by": "grouped",
+     "build_files": [],
+     "build_group": [],
+     "packaging": null,
+     "parts": [
+      "config",
+      "ops/batch",
+      "ops/batch/archive",
+      "ops/batch/eod",
+      "ops/batch/purge",
+      "scripts"
+     ],
+     "folders": [
+      "config",
+      "ops/batch",
+      "ops/batch/archive",
+      "ops/batch/eod",
+      "ops/batch/purge",
+      "scripts"
+     ],
+     "included": true
+    },
+    {
+     "name": "acme-ear",
+     "root": "estate",
+     "path": "acme-ear",
+     "detected_type": "config",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "xml": 2
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "acme-ear/pom.xml"
+     ],
+     "build_group": [
+      "acme-parent"
+     ],
+     "packaging": "ear",
+     "parts": [],
+     "folders": [
+      "acme-ear"
+     ],
+     "included": true
+    },
+    {
+     "name": "acme-tools",
+     "root": "estate",
+     "path": "acme-tools",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "xml": 1,
+      "java": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "acme-tools/pom.xml"
+     ],
+     "build_group": [
+      "acme-parent"
+     ],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "acme-tools"
+     ],
+     "included": true
+    },
+    {
+     "name": "acme-web",
+     "root": "estate",
+     "path": "acme-web",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 6,
+     "languages": {
+      "xml": 3,
+      "java": 2,
+      "jsp": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "acme-core/pom.xml",
+      "acme-web/pom.xml"
+     ],
+     "build_group": [
+      "acme-parent"
+     ],
+     "packaging": "war",
+     "parts": [
+      "acme-web",
+      "acme-core"
+     ],
+     "folders": [
+      "acme-web",
+      "acme-core"
+     ],
+     "included": true
+    },
+    {
+     "name": "billing-batch",
+     "root": "estate",
+     "path": "batches/billing-batch",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "xml": 1,
+      "java": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "batches/billing-batch/pom.xml"
+     ],
+     "build_group": [
+      "acme-parent",
+      "acme-batches"
+     ],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "batches/billing-batch"
+     ],
+     "included": true
+    },
+    {
+     "name": "report-batch",
+     "root": "estate",
+     "path": "batches/report-batch",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "xml": 1,
+      "java": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "batches/report-batch/pom.xml"
+     ],
+     "build_group": [
+      "acme-parent",
+      "acme-batches"
+     ],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "batches/report-batch"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "spring-mvc-batch-app": {
+   "roots": [
+    {
+     "name": "billing"
+    }
+   ],
+   "files": 28,
+   "components": [
+    {
+     "name": "billing-batch",
+     "root": "billing",
+     "path": "billing-batch",
+     "detected_type": "batch",
+     "type_override": null,
+     "files": 5,
+     "languages": {
+      "xml": 2,
+      "java": 2,
+      "shell": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-batch/pom.xml"
+     ],
+     "build_group": [
+      "billing-parent"
+     ],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "billing-batch"
+     ],
+     "included": true
+    },
+    {
+     "name": "billing-common",
+     "root": "billing",
+     "path": "billing-common",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 7,
+     "languages": {
+      "java": 5,
+      "xml": 2
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-common/pom.xml"
+     ],
+     "build_group": [
+      "billing-parent"
+     ],
+     "packaging": "jar",
+     "parts": [],
+     "folders": [
+      "billing-common"
+     ],
+     "included": true
+    },
+    {
+     "name": "billing-web",
+     "root": "billing",
+     "path": "billing-web",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 15,
+     "languages": {
+      "xml": 5,
+      "jsp": 5,
+      "java": 4,
+      "properties": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "billing-web/pom.xml"
+     ],
+     "build_group": [
+      "billing-parent"
+     ],
+     "packaging": "war",
+     "parts": [],
+     "folders": [
+      "billing-web"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "struts-oracle-app": {
+   "roots": [
+    {
+     "name": "orders-web"
+    }
+   ],
+   "files": 35,
+   "components": [
+    {
+     "name": "orders-web",
+     "root": "orders-web",
+     "path": "",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 35,
+     "languages": {
+      "java": 11,
+      "jsp": 6,
+      "archive": 5,
+      "xml": 4,
+      "properties": 3,
+      "plsql": 2
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "build.xml"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      ""
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  },
+  "web-services-app": {
+   "roots": [
+    {
+     "name": "estate"
+    }
+   ],
+   "files": 21,
+   "components": [
+    {
+     "name": "orders-ws",
+     "root": "estate",
+     "path": "orders-ws",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 14,
+     "languages": {
+      "java": 8,
+      "xml": 5,
+      "properties": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "orders-ws/pom.xml"
+     ],
+     "build_group": [],
+     "packaging": "war",
+     "parts": [],
+     "folders": [
+      "orders-ws"
+     ],
+     "included": true
+    },
+    {
+     "name": "quote-axis",
+     "root": "estate",
+     "path": "quote-axis",
+     "detected_type": "web",
+     "type_override": null,
+     "files": 5,
+     "languages": {
+      "xml": 3,
+      "java": 2
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "quote-axis/build.xml"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "quote-axis"
+     ],
+     "included": true
+    },
+    {
+     "name": "rate-feed",
+     "root": "estate",
+     "path": "rate-feed",
+     "detected_type": "library",
+     "type_override": null,
+     "files": 2,
+     "languages": {
+      "make": 1,
+      "c": 1
+     },
+     "detected_by": "build-file",
+     "build_files": [
+      "rate-feed/Makefile"
+     ],
+     "build_group": [],
+     "packaging": null,
+     "parts": [],
+     "folders": [
+      "rate-feed"
+     ],
+     "included": true
+    }
+   ],
+   "excludes": [],
+   "skipped": []
+  }
+ },
+ "choices": [
+  {
+   "sample": "angular-node-app",
+   "before": null,
+   "included": {
+    "billing-api": false,
+    "deploy": true
+   },
+   "types": {
+    "billing-api": "batch",
+    "legacy-portal": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - billing-api/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    billing-api: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "c-proc-batch",
+   "before": null,
+   "included": {
+    "": false
+   },
+   "types": {
+    "settlement": "batch"
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - '**'\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    settlement: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "cobol-cics-db2",
+   "before": null,
+   "included": {
+    "bms|cobol|copybook": false,
+    "jcl|proclib": true
+   },
+   "types": {
+    "cobol-online": "batch",
+    "ddl": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - bms/**\n  - cobol/**\n  - copybook/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    cobol-online: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "desktop-dotnet-app",
+   "before": null,
+   "included": {
+    "billing-api-cs": false,
+    "billing-desk-vb6": true
+   },
+   "types": {
+    "billing-api-cs": "batch",
+    "inventory-wpf-cs": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - billing-api-cs/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    billing-api-cs: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "java-swing-app",
+   "before": null,
+   "included": {
+    "teller-desk": false
+   },
+   "types": {
+    "teller-desk": "batch"
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - teller-desk/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    teller-desk: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "legacy-layout-app",
+   "before": null,
+   "included": {
+    "config|scripts": false,
+    "apps/billing-batch": true
+   },
+   "types": {
+    "shared-scripts-config": "batch",
+    "orders-web": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - config/**\n  - scripts/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    shared-scripts-config: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "maven-multimodule-app",
+   "before": null,
+   "included": {
+    "config|ops/batch|ops/batch/archive|ops/batch/eod|ops/batch/purge|scripts": false,
+    "acme-ear": true
+   },
+   "types": {
+    "acme-parent-scripts-config": "batch",
+    "acme-tools": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - config/**\n  - ops/batch/**\n  - ops/batch/archive/**\n  - ops/batch/eod/**\n  - ops/batch/purge/**\n  - scripts/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    acme-parent-scripts-config: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "spring-mvc-batch-app",
+   "before": null,
+   "included": {
+    "billing-batch": false,
+    "billing-common": true
+   },
+   "types": {
+    "billing-batch": "batch",
+    "billing-web": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - billing-batch/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    billing-batch: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "struts-oracle-app",
+   "before": null,
+   "included": {
+    "": false
+   },
+   "types": {
+    "orders-web": "batch"
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - '**'\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    orders-web: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  },
+  {
+   "sample": "web-services-app",
+   "before": null,
+   "included": {
+    "orders-ws": false,
+    "quote-axis": true
+   },
+   "types": {
+    "orders-ws": "batch",
+    "rate-feed": null
+   },
+   "first": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude:\n  - orders-ws/**\ncomponents:\n  assign: {}\n  rename: {}\n  type:\n    orders-ws: batch\n",
+   "second": "# Human corrections, re-applied after analysis on every run and recorded in run.json.\n# Overrides that match nothing are reported as warnings. Edited by legacy-audit serve too.\n\nfiles:\n  include: []\n  exclude: []\ncomponents:\n  assign: {}\n  rename: {}\n  type: {}\n"
+  }
+ ]
+}

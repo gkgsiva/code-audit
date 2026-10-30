@@ -129,6 +129,22 @@
       "command": "java -jar audit-cli/target/legacy-audit.jar enrich --stale --provider ${input:aiProvider} --model \"${input:aiModel}\" --base-url \"${input:aiBaseUrl}\" -c ../samples/${input:sample}/audit.yaml -o target/sample-scans/${input:sample}",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 17. compare the settings page and component picker with the Python tool",
+      "detail": "Checks that saving settings and component choices writes the same audit.yaml and audit-overrides.yaml as the Python tool, and that the component picker finds the same components in all ten samples",
+      "type": "shell",
+      "command": "mvn -B -pl audit-engine -am test \"-Dtest=WorkspaceParityTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 18. check the tools on this computer",
+      "detail": "Runs legacy-audit doctor for a sample: Java, output folder, browser for PDFs, Dependency-Check, OSV-Scanner, jdeps, Git and the AI model",
+      "type": "shell",
+      "command": "java -jar audit-cli/target/legacy-audit.jar doctor -c ../samples/${input:sample}/audit.yaml",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

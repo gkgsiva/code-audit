@@ -31,6 +31,7 @@ Copilot prompts and agent expect. `LEGACY_AUDIT_JAVA_OPTS` passes extra Java opt
 | `FactsCommand` | `facts`: rows of one kind of fact as JSON (`engine.store.FactsQuery`), for Copilot and for people |
 | `McpCommand` | `mcp`: the MCP server on standard input and output (`ai.mcp.McpServer`), started by VS Code from `.vscode/mcp.json` |
 | `RunOptions`, `Table` | Shared options (`--run`, `-c`, `-o`) and finding the run folder; plain text tables as Python's `tabulate` |
+| `DoctorCommand` | `doctor`: checks Java, the output folder, the browser for PDFs, Dependency-Check, OSV-Scanner, jdeps, Git and the AI model (`ai.doctor.Doctor`); prints a table, then `Ready to scan.` with the optional tools that are missing, or `Not ready: ...` and exit code 1 |
 | `DiffCommand` | `diff`: compares two runs (an id or its start, `latest`, `previous` or a folder; the second defaults to `latest`), prints a table of counts per entity and the first added (`+`), removed (`-`) and changed (`~`) records; `--json` writes the whole diff |
 | `ReportCommand` | `report`: builds the chosen report of a run (default: the technical report of the latest run). `pdf` builds all four and prints them; `all` builds all four and the PDFs when `pdf.enabled` is true. Prints where each report went and how many enrichment stages are missing or stale; `--open` opens the first report in the browser. Exit code 1 when `pdf` wrote no PDF (no browser) |
 | `ScanCommand` | `scan`: loads the config, runs `Scanner.run`, prints the run folder, the file counts, the files per analyzer, the input coverage lines and warnings. `-v` prints the scan log as it is written |
@@ -40,5 +41,5 @@ Exit codes: `0` done, `1` invalid config or another scan running in the same out
 
 The jar's manifest has `Enable-Native-Access: ALL-UNNAMED`, which tree-sitter needs.
 
-Commands still to come, with the same names as the Python tool: `doctor`, `purge-cache`
+Commands still to come, with the same names as the Python tool: `purge-cache`
 (Phase 9).

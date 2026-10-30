@@ -37,7 +37,7 @@ public final class Jdk {
     /** Items found and the status: disabled, missing or ran. */
     public record Result(List<Map<String, Object>> items, String status) {}
 
-    static String findTool(String javaHome, String name) {
+    public static String findTool(String javaHome, String name) {
         if (javaHome != null && !javaHome.isEmpty()) {
             for (String candidate : List.of(name + ".exe", name)) {
                 Path p = Path.of(javaHome, "bin", candidate);

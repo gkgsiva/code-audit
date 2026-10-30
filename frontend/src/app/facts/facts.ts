@@ -8,7 +8,7 @@ import { ApiService, FactPage, KINDS, Scan, problem } from '../api.service';
 
 const PAGE = 50;
 
-/** Every kind of fact of the newest finished scan, with one field filter, a search and paging. */
+/** Every kind of fact of the newest finished scan (or of the run in ?run=), with one field filter, a search and paging. */
 @Component({
   selector: 'app-facts',
   imports: [DecimalPipe, FormsModule, RouterLink],
@@ -22,6 +22,10 @@ export class Facts implements OnInit {
   readonly kinds = KINDS;
   id = '';
   kind = 'findings';
+  /** The run shown: empty for the newest finished scan. */
+  run = '';
+  /** The run the answer came from, for the links to components and source lines. */
+  readonly runId = signal<string | null>(null);
   q = '';
   field = '';
   value = '';
@@ -36,6 +40,7 @@ export class Facts implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
+    this.run = this.route.snapshot.queryParamMap.get('run') ?? '';
     this.route.paramMap.subscribe((p) => {
       this.kind = p.get('kind') ?? 'findings';
       this.field = this.value = this.q = '';
@@ -46,7 +51,7 @@ export class Facts implements OnInit {
   }
 
   pick(kind: string): void {
-    this.router.navigate(['/p', this.id, 'facts', kind]);
+    this.router.navigate(['/p', this.id, 'facts', kind], { queryParams: this.runQuery });
   }
 
   filter(): void {
@@ -62,6 +67,28 @@ export class Facts implements OnInit {
   go(page: number): void {
     this.page.set(page);
     this.load();
+  }
+
+  get runQuery(): Record<string, string> {
+    return this.run ? { run: this.run } : {};
+  }
+
+  /** The cell links to the component's page (a component's name) or to the source lines (a file). */
+  link(column: string, row: Record<string, unknown>): 'component' | 'evidence' | null {
+    if (!this.runId() || !row[column] || typeof row[column] !== 'string') {
+      return null;
+    }
+    if (column === 'file') {
+      return 'evidence';
+    }
+    if ((this.kind === 'components' && column === 'name') || column === 'component') {
+      return 'component';
+    }
+    return null;
+  }
+
+  line(row: Record<string, unknown>): number | null {
+    return typeof row['line'] === 'number' ? row['line'] : null;
   }
 
   /** A cell as short text: lists joined, objects as JSON, long text cut. */
@@ -82,13 +109,14 @@ export class Facts implements OnInit {
 
   private load(): void {
     this.error.set(null);
-    const query: Record<string, string | number> = { q: this.q, limit: PAGE, offset: this.page() * PAGE };
+    const query: Record<string, string | number> = { q: this.q, limit: PAGE, offset: this.page() * PAGE, run: this.run };
     if (this.field && this.value) {
       query[this.field] = this.value;
     }
     this.api.facts(this.id, this.kind, query).subscribe({
       next: (d) => {
         this.scan.set(d.scan);
+        this.runId.set(d.run_id);
         this.data.set(d.result);
         this.loaded.set(true);
         const first = d.result?.rows[0];

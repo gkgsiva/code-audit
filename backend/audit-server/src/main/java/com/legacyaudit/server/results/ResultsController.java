@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Results of a project's newest finished scan, read from its run folder: the dashboard figures
- * and every kind of fact (findings, libraries, services...) with filters, search and paging.
+ * Results of a project's newest finished scan (or of the run named by {@code ?run=}), read from
+ * its run folder: the dashboard figures and every kind of fact (findings, libraries, services...)
+ * with filters, search and paging.
  */
 @RestController
 public class ResultsController {
@@ -51,13 +52,19 @@ public class ResultsController {
         }
     }
 
+    /** {@code run} when given (any run of the project), else the newest finished scan's run. */
+    private Path pick(Project project, Scan scan, String run) {
+        return run == null || run.isBlank() ? runDir(project, scan) : RunsController.runDir(projects, project, run.strip());
+    }
+
     @GetMapping("/api/projects/{id}/dashboard")
-    public Map<String, Object> dashboard(@PathVariable String id, Principal principal) {
+    public Map<String, Object> dashboard(@PathVariable String id, @RequestParam(required = false) String run, Principal principal) {
         Project project = projects.get(current.of(principal), id);
         Scan scan = scans.latestDone(project.id()).orElse(null);
-        Path dir = runDir(project, scan);
+        Path dir = pick(project, scan, run);
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("scan", scan);
+        out.put("run_id", dir == null ? null : dir.getFileName().toString());
         out.put("dashboard", dir == null ? null : Dashboard.of(dir));
         return out;
     }
@@ -67,14 +74,15 @@ public class ResultsController {
             @RequestParam Map<String, String> params, Principal principal) {
         Project project = projects.get(current.of(principal), id);
         Scan scan = scans.latestDone(project.id()).orElse(null);
-        Path dir = runDir(project, scan);
+        Map<String, String> filters = new LinkedHashMap<>(params);
+        Path dir = pick(project, scan, filters.remove("run"));
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("scan", scan);
+        out.put("run_id", dir == null ? null : dir.getFileName().toString());
         if (dir == null) {
             out.put("result", null);
             return out;
         }
-        Map<String, String> filters = new LinkedHashMap<>(params);
         String q = filters.remove("q");
         int limit = parse(filters.remove("limit"), 50);
         int offset = parse(filters.remove("offset"), 0);

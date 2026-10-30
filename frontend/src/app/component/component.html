@@ -1,0 +1,54 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Component {{ detail()?.component?.name }}</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'facts', 'components']" [queryParams]="{ run }">All components</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  <p class="hint">Run {{ run }}.</p>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (detail()) {
+    <table class="grid">
+      @for (f of fields(); track f.key) {
+        <tr><th>{{ f.key }}</th><td>{{ f.value }}</td></tr>
+      }
+    </table>
+  }
+</section>
+
+@for (p of parts(); track p.key) {
+  <section class="panel">
+    <h2>{{ p.title }} ({{ p.total | number }})</h2>
+    @if (!p.rows.length) {
+      <p class="hint">None.</p>
+    } @else {
+      @if (p.total > p.rows.length) {
+        <p class="hint">The first {{ p.rows.length }} are shown.
+          <a [routerLink]="['/p', id, 'facts', p.key]" [queryParams]="{ run }">See all in the facts</a>.</p>
+      }
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr>@for (c of p.columns; track c) { <th>{{ c }}</th> }</tr></thead>
+          <tbody>
+            @for (r of p.rows; track $index) {
+              <tr>
+                @for (c of p.columns; track c) {
+                  <td>
+                    @if (c === 'file' && r['file']) {
+                      <a [routerLink]="['/p', id, 'runs', run, 'evidence']" [queryParams]="{ file: r['file'], line: r['line'] }">{{ text(r[c]) }}</a>
+                    } @else {
+                      {{ text(r[c]) }}
+                    }
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+}

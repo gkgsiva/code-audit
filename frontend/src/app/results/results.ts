@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { DecimalPipe, KeyValuePipe } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
-import { ApiService, Dashboard, Scan, problem } from '../api.service';
+import { ApiService, Dashboard, RunRow, Scan, problem } from '../api.service';
 
 /** Where each headline number is listed in the fact browser. */
 const KPI_KIND: Record<string, string> = {
@@ -16,17 +17,21 @@ const KPI_KIND: Record<string, string> = {
   'counts.vulnerable_libraries.total': 'libraries',
 };
 
-/** The results of the newest finished scan: headline numbers, charts, effort, findings, coverage. */
+/** The results of the newest finished scan (or of the run picked): headline numbers, charts, effort, findings, coverage. */
 @Component({
   selector: 'app-results',
-  imports: [DecimalPipe, KeyValuePipe, RouterLink],
+  imports: [DecimalPipe, FormsModule, KeyValuePipe, RouterLink],
   templateUrl: './results.html',
 })
 export class Results implements OnInit {
   private readonly api = inject(ApiService);
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   id = '';
+  /** The run shown: empty for the newest finished scan. */
+  run = '';
+  readonly runs = signal<RunRow[]>([]);
   readonly scan = signal<Scan | null>(null);
   readonly data = signal<Dashboard | null>(null);
   readonly loaded = signal(false);
@@ -41,14 +46,28 @@ export class Results implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id') ?? '';
-    this.api.dashboard(this.id).subscribe({
-      next: (d) => {
-        this.scan.set(d.scan);
-        this.data.set(d.dashboard);
-        this.loaded.set(true);
-      },
-      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    this.api.runs(this.id).subscribe({ next: (r) => this.runs.set(r), error: () => this.runs.set([]) });
+    this.route.queryParamMap.subscribe((q) => {
+      this.run = q.get('run') ?? '';
+      this.error.set(null);
+      this.api.dashboard(this.id, this.run).subscribe({
+        next: (d) => {
+          this.scan.set(d.scan);
+          this.data.set(d.dashboard);
+          this.loaded.set(true);
+        },
+        error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+      });
     });
+  }
+
+  pickRun(): void {
+    this.router.navigate([], { queryParams: { run: this.run || null } });
+  }
+
+  /** Query parameters that keep the picked run on the links to the facts. */
+  get runQuery(): Record<string, string> {
+    return this.run ? { run: this.run } : {};
   }
 
   kindOf(metric: string): string | null {
