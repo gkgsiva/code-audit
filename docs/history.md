@@ -56,3 +56,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #40 | 2026-10-29 | Spring Boot and Angular version, phase 3: mainframe, C and batch analyzers |
 | #41 | 2026-10-29 | Spring Boot and Angular version, phase 4: web, front-end and desktop analyzers |
 | #42 | 2026-10-30 | Spring Boot and Angular version, phase 5: linking, metrics, findings, PostgreSQL grades, dependency security, effort and results screens |
+| #43 | 2026-10-30 | Spring Boot and Angular version, phase 6: technical, functional, management and summary reports, PDF copies and the Reports page |

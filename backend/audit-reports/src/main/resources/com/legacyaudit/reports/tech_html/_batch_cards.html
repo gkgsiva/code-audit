@@ -1,0 +1,16 @@
+{% if batch_flows %}<div class="cards">{% for f in batch_flows %}<a class="card c4" style="text-decoration:none;color:inherit" href="{{ base }}flows/{{ f.slug }}.html"><h3>{{ f.name }}</h3><p>{% if stories is defined and stories.get(f.id) %}{{ stories.get(f.id).purpose }}{% elif said is defined and said.get(f.id) %}<span class="muted">The code says:</span> "{{ said.get(f.id) }}"{% else %}{{ f.summary }}{% endif %}</p><div class="chips">{% if f.schedule.scheduler == "none" %}<span class="pill c8">no schedule found</span>{% elif f.schedule.scheduler == "event" %}<span class="pill c5">on message</span>{% else %}<span class="pill c4">{{ f.schedule.scheduler }}</span>{% endif %}<span class="pill c7">{{ f.steps|length }} step(s)</span><span class="pill c6">{{ f.tables|length }} table(s)</span></div></a>{% endfor %}</div>
+
+<h2>Batch calendar</h2>
+<div class="table-wrap" style="padding:8px">
+<table class="heat week" aria-label="When each batch runs in the week">
+  <thead><tr><th>Batch</th>{% for d in days %}<th>{{ d }}</th>{% endfor %}<th>Schedule</th></tr></thead>
+  <tbody>{% for r in week %}<tr><th><a href="{{ base }}flows/{{ r.slug }}.html">{{ r.name }}</a></th>{% for c in r.cells %}<td class="{{ 'on' if c }}">{{ c }}</td>{% endfor %}<td style="text-align:left;font-family:inherit">{{ r.text }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% set timed = week | selectattr("hours") | list %}
+{% if timed %}
+<div class="panel" style="margin-top:12px"><h3>Start times over the day</h3>
+<div class="timeline" role="img" aria-label="Start time of each batch on a 24-hour axis">
+  <div class="axis">{% for h in range(0, 25, 3) %}<span style="left:{{ (h / 24 * 100)|round(2) }}%">{{ "%02d"|format(h) }}:00</span>{% endfor %}</div>
+  {% for r in timed %}<div class="row"><span class="name">{{ r.name }}</span>{% for h in r.hours %}<span class="dot" style="left:{{ (h / 24 * 100)|round(2) }}%" title="{{ r.name }} at {{ '%02d:%02d'|format(h|int, ((h - h|int) * 60)|round|int) }}"></span>{% endfor %}</div>{% endfor %}
+</div></div>{% endif %}
+{% else %}<p class="muted">The scan found no batch jobs, batch programs, batch scripts or listeners.</p>{% endif %}

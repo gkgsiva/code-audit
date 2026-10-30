@@ -89,6 +89,22 @@
       "command": "java -jar audit-cli/target/legacy-audit.jar diff previous latest -o target/sample-scans/${input:sample}",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 12. compare the reports with the Python tool",
+      "detail": "Builds the four HTML reports from sample runs and compares every file with what the Python tool wrote; also checks the PDF helpers",
+      "type": "shell",
+      "command": "mvn -B -pl audit-reports -am test \"-Dtest=ReportParityTest,JinjaTest,PdfReportsTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 13. build the reports of a sample app",
+      "detail": "Builds the technical, functional, management and summary reports and their PDFs for the newest scan of a sample made with task 7",
+      "type": "shell",
+      "command": "java -jar audit-cli/target/legacy-audit.jar report -t all -c ../samples/${input:sample}/audit.yaml -o target/sample-scans/${input:sample}",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

@@ -1,0 +1,92 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% set f = flow %}
+<div class="lead-box">
+  {% if story %}<span class="tag scan-tag" style="background:color-mix(in srgb, var(--series-5) 22%, transparent)">In plain words, by the Copilot agent</span>
+  <p><strong>{{ story.purpose }}</strong>{% if story.when %} {{ story.when }}{% endif %}</p>{% endif %}
+  <p{% if story %} style="margin-top:8px" class="muted"{% endif %}>{{ f.summary }}{% if f.component %} Component <a href="{{ base }}{% if audience == 'technical' %}components/{{ component_slug }}.html{% else %}index.html{% endif %}">{{ f.component }}</a>.{% endif %} <span class="note">Defined at {{ m.ev(link) }}</span></p>
+</div>
+{% if not story and audience == "functional" %}<div class="placeholder-box">No plain-language description yet: run <code>/audit-enrich functional</code> in Copilot, then <code>legacy-audit validate</code> and rebuild. The flow below comes from the scan.</div>{% endif %}
+
+{{ m.diagram(diagram) }}
+
+{% if story %}
+<div class="ai-box">
+  <span class="tag">Written by the Copilot agent, checked by legacy-audit validate</span>
+  {% if f.kind == "screen" %}
+    {% if story.user_actions %}<h3>What the user does</h3><ol class="steps">{% for a in story.user_actions %}<li>{{ a }}</li>{% endfor %}</ol>{% endif %}
+    {% if story.data_shown %}<p><strong>What is shown:</strong> {{ story.data_shown }}</p>{% endif %}
+    {% if story.next_steps %}<p><strong>Next:</strong> {{ story.next_steps }}</p>{% endif %}
+  {% else %}
+    {% if story.step_list %}<h3>Steps</h3><ol class="steps">{% for st in story.step_list %}<li>{{ st.description }}{% if st.facts %} <span class="muted">({{ st.facts | join(", ") }})</span>{% endif %}</li>{% endfor %}</ol>{% endif %}
+    <div class="grid2" style="gap:10px">
+      {% if story.inputs %}<div><strong>Reads</strong><ul class="compact">{% for x in story.inputs %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+      {% if story.outputs %}<div><strong>Produces</strong><ul class="compact">{% for x in story.outputs %}<li>{{ x }}</li>{% endfor %}</ul></div>{% endif %}
+    </div>
+    {% if story.programs %}<h3>What each program does</h3><table class="data"><tbody>{% for pg in story.programs %}<tr><td><code>{{ pg.name }}</code></td><td>{{ pg.what_it_does }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+    {% if story.controls %}<p><strong>Checks and controls in the code:</strong></p><ul class="compact">{% for x in story.controls %}<li>{{ x }}</li>{% endfor %}</ul>{% endif %}
+    {% if story.on_failure %}<p><strong>When it fails:</strong> {{ story.on_failure }}</p>{% endif %}
+    {% if story.restart %}<p><strong>Re-running it:</strong> {{ story.restart }}</p>{% endif %}
+    {% if story.business_impact %}<p><strong>If it does not run:</strong> {{ story.business_impact }}</p>{% endif %}
+  {% endif %}
+  <p class="note">{% for l in story.links %}{{ m.ev(l) }} {% endfor %}{% if story.assumption %}assumption{% endif %}</p>
+</div>
+{% endif %}
+
+{% if f.kind == "batch" and comments %}
+<div class="panel" style="margin-top:16px"><h3>What the code says about itself</h3>
+<p class="note">Copied from the header comment of each program or script this batch runs (not checked: comments can be out of date).</p>
+{% for c in comments %}<p><code>{{ c.file.rsplit("/", 1)[-1] }}</code> <span class="note">{{ m.ev(c.link) }}</span><br>{{ c.lines | join(" ") }}</p>{% endfor %}
+</div>
+{% endif %}
+{% if f.kind == "batch" %}
+<div class="grid2" style="margin-top:16px">
+<div class="panel"><h3>When it runs</h3>
+  <p>{{ f.schedule.text }}</p>
+  {% if f.schedule.description %}<p class="muted">Scheduler description: "{{ f.schedule.description }}"</p>{% endif %}
+  {% if f.schedule.raw %}<p class="note">{{ f.schedule.scheduler }}: <code>{{ f.schedule.raw }}</code></p>{% endif %}
+  {% if f.before %}<p><strong>Runs after:</strong> {{ f.before | join(", ") }}</p>{% endif %}
+  {% if f.after %}<p><strong>Followed by:</strong> {{ f.after | join(", ") }}</p>{% endif %}
+</div>
+<div class="panel"><h3>When it fails</h3>
+  {% if f.on_failure %}<ul class="compact">{% for x in f.on_failure %}<li>{{ x }}</li>{% endfor %}</ul>{% elif f.schedule.scheduler in ("none", "event") %}<p class="muted">No scheduler definition, so no alarm or retry is known. Check the script's exit codes and the operations runbook.</p>{% else %}<p class="muted">No failure handling found in the scheduler definition (no alarm, retry or failure condition). Check the scripts and the operations runbook.</p>{% endif %}
+</div>
+</div>
+<h2>Steps</h2>
+<ol class="steps">
+{% for st in steps %}<li><strong>{{ st.name }}</strong> <span class="pill">{{ st.kind }}</span>{% if st.description %} {{ st.description }}{% endif %}
+  {% if audience == "technical" %}{% if st.command %}<br><code>{{ st.command }}</code>{% endif %}{% if st.condition %}<br><span class="muted">condition</span> <code>{{ st.condition }}</code>{% endif %}{% endif %}
+  {% if st.runs %}<br><span class="muted">runs</span> {{ st.runs | join(", ") }}{% endif %}
+  {% if st.steps %}<br><span class="muted">steps</span> {{ st.steps | join(" → ") }}{% endif %}
+  {% if st.datasets and audience == "technical" %}<br><span class="muted">datasets</span> {{ st.datasets | join(", ") }}{% endif %}
+  <br><span class="note">{{ m.ev(st.link) }}</span></li>
+{% endfor %}
+</ol>
+{% else %}
+<div class="grid2" style="margin-top:16px">
+<div class="panel"><h3>Services it uses</h3>
+{% if f.services %}<table class="data"><thead><tr><th>Service</th><th>Role</th>{% if audience == "technical" %}<th>Kind</th><th>Handler</th>{% endif %}</tr></thead><tbody>
+{% for sv in f.services %}<tr><td><code>{{ sv.name }}</code></td><td>{{ sv.role }}</td>{% if audience == "technical" %}<td>{{ sv.kind }}</td><td><code>{{ sv.handler or "" }}</code></td>{% endif %}</tr>{% endfor %}
+</tbody></table>{% else %}<p class="muted">No service found for this screen (a static page, or its links were not resolved).</p>{% endif %}
+</div>
+<div class="panel"><h3>Where the user comes from and goes</h3>
+  <p><strong>Comes from:</strong> {{ f.before | join(", ") if f.before else "no other screen found (an entry page, a menu, or a link the scan could not resolve)" }}</p>
+  <p><strong>Goes to:</strong> {{ f.after | join(", ") if f.after else "no next screen found" }}</p>
+</div>
+</div>
+{% endif %}
+
+<div class="grid2" style="margin-top:16px">
+<div class="panel"><h3>Tables</h3>
+{% if tables %}<table class="data"><thead><tr><th>Table</th><th>CRUD</th><th>What it does</th></tr></thead><tbody>
+{% for t in tables %}<tr><td><code>{{ t.name }}</code></td><td class="crud">{{ t.crud or "?" }}</td><td>{{ t.words }}</td></tr>{% endfor %}
+</tbody></table>{% else %}<p class="muted">No table found.</p>{% endif %}
+</div>
+<div class="panel"><h3>Files, queues and external systems</h3>
+{% if f.systems %}<table class="data"><thead><tr><th>Type</th><th>Target</th><th>Direction</th></tr></thead><tbody>
+{% for x in f.systems %}<tr><td><span class="pill c2">{{ x.type }}</span></td><td><code>{{ x.target }}</code></td><td>{{ x.direction }}</td></tr>{% endfor %}
+</tbody></table>{% else %}<p class="muted">None found.</p>{% endif %}
+</div>
+</div>
+<p class="note">The flow, tables and systems come from the scan: services reach tables through the SQL in the code they call, and CRUD letters come from those statements.</p>
+{% endblock %}

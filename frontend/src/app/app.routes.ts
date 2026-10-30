@@ -7,6 +7,7 @@ import { Login } from './login/login';
 import { NewProject } from './new-project/new-project';
 import { ProjectPage } from './project/project';
 import { Projects } from './projects/projects';
+import { ReportsPage } from './reports/reports';
 import { Results } from './results/results';
 import { Shell } from './shell/shell';
 
@@ -22,6 +23,7 @@ export const routes: Routes = [
       { path: 'p/:id', component: ProjectPage, title: 'legacy-audit: project' },
       { path: 'p/:id/inventory', component: Inventory, title: 'legacy-audit: inventory' },
       { path: 'p/:id/results', component: Results, title: 'legacy-audit: results' },
+      { path: 'p/:id/reports', component: ReportsPage, title: 'legacy-audit: reports' },
       { path: 'p/:id/facts/:kind', component: Facts, title: 'legacy-audit: facts' },
     ],
   },

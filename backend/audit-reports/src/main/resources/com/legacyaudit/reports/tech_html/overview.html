@@ -1,0 +1,78 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">What was scanned and what it contains. The functional document (<code>reports/functional/index.html</code>, built with <code>legacy-audit report --type functional</code>) describes the same application for business readers. Counting rules are in the <a href="{{ base }}appendix.html">appendix</a>; every tile links to its catalogue.</p>
+<div class="tiles">
+{% for t in tiles %}{% if t.href %}<a href="{{ base }}{{ t.href }}" style="text-decoration:none;color:inherit">{{ m.tile(t) }}</a>{% else %}{{ m.tile(t) }}{% endif %}
+{% endfor %}
+</div>
+
+<h2>Migration readiness</h2>
+{{ m.gauges(gauges) }}
+
+<div class="grid2" style="margin-top:16px">
+  {{ m.chart(loc_chart) }}
+  {{ m.chart(band_chart) }}
+</div>
+<div class="grid2" style="margin-top:16px">
+  <div class="panel">
+    <h3>Technology stack</h3>
+    <table class="data">
+      <thead><tr><th>Technology</th><th>Version</th><th>Category</th><th>End of life</th></tr></thead>
+      <tbody>
+      {% for t in tech_stack %}<tr><td>{{ t.name }}</td><td><code>{{ t.version or "" }}</code></td><td>{{ t.category }}</td>
+        <td>{% if t.eol %}<span class="chip critical">end of life{% if t.eol_date %} {{ t.eol_date }}{% endif %}</span>{% if t.replacement %} → {{ t.replacement }}{% endif %}{% endif %}</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<h2>Application and web servers</h2>
+{% if servers %}
+<p class="muted">Servers and runtimes the code is built for or deployed on, found in deployment descriptors, server configuration, container images, start scripts and vendor APIs. {% if target_label and not audit_only %}The target column says what each one becomes on the migration target ({{ target_label }}): the default from <code>rules/target-mapping.yaml</code>, or the AI's when marked (AI); the findings list the server-specific files to rework.{% else %}The findings list the server-specific files.{% endif %}</p>
+<div class="table-wrap">
+<table class="data">
+  <thead><tr><th>Server or runtime</th><th>Kind</th><th>Version</th><th>End of life</th><th>Components</th><th>Found in</th>{% if not audit_only %}<th>Target</th>{% endif %}</tr></thead>
+  <tbody>
+  {% for s in servers %}<tr>
+    <td>{{ s.name }}</td><td>{{ s.kind }}</td><td><code>{{ s.version }}</code></td>
+    <td>{% if s.eol and s.eol != "no" %}<span class="chip critical">{{ s.eol }}</span>{% if s.replacement %} → {{ s.replacement }}{% endif %}{% else %}{{ s.eol }}{% endif %}</td>
+    <td>{% for c in s.components %}<a href="{{ base }}components/{{ c|replace('/', '-') }}.html">{{ c }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td>
+    <td>{% for l in s.links %}{{ m.ev(l) }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% if s.more_files %}<br><span class="muted">and {{ s.more_files }} more</span>{% endif %}</td>
+    {% if not audit_only %}<td>{{ s.target }}{% if s.today %}<br><span class="muted">Today: {{ s.today }}</span>{% endif %}</td>{% endif %}
+  </tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+{% else %}
+<p class="muted">No application server, web server or runtime was found in the scanned files (deployment descriptors, server configuration, Dockerfiles, start scripts). Server configuration that is kept outside the code can be added under <code>audit-inputs/server-config/</code>.</p>
+{% endif %}
+
+<h2>Components</h2>
+<div class="table-wrap">
+<table class="data">
+  <thead><tr><th>Component</th><th>Type</th><th class="num">Files</th><th class="num">Code lines</th><th>Complexity</th><th class="num">Duplication %</th><th class="num">Test ratio</th><th class="num">Dead-code candidates</th></tr></thead>
+  <tbody>
+  {% for c in components %}<tr>
+    <td><a href="{{ base }}components/{{ c.slug }}.html">{{ c.name }}</a></td><td>{{ c.type }}</td>
+    <td class="num">{{ c.files }}</td><td class="num">{{ c.loc_code }}</td>
+    <td>{% if c.complexity %}<span class="chip {{ c.complexity|lower|replace(' ', '-') }}">{{ c.complexity }}</span>{% endif %}</td>
+    <td class="num">{{ c.duplication_pct if c.duplication_pct is not none else "" }}</td>
+    <td class="num">{{ c.test_ratio if c.test_ratio is not none else "" }}</td>
+    <td class="num">{{ c.dead_code_candidates if c.dead_code_candidates is not none else "" }}</td>
+  </tr>{% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% if effort %}
+<h2>Effort</h2>
+<p>{{ effort.low }} – {{ effort.high }} {{ effort.unit }}, most likely {{ effort.likely }} <span class="muted">({{ effort.label }}; weights per item and complexity in the run configuration).</span></p>
+{% endif %}
+
+<h2>Largest files</h2>
+<div class="table-wrap"><table class="data">
+  <thead><tr><th>File</th><th>Language</th><th class="num">Code lines</th></tr></thead>
+  <tbody>{% for f in largest_files %}<tr><td>{{ m.ev(f.link) }}</td><td>{{ f.language }}</td><td class="num">{{ f.loc_code }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}

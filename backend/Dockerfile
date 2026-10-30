@@ -14,6 +14,7 @@ WORKDIR /src
 COPY backend/pom.xml backend/pom.xml
 COPY backend/audit-model/pom.xml backend/audit-model/pom.xml
 COPY backend/audit-engine/pom.xml backend/audit-engine/pom.xml
+COPY backend/audit-reports/pom.xml backend/audit-reports/pom.xml
 COPY backend/audit-cli/pom.xml backend/audit-cli/pom.xml
 COPY backend/audit-server/pom.xml backend/audit-server/pom.xml
 RUN . /tmp/java-build.sh; cd backend && mvn -B -ntp -q dependency:go-offline -pl audit-server -am \

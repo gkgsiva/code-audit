@@ -209,3 +209,58 @@ gets `diff` to compare two scans.
 7. Click **All facts**. Pick a kind (for example **libraries**), type part of a name in the
    search box and click **Search**. To filter on one field, pick it in **Any field** and type a
    value (start it with `~` to match part of the text).
+
+## Phase 6: reports and PDFs
+
+What is new: the four reports of the Python tool now come from the new version: the
+**technical report**, the **functional document**, the **management deck** (slides in the
+browser) and the **summary report**, plus **PDF copies** of each. They are the same as the
+Python tool's, page for page. The web app gets a **Reports** page; the command line gets
+`report`. There is no PowerPoint any more.
+
+PDFs need Microsoft Edge, Google Chrome or Chromium on the computer (or in the container) that
+builds them. On a Windows laptop Edge is already there. On WSL2 the tool also finds the Windows
+Edge or Chrome under `/mnt/c`. Without a browser the PDFs are skipped with a message and the
+HTML reports still work.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (132 tests).
+3. Run **`audit: 12. compare the reports with the Python tool`**. It ends with
+   `Tests run: 17, Failures: 0, Errors: 0, Skipped: 1` and `BUILD SUCCESS`. It builds the
+   reports of 11 sample scans and compares every page with what the Python tool made. (The one
+   skipped test prints real PDFs; it runs only on the build server.)
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **struts-oracle-app**, then run
+   **`audit: 13. build the reports of a sample app`** and pick **struts-oracle-app**. It prints
+   one line per report, for example
+   `Technical report -> ...\target\sample-scans\struts-oracle-app\runs\<run>\reports\tech\index.html`,
+   then `Printing the PDF copies (this takes a minute)...` and one line per PDF.
+   - If it says `PDF skipped: no Microsoft Edge, Google Chrome or Chromium found`, install one
+     of them (or set `pdf.browser_path` in the sample's `audit.yaml`) and run task 13 again.
+   - It also says `Enrichment: 14 stage(s) missing`: the AI part of the reports comes in Phase 7;
+     until then those slides and pages say **Not enriched yet**.
+5. Open the reports: in the Explorer panel open
+   `backend/target/sample-scans/struts-oracle-app/runs/<newest>/reports/`, right-click
+   `tech/index.html` and pick **Reveal in File Explorer** (on WSL2: **Open in Integrated
+   Terminal** and type `explorer.exe .`), then double-click `index.html`. Check:
+   - **Technical report**: the menu on the left opens Overview, Components, Architecture, Flows,
+     Data model, SQL, PostgreSQL, Integrations, Batch jobs, Libraries, Security, Findings and
+     Appendix; the diagrams and charts are drawn; a table's search box filters its rows.
+   - `functional/index.html`: Summary, Users and use cases, Business flows, Screens, Batch,
+     Rules, Data, Interfaces, Glossary.
+   - `mgmt/index.html`: the slides; use the arrow keys, **N** shows the speaker notes,
+     **Theme** switches light and dark.
+   - `summary/index.html`: one page with the project, database, integrations, batches and
+     vulnerabilities, each with charts and **CSV** downloads; there is no PowerPoint button.
+   - `pdf/`: `summary.pdf`, `management.pdf`, `functional.pdf` and `technical.pdf`. The
+     technical and functional PDFs start with a contents page; click an entry to jump to it.
+6. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva** and open your project. After a finished scan click **Open the reports**:
+   - click **Build all reports**. The step and a progress bar show; after a few seconds the
+     **Open** links appear. Click **Open** beside **Technical report**: it opens in a new tab;
+   - **Build all reports and PDFs** also makes the PDF links (the backend container has no
+     browser yet, so it says `PDF skipped: ...`; the container image gets one in Phase 9);
+   - **Download the data pack (ZIP)** saves the scan's facts as a ZIP file;
+   - log in as another user who is a **viewer** of the project: the reports open, but there are
+     no **Build** buttons.

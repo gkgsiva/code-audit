@@ -19,11 +19,16 @@ and starts the three containers to check health and a login.
 | audit-engine | `PgCorpusTest` | SQL to PostgreSQL text and grades on 3,132 statements recorded from Python (`parity/pg*.json.gz`) |
 | audit-engine | `FindingsTest`, `SecurityTest` | The rules engine (conditions, messages, config switches) and dependency security (versions, end of life, advice, report import, matching, SBOM, scanner runs) as in the Python tests |
 | audit-engine | `ProofsTest` | The Phase 0 parser proofs |
+| audit-reports | `JinjaTest` | The template engine: syntax, filters, escaping, whitespace control as Jinja2 |
+| audit-reports | `ReportParityTest` | 11 sample runs (6 plain scans, 4 with enrichment, 1 audit only): every file of the technical, functional, management and summary reports equals what Python built from the same run (`report-parity/<set>/<sample>/`, README there); the sample folder is written `@SAMPLE@` / `@REL@` on both sides. A file that differs is written to `audit-reports/target/report-parity-actual/` for a diff |
+| audit-reports | `PdfReportsTest` | PDF settings, cover, page numbers, titles, browser lookup; with `PDF_BROWSER=<browser program>` (or on Linux CI) it prints the summary and functional PDFs and checks pages, bookmarks and metadata |
+| audit-reports | `DevCompareTest` | Developer check, skipped unless `REPORT_REF` is set: builds the reports for every run of a folder of Python reference runs into `reports-java/` beside `reports/` |
 | audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
-| audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database) |
+| audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build |
 
 Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer. Task 10
-runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`).
+runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`). Task 12 runs
+the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`).
 
 ## How the parity data was made
 

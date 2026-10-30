@@ -18,6 +18,10 @@
       <artifactId>audit-engine</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.legacyaudit</groupId>
+      <artifactId>audit-reports</artifactId>
+    </dependency>
+    <dependency>
       <groupId>info.picocli</groupId>
       <artifactId>picocli</artifactId>
     </dependency>

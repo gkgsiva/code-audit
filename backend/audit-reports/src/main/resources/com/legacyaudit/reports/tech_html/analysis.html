@@ -1,0 +1,75 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Interpretation written by the Copilot agent from the facts and checked by <code>legacy-audit validate</code>: every number is copied from the scan, every claim cites evidence or is marked as an assumption. Counts on the other pages come from the scanner alone.</p>
+<div class="panel">
+  <h3>Enrichment stages</h3>
+  <table class="data"><thead><tr><th class="num">#</th><th>Stage</th><th>State</th><th>Changed since built</th></tr></thead><tbody>
+  {% for s in stages %}<tr><td class="num">{{ s.number }}</td><td>{{ s.title }} <code>{{ s.name }}.json</code></td><td><span class="chip {{ {'valid': 'auto', 'stale': 'review', 'missing': 'info', 'not validated': 'high'}[s.state] }}">{{ s.state }}</span></td><td>{{ s.changed | join(", ") }}</td></tr>{% endfor %}
+  </tbody></table>
+  <p class="note">Missing or stale stages: run <code>/audit-enrich stale</code> in Copilot, then <code>legacy-audit validate</code>.</p>
+</div>
+{% macro cites(item) -%}{% if item.links %}{% for l in item.links %}{{ m.ev(l) }}{% if not loop.last %}<br>{% endif %}{% endfor %}{% elif item.assumption %}<span class="muted">assumption</span>{% endif %}{%- endmacro %}
+
+{% if e.overview %}<h2>Overview</h2>
+<p>{{ e.overview.purpose }}</p>
+{% if e.overview.users %}<p class="muted">Users: {{ e.overview.users | join(", ") }}</p>{% endif %}
+{% if key_points %}<table class="data"><thead><tr><th>Key point</th><th>Evidence</th></tr></thead><tbody>{% for k in key_points %}<tr><td>{{ k.text }}</td><td class="ev">{{ cites(k) }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+{% endif %}
+
+{% if classes %}<h2>Capabilities</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Component</th><th>Capability</th><th>Kind</th><th>Criticality</th><th>Reason</th><th>Evidence</th></tr></thead><tbody>
+{% for c in classes %}<tr><td><code>{{ c.component }}</code></td><td>{{ c.capability }}</td><td>{{ c.kind }}{% if c.reclassified_from %} <span class="muted">(scanner: {{ c.reclassified_from }})</span>{% endif %}</td><td>{{ c.criticality }}</td><td>{{ c.reason }}</td><td class="ev">{{ cites(c) }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
+
+{% if e.architecture %}<h2>Architecture (interpreted)</h2>
+{% for l in e.architecture.layers %}<p><strong>{{ l.name }}</strong>: {{ l.description }} <span class="muted">({{ l.components | join(", ") }})</span></p>{% endfor %}
+{% for d in arch_diagrams %}{{ m.diagram(d) }}{% endfor %}
+{% endif %}
+
+{% if flows %}<h2>Business flows</h2>
+{% for f in flows %}<div class="panel"><h3>{{ f.name }} <span class="muted">· {{ f.kind }}</span></h3><p>{{ f.summary }}</p>
+<ol class="compact">{% for s in f.steps | sort(attribute="order") %}<li>{{ s.description }}{% if s.fact_ids %} <span class="muted">({% for i in s.fact_ids %}{{ label(i) }}{% if not loop.last %}, {% endif %}{% endfor %})</span>{% endif %}</li>{% endfor %}</ol>
+<p class="note">{{ cites(f) }}</p></div>{% endfor %}{% endif %}
+
+{% if mappings %}<h2>Service mapping</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Service</th><th>Target</th><th>Target component</th><th>Approach</th><th>Notes</th><th>Evidence</th></tr></thead><tbody>
+{% for s in mappings %}<tr><td><code>{{ s.service }}</code></td><td>{{ s.target }}</td><td>{{ s.target_component }}</td><td>{{ s.approach }}</td><td>{{ s.notes }}</td><td class="ev">{{ cites(s) }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
+
+{% if e.data_migration %}<h2>Data migration</h2><p>{{ e.data_migration.strategy }}</p>{% endif %}
+
+{% if e.dependency_plan %}<h2>Dependency upgrade themes</h2>
+<table class="data"><thead><tr><th>Theme</th><th>Action</th><th>Wave</th><th>Libraries</th><th>Why</th></tr></thead><tbody>
+{% for t in e.dependency_plan.themes %}<tr><td>{{ t.name }}</td><td>{{ t.action }}</td><td>{{ t.wave }}</td><td>{% for i in t.library_ids %}{{ label(i) }}{% if not loop.last %}, {% endif %}{% endfor %}</td><td>{{ t.rationale }}</td></tr>{% endfor %}
+</tbody></table>{% endif %}
+
+{% if risks %}<h2>Risks</h2>
+{% if risk_matrix %}<div class="panel"><h3>Risk heat map</h3>{{ m.risk_matrix(risk_matrix) }}<p class="note">Number of risks per severity and likelihood, with their ids; hover a cell for all of them.</p></div>{% endif %}
+<div class="table-wrap"><table class="data"><thead><tr><th>ID</th><th>Risk</th><th>Severity</th><th>Likelihood</th><th>Mitigation</th><th>Owner</th><th>Evidence</th></tr></thead><tbody>
+{% for r in risks %}<tr><td>{{ r.id }}</td><td><strong>{{ r.title }}</strong><br><span class="muted">{{ r.description }}</span>{% if r.accepted %} <span class="chip info">accepted</span>{% endif %}</td><td><span class="chip {{ r.severity }}">{{ r.severity }}</span></td><td>{{ r.likelihood }}</td><td>{{ r.mitigation }}</td><td>{{ r.owner }}</td><td class="ev">{{ cites(r) }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
+
+{% if e.assumptions %}<h2>Assumptions and open questions</h2>
+<table class="data"><thead><tr><th>ID</th><th>Assumption</th><th>Impact</th><th>Owner</th><th>Validate by</th></tr></thead><tbody>
+{% for a in e.assumptions.assumptions %}<tr><td>{{ a.id }}</td><td>{{ a.statement }}</td><td>{{ a.impact }}</td><td>{{ a.owner }}</td><td>{{ a.validate_by }}</td></tr>{% endfor %}
+</tbody></table>
+{% if e.assumptions.open_questions %}<ul class="compact">{% for q in e.assumptions.open_questions %}<li>{{ q }}</li>{% endfor %}</ul>{% endif %}{% endif %}
+
+{% if e.target_architecture %}<h2>Target architecture</h2>
+<table class="data"><thead><tr><th>Component</th><th>Technology</th><th>Platform</th><th>Replaces</th><th>Description</th></tr></thead><tbody>
+{% for c in e.target_architecture.components %}<tr><td>{{ c.name }}</td><td>{{ c.technology }}</td><td>{{ c.platform }}</td><td>{{ c.replaces | join(", ") }}</td><td>{{ c.description }}</td></tr>{% endfor %}
+</tbody></table>
+{% for d in target_diagrams %}{{ m.diagram(d) }}{% endfor %}{% endif %}
+
+{% if e.plan %}<h2>Plan</h2><p>{{ e.plan.approach }}</p>
+{% if gantt and gantt.bars %}<div class="panel"><h3>Roadmap</h3>{{ m.gantt(gantt) }}</div>{% endif %}
+<table class="data"><thead><tr><th>Wave</th><th>Goal</th><th>Components</th><th class="num">Start month</th><th class="num">Months</th><th>Effort</th></tr></thead><tbody>
+{% for w in e.plan.waves | sort(attribute="order") %}<tr><td>{{ w.name }}</td><td>{{ w.goal }}</td><td>{{ w.components | join(", ") }}</td><td class="num">{{ w.start_month }}</td><td class="num">{{ w.duration_months }}</td><td>{% for f in w.effort %}{{ f.label }}: {{ f.value }} {{ f.unit }}{% if f.estimate %} <span class="muted">(estimate)</span>{% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}</td></tr>{% endfor %}
+</tbody></table>
+{% if e.plan.decisions_needed %}<h3>Decisions needed</h3><ul class="compact">{% for d in e.plan.decisions_needed %}<li>{{ d }}</li>{% endfor %}</ul>{% endif %}{% endif %}
+
+{% if e.narratives %}<h2>Narratives</h2>
+{% for who in ["executive", "architect", "functional", "developer"] %}<div class="panel"><h3>{{ who | capitalize }}</h3><p>{{ e.narratives[who].text }}</p></div>{% endfor %}{% endif %}
+
+{% if not e %}<p class="muted">No enrichment yet. In VS Code, open Copilot Chat, pick the <strong>legacy-auditor</strong> agent and run <code>/audit-enrich all</code>; then rebuild this report.</p>{% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+{% include "_fn_missing.html" %}
+<p class="lead">The people and systems that use the application, and what they do with it.</p>
+{% if diagram %}{{ m.diagram(diagram) }}{% endif %}
+{% if use_cases %}<h2>Use cases</h2>
+<div class="cards">{% for u in use_cases %}<div class="card c7"><h3>{{ u.id }} · {{ u.name }}</h3>
+  <p><span class="pill c4">{{ u.actor }}</span>{% if u.domain %} <span class="pill c3">{{ u.domain }}</span>{% endif %}</p>
+  <p><strong>Goal:</strong> {{ u.goal }}</p>
+  {% if u.steps %}<ol class="steps">{% for st in u.steps %}<li>{{ st }}</li>{% endfor %}</ol>{% endif %}
+  {% if u.outcome %}<p><strong>Result:</strong> {{ u.outcome }}</p>{% endif %}
+  {% if u.screens %}<p>Screens: {% for s in u.screens %}{% if s.href %}<a href="{{ base }}{{ s.href }}">{{ s.name }}</a>{% else %}{{ s.name }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}</p>{% endif %}
+  <p class="note">{% for l in u.links %}{{ m.ev(l) }} {% endfor %}{% if u.assumption %}assumption{% endif %}</p>
+</div>{% endfor %}</div>
+{% endif %}
+{% if actors %}<h2>Actors</h2>
+<div class="table-wrap"><table class="data"><thead><tr><th>Actor</th><th>Kind</th><th>Description</th></tr></thead><tbody>
+{% for a in actors %}<tr><td><strong>{{ a.name }}</strong></td><td><span class="pill {{ a.color }}">{{ a.kind }}</span></td><td>{{ a.description }}</td></tr>{% endfor %}
+</tbody></table></div>{% endif %}
+{% endblock %}
