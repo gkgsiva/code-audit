@@ -140,6 +140,29 @@ export const KINDS = [
 ] as const;
 
 /** The backend's message for a refused call, in plain words. */
+export interface ReportJob {
+  type: string;
+  run_id: string;
+  user: string;
+  state: 'running' | 'done' | 'failed';
+  stage: string;
+  done: number;
+  total: number;
+  messages: string[];
+  error: string | null;
+  started_at: string;
+  ended_at: string | null;
+}
+
+export interface Reports {
+  scan: Scan | null;
+  run_id: string | null;
+  /** Report name (tech, functional, mgmt, summary, pdf_*) to its address, or null when not built. */
+  reports: Record<string, string | null>;
+  datapack: string | null;
+  job: ReportJob | null;
+}
+
 export function problem(err: HttpErrorResponse): string {
   return err.error?.detail ?? 'The server did not answer. Is it running?';
 }
@@ -212,5 +235,13 @@ export class ApiService {
 
   components(id: string): Observable<{ scan: Scan | null; components: ComponentRow[] }> {
     return this.http.get<{ scan: Scan | null; components: ComponentRow[] }>(`/api/projects/${encodeURIComponent(id)}/components`);
+  }
+
+  reports(id: string): Observable<Reports> {
+    return this.http.get<Reports>(`/api/projects/${encodeURIComponent(id)}/reports`);
+  }
+
+  buildReports(id: string, type: string): Observable<Reports> {
+    return this.http.post<Reports>(`/api/projects/${encodeURIComponent(id)}/reports`, { type });
   }
 }

@@ -1,0 +1,76 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Reports</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'results']">Results</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  @if (data(); as d) {
+    @if (!d.run_id) {
+      <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
+    } @else {
+      <p class="hint">Reports of run {{ d.run_id }}. Each opens in a new browser tab and works offline once saved.</p>
+      @if (canBuild()) {
+        <div class="row">
+          <button class="btn primary" type="button" [disabled]="running()" (click)="build('all')">Build all reports</button>
+          <button class="btn" type="button" [disabled]="running()" (click)="build('pdf')">Build all reports and PDFs</button>
+        </div>
+      } @else {
+        <p class="hint">Viewers can open the reports; a contributor or the project owner builds them.</p>
+      }
+    }
+    @if (d.job; as j) {
+      @if (j.state === 'running') {
+        <p>Building ({{ j.type }}): {{ j.stage }} @if (j.total > 0) { ({{ j.done }} of {{ j.total }}) }</p>
+        @if (percent() !== null) {
+          <progress max="100" [value]="percent()"></progress>
+        }
+      } @else if (j.state === 'failed') {
+        <p class="error-text" role="alert">The build failed: {{ j.error }}</p>
+      } @else {
+        <p class="hint">Last build ({{ j.type }}) by {{ j.user }} finished at {{ j.ended_at }}.</p>
+      }
+      @for (m of j.messages; track $index) {
+        <p class="hint">{{ m }}</p>
+      }
+    }
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+</section>
+
+@if (data()?.run_id) {
+  <section class="panel">
+    <h2>The reports</h2>
+    <table>
+      <thead><tr><th>Report</th><th>What it shows</th><th>Open</th><th>PDF</th>
+        @if (canBuild()) { <th>Build</th> }
+      </tr></thead>
+      <tbody>
+        @for (r of reportList; track r.key) {
+          <tr>
+            <td>{{ r.title }}</td>
+            <td>{{ r.text }}</td>
+            <td>
+              @if (link(r.key); as href) { <a [href]="href" target="_blank" rel="noopener">Open</a> }
+              @else { <span class="hint">Not built yet</span> }
+            </td>
+            <td>
+              @if (link(r.pdf); as href) { <a [href]="href" target="_blank" rel="noopener">PDF</a> }
+              @else { <span class="hint">None</span> }
+            </td>
+            @if (canBuild()) {
+              <td><button class="btn" type="button" [disabled]="running()" (click)="build(r.key)">Build</button></td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+    @if (data()?.datapack; as dp) {
+      <p><a [href]="dp">Download the data pack (ZIP)</a> <span class="hint">with run.json, the facts and the enrichment files.</span></p>
+    }
+    <p class="hint">The PDF copies need Microsoft Edge, Google Chrome or Chromium where the backend runs; without one the build says so and the HTML reports still work.</p>
+  </section>
+}

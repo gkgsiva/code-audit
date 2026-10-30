@@ -111,13 +111,13 @@ public class ReportController {
                 runId = scan.runId();
                 for (Map.Entry<String, String> f : FILES.entrySet()) {
                     boolean there = Files.isRegularFile(dir.resolve("reports").resolve(f.getValue()));
-                    reports.put(f.getKey(), there ? "api/projects/" + project.id() + "/runs/" + runId + "/reports/" + f.getValue() : null);
+                    reports.put(f.getKey(), there ? "/api/projects/" + project.id() + "/runs/" + runId + "/reports/" + f.getValue() : null);
                 }
             }
         }
         out.put("run_id", runId);
         out.put("reports", reports);
-        out.put("datapack", runId == null ? null : "api/projects/" + project.id() + "/runs/" + runId + "/datapack.zip");
+        out.put("datapack", runId == null ? null : "/api/projects/" + project.id() + "/runs/" + runId + "/datapack.zip");
         out.put("job", jobView(jobs.last(project.id())));
         return out;
     }

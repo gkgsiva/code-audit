@@ -120,6 +120,31 @@ class ProjectScanFlowTest {
         mvc.perform(get("/api/projects/struts-billing/facts/findings").param("colour", "red").session(siva))
                 .andExpect(status().isBadRequest());
 
+        // Reports: build the summary in the background, then read its page and the data pack.
+        mvc.perform(get("/api/projects/struts-billing/reports").session(siva))
+                .andExpect(jsonPath("$.reports.summary").doesNotExist())
+                .andExpect(jsonPath("$.job").doesNotExist());
+        mvc.perform(json(post("/api/projects/struts-billing/reports"), siva, Map.of("type", "pptx")))
+                .andExpect(status().isBadRequest());
+        mvc.perform(json(post("/api/projects/struts-billing/reports"), siva, Map.of("type", "summary")))
+                .andExpect(status().isOk());
+        String state = "running";
+        String body = "";
+        for (int i = 0; i < 300 && state.equals("running"); i++) {
+            Thread.sleep(100);
+            body = mvc.perform(get("/api/projects/struts-billing/reports").session(siva)).andReturn().getResponse().getContentAsString();
+            state = JSON.readTree(body).path("job").path("state").asString();
+        }
+        assertThat(state).isEqualTo("done");
+        String page = JSON.readTree(body).path("reports").path("summary").asString();
+        assertThat(page).startsWith("/api/projects/struts-billing/runs/").endsWith("/reports/summary/index.html");
+        assertThat(mvc.perform(get(page).session(siva)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString())
+                .contains("<html");
+        mvc.perform(get(page.replace("summary/index.html", "../../run.json")).session(siva)).andExpect(status().is4xxClientError());
+        String datapack = JSON.readTree(body).path("datapack").asString();
+        assertThat(mvc.perform(get(datapack).session(siva)).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray())
+                .startsWith(0x50, 0x4b);
+
         // Others see it only as members; a viewer may read but not scan.
         MockHttpSession anna = login("anna");
         mvc.perform(get("/api/projects/struts-billing").session(anna)).andExpect(status().isNotFound());
@@ -127,6 +152,9 @@ class ProjectScanFlowTest {
                 .andExpect(jsonPath("$.members.anna").value("viewer"));
         mvc.perform(get("/api/projects/struts-billing/inventory").session(anna)).andExpect(status().isOk());
         mvc.perform(json(post("/api/projects/struts-billing/scans"), anna, Map.of()))
+                .andExpect(status().isForbidden());
+        mvc.perform(get("/api/projects/struts-billing/reports").session(anna)).andExpect(status().isOk());
+        mvc.perform(json(post("/api/projects/struts-billing/reports"), anna, Map.of("type", "summary")))
                 .andExpect(status().isForbidden());
         mvc.perform(json(put("/api/projects/struts-billing/members"), anna, Map.of("members", Map.of())))
                 .andExpect(status().isForbidden());
