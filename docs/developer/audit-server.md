@@ -12,6 +12,7 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `server.auth` | `AuthController`, `UserStore`, `User`, `CurrentUser` | Test login and users |
 | `server.projects` | `ProjectController`, `ProjectService`, `ProjectStore`, `Project`, `Roles` | Projects, members, the folder picker |
 | `server.scans` | `ScanController`, `ScanJobs`, `ScanStore`, `Scan` | Starting, following and cancelling scans |
+| `server.reports` | `ReportController`, `ReportJobs` | Report links, background report builds, report files and the data pack |
 | `server.inventory` | `InventoryController` | Files and components of the newest scan |
 | `server.web` | `HealthController`, `ApiException`, `ApiErrors` | Health check and error answers |
 
@@ -56,6 +57,10 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `GET /api/projects/{id}/components` | components of the newest scan | project viewer and up |
 | `GET /api/projects/{id}/dashboard` | headline numbers, charts, effort, top findings and coverage of the newest scan (`store.Dashboard`) | project viewer and up |
 | `GET /api/projects/{id}/facts/{kind}?q=&limit=&offset=&<field>=` | rows of one kind of fact of the newest scan (`store.FactsQuery`); `<field>=~text` means contains | project viewer and up |
+| `GET /api/projects/{id}/reports` | run id of the newest scan, the address of each built report and PDF (or null), the data pack address, and the last report build (state, step, done/total, messages) | project viewer and up |
+| `POST /api/projects/{id}/reports` | `{"type": "tech" \| "functional" \| "mgmt" \| "summary" \| "pdf" \| "all"}`: build in the background (`ReportJobs`, one build per project at a time, 409 while one runs) | project contributor and up |
+| `GET /api/projects/{id}/runs/{runId}/reports/{path}` | a file of the run's reports (pages, assets, data, PDFs); relative links inside a report page resolve under the same address | project viewer and up |
+| `GET /api/projects/{id}/runs/{runId}/datapack.zip` | `run.json`, `data/` and the enrichment files as a ZIP | project viewer and up |
 
 The results calls read the newest finished scan's run folder (`<project>/audit-output/runs/<run-id>/`);
 the inventory and components also live in PostgreSQL for the filters of the inventory page.

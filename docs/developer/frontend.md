@@ -35,6 +35,7 @@ src/
     project/              one project: start, follow and cancel scans, components, members
     inventory/            files of the newest scan with filters and totals per language
     results/              the newest scan's headline numbers, charts, effort, findings, coverage
+    reports/              build the reports, open them in a new tab, PDFs and the data pack
     facts/                every kind of fact, one kind at a time, with search, filter and paging
 ```
 
@@ -48,6 +49,7 @@ src/
 | `/p/:id` | `ProjectPage` | Start scan / full rescan, live status (asks every 1.5 s), log, cancel, past scans, components, who has access |
 | `/p/:id/inventory` | `Inventory` | Lines of code per language; files filtered by language, category, component, text |
 | `/p/:id/results` | `Results` | Headline numbers (each links to its facts), effort, bar charts (languages, complexity, PostgreSQL grades, severities), top findings, vulnerability sources, inputs provided, warnings |
+| `/p/:id/reports` | `ReportsPage` | The four reports with what each shows, **Open** (new tab) and **PDF** links, **Build** per report, **Build all reports** and **... and PDFs** for contributors (asks every 1.5 s while building), the data pack ZIP |
 | `/p/:id/facts/:kind` | `Facts` | One kind of fact (`KINDS` in `api.service.ts`): text search, one field filter (`~` for contains), 50 rows a page; for batch jobs also the batches with no schedule |
 
 Every path except `/login` sits inside `Shell` and is protected by `loggedIn`.

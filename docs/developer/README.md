@@ -15,6 +15,7 @@ Parts that a later phase adds are marked with that phase.
 | [audit-engine.md](audit-engine.md) | The scan pipeline: file walk, inventory, components, analyzers, file cache, run folders |
 | [analyzers.md](analyzers.md) | Every analyzer, the helpers they share, tree-sitter and SQL, how to add or change one |
 | [audit-server.md](audit-server.md) | The web backend: REST API, login and roles, projects, background scans, database |
+| [audit-reports.md](audit-reports.md) | The four HTML reports, the management deck data and the PDF copies |
 | [audit-cli.md](audit-cli.md) | The command-line jar `legacy-audit.jar` |
 | [frontend.md](frontend.md) | The Angular app: routes, screens, services, styles, tests |
 | [testing.md](testing.md) | Tests, the parity checks against the Python tool and how to add test data |
@@ -35,6 +36,7 @@ backend/                 Maven multi-module build (Java 25, Spring Boot 4)
   pom.xml                parent: versions of every library, plugin settings
   audit-model/           facts, config, JSON (no Spring)
   audit-engine/          the scan itself (no Spring)
+  audit-reports/         HTML reports and PDF copies (no Spring)
   audit-cli/             legacy-audit.jar, the command line (picocli)
   audit-server/          the web backend (Spring Boot, PostgreSQL)
   Dockerfile             backend image
@@ -55,6 +57,9 @@ docs/                    decisions, progress, history, VS Code steps, this guide
                  ^
                  |
             audit-engine  (Scanner, analyzers, inventory, store)
+                 ^
+                 |
+            audit-reports (technical, functional, management, summary, PDF)
               ^       ^
               |       |
        audit-cli     audit-server  <--- HTTP /api --- frontend (Angular, nginx)
@@ -63,12 +68,12 @@ docs/                    decisions, progress, history, VS Code steps, this guide
 
 - **audit-model** and **audit-engine** are plain Java with no Spring, so the engine runs the
   same in the laptop jar and in the web backend.
-- **audit-cli** wraps the engine in commands (`scan` now; `report`, `enrich`, `diff` ... in
-  later phases).
+- **audit-reports** builds the HTML reports and PDFs from a run folder (plain Java too).
+- **audit-cli** wraps the engine and the reports in commands (`scan`, `report`, `diff`; `enrich`
+  ... in later phases).
 - **audit-server** stores projects, members and scans in PostgreSQL, runs scans in the
   background through the engine, and serves `/api` to the Angular app.
-- Later phases add `audit-reports` (Phase 6, HTML and PDF reports) and `audit-ai` (Phase 7,
-  enrichment and the MCP server).
+- Phase 7 adds `audit-ai` (enrichment and the MCP server).
 
 ## What a scan does
 
@@ -85,7 +90,8 @@ docs/                    decisions, progress, history, VS Code steps, this guide
 6. The linker joins the facts across files, then metrics, PostgreSQL grades, dependency
    security, findings and the effort estimate are added (`Assess`), and `audit-summary.json`
    is written (`Summary`).
-7. Later phases add reports (Phase 6) and AI enrichment (Phase 7).
+7. `legacy-audit report` or the Reports page builds the reports into `reports/` of the run
+   (`audit-reports`). AI enrichment comes in Phase 7.
 
 ## Ground rules for the code
 
@@ -110,7 +116,8 @@ docs/                    decisions, progress, history, VS Code steps, this guide
 | Frontend build and tests | `npm ci`, `npx ng test --watch=false`, `npx ng build` in `frontend/` (task 5); needs Node.js 22 |
 | Everything in Docker | `docker compose up -d --build` (task 1), then http://localhost:8770 |
 | Scan a sample from the command line | task 7, or `java -jar backend/audit-cli/target/legacy-audit.jar scan -c samples/<app>/audit.yaml -o <out>` |
-| Compare with the Python tool | task 8 |
+| Compare with the Python tool | tasks 8, 10 and 12 |
+| Build the reports of a sample | task 13 (after task 7) |
 | Class reference | task 9 |
 
 Docker settings (proxy, mirrors, company certificates, folders) are explained in
