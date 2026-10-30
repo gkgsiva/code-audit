@@ -581,7 +581,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
 | 2 – Analyzers: Java and SQL | Done (2026-10-29) | Analyzers for build files, dependencies, configuration files, Java (tree-sitter-java, the same grammar as Python), Struts/JSF/JSP web tier, Spring XML, SQL files with embedded and dynamic SQL in Java, and application servers. Their facts match the Python tool on all 10 samples and on 2,000+ recorded cases (`AnalyzerParityTest`, `CaseParityTest`); SQL tables come from JSqlParser shaped like sqlglot. Scan log and command line show the files per analyzer. Developer docs started (`docs/developer/`, Javadoc task 9) |
 | 3 – Analyzers: mainframe and batch | Done (2026-10-29) | Analyzers for shell scripts and crontabs, JCL, Autosys JIL, IBM MQ definitions, CFT, COBOL with copybooks, CICS and BMS maps, C and C++ (tree-sitter), Pro*C, and the SQL embedded in C, Pro*C and COBOL (with dynamic SQL rebuilt from the code that fills the buffers). Their facts match the Python tool on the samples and on 1,100+ more recorded cases |
 | 4 – Analyzers: web, front ends, desktop | Done (2026-10-29) | Analyzers for web service definitions (WSDL, Axis, JAX-WS, CXF, servlets in `web.xml`), .NET project, solution and config files (`dotnet`), VB6 and VB.NET (`basic`, forms and their controls), C# (WinForms, WPF, ASP.NET, WCF, Entity Framework, Dapper; tree-sitter) and TypeScript/JavaScript (Angular, AngularJS, Node.js with Express/NestJS, TypeORM, Prisma, Sequelize, Knex; tree-sitter). Their facts match the Python tool on all 10 samples and on 350 more recorded cases. Every Python analyzer except `metrics` and `patterns` (Phase 5) is now ported |
-| 5 – Linking and assessment | Not started | |
+| 5 – Linking and assessment | Done (2026-10-30) | Linker (entities, references across files, component types and roles), metrics (complexity, duplication, tests, dead code, bands), text rules (`patterns`), SQL to PostgreSQL text and grades (own converter checked on 3,132 recorded statements), end of life, upgrade advice, Dependency-Check and OSV-Scanner reports and runs, CycloneDX SBOM, jdeps, findings, effort, `audit-summary.json` and the `diff` command. Every result file of a scan equals the Python tool's on all 10 samples (`RunParityTest`) and every `expected.yaml` passes. Web app: Results page (headline numbers, effort, charts, top findings, vulnerability check, inputs) and a Facts page for every kind of fact |
 | 6 – Reports | Not started | |
 | 7 – AI and Copilot | Not started | |
 | 8 – Web app complete | Not started | |
@@ -602,5 +602,9 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
 - Known gaps after Phase 4: as before, the facts stay per file until the linker (Phase 5); the
   C# grammar is tree-sitter-c-sharp 0.23.1 (Python used 0.23.5, which has no Java binding); the
   22 recorded C# files and the C# samples give the same trees.
-- Next: Phase 5 (linker, metrics, patterns, effort, rules, vulnerabilities, SBOM, run diff and
-  the results screens).
+- Known gaps after Phase 5: the compare-runs page and the component and evidence pages of the
+  web app come in Phase 8 (`legacy-audit diff` works now); enrichment carry-over between runs
+  comes with the AI work (Phase 7); one of the 3,132 recorded SQL statements converts to a
+  slightly different PostgreSQL text than sqlglot wrote.
+- Next: Phase 6 (technical, functional, management and summary HTML reports, diagrams, PDF and
+  the report screens).

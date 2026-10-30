@@ -17,10 +17,11 @@ import com.legacyaudit.engine.inventory.Walker.Walked;
 import com.legacyaudit.engine.linker.Classify;
 import com.legacyaudit.engine.linker.Linker;
 import com.legacyaudit.engine.metrics.Compute;
-import com.legacyaudit.engine.pg.Grader;
 import com.legacyaudit.engine.rules.Targets;
+import com.legacyaudit.engine.rules.Findings;
 import com.legacyaudit.engine.rules.Packs;
 import com.legacyaudit.engine.store.FactWriter;
+import com.legacyaudit.engine.store.Summary;
 import com.legacyaudit.engine.store.FactWriter.Entity;
 import com.legacyaudit.engine.store.Runs;
 import com.legacyaudit.engine.store.ScanLock;
@@ -482,18 +483,39 @@ public final class Scanner {
             Compute.Result measured = Compute.compute(Compute.Settings.of(cfg), sourceRecords, components, linked.entities(), units, windows);
             timings.put("metrics", seconds(t));
 
-            // ---- Assessment ---------------------------------------------------------------------
+            // ---- Assess: PostgreSQL grades, dependency security, rules, effort ------------------------
             stage("assess");
             t = System.nanoTime();
-            String profile = cfg.target().profile();
-            if (!Targets.NONE.equals(profile)) { // audit only: no target database to grade against
-                Grader.gradeAll(linked.entities().getOrDefault("sql_statements", List.of()), linked.entities().getOrDefault("db_objects", List.of()),
-                        Packs.load("postgresql", teamDir(loaded)).data);
+            List<Findings.Hit> hits = new ArrayList<>();
+            for (FileFacts ff : fileFacts) {
+                if (ff.analyzer().equals("patterns")) {
+                    for (List<Object> h : ff.facts().hits) {
+                        hits.add(new Findings.Hit(ff.path(), String.valueOf(h.get(0)), ((Number) h.get(1)).longValue(), String.valueOf(h.get(2))));
+                    }
+                }
             }
+            Map<String, Path> absPaths = new HashMap<>();
+            for (Item it : walked) {
+                absPaths.put(it.path(), it.file().absPath());
+            }
+            String startedAt = started.truncatedTo(ChronoUnit.SECONDS).format(ISO_SECONDS);
+            Assess.Assessment assessed = Assess.run(new Assess.Input(loaded, teamDir(loaded), runId, startedAt, AppInfo.version(), runDir,
+                    records, linked.entities(), allFindings, measured, hits, roots.stream().map(Sources.Root::path).toList(), absPaths));
             timings.put("assess", seconds(t));
+            log.info("Assessed: " + assessed.findings().size() + " findings");
+            if (assessed.unmatchedReports() > 0) {
+                log.info("Vulnerability reports: " + assessed.unmatchedReports()
+                        + " entries match no library in the inventory (transitive?)");
+            }
+            for (Doc s : assessed.sources()) {
+                String detail = s.str("detail");
+                log.info("Vulnerability source " + s.str("name") + ": " + s.str("status")
+                        + (detail != null && !detail.isEmpty() ? " (" + detail + ")" : ""));
+            }
 
             // ---- Coverage, export ------------------------------------------------------------------
-            List<InputCoverage> coverage = InputCoverages.of(inputsDir, INPUTS_ROOT);
+            List<InputCoverage> coverage = new ArrayList<>(InputCoverages.of(inputsDir, INPUTS_ROOT));
+            coverage.addAll(assessed.coverage());
             for (InputCoverage c : coverage) {
                 log.info("Input coverage: " + c.line());
             }
@@ -518,6 +540,7 @@ public final class Scanner {
             run.target = cfg.target().info();
             run.analyzers = analyzerCoverage(fileFacts);
             run.unresolvedReferences = linked.unresolved();
+            run.vulnerabilitySources = new ArrayList<>(assessed.sources().stream().map(Doc::toMap).toList());
             if (!run.analyzers.isEmpty()) {
                 log.info("Analyzers: " + analyzerLine(run.analyzers));
             }
@@ -530,17 +553,35 @@ public final class Scanner {
                     new Entity("components", COMPONENT_COLUMNS, components)));
             LINKED.forEach((name, schema) -> all.add(new Entity(name, schema.fields().stream().map(Schema.Field::name).toList(),
                     linked.entities().getOrDefault(name, List.of()))));
-            all.add(new Entity("findings", FINDING_COLUMNS, allFindings));
+            all.add(new Entity("findings", FINDING_COLUMNS, assessed.findings()));
             all.add(new Entity("metrics", Schemas.METRIC.fields().stream().map(Schema.Field::name).toList(), measured.metrics));
             all.add(new Entity("input_coverage", COVERAGE_COLUMNS, coverage));
             List<Entity> entities = FactWriter.dropDuplicateIds(all, warnings);
             run.warnings = warnings;
             FactWriter.write(dataDir, entities);
+            FactWriter.writeJson(dataDir.resolve("sbom.cdx.json"), assessed.sbom());
+            if (assessed.effort() != null) {
+                FactWriter.writeJson(dataDir.resolve("effort.json"), assessed.effort());
+            }
+            FactWriter.writeJson(dataDir.resolve("target-mapping.json"), assessed.targetMapping());
             FactWriter.writeJson(dataDir.resolve("target.json"), run.target);
             timings.put("export", seconds(t));
             run.timings = timings;
             run.finishedAt = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS).format(ISO_SECONDS);
             FactWriter.writeJson(runDir.resolve("run.json"), run.toMap());
+            Map<String, List<Doc>> written = new LinkedHashMap<>();
+            for (Entity e : entities) {
+                if (!List.of("inventory", "components", "findings", "input_coverage").contains(e.name())) {
+                    @SuppressWarnings("unchecked")
+                    List<Doc> docs = (List<Doc>) e.items();
+                    written.put(e.name(), docs);
+                }
+            }
+            @SuppressWarnings("unchecked")
+            Summary.Facts summaryFacts = new Summary.Facts((List<FileRecord>) entities.get(0).items(), (List<Component>) entities.get(1).items(),
+                    written, entities.stream().filter(e -> e.name().equals("findings")).flatMap(e -> e.items().stream()).map(f -> (Finding) f).toList(),
+                    coverage);
+            FactWriter.writeJson(dataDir.resolve("audit-summary.json"), Summary.build(run, summaryFacts, assessed.effort()));
             Runs.setLatest(outDir, runId);
             for (String w : warnings) {
                 log.warning(w);

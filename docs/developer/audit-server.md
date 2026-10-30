@@ -54,6 +54,11 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `POST /api/projects/{id}/scans/{scanId}/cancel` | stop at the next file | project contributor and up |
 | `GET /api/projects/{id}/inventory` | files of the newest scan, with filters and totals | project viewer and up |
 | `GET /api/projects/{id}/components` | components of the newest scan | project viewer and up |
+| `GET /api/projects/{id}/dashboard` | headline numbers, charts, effort, top findings and coverage of the newest scan (`store.Dashboard`) | project viewer and up |
+| `GET /api/projects/{id}/facts/{kind}?q=&limit=&offset=&<field>=` | rows of one kind of fact of the newest scan (`store.FactsQuery`); `<field>=~text` means contains | project viewer and up |
+
+The results calls read the newest finished scan's run folder (`<project>/audit-output/runs/<run-id>/`);
+the inventory and components also live in PostgreSQL for the filters of the inventory page.
 
 ## Security (`SecurityConfig`, `auth`)
 

@@ -106,6 +106,19 @@ class ProjectScanFlowTest {
                 .andExpect(jsonPath("$.files[0].language").value("java"));
         mvc.perform(get("/api/projects/struts-billing/components").session(siva))
                 .andExpect(jsonPath("$.components[0].name").exists());
+        mvc.perform(get("/api/projects/struts-billing/dashboard").session(siva))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.dashboard.kpis[0].label").value("Lines of code"))
+                .andExpect(jsonPath("$.dashboard.effort.unit").value("person-days"));
+        mvc.perform(get("/api/projects/struts-billing/facts/findings").param("severity", "high").session(siva))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.total").value(org.hamcrest.Matchers.greaterThan(0)))
+                .andExpect(jsonPath("$.result.rows[0].severity").value("high"));
+        mvc.perform(get("/api/projects/struts-billing/facts/libraries").param("q", "log4j").session(siva))
+                .andExpect(jsonPath("$.result.rows[0].artifact").value("log4j"));
+        mvc.perform(get("/api/projects/struts-billing/facts/nothing").session(siva)).andExpect(status().isBadRequest());
+        mvc.perform(get("/api/projects/struts-billing/facts/findings").param("colour", "red").session(siva))
+                .andExpect(status().isBadRequest());
 
         // Others see it only as members; a viewer may read but not scan.
         MockHttpSession anna = login("anna");

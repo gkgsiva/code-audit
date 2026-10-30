@@ -47,6 +47,7 @@
           {{ s.scan.files | number }} files, {{ s.scan.components | number }} components,
           {{ s.scan.locCode | number }} lines of code.
           @if (s.scan.warnings) { <span class="hint">{{ s.scan.warnings }} warnings (see the log).</span> }
+          <a [routerLink]="['/p', p.id, 'results']">Open the results</a> ·
           <a [routerLink]="['/p', p.id, 'inventory']">Open the inventory</a>
         </p>
       }

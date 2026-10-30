@@ -101,12 +101,50 @@ export interface InventoryFilter {
   size?: number;
 }
 
+export interface Kpi {
+  label: string;
+  value: number;
+  metric: string;
+}
+
+export interface Dashboard {
+  run_id: string;
+  application: string | null;
+  started_at: string | null;
+  kpis: Kpi[];
+  charts: Record<'technology' | 'complexity' | 'pg_grade' | 'severity', Record<string, number>>;
+  coverage: Record<string, string>;
+  warnings: string[];
+  components: { name: string; type: string; files: number; loc_code: number }[];
+  top_findings: { rule: string; severity: string; file: string | null; line: number | null; message: string }[];
+  effort: { label: string; unit: string; low: number; likely: number; high: number } | null;
+  timings: Record<string, number>;
+  vulnerability_sources: { name: string; status: string; detail: string | null; database_date: string | null; reports: string[] }[];
+  target: Record<string, unknown> | null;
+}
+
+export interface FactPage {
+  kind: string;
+  total: number;
+  offset: number;
+  returned: number;
+  rows: Record<string, unknown>[];
+  note?: string;
+  unscheduled_batches?: Record<string, unknown>[];
+}
+
+/** The kinds of facts a run holds, in the order of the facts model. */
+export const KINDS = [
+  'findings', 'components', 'services', 'screens', 'sql_statements', 'db_objects', 'integrations', 'web_services',
+  'batch_jobs', 'libraries', 'tech_stack', 'entry_points', 'dependencies', 'metrics', 'input_coverage', 'inventory',
+] as const;
+
 /** The backend's message for a refused call, in plain words. */
 export function problem(err: HttpErrorResponse): string {
   return err.error?.detail ?? 'The server did not answer. Is it running?';
 }
 
-/** Projects, scans and inventory calls. */
+/** Projects, scans, inventory and results calls. */
 @Injectable({ providedIn: 'root' })
 export class ApiService {
   private readonly http = inject(HttpClient);
@@ -155,6 +193,21 @@ export class ApiService {
       }
     }
     return this.http.get<Inventory>(`/api/projects/${encodeURIComponent(id)}/inventory`, { params });
+  }
+
+  dashboard(id: string): Observable<{ scan: Scan | null; dashboard: Dashboard | null }> {
+    return this.http.get<{ scan: Scan | null; dashboard: Dashboard | null }>(`/api/projects/${encodeURIComponent(id)}/dashboard`);
+  }
+
+  facts(id: string, kind: string, query: Record<string, string | number>): Observable<{ scan: Scan | null; result: FactPage | null }> {
+    let params = new HttpParams();
+    for (const [key, value] of Object.entries(query)) {
+      if (value !== '') {
+        params = params.set(key, String(value));
+      }
+    }
+    return this.http.get<{ scan: Scan | null; result: FactPage | null }>(
+      `/api/projects/${encodeURIComponent(id)}/facts/${encodeURIComponent(kind)}`, { params });
   }
 
   components(id: string): Observable<{ scan: Scan | null; components: ComponentRow[] }> {

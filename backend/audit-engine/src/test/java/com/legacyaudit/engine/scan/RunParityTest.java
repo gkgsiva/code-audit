@@ -41,9 +41,10 @@ class RunParityTest {
             Map.entry("dependencies", Set.of()),
             Map.entry("batch_jobs", Set.of()),
             Map.entry("metrics", Set.of()),
-            Map.entry("libraries", Set.of("recommendation", "eol", "eol_date", "replacement", "recommended_version", "cves",
-                    "max_severity", "vulnerabilities")),
-            Map.entry("tech_stack", Set.of("eol", "eol_date", "replacement")));
+            Map.entry("libraries", Set.of()),
+            Map.entry("tech_stack", Set.of()),
+            Map.entry("findings", Set.of()),
+            Map.entry("input_coverage", Set.of()));
 
     static Stream<String> samples() throws Exception {
         return ParityTest.samples();
@@ -51,7 +52,7 @@ class RunParityTest {
 
     private static String fixture(String sample, String entity) throws Exception {
         try (InputStream in = RunParityTest.class.getResourceAsStream("/parity/" + sample + "/run/" + entity + ".json")) {
-            return new String(in.readAllBytes(), StandardCharsets.UTF_8);
+            return in == null ? null : new String(in.readAllBytes(), StandardCharsets.UTF_8);
         }
     }
 
@@ -63,6 +64,22 @@ class RunParityTest {
             out.add(o);
         }
         return out;
+    }
+
+    /** A whole-run file without what differs on every run (run id, time, tool version, folders). */
+    private static JsonNode runFile(String name, String json) {
+        JsonNode n = JSON.readTree(json);
+        if (name.equals("sbom.cdx")) {
+            ObjectNode o = (ObjectNode) n;
+            o.remove("serialNumber");
+            ObjectNode meta = (ObjectNode) o.get("metadata");
+            meta.remove("timestamp");
+            meta.remove("tools");
+        }
+        if (name.equals("audit-summary")) {
+            ((ObjectNode) n).remove("run"); // run id, start time, tool version and folders
+        }
+        return n;
     }
 
     @ParameterizedTest
@@ -77,6 +94,17 @@ class RunParityTest {
             if (!rows(fixture(sample, e.getKey()), e.getValue()).equals(rows(Files.readString(data.resolve(e.getKey() + ".json")), e.getValue()))) {
                 differ.add(e.getKey());
             }
+        }
+        for (String file : List.of("effort", "target-mapping", "sbom.cdx", "audit-summary")) {
+            Path mine = data.resolve(file + ".json");
+            String theirs = fixture(sample, file);
+            if (theirs == null ? Files.exists(mine) : !Files.exists(mine) || !runFile(file, theirs).equals(runFile(file, Files.readString(mine)))) {
+                differ.add(file + ".json");
+            }
+        }
+        JsonNode run = JSON.readTree(Files.readString(result.runDir().resolve("run.json")));
+        if (!JSON.readTree(fixture(sample, "run")).get("vulnerability_sources").equals(run.get("vulnerability_sources"))) {
+            differ.add("run.json vulnerability_sources");
         }
         assertEquals(List.of(), differ, sample + ": entities that differ (Java run in " + result.runDir() + ")");
     }
