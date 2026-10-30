@@ -1,0 +1,32 @@
+[
+  {
+    "component": "billing-batch",
+    "evidence": [
+      {
+        "file": "batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "file": "batches/billing-batch/src/main/java/com/acme/billing/BillingMain.java",
+    "id": "entry:8140070bf5ee040d",
+    "kind": "main",
+    "line": 8,
+    "name": "com.acme.billing.BillingMain"
+  },
+  {
+    "component": "report-batch",
+    "evidence": [
+      {
+        "file": "batches/report-batch/src/main/java/com/acme/report/ReportMain.java",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "file": "batches/report-batch/src/main/java/com/acme/report/ReportMain.java",
+    "id": "entry:be94f8187afe4583",
+    "kind": "main",
+    "line": 8,
+    "name": "com.acme.report.ReportMain"
+  }
+]

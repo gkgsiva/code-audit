@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.fail;
 import com.legacyaudit.engine.analyzers.Analyzer;
 import com.legacyaudit.engine.analyzers.Analyzers;
 import com.legacyaudit.model.config.ConfigLoader;
-import com.legacyaudit.model.json.PyJson;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -43,11 +42,22 @@ class AnalyzerParityTest {
         try (InputStream in = getClass().getResourceAsStream("/parity/" + sample + "/analyzers.json")) {
             expected = JSON.readTree(in);
         }
-        var result = Scanner.run(ConfigLoader.load(SAMPLES.resolve(sample).resolve("audit.yaml")),
+        Scanner.run(ConfigLoader.load(SAMPLES.resolve(sample).resolve("audit.yaml")),
                 new Scanner.Options(true, out, null, null, null));
         Map<String, Map<String, JsonNode>> actual = new TreeMap<>();
-        for (Scanner.FileFacts ff : result.fileFacts()) {
-            actual.computeIfAbsent(ff.analyzer(), k -> new TreeMap<>()).put(ff.path(), JSON.readTree(PyJson.compact(ff.facts().dump())));
+        // what each analyzer found, before the linker added components and links: the file cache
+        try (var conn = java.sql.DriverManager.getConnection("jdbc:sqlite:" + out.resolve("cache").resolve("file-cache.sqlite").toAbsolutePath());
+                var rs = conn.createStatement().executeQuery("SELECT payload FROM files")) {
+            while (rs.next()) {
+                JsonNode payload = JSON.readTree(rs.getString(1));
+                if (payload.get("record").isNull()) {
+                    continue;
+                }
+                String path = payload.get("record").get("path").asString();
+                for (var e : payload.get("facts").properties()) {
+                    actual.computeIfAbsent(e.getKey(), k -> new TreeMap<>()).put(path, e.getValue());
+                }
+            }
         }
         List<String> problems = new ArrayList<>();
         for (Analyzer a : Analyzers.registered()) {

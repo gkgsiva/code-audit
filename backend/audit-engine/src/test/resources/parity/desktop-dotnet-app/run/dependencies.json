@@ -1,0 +1,208 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b7da3044afadde66",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:413e57197f7d151c",
+    "target": "screen:b3b3d484c4b20b61"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "edge:d4beae3348f43316",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:aa8076a2a78c6a95",
+    "target": "file:ba1b51dd128a983c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a33bfe24cdc89112",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:df501f72aa935b2c",
+    "target": "screen:4ed839d73f3ef821"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a6894667e1655442",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:ebaa00148f39feb2",
+    "target": "screen:f8f8ce984fff8ced"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": 41,
+        "snippet": null
+      }
+    ],
+    "id": "edge:09c10891de46ec8d",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "screen:b3b3d484c4b20b61",
+    "target": "screen:d65d0e16d315adb4"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "edge:25f9b287192ccd3d",
+    "kind": "links",
+    "resolved": true,
+    "source": "screen:2161c555960f3de3",
+    "target": "file:d53126b574e0e06e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": 46,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c0225b19c91ea9b3",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:131e3d89369e059a",
+    "target": "file:5ba9a37a7159f0be"
+  },
+  {
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ef645f11d74dd2a9",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:93431eeb8df53327",
+    "target": "file:93431eeb8df53327"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "edge:7acc61ab5407a405",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:bbcf4c20bd87afe8",
+    "target": "file:05df052239954bad"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "edge:d0553a9834e8f847",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:bbcf4c20bd87afe8",
+    "target": "file:a77b24a225406dd2"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "edge:fb7447a16eca24e5",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:df501f72aa935b2c",
+    "target": "file:a26bb11421fc3435"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "edge:4c1020c3f5ebe893",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:df501f72aa935b2c",
+    "target": "file:df501f72aa935b2c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c046d8d5c3c285c6",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ebaa00148f39feb2",
+    "target": "file:582dbe1bd2f7830a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml.cs",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2f911a4185832e89",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ebaa00148f39feb2",
+    "target": "file:bbcf4c20bd87afe8"
+  }
+]

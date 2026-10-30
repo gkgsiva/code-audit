@@ -1,0 +1,602 @@
+[
+  {
+    "artifact": "Dapper",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:d70b59bb9201b671",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "1.50.2",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-winforms-vbnet/OrdersDesk.vbproj",
+      "orders-winforms-vbnet/packages.config"
+    ]
+  },
+  {
+    "artifact": "Dapper",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:b5f6d8e8cd9c35f1",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "2.0.123",
+    "vulnerabilities": [],
+    "where_used": [
+      "inventory-wpf-cs/InventoryApp.csproj",
+      "inventory-wpf-cs/packages.lock.json"
+    ]
+  },
+  {
+    "artifact": "Dapper",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:f0c860c87ea56bcc",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "2.1.24",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api-cs/BillingApi.csproj"
+    ]
+  },
+  {
+    "artifact": "Hangfire.AspNetCore",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:7f3dba1cd76965e4",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "1.8.6",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api-cs/BillingApi.csproj"
+    ]
+  },
+  {
+    "artifact": "Hangfire.Core",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:99c0ae7e12b960a3",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "1.8.6",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api-cs/BillingApi.csproj"
+    ]
+  },
+  {
+    "artifact": "Microsoft.Data.SqlClient",
+    "cves": [],
+    "declared": false,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:4081ccd117149b9a",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "transitive",
+    "sha1": null,
+    "source": "nuget",
+    "version": "2.1.4",
+    "vulnerabilities": [],
+    "where_used": [
+      "inventory-wpf-cs/packages.lock.json"
+    ]
+  },
+  {
+    "artifact": "Microsoft.Data.SqlClient",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:ee0a9ca44b46805a",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "5.1.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-api-cs/BillingApi.csproj"
+    ]
+  },
+  {
+    "artifact": "Microsoft.EntityFrameworkCore.SqlServer",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-11-12",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:7b295ce6c12d7905",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2024-11-12",
+      "recipe": null,
+      "rule": "eol",
+      "target": "Spring Data JPA / Hibernate ORM 7 (Spring Boot 4)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Data JPA / Hibernate ORM 7 (Spring Boot 4)",
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "6.0.10",
+    "vulnerabilities": [],
+    "where_used": [
+      "inventory-wpf-cs/InventoryApp.csproj",
+      "inventory-wpf-cs/packages.lock.json"
+    ]
+  },
+  {
+    "artifact": "Newtonsoft.Json",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:57c2d4acba024daa",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "9.0.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-winforms-vbnet/packages.config"
+    ]
+  },
+  {
+    "artifact": "System.Data.SqlClient",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:56cbc9d38eddfeb0",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "4.8.3",
+    "vulnerabilities": [],
+    "where_used": [
+      "inventory-wpf-cs/InventoryApp.csproj",
+      "inventory-wpf-cs/packages.lock.json"
+    ]
+  },
+  {
+    "artifact": "log4net",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:8e4dbd90055431ca",
+    "language": "dotnet",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": null,
+    "sha1": null,
+    "source": "nuget",
+    "version": "2.0.8",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-winforms-vbnet/OrdersDesk.vbproj",
+      "orders-winforms-vbnet/packages.config"
+    ]
+  },
+  {
+    "artifact": "MSCOMCT2.OCX",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:2d6e0ff0fb3bbaf2",
+    "language": "vb6",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "activex-control",
+    "sha1": null,
+    "source": "com",
+    "version": "2.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-desk-vb6/BillingDesk.vbp"
+    ]
+  },
+  {
+    "artifact": "MSCOMCTL.OCX",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:07bed656119b1332",
+    "language": "vb6",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "activex-control",
+    "sha1": null,
+    "source": "com",
+    "version": "2.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-desk-vb6/BillingDesk.vbp"
+    ]
+  },
+  {
+    "artifact": "Microsoft ActiveX Data Objects 2.8 Library",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:d19f17642d5e5378",
+    "language": "vb6",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "com-reference",
+    "sha1": null,
+    "source": "com",
+    "version": "2.8",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-desk-vb6/BillingDesk.vbp"
+    ]
+  },
+  {
+    "artifact": "Microsoft XML, v6.0",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:b57620938fc2d17c",
+    "language": "vb6",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "com-reference",
+    "sha1": null,
+    "source": "com",
+    "version": "6.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-desk-vb6/BillingDesk.vbp"
+    ]
+  }
+]

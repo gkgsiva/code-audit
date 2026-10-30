@@ -174,3 +174,38 @@ against the earlier Python tool.
 5. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
    as **siva**, open your project and click **Full rescan**. When it is **done**, the
    `Analyzers:` line in the log also counts these new kinds of files when the project has them.
+
+## Phase 5: linking, findings, effort and the results pages
+
+What is new: the scan now joins what it found across files and works out the results: complexity
+and duplication per component, SQL graded for PostgreSQL (with the suggested PostgreSQL text),
+end-of-life and vulnerable libraries with upgrade advice, the SBOM, the findings and the effort
+estimate, plus `audit-summary.json`. Every result file now matches the earlier Python tool on all
+ten sample apps. The web app gets a **Results** page and a **Facts** page, and the command line
+gets `diff` to compare two scans.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (114 tests).
+3. Run **`audit: 10. compare whole runs with the Python tool`**. It ends with
+   `Tests run: 23, Failures: 0` and `BUILD SUCCESS`. This scans all ten samples and compares
+   findings, libraries, effort, SBOM and the summary with what the Python tool wrote.
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **struts-oracle-app**. The last
+   lines now also say `OWASP Dependency-Check: 1 file(s)` (the report in the sample's
+   `audit-inputs/security` folder) and `OSV-Scanner (not installed): not provided` (unless you
+   have OSV-Scanner installed).
+5. Run task 7 again with **struts-oracle-app**, then run
+   **`audit: 11. compare the last two scans of a sample app`** and pick **struts-oracle-app**.
+   It prints a table with `findings 21 21 0 0 0`: the same code gives the same results.
+6. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in
+   as **siva**, open your project and click **Full rescan**. When it is **done**, click
+   **Open the results**:
+   - the tiles show lines of code, components, services, screens, SQL statements, integrations,
+     batch jobs and vulnerable libraries; click a number to see the rows behind it;
+   - **Effort to migrate** shows the likely person-days with a low and high figure;
+   - the charts show lines per language, complexity, PostgreSQL grades and findings by severity;
+   - **Top findings**, **Vulnerability check** and **Inputs provided** follow.
+7. Click **All facts**. Pick a kind (for example **libraries**), type part of a name in the
+   search box and click **Search**. To filter on one field, pick it in **Any field** and type a
+   value (start it with `~` to match part of the text).

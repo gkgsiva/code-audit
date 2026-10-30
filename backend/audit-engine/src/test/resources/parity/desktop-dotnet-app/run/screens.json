@@ -1,0 +1,270 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.28,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Views/Home/Index.cshtml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 1,
+    "file": "billing-api-cs/Views/Home/Index.cshtml",
+    "id": "screen:828d322aa3ec8aa4",
+    "name": "Index.cshtml",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "razor"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 1.91,
+    "component": "billing-desk-vb6",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 3,
+        "snippet": "VB.Form frmCustomer: Customer search"
+      }
+    ],
+    "fields_count": 6,
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "screen:d65d0e16d315adb4",
+    "name": "frmCustomer",
+    "partial": false,
+    "targeted_by": [
+      "screen:b3b3d484c4b20b61"
+    ],
+    "technology": "vb6"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 2.47,
+    "component": "billing-desk-vb6",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": 3,
+        "snippet": "VB.Form frmMain: Billing Desk"
+      }
+    ],
+    "fields_count": 0,
+    "file": "billing-desk-vb6/frmMain.frm",
+    "id": "screen:b3b3d484c4b20b61",
+    "name": "frmMain",
+    "partial": false,
+    "targeted_by": [
+      "file:413e57197f7d151c"
+    ],
+    "technology": "vb6"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.73,
+    "component": "inventory-wpf-cs",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/MainWindow.xaml",
+        "line": 1,
+        "snippet": "<Window> InventoryApp.MainWindow"
+      }
+    ],
+    "fields_count": 3,
+    "file": "inventory-wpf-cs/MainWindow.xaml",
+    "id": "screen:a97ca6ab6581950a",
+    "name": "MainWindow",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "wpf"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.92,
+    "component": "inventory-wpf-cs",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+        "line": 1,
+        "snippet": "<Window> InventoryApp.Views.StockDialog"
+      }
+    ],
+    "fields_count": 4,
+    "file": "inventory-wpf-cs/Views/StockDialog.xaml",
+    "id": "screen:f8f8ce984fff8ced",
+    "name": "StockDialog",
+    "partial": false,
+    "targeted_by": [
+      "file:ebaa00148f39feb2"
+    ],
+    "technology": "wpf"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.67,
+    "component": "legacy-webforms",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Contact.aspx",
+        "line": 1,
+        "snippet": "<%@ Page Language=\"C#\" MasterPageFile=\"~/Site.master\" CodeBehind=\"Contact.aspx.cs\" Inherits=\"LegacyCrm.ContactPage\" %>"
+      }
+    ],
+    "fields_count": 3,
+    "file": "legacy-webforms/Contact.aspx",
+    "id": "screen:cceb7ee5f286d4c5",
+    "name": "Contact.aspx",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "aspx"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 1.5,
+    "component": "legacy-webforms",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 1,
+        "snippet": "<%@ Page Language=\"C#\" MasterPageFile=\"~/Site.master\" CodeBehind=\"Default.aspx.cs\" Inherits=\"LegacyCrm.DefaultPage\" %>"
+      }
+    ],
+    "fields_count": 2,
+    "file": "legacy-webforms/Default.aspx",
+    "id": "screen:2161c555960f3de3",
+    "name": "Default.aspx",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "aspx"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 1.02,
+    "component": "orders-winforms-vbnet",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+        "line": 3,
+        "snippet": "Inherits System.Windows.Forms.Form"
+      }
+    ],
+    "fields_count": 4,
+    "file": "orders-winforms-vbnet/MainForm.Designer.vb",
+    "id": "screen:669c4eca8985259c",
+    "name": "MainForm",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "winforms"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 3.22,
+    "component": "orders-winforms-vbnet",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/MainForm.vb",
+        "line": 22,
+        "snippet": "Inherits Form"
+      }
+    ],
+    "fields_count": 0,
+    "file": "orders-winforms-vbnet/MainForm.vb",
+    "id": "screen:4ed839d73f3ef821",
+    "name": "OrderDetailForm",
+    "partial": false,
+    "targeted_by": [
+      "file:df501f72aa935b2c"
+    ],
+    "technology": "winforms"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "billing-api-cs",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "billing-api-cs/Views/Shared/_Layout.cshtml",
+    "id": "screen:830b20c110e741f9",
+    "name": "_Layout.cshtml",
+    "partial": true,
+    "targeted_by": [],
+    "technology": "razor"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "billing-desk-vb6",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": 2,
+        "snippet": "VB.UserControl ctlAddress"
+      }
+    ],
+    "fields_count": 2,
+    "file": "billing-desk-vb6/ctlAddress.ctl",
+    "id": "screen:f0020188baf4555b",
+    "name": "ctlAddress",
+    "partial": true,
+    "targeted_by": [],
+    "technology": "vb6"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "inventory-wpf-cs",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+        "line": 1,
+        "snippet": "<UserControl> InventoryApp.Controls.ItemCard"
+      }
+    ],
+    "fields_count": 0,
+    "file": "inventory-wpf-cs/Controls/ItemCard.xaml",
+    "id": "screen:6a88aa490e1259ea",
+    "name": "ItemCard",
+    "partial": true,
+    "targeted_by": [],
+    "technology": "wpf"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "legacy-webforms",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Site.master",
+        "line": 1,
+        "snippet": "<%@ Master Language=\"C#\" %>"
+      }
+    ],
+    "fields_count": 0,
+    "file": "legacy-webforms/Site.master",
+    "id": "screen:8e1313cabc03b381",
+    "name": "Site.master",
+    "partial": true,
+    "targeted_by": [],
+    "technology": "aspx"
+  }
+]

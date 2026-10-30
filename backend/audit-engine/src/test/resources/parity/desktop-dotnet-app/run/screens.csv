@@ -1,0 +1,14 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:828d322aa3ec8aa4,billing-api-cs/Views/Home/Index.cshtml:1,Index.cshtml,razor,billing-api-cs/Views/Home/Index.cshtml,,1,billing-api-cs,Simple,0.28,false,
+screen:d65d0e16d315adb4,billing-desk-vb6/frmCustomer.frm:3,frmCustomer,vb6,billing-desk-vb6/frmCustomer.frm,,6,billing-desk-vb6,Simple,1.91,false,screen:b3b3d484c4b20b61
+screen:b3b3d484c4b20b61,billing-desk-vb6/frmMain.frm:3,frmMain,vb6,billing-desk-vb6/frmMain.frm,,0,billing-desk-vb6,Simple,2.47,false,file:413e57197f7d151c
+screen:a97ca6ab6581950a,inventory-wpf-cs/MainWindow.xaml:1,MainWindow,wpf,inventory-wpf-cs/MainWindow.xaml,,3,inventory-wpf-cs,Simple,0.73,false,
+screen:f8f8ce984fff8ced,inventory-wpf-cs/Views/StockDialog.xaml:1,StockDialog,wpf,inventory-wpf-cs/Views/StockDialog.xaml,,4,inventory-wpf-cs,Simple,0.92,false,file:ebaa00148f39feb2
+screen:cceb7ee5f286d4c5,legacy-webforms/Contact.aspx:1,Contact.aspx,aspx,legacy-webforms/Contact.aspx,,3,legacy-webforms,Simple,0.67,false,
+screen:2161c555960f3de3,legacy-webforms/Default.aspx:1,Default.aspx,aspx,legacy-webforms/Default.aspx,,2,legacy-webforms,Simple,1.5,false,
+screen:669c4eca8985259c,orders-winforms-vbnet/MainForm.Designer.vb:3,MainForm,winforms,orders-winforms-vbnet/MainForm.Designer.vb,,4,orders-winforms-vbnet,Simple,1.02,false,
+screen:4ed839d73f3ef821,orders-winforms-vbnet/MainForm.vb:22,OrderDetailForm,winforms,orders-winforms-vbnet/MainForm.vb,,0,orders-winforms-vbnet,Simple,3.22,false,file:df501f72aa935b2c
+screen:830b20c110e741f9,billing-api-cs/Views/Shared/_Layout.cshtml:1,_Layout.cshtml,razor,billing-api-cs/Views/Shared/_Layout.cshtml,,0,billing-api-cs,,,true,
+screen:f0020188baf4555b,billing-desk-vb6/ctlAddress.ctl:2,ctlAddress,vb6,billing-desk-vb6/ctlAddress.ctl,,2,billing-desk-vb6,,,true,
+screen:6a88aa490e1259ea,inventory-wpf-cs/Controls/ItemCard.xaml:1,ItemCard,wpf,inventory-wpf-cs/Controls/ItemCard.xaml,,0,inventory-wpf-cs,,,true,
+screen:8e1313cabc03b381,legacy-webforms/Site.master:1,Site.master,aspx,legacy-webforms/Site.master,,0,legacy-webforms,,,true,

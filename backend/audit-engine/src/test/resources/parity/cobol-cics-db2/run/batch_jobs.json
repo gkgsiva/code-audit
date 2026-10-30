@@ -1,0 +1,41 @@
+[
+  {
+    "box": null,
+    "command": null,
+    "complexity": "Medium",
+    "complexity_score": 11.0,
+    "component": "jcl-jobs",
+    "condition": null,
+    "datasets": [
+      "PROD.ORDERS.LOADLIB",
+      "PROD.ORDERS.DAILY",
+      "PROD.ORDERS.SHIPPED",
+      "PROD.ORDERS.SHIPPED.SORTED"
+    ],
+    "description": null,
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "batch_job:effeadeb068eb7db",
+    "kind": "job",
+    "machine": null,
+    "name": "ORDNIGHT",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "ORDBATCH",
+      "SORT"
+    ],
+    "schedule": null,
+    "scheduler": "jcl",
+    "steps": [
+      "STEP010",
+      "STEP020",
+      "STEP030"
+    ]
+  }
+]

@@ -1,0 +1,5 @@
+id,evidence,name,kind,component,file,handler,url,protocol,framework,web_service,screens,inputs,outputs,complexity,complexity_score,fan_in,fan_out,tables,sql,external_calls
+service:870fea41262d4f1f,jcl/ORDNIGHT.jcl:1,ORDNIGHT,batch-job,jcl-jobs,jcl/ORDNIGHT.jcl,"ORDBATCH,SORT",,,,,,,,Medium,11.0,0,2,ORDERS;SHIPMENTS,sql:22e666b1f881dfbc;sql:49f749d475666ab6;sql:a8a07a6d211422de;sql:dea1e97f95240ca2,FILE DD:ORDIN;FILE DD:ORDOUT;FILE DD:RPTOUT
+service:774375acd8ffce5c,cobol/ORDINQ.cbl:2,ORDI,cics-transaction,cobol-online,cobol/ORDINQ.cbl,ORDINQ,,,,,,,,Medium,11.86,0,6,CUSTOMER;ORDERS,sql:8d425f56e1c4ea3e;sql:e8ec7b254953308f,
+service:aea815ac073f1742,cobol/ORDBATCH.cbl:2,ORDBATCH,cobol-program,cobol-online,cobol/ORDBATCH.cbl,ORDBATCH,,,,,,,,Medium,12.06,1,2,ORDERS;SHIPMENTS,sql:22e666b1f881dfbc;sql:a8a07a6d211422de,FILE DD:ORDIN;FILE DD:ORDOUT
+service:2c9b980f84f9a364,cobol/ORDRPT.cbl:2,ORDRPT,cobol-program,cobol-online,cobol/ORDRPT.cbl,ORDRPT,,,,,,,,Simple,5.87,1,0,ORDERS,sql:49f749d475666ab6;sql:dea1e97f95240ca2,FILE DD:RPTOUT

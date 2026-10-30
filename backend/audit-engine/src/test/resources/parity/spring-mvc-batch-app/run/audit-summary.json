@@ -1,0 +1,916 @@
+{
+  "analyzer_coverage": {
+    "autosys": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 8
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 11
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 17
+    },
+    "mq": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 28
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 12
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 6
+    },
+    "web": {
+      "coverage_pct": 100.0,
+      "files": 6
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 10
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 4,
+      "loc_blank": 6,
+      "loc_code": 162,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 7,
+      "loc_blank": 21,
+      "loc_code": 132,
+      "loc_comment": 1
+    },
+    "screen": {
+      "files": 5,
+      "loc_blank": 0,
+      "loc_code": 56,
+      "loc_comment": 0
+    },
+    "script": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 9,
+      "loc_comment": 2
+    },
+    "source": {
+      "files": 11,
+      "loc_blank": 69,
+      "loc_code": 221,
+      "loc_comment": 7
+    }
+  },
+  "by_language": {
+    "java": {
+      "files": 11,
+      "loc_blank": 69,
+      "loc_code": 221,
+      "loc_comment": 7
+    },
+    "jsp": {
+      "files": 5,
+      "loc_blank": 0,
+      "loc_code": 56,
+      "loc_comment": 0
+    },
+    "properties": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 4,
+      "loc_comment": 1
+    },
+    "shell": {
+      "files": 1,
+      "loc_blank": 1,
+      "loc_code": 9,
+      "loc_comment": 2
+    },
+    "xml": {
+      "files": 10,
+      "loc_blank": 27,
+      "loc_code": 290,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Medium",
+      "complexity_avg": 2.0,
+      "component": "billing-batch",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.0,
+      "component": "billing-common",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.17,
+      "component": "billing-web",
+      "dead_code_candidates": 0,
+      "duplication_pct": 4.8,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 15,
+      "loc_code": 252,
+      "name": "billing-web",
+      "type": "web"
+    },
+    {
+      "files": 7,
+      "loc_code": 154,
+      "name": "billing-common",
+      "type": "library"
+    },
+    {
+      "files": 5,
+      "loc_code": 105,
+      "name": "billing-batch",
+      "type": "batch"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 1,
+      "by_scheduler": {
+        "autosys": 3,
+        "spring-batch": 1
+      },
+      "scheduled": 4,
+      "total": 4,
+      "unscheduled": 0
+    },
+    "complexity": {
+      "batch_jobs": {
+        "Medium": 2,
+        "Simple": 1
+      },
+      "screens": {
+        "Simple": 4
+      },
+      "services": {
+        "Medium": 5,
+        "Simple": 3
+      }
+    },
+    "db_objects": {
+      "table": 5
+    },
+    "dependencies": {
+      "resolved": 24,
+      "unresolved": 1
+    },
+    "entry_points": {
+      "message-listener": 1
+    },
+    "eol_libraries": 7,
+    "findings": {
+      "eol-library": 7,
+      "eol-technology": 6,
+      "no-tests": 3,
+      "pg-manual-sql": 1,
+      "sql-runtime-structure": 1,
+      "unresolved-reference": 1,
+      "vulnerable-library": 3
+    },
+    "findings_by_severity": {
+      "critical": 1,
+      "high": 2,
+      "info": 1,
+      "low": 3,
+      "medium": 15
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 1,
+        "FILE": 1,
+        "LDAP": 1,
+        "MQ-QMGR": 1,
+        "SMTP": 1
+      },
+      "total": 5
+    },
+    "libraries": {
+      "declared": 10,
+      "total": 10,
+      "undeclared": 0
+    },
+    "pg_grades": {
+      "auto": 4,
+      "manual": 1,
+      "review": 7
+    },
+    "recommendations": {
+      "keep": 1,
+      "migrate-jakarta": 1,
+      "replace": 1,
+      "upgrade": 1,
+      "use-bom": 6
+    },
+    "screens": {
+      "by_technology": {
+        "jsp": 4
+      },
+      "partials": 1,
+      "total": 4
+    },
+    "services": {
+      "by_kind": {
+        "batch-job": 3,
+        "spring-handler": 5
+      },
+      "total": 8
+    },
+    "sql": {
+      "by_source": {
+        "hql": 2,
+        "jdbc-template": 6,
+        "mybatis": 3,
+        "spring-xml": 1
+      },
+      "by_type": {
+        "INSERT": 3,
+        "SELECT": 7,
+        "UPDATE": 2
+      },
+      "distinct": 12,
+      "dynamic": 2,
+      "not_parsed": 0,
+      "total": 12
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {
+        "critical": 1,
+        "high": 2
+      },
+      "total": 3,
+      "vulnerabilities": 3
+    },
+    "web_services": {
+      "by_style": {
+        "REST offered": 1
+      },
+      "called": 0,
+      "offered": 1,
+      "operations": 1,
+      "total": 1
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: 1 file(s)",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "dependency-check": "OWASP Dependency-Check (not installed): not provided",
+    "mq": "IBM MQ definitions (MQSC): 1 file(s)",
+    "osv-scanner": "OSV-Scanner: 1 file(s)",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): 1 file(s)",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 112.9,
+    "label": "estimate — weights from config",
+    "likely": 62.8,
+    "low": 32.5,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "both",
+      "endpoints": [
+        "channel BILLING.SVRCONN (inbound)",
+        "channel QMBILL.QMCRM (outbound)",
+        "queue BILLING.INVOICE.PAID (outbound)",
+        "queue PAYMENTS.IN (inbound)"
+      ],
+      "purpose": "messaging",
+      "target": "QMBILL@mqbill01.acme.local:1414",
+      "type": "MQ-QMGR",
+      "usages": 7
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "directory",
+      "target": "ldap://ldap.acme.local:389",
+      "type": "LDAP",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://billingdb01.acme.local:1521/BILLP",
+      "type": "DB",
+      "usages": 1
+    },
+    {
+      "direction": "inbound",
+      "endpoints": [],
+      "purpose": "file",
+      "target": "/data/billing/in/usage_*.csv",
+      "type": "FILE",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "email",
+      "target": "mail (mailx)",
+      "type": "SMTP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "xml",
+      "loc_code": 69,
+      "path": "pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 36,
+      "path": "billing-web/pom.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 32,
+      "path": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 31,
+      "path": "billing-common/src/main/java/com/acme/billing/common/dao/InvoiceDao.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 29,
+      "path": "billing-batch/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 28,
+      "path": "billing-common/pom.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 28,
+      "path": "billing-web/src/main/webapp/WEB-INF/web.xml"
+    },
+    {
+      "language": "xml",
+      "loc_code": 26,
+      "path": "billing-batch/src/main/resources/jobs/invoice-job.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 26,
+      "path": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 25,
+      "path": "billing-web/src/main/webapp/WEB-INF/billing-servlet.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 24,
+      "path": "billing-common/src/main/java/com/acme/billing/common/model/Invoice.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 22,
+      "path": "billing-common/src/main/resources/mappers/PaymentMapper.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 21,
+      "path": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 20,
+      "path": "billing-batch/src/main/java/com/acme/billing/batch/PaymentListener.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 20,
+      "path": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 1,
+      "eol": true,
+      "max_severity": "critical",
+      "name": "log4j:log4j",
+      "recommendation": "replace",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "version": "1.2.17"
+    },
+    {
+      "cves": 1,
+      "eol": true,
+      "max_severity": "high",
+      "name": "org.hibernate:hibernate-core",
+      "recommendation": "use-bom",
+      "target": "Hibernate ORM 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.3.11.Final"
+    },
+    {
+      "cves": 1,
+      "eol": false,
+      "max_severity": "high",
+      "name": "org.mybatis:mybatis",
+      "recommendation": "upgrade",
+      "target": "org.mybatis:mybatis:3.5.6",
+      "version": "3.4.6"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework.batch:spring-batch-core",
+      "recommendation": "use-bom",
+      "target": "Spring Batch 6 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "3.0.10.RELEASE"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework:spring-jdbc",
+      "recommendation": "use-bom",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework:spring-jms",
+      "recommendation": "use-bom",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework.security:spring-security-ldap",
+      "recommendation": "use-bom",
+      "target": "Spring Security 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.2.20.RELEASE"
+    },
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "org.springframework:spring-webmvc",
+      "recommendation": "use-bom",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "version": "4.3.30.RELEASE"
+    }
+  ],
+  "run": {
+    "application": "Billing (Spring MVC/Batch sample)",
+    "run_id": "20261029-205638-1ab93c",
+    "sources": [
+      {
+        "commit": null,
+        "name": "billing",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/spring-mvc-batch-app/billing",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:38+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "auth",
+      "eol": null,
+      "name": "Spring Security (form login)",
+      "version": null
+    },
+    {
+      "category": "auth",
+      "eol": null,
+      "name": "Spring Security (LDAP)",
+      "version": null
+    },
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Maven",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Hibernate",
+      "version": "4.3.11.Final"
+    },
+    {
+      "category": "framework",
+      "eol": false,
+      "name": "MyBatis",
+      "version": "3.4.6"
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Spring Batch",
+      "version": "3.0.10.RELEASE"
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Spring Framework",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Spring Framework (XML configuration)",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Spring MVC",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Spring Security",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": true,
+      "name": "Java",
+      "version": "1.8"
+    },
+    {
+      "category": "library",
+      "eol": true,
+      "name": "Log4j 1",
+      "version": "1.2.17"
+    },
+    {
+      "category": "middleware",
+      "eol": null,
+      "name": "IBM MQ",
+      "version": null
+    },
+    {
+      "category": "middleware",
+      "eol": null,
+      "name": "IBM MQ (JMS)",
+      "version": null
+    },
+    {
+      "category": "middleware",
+      "eol": false,
+      "name": "IBM MQ client",
+      "version": "9.1.0.0"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": "Servlet API",
+      "version": "2.5"
+    },
+    {
+      "category": "scheduler",
+      "eol": null,
+      "name": "Autosys",
+      "version": null
+    },
+    {
+      "category": "upgrade-signal",
+      "eol": null,
+      "name": "javax.* namespace (Jakarta EE migration)",
+      "version": null
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "billing-common/pom.xml",
+      "line": 24,
+      "message": "log4j 1.2.17 has 1 known vulnerabilities (CVE-2019-17571); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "critical"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 16,
+      "message": "hibernate-core 4.3.11.Final has 1 known vulnerabilities (CVE-2020-25638); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "high"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 20,
+      "message": "mybatis 3.4.6 has 1 known vulnerabilities (CVE-2020-26945); OWASP A06 Vulnerable and Outdated Components",
+      "rule": "vulnerable-library",
+      "severity": "high"
+    },
+    {
+      "file": "billing-batch/pom.xml",
+      "line": 17,
+      "message": "spring-batch-core 3.0.10.RELEASE is end of life since 2023-11-18; replace with Spring Batch 6 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-batch/pom.xml",
+      "line": 21,
+      "message": "spring-jms 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 12,
+      "message": "spring-jdbc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 16,
+      "message": "hibernate-core 4.3.11.Final is end of life since 2022-12-31; replace with Hibernate ORM 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 24,
+      "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-web/pom.xml",
+      "line": 18,
+      "message": "spring-webmvc 4.3.30.RELEASE is end of life since 2024-08-31; replace with Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-web/pom.xml",
+      "line": 26,
+      "message": "spring-security-ldap 4.2.20.RELEASE is end of life since 2024-02-28; replace with Spring Security 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-batch/pom.xml",
+      "line": 17,
+      "message": "Spring Batch 3.0.10.RELEASE is end of life since 2023-11-18; target Spring Batch 6",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-batch/pom.xml",
+      "line": 21,
+      "message": "Spring Framework 4.3.30.RELEASE is end of life since 2024-08-31; target Spring Framework 7 (Spring Boot 4)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 16,
+      "message": "Hibernate 4.3.11.Final is end of life since 2022-12-31; target Hibernate ORM 7",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-common/pom.xml",
+      "line": 24,
+      "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-web/src/main/webapp/WEB-INF/web.xml",
+      "line": 2,
+      "message": "Servlet API 2.5 is end of life since 2013-06-12; target Jakarta Servlet 6.1",
+      "rule": "eol-technology",
+      "severity": "medium"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "billing-batch",
+      "kind": "batch-job",
+      "name": "BIL_INVOICE",
+      "tables": 3
+    },
+    {
+      "component": "billing-batch",
+      "kind": "batch-job",
+      "name": "invoiceJob",
+      "tables": 3
+    },
+    {
+      "component": "billing-web",
+      "kind": "spring-handler",
+      "name": "GET /customers/search",
+      "tables": 2
+    },
+    {
+      "component": "billing-web",
+      "kind": "spring-handler",
+      "name": "GET /invoices",
+      "tables": 2
+    },
+    {
+      "component": "billing-web",
+      "kind": "spring-handler",
+      "name": "GET /invoices/{id}",
+      "tables": 2
+    },
+    {
+      "component": "billing-web",
+      "kind": "spring-handler",
+      "name": "POST /invoices/{id}/pay",
+      "tables": 2
+    },
+    {
+      "component": null,
+      "kind": "batch-job",
+      "name": "BIL_ARCHIVE",
+      "tables": 0
+    },
+    {
+      "component": "billing-web",
+      "kind": "spring-handler",
+      "name": "GET /health",
+      "tables": 0
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "C",
+        "R",
+        "U"
+      ],
+      "name": "INVOICES",
+      "references": 6
+    },
+    {
+      "crud": [
+        "C",
+        "R",
+        "U"
+      ],
+      "name": "PAYMENTS",
+      "references": 3
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMERS",
+      "references": 2
+    },
+    {
+      "crud": [
+        "C"
+      ],
+      "name": "INVOICE_AUDIT",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "USAGE_RECORDS",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 5,
+    "components": 3,
+    "db_objects": 5,
+    "dependencies": 25,
+    "entry_points": 1,
+    "files": 28,
+    "findings": 22,
+    "input_coverage": 9,
+    "input_files": 3,
+    "integrations": 5,
+    "libraries": 10,
+    "loc_blank": 97,
+    "loc_code": 580,
+    "loc_comment": 10,
+    "metrics": 3,
+    "screens": 5,
+    "services": 8,
+    "sql_statements": 12,
+    "tech_stack": 19,
+    "web_services": 1
+  },
+  "unresolved_references": 1,
+  "unscheduled_batch_entries": {},
+  "unscheduled_batches": [],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "missing"
+    },
+    {
+      "database_date": null,
+      "detail": null,
+      "name": "osv-scanner",
+      "reports": [
+        "audit-inputs/security/osv-scanner.json"
+      ],
+      "status": "imported"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "billing-web",
+      "name": "HealthController",
+      "operations": 1,
+      "side": "offered",
+      "style": "REST",
+      "url": "/health"
+    }
+  ]
+}

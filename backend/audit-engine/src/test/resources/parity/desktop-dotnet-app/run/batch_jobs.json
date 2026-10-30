@@ -1,0 +1,89 @@
+[
+  {
+    "box": null,
+    "command": "billing-api-cs/Program.cs",
+    "complexity": "Simple",
+    "complexity_score": 0.09,
+    "component": "billing-api-cs",
+    "condition": null,
+    "datasets": [],
+    "description": "Scheduled in the code with Hangfire RecurringJob",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Program.cs",
+        "line": 9,
+        "snippet": "Hangfire RecurringJob"
+      }
+    ],
+    "id": "batch_job:ac2f740964945358",
+    "kind": "job",
+    "machine": null,
+    "name": "close-invoices",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "j.CloseOverdue()"
+    ],
+    "schedule": "daily at 02:00",
+    "scheduler": "hangfire",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": "C:\\Billing\\NightlyExport\\NightlyExport.exe",
+    "complexity": "Simple",
+    "complexity_score": 0.0,
+    "component": "nightly-export-cs",
+    "condition": null,
+    "datasets": [],
+    "description": "Exports the day's invoices to the file server for the ledger team.",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/NightlyExport.xml",
+        "line": 2,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe"
+      }
+    ],
+    "id": "batch_job:69caee0fdafdc640",
+    "kind": "job",
+    "machine": null,
+    "name": "NightlyExport",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "NightlyExport.exe"
+    ],
+    "schedule": "daily at 01:30",
+    "scheduler": "windows-task",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge",
+    "complexity": "Simple",
+    "complexity_score": 0.23,
+    "component": "nightly-export-cs",
+    "condition": null,
+    "datasets": [],
+    "description": "Windows Task Scheduler task",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/tasks/install-tasks.cmd",
+        "line": 3,
+        "snippet": "C:\\Billing\\NightlyExport\\NightlyExport.exe /purge"
+      }
+    ],
+    "id": "batch_job:b84be3d07278c9a9",
+    "kind": "job",
+    "machine": null,
+    "name": "WeeklyPurge",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "NightlyExport.exe"
+    ],
+    "schedule": "weekly on SUN at 03:00",
+    "scheduler": "windows-task",
+    "steps": []
+  }
+]

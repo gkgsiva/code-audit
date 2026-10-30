@@ -1,0 +1,2 @@
+id,evidence,name,kind,component,file,handler,url,protocol,framework,web_service,screens,inputs,outputs,complexity,complexity_score,fan_in,fan_out,tables,sql,external_calls
+service:dabc89301075db29,acme-web/src/main/webapp/WEB-INF/web.xml:3,customer,servlet,acme-web,acme-web/src/main/webapp/WEB-INF/web.xml,com.acme.web.CustomerServlet,/customer,,,,,,,Simple,1.3,0,1,,,

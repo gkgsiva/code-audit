@@ -1,0 +1,5 @@
+id,evidence,name,object_type,defined_in,members,referenced_by,crud,pg_grade,reason
+db_object:ebdc58cf261664f1,ops/batch/purge/purge.sql:2,AUDIT_LOG,table,,,sql:f7bb65aee6fb600a,"{""R"": [""sql:f7bb65aee6fb600a""]}",,
+db_object:929f7ecf1e77e5d5,ops/batch/eod/sql/eod_close.sql:2,BUSINESS_DAY,table,,,sql:b38920ef7918d91b,"{""U"": [""sql:b38920ef7918d91b""]}",,
+db_object:ba880a1b125aeb90,acme-core/src/main/java/com/acme/core/CustomerDao.java:16,CUSTOMER,table,,,sql:b7737c7e53c98cdc,"{""R"": [""sql:b7737c7e53c98cdc""]}",,
+db_object:ef97536d0298e878,ops/batch/eod/sql/eod_report.sql:2,ORDERS,table,,,sql:841307534fc029c6,"{""R"": [""sql:841307534fc029c6""]}",,

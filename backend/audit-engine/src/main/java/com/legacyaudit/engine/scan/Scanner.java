@@ -14,7 +14,14 @@ import com.legacyaudit.engine.inventory.Walker;
 import com.legacyaudit.engine.inventory.Walker.Filters;
 import com.legacyaudit.engine.inventory.Walker.Skipped;
 import com.legacyaudit.engine.inventory.Walker.Walked;
+import com.legacyaudit.engine.linker.Classify;
+import com.legacyaudit.engine.linker.Linker;
+import com.legacyaudit.engine.metrics.Compute;
+import com.legacyaudit.engine.rules.Targets;
+import com.legacyaudit.engine.rules.Findings;
+import com.legacyaudit.engine.rules.Packs;
 import com.legacyaudit.engine.store.FactWriter;
+import com.legacyaudit.engine.store.Summary;
 import com.legacyaudit.engine.store.FactWriter.Entity;
 import com.legacyaudit.engine.store.Runs;
 import com.legacyaudit.engine.store.ScanLock;
@@ -24,6 +31,7 @@ import com.legacyaudit.model.config.AuditConfig.GitSource;
 import com.legacyaudit.model.config.LoadedConfig;
 import com.legacyaudit.model.config.Overrides;
 import com.legacyaudit.model.facts.Component;
+import com.legacyaudit.model.facts.Doc;
 import com.legacyaudit.model.facts.Evidence;
 import com.legacyaudit.model.facts.Fact;
 import com.legacyaudit.model.facts.FileRecord;
@@ -31,6 +39,8 @@ import com.legacyaudit.model.facts.Finding;
 import com.legacyaudit.model.facts.InputCoverage;
 import com.legacyaudit.model.facts.Origin;
 import com.legacyaudit.model.facts.RunInfo;
+import com.legacyaudit.model.facts.Schema;
+import com.legacyaudit.model.facts.Schemas;
 import com.legacyaudit.model.facts.Severity;
 import com.legacyaudit.model.json.PyJson;
 import java.io.IOException;
@@ -44,6 +54,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +93,25 @@ public final class Scanner {
     private static final List<String> COVERAGE_COLUMNS =
             List.of("id", "evidence", "kind", "label", "status", "path", "file_count");
 
+    /** The linker's entities, in export order, with their schemas (CSV columns). */
+    private static final Map<String, Schema> LINKED = linked();
+
+    private static Map<String, Schema> linked() {
+        Map<String, Schema> m = new LinkedHashMap<>();
+        m.put("entry_points", Schemas.ENTRY_POINT);
+        m.put("services", Schemas.SERVICE);
+        m.put("screens", Schemas.SCREEN);
+        m.put("sql_statements", Schemas.SQL_STATEMENT);
+        m.put("db_objects", Schemas.DB_OBJECT);
+        m.put("integrations", Schemas.INTEGRATION);
+        m.put("web_services", Schemas.WEB_SERVICE);
+        m.put("dependencies", Schemas.CODE_EDGE);
+        m.put("batch_jobs", Schemas.BATCH_JOB);
+        m.put("libraries", Schemas.LIBRARY);
+        m.put("tech_stack", Schemas.TECH_ITEM);
+        return m;
+    }
+
     private static final DateTimeFormatter ISO_SECONDS = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssxxx");
 
     private static final JsonMapper JSON = JsonMapper.builder().build();
@@ -99,8 +130,8 @@ public final class Scanner {
     }
 
     /** What a scan wrote. */
-    public record Result(Path runDir, RunInfo run, List<FileRecord> inventory, List<Component> components, List<Finding> findings,
-            List<InputCoverage> coverage, List<FileFacts> fileFacts) {}
+    public record Result(Path runDir, RunInfo run, List<FileRecord> inventory, List<Component> components, List<Fact> findings,
+            List<InputCoverage> coverage, List<FileFacts> fileFacts, Map<String, List<Doc>> linked) {}
 
     /** What one analyzer found in one file. */
     public record FileFacts(String analyzer, String path, Facts facts) {}
@@ -183,6 +214,12 @@ public final class Scanner {
         return String.join(", ", parts);
     }
 
+    /** The team's rule folder ({@code rules.packs_dir}), or null. */
+    public static Path teamDir(LoadedConfig loaded) {
+        Object dir = loaded.config().setting("rules", "packs_dir");
+        return dir != null && !String.valueOf(dir).isEmpty() ? loaded.resolve(String.valueOf(dir)) : null;
+    }
+
     private static final class Run {
         private final LoadedConfig loaded;
         private final AuditConfig cfg;
@@ -197,6 +234,7 @@ public final class Scanner {
         private final List<FileFacts> fileFacts = new ArrayList<>();
         private final List<Analyzer> analyzers = Analyzers.registered();
         private final List<String> analyzerWarnings = new ArrayList<>();
+        private List<Object> textRules;
 
         Run(LoadedConfig loaded, Path outDir, String runId, Path runDir, OffsetDateTime started, Options options, ScanLog log) {
             this.loaded = loaded;
@@ -269,7 +307,10 @@ public final class Scanner {
             }
 
             // Settings that change per-file results are part of the cache key.
-            String cacheVersion = Analyzers.versionKey(FileAnalyzer.VERSION) + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb();
+            List<Packs.Rule> patterns = Packs.textRules(cfg.rulePacks(), teamDir(loaded));
+            textRules = new ArrayList<>(patterns);
+            String cacheVersion = Analyzers.versionKey(FileAnalyzer.VERSION) + ";binaries=" + inv.includeBinaries() + ";max_mb=" + inv.maxFileSizeMb()
+                    + ";dup=" + cfg.duplicationTokens() + ";rules=" + Packs.rulesKey(patterns);
             long maxBytes = (long) (inv.maxFileSizeMb() * 1024 * 1024);
             List<String> unreadable = new ArrayList<>(); // "path\u001fwhy"
             String[] slots = new String[walked.size()]; // cache payload per walked file, in walk order
@@ -413,8 +454,68 @@ public final class Scanner {
             List<Component> components = ComponentOverrides.apply(overrides, sourceRecords, detected.components(), overrideReport, warnings);
             timings.put("components", seconds(t));
 
+            // ---- Linking and classification -----------------------------------------------------
+            stage("link");
+            t = System.nanoTime();
+            Object group = cfg.setting("integrations", "group_by_service");
+            Linker.Result linked = Linker.link(records, fileFacts.stream().map(FileFacts::facts).toList(), cfg.copybookPaths(),
+                    group == null || Boolean.TRUE.equals(group));
+            List<Fact> allFindings = new ArrayList<>(linked.entities().getOrDefault("findings", List.of()));
+            allFindings.addAll(findings);
+            java.util.Set<String> fixedTypes = new HashSet<>(overrides.type().keySet());
+            cfg.components().stream().filter(c -> c.type() != null).forEach(c -> fixedTypes.add(c.name()));
+            Classify.components(components, linked.entities(), sourceRecords, fixedTypes);
+            timings.put("link", seconds(t));
+            warnings.addAll(linked.warnings());
+            log.info("Linked: " + linked.edges() + " edges, " + linked.unresolved() + " unresolved references");
+
+            // ---- Metrics ------------------------------------------------------------------------
+            stage("metrics");
+            t = System.nanoTime();
+            Map<String, List<Doc>> units = new HashMap<>();
+            Map<String, List<List<Long>>> windows = new LinkedHashMap<>();
+            for (FileFacts ff : fileFacts) {
+                if (ff.analyzer().equals("metrics")) {
+                    units.put(ff.path(), ff.facts().units);
+                    windows.put(ff.path(), ff.facts().windows);
+                }
+            }
+            Compute.Result measured = Compute.compute(Compute.Settings.of(cfg), sourceRecords, components, linked.entities(), units, windows);
+            timings.put("metrics", seconds(t));
+
+            // ---- Assess: PostgreSQL grades, dependency security, rules, effort ------------------------
+            stage("assess");
+            t = System.nanoTime();
+            List<Findings.Hit> hits = new ArrayList<>();
+            for (FileFacts ff : fileFacts) {
+                if (ff.analyzer().equals("patterns")) {
+                    for (List<Object> h : ff.facts().hits) {
+                        hits.add(new Findings.Hit(ff.path(), String.valueOf(h.get(0)), ((Number) h.get(1)).longValue(), String.valueOf(h.get(2))));
+                    }
+                }
+            }
+            Map<String, Path> absPaths = new HashMap<>();
+            for (Item it : walked) {
+                absPaths.put(it.path(), it.file().absPath());
+            }
+            String startedAt = started.truncatedTo(ChronoUnit.SECONDS).format(ISO_SECONDS);
+            Assess.Assessment assessed = Assess.run(new Assess.Input(loaded, teamDir(loaded), runId, startedAt, AppInfo.version(), runDir,
+                    records, linked.entities(), allFindings, measured, hits, roots.stream().map(Sources.Root::path).toList(), absPaths));
+            timings.put("assess", seconds(t));
+            log.info("Assessed: " + assessed.findings().size() + " findings");
+            if (assessed.unmatchedReports() > 0) {
+                log.info("Vulnerability reports: " + assessed.unmatchedReports()
+                        + " entries match no library in the inventory (transitive?)");
+            }
+            for (Doc s : assessed.sources()) {
+                String detail = s.str("detail");
+                log.info("Vulnerability source " + s.str("name") + ": " + s.str("status")
+                        + (detail != null && !detail.isEmpty() ? " (" + detail + ")" : ""));
+            }
+
             // ---- Coverage, export ------------------------------------------------------------------
-            List<InputCoverage> coverage = InputCoverages.of(inputsDir, INPUTS_ROOT);
+            List<InputCoverage> coverage = new ArrayList<>(InputCoverages.of(inputsDir, INPUTS_ROOT));
+            coverage.addAll(assessed.coverage());
             for (InputCoverage c : coverage) {
                 log.info("Input coverage: " + c.line());
             }
@@ -438,6 +539,8 @@ public final class Scanner {
             run.countingRules = cfg.counting();
             run.target = cfg.target().info();
             run.analyzers = analyzerCoverage(fileFacts);
+            run.unresolvedReferences = linked.unresolved();
+            run.vulnerabilitySources = new ArrayList<>(assessed.sources().stream().map(Doc::toMap).toList());
             if (!run.analyzers.isEmpty()) {
                 log.info("Analyzers: " + analyzerLine(run.analyzers));
             }
@@ -445,18 +548,40 @@ public final class Scanner {
             stage("export");
             t = System.nanoTime();
             Path dataDir = runDir.resolve("data");
-            List<Entity> entities = FactWriter.dropDuplicateIds(List.of(
+            List<Entity> all = new ArrayList<>(List.of(
                     new Entity("inventory", FILE_COLUMNS, records),
-                    new Entity("components", COMPONENT_COLUMNS, components),
-                    new Entity("findings", FINDING_COLUMNS, findings),
-                    new Entity("input_coverage", COVERAGE_COLUMNS, coverage)), warnings);
+                    new Entity("components", COMPONENT_COLUMNS, components)));
+            LINKED.forEach((name, schema) -> all.add(new Entity(name, schema.fields().stream().map(Schema.Field::name).toList(),
+                    linked.entities().getOrDefault(name, List.of()))));
+            all.add(new Entity("findings", FINDING_COLUMNS, assessed.findings()));
+            all.add(new Entity("metrics", Schemas.METRIC.fields().stream().map(Schema.Field::name).toList(), measured.metrics));
+            all.add(new Entity("input_coverage", COVERAGE_COLUMNS, coverage));
+            List<Entity> entities = FactWriter.dropDuplicateIds(all, warnings);
             run.warnings = warnings;
             FactWriter.write(dataDir, entities);
+            FactWriter.writeJson(dataDir.resolve("sbom.cdx.json"), assessed.sbom());
+            if (assessed.effort() != null) {
+                FactWriter.writeJson(dataDir.resolve("effort.json"), assessed.effort());
+            }
+            FactWriter.writeJson(dataDir.resolve("target-mapping.json"), assessed.targetMapping());
             FactWriter.writeJson(dataDir.resolve("target.json"), run.target);
             timings.put("export", seconds(t));
             run.timings = timings;
             run.finishedAt = OffsetDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.SECONDS).format(ISO_SECONDS);
             FactWriter.writeJson(runDir.resolve("run.json"), run.toMap());
+            Map<String, List<Doc>> written = new LinkedHashMap<>();
+            for (Entity e : entities) {
+                if (!List.of("inventory", "components", "findings", "input_coverage").contains(e.name())) {
+                    @SuppressWarnings("unchecked")
+                    List<Doc> docs = (List<Doc>) e.items();
+                    written.put(e.name(), docs);
+                }
+            }
+            @SuppressWarnings("unchecked")
+            Summary.Facts summaryFacts = new Summary.Facts((List<FileRecord>) entities.get(0).items(), (List<Component>) entities.get(1).items(),
+                    written, entities.stream().filter(e -> e.name().equals("findings")).flatMap(e -> e.items().stream()).map(f -> (Finding) f).toList(),
+                    coverage);
+            FactWriter.writeJson(dataDir.resolve("audit-summary.json"), Summary.build(run, summaryFacts, assessed.effort()));
             Runs.setLatest(outDir, runId);
             for (String w : warnings) {
                 log.warning(w);
@@ -466,9 +591,14 @@ public final class Scanner {
             List<Component> comps = (List<Component>) entities.get(1).items();
             @SuppressWarnings("unchecked")
             List<FileRecord> files = (List<FileRecord>) entities.get(0).items();
-            @SuppressWarnings("unchecked")
-            List<Finding> found = (List<Finding>) entities.get(2).items();
-            return new Result(runDir, run, files, comps, found, coverage, fileFacts);
+            List<Fact> found = new ArrayList<>(entities.get(entities.size() - 3).items());
+            Map<String, List<Doc>> facts = new LinkedHashMap<>();
+            for (Entity e : entities.subList(2, entities.size() - 3)) {
+                @SuppressWarnings("unchecked")
+                List<Doc> docs = (List<Doc>) e.items();
+                facts.put(e.name(), docs);
+            }
+            return new Result(runDir, run, files, comps, found, coverage, fileFacts, facts);
         }
 
         /** The file-cache payload of one file: its record and what each analyzer found. */
@@ -476,7 +606,7 @@ public final class Scanner {
             Map<String, Object> facts = new LinkedHashMap<>();
             FileRecord rec = res.record();
             if (rec != null && (res.text() != null || rec.language.equals("archive"))) {
-                AnalyzerContext ctx = new AnalyzerContext(cfg, absPath, res.text(), null);
+                AnalyzerContext ctx = new AnalyzerContext(cfg, absPath, res.text(), textRules);
                 Analyzers.run(analyzers, rec, ctx, analyzerWarnings).forEach((name, f) -> facts.put(name, f.dump()));
             }
             Map<String, Object> payload = new LinkedHashMap<>();

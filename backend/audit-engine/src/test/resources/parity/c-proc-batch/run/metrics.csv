@@ -1,0 +1,2 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:07c1f65da5b46953,Makefile,settlement,167,18,26,8,10,2.1,4,0,0,0.0,0,0.0,0,1,2,Medium,16.92,"{""Medium"": 3}"

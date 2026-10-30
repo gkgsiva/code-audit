@@ -1,0 +1,4 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:ac6b987e6e4457d2,billing-batch/pom.xml,billing-batch,batch,billing,billing-batch,billing-batch/pom.xml,java;shell;xml,batch,"{""build"": 1, ""config"": 1, ""script"": 1, ""source"": 2}",5,105,com.acme.billing.batch.PaymentListener,build-file,billing-parent,billing-batch,jar,
+component:736aa789d968e767,billing-common/pom.xml,billing-common,library,billing,billing-common,billing-common/pom.xml,java;xml,library,"{""build"": 1, ""config"": 1, ""source"": 5}",7,154,,build-file,billing-parent,billing-common,jar,
+component:c543eba54c6824f4,billing-web/pom.xml,billing-web,web,billing,billing-web,billing-web/pom.xml,java;jsp;properties;xml,web,"{""build"": 1, ""config"": 5, ""screen"": 5, ""source"": 4}",15,252,,build-file,billing-parent,billing-web,war,

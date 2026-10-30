@@ -1,0 +1,164 @@
+[
+  {
+    "components": [
+      "billing-batch",
+      "shared-scripts-config"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://billdb:1521/BILL; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:136e5ba64de363f1",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "config/common.properties",
+      "apps/billing-batch/properties/billing.properties"
+    ],
+    "target": "oracle://billdb:1521/BILL",
+    "type": "DB",
+    "usages": 2
+  },
+  {
+    "components": [
+      "billing-batch"
+    ],
+    "consumers": [],
+    "description": "Transfers files with files.acme.local:21 by FTP; 1 place in the code.",
+    "details": {
+      "key": "ftp"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:d1c7a1608ee77a07",
+    "producers": [],
+    "protocol": null,
+    "purpose": "file transfer",
+    "source_files": [
+      "apps/billing-batch/properties/billing.properties"
+    ],
+    "target": "files.acme.local:21",
+    "type": "FTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "shared-scripts-config"
+    ],
+    "consumers": [],
+    "description": "Login / authentication with Okta (OAuth 2.0 / OpenID Connect) at acme.okta.com; 1 place in the code.",
+    "details": {
+      "key": "sso.issuer"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:0542a33759468c83",
+    "producers": [],
+    "protocol": null,
+    "purpose": "login / authentication",
+    "source_files": [
+      "config/common.properties"
+    ],
+    "target": "https://acme.okta.com/oauth2/default",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "shared-scripts-config"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api/v2/prices on pricing.acme.local; 1 place in the code.",
+    "details": {
+      "key": "pricing.url"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:56ef1f8d99906807",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "config/common.properties"
+    ],
+    "target": "https://pricing.acme.local/api/v2/prices",
+    "type": "HTTP",
+    "usages": 1
+  },
+  {
+    "components": [
+      "billing-batch",
+      "shared-scripts-config"
+    ],
+    "consumers": [],
+    "description": "Sends email through smtp://mail.acme.local:25; 2 places in the code.",
+    "details": {
+      "key": "smtp"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "config/common.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:39e822ce76a2278a",
+    "producers": [],
+    "protocol": null,
+    "purpose": "email",
+    "source_files": [
+      "apps/billing-batch/properties/billing.properties",
+      "config/common.properties"
+    ],
+    "target": "smtp://mail.acme.local:25",
+    "type": "SMTP",
+    "usages": 2
+  }
+]

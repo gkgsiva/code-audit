@@ -1,0 +1,63 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Facts</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'results']">Results</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  <p class="lead">Everything the scan found, one kind at a time. Pick a kind, then search or filter.</p>
+  <form class="row" (ngSubmit)="filter()">
+    <select name="kind" [ngModel]="kind" (ngModelChange)="pick($event)" aria-label="Kind of fact">
+      @for (k of kinds; track k) { <option [value]="k">{{ k }}</option> }
+    </select>
+    <input type="text" name="q" placeholder="Text anywhere in the row" style="max-width: 16rem" [(ngModel)]="q">
+    <select name="field" [(ngModel)]="field" aria-label="Field to filter on">
+      <option value="">Any field</option>
+      @for (c of columns(); track c) { <option [value]="c">{{ c }}</option> }
+    </select>
+    <input type="text" name="value" placeholder="equals (or ~contains)" style="max-width: 12rem" [(ngModel)]="value" [disabled]="!field">
+    <button type="submit" class="btn">Search</button>
+    <button type="button" class="btn" (click)="clear()">Clear</button>
+  </form>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (loaded() && !data()) {
+    <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
+  }
+</section>
+
+@if (data(); as d) {
+  <section class="panel">
+    <p class="hint">{{ d.total | number }} {{ d.kind }} match.</p>
+    @if (d.rows.length) {
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr>@for (c of columns(); track c) { <th>{{ c }}</th> }</tr></thead>
+          <tbody>
+            @for (r of d.rows; track $index) {
+              <tr>@for (c of columns(); track c) { <td>{{ text(r[c]) }}</td> }</tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+    @if (pages() > 1) {
+      <div class="row" style="margin-top: .75rem">
+        <button type="button" class="btn" [disabled]="page() === 0" (click)="go(page() - 1)">Previous</button>
+        <span class="hint">Page {{ page() + 1 }} of {{ pages() }}</span>
+        <button type="button" class="btn" [disabled]="page() + 1 >= pages()" (click)="go(page() + 1)">Next</button>
+      </div>
+    }
+    @if (d.note) {
+      <h2>Batches with no schedule found</h2>
+      <p class="hint">{{ d.note }}</p>
+      <ul>
+        @for (b of d.unscheduled_batches ?? []; track $index) {
+          <li>{{ b['component'] }}@if (b['entry_point']) {: {{ b['entry_point'] }} ({{ b['file'] }})}</li>
+        }
+      </ul>
+    }
+  </section>
+}

@@ -1,0 +1,151 @@
+[
+  {
+    "crud": {},
+    "defined_in": "sql/pkg_order_pricing.pkb",
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "sql/pkg_order_pricing.pks",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:680a4965f0bc0c36",
+    "members": [
+      "RECALC_ALL",
+      "TOTAL_WITH_TAX"
+    ],
+    "name": "PKG_ORDER_PRICING",
+    "object_type": "package",
+    "pg_grade": "manual",
+    "reason": "stored package: move the logic to Java or rewrite in PL/pgSQL",
+    "referenced_by": [
+      "sql:c11bf0a70c74cbd5",
+      "sql:dea8cb163fe0de98"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:dae1d15f1f28c324",
+        "sql:74d178515a7f4399",
+        "sql:47da0078761cfe55"
+      ]
+    },
+    "defined_in": "audit-inputs/ddl/orders_schema.sql",
+    "evidence": [
+      {
+        "file": "audit-inputs/ddl/orders_schema.sql",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:02d5a98eab0474e2",
+    "members": [],
+    "name": "CUSTOMERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:dae1d15f1f28c324",
+      "sql:74d178515a7f4399",
+      "sql:47da0078761cfe55"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:dae1d15f1f28c324",
+        "sql:3f99a9f03b91ca88",
+        "sql:470c39a674516e57",
+        "sql:74d178515a7f4399",
+        "sql:df8bbfa606b0adfb",
+        "sql:ce46dc8dd1a138eb",
+        "sql:979cade04721da61",
+        "sql:47da0078761cfe55"
+      ],
+      "U": [
+        "sql:af564f2b8f197c77",
+        "sql:1208a107a9f108ba"
+      ]
+    },
+    "defined_in": "audit-inputs/ddl/orders_schema.sql",
+    "evidence": [
+      {
+        "file": "audit-inputs/ddl/orders_schema.sql",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:dae1d15f1f28c324",
+      "sql:3f99a9f03b91ca88",
+      "sql:af564f2b8f197c77",
+      "sql:470c39a674516e57",
+      "sql:1208a107a9f108ba",
+      "sql:74d178515a7f4399",
+      "sql:df8bbfa606b0adfb",
+      "sql:ce46dc8dd1a138eb",
+      "sql:979cade04721da61",
+      "sql:47da0078761cfe55"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:a07252e6d4e6c1b0"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:7d8347f08ff6057d",
+    "members": [],
+    "name": "ORDER_LINES",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:a07252e6d4e6c1b0"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:cb299e45008db9b8"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:cdef501d9f4785bd",
+    "members": [],
+    "name": "USERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:cb299e45008db9b8"
+    ]
+  }
+]

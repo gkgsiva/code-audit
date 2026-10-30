@@ -1,0 +1,297 @@
+[
+  {
+    "complexity": "Simple",
+    "complexity_score": 1.0,
+    "component": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 25,
+        "snippet": "insert_job: BIL_ARCHIVE job_type: CMD"
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 1,
+    "fan_out": 1,
+    "file": "audit-inputs/autosys/billing.jil",
+    "framework": null,
+    "handler": "/opt/billing/scripts/archive_usage.sh",
+    "id": "service:c659593c2516d3dd",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "BIL_ARCHIVE",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 10.99,
+    "component": "billing-batch",
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 15,
+        "snippet": "insert_job: BIL_INVOICE job_type: CMD"
+      }
+    ],
+    "external_calls": [
+      "MQ-QMGR QMBILL@mqbill01.acme.local:1414",
+      "SMTP mail (mailx)"
+    ],
+    "fan_in": 2,
+    "fan_out": 2,
+    "file": "audit-inputs/autosys/billing.jil",
+    "framework": null,
+    "handler": "/opt/billing/scripts/run_invoice_job.sh",
+    "id": "service:2d1cefd8f737d0a3",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "BIL_INVOICE",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:023f5e846d4f16f1",
+      "sql:8e1ce8cc4cb44aba",
+      "sql:8e78affb5765b4c7"
+    ],
+    "tables": [
+      "INVOICES",
+      "INVOICE_AUDIT",
+      "USAGE_RECORDS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 11.11,
+    "component": "billing-batch",
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "MQ-QMGR QMBILL@mqbill01.acme.local:1414"
+    ],
+    "fan_in": 1,
+    "fan_out": 1,
+    "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+    "framework": null,
+    "handler": "org.springframework.batch.item.database.JdbcCursorItemReader,com.acme.billing.batch.InvoiceWriter",
+    "id": "service:9ba59817f88c69a4",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "invoiceJob",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:023f5e846d4f16f1",
+      "sql:8e1ce8cc4cb44aba",
+      "sql:8e78affb5765b4c7"
+    ],
+    "tables": [
+      "INVOICES",
+      "INVOICE_AUDIT",
+      "USAGE_RECORDS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 8.13,
+    "component": "billing-web",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 2,
+    "file": "billing-web/src/main/java/com/acme/billing/web/CustomerController.java",
+    "framework": null,
+    "handler": "com.acme.billing.web.CustomerController.search",
+    "id": "service:f83e485622850acf",
+    "inputs": [],
+    "kind": "spring-handler",
+    "name": "GET /customers/search",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:8f683aecfbbcde40"
+    ],
+    "sql": [
+      "sql:1cc978d4745b8d93",
+      "sql:47f6833ff1c952ce"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "INVOICES"
+    ],
+    "url": "/customers/search",
+    "web_service": null
+  },
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.24,
+    "component": "billing-web",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-web/src/main/java/com/acme/billing/web/HealthController.java",
+    "framework": "Spring MVC",
+    "handler": "com.acme.billing.web.HealthController.health",
+    "id": "service:209770cc4cf1d8ed",
+    "inputs": [],
+    "kind": "spring-handler",
+    "name": "GET /health",
+    "outputs": [],
+    "protocol": "REST",
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": "/health",
+    "web_service": "HealthController"
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 12.18,
+    "component": "billing-web",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "MQ-QMGR QMBILL@mqbill01.acme.local:1414"
+    ],
+    "fan_in": 0,
+    "fan_out": 1,
+    "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+    "framework": null,
+    "handler": "com.acme.billing.web.InvoiceController.list",
+    "id": "service:fda29992cfe62bf9",
+    "inputs": [],
+    "kind": "spring-handler",
+    "name": "GET /invoices",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:c6a61f35f0d54a46"
+    ],
+    "sql": [
+      "sql:427df8511ee576ee",
+      "sql:6a39ad4b1c349236",
+      "sql:b5cd602de0357f37",
+      "sql:d733fc8a1c4c931b"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "INVOICES"
+    ],
+    "url": "/invoices",
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 12.17,
+    "component": "billing-web",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 29,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "MQ-QMGR QMBILL@mqbill01.acme.local:1414"
+    ],
+    "fan_in": 0,
+    "fan_out": 1,
+    "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+    "framework": null,
+    "handler": "com.acme.billing.web.InvoiceController.detail",
+    "id": "service:32c0d8031410b4e1",
+    "inputs": [],
+    "kind": "spring-handler",
+    "name": "GET /invoices/{id}",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:01e5975666c97869"
+    ],
+    "sql": [
+      "sql:427df8511ee576ee",
+      "sql:6a39ad4b1c349236",
+      "sql:b5cd602de0357f37",
+      "sql:d733fc8a1c4c931b"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "INVOICES"
+    ],
+    "url": "/invoices/{id}",
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 11.19,
+    "component": "billing-web",
+    "evidence": [
+      {
+        "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+        "line": 34,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "MQ-QMGR QMBILL@mqbill01.acme.local:1414"
+    ],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "billing-web/src/main/java/com/acme/billing/web/InvoiceController.java",
+    "framework": null,
+    "handler": "com.acme.billing.web.InvoiceController.pay",
+    "id": "service:8443745aed316fda",
+    "inputs": [],
+    "kind": "spring-handler",
+    "name": "POST /invoices/{id}/pay",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:427df8511ee576ee",
+      "sql:6a39ad4b1c349236",
+      "sql:b5cd602de0357f37",
+      "sql:d733fc8a1c4c931b"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "INVOICES"
+    ],
+    "url": "/invoices/{id}/pay",
+    "web_service": null
+  }
+]

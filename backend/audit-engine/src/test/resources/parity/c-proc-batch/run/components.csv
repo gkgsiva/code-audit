@@ -1,0 +1,2 @@
+id,evidence,name,type,root,path,build_files,technology,roles,composition,files,loc_code,entry_points,detected_by,build_group,artifact,packaging,parts
+component:f1e8693e4d096f8a,Makefile,settlement,batch,settlement,,Makefile,c;proc;shell;sql,batch;db,"{""build"": 1, ""script"": 2, ""source"": 4, ""sql"": 1}",8,167,settle_load;settle_send,build-file,,,,

@@ -82,8 +82,10 @@ docs/                    decisions, progress, history, VS Code steps, this guide
    overrides of `audit-overrides.yaml` are applied.
 5. The run folder `audit-output/runs/<run-id>/` gets `run.json`, the logs and `data/` with JSON,
    CSV and SQLite (`FactWriter`).
-6. Later phases add: linking the facts across files (Phase 5), metrics, rules and effort
-   (Phase 5), reports (Phase 6) and AI enrichment (Phase 7).
+6. The linker joins the facts across files, then metrics, PostgreSQL grades, dependency
+   security, findings and the effort estimate are added (`Assess`), and `audit-summary.json`
+   is written (`Summary`).
+7. Later phases add reports (Phase 6) and AI enrichment (Phase 7).
 
 ## Ground rules for the code
 

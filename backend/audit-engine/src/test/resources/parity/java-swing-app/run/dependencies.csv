@@ -1,0 +1,8 @@
+id,evidence,source,target,kind,resolved
+edge:a8723dbd66d15379,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java:10,screen:a2cbfb040e34c0ac,screen:83a5b67d242896a4,forwards,true
+edge:04b23cbd4e17a18f,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java:10,screen:a2cbfb040e34c0ac,screen:bfd92173aee9343c,forwards,true
+edge:e09f06a770e405d8,teller-desk/src/main/java/com/acme/teller/TellerApp.java,file:72d3757ceacc1072,file:a13e30b92bdab055,uses,true
+edge:6d5ed5307f1ee241,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java,file:a13e30b92bdab055,file:a5dbb90546f001cd,uses,true
+edge:c2ebe89d584a8447,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java,file:a13e30b92bdab055,file:f79adbbfeb0e862f,uses,true
+edge:21b198cb906d3f44,teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java,file:a5dbb90546f001cd,file:08776b02691b8cb0,uses,true
+edge:a474b945c958467e,teller-desk/src/main/resources/fxml/Rates.fxml:4,screen:cfc1899fd304e7fa,file:49be8163da71865d,uses,true

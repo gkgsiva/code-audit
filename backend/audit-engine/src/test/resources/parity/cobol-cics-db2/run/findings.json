@@ -1,0 +1,164 @@
+[
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 51,
+        "snippet": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?"
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 41,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 43,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "id": "finding:57c8170b147f4e08",
+    "line": 51,
+    "message": "Values concatenated into SQL text (1x; embedded, SELECT) in cobol/ORDRPT.cbl",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "data-conversion",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "id": "finding:952cc188ba5c028b",
+    "line": 15,
+    "message": "EBCDIC or packed-decimal data handling: COMP-3",
+    "remediation": "Plan the character-set and numeric conversion (COMP-3, zoned decimal) when data leaves the mainframe.",
+    "rule_id": "ebcdic-packed-decimal",
+    "severity": "medium"
+  },
+  {
+    "category": "data-conversion",
+    "evidence": [
+      {
+        "file": "copybook/ORDREC.cpy",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "file": "copybook/ORDREC.cpy",
+    "id": "finding:2ca2c28bf6371b8e",
+    "line": 7,
+    "message": "EBCDIC or packed-decimal data handling: COMP-3",
+    "remediation": "Plan the character-set and numeric conversion (COMP-3, zoned decimal) when data leaves the mainframe.",
+    "rule_id": "ebcdic-packed-decimal",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 51,
+        "snippet": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?"
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 41,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 43,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "id": "finding:298da67690b8f381",
+    "line": 51,
+    "message": "Manual PostgreSQL conversion (1x): SELECT at cobol/ORDRPT.cbl:51 — part of the statement is only known at run time (1 place(s))",
+    "remediation": "Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.",
+    "rule_id": "pg-manual-sql",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 51,
+        "snippet": "SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?"
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 18,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 41,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 43,
+        "snippet": null
+      },
+      {
+        "file": "cobol/ORDRPT.cbl",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "cobol/ORDRPT.cbl",
+    "id": "finding:fa7b92d0b64e209b",
+    "line": 51,
+    "message": "Part of the SQL statement is only known at run time (1x; embedded) in cobol/ORDRPT.cbl",
+    "remediation": "Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.",
+    "rule_id": "sql-runtime-structure",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "bms/ORDMS1.bms",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "bms/ORDMS1.bms",
+    "id": "finding:e74e91b2cbdbcc1e",
+    "line": null,
+    "message": "Component cobol-online has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  }
+]

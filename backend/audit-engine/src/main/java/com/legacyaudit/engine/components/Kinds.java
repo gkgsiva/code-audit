@@ -55,7 +55,7 @@ public final class Kinds {
             "config", "configs", "cfg", "properties", "props", "param", "params", "parm", "etc");
 
     /** Component.detectedBy of the shared part of a split batch folder. */
-    static final String BATCH_SHARED = "batch-shared";
+    public static final String BATCH_SHARED = "batch-shared";
 
     /** Component.detectedBy of a component made of several part folders. */
     static final String GROUPED = "grouped";

@@ -1,0 +1,146 @@
+[
+  {
+    "built_with": [],
+    "component": "acme-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+        "line": 16,
+        "snippet": "SELECT ID, NAME FROM CUSTOMER WHERE ID = ?"
+      }
+    ],
+    "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+    "fingerprint": "f6b08cbec88b86e1",
+    "fragments": 1,
+    "id": "sql:b7737c7e53c98cdc",
+    "line": 16,
+    "normalized": "SELECT ID, NAME FROM CUSTOMER WHERE ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT ID, NAME FROM CUSTOMER WHERE ID = ?",
+    "procedures": [],
+    "reason": null,
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMER"
+    ],
+    "text": "SELECT ID, NAME FROM CUSTOMER WHERE ID = ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "acme-parent-scripts-config",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_close.sql",
+        "line": 2,
+        "snippet": "UPDATE BUSINESS_DAY SET STATUS = 'CLOSED' WHERE STATUS = 'OPEN'"
+      }
+    ],
+    "file": "ops/batch/eod/sql/eod_close.sql",
+    "fingerprint": "354321788466d876",
+    "fragments": 1,
+    "id": "sql:b38920ef7918d91b",
+    "line": 2,
+    "normalized": "UPDATE BUSINESS_DAY SET STATUS = ? WHERE STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE BUSINESS_DAY SET STATUS = 'CLOSED' WHERE STATUS = 'OPEN'",
+    "procedures": [],
+    "reason": null,
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "BUSINESS_DAY"
+    ],
+    "text": "UPDATE BUSINESS_DAY SET STATUS = 'CLOSED' WHERE STATUS = 'OPEN'",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "acme-parent-scripts-config",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "ops/batch/eod/sql/eod_report.sql",
+        "line": 2,
+        "snippet": "SELECT COUNT(*) FROM ORDERS WHERE ORDER_DATE >= TRUNC(SYSDATE)"
+      }
+    ],
+    "file": "ops/batch/eod/sql/eod_report.sql",
+    "fingerprint": "99e27133ff54d15a",
+    "fragments": 1,
+    "id": "sql:841307534fc029c6",
+    "line": 2,
+    "normalized": "SELECT COUNT(*) FROM ORDERS WHERE ORDER_DATE >= TRUNC(SYSDATE)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT COUNT(*) FROM ORDERS WHERE ORDER_DATE >= DATE_TRUNC('DD', CURRENT_TIMESTAMP)",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone); TRUNC(date) → date_trunc",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT COUNT(*) FROM ORDERS WHERE ORDER_DATE >= TRUNC(SYSDATE)",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "acme-parent-scripts-config",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "ops/batch/purge/purge.sql",
+        "line": 2,
+        "snippet": "DELETE FROM AUDIT_LOG WHERE CREATED < SYSDATE - 90"
+      }
+    ],
+    "file": "ops/batch/purge/purge.sql",
+    "fingerprint": "7ce126c372112cd5",
+    "fragments": 1,
+    "id": "sql:f7bb65aee6fb600a",
+    "line": 2,
+    "normalized": "DELETE FROM AUDIT_LOG WHERE CREATED < SYSDATE - ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "DELETE FROM AUDIT_LOG WHERE CREATED < CURRENT_TIMESTAMP - 90",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "AUDIT_LOG"
+    ],
+    "text": "DELETE FROM AUDIT_LOG WHERE CREATED < SYSDATE - 90",
+    "type": "DELETE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE"
+    ]
+  }
+]

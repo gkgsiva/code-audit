@@ -1,0 +1,154 @@
+[
+  {
+    "complexity": "Simple",
+    "complexity_score": 0.0,
+    "component": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 0,
+    "file": "audit-inputs/crontab/settlement.cron",
+    "framework": null,
+    "handler": "/opt/settlement/scripts/purge_logs.sh",
+    "id": "service:596e62c318d13dcf",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "purge_logs.sh",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 17.05,
+    "component": "settlement",
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "CFT BANKFR/SETTLE",
+      "FILE /data/settlement/out/settlement.dat",
+      "MQ-QMGR QMSETL"
+    ],
+    "fan_in": 0,
+    "fan_out": 1,
+    "file": "audit-inputs/crontab/settlement.cron",
+    "framework": null,
+    "handler": "/opt/settlement/scripts/run_settlement.ksh >> /var/log/settlement/run.log 2>&1",
+    "id": "service:d729f4e8fcbed99e",
+    "inputs": [],
+    "kind": "batch-job",
+    "name": "run_settlement.ksh",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:0b142e2b85363f72",
+      "sql:285c81a26a358c5a",
+      "sql:3324194cd7bafec9",
+      "sql:4b592e7c074853a8",
+      "sql:7c7e766b1fca83a9",
+      "sql:9916ac3a838164e5",
+      "sql:dedf92e03171733a"
+    ],
+    "tables": [
+      "CARD_TRANSACTIONS",
+      "MERCHANTS",
+      "SETTLEMENT_LINES",
+      "SETTLEMENT_RUNS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 21.27,
+    "component": "settlement",
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 64,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "FILE /var/log/settlement/settle.log",
+      "SCP archive01.acme.local"
+    ],
+    "fan_in": 1,
+    "fan_out": 2,
+    "file": "src/settle_load.pc",
+    "framework": null,
+    "handler": "src/settle_load.pc#main",
+    "id": "service:5bacd51cf4fbfb5c",
+    "inputs": [],
+    "kind": "c-executable",
+    "name": "settle_load",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [
+      "sql:0b142e2b85363f72",
+      "sql:285c81a26a358c5a",
+      "sql:3324194cd7bafec9",
+      "sql:4b592e7c074853a8",
+      "sql:7c7e766b1fca83a9"
+    ],
+    "tables": [
+      "CARD_TRANSACTIONS",
+      "MERCHANTS",
+      "SETTLEMENT_LINES",
+      "SETTLEMENT_RUNS"
+    ],
+    "url": null,
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 12.43,
+    "component": "settlement",
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "FILE /data/settlement/out/settlement.dat",
+      "FILE /var/log/settlement/settle.log",
+      "MQ-QMGR QMSETL",
+      "SCP archive01.acme.local"
+    ],
+    "fan_in": 1,
+    "fan_out": 2,
+    "file": "src/settle_send.c",
+    "framework": null,
+    "handler": "src/settle_send.c#main",
+    "id": "service:804b089e6a4bde98",
+    "inputs": [],
+    "kind": "c-executable",
+    "name": "settle_send",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": null,
+    "web_service": null
+  }
+]

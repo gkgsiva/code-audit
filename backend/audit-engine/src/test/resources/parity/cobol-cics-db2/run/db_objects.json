@@ -1,0 +1,102 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:8d425f56e1c4ea3e"
+      ]
+    },
+    "defined_in": "ddl/orders_db2.sql",
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ba880a1b125aeb90",
+    "members": [],
+    "name": "CUSTOMER",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:8d425f56e1c4ea3e"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:8d425f56e1c4ea3e",
+        "sql:dea1e97f95240ca2",
+        "sql:49f749d475666ab6",
+        "sql:e8ec7b254953308f"
+      ],
+      "U": [
+        "sql:a8a07a6d211422de"
+      ]
+    },
+    "defined_in": "ddl/orders_db2.sql",
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ef97536d0298e878",
+    "members": [],
+    "name": "ORDERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:a8a07a6d211422de",
+      "sql:8d425f56e1c4ea3e",
+      "sql:dea1e97f95240ca2",
+      "sql:49f749d475666ab6",
+      "sql:e8ec7b254953308f"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:22e666b1f881dfbc"
+      ]
+    },
+    "defined_in": "ddl/orders_db2.sql",
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:d42f88d5ef59a27c",
+    "members": [],
+    "name": "SHIPMENTS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:22e666b1f881dfbc"
+    ]
+  },
+  {
+    "crud": {},
+    "defined_in": "ddl/orders_db2.sql",
+    "evidence": [
+      {
+        "file": "ddl/orders_db2.sql",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:fdfa797f324f2a66",
+    "members": [],
+    "name": "OPEN_ORDERS",
+    "object_type": "view",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": []
+  }
+]

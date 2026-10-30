@@ -1,0 +1,154 @@
+[
+  {
+    "artifact": "cxf-core",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "group": "org.apache.cxf",
+    "id": "library:8ea61c469b9b479f",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "3.1.18",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-ws/pom.xml"
+    ]
+  },
+  {
+    "artifact": "jersey-container-servlet",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 13,
+        "snippet": null
+      }
+    ],
+    "group": "org.glassfish.jersey.containers",
+    "id": "library:d416a04226f402e9",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "2.25.1",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-ws/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-webmvc",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework",
+    "id": "library:42ad27ac6283ac46",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2024-08-31; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.3.30.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-ws/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-cloud-starter-openfeign",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework.cloud",
+    "id": "library:efd8311753bd7b53",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "low",
+      "reason": "Spring Boot manages this dependency; drop the explicit version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "boot-managed",
+      "target": "version managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "2.2.10.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "orders-ws/pom.xml"
+    ]
+  }
+]

@@ -1,0 +1,150 @@
+[
+  {
+    "box": "BIL_NIGHTLY_BOX",
+    "command": "/opt/billing/scripts/archive_usage.sh",
+    "complexity": "Simple",
+    "complexity_score": 1.0,
+    "component": null,
+    "condition": "s(BIL_INVOICE) | f(BIL_INVOICE)",
+    "datasets": [],
+    "description": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 25,
+        "snippet": "insert_job: BIL_ARCHIVE job_type: CMD"
+      }
+    ],
+    "id": "batch_job:4730468a094e0a59",
+    "kind": "job",
+    "machine": "bilbatch01",
+    "name": "BIL_ARCHIVE",
+    "on_failure": [],
+    "predecessors": [
+      "BIL_INVOICE"
+    ],
+    "programs": [],
+    "schedule": null,
+    "scheduler": "autosys",
+    "steps": []
+  },
+  {
+    "box": "BIL_NIGHTLY_BOX",
+    "command": "/opt/billing/scripts/run_invoice_job.sh",
+    "complexity": "Medium",
+    "complexity_score": 10.99,
+    "component": "billing-batch",
+    "condition": "s(BIL_USAGE_WAIT)",
+    "datasets": [],
+    "description": "Price the day's usage and write the invoices",
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 15,
+        "snippet": "insert_job: BIL_INVOICE job_type: CMD"
+      }
+    ],
+    "id": "batch_job:073329b732a04908",
+    "kind": "job",
+    "machine": "bilbatch01",
+    "name": "BIL_INVOICE",
+    "on_failure": [
+      "alarm_if_fail: 1",
+      "n_retrys: 1"
+    ],
+    "predecessors": [
+      "BIL_USAGE_WAIT"
+    ],
+    "programs": [],
+    "schedule": null,
+    "scheduler": "autosys",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": null,
+    "condition": null,
+    "datasets": [],
+    "description": "Billing nightly cycle",
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 2,
+        "snippet": "insert_job: BIL_NIGHTLY_BOX job_type: BOX"
+      }
+    ],
+    "id": "batch_job:08cced84c58c5822",
+    "kind": "box",
+    "machine": null,
+    "name": "BIL_NIGHTLY_BOX",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [],
+    "schedule": "date_conditions: 1; days_of_week: mo,tu,we,th,fr; start_times: 01:30",
+    "scheduler": "autosys",
+    "steps": []
+  },
+  {
+    "box": "BIL_NIGHTLY_BOX",
+    "command": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": null,
+    "condition": null,
+    "datasets": [],
+    "description": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/autosys/billing.jil",
+        "line": 9,
+        "snippet": "insert_job: BIL_USAGE_WAIT job_type: FW"
+      }
+    ],
+    "id": "batch_job:953a414754a6347d",
+    "kind": "file-watcher",
+    "machine": "bilbatch01",
+    "name": "BIL_USAGE_WAIT",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [],
+    "schedule": null,
+    "scheduler": "autosys",
+    "steps": []
+  },
+  {
+    "box": null,
+    "command": null,
+    "complexity": "Medium",
+    "complexity_score": 11.11,
+    "component": "billing-batch",
+    "condition": null,
+    "datasets": [],
+    "description": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "batch_job:5e1224c95b219205",
+    "kind": "job",
+    "machine": null,
+    "name": "invoiceJob",
+    "on_failure": [],
+    "predecessors": [],
+    "programs": [
+      "org.springframework.batch.item.database.JdbcCursorItemReader",
+      "com.acme.billing.batch.InvoiceWriter"
+    ],
+    "schedule": null,
+    "scheduler": "spring-batch",
+    "steps": [
+      "generateInvoices",
+      "notifyCustomers"
+    ]
+  }
+]

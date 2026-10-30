@@ -1,0 +1,479 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "library:f057932be3ad8fa5",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-batch/pom.xml"
+          }
+        ]
+      },
+      "group": "com.ibm.mq",
+      "name": "com.ibm.mq.allclient",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:maven/com.ibm.mq/com.ibm.mq.allclient@9.1.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "9.1.0.0"
+    },
+    {
+      "bom-ref": "library:222e768201a05e05",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-web/pom.xml"
+          }
+        ]
+      },
+      "group": "javax.servlet",
+      "name": "servlet-api",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "migrate-jakarta"
+        }
+      ],
+      "purl": "pkg:maven/javax.servlet/servlet-api@2.5",
+      "scope": "optional",
+      "type": "library",
+      "version": "2.5"
+    },
+    {
+      "bom-ref": "library:c90a9abc591adbb1",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-common/pom.xml"
+          }
+        ]
+      },
+      "group": "log4j",
+      "name": "log4j",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2015-08-05"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "purl": "pkg:maven/log4j/log4j@1.2.17",
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.17"
+    },
+    {
+      "bom-ref": "library:c37ef0a857ad2564",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-common/pom.xml"
+          }
+        ]
+      },
+      "group": "org.hibernate",
+      "name": "hibernate-core",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2022-12-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.hibernate/hibernate-core@4.3.11.Final",
+      "scope": "required",
+      "type": "library",
+      "version": "4.3.11.Final"
+    },
+    {
+      "bom-ref": "library:7c388312ffb6f148",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-common/pom.xml"
+          }
+        ]
+      },
+      "group": "org.mybatis",
+      "name": "mybatis",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "upgrade"
+        }
+      ],
+      "purl": "pkg:maven/org.mybatis/mybatis@3.4.6",
+      "scope": "required",
+      "type": "library",
+      "version": "3.4.6"
+    },
+    {
+      "bom-ref": "library:521b4c4304632ab7",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-common/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework",
+      "name": "spring-jdbc",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2024-08-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework/spring-jdbc@4.3.30.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "bom-ref": "library:4994ddf812cbffa5",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-batch/pom.xml"
+          },
+          {
+            "location": "billing-web/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework",
+      "name": "spring-jms",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2024-08-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework/spring-jms@4.3.30.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "bom-ref": "library:42ad27ac6283ac46",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-web/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework",
+      "name": "spring-webmvc",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2024-08-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework/spring-webmvc@4.3.30.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "bom-ref": "library:0e6cfe2dd125954a",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-batch/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework.batch",
+      "name": "spring-batch-core",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2023-11-18"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework.batch/spring-batch-core@3.0.10.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.10.RELEASE"
+    },
+    {
+      "bom-ref": "library:ceb8335d267f48ae",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-web/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework.security",
+      "name": "spring-security-ldap",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2024-02-28"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework.security/spring-security-ldap@4.2.20.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "4.2.20.RELEASE"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "library:f057932be3ad8fa5",
+        "library:222e768201a05e05",
+        "library:c90a9abc591adbb1",
+        "library:c37ef0a857ad2564",
+        "library:7c388312ffb6f148",
+        "library:521b4c4304632ab7",
+        "library:4994ddf812cbffa5",
+        "library:42ad27ac6283ac46",
+        "library:0e6cfe2dd125954a",
+        "library:ceb8335d267f48ae"
+      ],
+      "ref": "application:Billing (Spring MVC/Batch sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Billing (Spring MVC/Batch sample)",
+      "name": "Billing (Spring MVC/Batch sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:38+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:737178bb-b82f-59e7-ac62-713102aeb889",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": [
+    {
+      "affects": [
+        {
+          "ref": "library:c90a9abc591adbb1"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2019-17571",
+      "description": "Deserialization of untrusted data in Log4j 1.x SocketServer",
+      "id": "CVE-2019-17571",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "osv-scanner"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 9.8,
+          "severity": "critical"
+        }
+      ],
+      "references": [
+        {
+          "id": "GHSA-2qrg-x229-3v8q",
+          "source": {
+            "name": "OSV"
+          }
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:c37ef0a857ad2564"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2020-25638",
+      "description": "SQL injection in Hibernate ORM with hibernate.use_sql_comments",
+      "id": "CVE-2020-25638",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "osv-scanner"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 7.4,
+          "severity": "high"
+        }
+      ],
+      "recommendation": "Fixed in 5.3.20.Final, 5.4.24.Final",
+      "references": [
+        {
+          "id": "GHSA-j8jw-g6fq-mp7h",
+          "source": {
+            "name": "OSV"
+          }
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    },
+    {
+      "affects": [
+        {
+          "ref": "library:7c388312ffb6f148"
+        }
+      ],
+      "bom-ref": "vulnerability:CVE-2020-26945",
+      "description": "Unsafe deserialization in MyBatis second-level cache",
+      "id": "CVE-2020-26945",
+      "properties": [
+        {
+          "name": "legacy-audit:reported-by",
+          "value": "osv-scanner"
+        }
+      ],
+      "ratings": [
+        {
+          "method": "CVSSv31",
+          "score": 8.1,
+          "severity": "high"
+        }
+      ],
+      "recommendation": "Fixed in 3.5.6",
+      "references": [
+        {
+          "id": "GHSA-7v5p-6qpr-f5x9",
+          "source": {
+            "name": "OSV"
+          }
+        }
+      ],
+      "source": {
+        "name": "NVD"
+      }
+    }
+  ]
+}

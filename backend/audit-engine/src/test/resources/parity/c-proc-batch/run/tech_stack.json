@@ -1,0 +1,131 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4f77c0580c943e2d",
+    "name": "C compiler (cc)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:51fcdf02f3bc41e9",
+    "name": "Make",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7e2e17d7f37a26ed",
+    "name": "Oracle Pro*C",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4cb01f14a2ae602e",
+    "name": "SQL*Plus",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/cft/cft_settlement.cfg",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:a7762226ef3fc085",
+    "name": "Axway CFT",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "middleware",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "tech:70d3db27a32a6606",
+    "name": "IBM MQ (MQI)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "scheduler",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:70a190013ceec0de",
+    "name": "cron",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  }
+]

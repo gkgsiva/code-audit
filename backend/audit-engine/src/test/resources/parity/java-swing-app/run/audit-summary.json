@@ -1,0 +1,497 @@
+{
+  "analyzer_coverage": {
+    "build": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "java": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 7
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 1
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 29,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 3,
+      "loc_comment": 1
+    },
+    "screen": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 9,
+      "loc_comment": 0
+    },
+    "source": {
+      "files": 7,
+      "loc_blank": 21,
+      "loc_code": 134,
+      "loc_comment": 0
+    }
+  },
+  "by_language": {
+    "fxml": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 9,
+      "loc_comment": 0
+    },
+    "java": {
+      "files": 7,
+      "loc_blank": 21,
+      "loc_code": 134,
+      "loc_comment": 0
+    },
+    "properties": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 3,
+      "loc_comment": 1
+    },
+    "xml": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 29,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.38,
+      "component": "teller-desk",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 10,
+      "loc_code": 175,
+      "name": "teller-desk",
+      "type": "desktop"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {},
+      "scheduled": 0,
+      "total": 0,
+      "unscheduled": 0
+    },
+    "complexity": {
+      "batch_jobs": {},
+      "screens": {
+        "Simple": 3
+      },
+      "services": {}
+    },
+    "db_objects": {
+      "table": 1
+    },
+    "dependencies": {
+      "resolved": 7,
+      "unresolved": 0
+    },
+    "entry_points": {
+      "desktop-app": 2
+    },
+    "eol_libraries": 1,
+    "findings": {
+      "eol-library": 1,
+      "eol-technology": 2,
+      "hardcoded-endpoint": 2,
+      "no-tests": 1,
+      "sql-concatenation": 1
+    },
+    "findings_by_severity": {
+      "high": 1,
+      "low": 1,
+      "medium": 5
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 1,
+        "HTTP": 1
+      },
+      "total": 2
+    },
+    "libraries": {
+      "declared": 3,
+      "total": 3,
+      "undeclared": 0
+    },
+    "pg_grades": {
+      "review": 1
+    },
+    "recommendations": {
+      "keep": 1,
+      "replace": 2
+    },
+    "screens": {
+      "by_technology": {
+        "javafx": 1,
+        "swing": 2
+      },
+      "partials": 1,
+      "total": 3
+    },
+    "services": {
+      "by_kind": {},
+      "total": 0
+    },
+    "sql": {
+      "by_source": {
+        "jdbc": 1
+      },
+      "by_type": {
+        "SELECT": 1
+      },
+      "distinct": 1,
+      "dynamic": 1,
+      "not_parsed": 0,
+      "total": 1
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {
+        "REST called": 1
+      },
+      "called": 1,
+      "offered": 0,
+      "operations": 1,
+      "total": 1
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "dependency-check": "OWASP Dependency-Check (not installed): not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "osv-scanner": "OSV-Scanner (not installed): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 43.0,
+    "label": "estimate — weights from config",
+    "likely": 21.5,
+    "low": 11.75,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://tellerdb.acme.local:1521/TELLER",
+      "type": "DB",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "HTTP API",
+      "target": "https://rates.acme.local/api/fx",
+      "type": "HTTP",
+      "usages": 2
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "java",
+      "loc_code": 36,
+      "path": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java"
+    },
+    {
+      "language": "xml",
+      "loc_code": 29,
+      "path": "teller-desk/pom.xml"
+    },
+    {
+      "language": "java",
+      "loc_code": 28,
+      "path": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 24,
+      "path": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 13,
+      "path": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 12,
+      "path": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 11,
+      "path": "teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java"
+    },
+    {
+      "language": "java",
+      "loc_code": 10,
+      "path": "teller-desk/src/main/java/com/acme/teller/TellerApp.java"
+    },
+    {
+      "language": "fxml",
+      "loc_code": 9,
+      "path": "teller-desk/src/main/resources/fxml/Rates.fxml"
+    },
+    {
+      "language": "properties",
+      "loc_code": 3,
+      "path": "teller-desk/config/teller.properties"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "log4j:log4j",
+      "recommendation": "replace",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "version": "1.2.17"
+    }
+  ],
+  "run": {
+    "application": "Teller desk, Java Swing (sample)",
+    "run_id": "20261029-205636-f918f3",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/java-swing-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:36+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "build",
+      "eol": null,
+      "name": "Maven",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": false,
+      "name": "Oracle JDBC driver",
+      "version": "19.3.0.0"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Java Swing",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "JavaFX",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": true,
+      "name": "Java",
+      "version": "1.8"
+    },
+    {
+      "category": "library",
+      "eol": true,
+      "name": "Log4j 1",
+      "version": "1.2.17"
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+      "line": 15,
+      "message": "Values concatenated into SQL text (2x; jdbc, SELECT) in teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "teller-desk/pom.xml",
+      "line": 23,
+      "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "teller-desk/pom.xml",
+      "line": 2,
+      "message": "Java 1.8 is end of life since 2019-01-31; target Java 25",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "teller-desk/pom.xml",
+      "line": 23,
+      "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+      "line": 12,
+      "message": "Hard-coded endpoint in code: \"jdbc:oracle:thin:@tellerdb.acme.local:1521/TELLER\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+      "line": 12,
+      "message": "Hard-coded endpoint in code: \"https://rates.acme.local/api/fx\"",
+      "rule": "hardcoded-endpoint",
+      "severity": "medium"
+    },
+    {
+      "file": "teller-desk/pom.xml",
+      "line": null,
+      "message": "Component teller-desk has code but no test files",
+      "rule": "no-tests",
+      "severity": "low"
+    }
+  ],
+  "top_services": [],
+  "top_tables": [
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMER",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 0,
+    "components": 1,
+    "db_objects": 1,
+    "dependencies": 7,
+    "entry_points": 2,
+    "files": 10,
+    "findings": 7,
+    "input_coverage": 9,
+    "input_files": 0,
+    "integrations": 2,
+    "libraries": 3,
+    "loc_blank": 21,
+    "loc_code": 175,
+    "loc_comment": 1,
+    "metrics": 1,
+    "screens": 4,
+    "services": 0,
+    "sql_statements": 1,
+    "tech_stack": 7,
+    "web_services": 1
+  },
+  "unresolved_references": 0,
+  "unscheduled_batch_entries": {},
+  "unscheduled_batches": [],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "missing"
+    },
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "missing"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "teller-desk",
+      "name": "rates.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://rates.acme.local"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "components": [
+      "teller-desk"
+    ],
+    "consumers": [],
+    "description": "Connects to the database oracle://tellerdb.acme.local:1521/TELLER; 2 places in the code.",
+    "details": {},
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "teller-desk/config/teller.properties",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:557838e4ffcb7860",
+    "producers": [],
+    "protocol": "jdbc",
+    "purpose": "database",
+    "source_files": [
+      "teller-desk/config/teller.properties",
+      "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java"
+    ],
+    "target": "oracle://tellerdb.acme.local:1521/TELLER",
+    "type": "DB",
+    "usages": 2
+  },
+  {
+    "components": [
+      "teller-desk"
+    ],
+    "consumers": [],
+    "description": "Calls the HTTPS endpoint /api/fx on rates.acme.local; 2 places in the code.",
+    "details": {
+      "key": "rates.url"
+    },
+    "direction": "outbound",
+    "endpoints": [],
+    "evidence": [
+      {
+        "file": "teller-desk/config/teller.properties",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "grouped_ids": [],
+    "id": "integration:f7d2f886cf042519",
+    "producers": [],
+    "protocol": null,
+    "purpose": "HTTP API",
+    "source_files": [
+      "teller-desk/config/teller.properties",
+      "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java"
+    ],
+    "target": "https://rates.acme.local/api/fx",
+    "type": "HTTP",
+    "usages": 2
+  }
+]

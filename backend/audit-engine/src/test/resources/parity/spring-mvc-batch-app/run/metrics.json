@@ -1,0 +1,94 @@
+[
+  {
+    "bands": {
+      "Medium": 2
+    },
+    "complex_units": 0,
+    "complexity": "Medium",
+    "complexity_avg": 2.0,
+    "complexity_max": 2,
+    "complexity_score": 11.05,
+    "component": "billing-batch",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 2,
+    "fan_out_max": 2,
+    "files": 5,
+    "id": "metric:abfc787bea90ac4c",
+    "loc_blank": 18,
+    "loc_code": 105,
+    "loc_comment": 4,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 3
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.0,
+    "complexity_max": 1,
+    "complexity_score": null,
+    "component": "billing-common",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 7,
+    "id": "metric:483425c6aab242a4",
+    "loc_blank": 41,
+    "loc_code": 154,
+    "loc_comment": 4,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 17
+  },
+  {
+    "bands": {
+      "Medium": 3,
+      "Simple": 6
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.17,
+    "complexity_max": 2,
+    "complexity_score": 5.45,
+    "component": "billing-web",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 12,
+    "duplication_pct": 4.8,
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 2,
+    "files": 15,
+    "id": "metric:da80c4b5901f1543",
+    "loc_blank": 35,
+    "loc_code": 252,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 6
+  }
+]

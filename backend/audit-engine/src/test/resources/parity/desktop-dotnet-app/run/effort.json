@@ -1,0 +1,480 @@
+{
+  "by_component": {
+    "(shared)": {
+      "high": 24.0,
+      "likely": 12.0,
+      "low": 6.0
+    },
+    "billing-api-cs": {
+      "high": 14.3,
+      "likely": 9.15,
+      "low": 4.5
+    },
+    "billing-desk-vb6": {
+      "high": 25.2,
+      "likely": 13.1,
+      "low": 6.5
+    },
+    "inventory-wpf-cs": {
+      "high": 28.2,
+      "likely": 14.6,
+      "low": 7.75
+    },
+    "invoice-mailer-svc": {
+      "high": 16.0,
+      "likely": 8.0,
+      "low": 4.0
+    },
+    "legacy-webforms": {
+      "high": 16.1,
+      "likely": 8.55,
+      "low": 4.25
+    },
+    "nightly-export-cs": {
+      "high": 6.1,
+      "likely": 4.05,
+      "low": 2.0
+    },
+    "orders-winforms-vbnet": {
+      "high": 22.1,
+      "likely": 11.05,
+      "low": 5.5
+    }
+  },
+  "high": 152.0,
+  "label": "estimate — weights from config",
+  "likely": 80.5,
+  "lines": [
+    {
+      "component": "(shared)",
+      "count": 3,
+      "high": 24.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 12.0,
+      "low": 6.0
+    },
+    {
+      "component": "billing-api-cs",
+      "count": 1,
+      "high": 3.0,
+      "item": "batch_job",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "billing-api-cs",
+      "count": 4,
+      "high": 0.0,
+      "item": "library",
+      "level": "keep",
+      "likely": 0.0,
+      "low": 0.0
+    },
+    {
+      "component": "billing-api-cs",
+      "count": 1,
+      "high": 2.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 1.0,
+      "low": 0.5
+    },
+    {
+      "component": "billing-api-cs",
+      "count": 3,
+      "high": 9.0,
+      "item": "service",
+      "level": "simple",
+      "likely": 6.0,
+      "low": 3.0
+    },
+    {
+      "component": "billing-api-cs",
+      "count": 3,
+      "high": 0.3,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.15,
+      "low": 0.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 2,
+      "high": 16.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 8.0,
+      "low": 4.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 4,
+      "high": 0.0,
+      "item": "library",
+      "level": "keep",
+      "likely": 0.0,
+      "low": 0.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 2,
+      "high": 4.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 2,
+      "high": 0.2,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.1,
+      "low": 0.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 1,
+      "high": 3.0,
+      "item": "sql",
+      "level": "manual",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "billing-desk-vb6",
+      "count": 2,
+      "high": 2.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 1.0,
+      "low": 0.5
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 1,
+      "high": 8.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 3,
+      "high": 0.0,
+      "item": "library",
+      "level": "keep",
+      "likely": 0.0,
+      "low": 0.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 1,
+      "high": 10.0,
+      "item": "library",
+      "level": "replace",
+      "likely": 5.0,
+      "low": 3.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 2,
+      "high": 4.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 2,
+      "high": 0.2,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.1,
+      "low": 0.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 1,
+      "high": 3.0,
+      "item": "sql",
+      "level": "manual",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "inventory-wpf-cs",
+      "count": 3,
+      "high": 3.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 1.5,
+      "low": 0.75
+    },
+    {
+      "component": "invoice-mailer-svc",
+      "count": 2,
+      "high": 16.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 8.0,
+      "low": 4.0
+    },
+    {
+      "component": "legacy-webforms",
+      "count": 1,
+      "high": 8.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "legacy-webforms",
+      "count": 2,
+      "high": 4.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "legacy-webforms",
+      "count": 1,
+      "high": 3.0,
+      "item": "service",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "legacy-webforms",
+      "count": 1,
+      "high": 0.1,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.05,
+      "low": 0.0
+    },
+    {
+      "component": "legacy-webforms",
+      "count": 1,
+      "high": 1.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 0.5,
+      "low": 0.25
+    },
+    {
+      "component": "nightly-export-cs",
+      "count": 2,
+      "high": 6.0,
+      "item": "batch_job",
+      "level": "simple",
+      "likely": 4.0,
+      "low": 2.0
+    },
+    {
+      "component": "nightly-export-cs",
+      "count": 1,
+      "high": 0.1,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.05,
+      "low": 0.0
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "count": 2,
+      "high": 16.0,
+      "item": "integration",
+      "level": "each",
+      "likely": 8.0,
+      "low": 4.0
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "count": 3,
+      "high": 0.0,
+      "item": "library",
+      "level": "keep",
+      "likely": 0.0,
+      "low": 0.0
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "count": 2,
+      "high": 4.0,
+      "item": "screen",
+      "level": "simple",
+      "likely": 2.0,
+      "low": 1.0
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "count": 1,
+      "high": 0.1,
+      "item": "sql",
+      "level": "auto",
+      "likely": 0.05,
+      "low": 0.0
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "count": 2,
+      "high": 2.0,
+      "item": "sql",
+      "level": "review",
+      "likely": 1.0,
+      "low": 0.5
+    }
+  ],
+  "low": 40.5,
+  "unit": "person-days",
+  "weights": {
+    "batch_job": {
+      "complex": [
+        4,
+        6,
+        9
+      ],
+      "medium": [
+        2,
+        3,
+        5
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        8,
+        12,
+        18
+      ]
+    },
+    "integration": {
+      "each": [
+        2,
+        4,
+        8
+      ]
+    },
+    "library": {
+      "keep": [
+        0,
+        0,
+        0
+      ],
+      "migrate-jakarta": [
+        0.5,
+        1,
+        2
+      ],
+      "remove": [
+        0.5,
+        1,
+        2
+      ],
+      "replace": [
+        3,
+        5,
+        10
+      ],
+      "rewrite": [
+        10,
+        20,
+        40
+      ],
+      "upgrade": [
+        0.25,
+        0.5,
+        1
+      ],
+      "use-bom": [
+        0,
+        0.1,
+        0.25
+      ]
+    },
+    "screen": {
+      "complex": [
+        2,
+        4,
+        6
+      ],
+      "medium": [
+        1,
+        2,
+        3
+      ],
+      "simple": [
+        0.5,
+        1,
+        2
+      ],
+      "very_complex": [
+        4,
+        7,
+        10
+      ]
+    },
+    "service": {
+      "complex": [
+        5,
+        8,
+        12
+      ],
+      "medium": [
+        2,
+        4,
+        6
+      ],
+      "simple": [
+        1,
+        2,
+        3
+      ],
+      "very_complex": [
+        10,
+        15,
+        25
+      ]
+    },
+    "sql": {
+      "auto": [
+        0,
+        0.05,
+        0.1
+      ],
+      "manual": [
+        1,
+        2,
+        3
+      ],
+      "review": [
+        0.25,
+        0.5,
+        1
+      ]
+    },
+    "stored_procedure": {
+      "manual": [
+        2,
+        4,
+        8
+      ],
+      "review": [
+        1,
+        2,
+        4
+      ]
+    }
+  }
+}

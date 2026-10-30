@@ -1,0 +1,913 @@
+[
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 5,
+        "snippet": "Password=****"
+      }
+    ],
+    "file": "billing-desk-vb6/modDb.bas",
+    "id": "finding:8be3d0f676b98061",
+    "line": 5,
+    "message": "Password written in a connection string to sqlserver://BILLSRV01/BILLING (value masked)",
+    "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+    "rule_id": "connection-string-password",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 11,
+        "snippet": "Password=****"
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+    "id": "finding:10e119df9e699b13",
+    "line": 11,
+    "message": "Password written in a connection string to sqlserver://INVSRV01/INVENTORY (value masked)",
+    "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+    "rule_id": "connection-string-password",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Web.config",
+        "line": 4,
+        "snippet": "Password=****"
+      }
+    ],
+    "file": "legacy-webforms/Web.config",
+    "id": "finding:c1cc94353f222247",
+    "line": 4,
+    "message": "Password written in a connection string to oracle://CRMPROD (value masked)",
+    "remediation": "Use Windows authentication or read the password from a secret store (Secret Manager on GCP); rotate it.",
+    "rule_id": "connection-string-password",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER "
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 51,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 53,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "finding:24b9d8e51874c428",
+    "line": 62,
+    "message": "Values concatenated into SQL text (2x; ado, SELECT) in billing-desk-vb6/frmCustomer.frm",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 74,
+        "snippet": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'"
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "finding:8c7d514be7b5301a",
+    "line": 74,
+    "message": "Values concatenated into SQL text (1x; vb-string, SELECT) in billing-desk-vb6/frmCustomer.frm",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 24,
+        "snippet": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?"
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 19,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "id": "finding:462a5ab06d1dea1b",
+    "line": 24,
+    "message": "Values concatenated into SQL text (1x; dapper, SELECT) in inventory-wpf-cs/Data/StockRepository.cs",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 32,
+        "snippet": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0"
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 29,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "id": "finding:c66b8935f9ad5673",
+    "line": 32,
+    "message": "Values concatenated into SQL text (1x; ado.net, UPDATE) in inventory-wpf-cs/Data/StockRepository.cs",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 15,
+        "snippet": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'"
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-webforms/Default.aspx.cs",
+    "id": "finding:e110e8b99a1e5380",
+    "line": 15,
+    "message": "Values concatenated into SQL text (2x; ado.net, SELECT) in legacy-webforms/Default.aspx.cs",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 30,
+        "snippet": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @si"
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 19,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "id": "finding:8c3b95febac2b51d",
+    "line": 30,
+    "message": "Values concatenated into SQL text (1x; ado.net, SELECT) in orders-winforms-vbnet/OrderRepository.vb",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 52,
+        "snippet": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'"
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 47,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "id": "finding:a32e46aa2a91a898",
+    "line": 52,
+    "message": "Values concatenated into SQL text (1x; ado.net, DELETE) in orders-winforms-vbnet/OrderRepository.vb",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 39,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/clsInvoice.cls",
+    "id": "finding:ba9417d6830cc7f2",
+    "line": 39,
+    "message": "COM object created at run time: CreateObject(\"MSXML2.ServerXMLHTTP\"",
+    "remediation": "Find what the COM component does (Office automation, a vendor library) and replace it with a Java library or a service.",
+    "rule_id": "com-late-binding",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/packages.lock.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/InventoryApp.csproj",
+    "id": "finding:978d13f25df97712",
+    "line": 10,
+    "message": "Microsoft.EntityFrameworkCore.SqlServer 6.0.10 is end of life since 2024-11-12; replace with Spring Data JPA / Hibernate ORM 7 (Spring Boot 4)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 1,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/ctlAddress.ctl",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmMain.frm",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "finding:eb603a4e2202db07",
+    "line": 1,
+    "message": "Visual Basic 6 6.0 is end of life since 2008-04-08; target Angular 21 screens with a Spring Boot 4 (Java 25) back end",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "finding:cc01b1424c154c9c",
+    "line": 5,
+    "message": "Windows Common Controls (OCX) ? is end of life since 2008-04-08; target Angular 21 components (Angular Material)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/InventoryApp.csproj",
+    "id": "finding:871d77f37ae0da6b",
+    "line": 4,
+    "message": ".NET 6.0 is end of life since 2024-11-12; target Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/InventoryApp.csproj",
+    "id": "finding:a611278daa2539ea",
+    "line": 10,
+    "message": "Entity Framework Core 6.0.10 is end of life since 2024-11-12; target Spring Data JPA / Hibernate ORM 7",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+    "id": "finding:0a323f51e8b9e3bd",
+    "line": 6,
+    "message": ".NET Framework 4.6.1 is end of life since 2022-04-26; target Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "file": "nightly-export-cs/NightlyExport.csproj",
+    "id": "finding:f0e0e983df61dd59",
+    "line": 6,
+    "message": ".NET Framework 4.0 is end of life since 2016-01-12; target Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 4,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/packages.config",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+    "id": "finding:c769e60f262f25bc",
+    "line": 11,
+    "message": ".NET Framework 4.5.2 is end of life since 2022-04-26; target Spring Boot 4 (Java 25)",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "billing-api-cs/Services/LedgerClient.cs",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "file": "billing-api-cs/Services/LedgerClient.cs",
+    "id": "finding:7eeb234f074e0067",
+    "line": 5,
+    "message": "Hard-coded endpoint in code: \"https://ledger.acme.local/\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 40,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/clsInvoice.cls",
+    "id": "finding:3d369e752ea12784",
+    "line": 40,
+    "message": "Hard-coded endpoint in code: \"http://ledger.acme.local/api/postings\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER "
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 51,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 53,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "finding:4ac86a57286ef201",
+    "line": 62,
+    "message": "Manual PostgreSQL conversion (1x): SELECT at billing-desk-vb6/frmCustomer.frm:62 — part of the statement is only known at run time (1 place(s))",
+    "remediation": "Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.",
+    "rule_id": "pg-manual-sql",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 44,
+        "snippet": "SELECT * FROM STOCK_ITEM ORDER BY ?"
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "id": "finding:fdedfe2d004c50be",
+    "line": 44,
+    "message": "Manual PostgreSQL conversion (1x): SELECT at inventory-wpf-cs/Data/StockRepository.cs:44 — part of the statement is only known at run time (1 place(s))",
+    "remediation": "Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.",
+    "rule_id": "pg-manual-sql",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER "
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 51,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 53,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "finding:1ea691d483673846",
+    "line": 62,
+    "message": "Part of the SQL statement is only known at run time (1x; ado) in billing-desk-vb6/frmCustomer.frm",
+    "remediation": "Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.",
+    "rule_id": "sql-runtime-structure",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 44,
+        "snippet": "SELECT * FROM STOCK_ITEM ORDER BY ?"
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "id": "finding:1c1c9f687b623d12",
+    "line": 44,
+    "message": "Part of the SQL statement is only known at run time (1x; ado.net) in inventory-wpf-cs/Data/StockRepository.cs",
+    "remediation": "Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.",
+    "rule_id": "sql-runtime-structure",
+    "severity": "medium"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 5,
+        "snippet": "Object={831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCTL.OCX"
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "finding:c521894c56ac7165",
+    "line": 5,
+    "message": "ActiveX control MSCOMCTL.OCX is used by the forms; it has no web equivalent and must be replaced in the new user interface",
+    "remediation": "List the screens using it and pick an Angular component (grid, date picker, tree, chart) to replace it.",
+    "rule_id": "vb6-activex-control",
+    "severity": "medium"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 6,
+        "snippet": "Object={86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0; MSCOMCT2.OCX"
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "finding:0a75c2b952258221",
+    "line": 6,
+    "message": "ActiveX control MSCOMCT2.OCX is used by the forms; it has no web equivalent and must be replaced in the new user interface",
+    "remediation": "List the screens using it and pick an Angular component (grid, date picker, tree, chart) to replace it.",
+    "rule_id": "vb6-activex-control",
+    "severity": "medium"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/modDb.bas",
+    "id": "finding:724e6070b135e3ae",
+    "line": 8,
+    "message": "Windows API call (native DLL): Declare Function GetUserName Lib \"advapi32.dll\"",
+    "remediation": "Replace the Windows API call with a Java library or a service; there is no Windows API in a GCP container.",
+    "rule_id": "win32-api",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-api-cs/BillingApi.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-api-cs/BillingApi.csproj",
+    "id": "finding:2e3181254db6ffb9",
+    "line": null,
+    "message": "Component billing-api-cs has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "finding:bba7c7aea6cb0c99",
+    "line": null,
+    "message": "Component billing-desk-vb6 has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/InventoryApp.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/InventoryApp.csproj",
+    "id": "finding:bcc2e4d99c77c7b7",
+    "line": null,
+    "message": "Component inventory-wpf-cs has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "invoice-mailer-svc/InvoiceMailer.csproj",
+    "id": "finding:c4722cc640124d51",
+    "line": null,
+    "message": "Component invoice-mailer-svc has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "legacy-webforms/LegacyCrm.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-webforms/LegacyCrm.csproj",
+    "id": "finding:736b37af1006d938",
+    "line": null,
+    "message": "Component legacy-webforms has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/NightlyExport.csproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "nightly-export-cs/NightlyExport.csproj",
+    "id": "finding:789d31aa86a18679",
+    "line": null,
+    "message": "Component nightly-export-cs has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+    "id": "finding:b285a9236a9c545e",
+    "line": null,
+    "message": "Component orders-winforms-vbnet has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 38,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/clsInvoice.cls",
+    "id": "finding:bad6b4aa16aec697",
+    "line": 38,
+    "message": "Errors are silently ignored: On Error Resume Next",
+    "remediation": "Replace with explicit error handling (try/catch) when the code is rewritten; check what the code does when a step fails.",
+    "rule_id": "on-error-resume-next",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 33,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "id": "finding:3b564a284f42448d",
+    "line": 33,
+    "message": "Windows drive or network-share path in code: \"C:\\BillingDesk\\regions.mdb\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume instead of drive letters and shares.",
+    "rule_id": "windows-path",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 35,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/modDb.bas",
+    "id": "finding:bbb8e7c662e93d0a",
+    "line": 35,
+    "message": "Windows drive or network-share path in code: \"C:\\BillingDesk\\export\\customers.csv\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume instead of drive letters and shares.",
+    "rule_id": "windows-path",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "file": "nightly-export-cs/Program.cs",
+    "id": "finding:9f6406b4e9a1da03",
+    "line": 18,
+    "message": "Windows drive or network-share path in code: @\"\\\\fileserver\\exports\\invoices.csv\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume instead of drive letters and shares.",
+    "rule_id": "windows-path",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 55,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "id": "finding:b99200c6deb3d806",
+    "line": 55,
+    "message": "Windows drive or network-share path in code: \"\\\\fileserver\\orders\\archive.log\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume instead of drive letters and shares.",
+    "rule_id": "windows-path",
+    "severity": "low"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/obj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/obj",
+    "id": "finding:3b457711c76dc641",
+    "line": null,
+    "message": "Left out of the scan: .NET intermediate output (obj next to the project file); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/bin",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/bin",
+    "id": "finding:659f4f2f3ad577ef",
+    "line": null,
+    "message": "Left out of the scan: compiled output (no source or script inside); 3 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  },
+  {
+    "category": "coverage",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/obj",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/obj",
+    "id": "finding:58f4f85fda559e26",
+    "line": null,
+    "message": "Left out of the scan: .NET intermediate output (obj next to the project file); 1 file(s). Set inventory.skip_build_output: false in audit.yaml to scan it.",
+    "remediation": null,
+    "rule_id": "build-output-skipped",
+    "severity": "info"
+  }
+]

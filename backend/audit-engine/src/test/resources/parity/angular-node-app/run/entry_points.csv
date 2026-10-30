@@ -1,0 +1,5 @@
+id,evidence,name,kind,file,line,component
+entry:0094b4d734267da0,billing-api/src/main.ts:5;billing-api/src/main.ts:7,billing-api/src/main.ts,node-server,billing-api/src/main.ts,5,billing-api
+entry:046a9c59dfa36312,legacy-portal/WebContent/js/app.js:2,portal,angularjs-app,legacy-portal/WebContent/js/app.js,2,legacy-portal
+entry:d7030e1082d72970,orders-api/src/server.ts:16,orders-api/src/server.ts,node-server,orders-api/src/server.ts,16,orders-api
+entry:b58a8373dce85184,orders-web/src/main.ts:7,AppComponent,angular-app,orders-web/src/main.ts,7,orders-web

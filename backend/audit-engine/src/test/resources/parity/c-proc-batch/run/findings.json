@@ -1,0 +1,141 @@
+[
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 59,
+        "snippet": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'"
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "id": "finding:98fd6486b0577b19",
+    "line": 59,
+    "message": "Manual PostgreSQL conversion (1x): DELETE at src/settle_load.pc:59 — part of the statement is only known at run time (1 place(s)); SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "remediation": "Rewrite the statement for PostgreSQL (or move the logic into Java) and test it.",
+    "rule_id": "pg-manual-sql",
+    "severity": "medium"
+  },
+  {
+    "category": "pg-compat",
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 59,
+        "snippet": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'"
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "id": "finding:aaa4d76a8838559a",
+    "line": 59,
+    "message": "Part of the SQL statement is only known at run time (1x; embedded) in src/settle_load.pc",
+    "remediation": "Find the possible values (columns, tables, clauses) and list them; whitelist identifiers instead of concatenating them.",
+    "rule_id": "sql-runtime-structure",
+    "severity": "medium"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "src/common/settle_util.c",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "file": "src/common/settle_util.c",
+    "id": "finding:64e43e88727cbf08",
+    "line": 11,
+    "message": "Absolute file-system path in code: \"/var/log/settlement/settle.log\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume.",
+    "rule_id": "filesystem-path",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 25,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_send.c",
+    "id": "finding:fd37f9f527eb8b8d",
+    "line": 25,
+    "message": "Absolute file-system path in code: \"/data/settlement/out/settlement.dat\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume.",
+    "rule_id": "filesystem-path",
+    "severity": "low"
+  },
+  {
+    "category": "portability",
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 35,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_send.c",
+    "id": "finding:f49c81e14a7726ea",
+    "line": 35,
+    "message": "Absolute file-system path in code: \"/data/settlement/out/settlement.dat\"",
+    "remediation": "Make the path configurable; on GCP use Cloud Storage or a mounted Filestore volume.",
+    "rule_id": "filesystem-path",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "Makefile",
+    "id": "finding:f8f9ca6ef2d7e6d7",
+    "line": null,
+    "message": "Component settlement has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "linking",
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "file": "audit-inputs/crontab/settlement.cron",
+    "id": "finding:9b4fd4d42886a355",
+    "line": 4,
+    "message": "purge_logs.sh invokes 'purge_logs.sh', which was not found in the scanned files (looked for: file-name, c-executable)",
+    "remediation": null,
+    "rule_id": "unresolved-reference",
+    "severity": "info"
+  }
+]

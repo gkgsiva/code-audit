@@ -1,0 +1,32 @@
+[
+  {
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+        "line": 9,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+    "id": "entry:9af0edcd2c311d20",
+    "kind": "desktop-app",
+    "line": 9,
+    "name": "com.acme.teller.TellerApp"
+  },
+  {
+    "component": "teller-desk",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+        "line": 8,
+        "snippet": "JavaFX Application"
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesView.java",
+    "id": "entry:988b6bee6bd756c5",
+    "kind": "desktop-app",
+    "line": 8,
+    "name": "com.acme.teller.ui.RatesView"
+  }
+]

@@ -1,0 +1,100 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:9c2285910fcb45d8",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:12ca1ec0ec1f0837",
+    "target": "file:570caa4ccd31de34"
+  },
+  {
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b242ef462d7452fb",
+    "kind": "calls",
+    "resolved": true,
+    "source": "service:409219de8e876f04",
+    "target": "file:570caa4ccd31de34"
+  },
+  {
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:3f353a036cd0743f",
+    "kind": "includes",
+    "resolved": false,
+    "source": "file:ac834e5ece43e5f1",
+    "target": "unresolved:soapH.h"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:06392c969ddc8ca3",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:56994dfaf6761809",
+    "target": "file:fb70f205364ee260"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:08f84a88b42ea2bf",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:679f2b1f6b472970",
+    "target": "file:88fde9d5bb057704"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ad73c39d263eba76",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:679f2b1f6b472970",
+    "target": "file:e0384b7891dc571b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:380e63c2f53863af",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:88fde9d5bb057704",
+    "target": "file:e0384b7891dc571b"
+  }
+]

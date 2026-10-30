@@ -1,0 +1,29 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:6ccbde39dad91df8,deploy/tomcat/context.xml:2;deploy/tomcat/server.xml:2,Apache Tomcat,,app-server,2,,,
+tech:b96d437f7945bd38,legacy-portal/WebContent/WEB-INF/ibm-web-bnd.xmi:1,IBM WebSphere Application Server,,app-server,1,,,
+tech:c9a3982a84279c2e,deploy/liberty/server.xml:2,IBM WebSphere Liberty,,app-server,1,,,
+tech:d490405950ac1564,legacy-portal/WebContent/WEB-INF/jboss-web.xml:1;deploy/jboss/standalone.xml:2,JBoss / WildFly,4.2,app-server,2,true,,Spring Boot 4 executable jar on GKE / Cloud Run
+tech:33a776db1385994d,deploy/weblogic/config.xml:4;deploy/apache/httpd.conf:4,Oracle WebLogic Server,12.2.1.4.0,app-server,2,false,,
+tech:c10d614413a6cf03,legacy-portal/WebContent/WEB-INF/weblogic.xml:1,Oracle WebLogic Server,8.1,app-server,1,true,,Spring Boot 4 executable jar on GKE / Cloud Run
+tech:dbd1bc994342cda5,orders-web/package.json:16,Okta SDK,6.3.2,auth,1,false,,
+tech:2f57f26890fd49dc,deploy/jboss/standalone.xml:7;deploy/tomcat/context.xml:5,Oracle,,database,2,,,
+tech:aed3bfc155f4a24c,orders-api/package.json:17;billing-api/prisma/schema.prisma:2;orders-api/src/db/data-source.ts:4;orders-api/src/db/pool.ts:4,PostgreSQL,8.11.3,database,4,false,,
+tech:f682bb78d8950800,orders-web/package.json:12;orders-web/src/app/app.component.ts:11;orders-web/src/app/app.component.ts;orders-web/src/app/header/header.component.ts:17;orders-web/src/app/header/header.component.ts;orders-web/src/app/orders/order-detail.component.ts:11;orders-web/src/app/orders/order-detail.component.ts;orders-web/src/app/orders/order-list.component.ts:12;orders-web/src/app/orders/order-list.component.ts;orders-web/src/app/orders/order.service.ts;orders-web/src/app/reports/reports.component.ts:8;orders-web/src/app/reports/reports.component.ts,Angular,17.3.12,framework,12,true,2025-05-15,Angular 21
+tech:26b4c9d2df520d21,legacy-portal/bower.json:5;legacy-portal/WebContent/js/app.js:2;legacy-portal/WebContent/js/controllers.js:1,AngularJS,1.5.8,framework,5,true,2021-12-31,Angular 21
+tech:d588f0aa1212f41e,orders-api/package.json:15;orders-api/src/server.ts:12;orders-api/src/routes/customers.ts:6;orders-api/src/routes/orders.ts:7;orders-api/src/routes/orders.ts:11;orders-api/src/routes/orders.ts:15;orders-api/src/routes/orders.ts:19,Express,4.18.2,framework,7,false,,
+tech:6ceecfb4e390f21b,billing-api/package.json:7;billing-api/src/invoices/invoices.controller.ts:5,NestJS,10.3.0,framework,2,false,,
+tech:3dd2760068ec2740,billing-api/package.json:10;billing-api/package.json:13,Prisma,5.10.0,framework,2,false,,
+tech:00bd73573defe05d,orders-api/package.json:18,TypeORM,0.3.20,framework,1,false,,
+tech:d022745d9c5bd8e0,billing-api/package.json:14,TypeScript,5.4.2,language,1,false,,
+tech:3784c378834d45d2,orders-api/package.json:22;billing-api/src/app.module.ts;billing-api/src/main.ts;billing-api/src/prisma.service.ts;billing-api/src/invoices/invoices.controller.ts;billing-api/src/invoices/invoices.service.ts;orders-api/src/server.ts;orders-api/src/db/data-source.ts;orders-api/src/db/pool.ts;orders-api/src/entities/order.entity.ts;orders-api/src/jobs/nightly.ts;orders-api/src/routes/customers.ts;orders-api/src/routes/orders.ts;orders-api/src/services/order.service.ts;orders-web/src/main.ts;orders-web/src/app/app.component.ts;orders-web/src/app/app.routes.ts;orders-web/src/app/auth/auth.config.ts;orders-web/src/app/header/header.component.ts;orders-web/src/app/orders/order-detail.component.ts;orders-web/src/app/orders/order-list.component.ts;orders-web/src/app/orders/order.service.ts;orders-web/src/app/reports/reports.component.ts;orders-web/src/environments/environment.prod.ts;orders-web/src/environments/environment.ts,TypeScript,5.4.5,language,25,false,,
+tech:74b8ae6a9fb14134,orders-web/package.json:14,Angular Material,17.3.10,library,1,false,,
+tech:d3a4a4b881867864,legacy-portal/bower.json:7,Bootstrap,3.3.7,library,1,false,,
+tech:44be982129666129,orders-web/package.json:17,RxJS,7.8.1,library,1,false,,
+tech:9a56887fbf4e6d4a,orders-api/Dockerfile:1,Node.js,18,runtime,1,true,2025-04-30,"Node.js 24 LTS, or Spring Boot 4 (Java 25)"
+tech:3f936eb3bd0ceaec,orders-api/package.json:7,Node.js,18.17,runtime,1,true,2025-04-30,"Node.js 24 LTS, or Spring Boot 4 (Java 25)"
+tech:7f88b11e077ad391,billing-api/.nvmrc:1;billing-api/src/main.ts:5;billing-api/src/main.ts:7;orders-api/src/server.ts:16,Node.js,20.11,runtime,4,true,2026-04-30,"Node.js 24 LTS, or Spring Boot 4 (Java 25)"
+tech:b3699c7001040a8e,legacy-portal/WebContent/WEB-INF/web.xml:2,Servlet API,2.5,runtime,1,true,2013-06-12,Jakarta Servlet 6.1
+tech:4830cb7e7b42edab,billing-api/package.json:9,NestJS Schedule,4.0.1,scheduler,1,false,,
+tech:ee6bfebdf55f62d2,orders-api/package.json:16,node-cron,3.0.3,scheduler,1,false,,
+tech:20f30256ea9f4f27,deploy/apache/httpd.conf:2,Apache HTTP Server,,web-server,1,,,
+tech:a4eb1d7f977b82bd,deploy/nginx/Dockerfile:1;deploy/nginx/nginx.conf:1,Nginx,1.25,web-server,2,false,,

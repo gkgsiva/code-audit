@@ -1,0 +1,12 @@
+id,evidence,source,target,kind,resolved
+edge:15ccc41ee65b6963,src/settle_load.pc:72;src/settle_load.pc:66,file:0c2175055d68701f,file:11eb7320901464a0,calls,true
+edge:e6d78be5cda10b4e,src/settle_send.c:35;src/settle_send.c:34,file:34e042c436e58581,file:11eb7320901464a0,calls,true
+edge:6941e00244231cfd,src/settle_load.pc:7,file:0c2175055d68701f,file:3fb101afb1c5ae96,includes,true
+edge:ac77b08f84046d41,src/common/settle_util.c:4,file:11eb7320901464a0,file:3fb101afb1c5ae96,includes,true
+edge:ec8a9d4902e320b4,src/settle_send.c:8,file:34e042c436e58581,file:3fb101afb1c5ae96,includes,true
+edge:148ac1acae49d436,audit-inputs/crontab/settlement.cron:4,batch_job:2ffa150d59479cb2,unresolved:purge_logs.sh,invokes,false
+edge:b28eb108f0c4c8b6,audit-inputs/crontab/settlement.cron:3,batch_job:b93f58228776492a,file:9b247dde698d9eb6,invokes,true
+edge:52dd8b9d7b1c8e9c,src/common/settle_util.c:24,file:11eb7320901464a0,file:14b53f7075df5a92,invokes,true
+edge:5eda5b3379171ae1,scripts/run_settlement.ksh:22,file:9b247dde698d9eb6,file:505e4966c88d7f73,invokes,true
+edge:c79fd2770c0119e7,scripts/run_settlement.ksh:8,file:9b247dde698d9eb6,service:5bacd51cf4fbfb5c,invokes,true
+edge:596747f3dd31f32d,scripts/run_settlement.ksh:21,file:9b247dde698d9eb6,service:804b089e6a4bde98,invokes,true

@@ -1,0 +1,2 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:7286c74ada76a8f1,acme-web/src/main/webapp/customer.jsp:1,acme-web/src/main/webapp/customer.jsp,jsp,acme-web/src/main/webapp/customer.jsp,,0,acme-web,Simple,0.06,false,

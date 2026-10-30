@@ -1,0 +1,21 @@
+id,evidence,file,line,type,source,text,tables,procedures,dialect,dynamic,built_with,fragments,optional_fragments,value_holes,structural_holes,variants,parsed,fingerprint,normalized,vendor_features,pg_grade,reason,pg_text,component
+sql:22e666b1f881dfbc,cobol/ORDBATCH.cbl:22,cobol/ORDBATCH.cbl,22,SELECT,embedded,"DECLARE SHIP-CUR CURSOR FOR
+        SELECT ORD_ID, SHIP_DATE
+          FROM SHIPMENTS
+         WHERE SHIP_DATE = CURRENT DATE",SHIPMENTS,,db2,false,,1,0,0,0,,true,d70753ba5d07cc44,"DECLARE SHIP-CUR CURSOR FOR SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT DATE",CURRENT DATE/TIMESTAMP,review,DB2 special register → CURRENT_DATE / CURRENT_TIMESTAMP / current_user,"SELECT ORD_ID, SHIP_DATE FROM SHIPMENTS WHERE SHIP_DATE = CURRENT_DATE",cobol-online
+sql:a8a07a6d211422de,cobol/ORDBATCH.cbl:40,cobol/ORDBATCH.cbl,40,UPDATE,embedded,"UPDATE ORDERS SET ORD_STATUS = 'S'
+            WHERE ORD_ID = :ORD-ID",ORDERS,,db2,false,,1,0,0,0,,true,21f3012afa3a3b6e,UPDATE ORDERS SET ORD_STATUS = ? WHERE ORD_ID = ?,,auto,,UPDATE ORDERS SET ORD_STATUS = 'S' WHERE ORD_ID = ?,cobol-online
+sql:8d425f56e1c4ea3e,cobol/ORDINQ.cbl:25,cobol/ORDINQ.cbl,25,SELECT,embedded,"SELECT O.ORD_AMOUNT, C.CUST_NAME
+          INTO :ORD-AMOUNT, :WS-CUST-NAME
+          FROM ORDERS O
+          JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID
+         WHERE O.ORD_ID = :WS-ORDER-ID
+          WITH UR",CUSTOMER;ORDERS,,db2,false,,1,0,0,0,,true,dfebef4c9b593e74,"SELECT O.ORD_AMOUNT, C.CUST_NAME INTO ?, ? FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ? WITH UR",DB2 WITH UR,review,DB2 isolation clause (WITH UR/CS/RS/RR) dropped; INTO :host variables become JDBC result mapping,"SELECT O.ORD_AMOUNT, C.CUST_NAME FROM ORDERS AS O JOIN CUSTOMER AS C ON C.CUST_ID = O.CUST_ID WHERE O.ORD_ID = ?",cobol-online
+sql:dea1e97f95240ca2,cobol/ORDRPT.cbl:27,cobol/ORDRPT.cbl,27,SELECT,embedded,"SELECT SUM(ORD_AMOUNT) INTO :WS-TOTAL
+          FROM ORDERS
+         WHERE ORD_DATE = CURRENT DATE
+         FETCH FIRST 1 ROW ONLY",ORDERS,,db2,false,,1,0,0,0,,true,a9daf64322322162,SELECT SUM(ORD_AMOUNT) INTO ? FROM ORDERS WHERE ORD_DATE = CURRENT DATE FETCH FIRST ? ROW ONLY,DB2 FETCH FIRST;CURRENT DATE/TIMESTAMP,review,FETCH FIRST: check row-limit and ordering semantics; DB2 special register → CURRENT_DATE / CURRENT_TIMESTAMP / current_user; INTO :host variables become JDBC result mapping,SELECT SUM(ORD_AMOUNT) FROM ORDERS WHERE ORD_DATE = CURRENT_DATE FETCH FIRST 1 ROWS ONLY,cobol-online
+sql:49f749d475666ab6,cobol/ORDRPT.cbl:51;cobol/ORDRPT.cbl:18;cobol/ORDRPT.cbl:41;cobol/ORDRPT.cbl:43;cobol/ORDRPT.cbl:48,cobol/ORDRPT.cbl,51,SELECT,embedded,"SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = '?' ORDER BY ?",ORDERS,,db2,true,conditional;prepare-from-variable;string-statement,4,2,1,1,"SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? ORDER BY ?",true,375a68c390d6d5b4,"SELECT ORD_ID, ORD_AMOUNT FROM ORDERS WHERE ORD_DATE = ? AND ORD_REGION = ? ORDER BY ?",,manual,part of the statement is only known at run time (1 place(s)),,cobol-online
+sql:e8ec7b254953308f,cobol/ORDVAL.cbl:14,cobol/ORDVAL.cbl,14,SELECT,embedded,"SELECT COUNT(*) INTO :WS-COUNT
+          FROM ORDERS
+         WHERE ORD_ID = :DFHCOMMAREA",ORDERS,,db2,false,,1,0,0,0,,true,6314e6ba55bc79f8,SELECT COUNT(*) INTO ? FROM ORDERS WHERE ORD_ID = ?,,review,INTO :host variables become JDBC result mapping,SELECT COUNT(*) FROM ORDERS WHERE ORD_ID = ?,cobol-online

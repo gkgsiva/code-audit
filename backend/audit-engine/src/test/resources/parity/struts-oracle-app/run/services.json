@@ -1,0 +1,174 @@
+[
+  {
+    "complexity": "Simple",
+    "complexity_score": 1.31,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "external_calls": [],
+    "fan_in": 0,
+    "fan_out": 1,
+    "file": "WebContent/WEB-INF/web.xml",
+    "framework": null,
+    "handler": "com.acme.orders.servlet.HealthServlet",
+    "id": "service:414d74348603b2b4",
+    "inputs": [],
+    "kind": "servlet",
+    "name": "health",
+    "outputs": [],
+    "protocol": null,
+    "screens": [],
+    "sql": [],
+    "tables": [],
+    "url": "/health",
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 15.23,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "DB oracle://ordersdb01.acme.local:1521/ORDP",
+      "SOAP http://pricing.acme.local:8080/axis/services/PricingService"
+    ],
+    "fan_in": 1,
+    "fan_out": 3,
+    "file": "WebContent/WEB-INF/struts-config.xml",
+    "framework": null,
+    "handler": "com.acme.orders.action.LoginAction",
+    "id": "service:e238462a66aa312f",
+    "inputs": [
+      "loginForm"
+    ],
+    "kind": "struts-action",
+    "name": "/login",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:05aa629fbec46620"
+    ],
+    "sql": [
+      "sql:47da0078761cfe55",
+      "sql:74d178515a7f4399",
+      "sql:979cade04721da61",
+      "sql:cb299e45008db9b8",
+      "sql:ce46dc8dd1a138eb",
+      "sql:dea8cb163fe0de98",
+      "sql:df8bbfa606b0adfb"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS",
+      "USERS"
+    ],
+    "url": "/login",
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 13.15,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "DB oracle://ordersdb01.acme.local:1521/ORDP",
+      "SOAP http://pricing.acme.local:8080/axis/services/PricingService"
+    ],
+    "fan_in": 1,
+    "fan_out": 3,
+    "file": "WebContent/WEB-INF/struts-config.xml",
+    "framework": null,
+    "handler": "com.acme.orders.action.OrderDetailAction",
+    "id": "service:7faeee752a0d66a4",
+    "inputs": [],
+    "kind": "struts-action",
+    "name": "/orderDetail",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:5c7d3fcc0e7289e9",
+      "screen:81b23756f56db307"
+    ],
+    "sql": [
+      "sql:47da0078761cfe55",
+      "sql:74d178515a7f4399",
+      "sql:979cade04721da61",
+      "sql:cb299e45008db9b8",
+      "sql:ce46dc8dd1a138eb",
+      "sql:dea8cb163fe0de98",
+      "sql:df8bbfa606b0adfb"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS",
+      "USERS"
+    ],
+    "url": "/orderDetail",
+    "web_service": null
+  },
+  {
+    "complexity": "Medium",
+    "complexity_score": 12.82,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "external_calls": [
+      "DB oracle://ordersdb01.acme.local:1521/ORDP",
+      "SOAP http://pricing.acme.local:8080/axis/services/PricingService"
+    ],
+    "fan_in": 3,
+    "fan_out": 2,
+    "file": "WebContent/WEB-INF/struts-config.xml",
+    "framework": null,
+    "handler": "com.acme.orders.action.OrderSearchAction",
+    "id": "service:f1d82f2dd35b68cd",
+    "inputs": [
+      "orderSearchForm"
+    ],
+    "kind": "struts-action",
+    "name": "/orderSearch",
+    "outputs": [],
+    "protocol": null,
+    "screens": [
+      "screen:927c65728f5fbfe5"
+    ],
+    "sql": [
+      "sql:47da0078761cfe55",
+      "sql:74d178515a7f4399",
+      "sql:979cade04721da61",
+      "sql:cb299e45008db9b8",
+      "sql:ce46dc8dd1a138eb",
+      "sql:dea8cb163fe0de98",
+      "sql:df8bbfa606b0adfb"
+    ],
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS",
+      "USERS"
+    ],
+    "url": "/orderSearch",
+    "web_service": null
+  }
+]

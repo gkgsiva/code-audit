@@ -1,0 +1,200 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.7,
+    "component": "legacy-portal",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/account-detail.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 3,
+    "file": "legacy-portal/WebContent/views/account-detail.html",
+    "id": "screen:e3686719539f7784",
+    "name": "legacy-portal/WebContent/views/account-detail.html",
+    "partial": false,
+    "targeted_by": [
+      "file:76de9f41beb0b43b"
+    ],
+    "technology": "angularjs"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.26,
+    "component": "legacy-portal",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/accounts.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 1,
+    "file": "legacy-portal/WebContent/views/accounts.html",
+    "id": "screen:6766cb7d4d1adef8",
+    "name": "legacy-portal/WebContent/views/accounts.html",
+    "partial": false,
+    "targeted_by": [
+      "file:76de9f41beb0b43b"
+    ],
+    "technology": "angularjs"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.72,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 3,
+    "file": "orders-web/src/app/orders/order-detail.component.html",
+    "id": "screen:b16360a779862f1f",
+    "name": "orders-web/src/app/orders/order-detail.component.html",
+    "partial": false,
+    "targeted_by": [
+      "file:931f5d69504fdfc0"
+    ],
+    "technology": "angular"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.35,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 1,
+    "file": "orders-web/src/app/orders/order-list.component.html",
+    "id": "screen:7b3bcc123238791b",
+    "name": "orders-web/src/app/orders/order-list.component.html",
+    "partial": false,
+    "targeted_by": [
+      "file:931f5d69504fdfc0"
+    ],
+    "technology": "angular"
+  },
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.43,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/reports/reports.component.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 2,
+    "file": "orders-web/src/app/reports/reports.component.html",
+    "id": "screen:72bc0388c7b08a4a",
+    "name": "orders-web/src/app/reports/reports.component.html",
+    "partial": false,
+    "targeted_by": [
+      "file:931f5d69504fdfc0"
+    ],
+    "technology": "angular"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "legacy-portal",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/index.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "legacy-portal/WebContent/index.html",
+    "id": "screen:08add36d295dfd74",
+    "name": "legacy-portal/WebContent/index.html",
+    "partial": true,
+    "targeted_by": [
+      "file:0f86d188926d849d"
+    ],
+    "technology": "angularjs"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "legacy-portal",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/views/account-summary.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "legacy-portal/WebContent/views/account-summary.html",
+    "id": "screen:464b2922a861d0f1",
+    "name": "legacy-portal/WebContent/views/account-summary.html",
+    "partial": true,
+    "targeted_by": [
+      "file:76de9f41beb0b43b"
+    ],
+    "technology": "angularjs"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "orders-web/src/app/app.component.html",
+    "id": "screen:e5d0035a5e52c463",
+    "name": "orders-web/src/app/app.component.html",
+    "partial": true,
+    "targeted_by": [
+      "file:5351c26dc5161062"
+    ],
+    "technology": "angular"
+  },
+  {
+    "action": null,
+    "complexity": null,
+    "complexity_score": null,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/app/header/header.component.ts",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "fields_count": 1,
+    "file": "orders-web/src/app/header/header.component.ts",
+    "id": "screen:c101b168b056604c",
+    "name": "HeaderComponent",
+    "partial": true,
+    "targeted_by": [
+      "screen:e5d0035a5e52c463"
+    ],
+    "technology": "angular"
+  }
+]

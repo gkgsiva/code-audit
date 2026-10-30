@@ -1,0 +1,156 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e7875d45a7180a3f",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "file:56b61ea2279a5781"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 39,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a0cd77ad40381183",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:8dcb75eaa970ab4d",
+    "target": "file:af67c464e1cafafe"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 37,
+        "snippet": null
+      }
+    ],
+    "id": "edge:050b22223858eb33",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "screen:42959897b9b2041a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "id": "edge:49b6d0192d373764",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "file:14a39e5e45f6a9a5"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:4554628f89a1812d",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "file:72866e90da93653f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "edge:adf17861ad341512",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "file:99876954b7288958"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDBATCH.cbl",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5838fdf45b4f9264",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:8dcb75eaa970ab4d",
+    "target": "file:72866e90da93653f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "cobol/ORDINQ.cbl",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "edge:561afb996eb1cc67",
+    "kind": "reads",
+    "resolved": true,
+    "source": "file:558ee7a09cfe475b",
+    "target": "screen:b8907223be167a85"
+  },
+  {
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f7490c089e4bbd03",
+    "kind": "runs",
+    "resolved": true,
+    "source": "batch_job:effeadeb068eb7db",
+    "target": "file:f8df012f502a0c80"
+  },
+  {
+    "evidence": [
+      {
+        "file": "jcl/ORDNIGHT.jcl",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "id": "edge:4be846237030170a",
+    "kind": "runs",
+    "resolved": true,
+    "source": "batch_job:effeadeb068eb7db",
+    "target": "service:aea815ac073f1742"
+  },
+  {
+    "evidence": [
+      {
+        "file": "proclib/ORDRPTP.jcl",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5a844dbe3ee73b47",
+    "kind": "runs",
+    "resolved": true,
+    "source": "file:f8df012f502a0c80",
+    "target": "service:2c9b980f84f9a364"
+  }
+]

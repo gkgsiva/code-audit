@@ -1,0 +1,5 @@
+id,evidence,name,technology,file,action,fields_count,component,complexity,complexity_score,partial,targeted_by
+screen:83a5b67d242896a4,teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java:15,CustomerDialog,swing,teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java,,4,teller-desk,Simple,2.16,false,screen:a2cbfb040e34c0ac
+screen:a2cbfb040e34c0ac,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java:10,MainFrame,swing,teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java,,0,teller-desk,Simple,4.24,false,
+screen:cfc1899fd304e7fa,teller-desk/src/main/resources/fxml/Rates.fxml:4,Rates,javafx,teller-desk/src/main/resources/fxml/Rates.fxml,,3,teller-desk,Simple,1.69,false,
+screen:bfd92173aee9343c,teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java:7,AccountPanel,swing,teller-desk/src/main/java/com/acme/teller/ui/AccountPanel.java,,1,teller-desk,,,true,screen:a2cbfb040e34c0ac

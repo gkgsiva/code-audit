@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
 
 import { loggedIn } from './auth.guard';
+import { Facts } from './facts/facts';
 import { Inventory } from './inventory/inventory';
 import { Login } from './login/login';
 import { NewProject } from './new-project/new-project';
 import { ProjectPage } from './project/project';
 import { Projects } from './projects/projects';
+import { Results } from './results/results';
 import { Shell } from './shell/shell';
 
 export const routes: Routes = [
@@ -19,6 +21,8 @@ export const routes: Routes = [
       { path: 'new', component: NewProject, title: 'legacy-audit: new project' },
       { path: 'p/:id', component: ProjectPage, title: 'legacy-audit: project' },
       { path: 'p/:id/inventory', component: Inventory, title: 'legacy-audit: inventory' },
+      { path: 'p/:id/results', component: Results, title: 'legacy-audit: results' },
+      { path: 'p/:id/facts/:kind', component: Facts, title: 'legacy-audit: facts' },
     ],
   },
   { path: '**', redirectTo: '' },

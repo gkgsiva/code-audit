@@ -1,0 +1,132 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "acme-core/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "acme-ear/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "acme-tools/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "acme-web/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "batches/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "batches/billing-batch/pom.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "batches/report-batch/pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f868b8019ca10787",
+    "name": "Maven",
+    "replacement": null,
+    "usages": 8,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "ops/batch/eod/ksh/run_eod.ksh",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "ops/batch/eod/ksh/run_eod_report.ksh",
+        "line": 3,
+        "snippet": null
+      },
+      {
+        "file": "ops/batch/purge/purge.ksh",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "tech:4cb01f14a2ae602e",
+    "name": "SQL*Plus",
+    "replacement": null,
+    "usages": 3,
+    "version": null
+  },
+  {
+    "category": "language",
+    "eol": true,
+    "eol_date": "2019-01-31",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:94544620f465ab54",
+    "name": "Java",
+    "replacement": "Java 25",
+    "usages": 1,
+    "version": "1.8"
+  },
+  {
+    "category": "upgrade-signal",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "acme-web/src/main/java/com/acme/web/CustomerServlet.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7c24a97c094e95ae",
+    "name": "javax.* namespace (Jakarta EE migration)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  }
+]

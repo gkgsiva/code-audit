@@ -1,0 +1,67 @@
+[
+  {
+    "component": "billing-api",
+    "evidence": [
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 5,
+        "snippet": "NestFactory.create"
+      },
+      {
+        "file": "billing-api/src/main.ts",
+        "line": 7,
+        "snippet": "app.listen"
+      }
+    ],
+    "file": "billing-api/src/main.ts",
+    "id": "entry:0094b4d734267da0",
+    "kind": "node-server",
+    "line": 5,
+    "name": "billing-api/src/main.ts"
+  },
+  {
+    "component": "legacy-portal",
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 2,
+        "snippet": "angular.module"
+      }
+    ],
+    "file": "legacy-portal/WebContent/js/app.js",
+    "id": "entry:046a9c59dfa36312",
+    "kind": "angularjs-app",
+    "line": 2,
+    "name": "portal"
+  },
+  {
+    "component": "orders-api",
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": 16,
+        "snippet": "app.listen"
+      }
+    ],
+    "file": "orders-api/src/server.ts",
+    "id": "entry:d7030e1082d72970",
+    "kind": "node-server",
+    "line": 16,
+    "name": "orders-api/src/server.ts"
+  },
+  {
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "orders-web/src/main.ts",
+        "line": 7,
+        "snippet": "bootstrapApplication"
+      }
+    ],
+    "file": "orders-web/src/main.ts",
+    "id": "entry:b58a8373dce85184",
+    "kind": "angular-app",
+    "line": 7,
+    "name": "AppComponent"
+  }
+]

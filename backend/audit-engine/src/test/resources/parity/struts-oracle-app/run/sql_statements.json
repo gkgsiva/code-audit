@@ -1,0 +1,560 @@
+[
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "scripts/deploy.ksh",
+        "line": 14,
+        "snippet": "EXEC PKG_ORDER_PRICING.RECALC_ALL"
+      }
+    ],
+    "file": "scripts/deploy.ksh",
+    "fingerprint": "9e4929399fe6d01e",
+    "fragments": 1,
+    "id": "sql:c11bf0a70c74cbd5",
+    "line": 14,
+    "normalized": "EXEC PKG_ORDER_PRICING.RECALC_ALL",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [
+      "PKG_ORDER_PRICING.RECALC_ALL"
+    ],
+    "reason": "calls a stored procedure; converted together with it; not converted automatically",
+    "source": "script",
+    "structural_holes": 0,
+    "tables": [],
+    "text": "EXEC PKG_ORDER_PRICING.RECALC_ALL",
+    "type": "CALL",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/order_queries.sql",
+        "line": 4,
+        "snippet": "SELECT C.NAME, COUNT(*) ORDER_COUNT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > SY"
+      }
+    ],
+    "file": "sql/order_queries.sql",
+    "fingerprint": "f6708d2ab87dbb8f",
+    "fragments": 1,
+    "id": "sql:dae1d15f1f28c324",
+    "line": 4,
+    "normalized": "SELECT C.NAME, COUNT(*) ORDER_COUNT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > SYSDATE - ? GROUP BY C.NAME",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT C.NAME, COUNT(*) AS ORDER_COUNT FROM ORDERS AS O, CUSTOMERS AS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID AND O.CREATED_AT > CURRENT_TIMESTAMP - 30 GROUP BY C.NAME",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS"
+    ],
+    "text": "SELECT C.NAME, COUNT(*) ORDER_COUNT\n  FROM ORDERS O, CUSTOMERS C\n WHERE O.CUSTOMER_ID = C.CUSTOMER_ID\n   AND O.CREATED_AT > SYSDATE - 30\n GROUP BY C.NAME",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/order_queries.sql",
+        "line": 11,
+        "snippet": "SELECT ORDER_ID, NVL(STATUS, 'NEW'), TO_CHAR(CREATED_AT, 'YYYY-MM-DD') FROM ORDERS WHERE STATUS IS NULL OR STATUS = 'PEN"
+      }
+    ],
+    "file": "sql/order_queries.sql",
+    "fingerprint": "70552c596356e0d6",
+    "fragments": 1,
+    "id": "sql:3f99a9f03b91ca88",
+    "line": 11,
+    "normalized": "SELECT ORDER_ID, NVL(STATUS, ?), TO_CHAR(CREATED_AT, ?) FROM ORDERS WHERE STATUS IS NULL OR STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT ORDER_ID, COALESCE(STATUS, 'NEW'), TO_CHAR(CREATED_AT, 'YYYY-MM-DD') FROM ORDERS WHERE STATUS IS NULL OR STATUS = 'PENDING'",
+    "procedures": [],
+    "reason": "NVL → COALESCE",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT ORDER_ID, NVL(STATUS, 'NEW'), TO_CHAR(CREATED_AT, 'YYYY-MM-DD')\n  FROM ORDERS\n WHERE STATUS IS NULL OR STATUS = 'PENDING'",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "NVL",
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/order_queries.sql",
+        "line": 15,
+        "snippet": "UPDATE ORDERS SET STATUS = 'CANCELLED' WHERE STATUS = 'PENDING' AND CREATED_AT < ADD_MONTHS(SYSDATE, -6)"
+      }
+    ],
+    "file": "sql/order_queries.sql",
+    "fingerprint": "049048c95895aec1",
+    "fragments": 1,
+    "id": "sql:af564f2b8f197c77",
+    "line": 15,
+    "normalized": "UPDATE ORDERS SET STATUS = ? WHERE STATUS = ? AND CREATED_AT < ADD_MONTHS(SYSDATE, -?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "UPDATE ORDERS SET STATUS = 'CANCELLED' WHERE STATUS = 'PENDING' AND CREATED_AT < ADD_MONTHS(CURRENT_TIMESTAMP, -6)",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "UPDATE ORDERS SET STATUS = 'CANCELLED'\n WHERE STATUS = 'PENDING' AND CREATED_AT < ADD_MONTHS(SYSDATE, -6)",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE",
+      "ADD_MONTHS"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 6,
+        "snippet": "SELECT SUM(L.QTY * L.UNIT_PRICE) * 1.2 INTO V_TOTAL FROM ORDER_LINES L WHERE L.ORDER_ID = P_ORDER_ID"
+      }
+    ],
+    "file": "sql/pkg_order_pricing.pkb",
+    "fingerprint": "527892962cc86eb6",
+    "fragments": 1,
+    "id": "sql:a07252e6d4e6c1b0",
+    "line": 6,
+    "normalized": "SELECT SUM(L.QTY * L.UNIT_PRICE) * ? INTO V_TOTAL FROM ORDER_LINES L WHERE L.ORDER_ID = P_ORDER_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT SUM(L.QTY * L.UNIT_PRICE) * 1.2 FROM ORDER_LINES AS L WHERE L.ORDER_ID = P_ORDER_ID",
+    "procedures": [],
+    "reason": null,
+    "source": "plsql",
+    "structural_holes": 0,
+    "tables": [
+      "ORDER_LINES"
+    ],
+    "text": "SELECT SUM(L.QTY * L.UNIT_PRICE) * 1.2\n      INTO V_TOTAL\n      FROM ORDER_LINES L\n     WHERE L.ORDER_ID = P_ORDER_ID",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 16,
+        "snippet": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = 'NEW'"
+      }
+    ],
+    "file": "sql/pkg_order_pricing.pkb",
+    "fingerprint": "feefaf38ff4b5f70",
+    "fragments": 1,
+    "id": "sql:470c39a674516e57",
+    "line": 16,
+    "normalized": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = 'NEW'",
+    "procedures": [],
+    "reason": null,
+    "source": "plsql",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = 'NEW'",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 17,
+        "snippet": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID"
+      }
+    ],
+    "file": "sql/pkg_order_pricing.pkb",
+    "fingerprint": "6378c0731547d113",
+    "fragments": 1,
+    "id": "sql:1208a107a9f108ba",
+    "line": 17,
+    "normalized": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID) WHERE ORDER_ID = R.ORDER_ID",
+    "procedures": [],
+    "reason": null,
+    "source": "plsql",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "UPDATE ORDERS SET TOTAL = TOTAL_WITH_TAX(R.ORDER_ID)\n       WHERE ORDER_ID = R.ORDER_ID",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 21,
+        "snippet": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?"
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "8d6de373dbdb5345",
+    "fragments": 1,
+    "id": "sql:cb299e45008db9b8",
+    "line": 21,
+    "normalized": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+    "procedures": [],
+    "reason": null,
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "USERS"
+    ],
+    "text": "SELECT COUNT(*) FROM USERS WHERE USERNAME = ? AND PASSWORD = ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 24,
+        "snippet": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, 'NEW') STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.C"
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 25,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "c16cd414717b1e94",
+    "fragments": 3,
+    "id": "sql:74d178515a7f4399",
+    "line": 24,
+    "normalized": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, ?) STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID(+) AND UPPER(C.NAME) LIKE UPPER(?) ORDER BY O.CREATED_AT DESC) WHERE ROWNUM <= ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "NVL → COALESCE; ROWNUM → LIMIT / ROW_NUMBER(); Oracle (+) outer join → ANSI LEFT/RIGHT JOIN; not converted automatically",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS"
+    ],
+    "text": "SELECT * FROM (SELECT O.ORDER_ID, C.NAME, NVL(O.STATUS, 'NEW') STATUS, O.CREATED_AT FROM ORDERS O, CUSTOMERS C WHERE O.CUSTOMER_ID = C.CUSTOMER_ID(+) AND UPPER(C.NAME) LIKE UPPER(?) ORDER BY O.CREATED_AT DESC) WHERE ROWNUM <= 50",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "NVL",
+      "ROWNUM",
+      "OUTER JOIN (+)"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 29,
+        "snippet": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, 1, 'HIGH', 2, 'MEDIUM', 'LOW') PRIO FROM ORDERS O WHERE O.ORDER_ID = ?"
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "0cfb43d1cb9227e6",
+    "fragments": 2,
+    "id": "sql:df8bbfa606b0adfb",
+    "line": 29,
+    "normalized": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, ?, ?, ?, ?, ?) PRIO FROM ORDERS O WHERE O.ORDER_ID = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT O.ORDER_ID, O.STATUS, CASE WHEN O.PRIORITY = 1 THEN 'HIGH' WHEN O.PRIORITY = 2 THEN 'MEDIUM' ELSE 'LOW' END AS PRIO FROM ORDERS AS O WHERE O.ORDER_ID = ?",
+    "procedures": [],
+    "reason": "DECODE → CASE",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT O.ORDER_ID, O.STATUS, DECODE(O.PRIORITY, 1, 'HIGH', 2, 'MEDIUM', 'LOW') PRIO FROM ORDERS O WHERE O.ORDER_ID = ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "DECODE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 33,
+        "snippet": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID"
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 34,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "09fccda3dbea18d0",
+    "fragments": 2,
+    "id": "sql:ce46dc8dd1a138eb",
+    "line": 33,
+    "normalized": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "hierarchical query → WITH RECURSIVE; not converted automatically",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT ORDER_ID, PARENT_ORDER_ID, LEVEL FROM ORDERS START WITH ORDER_ID = ? CONNECT BY PRIOR ORDER_ID = PARENT_ORDER_ID",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "CONNECT BY"
+    ]
+  },
+  {
+    "built_with": [
+      "concatenation"
+    ],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 69,
+        "snippet": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'"
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "feefaf38ff4b5f70",
+    "fragments": 2,
+    "id": "sql:979cade04721da61",
+    "line": 69,
+    "normalized": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 2 fragment(s), 1 concatenated value(s)",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT ORDER_ID FROM ORDERS WHERE STATUS = '?'",
+    "type": "SELECT",
+    "value_holes": 1,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "conditional",
+      "string-builder",
+      "ternary"
+    ],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 96,
+        "snippet": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME"
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 99,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 103,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 107,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 110,
+        "snippet": null
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "6db149235ceeda22",
+    "fragments": 6,
+    "id": "sql:47da0078761cfe55",
+    "line": 96,
+    "normalized": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE ? = ? AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+    "optional_fragments": 3,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS AS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 6 fragment(s), 3 optional; 3 variants, check each; SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS"
+    ],
+    "text": "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CLOSED_AT IS NULL",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [
+      "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CLOSED_AT IS NULL",
+      "SELECT O.ORDER_ID, O.STATUS FROM ORDERS O WHERE 1 = 1 AND O.CUSTOMER_ID IN (SELECT CUSTOMER_ID FROM CUSTOMERS WHERE NAME LIKE ?) AND O.STATUS = ? AND O.CREATED_AT >= ? AND O.CREATED_AT > SYSDATE - 365"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": 147,
+        "snippet": "{? = call PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}"
+      }
+    ],
+    "file": "src/com/acme/orders/dao/OrderDao.java",
+    "fingerprint": "198ccd1a2da98080",
+    "fragments": 1,
+    "id": "sql:dea8cb163fe0de98",
+    "line": 147,
+    "normalized": "{? = CALL PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [
+      "PKG_ORDER_PRICING.TOTAL_WITH_TAX"
+    ],
+    "reason": "calls a stored procedure; converted together with it; not converted automatically",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [],
+    "text": "{? = call PKG_ORDER_PRICING.TOTAL_WITH_TAX(?)}",
+    "type": "CALL",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  }
+]

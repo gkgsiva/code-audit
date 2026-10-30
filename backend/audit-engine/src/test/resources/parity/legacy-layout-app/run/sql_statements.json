@@ -1,0 +1,113 @@
+[
+  {
+    "built_with": [],
+    "component": "billing-batch",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 16,
+        "snippet": "INSERT INTO invoices (customer_id, amount) SELECT customer_id, SUM(amount) FROM usage_records GROUP BY customer_id"
+      },
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+    "fingerprint": "bd2694bb5c0919cb",
+    "fragments": 2,
+    "id": "sql:d55d40c3b5014222",
+    "line": 16,
+    "normalized": "INSERT INTO INVOICES (CUSTOMER_ID, AMOUNT) SELECT CUSTOMER_ID, SUM(AMOUNT) FROM USAGE_RECORDS GROUP BY CUSTOMER_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "INSERT INTO invoices (customer_id, amount) SELECT customer_id, SUM(amount) FROM usage_records GROUP BY customer_id",
+    "procedures": [],
+    "reason": null,
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES",
+      "USAGE_RECORDS"
+    ],
+    "text": "INSERT INTO invoices (customer_id, amount) SELECT customer_id, SUM(amount) FROM usage_records GROUP BY customer_id",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-web",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+        "line": 14,
+        "snippet": "SELECT order_id FROM orders WHERE customer_id = ? AND status = 'OPEN'"
+      }
+    ],
+    "file": "apps/orders-web/src/com/acme/orders/OrderDao.java",
+    "fingerprint": "9dac8a4126a6dc07",
+    "fragments": 1,
+    "id": "sql:6dca2caf260f51d4",
+    "line": 14,
+    "normalized": "SELECT ORDER_ID FROM ORDERS WHERE CUSTOMER_ID = ? AND STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT order_id FROM orders WHERE customer_id = ? AND status = 'OPEN'",
+    "procedures": [],
+    "reason": null,
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT order_id FROM orders WHERE customer_id = ? AND status = 'OPEN'",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "settlement-c",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": 8,
+        "snippet": "UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE'"
+      }
+    ],
+    "file": "settlement-c/src/settle.pc",
+    "fingerprint": "7d2f74281950d3e3",
+    "fragments": 1,
+    "id": "sql:923bdea558e2b262",
+    "line": 8,
+    "normalized": "UPDATE PAYMENTS SET STATUS = ? WHERE STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE'",
+    "procedures": [],
+    "reason": null,
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "PAYMENTS"
+    ],
+    "text": "UPDATE payments SET status = 'SETTLED' WHERE status = 'DUE'",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  }
+]

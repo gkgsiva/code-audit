@@ -1,0 +1,852 @@
+[
+  {
+    "built_with": [],
+    "component": "billing-api-cs",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 19,
+        "snippet": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @id"
+      }
+    ],
+    "file": "billing-api-cs/Controllers/InvoicesController.cs",
+    "fingerprint": "7f31a952bc9c06d7",
+    "fragments": 1,
+    "id": "sql:307ee3cf768bf3fb",
+    "line": 19,
+    "normalized": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = $id",
+    "procedures": [],
+    "reason": null,
+    "source": "dapper",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICE"
+    ],
+    "text": "SELECT INVOICE_ID, AMOUNT, STATUS FROM INVOICE WHERE INVOICE_ID = @id",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-api-cs",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Controllers/InvoicesController.cs",
+        "line": 27,
+        "snippet": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CustId, @Amount, 'N')"
+      }
+    ],
+    "file": "billing-api-cs/Controllers/InvoicesController.cs",
+    "fingerprint": "839243c0200a0989",
+    "fragments": 1,
+    "id": "sql:18644c4468df79da",
+    "line": 27,
+    "normalized": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CUSTID, @AMOUNT, ?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES ($CustId, $Amount, 'N')",
+    "procedures": [],
+    "reason": null,
+    "source": "dapper",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICE"
+    ],
+    "text": "INSERT INTO INVOICE (CUST_ID, AMOUNT, STATUS) VALUES (@CustId, @Amount, 'N')",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-api-cs",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+        "line": 15,
+        "snippet": "UPDATE INVOICE SET STATUS = 'O' WHERE DUE_DATE < GETDATE() AND STATUS = 'N'"
+      }
+    ],
+    "file": "billing-api-cs/Jobs/InvoiceJobs.cs",
+    "fingerprint": "4844c84aa42974af",
+    "fragments": 1,
+    "id": "sql:0c3a8acd0af64c2f",
+    "line": 15,
+    "normalized": "UPDATE INVOICE SET STATUS = ? WHERE DUE_DATE < GETDATE() AND STATUS = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE INVOICE SET STATUS = 'O' WHERE DUE_DATE < GETDATE() AND STATUS = 'N'",
+    "procedures": [],
+    "reason": null,
+    "source": "dapper",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICE"
+    ],
+    "text": "UPDATE INVOICE SET STATUS = 'O' WHERE DUE_DATE < GETDATE() AND STATUS = 'N'",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-desk-vb6",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/clsInvoice.cls",
+        "line": 24,
+        "snippet": "CALL usp_OpenInvoices"
+      }
+    ],
+    "file": "billing-desk-vb6/clsInvoice.cls",
+    "fingerprint": "6cf8ffaddc0faf41",
+    "fragments": 1,
+    "id": "sql:9a30cfccc6de2cda",
+    "line": 24,
+    "normalized": "CALL USP_OPENINVOICES",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "CALL usp_OpenInvoices",
+    "procedures": [
+      "USP_OPENINVOICES"
+    ],
+    "reason": "calls a stored procedure; converted together with it",
+    "source": "ado",
+    "structural_holes": 0,
+    "tables": [],
+    "text": "CALL usp_OpenInvoices",
+    "type": "CALL",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-desk-vb6",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 34,
+        "snippet": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME"
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "fingerprint": "b5693e8fb455b724",
+    "fragments": 1,
+    "id": "sql:a47fa3a24b31517d",
+    "line": 34,
+    "normalized": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+    "procedures": [],
+    "reason": null,
+    "source": "dao",
+    "structural_holes": 0,
+    "tables": [
+      "REGION"
+    ],
+    "text": "SELECT REGION_CODE, REGION_NAME FROM REGION ORDER BY REGION_NAME",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation",
+      "conditional"
+    ],
+    "component": "billing-desk-vb6",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 62,
+        "snippet": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER "
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 51,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 53,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 57,
+        "snippet": null
+      },
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 59,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "fingerprint": "268a5aae91151faf",
+    "fragments": 7,
+    "id": "sql:961ff522a90f3d93",
+    "line": 62,
+    "normalized": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE ? = ? AND CUST_NAME LIKE ? AND CITY = ? AND STATUS = ? ORDER BY ?",
+    "optional_fragments": 5,
+    "parsed": true,
+    "pg_grade": "manual",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "part of the statement is only known at run time (1 place(s))",
+    "source": "ado",
+    "structural_holes": 1,
+    "tables": [
+      "CUSTOMER"
+    ],
+    "text": "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 AND CUST_NAME LIKE '?%' AND CITY = '?' AND STATUS = 'A' ORDER BY ?",
+    "type": "SELECT",
+    "value_holes": 2,
+    "variants": [
+      "SELECT CUST_ID, CUST_NAME, CITY FROM CUSTOMER WHERE 1 = 1 ORDER BY ?"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation"
+    ],
+    "component": "billing-desk-vb6",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/frmCustomer.frm",
+        "line": 74,
+        "snippet": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'"
+      }
+    ],
+    "file": "billing-desk-vb6/frmCustomer.frm",
+    "fingerprint": "5fa5c492735157e1",
+    "fragments": 2,
+    "id": "sql:ecb410d75dd43168",
+    "line": 74,
+    "normalized": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 2 fragment(s), 1 concatenated value(s)",
+    "source": "vb-string",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMER"
+    ],
+    "text": "SELECT ADDRESS FROM CUSTOMER WHERE CUST_NAME = '?'",
+    "type": "SELECT",
+    "value_holes": 1,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-desk-vb6",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 28,
+        "snippet": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)"
+      },
+      {
+        "file": "billing-desk-vb6/modDb.bas",
+        "line": 6,
+        "snippet": null
+      }
+    ],
+    "file": "billing-desk-vb6/modDb.bas",
+    "fingerprint": "794594989682c248",
+    "fragments": 1,
+    "id": "sql:1ded0793b141bdda",
+    "line": 28,
+    "normalized": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+    "procedures": [],
+    "reason": null,
+    "source": "ado",
+    "structural_holes": 0,
+    "tables": [
+      "AUDIT_LOG"
+    ],
+    "text": "INSERT INTO AUDIT_LOG (EVENT_TS, USER_NAME, ACTION) VALUES (GETDATE(), ?, ?)",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "conditional",
+      "interpolation",
+      "string-builder"
+    ],
+    "component": "inventory-wpf-cs",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 24,
+        "snippet": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?"
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 19,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "fingerprint": "dc9147efe4be0d47",
+    "fragments": 5,
+    "id": "sql:c0c944541637be6e",
+    "line": 24,
+    "normalized": "SELECT S.ID, S.SKU, S.QUANTITY FROM STOCK_ITEM S JOIN WAREHOUSE W ON W.ID = S.WAREHOUSE_ID WHERE ? = ? AND S.SKU LIKE ? AND W.NAME = @WAREHOUSE",
+    "optional_fragments": 3,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM AS s JOIN WAREHOUSE AS w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?%' AND w.NAME = $warehouse",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 5 fragment(s), 3 optional, 1 concatenated value(s); 2 variants, check each",
+    "source": "dapper",
+    "structural_holes": 0,
+    "tables": [
+      "STOCK_ITEM",
+      "WAREHOUSE"
+    ],
+    "text": "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1 AND s.SKU LIKE '?%' AND w.NAME = @warehouse",
+    "type": "SELECT",
+    "value_holes": 1,
+    "variants": [
+      "SELECT s.ID, s.SKU, s.QUANTITY FROM STOCK_ITEM s JOIN WAREHOUSE w ON w.ID = s.WAREHOUSE_ID WHERE 1 = 1"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation"
+    ],
+    "component": "inventory-wpf-cs",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 32,
+        "snippet": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0"
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 29,
+        "snippet": null
+      },
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "fingerprint": "c181d59dcfbe583f",
+    "fragments": 2,
+    "id": "sql:8e8c9d376e871144",
+    "line": 32,
+    "normalized": "UPDATE STOCK_ITEM SET REORDER = ? WHERE QUANTITY < ? AND DISCONTINUED = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 2 fragment(s), 1 concatenated value(s)",
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [
+      "STOCK_ITEM"
+    ],
+    "text": "UPDATE STOCK_ITEM SET REORDER = 1 WHERE QUANTITY < ? AND DISCONTINUED = 0",
+    "type": "UPDATE",
+    "value_holes": 1,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "inventory-wpf-cs",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 43,
+        "snippet": "CALL dbo.usp_StockReport"
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "fingerprint": "30ebbb79e2140691",
+    "fragments": 1,
+    "id": "sql:7c1e341c972d0c5c",
+    "line": 43,
+    "normalized": "CALL DBO.USP_STOCKREPORT",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "CALL dbo.usp_StockReport",
+    "procedures": [
+      "DBO.USP_STOCKREPORT"
+    ],
+    "reason": "calls a stored procedure; converted together with it",
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [],
+    "text": "CALL dbo.usp_StockReport",
+    "type": "CALL",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "string-format"
+    ],
+    "component": "inventory-wpf-cs",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Data/StockRepository.cs",
+        "line": 44,
+        "snippet": "SELECT * FROM STOCK_ITEM ORDER BY ?"
+      }
+    ],
+    "file": "inventory-wpf-cs/Data/StockRepository.cs",
+    "fingerprint": "bf969a195b98e960",
+    "fragments": 2,
+    "id": "sql:5d2079f54f251065",
+    "line": 44,
+    "normalized": "SELECT * FROM STOCK_ITEM ORDER BY ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "manual",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "part of the statement is only known at run time (1 place(s))",
+    "source": "ado.net",
+    "structural_holes": 1,
+    "tables": [
+      "STOCK_ITEM"
+    ],
+    "text": "SELECT * FROM STOCK_ITEM ORDER BY ?",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "inventory-wpf-cs",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 17,
+        "snippet": "SELECT /* FirstOrDefault */ FROM StockItems"
+      }
+    ],
+    "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+    "fingerprint": "8d0b4d3ab0998ccb",
+    "fragments": 1,
+    "id": "sql:56c7b323297b90f7",
+    "line": 17,
+    "normalized": "SELECT FROM STOCKITEMS",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "entity-framework",
+    "structural_holes": 0,
+    "tables": [
+      "STOCK_ITEM"
+    ],
+    "text": "SELECT /* FirstOrDefault */ FROM StockItems",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "inventory-wpf-cs",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+        "line": 20,
+        "snippet": "INSERT /* Add */ INTO StockItems"
+      }
+    ],
+    "file": "inventory-wpf-cs/Views/StockDialog.xaml.cs",
+    "fingerprint": "fb0ecbd753e4b8bd",
+    "fragments": 1,
+    "id": "sql:007661f9e5e5b50f",
+    "line": 20,
+    "normalized": "INSERT INTO STOCKITEMS",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "entity-framework",
+    "structural_holes": 0,
+    "tables": [
+      "STOCK_ITEM"
+    ],
+    "text": "INSERT /* Add */ INTO StockItems",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "legacy-webforms",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx",
+        "line": 9,
+        "snippet": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME"
+      }
+    ],
+    "file": "legacy-webforms/Default.aspx",
+    "fingerprint": "e75fba9c83be002f",
+    "fragments": 1,
+    "id": "sql:64aec38ead3f0edc",
+    "line": 9,
+    "normalized": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+    "procedures": [],
+    "reason": null,
+    "source": "aspx-datasource",
+    "structural_holes": 0,
+    "tables": [
+      "CRM_REGION"
+    ],
+    "text": "SELECT REGION_ID, REGION_NAME FROM CRM_REGION ORDER BY REGION_NAME",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation",
+      "conditional"
+    ],
+    "component": "legacy-webforms",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 15,
+        "snippet": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'"
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 12,
+        "snippet": null
+      },
+      {
+        "file": "legacy-webforms/Default.aspx.cs",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "file": "legacy-webforms/Default.aspx.cs",
+    "fingerprint": "425330557b04fe8c",
+    "fragments": 3,
+    "id": "sql:df82b48f9feee43a",
+    "line": 15,
+    "normalized": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE ?",
+    "optional_fragments": 2,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 3 fragment(s), 2 optional, 2 concatenated value(s); 2 variants, check each",
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [
+      "CRM_CONTACT"
+    ],
+    "text": "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ? AND NAME LIKE '?%'",
+    "type": "SELECT",
+    "value_holes": 2,
+    "variants": [
+      "SELECT CONTACT_ID, NAME FROM CRM_CONTACT WHERE REGION_ID = ?"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "nightly-export-cs",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 17,
+        "snippet": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = 0"
+      }
+    ],
+    "file": "nightly-export-cs/Program.cs",
+    "fingerprint": "47ca7d29b4993d76",
+    "fragments": 1,
+    "id": "sql:248d8a6b25f70955",
+    "line": 17,
+    "normalized": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = 0",
+    "procedures": [],
+    "reason": null,
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICE"
+    ],
+    "text": "SELECT INVOICE_ID, AMOUNT FROM INVOICE WHERE EXPORTED = 0",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation",
+      "conditional",
+      "string-builder",
+      "string-format",
+      "ternary"
+    ],
+    "component": "orders-winforms-vbnet",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 30,
+        "snippet": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @si"
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 16,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 17,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 19,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 23,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 25,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 27,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "fingerprint": "4898230f98adfca5",
+    "fragments": 11,
+    "id": "sql:a30a7675778ff289",
+    "line": 30,
+    "normalized": "SELECT O.ORDER_ID, O.ORDER_DATE, C.NAME FROM ORDERS O JOIN CUSTOMER C ON C.CUST_ID = O.CUST_ID WHERE O.ORDER_DATE >= @SINCE AND C.NAME LIKE ? AND O.STATUS = ? AND O.STATUS = ? ORDER BY O.ORDER_DATE",
+    "optional_fragments": 4,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS AS o JOIN CUSTOMER AS c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= $since AND c.NAME LIKE '?%' AND o.STATUS = 'O' AND o.STATUS = 'C' ORDER BY o.ORDER_DATE",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 11 fragment(s), 4 optional, 1 concatenated value(s); 3 variants, check each",
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMER",
+      "ORDERS"
+    ],
+    "text": "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since AND c.NAME LIKE '?%' AND o.STATUS = 'O' AND o.STATUS = 'C' ORDER BY o.ORDER_DATE",
+    "type": "SELECT",
+    "value_holes": 1,
+    "variants": [
+      "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since ORDER BY o.ORDER_DATE",
+      "SELECT o.ORDER_ID, o.ORDER_DATE, c.NAME FROM ORDERS o JOIN CUSTOMER c ON c.CUST_ID = o.CUST_ID WHERE o.ORDER_DATE >= @since AND c.NAME LIKE '?%' AND o.STATUS = 'O' AND o.STATUS = 'C' ORDER BY c.NAME"
+    ],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-winforms-vbnet",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 42,
+        "snippet": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @id"
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "fingerprint": "0f9bd6747b34fe82",
+    "fragments": 1,
+    "id": "sql:dbaf56c9f1f35d5b",
+    "line": 42,
+    "normalized": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = $id",
+    "procedures": [],
+    "reason": null,
+    "source": "dapper",
+    "structural_holes": 0,
+    "tables": [
+      "ORDER_LINE"
+    ],
+    "text": "SELECT COUNT(*) FROM ORDER_LINE WHERE ORDER_ID = @id",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "concatenation"
+    ],
+    "component": "orders-winforms-vbnet",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 52,
+        "snippet": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'"
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 47,
+        "snippet": null
+      },
+      {
+        "file": "orders-winforms-vbnet/OrderRepository.vb",
+        "line": 48,
+        "snippet": null
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrderRepository.vb",
+    "fingerprint": "f26d0084a2ec1a7e",
+    "fragments": 3,
+    "id": "sql:7e35f06e6f2b49c5",
+    "line": 52,
+    "normalized": "DELETE FROM ORDERS WHERE STATUS = ? AND ORDER_DATE < ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 3 fragment(s), 1 concatenated value(s)",
+    "source": "ado.net",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "DELETE FROM ORDERS WHERE STATUS = 'C' AND ORDER_DATE < '?'",
+    "type": "DELETE",
+    "value_holes": 1,
+    "variants": [],
+    "vendor_features": []
+  }
+]

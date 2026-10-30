@@ -1,0 +1,130 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "library:dc30e95e628bacd9",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "teller-desk/pom.xml"
+          }
+        ]
+      },
+      "group": "com.oracle.database.jdbc",
+      "name": "ojdbc8",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "purl": "pkg:maven/com.oracle.database.jdbc/ojdbc8@19.3.0.0",
+      "scope": "required",
+      "type": "library",
+      "version": "19.3.0.0"
+    },
+    {
+      "bom-ref": "library:1decf5cadd40f3dc",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "teller-desk/pom.xml"
+          }
+        ]
+      },
+      "group": "com.toedter",
+      "name": "jcalendar",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:maven/com.toedter/jcalendar@1.4",
+      "scope": "required",
+      "type": "library",
+      "version": "1.4"
+    },
+    {
+      "bom-ref": "library:c90a9abc591adbb1",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "teller-desk/pom.xml"
+          }
+        ]
+      },
+      "group": "log4j",
+      "name": "log4j",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2015-08-05"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "purl": "pkg:maven/log4j/log4j@1.2.17",
+      "scope": "required",
+      "type": "library",
+      "version": "1.2.17"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "library:dc30e95e628bacd9",
+        "library:1decf5cadd40f3dc",
+        "library:c90a9abc591adbb1"
+      ],
+      "ref": "application:Teller desk, Java Swing (sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Teller desk, Java Swing (sample)",
+      "name": "Teller desk, Java Swing (sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:36+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:e5d3742e-9e24-5cfc-be6f-e067d2961d84",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

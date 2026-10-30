@@ -1,0 +1,47 @@
+[
+  {
+    "built_with": [
+      "concatenation",
+      "conditional"
+    ],
+    "component": "teller-desk",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 15,
+        "snippet": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'"
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+    "fingerprint": "b5e6790468ec13fb",
+    "fragments": 4,
+    "id": "sql:c52a96d12224016b",
+    "line": 15,
+    "normalized": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE ? AND BRANCH = ?",
+    "optional_fragments": 2,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 4 fragment(s), 2 optional, 2 concatenated value(s); 2 variants, check each",
+    "source": "jdbc",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMER"
+    ],
+    "text": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'",
+    "type": "SELECT",
+    "value_holes": 2,
+    "variants": [
+      "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%'"
+    ],
+    "vendor_features": []
+  }
+]

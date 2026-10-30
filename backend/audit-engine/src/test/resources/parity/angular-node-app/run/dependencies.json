@@ -1,0 +1,657 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/main.ts",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "edge:dbf35213064f4744",
+    "kind": "bootstraps",
+    "resolved": true,
+    "source": "file:33d86453e04a440c",
+    "target": "file:5351c26dc5161062"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "edge:73a2316b755da5a4",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:10e6d77af1ab7b85",
+    "target": "service:2e164ae3f6c876c0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 28,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b3779b665dc2c316",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:10e6d77af1ab7b85",
+    "target": "service:4c47b3141da521f7"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "edge:740f61d848944bfe",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:10e6d77af1ab7b85",
+    "target": "service:a6820dbbb15b7572"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": 32,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a6daed471aa89479",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:10e6d77af1ab7b85",
+    "target": "service:ad7fb229dbdd8807"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/WEB-INF/web.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "edge:d5a5e53d2c707c3b",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:0f86d188926d849d",
+    "target": "screen:08add36d295dfd74"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:03e082c44abeb1f8",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:76de9f41beb0b43b",
+    "target": "screen:6766cb7d4d1adef8"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a748697422fa96ca",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:76de9f41beb0b43b",
+    "target": "screen:e3686719539f7784"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f805e8277f690789",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:931f5d69504fdfc0",
+    "target": "file:cbb2523d8e01fd90"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": 14,
+        "snippet": null
+      }
+    ],
+    "id": "edge:688d4c5d6244fc40",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:931f5d69504fdfc0",
+    "target": "file:d10931cfa32c245e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8352c7bb7771c1c7",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "file:931f5d69504fdfc0",
+    "target": "file:ddca30f6902da76c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/index.html",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:627ba1c06e7061c7",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:08add36d295dfd74",
+    "target": "file:76de9f41beb0b43b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.html",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c42d3a9003bb819d",
+    "kind": "includes",
+    "resolved": true,
+    "source": "screen:e5d0035a5e52c463",
+    "target": "screen:c101b168b056604c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e4b6260b57e7d3c7",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:5351c26dc5161062",
+    "target": "screen:e5d0035a5e52c463"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "id": "edge:257f906a9cb74958",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:76de9f41beb0b43b",
+    "target": "screen:464b2922a861d0f1"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "id": "edge:18e58b39ffd1c392",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:cbb2523d8e01fd90",
+    "target": "screen:b16360a779862f1f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/reports/reports.component.ts",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:f0d297092297602d",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:d10931cfa32c245e",
+    "target": "screen:72bc0388c7b08a4a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "id": "edge:87bcae7d5a06dfab",
+    "kind": "renders",
+    "resolved": true,
+    "source": "file:ddca30f6902da76c",
+    "target": "screen:7b3bcc123238791b"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2604f924e23ac1a4",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:0f9bd3f41c019344",
+    "target": "file:902dc4a032515b06"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:3051e3c69ca312a1",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:10e6d77af1ab7b85",
+    "target": "file:c8ce41a015ade895"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/main.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:eea1e9d92b5e5417",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:33d86453e04a440c",
+    "target": "file:5351c26dc5161062"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/main.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:53c06649ab88032e",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:33d86453e04a440c",
+    "target": "file:931f5d69504fdfc0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.controller.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e50ffda33a5d97d1",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:4eca79792cfa0b93",
+    "target": "file:ebf6d8a14ef7a32e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ca5e01771023b3c0",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:5351c26dc5161062",
+    "target": "file:57a41c3056900715"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 11,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 15,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "edge:311fa96b8efff0ff",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:54bbd5446a5cfbe2",
+    "target": "file:35dcf950ccdeabd0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6672004febc42dcc",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:54bbd5446a5cfbe2",
+    "target": "file:902dc4a032515b06"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:965215c7f55600f7",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:54bbd5446a5cfbe2",
+    "target": "file:f0d22640e49cd46a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "legacy-portal/WebContent/js/app.js",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:792b990dbf22661e",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:76de9f41beb0b43b",
+    "target": "file:152665bb535a41e4"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5eec97927b429b09",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:8279cddaa3a779f9",
+    "target": "file:902dc4a032515b06"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:51cdc5a63674dd11",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:931f5d69504fdfc0",
+    "target": "file:cbb2523d8e01fd90"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/app.routes.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:51637b78824e7b84",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:931f5d69504fdfc0",
+    "target": "file:ddca30f6902da76c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/main.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:05242111da6dbf69",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a3fb52561023a2c0",
+    "target": "file:ba344a602d20ce90"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:79f38a5e0da1965a",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ac972d7cfc2b8f32",
+    "target": "file:0f9bd3f41c019344"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:71bb83785162a64b",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ac972d7cfc2b8f32",
+    "target": "file:8279cddaa3a779f9"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:0000b89524e581a4",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ac972d7cfc2b8f32",
+    "target": "file:ca0ed6e5730b3b3e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/server.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:af4a429603fcee15",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ac972d7cfc2b8f32",
+    "target": "file:f0d22640e49cd46a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ddc7da9fa8ac9595",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ba344a602d20ce90",
+    "target": "file:1d14513d384f9b94"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:d9623d561c6dc06e",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ba344a602d20ce90",
+    "target": "file:4eca79792cfa0b93"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/app.module.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8c5d717ad533890a",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ba344a602d20ce90",
+    "target": "file:ebf6d8a14ef7a32e"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/orders.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5d74370c4f9058e8",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ca0ed6e5730b3b3e",
+    "target": "file:54bbd5446a5cfbe2"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-detail.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:8e016dddf583d170",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:cbb2523d8e01fd90",
+    "target": "file:10e6d77af1ab7b85"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-web/src/app/orders/order-list.component.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:44bb97b275f8c2de",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ddca30f6902da76c",
+    "target": "file:10e6d77af1ab7b85"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:2f07345846679352",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ebf6d8a14ef7a32e",
+    "target": "file:1d14513d384f9b94"
+  },
+  {
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 10,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 14,
+        "snippet": null
+      },
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "edge:500ccb89e4467781",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:ebf6d8a14ef7a32e",
+    "target": "file:632ce32d461e032a"
+  },
+  {
+    "evidence": [
+      {
+        "file": "orders-api/src/db/data-source.ts",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:4ed6468aca689019",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:f0d22640e49cd46a",
+    "target": "file:35dcf950ccdeabd0"
+  }
+]

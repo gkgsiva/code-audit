@@ -5,3 +5,5 @@
 samples/** -text
 *.potx binary
 *.pptx binary
+# Python run outputs used as parity fixtures (CSV files keep their CRLF line ends).
+backend/audit-engine/src/test/resources/parity/** -text

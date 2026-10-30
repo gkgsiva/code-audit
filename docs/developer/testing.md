@@ -14,11 +14,16 @@ and starts the three containers to check health and a login.
 | audit-engine | `AnalyzerParityTest` | Each sample file: every ported analyzer returns the same facts as Python (`parity/<sample>/analyzers.json`) |
 | audit-engine | `CaseParityTest` | Each ported analyzer on the cases recorded from Python (`parity/cases/<analyzer>.json.gz`, 2,000+ for Phase 2, 1,100+ more for Phase 3, 350 more for Phase 4) |
 | audit-engine | `SqlToolsParityTest` | SQL helpers on 1,458 statements (`parity/sqltools.json.gz`) |
+| audit-engine | `RunParityTest` | Each of the 10 samples: every entity file of the whole run (including findings, libraries with vulnerabilities and advice, input coverage), `effort.json`, `target-mapping.json`, `sbom.cdx.json`, `audit-summary.json` and the vulnerability sources equal Python's (`parity/<sample>/run/`); only the run id, times, tool version and folders are left out |
+| audit-engine | `ExpectedTest` | Each sample's `expected.yaml`: files, lines, components, roles, headline counts, services, screens, integrations, web services, batch jobs, unscheduled batches |
+| audit-engine | `PgCorpusTest` | SQL to PostgreSQL text and grades on 3,132 statements recorded from Python (`parity/pg*.json.gz`) |
+| audit-engine | `FindingsTest`, `SecurityTest` | The rules engine (conditions, messages, config switches) and dependency security (versions, end of life, advice, report import, matching, SBOM, scanner runs) as in the Python tests |
 | audit-engine | `ProofsTest` | The Phase 0 parser proofs |
-| audit-cli | `MainTest` | The `version` command and a clear error for a missing samples folder |
+| audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
 | audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database) |
 
-Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer.
+Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer. Task 10
+runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`).
 
 ## How the parity data was made
 
@@ -52,4 +57,4 @@ copy (regex flags, `strip`, sorting by code point, `None` vs `null`); use the he
 ## Frontend tests
 
 Vitest through `npx ng test --watch=false`. Page tests use Angular's `HttpTestingController` to
-answer the API calls (see `projects.spec.ts`, `project.spec.ts`, `login.spec.ts`).
+answer the API calls (see `projects.spec.ts`, `project.spec.ts`, `login.spec.ts`, `results.spec.ts`).

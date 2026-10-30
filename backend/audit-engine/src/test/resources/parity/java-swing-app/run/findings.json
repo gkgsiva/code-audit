@@ -1,0 +1,126 @@
+[
+  {
+    "category": "security",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 15,
+        "snippet": "SELECT CUST_ID, CUST_NAME FROM CUSTOMER WHERE CUST_NAME LIKE '?%' AND BRANCH = '?'"
+      },
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+    "id": "finding:dc78e503352c4d0e",
+    "line": 15,
+    "message": "Values concatenated into SQL text (2x; jdbc, SELECT) in teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+    "remediation": "Use bind parameters (PreparedStatement, named parameters) instead of building SQL text.",
+    "rule_id": "sql-concatenation",
+    "severity": "high"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/pom.xml",
+    "id": "finding:47d5ec8149a5ddc4",
+    "line": 23,
+    "message": "log4j 1.2.17 is end of life since 2015-08-05; replace with SLF4J + Logback (Spring Boot default)",
+    "remediation": "Replace it as recommended before or during the migration.",
+    "rule_id": "eol-library",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/pom.xml",
+    "id": "finding:ff819d6ec0a64416",
+    "line": 2,
+    "message": "Java 1.8 is end of life since 2019-01-31; target Java 25",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/pom.xml",
+    "id": "finding:a7b78166e395a4d5",
+    "line": 23,
+    "message": "Log4j 1 1.2.17 is end of life since 2015-08-05; target SLF4J + Logback",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/dao/CustomerDao.java",
+    "id": "finding:a5a219b111ca8ac2",
+    "line": 12,
+    "message": "Hard-coded endpoint in code: \"jdbc:oracle:thin:@tellerdb.acme.local:1521/TELLER\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "hard-coded-config",
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/src/main/java/com/acme/teller/ui/RatesController.java",
+    "id": "finding:104bb99c926fe629",
+    "line": 12,
+    "message": "Hard-coded endpoint in code: \"https://rates.acme.local/api/fx\"",
+    "remediation": "Read the endpoint from configuration so each environment can set it.",
+    "rule_id": "hardcoded-endpoint",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "teller-desk/pom.xml",
+    "id": "finding:63322f9befbec570",
+    "line": null,
+    "message": "Component teller-desk has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  }
+]

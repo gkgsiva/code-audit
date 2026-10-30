@@ -1,0 +1,300 @@
+[
+  {
+    "artifact": "axis",
+    "cves": [
+      "CVE-2018-8032",
+      "CVE-2019-0227"
+    ],
+    "declared": false,
+    "eol": true,
+    "eol_date": "2006-04-22",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:a25e14a2a90a884a",
+    "language": "java",
+    "license": null,
+    "max_severity": "high",
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2006-04-22",
+      "recipe": null,
+      "rule": "eol",
+      "target": "Spring Web Services or a REST client (RestClient)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Web Services or a REST client (RestClient)",
+    "scope": null,
+    "sha1": "5b4ff5e75bd75ed8f8e2becab121b4530e450b41",
+    "source": "jar",
+    "version": "1.4",
+    "vulnerabilities": [
+      {
+        "aliases": [],
+        "cvss": 7.5,
+        "description": "Server-side request forgery in Apache Axis 1.4.",
+        "fixed_versions": [],
+        "id": "CVE-2019-0227",
+        "severity": "high",
+        "sources": [
+          "dependency-check"
+        ]
+      },
+      {
+        "aliases": [],
+        "cvss": 6.1,
+        "description": "Cross-site scripting in the default servlet of Apache Axis 1.x.",
+        "fixed_versions": [],
+        "id": "CVE-2018-8032",
+        "severity": "medium",
+        "sources": [
+          "dependency-check"
+        ]
+      }
+    ],
+    "where_used": [
+      "WebContent/WEB-INF/lib/axis-1.4.jar"
+    ]
+  },
+  {
+    "artifact": "commons-collections",
+    "cves": [
+      "CVE-2015-7501"
+    ],
+    "declared": false,
+    "eol": true,
+    "eol_date": "2015-11-12",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:0ef8ab1200668a4c",
+    "language": "java",
+    "license": null,
+    "max_severity": "critical",
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2015-11-12",
+      "recipe": "org.openrewrite.apache.commons.collections.UpgradeApacheCommonsCollections_3_4",
+      "rule": "eol",
+      "target": "org.apache.commons:commons-collections4",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "org.apache.commons:commons-collections4",
+    "scope": null,
+    "sha1": "ec4c3ee2789500f41cda5035734acc8655bdd55e",
+    "source": "jar",
+    "version": "3.2.1",
+    "vulnerabilities": [
+      {
+        "aliases": [],
+        "cvss": 9.8,
+        "description": "Deserialization of untrusted data with InvokerTransformer.",
+        "fixed_versions": [
+          "3.2.2"
+        ],
+        "id": "CVE-2015-7501",
+        "severity": "critical",
+        "sources": [
+          "dependency-check"
+        ]
+      }
+    ],
+    "where_used": [
+      "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar"
+    ]
+  },
+  {
+    "artifact": "log4j",
+    "cves": [
+      "CVE-2019-17571",
+      "CVE-2021-4104",
+      "CVE-2022-23305"
+    ],
+    "declared": false,
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:bbf8de6407d3894f",
+    "language": "java",
+    "license": null,
+    "max_severity": "critical",
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2015-08-05",
+      "recipe": "org.openrewrite.java.logging.log4j.Log4j1ToLog4j2",
+      "rule": "eol",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "SLF4J + Logback (Spring Boot default)",
+    "scope": null,
+    "sha1": "a59f3266b95978777beb3c7c82fc33a3fcd8d397",
+    "source": "jar",
+    "version": "1.2.17",
+    "vulnerabilities": [
+      {
+        "aliases": [],
+        "cvss": 9.8,
+        "description": "Included in Log4j 1.2 is a SocketServer class that is vulnerable to deserialization of untrusted data.",
+        "fixed_versions": [],
+        "id": "CVE-2019-17571",
+        "severity": "critical",
+        "sources": [
+          "dependency-check"
+        ]
+      },
+      {
+        "aliases": [],
+        "cvss": 9.8,
+        "description": "JDBCAppender in Log4j 1.2.x is vulnerable to SQL injection.",
+        "fixed_versions": [
+          "2.0"
+        ],
+        "id": "CVE-2022-23305",
+        "severity": "critical",
+        "sources": [
+          "dependency-check"
+        ]
+      },
+      {
+        "aliases": [],
+        "cvss": 7.5,
+        "description": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data.",
+        "fixed_versions": [],
+        "id": "CVE-2021-4104",
+        "severity": "high",
+        "sources": [
+          "dependency-check"
+        ]
+      }
+    ],
+    "where_used": [
+      "WebContent/WEB-INF/lib/log4j-1.2.17.jar"
+    ]
+  },
+  {
+    "artifact": "ojdbc14",
+    "cves": [],
+    "declared": false,
+    "eol": true,
+    "eol_date": "2013-07-31",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:d03caf2483a2c784",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2013-07-31",
+      "recipe": null,
+      "rule": "eol",
+      "target": "org.postgresql:postgresql (target database)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "org.postgresql:postgresql (target database)",
+    "scope": null,
+    "sha1": "0de624ed6af0a9e1bbb22ecc8e8ac4dc3ea2fd9c",
+    "source": "jar",
+    "version": "10.2.0.4.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "WebContent/WEB-INF/lib/ojdbc14.jar"
+    ]
+  },
+  {
+    "artifact": "struts",
+    "cves": [
+      "CVE-2014-0114",
+      "CVE-2016-1182"
+    ],
+    "declared": false,
+    "eol": true,
+    "eol_date": "2013-04-05",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "group": null,
+    "id": "library:5dd851d68f0474c1",
+    "language": "java",
+    "license": null,
+    "max_severity": "high",
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2013-04-05",
+      "recipe": null,
+      "rule": "eol",
+      "target": "Spring MVC (Spring Boot 4)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring MVC (Spring Boot 4)",
+    "scope": null,
+    "sha1": "ec5f28e65f568958505f7bb22aa32cc3730485a3",
+    "source": "jar",
+    "version": "1.2.9",
+    "vulnerabilities": [
+      {
+        "aliases": [],
+        "cvss": 7.5,
+        "description": "Apache Commons BeanUtils as used in Struts 1 allows ClassLoader manipulation.",
+        "fixed_versions": [],
+        "id": "CVE-2014-0114",
+        "severity": "high",
+        "sources": [
+          "dependency-check"
+        ]
+      },
+      {
+        "aliases": [],
+        "cvss": 8.2,
+        "description": "ActionServlet.java in Apache Struts 1 does not properly restrict the Validator configuration.",
+        "fixed_versions": [],
+        "id": "CVE-2016-1182",
+        "severity": "high",
+        "sources": [
+          "dependency-check"
+        ]
+      }
+    ],
+    "where_used": [
+      "WebContent/WEB-INF/lib/struts-1.2.9.jar"
+    ]
+  }
+]

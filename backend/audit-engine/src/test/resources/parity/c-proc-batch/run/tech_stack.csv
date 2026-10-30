@@ -1,0 +1,8 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:4f77c0580c943e2d,Makefile:2,C compiler (cc),,build,1,,,
+tech:51fcdf02f3bc41e9,Makefile:1,Make,,build,1,,,
+tech:7e2e17d7f37a26ed,Makefile:10;src/settle_load.pc:1,Oracle Pro*C,,build,2,,,
+tech:4cb01f14a2ae602e,scripts/run_settlement.ksh:10;scripts/run_settlement.ksh:22,SQL*Plus,,database,2,,,
+tech:a7762226ef3fc085,audit-inputs/cft/cft_settlement.cfg:2,Axway CFT,,middleware,1,,,
+tech:70d3db27a32a6606,src/settle_send.c:7,IBM MQ (MQI),,middleware,1,,,
+tech:70a190013ceec0de,audit-inputs/crontab/settlement.cron:1,cron,,scheduler,1,,,

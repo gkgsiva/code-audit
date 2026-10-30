@@ -1,0 +1,1162 @@
+{
+  "analyzer_coverage": {
+    "basic": {
+      "coverage_pct": 100.0,
+      "files": 10
+    },
+    "config": {
+      "coverage_pct": 100.0,
+      "files": 4
+    },
+    "csharp": {
+      "coverage_pct": 100.0,
+      "files": 15
+    },
+    "dotnet": {
+      "coverage_pct": 100.0,
+      "files": 22
+    },
+    "metrics": {
+      "coverage_pct": 100.0,
+      "files": 25
+    },
+    "patterns": {
+      "coverage_pct": 100.0,
+      "files": 48
+    },
+    "servers": {
+      "coverage_pct": 100.0,
+      "files": 2
+    },
+    "shell": {
+      "coverage_pct": 100.0,
+      "files": 1
+    },
+    "spring": {
+      "coverage_pct": 100.0,
+      "files": 3
+    },
+    "webservices": {
+      "coverage_pct": 100.0,
+      "files": 4
+    }
+  },
+  "by_category": {
+    "build": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 145,
+      "loc_comment": 0
+    },
+    "config": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 49,
+      "loc_comment": 0
+    },
+    "screen": {
+      "files": 9,
+      "loc_blank": 0,
+      "loc_code": 66,
+      "loc_comment": 0
+    },
+    "script": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 1
+    },
+    "source": {
+      "files": 25,
+      "loc_blank": 74,
+      "loc_code": 585,
+      "loc_comment": 11
+    }
+  },
+  "by_language": {
+    "aspnet": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 1,
+      "loc_comment": 0
+    },
+    "aspx": {
+      "files": 3,
+      "loc_blank": 0,
+      "loc_code": 19,
+      "loc_comment": 0
+    },
+    "batch": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 2,
+      "loc_comment": 1
+    },
+    "csharp": {
+      "files": 15,
+      "loc_blank": 35,
+      "loc_code": 268,
+      "loc_comment": 8
+    },
+    "json": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 6,
+      "loc_comment": 0
+    },
+    "lockfile": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 0,
+      "loc_comment": 0
+    },
+    "msbuild": {
+      "files": 6,
+      "loc_blank": 0,
+      "loc_code": 99,
+      "loc_comment": 0
+    },
+    "razor": {
+      "files": 2,
+      "loc_blank": 0,
+      "loc_code": 10,
+      "loc_comment": 0
+    },
+    "vb6": {
+      "files": 5,
+      "loc_blank": 21,
+      "loc_code": 219,
+      "loc_comment": 2
+    },
+    "vb6-project": {
+      "files": 1,
+      "loc_blank": 0,
+      "loc_code": 40,
+      "loc_comment": 0
+    },
+    "vbnet": {
+      "files": 4,
+      "loc_blank": 18,
+      "loc_code": 97,
+      "loc_comment": 1
+    },
+    "xaml": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 37,
+      "loc_comment": 0
+    },
+    "xml": {
+      "files": 4,
+      "loc_blank": 0,
+      "loc_code": 49,
+      "loc_comment": 0
+    }
+  },
+  "component_metrics": [
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.14,
+      "component": "billing-api-cs",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.67,
+      "component": "billing-desk-vb6",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.5,
+      "component": "inventory-wpf-cs",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": null,
+      "complexity_avg": 1.0,
+      "component": "invoice-mailer-svc",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.5,
+      "component": "legacy-webforms",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.5,
+      "component": "nightly-export-cs",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    },
+    {
+      "complexity": "Simple",
+      "complexity_avg": 1.71,
+      "component": "orders-winforms-vbnet",
+      "dead_code_candidates": 0,
+      "duplication_pct": 0.0,
+      "test_ratio": 0.0
+    }
+  ],
+  "components": [
+    {
+      "files": 6,
+      "loc_code": 259,
+      "name": "billing-desk-vb6",
+      "type": "desktop"
+    },
+    {
+      "files": 12,
+      "loc_code": 174,
+      "name": "inventory-wpf-cs",
+      "type": "desktop"
+    },
+    {
+      "files": 7,
+      "loc_code": 157,
+      "name": "orders-winforms-vbnet",
+      "type": "desktop"
+    },
+    {
+      "files": 9,
+      "loc_code": 89,
+      "name": "billing-api-cs",
+      "type": "web"
+    },
+    {
+      "files": 8,
+      "loc_code": 76,
+      "name": "legacy-webforms",
+      "type": "web"
+    },
+    {
+      "files": 4,
+      "loc_code": 55,
+      "name": "nightly-export-cs",
+      "type": "batch"
+    },
+    {
+      "files": 2,
+      "loc_code": 37,
+      "name": "invoice-mailer-svc",
+      "type": "batch"
+    }
+  ],
+  "counting_rules": {
+    "batch_job": "One schedulable job (Autosys job, JCL job, cron entry, shell wrapper, Spring Batch job). Steps are listed under it; Autosys boxes are containers, not jobs. A component doing batch work that no scheduler definition covers counts as one batch, however many ksh scripts and programs it holds (they are its steps). The All batches list shows each once, with when it runs from the scheduler or, without one, from what the code states (cron expressions, @Scheduled, comments).",
+    "db_query": "One distinct SQL statement after normalizing whitespace and bind variables. Reported as total, distinct, by type and by PostgreSQL grade; dynamic SQL is flagged.",
+    "integration": "One interface per (type, target), whatever direction or spelling each usage has: the same FTP host used by 10 scripts is 1 integration with 10 usages; a target both read and written is one row with direction both; host case, a default port, a trailing slash or a queue:/// prefix do not make a second row, and HTTP and SOAP calls to the same URL are one SOAP integration. Calls to an identity provider (Okta, Entra ID, ...) have purpose 'login / authentication'.",
+    "library": "One distinct (group, artifact, version). Undeclared jars identified by manifest or hash.",
+    "loc": "Lines of code per file split into code, comment and blank using the language's comment syntax. A line holding both code and a comment counts as code. Every text file is counted under the language its extension names; a text extension no rule knows is listed as 'other (.ext)'. Binary files (by extension, a NUL byte or mostly control bytes, e.g. .class, .o, .exe) are left out, data files (.dat, .csv) and backup copies (.bak, .old, ~, .java_old, .sql.20190312) are listed with no lines.",
+    "screen": "One rendered UI page or map: JSP/JSF/HTML page that is a forward/view target, BMS map, terminal form. JSP fragments/tiles are counted separately as partials.",
+    "service": "One independently invokable business operation: Struts action, Spring MVC handler, servlet endpoint, SOAP/REST operation, remotely exposed EJB method, CICS transaction, COBOL main program, batch job, C/C++ daemon or executable. Utility libraries and copybooks are shared components, not services.",
+    "stored_procedure": "One package/procedure/function, counted separately and graded manual or review."
+  },
+  "counts": {
+    "batch_jobs": {
+      "boxes": 0,
+      "by_scheduler": {
+        "hangfire": 1,
+        "windows-task": 2
+      },
+      "scheduled": 3,
+      "total": 4,
+      "unscheduled": 1
+    },
+    "complexity": {
+      "batch_jobs": {
+        "Simple": 3
+      },
+      "screens": {
+        "Simple": 9
+      },
+      "services": {
+        "Simple": 7
+      }
+    },
+    "db_objects": {
+      "table": 10
+    },
+    "dependencies": {
+      "resolved": 14,
+      "unresolved": 0
+    },
+    "entry_points": {
+      "desktop-app": 3,
+      "main": 2,
+      "windows-service": 1
+    },
+    "eol_libraries": 1,
+    "findings": {
+      "build-output-skipped": 3,
+      "com-late-binding": 1,
+      "connection-string-password": 3,
+      "eol-library": 1,
+      "eol-technology": 7,
+      "hardcoded-endpoint": 2,
+      "no-tests": 7,
+      "on-error-resume-next": 1,
+      "pg-manual-sql": 2,
+      "sql-concatenation": 7,
+      "sql-runtime-structure": 2,
+      "vb6-activex-control": 2,
+      "win32-api": 1,
+      "windows-path": 4
+    },
+    "findings_by_severity": {
+      "high": 10,
+      "info": 3,
+      "low": 12,
+      "medium": 18
+    },
+    "integrations": {
+      "by_type": {
+        "DB": 5,
+        "FILE": 2,
+        "HTTP": 1,
+        "MQ": 1,
+        "SMTP": 1,
+        "SOAP": 1
+      },
+      "total": 11
+    },
+    "libraries": {
+      "declared": 14,
+      "total": 15,
+      "undeclared": 1
+    },
+    "pg_grades": {
+      "auto": 10,
+      "manual": 2,
+      "review": 8
+    },
+    "recommendations": {
+      "keep": 14,
+      "replace": 1
+    },
+    "screens": {
+      "by_technology": {
+        "aspx": 2,
+        "razor": 1,
+        "vb6": 2,
+        "winforms": 2,
+        "wpf": 2
+      },
+      "partials": 4,
+      "total": 9
+    },
+    "services": {
+      "by_kind": {
+        "aspnet-mvc": 1,
+        "batch-job": 3,
+        "rest-operation": 2,
+        "soap-operation": 1
+      },
+      "total": 7
+    },
+    "sql": {
+      "by_source": {
+        "ado": 3,
+        "ado.net": 7,
+        "aspx-datasource": 1,
+        "dao": 1,
+        "dapper": 5,
+        "entity-framework": 2,
+        "vb-string": 1
+      },
+      "by_type": {
+        "CALL": 2,
+        "DELETE": 1,
+        "INSERT": 3,
+        "SELECT": 12,
+        "UPDATE": 2
+      },
+      "distinct": 20,
+      "dynamic": 8,
+      "not_parsed": 2,
+      "total": 20
+    },
+    "stored_procedures": 0,
+    "vulnerable_libraries": {
+      "by_severity": {},
+      "total": 0,
+      "vulnerabilities": 0
+    },
+    "web_services": {
+      "by_style": {
+        "REST called": 1,
+        "REST offered": 1,
+        "SOAP called": 1,
+        "SOAP offered": 1
+      },
+      "called": 2,
+      "offered": 2,
+      "operations": 4,
+      "total": 4
+    }
+  },
+  "coverage": {
+    "autosys": "Autosys JIL: not provided",
+    "cft": "CFT configuration export: not provided",
+    "crontab": "Crontab entries: not provided",
+    "ddl": "Database DDL: not provided",
+    "dependency-check": "OWASP Dependency-Check (not installed): not provided",
+    "mq": "IBM MQ definitions (MQSC): not provided",
+    "osv-scanner": "OSV-Scanner (not installed): not provided",
+    "security": "Vulnerability reports (Dependency-Check / OSV-Scanner JSON): not provided",
+    "server-config": "Server configuration: not provided"
+  },
+  "effort": {
+    "high": 152.0,
+    "label": "estimate — weights from config",
+    "likely": 80.5,
+    "low": 40.5,
+    "unit": "person-days"
+  },
+  "integrations": [
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "sqlserver://billsrv01/BILLING",
+      "type": "DB",
+      "usages": 3
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "web service",
+      "target": "http://pricing.acme.local/PricingService.svc",
+      "type": "SOAP",
+      "usages": 3
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "sqlserver://invsrv01/INVENTORY",
+      "type": "DB",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [
+        "//fileserver/exports/invoices.csv",
+        "//fileserver/orders/archive.log"
+      ],
+      "purpose": "file",
+      "target": "//fileserver",
+      "type": "FILE",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [
+        "http://ledger.acme.local/api/postings",
+        "https://ledger.acme.local/"
+      ],
+      "purpose": "HTTP API",
+      "target": "https://ledger.acme.local",
+      "type": "HTTP",
+      "usages": 2
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "access://regions.mdb",
+      "type": "DB",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "oracle://crmprod",
+      "type": "DB",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "database",
+      "target": "sqlserver://ordsrv02\\sql2008/ORDERS",
+      "type": "DB",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "file",
+      "target": "C:/BillingDesk/export/customers.csv",
+      "type": "FILE",
+      "usages": 1
+    },
+    {
+      "direction": "unknown",
+      "endpoints": [],
+      "purpose": "messaging",
+      "target": ".\\private$\\invoices-to-mail",
+      "type": "MQ",
+      "usages": 1
+    },
+    {
+      "direction": "outbound",
+      "endpoints": [],
+      "purpose": "email",
+      "target": "smtp.acme.local",
+      "type": "SMTP",
+      "usages": 1
+    }
+  ],
+  "largest_files": [
+    {
+      "language": "vb6",
+      "loc_code": 71,
+      "path": "billing-desk-vb6/frmCustomer.frm"
+    },
+    {
+      "language": "vbnet",
+      "loc_code": 50,
+      "path": "orders-winforms-vbnet/OrderRepository.vb"
+    },
+    {
+      "language": "vb6",
+      "loc_code": 47,
+      "path": "billing-desk-vb6/frmMain.frm"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 46,
+      "path": "inventory-wpf-cs/Data/StockRepository.cs"
+    },
+    {
+      "language": "vb6-project",
+      "loc_code": 40,
+      "path": "billing-desk-vb6/BillingDesk.vbp"
+    },
+    {
+      "language": "msbuild",
+      "loc_code": 40,
+      "path": "orders-winforms-vbnet/OrdersDesk.vbproj"
+    },
+    {
+      "language": "vb6",
+      "loc_code": 39,
+      "path": "billing-desk-vb6/clsInvoice.cls"
+    },
+    {
+      "language": "vb6",
+      "loc_code": 39,
+      "path": "billing-desk-vb6/modDb.bas"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 26,
+      "path": "billing-api-cs/Controllers/InvoicesController.cs"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 25,
+      "path": "invoice-mailer-svc/MailerService.cs"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 25,
+      "path": "nightly-export-cs/Program.cs"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 24,
+      "path": "inventory-wpf-cs/Views/StockDialog.xaml.cs"
+    },
+    {
+      "language": "vb6",
+      "loc_code": 23,
+      "path": "billing-desk-vb6/ctlAddress.ctl"
+    },
+    {
+      "language": "csharp",
+      "loc_code": 23,
+      "path": "inventory-wpf-cs/MainWindow.xaml.cs"
+    },
+    {
+      "language": "vbnet",
+      "loc_code": 22,
+      "path": "orders-winforms-vbnet/MainForm.Designer.vb"
+    }
+  ],
+  "risky_libraries": [
+    {
+      "cves": 0,
+      "eol": true,
+      "max_severity": null,
+      "name": "Microsoft.EntityFrameworkCore.SqlServer",
+      "recommendation": "replace",
+      "target": "Spring Data JPA / Hibernate ORM 7 (Spring Boot 4)",
+      "version": "6.0.10"
+    }
+  ],
+  "run": {
+    "application": "Billing desktop and .NET estate (sample)",
+    "run_id": "20261029-205635-be4f70",
+    "sources": [
+      {
+        "commit": null,
+        "name": "estate",
+        "path": "/tmp/claude-0/-home-user-code-audit/dd77b7c4-68b4-5987-b5f9-daeb972f9837/scratchpad/py/samples/desktop-dotnet-app/estate",
+        "ref": null,
+        "type": "local",
+        "url": null
+      }
+    ],
+    "started_at": "2026-10-29T20:56:35+00:00",
+    "tool_version": "0.1.0"
+  },
+  "target": {
+    "audit_only": false,
+    "label": "Java 25, Spring Boot 4.1, Angular 21, PostgreSQL on GCP",
+    "profile": "spring-boot-angular",
+    "skipped_stages": [],
+    "versions": {
+      "angular": "21",
+      "cloud": "gcp",
+      "database": "postgresql",
+      "java": "25",
+      "spring_boot": "4.1"
+    }
+  },
+  "tech_stack": [
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Microsoft Access",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "Oracle",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": null,
+      "name": "SQL Server",
+      "version": null
+    },
+    {
+      "category": "database",
+      "eol": false,
+      "name": "SQL Server .NET driver",
+      "version": "4.8.3"
+    },
+    {
+      "category": "database",
+      "eol": false,
+      "name": "SQL Server .NET driver",
+      "version": "5.1.1"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "ASP.NET Core",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "ASP.NET MVC",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "ASP.NET Web Forms",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "ASP.NET Web Services (ASMX)",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": true,
+      "name": "Entity Framework Core",
+      "version": "6.0.10"
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Windows Forms",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "Windows Service",
+      "version": null
+    },
+    {
+      "category": "framework",
+      "eol": null,
+      "name": "WPF",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": false,
+      "name": "C#",
+      "version": "10.0"
+    },
+    {
+      "category": "language",
+      "eol": null,
+      "name": "VB.NET",
+      "version": null
+    },
+    {
+      "category": "language",
+      "eol": true,
+      "name": "Visual Basic 6",
+      "version": "6.0"
+    },
+    {
+      "category": "library",
+      "eol": null,
+      "name": "ADO",
+      "version": null
+    },
+    {
+      "category": "library",
+      "eol": null,
+      "name": "ADO.NET",
+      "version": null
+    },
+    {
+      "category": "library",
+      "eol": null,
+      "name": "Dapper",
+      "version": null
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Dapper",
+      "version": "1.50.2"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Dapper",
+      "version": "2.0.123"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Dapper",
+      "version": "2.1.24"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "Json.NET",
+      "version": "9.0.1"
+    },
+    {
+      "category": "library",
+      "eol": false,
+      "name": "log4net",
+      "version": "2.0.8"
+    },
+    {
+      "category": "library",
+      "eol": null,
+      "name": "MSXML",
+      "version": null
+    },
+    {
+      "category": "library",
+      "eol": true,
+      "name": "Windows Common Controls (OCX)",
+      "version": null
+    },
+    {
+      "category": "middleware",
+      "eol": null,
+      "name": "MSMQ",
+      "version": null
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": ".NET",
+      "version": "6.0"
+    },
+    {
+      "category": "runtime",
+      "eol": false,
+      "name": ".NET",
+      "version": "8.0"
+    },
+    {
+      "category": "runtime",
+      "eol": false,
+      "name": ".NET Framework",
+      "version": "3.5"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": ".NET Framework",
+      "version": "4.0"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": ".NET Framework",
+      "version": "4.5.2"
+    },
+    {
+      "category": "runtime",
+      "eol": true,
+      "name": ".NET Framework",
+      "version": "4.6.1"
+    },
+    {
+      "category": "scheduler",
+      "eol": false,
+      "name": "Hangfire",
+      "version": "1.8.6"
+    }
+  ],
+  "top_findings": [
+    {
+      "file": "billing-desk-vb6/modDb.bas",
+      "line": 5,
+      "message": "Password written in a connection string to sqlserver://BILLSRV01/BILLING (value masked)",
+      "rule": "connection-string-password",
+      "severity": "high"
+    },
+    {
+      "file": "inventory-wpf-cs/Data/InventoryContext.cs",
+      "line": 11,
+      "message": "Password written in a connection string to sqlserver://INVSRV01/INVENTORY (value masked)",
+      "rule": "connection-string-password",
+      "severity": "high"
+    },
+    {
+      "file": "legacy-webforms/Web.config",
+      "line": 4,
+      "message": "Password written in a connection string to oracle://CRMPROD (value masked)",
+      "rule": "connection-string-password",
+      "severity": "high"
+    },
+    {
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "line": 62,
+      "message": "Values concatenated into SQL text (2x; ado, SELECT) in billing-desk-vb6/frmCustomer.frm",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "billing-desk-vb6/frmCustomer.frm",
+      "line": 74,
+      "message": "Values concatenated into SQL text (1x; vb-string, SELECT) in billing-desk-vb6/frmCustomer.frm",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "line": 24,
+      "message": "Values concatenated into SQL text (1x; dapper, SELECT) in inventory-wpf-cs/Data/StockRepository.cs",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "inventory-wpf-cs/Data/StockRepository.cs",
+      "line": 32,
+      "message": "Values concatenated into SQL text (1x; ado.net, UPDATE) in inventory-wpf-cs/Data/StockRepository.cs",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "legacy-webforms/Default.aspx.cs",
+      "line": 15,
+      "message": "Values concatenated into SQL text (2x; ado.net, SELECT) in legacy-webforms/Default.aspx.cs",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "orders-winforms-vbnet/OrderRepository.vb",
+      "line": 30,
+      "message": "Values concatenated into SQL text (1x; ado.net, SELECT) in orders-winforms-vbnet/OrderRepository.vb",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "orders-winforms-vbnet/OrderRepository.vb",
+      "line": 52,
+      "message": "Values concatenated into SQL text (1x; ado.net, DELETE) in orders-winforms-vbnet/OrderRepository.vb",
+      "rule": "sql-concatenation",
+      "severity": "high"
+    },
+    {
+      "file": "billing-desk-vb6/clsInvoice.cls",
+      "line": 39,
+      "message": "COM object created at run time: CreateObject(\"MSXML2.ServerXMLHTTP\"",
+      "rule": "com-late-binding",
+      "severity": "medium"
+    },
+    {
+      "file": "inventory-wpf-cs/InventoryApp.csproj",
+      "line": 10,
+      "message": "Microsoft.EntityFrameworkCore.SqlServer 6.0.10 is end of life since 2024-11-12; replace with Spring Data JPA / Hibernate ORM 7 (Spring Boot 4)",
+      "rule": "eol-library",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-desk-vb6/BillingDesk.vbp",
+      "line": 1,
+      "message": "Visual Basic 6 6.0 is end of life since 2008-04-08; target Angular 21 screens with a Spring Boot 4 (Java 25) back end",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "billing-desk-vb6/BillingDesk.vbp",
+      "line": 5,
+      "message": "Windows Common Controls (OCX) ? is end of life since 2008-04-08; target Angular 21 components (Angular Material)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    },
+    {
+      "file": "inventory-wpf-cs/InventoryApp.csproj",
+      "line": 4,
+      "message": ".NET 6.0 is end of life since 2024-11-12; target Spring Boot 4 (Java 25)",
+      "rule": "eol-technology",
+      "severity": "medium"
+    }
+  ],
+  "top_services": [
+    {
+      "component": "billing-api-cs",
+      "kind": "rest-operation",
+      "name": "GET /api/Invoices/{id}",
+      "tables": 1
+    },
+    {
+      "component": "billing-api-cs",
+      "kind": "rest-operation",
+      "name": "POST /api/Invoices",
+      "tables": 1
+    },
+    {
+      "component": "legacy-webforms",
+      "kind": "soap-operation",
+      "name": "ASMX ContactService.GetContactName",
+      "tables": 0
+    },
+    {
+      "component": "billing-api-cs",
+      "kind": "aspnet-mvc",
+      "name": "GET /Home/Index",
+      "tables": 0
+    },
+    {
+      "component": "nightly-export-cs",
+      "kind": "batch-job",
+      "name": "NightlyExport",
+      "tables": 0
+    },
+    {
+      "component": "nightly-export-cs",
+      "kind": "batch-job",
+      "name": "WeeklyPurge",
+      "tables": 0
+    },
+    {
+      "component": "billing-api-cs",
+      "kind": "batch-job",
+      "name": "close-invoices",
+      "tables": 0
+    }
+  ],
+  "top_tables": [
+    {
+      "crud": [
+        "R",
+        "U"
+      ],
+      "name": "STOCK_ITEM",
+      "references": 5
+    },
+    {
+      "crud": [
+        "C",
+        "R",
+        "U"
+      ],
+      "name": "INVOICE",
+      "references": 4
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CUSTOMER",
+      "references": 3
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDERS",
+      "references": 2
+    },
+    {
+      "crud": [
+        "C"
+      ],
+      "name": "AUDIT_LOG",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CRM_CONTACT",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "CRM_REGION",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "ORDER_LINE",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "REGION",
+      "references": 1
+    },
+    {
+      "crud": [
+        "R"
+      ],
+      "name": "WAREHOUSE",
+      "references": 1
+    }
+  ],
+  "totals": {
+    "batch_jobs": 3,
+    "components": 7,
+    "db_objects": 10,
+    "dependencies": 14,
+    "entry_points": 6,
+    "files": 48,
+    "findings": 43,
+    "input_coverage": 9,
+    "input_files": 0,
+    "integrations": 11,
+    "libraries": 15,
+    "loc_blank": 74,
+    "loc_code": 847,
+    "loc_comment": 12,
+    "metrics": 7,
+    "screens": 13,
+    "services": 7,
+    "sql_statements": 20,
+    "tech_stack": 34,
+    "web_services": 4
+  },
+  "unresolved_references": 0,
+  "unscheduled_batch_entries": {
+    "invoice-mailer-svc": [
+      {
+        "component": "invoice-mailer-svc",
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "id": "entry:aa380e80d82530dd",
+        "kind": "program",
+        "line": 11,
+        "name": "MailerService"
+      }
+    ]
+  },
+  "unscheduled_batches": [
+    "invoice-mailer-svc"
+  ],
+  "vulnerability_sources": [
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "dependency-check",
+      "reports": [],
+      "status": "missing"
+    },
+    {
+      "database_date": null,
+      "detail": "not installed",
+      "name": "osv-scanner",
+      "reports": [],
+      "status": "missing"
+    }
+  ],
+  "web_services": [
+    {
+      "component": "billing-api-cs",
+      "name": "InvoicesController",
+      "operations": 2,
+      "side": "offered",
+      "style": "REST",
+      "url": "/api/Invoices"
+    },
+    {
+      "component": "legacy-webforms",
+      "name": "ContactService",
+      "operations": 1,
+      "side": "offered",
+      "style": "SOAP",
+      "url": "/ContactService.asmx"
+    },
+    {
+      "component": "billing-api-cs",
+      "name": "ledger.acme.local",
+      "operations": 1,
+      "side": "called",
+      "style": "REST",
+      "url": "https://ledger.acme.local"
+    },
+    {
+      "component": "orders-winforms-vbnet",
+      "name": "PricingService",
+      "operations": 0,
+      "side": "called",
+      "style": "SOAP",
+      "url": "http://pricing.acme.local/PricingService.svc"
+    }
+  ]
+}

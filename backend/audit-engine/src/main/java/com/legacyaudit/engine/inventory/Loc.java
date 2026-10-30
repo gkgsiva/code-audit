@@ -21,7 +21,8 @@ public record Loc(int code, int comment, int blank) {
 
     public static final Loc NONE = new Loc(0, 0, 0);
 
-    private record Syntax(List<String> line, List<String[]> block) {}
+    /** Comment markers of a language: line comments and block comment (start, end) pairs. */
+    public record Syntax(List<String> line, List<String[]> block) {}
 
     private static final String[] C_BLOCK = {"/*", "*/"};
     private static final String[] XML_BLOCK = {"<!--", "-->"};
@@ -79,6 +80,11 @@ public record Loc(int code, int comment, int blank) {
     private static final Pattern FREE_FORMAT = Rx.of(">>\\s*SOURCE\\s+FORMAT\\s+(IS\\s+)?FREE", Rx.I);
 
     /** Lines as an editor numbers them: split on {@code \n}, {@code \r\n} and {@code \r} only. */
+    /** The comment markers of a language, or null when the line counter has none for it. */
+    public static Syntax syntax(String language) {
+        return SYNTAX.get(language);
+    }
+
     public static List<String> splitLines(String text) {
         String t = Encodings.newlines(text);
         List<String> lines = new ArrayList<>(List.of(t.split("\n", -1)));

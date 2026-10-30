@@ -1,0 +1,9 @@
+id,evidence,source,target,kind,resolved
+edge:dbd3f48b01b85879,acme-web/src/main/webapp/WEB-INF/web.xml:3,service:dabc89301075db29,file:13319a9b7f8fdcc5,calls,true
+edge:d359ae2bb735eb15,ops/batch/eod/ksh/run_eod_report.ksh:3,file:064b3693f9f9ee5a,file:22abe6486d722765,invokes,true
+edge:6f43b055858f4e2f,ops/batch/purge/purge.ksh:5,file:32af7ce796abc3e0,file:40be2fabecc5a2b1,invokes,true
+edge:3369e93bb07a6756,ops/batch/purge/purge.ksh:3,file:32af7ce796abc3e0,file:e647eb938eef0e3c,invokes,true
+edge:0780bf433126f2f0,scripts/run_report.ksh:3,file:5db508b2db743f52,file:f28bab12b87ae159,invokes,true
+edge:7e0071b154e3d083,ops/batch/archive/archive.ksh:3,file:7f96df664cef5cd9,file:e647eb938eef0e3c,invokes,true
+edge:b52b09359f0138f9,ops/batch/eod/ksh/run_eod.ksh:3,file:a2d77c7787541297,file:5ea8e9a95848318c,invokes,true
+edge:c318896bc6c31f9d,scripts/run_billing.ksh:3,file:fe4d981a1c922970,file:3df129812f335192,invokes,true

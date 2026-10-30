@@ -1,0 +1,102 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "settlement-c/Makefile.aix",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:51fcdf02f3bc41e9",
+    "name": "Make",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "settlement-c/Makefile.aix",
+        "line": 6,
+        "snippet": null
+      },
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7e2e17d7f37a26ed",
+    "name": "Oracle Pro*C",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "database",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "apps/billing-batch/properties/billing.properties",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "config/common.properties",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:2f57f26890fd49dc",
+    "name": "Oracle",
+    "replacement": null,
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2013-04-05",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/struts-config.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "apps/orders-web/WebContent/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:b05d0fbde9c34f97",
+    "name": "Struts 1",
+    "replacement": "Spring MVC (Spring Boot 4)",
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "upgrade-signal",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "apps/orders-web/src/com/acme/orders/OrderListAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7c24a97c094e95ae",
+    "name": "javax.* namespace (Jakarta EE migration)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  }
+]

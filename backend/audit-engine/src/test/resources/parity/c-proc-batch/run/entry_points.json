@@ -1,0 +1,32 @@
+[
+  {
+    "component": "settlement",
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 64,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "id": "entry:69dc82c4e5f0b51d",
+    "kind": "main",
+    "line": 64,
+    "name": "settle_load"
+  },
+  {
+    "component": "settlement",
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_send.c",
+    "id": "entry:acecc555228bf667",
+    "kind": "main",
+    "line": 10,
+    "name": "settle_send"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "component": "billing-batch",
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": 11,
+        "snippet": null
+      }
+    ],
+    "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+    "id": "entry:4ef1da10f3a88821",
+    "kind": "main",
+    "line": 11,
+    "name": "com.acme.billing.InvoiceRun"
+  },
+  {
+    "component": "settlement-c",
+    "evidence": [
+      {
+        "file": "settlement-c/src/settle.pc",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "file": "settlement-c/src/settle.pc",
+    "id": "entry:c3e93bc048849a86",
+    "kind": "main",
+    "line": 5,
+    "name": "settle"
+  }
+]

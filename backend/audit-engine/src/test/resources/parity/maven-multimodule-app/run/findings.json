@@ -1,0 +1,143 @@
+[
+  {
+    "category": "dependency",
+    "evidence": [
+      {
+        "file": "pom.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "file": "pom.xml",
+    "id": "finding:ff819d6ec0a64416",
+    "line": 2,
+    "message": "Java 1.8 is end of life since 2019-01-31; target Java 25",
+    "remediation": "Plan the move to the target technology.",
+    "rule_id": "eol-technology",
+    "severity": "medium"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "acme-core/pom.xml",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "acme-web/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "acme-core/pom.xml",
+    "id": "finding:66882ca33c5ca69b",
+    "line": null,
+    "message": "Component acme-web has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "acme-tools/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "acme-tools/pom.xml",
+    "id": "finding:432c132bbb5db050",
+    "line": null,
+    "message": "Component acme-tools has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "batches/billing-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "batches/billing-batch/pom.xml",
+    "id": "finding:ef1010a7f3e8af37",
+    "line": null,
+    "message": "Component billing-batch has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "batches/report-batch/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "batches/report-batch/pom.xml",
+    "id": "finding:1de98d2ad9efa68e",
+    "line": null,
+    "message": "Component report-batch has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "quality",
+    "evidence": [
+      {
+        "file": "config/app.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "config/app.properties",
+    "id": "finding:212de35655c4b955",
+    "line": null,
+    "message": "Component acme-parent-scripts-config has code but no test files",
+    "remediation": "Write characterisation tests before changing behaviour.",
+    "rule_id": "no-tests",
+    "severity": "low"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "acme-core/src/main/java/com/acme/core/CustomerDao.java",
+    "id": "finding:fd6bf6e858ec5f9a",
+    "line": null,
+    "message": "Nothing reaches acme-core/src/main/java/com/acme/core/CustomerDao.java from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  },
+  {
+    "category": "dead-code",
+    "evidence": [
+      {
+        "file": "acme-tools/src/main/java/com/acme/tools/Checksum.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "file": "acme-tools/src/main/java/com/acme/tools/Checksum.java",
+    "id": "finding:efc9d4bd32eba08e",
+    "line": null,
+    "message": "Nothing reaches acme-tools/src/main/java/com/acme/tools/Checksum.java from any service, screen, job, entry point or configuration",
+    "remediation": "Confirm with the team (reflection, external callers) and leave it out of the migration if unused.",
+    "rule_id": "dead-code-candidate",
+    "severity": "info"
+  }
+]

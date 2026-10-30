@@ -1,0 +1,2 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:be7a9087bae92ab5,teller-desk/pom.xml,teller-desk,175,1,21,10,8,1.38,4,0,0,0.0,0,0.0,0,0,0,Simple,2.7,"{""Simple"": 3}"

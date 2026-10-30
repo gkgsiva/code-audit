@@ -1,0 +1,7 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:bc05c51e8cdc7299,acme-ear/pom.xml,acme-ear,30,0,0,2,0,,,0,0,0.0,0,,0,0,0,,,{}
+metric:6f65f8d78d335792,config/app.properties,acme-parent-scripts-config,21,19,0,12,7,1.71,2,0,0,0.0,0,0.0,0,0,0,,,{}
+metric:ddc3c2c8b7bfc9b2,acme-tools/pom.xml,acme-tools,25,1,2,2,2,1.5,2,0,0,0.0,0,0.0,1,0,0,,,{}
+metric:5c8c79b1f6567f34,acme-core/pom.xml;acme-web/pom.xml,acme-web,75,2,6,6,3,1.0,1,0,0,0.0,0,0.0,1,0,1,Simple,0.68,"{""Simple"": 2}"
+metric:c3fae5260aee37cf,batches/billing-batch/pom.xml,billing-batch,21,1,2,2,2,1.0,1,0,0,0.0,0,0.0,0,0,0,,,{}
+metric:7062f605d58ec223,batches/report-batch/pom.xml,report-batch,21,1,2,2,2,1.0,1,0,0,0.0,0,0.0,0,0,0,,,{}

@@ -1,0 +1,92 @@
+[
+  {
+    "component": "billing-desk-vb6",
+    "evidence": [
+      {
+        "file": "billing-desk-vb6/BillingDesk.vbp",
+        "line": 1,
+        "snippet": "Type=Exe Startup=frmMain"
+      }
+    ],
+    "file": "billing-desk-vb6/BillingDesk.vbp",
+    "id": "entry:5456b08cd4c2cbec",
+    "kind": "desktop-app",
+    "line": 1,
+    "name": "BillingDesk"
+  },
+  {
+    "component": "inventory-wpf-cs",
+    "evidence": [
+      {
+        "file": "inventory-wpf-cs/App.xaml",
+        "line": 1,
+        "snippet": "WPF Application"
+      }
+    ],
+    "file": "inventory-wpf-cs/App.xaml",
+    "id": "entry:79e291cf2b677f0f",
+    "kind": "desktop-app",
+    "line": 1,
+    "name": "InventoryApp.App"
+  },
+  {
+    "component": "invoice-mailer-svc",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 11,
+        "snippet": "class MailerService : ServiceBase"
+      }
+    ],
+    "file": "invoice-mailer-svc/MailerService.cs",
+    "id": "entry:aa380e80d82530dd",
+    "kind": "windows-service",
+    "line": 11,
+    "name": "MailerService"
+  },
+  {
+    "component": "invoice-mailer-svc",
+    "evidence": [
+      {
+        "file": "invoice-mailer-svc/MailerService.cs",
+        "line": 28,
+        "snippet": "static Main"
+      }
+    ],
+    "file": "invoice-mailer-svc/MailerService.cs",
+    "id": "entry:04b9009650839212",
+    "kind": "main",
+    "line": 28,
+    "name": "MailerService.Main"
+  },
+  {
+    "component": "nightly-export-cs",
+    "evidence": [
+      {
+        "file": "nightly-export-cs/Program.cs",
+        "line": 13,
+        "snippet": "static Main"
+      }
+    ],
+    "file": "nightly-export-cs/Program.cs",
+    "id": "entry:8c39d371ea4b4aab",
+    "kind": "main",
+    "line": 13,
+    "name": "Program.Main"
+  },
+  {
+    "component": "orders-winforms-vbnet",
+    "evidence": [
+      {
+        "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+        "line": 6,
+        "snippet": "OutputType WinExe"
+      }
+    ],
+    "file": "orders-winforms-vbnet/OrdersDesk.vbproj",
+    "id": "entry:1604be2a25d0da89",
+    "kind": "desktop-app",
+    "line": 6,
+    "name": "OrdersDesk"
+  }
+]

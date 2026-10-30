@@ -1,0 +1,33 @@
+[
+  {
+    "bands": {
+      "Medium": 3
+    },
+    "complex_units": 0,
+    "complexity": "Medium",
+    "complexity_avg": 2.1,
+    "complexity_max": 4,
+    "complexity_score": 16.92,
+    "component": "settlement",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 2,
+    "files": 8,
+    "id": "metric:07c1f65da5b46953",
+    "loc_blank": 26,
+    "loc_code": 167,
+    "loc_comment": 18,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 10
+  }
+]

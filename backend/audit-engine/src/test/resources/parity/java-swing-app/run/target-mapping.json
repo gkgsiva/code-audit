@@ -1,0 +1,291 @@
+[
+  {
+    "applies_to": {
+      "entity": "screens"
+    },
+    "id": "screen",
+    "legacy": "JSP / JSF / Struts screen, Spring MVC view, BMS map",
+    "target": "Angular 21 component (route per screen, shared components for repeated forms)"
+  },
+  {
+    "applies_to": {
+      "entity": "screens",
+      "technologies": [
+        "angular",
+        "angularjs"
+      ]
+    },
+    "id": "spa-screen",
+    "legacy": "Angular or AngularJS screen (routed component or view)",
+    "target": "Angular 21 standalone component; AngularJS views are rewritten, Angular apps are brought up with ng update"
+  },
+  {
+    "applies_to": {
+      "entity": "screens",
+      "technologies": [
+        "vb6",
+        "winforms",
+        "wpf",
+        "swing",
+        "awt",
+        "javafx"
+      ]
+    },
+    "id": "desktop-screen",
+    "legacy": "Desktop window or form (VB6 form, Windows Forms, WPF, Java Swing / AWT, JavaFX)",
+    "target": "Angular 21 component in a browser app (route per window, dialogs as Angular Material dialogs); logic in the form's event handlers moves to a Spring Boot 4 service"
+  },
+  {
+    "applies_to": {
+      "entity": "screens",
+      "technologies": [
+        "aspx",
+        "razor"
+      ]
+    },
+    "id": "aspnet-screen",
+    "legacy": "ASP.NET Web Forms page or MVC / Razor view",
+    "target": "Angular 21 component; code-behind and controller logic moves to a Spring Boot 4 REST controller + service"
+  },
+  {
+    "applies_to": {
+      "entity": "services",
+      "kinds": [
+        "aspnet-mvc",
+        "rest-operation",
+        "soap-operation"
+      ]
+    },
+    "id": "dotnet-service",
+    "legacy": "ASP.NET MVC / Web API controller action, WCF or ASMX operation",
+    "target": "Spring Boot 4 REST controller + service (Spring Web Services only where a SOAP contract must be kept)"
+  },
+  {
+    "applies_to": {
+      "entity": "batch_jobs",
+      "schedulers": [
+        "windows-task",
+        "hangfire",
+        "quartz.net"
+      ]
+    },
+    "id": "windows-service",
+    "legacy": "Windows service, Windows Task Scheduler task, Hangfire / Quartz.NET job",
+    "target": "Spring Batch job on Cloud Run jobs started by Cloud Scheduler; long-running Windows services become a Spring Boot 4 service on GKE or Cloud Run"
+  },
+  {
+    "applies_to": {
+      "entity": "libraries",
+      "sources": [
+        "com"
+      ]
+    },
+    "id": "com-component",
+    "legacy": "VB6 COM reference or ActiveX (OCX) control",
+    "target": "Replaced by an Angular 21 component (UI controls) or a Java library / Spring Boot service (COM logic); no COM on GCP"
+  },
+  {
+    "applies_to": {
+      "entity": "services",
+      "kinds": [
+        "node-route",
+        "nest-route"
+      ]
+    },
+    "id": "node-service",
+    "legacy": "Node.js API route (Express, NestJS, Fastify, Koa, hapi)",
+    "target": "Spring Boot 4 REST controller + service, or kept on Node.js 24 in Cloud Run where the team chooses (record the exception)"
+  },
+  {
+    "applies_to": {
+      "categories": [
+        "app-server"
+      ],
+      "entity": "tech_stack"
+    },
+    "id": "app-server",
+    "legacy": "Application server (WebSphere, WebLogic, JBoss / WildFly, Tomcat, GlassFish, ...)",
+    "target": "Spring Boot 4 executable jar (embedded Tomcat) on GKE or Cloud Run; server data sources, JMS and security settings move to Spring configuration + Secret Manager"
+  },
+  {
+    "applies_to": {
+      "categories": [
+        "web-server"
+      ],
+      "entity": "tech_stack"
+    },
+    "id": "web-server",
+    "legacy": "Web server (Apache HTTP Server, IBM HTTP Server, Oracle HTTP Server, Nginx, IIS)",
+    "target": "Cloud Load Balancing with Cloud CDN; the Angular build served from Cloud Storage or an Nginx container on Cloud Run"
+  },
+  {
+    "applies_to": {
+      "entity": "services",
+      "kinds": [
+        "struts-action",
+        "spring-mvc",
+        "servlet",
+        "ejb",
+        "soap-operation",
+        "jax-rs"
+      ]
+    },
+    "id": "online-service",
+    "legacy": "Struts action, Spring MVC handler, servlet, EJB, SOAP operation",
+    "target": "Spring Boot 4 REST controller + service, grouped into bounded-context services"
+  },
+  {
+    "applies_to": {
+      "entity": "services",
+      "kinds": [
+        "cics-transaction",
+        "cobol-program",
+        "proc-program"
+      ]
+    },
+    "id": "mainframe-program",
+    "legacy": "COBOL / Pro*C online program",
+    "target": "Spring Boot service (rewritten), or rehost candidate if the logic is very large"
+  },
+  {
+    "applies_to": {
+      "entity": "batch_jobs"
+    },
+    "id": "batch-job",
+    "legacy": "Batch job (Autosys / JCL / cron + shell, C, COBOL, Spring Batch)",
+    "target": "Spring Batch on Cloud Run jobs or GKE; Autosys job chains → Cloud Composer, simple schedules → Cloud Scheduler + Workflows"
+  },
+  {
+    "applies_to": {
+      "entity": "db_objects"
+    },
+    "id": "database",
+    "legacy": "Oracle / DB2 / other database",
+    "target": "Cloud SQL for PostgreSQL or AlloyDB; procedures → Java service logic or PL/pgSQL"
+  },
+  {
+    "applies_to": {
+      "entity": "integrations",
+      "types": [
+        "MQ",
+        "JMS"
+      ]
+    },
+    "id": "messaging",
+    "legacy": "IBM MQ / JMS",
+    "target": "Pub/Sub, or IBM MQ kept (e.g. on GKE) where ordering or transactions require it"
+  },
+  {
+    "applies_to": {
+      "entity": "integrations",
+      "types": [
+        "FTP",
+        "SFTP",
+        "CFT"
+      ]
+    },
+    "id": "file-transfer",
+    "legacy": "FTP / SFTP / CFT file transfer",
+    "target": "Cloud Storage + Storage Transfer Service, or a managed SFTP gateway; events via Pub/Sub"
+  },
+  {
+    "applies_to": {
+      "entity": "integrations",
+      "types": [
+        "FILE"
+      ]
+    },
+    "id": "shared-files",
+    "legacy": "Shared file system",
+    "target": "Cloud Storage or Filestore"
+  },
+  {
+    "applies_to": {
+      "entity": "integrations",
+      "types": [
+        "SMTP"
+      ]
+    },
+    "id": "email",
+    "legacy": "Email (SMTP)",
+    "target": "SMTP relay / SendGrid with credentials in Secret Manager"
+  },
+  {
+    "applies_to": {
+      "categories": [
+        "config"
+      ],
+      "entity": "inventory"
+    },
+    "id": "config",
+    "legacy": "Config / properties",
+    "target": "Spring configuration + Secret Manager"
+  },
+  {
+    "applies_to": {
+      "entity": "tech_stack",
+      "names": [
+        "Crystal Reports",
+        "JasperReports",
+        "Oracle Reports"
+      ]
+    },
+    "id": "reports",
+    "legacy": "Reports (Crystal, Jasper, Oracle Reports)",
+    "target": "JasperReports on Spring Boot or Looker Studio, case by case"
+  },
+  {
+    "applies_to": {
+      "entity": "integrations",
+      "types": [
+        "LDAP"
+      ]
+    },
+    "id": "auth",
+    "legacy": "Auth (LDAP, SiteMinder, custom)",
+    "target": "Identity Platform / IAP, or the corporate IdP via OIDC"
+  },
+  {
+    "applies_to": {
+      "entity": "tech_stack",
+      "names": [
+        "Log4j 1",
+        "Log4j 2",
+        "Logback"
+      ]
+    },
+    "id": "observability",
+    "legacy": "Logging, monitoring",
+    "target": "Cloud Logging, Cloud Monitoring, Cloud Trace"
+  },
+  {
+    "applies_to": {
+      "entity": "components"
+    },
+    "id": "runtime",
+    "legacy": "Runtime (app server, batch host)",
+    "target": "GKE Autopilot or Cloud Run; CI/CD with Cloud Build + Artifact Registry"
+  },
+  {
+    "applies_to": {
+      "entity": "tech_stack",
+      "names": [
+        "Java"
+      ]
+    },
+    "id": "runtime-java",
+    "legacy": "Java runtime (JDK / JRE version)",
+    "target": "Java 25 (Spring Boot 4)"
+  },
+  {
+    "applies_to": {
+      "entity": "tech_stack",
+      "names": [
+        "Node.js"
+      ]
+    },
+    "id": "runtime-node",
+    "legacy": "Node.js runtime",
+    "target": "Node.js 24 LTS on Cloud Run, or the service rewritten in Spring Boot 4 (Java 25)"
+  }
+]

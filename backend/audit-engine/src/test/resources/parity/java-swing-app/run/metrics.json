@@ -1,0 +1,33 @@
+[
+  {
+    "bands": {
+      "Simple": 3
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.38,
+    "complexity_max": 4,
+    "complexity_score": 2.7,
+    "component": "teller-desk",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "teller-desk/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 10,
+    "id": "metric:be7a9087bae92ab5",
+    "loc_blank": 21,
+    "loc_code": 175,
+    "loc_comment": 1,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 8
+  }
+]

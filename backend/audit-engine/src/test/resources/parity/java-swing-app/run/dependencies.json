@@ -1,0 +1,100 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a8723dbd66d15379",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "screen:a2cbfb040e34c0ac",
+    "target": "screen:83a5b67d242896a4"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": 10,
+        "snippet": null
+      }
+    ],
+    "id": "edge:04b23cbd4e17a18f",
+    "kind": "forwards",
+    "resolved": true,
+    "source": "screen:a2cbfb040e34c0ac",
+    "target": "screen:bfd92173aee9343c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/TellerApp.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e09f06a770e405d8",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:72d3757ceacc1072",
+    "target": "file:a13e30b92bdab055"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6d5ed5307f1ee241",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a13e30b92bdab055",
+    "target": "file:a5dbb90546f001cd"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/MainFrame.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c2ebe89d584a8447",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a13e30b92bdab055",
+    "target": "file:f79adbbfeb0e862f"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/java/com/acme/teller/ui/CustomerDialog.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "edge:21b198cb906d3f44",
+    "kind": "uses",
+    "resolved": true,
+    "source": "file:a5dbb90546f001cd",
+    "target": "file:08776b02691b8cb0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "teller-desk/src/main/resources/fxml/Rates.fxml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:a474b945c958467e",
+    "kind": "uses",
+    "resolved": true,
+    "source": "screen:cfc1899fd304e7fa",
+    "target": "file:49be8163da71865d"
+  }
+]

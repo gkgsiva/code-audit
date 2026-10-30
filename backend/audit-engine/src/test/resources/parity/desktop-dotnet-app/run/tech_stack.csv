@@ -1,0 +1,35 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:32827bc290f48b0a,billing-desk-vb6/frmCustomer.frm:33,Microsoft Access,,database,1,,,
+tech:2f57f26890fd49dc,legacy-webforms/Web.config:4,Oracle,,database,1,,,
+tech:41ee5840e9c2b0bd,billing-api-cs/appsettings.json:3;billing-api-cs/Controllers/InvoicesController.cs:3;billing-api-cs/Jobs/InvoiceJobs.cs:2;billing-desk-vb6/modDb.bas:5;inventory-wpf-cs/Data/InventoryContext.cs:11;inventory-wpf-cs/Data/StockRepository.cs:3;inventory-wpf-cs/Data/StockRepository.cs:11;nightly-export-cs/Program.cs:2;nightly-export-cs/Program.cs:15;orders-winforms-vbnet/App.config:4;orders-winforms-vbnet/OrderRepository.vb:2,SQL Server,,database,11,,,
+tech:6bb6124530586edc,inventory-wpf-cs/InventoryApp.csproj:12,SQL Server .NET driver,4.8.3,database,1,false,,
+tech:05d335e6af37d918,billing-api-cs/BillingApi.csproj:9,SQL Server .NET driver,5.1.1,database,1,false,,
+tech:b86a731f1bce42d4,billing-api-cs/BillingApi.csproj:1;billing-api-cs/Controllers/HomeController.cs:1;billing-api-cs/Controllers/HomeController.cs:7;billing-api-cs/Controllers/InvoicesController.cs:2;billing-api-cs/Controllers/InvoicesController.cs:15;billing-api-cs/Controllers/InvoicesController.cs:23,ASP.NET Core,,framework,6,,,
+tech:570e876cfa14f9c3,billing-api-cs/Views/Home/Index.cshtml;billing-api-cs/Views/Shared/_Layout.cshtml,ASP.NET MVC,,framework,2,,,
+tech:d7ce8f0b14a6bd4a,legacy-webforms/Contact.aspx;legacy-webforms/Default.aspx;legacy-webforms/Default.aspx.cs:4;legacy-webforms/LegacyCrm.csproj:4;legacy-webforms/Site.master,ASP.NET Web Forms,,framework,5,,,
+tech:f7f181bd15e1cf5a,legacy-webforms/ContactService.asmx.cs:1;legacy-webforms/ContactService.asmx.cs:8,ASP.NET Web Services (ASMX),,framework,2,,,
+tech:89fd84d16e4d0b6f,inventory-wpf-cs/InventoryApp.csproj:10;inventory-wpf-cs/Data/InventoryContext.cs:1,Entity Framework Core,6.0.10,framework,2,true,2024-11-12,Spring Data JPA / Hibernate ORM 7
+tech:1e209bdaed967cca,orders-winforms-vbnet/MainForm.Designer.vb:3;orders-winforms-vbnet/MainForm.vb:1;orders-winforms-vbnet/MainForm.vb:22;orders-winforms-vbnet/OrdersDesk.vbproj:10,Windows Forms,,framework,4,,,
+tech:17398be5bfd4598e,invoice-mailer-svc/InvoiceMailer.csproj:9;invoice-mailer-svc/MailerService.cs:3,Windows Service,,framework,2,,,
+tech:615db84b59501b8a,inventory-wpf-cs/App.xaml:1;inventory-wpf-cs/InventoryApp.csproj:5;inventory-wpf-cs/MainWindow.xaml:1;inventory-wpf-cs/Controls/ItemCard.xaml:1;inventory-wpf-cs/Views/StockDialog.xaml:1,WPF,,framework,5,,,
+tech:b1fda5cfb9441c3c,inventory-wpf-cs/InventoryApp.csproj:1;billing-api-cs/BillingApi.csproj:1;billing-api-cs/Program.cs;billing-api-cs/Controllers/HomeController.cs;billing-api-cs/Controllers/InvoicesController.cs;billing-api-cs/Jobs/InvoiceJobs.cs;billing-api-cs/Services/LedgerClient.cs;inventory-wpf-cs/App.xaml.cs;inventory-wpf-cs/MainWindow.xaml.cs;inventory-wpf-cs/Data/InventoryContext.cs;inventory-wpf-cs/Data/StockItem.cs;inventory-wpf-cs/Data/StockRepository.cs;inventory-wpf-cs/Views/StockDialog.xaml.cs;invoice-mailer-svc/InvoiceMailer.csproj:1;invoice-mailer-svc/MailerService.cs;legacy-webforms/ContactService.asmx.cs;legacy-webforms/Default.aspx.cs;legacy-webforms/LegacyCrm.csproj:1;nightly-export-cs/NightlyExport.csproj:1;nightly-export-cs/Program.cs,C#,10.0,language,20,false,,
+tech:e2de634d3d345a2a,orders-winforms-vbnet/MainForm.Designer.vb;orders-winforms-vbnet/MainForm.vb;orders-winforms-vbnet/OrderRepository.vb;orders-winforms-vbnet/OrdersDesk.vbproj:1;orders-winforms-vbnet/My Project/AssemblyInfo.vb,VB.NET,,language,5,,,
+tech:cd784fbff32b95a1,billing-desk-vb6/BillingDesk.vbp:1;billing-desk-vb6/clsInvoice.cls;billing-desk-vb6/ctlAddress.ctl;billing-desk-vb6/frmCustomer.frm;billing-desk-vb6/frmMain.frm;billing-desk-vb6/modDb.bas,Visual Basic 6,6.0,language,6,true,2008-04-08,Angular 21 screens with a Spring Boot 4 (Java 25) back end
+tech:acb303576aa8cf00,billing-desk-vb6/BillingDesk.vbp:3,ADO,,library,1,,,
+tech:121ee0f1f467877b,billing-api-cs/Controllers/InvoicesController.cs:3;billing-api-cs/Jobs/InvoiceJobs.cs:2;inventory-wpf-cs/Data/StockRepository.cs:3;legacy-webforms/Default.aspx.cs:3;nightly-export-cs/Program.cs:2;orders-winforms-vbnet/OrderRepository.vb:2,ADO.NET,,library,6,,,
+tech:4d1548115d5baa6a,billing-api-cs/Controllers/InvoicesController.cs:1;billing-api-cs/Jobs/InvoiceJobs.cs:1;inventory-wpf-cs/Data/StockRepository.cs:5;orders-winforms-vbnet/OrderRepository.vb:4,Dapper,,library,4,,,
+tech:d84b1dcac3ff93f0,orders-winforms-vbnet/OrdersDesk.vbproj:18,Dapper,1.50.2,library,1,false,,
+tech:4cc4e1118a1b0525,inventory-wpf-cs/InventoryApp.csproj:11,Dapper,2.0.123,library,1,false,,
+tech:f6fba1be26f7ea6a,billing-api-cs/BillingApi.csproj:10,Dapper,2.1.24,library,1,false,,
+tech:81e82e25bccf3033,orders-winforms-vbnet/packages.config:5,Json.NET,9.0.1,library,1,false,,
+tech:dd96db452a2d9e28,orders-winforms-vbnet/OrdersDesk.vbproj:21,log4net,2.0.8,library,1,false,,
+tech:283af15b4b78effa,billing-desk-vb6/BillingDesk.vbp:4,MSXML,,library,1,,,
+tech:9f9d43b01f7e46d1,billing-desk-vb6/BillingDesk.vbp:5;billing-desk-vb6/BillingDesk.vbp:6,Windows Common Controls (OCX),,library,2,true,2008-04-08,Angular 21 components (Angular Material)
+tech:ffe7267df9d77697,invoice-mailer-svc/InvoiceMailer.csproj:10;invoice-mailer-svc/MailerService.cs:1,MSMQ,,middleware,2,,,
+tech:dec8e8b4321650ee,inventory-wpf-cs/InventoryApp.csproj:4,.NET,6.0,runtime,1,true,2024-11-12,Spring Boot 4 (Java 25)
+tech:cc4193930963b58d,billing-api-cs/BillingApi.csproj:3,.NET,8.0,runtime,1,false,,
+tech:50ea2cb0e7dc730b,legacy-webforms/LegacyCrm.csproj:7,.NET Framework,3.5,runtime,1,false,,
+tech:cb4025577e1747c4,nightly-export-cs/NightlyExport.csproj:6,.NET Framework,4.0,runtime,1,true,2016-01-12,Spring Boot 4 (Java 25)
+tech:a902176eaee1646c,orders-winforms-vbnet/OrdersDesk.vbproj:11;orders-winforms-vbnet/packages.config:3;orders-winforms-vbnet/packages.config:4;orders-winforms-vbnet/packages.config:5,.NET Framework,4.5.2,runtime,4,true,2022-04-26,Spring Boot 4 (Java 25)
+tech:cd4deda0d741486e,invoice-mailer-svc/InvoiceMailer.csproj:6,.NET Framework,4.6.1,runtime,1,true,2022-04-26,Spring Boot 4 (Java 25)
+tech:05ef4fdf29a90931,billing-api-cs/BillingApi.csproj:8;billing-api-cs/Program.cs:1,Hangfire,1.8.6,scheduler,2,false,,

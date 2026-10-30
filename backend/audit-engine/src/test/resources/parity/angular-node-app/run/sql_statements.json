@@ -1,0 +1,367 @@
+[
+  {
+    "built_with": [],
+    "component": "billing-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 10,
+        "snippet": "SELECT /* Prisma findMany */ FROM Invoice"
+      }
+    ],
+    "file": "billing-api/src/invoices/invoices.service.ts",
+    "fingerprint": "eb1eaaf2f212b398",
+    "fragments": 1,
+    "id": "sql:c6034aaa15b96a96",
+    "line": 10,
+    "normalized": "SELECT FROM INVOICE",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "prisma",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "SELECT /* Prisma findMany */ FROM Invoice",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 14,
+        "snippet": "SELECT /* Prisma findUnique */ FROM Invoice"
+      }
+    ],
+    "file": "billing-api/src/invoices/invoices.service.ts",
+    "fingerprint": "eb1eaaf2f212b398",
+    "fragments": 1,
+    "id": "sql:2fb9f218eb02ee44",
+    "line": 14,
+    "normalized": "SELECT FROM INVOICE",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "prisma",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "SELECT /* Prisma findUnique */ FROM Invoice",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 18,
+        "snippet": "INSERT /* Prisma create */ INTO Invoice"
+      }
+    ],
+    "file": "billing-api/src/invoices/invoices.service.ts",
+    "fingerprint": "cc4a94939f302d89",
+    "fragments": 1,
+    "id": "sql:17be6491c10ba6eb",
+    "line": 18,
+    "normalized": "INSERT INTO INVOICE",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "prisma",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "INSERT /* Prisma create */ INTO Invoice",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "billing-api",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "billing-api/src/invoices/invoices.service.ts",
+        "line": 24,
+        "snippet": "UPDATE INVOICES SET status = 'CLOSED' WHERE status = 'ISSUED' AND issued_at < date_trunc('month', now())"
+      }
+    ],
+    "file": "billing-api/src/invoices/invoices.service.ts",
+    "fingerprint": "3351895f289b0402",
+    "fragments": 1,
+    "id": "sql:9ef6e6cda503cff0",
+    "line": 24,
+    "normalized": "UPDATE INVOICES SET STATUS = ? WHERE STATUS = ? AND ISSUED_AT < DATE_TRUNC(?, NOW())",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE INVOICES SET status = 'CLOSED' WHERE status = 'ISSUED' AND issued_at < DATE_TRUNC('MONTH', NOW())",
+    "procedures": [],
+    "reason": null,
+    "source": "node-db",
+    "structural_holes": 0,
+    "tables": [
+      "INVOICES"
+    ],
+    "text": "UPDATE INVOICES SET status = 'CLOSED' WHERE status = 'ISSUED' AND issued_at < date_trunc('month', now())",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-api",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-api/src/jobs/nightly.ts",
+        "line": 6,
+        "snippet": "DELETE FROM ORDER_AUDIT WHERE created_at < now() - interval '90 days'"
+      }
+    ],
+    "file": "orders-api/src/jobs/nightly.ts",
+    "fingerprint": "2c84c21beffc5a93",
+    "fragments": 1,
+    "id": "sql:3d10d5e742a52559",
+    "line": 6,
+    "normalized": "DELETE FROM ORDER_AUDIT WHERE CREATED_AT < NOW() - INTERVAL ?",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "DELETE FROM ORDER_AUDIT WHERE created_at < NOW() - INTERVAL '90 DAYS'",
+    "procedures": [],
+    "reason": null,
+    "source": "node-db",
+    "structural_holes": 0,
+    "tables": [
+      "ORDER_AUDIT"
+    ],
+    "text": "DELETE FROM ORDER_AUDIT WHERE created_at < now() - interval '90 days'",
+    "type": "DELETE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-api",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-api/src/routes/customers.ts",
+        "line": 8,
+        "snippet": "SELECT c.id, c.name, c.segment FROM CUSTOMERS c WHERE c.id = $1"
+      }
+    ],
+    "file": "orders-api/src/routes/customers.ts",
+    "fingerprint": "7c8aa403604a5d6a",
+    "fragments": 1,
+    "id": "sql:63921d7b415cc862",
+    "line": 8,
+    "normalized": "SELECT C.ID, C.NAME, C.SEGMENT FROM CUSTOMERS C WHERE C.ID = $1",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT c.id, c.name, c.segment FROM CUSTOMERS AS c WHERE c.id = $1",
+    "procedures": [],
+    "reason": null,
+    "source": "node-db",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS"
+    ],
+    "text": "SELECT c.id, c.name, c.segment FROM CUSTOMERS c WHERE c.id = $1",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 11,
+        "snippet": "SELECT /* TypeORM findOneBy */ FROM Order"
+      }
+    ],
+    "file": "orders-api/src/services/order.service.ts",
+    "fingerprint": "ba59b0060f1378c3",
+    "fragments": 1,
+    "id": "sql:5ec69775b9f67e75",
+    "line": 11,
+    "normalized": "SELECT FROM ORDER",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "typeorm",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "SELECT /* TypeORM findOneBy */ FROM Order",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 15,
+        "snippet": "INSERT /* TypeORM save */ INTO Order"
+      }
+    ],
+    "file": "orders-api/src/services/order.service.ts",
+    "fingerprint": "5c32120493091f28",
+    "fragments": 1,
+    "id": "sql:71e7fd38c0d7b860",
+    "line": 15,
+    "normalized": "INSERT INTO ORDER",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "typeorm",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "INSERT /* TypeORM save */ INTO Order",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "orders-api",
+    "dialect": "hql",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 24,
+        "snippet": "UPDATE Order /* TypeORM update */"
+      }
+    ],
+    "file": "orders-api/src/services/order.service.ts",
+    "fingerprint": "29a4a46efb442126",
+    "fragments": 1,
+    "id": "sql:39825778f0bf8c76",
+    "line": 24,
+    "normalized": "UPDATE ORDER",
+    "optional_fragments": 0,
+    "parsed": false,
+    "pg_grade": "auto",
+    "pg_text": null,
+    "procedures": [],
+    "reason": null,
+    "source": "typeorm",
+    "structural_holes": 0,
+    "tables": [
+      "ORDERS"
+    ],
+    "text": "UPDATE Order /* TypeORM update */",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [
+      "conditional"
+    ],
+    "component": "orders-api",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 29,
+        "snippet": "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id WHERE o.status = $1 ORDER "
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 32,
+        "snippet": null
+      },
+      {
+        "file": "orders-api/src/services/order.service.ts",
+        "line": 35,
+        "snippet": null
+      }
+    ],
+    "file": "orders-api/src/services/order.service.ts",
+    "fingerprint": "b31f634759f80341",
+    "fragments": 3,
+    "id": "sql:0226340a4933bbaa",
+    "line": 29,
+    "normalized": "SELECT O.ID, O.STATUS, O.TOTAL, C.NAME FROM ORDERS O JOIN CUSTOMERS C ON C.ID = O.CUSTOMER_ID WHERE O.STATUS = $1 ORDER BY O.ID DESC",
+    "optional_fragments": 1,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "SELECT o.id, o.status, o.total, c.name FROM ORDERS AS o JOIN CUSTOMERS AS c ON c.id = o.customer_id WHERE o.status = $1 ORDER BY o.id DESC",
+    "procedures": [],
+    "reason": "dynamic SQL rebuilt from 3 fragment(s), 1 optional; 2 variants, check each",
+    "source": "node-db",
+    "structural_holes": 0,
+    "tables": [
+      "CUSTOMERS",
+      "ORDERS"
+    ],
+    "text": "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id WHERE o.status = $1 ORDER BY o.id DESC",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [
+      "SELECT o.id, o.status, o.total, c.name FROM ORDERS o JOIN CUSTOMERS c ON c.id = o.customer_id ORDER BY o.id DESC"
+    ],
+    "vendor_features": []
+  }
+]

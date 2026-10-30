@@ -1,0 +1,146 @@
+[
+  {
+    "crud": {
+      "R": [
+        "sql:1cc978d4745b8d93",
+        "sql:427df8511ee576ee"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/java/com/acme/billing/common/dao/CustomerRepository.java",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:02d5a98eab0474e2",
+    "members": [],
+    "name": "CUSTOMERS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:1cc978d4745b8d93",
+      "sql:427df8511ee576ee"
+    ]
+  },
+  {
+    "crud": {
+      "C": [
+        "sql:8e78affb5765b4c7"
+      ],
+      "R": [
+        "sql:47f6833ff1c952ce",
+        "sql:d733fc8a1c4c931b",
+        "sql:427df8511ee576ee",
+        "sql:b5cd602de0357f37"
+      ],
+      "U": [
+        "sql:6a39ad4b1c349236"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:1ad299b389c5a36a",
+    "members": [],
+    "name": "INVOICES",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:8e78affb5765b4c7",
+      "sql:47f6833ff1c952ce",
+      "sql:d733fc8a1c4c931b",
+      "sql:6a39ad4b1c349236",
+      "sql:427df8511ee576ee",
+      "sql:b5cd602de0357f37"
+    ]
+  },
+  {
+    "crud": {
+      "C": [
+        "sql:023f5e846d4f16f1"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/java/com/acme/billing/batch/InvoiceWriter.java",
+        "line": 23,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:33dbb608dd239145",
+    "members": [],
+    "name": "INVOICE_AUDIT",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:023f5e846d4f16f1"
+    ]
+  },
+  {
+    "crud": {
+      "C": [
+        "sql:8c0ce291ac5f8f24"
+      ],
+      "R": [
+        "sql:98aaa3c6505180d1"
+      ],
+      "U": [
+        "sql:fe9e48b64b7e4429"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-common/src/main/resources/mappers/PaymentMapper.xml",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:93965c008900fd96",
+    "members": [],
+    "name": "PAYMENTS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:98aaa3c6505180d1",
+      "sql:8c0ce291ac5f8f24",
+      "sql:fe9e48b64b7e4429"
+    ]
+  },
+  {
+    "crud": {
+      "R": [
+        "sql:8e1ce8cc4cb44aba"
+      ]
+    },
+    "defined_in": null,
+    "evidence": [
+      {
+        "file": "billing-batch/src/main/resources/jobs/invoice-job.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "db_object:ea972605d9500612",
+    "members": [],
+    "name": "USAGE_RECORDS",
+    "object_type": "table",
+    "pg_grade": null,
+    "reason": null,
+    "referenced_by": [
+      "sql:8e1ce8cc4cb44aba"
+    ]
+  }
+]

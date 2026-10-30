@@ -1,0 +1,31 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [],
+  "dependencies": [
+    {
+      "dependsOn": [],
+      "ref": "application:Settlement (C/Pro*C batch sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Settlement (C/Pro*C batch sample)",
+      "name": "Settlement (C/Pro*C batch sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:33+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:7e1ddc04-3a38-5823-90cc-b8091f324837",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

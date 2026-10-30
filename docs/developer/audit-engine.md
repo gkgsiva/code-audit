@@ -12,7 +12,12 @@ command line and the web backend both call `Scanner.run`.
 | `components` | `ComponentDetector`, `Grouping`, `ComponentOverrides`, `BuildInfo`, `Candidate`, `Kinds` | Splitting the code into components |
 | `analyzers` | `Analyzer`, `Analyzers`, `Facts`, one class per analyzer, shared helpers | Reading what is inside each file (see [analyzers.md](analyzers.md)) |
 | `analyzers.ts` | `TsTree`, `TsNode`, `TsNative` | tree-sitter syntax trees for Java (and C, C#, TypeScript in later phases) |
-| `store` | `FactWriter`, `Runs`, `ScanLock` | Run folders and their JSON, CSV and SQLite files |
+| `linker` | `Linker`, `Classify` | Merging the per-file facts into entities, resolving references across files, component types and roles (Phase 5) |
+| `metrics` | `Compute`, `Units`, `Tokens`, `Effort` | Complexity, duplication, tests, dead code and bands per component; the effort estimate (Phase 5) |
+| `pg` | `Transpiler` (`Lexer`, `Parser`, `Writer`, `Ddl`), `Grader` | SQL to PostgreSQL text and the auto / review / manual grades (Phase 5) |
+| `rules` | `Packs`, `Findings`, `Targets`, `PyRegex`, `Py` | Rule packs from `rules/*.yaml`, the findings engine, target wording (Phase 5) |
+| `security` | `Versions`, `Eol`, `Upgrades`, `Vulns`, `Sbom`, `Jdk` | End of life, upgrade advice, Dependency-Check and OSV-Scanner reports, CycloneDX SBOM, jdeps (Phase 5) |
+| `store` | `FactWriter`, `Runs`, `ScanLock`, `Summary`, `Diff`, `FactsQuery`, `Dashboard` | Run folders and their JSON, CSV and SQLite files; the summary, run diff and fact queries |
 | `proof` | `Proofs` | The Phase 0 parser proof report (VS Code task 6) |
 
 ## The pipeline (`scan.Scanner`)
@@ -47,11 +52,42 @@ Steps, in order:
 6. **Coverage.** `InputCoverages` reports which supplementary inputs were provided; skipped and
    too-large files become findings; `run.analyzers` gets files, lines and unparsed lines per
    analyzer.
-7. **Export.** `FactWriter` writes `data/<entity>.json` (the source of truth, `PyJson.pretty`),
-   one CSV per entity and `facts.sqlite`; `run.json` is written last, then `Runs.setLatest`
-   points `latest` at the new run.
+7. **Link.** `Linker.link` merges the per-file facts into the entity lists (services, screens,
+   SQL statements, tables, integrations, batch jobs, libraries ...), resolves references across
+   files into `dependencies` edges, and `Classify` sets each component's type and roles.
+8. **Metrics.** `Compute.compute` gives each component its complexity, duplication, test ratio
+   and dead-code candidates, and bands services, screens and jobs (Simple ... Very complex).
+9. **Assess** (`scan.Assess`, the Python `assess.py`):
+   - `pg.Grader.gradeAll` grades every SQL statement for PostgreSQL (skipped when
+     `target.profile: none`); `pg.Transpiler` writes the suggested PostgreSQL text.
+   - `security.Eol` marks end-of-life libraries and technologies; `Assess` imports the reports
+     in `audit-inputs/security/` or runs Dependency-Check / OSV-Scanner when installed
+     (`security.Vulns`); `security.Upgrades` sets each library's recommendation;
+     `security.Jdk` runs jdeps and jdeprscan on jars when `security.jdk_tools.enabled`.
+   - `rules.Findings.evaluate` runs the fact rules of the enabled packs over the entities and
+     turns the text-rule hits of the `patterns` analyzer into findings; `applyConfig` applies
+     `rules.disabled` and `rules.severity`, removes duplicates and sorts; `[[phrase]]`
+     placeholders take the target's wording (`rules.Targets.fill`).
+   - `metrics.Effort.estimate` prices the counted items with `effort.weights` (merged with the
+     defaults) when the target is not `none`.
+   - `security.Sbom.build` makes the CycloneDX 1.5 SBOM.
+10. **Export.** `FactWriter` writes `data/<entity>.json` (the source of truth, `PyJson.pretty`),
+   one CSV per entity and `facts.sqlite`, plus `sbom.cdx.json`, `effort.json`,
+   `target-mapping.json` and `target.json`; `run.json` is written next (with
+   `vulnerability_sources`), then `audit-summary.json` (`store.Summary.build`: totals, headline
+   counts, top lists, kept under 30 KB) and `Runs.setLatest` points `latest` at the new run.
 
-Phase 5 adds linking, metrics, rules and effort between steps 5 and 7.
+Rules, severities, weights and the target are applied every run, so changing them in
+`audit.yaml` takes effect without reading the files again.
+
+## Results after the scan (`store`)
+
+| Class | Used by | What it does |
+| --- | --- | --- |
+| `Summary` | Scanner, reports | `counts` (the headline numbers every report shows), `unscheduledBatchEntries` (batch work no scheduler starts, one batch per entry point), `build` (`audit-summary.json`) |
+| `Diff` | `legacy-audit diff`, web app | Two runs compared per entity: counts, added, removed and changed records with the changed fields |
+| `FactsQuery` | web app (later the MCP server and `facts`) | Rows of one entity from `facts.sqlite`: exact or `~contains` filters, a text search, paging (500 rows at most) |
+| `Dashboard` | web app | The first page of a run: headline numbers, chart data, effort, top findings, coverage |
 
 ## Run folders (`store.Runs`)
 

@@ -1,0 +1,166 @@
+[
+  {
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 72,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 66,
+        "snippet": null
+      }
+    ],
+    "id": "edge:15ccc41ee65b6963",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:0c2175055d68701f",
+    "target": "file:11eb7320901464a0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 35,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_send.c",
+        "line": 34,
+        "snippet": null
+      }
+    ],
+    "id": "edge:e6d78be5cda10b4e",
+    "kind": "calls",
+    "resolved": true,
+    "source": "file:34e042c436e58581",
+    "target": "file:11eb7320901464a0"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 7,
+        "snippet": null
+      }
+    ],
+    "id": "edge:6941e00244231cfd",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:0c2175055d68701f",
+    "target": "file:3fb101afb1c5ae96"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/common/settle_util.c",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ac77b08f84046d41",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:11eb7320901464a0",
+    "target": "file:3fb101afb1c5ae96"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/settle_send.c",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:ec8a9d4902e320b4",
+    "kind": "includes",
+    "resolved": true,
+    "source": "file:34e042c436e58581",
+    "target": "file:3fb101afb1c5ae96"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "edge:148ac1acae49d436",
+    "kind": "invokes",
+    "resolved": false,
+    "source": "batch_job:2ffa150d59479cb2",
+    "target": "unresolved:purge_logs.sh"
+  },
+  {
+    "evidence": [
+      {
+        "file": "audit-inputs/crontab/settlement.cron",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "edge:b28eb108f0c4c8b6",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "batch_job:b93f58228776492a",
+    "target": "file:9b247dde698d9eb6"
+  },
+  {
+    "evidence": [
+      {
+        "file": "src/common/settle_util.c",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "id": "edge:52dd8b9d7b1c8e9c",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:11eb7320901464a0",
+    "target": "file:14b53f7075df5a92"
+  },
+  {
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "id": "edge:5eda5b3379171ae1",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:9b247dde698d9eb6",
+    "target": "file:505e4966c88d7f73"
+  },
+  {
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "edge:c79fd2770c0119e7",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:9b247dde698d9eb6",
+    "target": "service:5bacd51cf4fbfb5c"
+  },
+  {
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 21,
+        "snippet": null
+      }
+    ],
+    "id": "edge:596747f3dd31f32d",
+    "kind": "invokes",
+    "resolved": true,
+    "source": "file:9b247dde698d9eb6",
+    "target": "service:804b089e6a4bde98"
+  }
+]

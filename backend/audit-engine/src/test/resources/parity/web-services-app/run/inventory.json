@@ -1,0 +1,464 @@
+[
+  {
+    "category": "build",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:2963231b4883ac38",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 29,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/pom.xml",
+    "root": "estate",
+    "sha256": "b1d855f13603d7fe9c19234710f5d5023a44ade105602c4eda5c9b53b77d0f05",
+    "size": 945
+  },
+  {
+    "category": "generated",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmPort.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e0384b7891dc571b",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/crm/CrmPort.java",
+    "root": "estate",
+    "sha256": "3bcbb700d26a5fb0b72970be616e35e7b1e832d27ed04c00785d4fcb294346be",
+    "size": 176
+  },
+  {
+    "category": "generated",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:88fde9d5bb057704",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 15,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+    "root": "estate",
+    "sha256": "fdde49c640ddc24abba989515416a86ebefd9c3829aa5c90e5527295e12515e9",
+    "size": 535
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:679f2b1f6b472970",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 10,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+    "root": "estate",
+    "sha256": "753d8e0ea4c8614a2b9b4f8b5928be45d991475a2c7e4d0b0422b33b55f680f2",
+    "size": 392
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:bf164d294cb4f0c9",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 13,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/client/PaymentClient.java",
+    "root": "estate",
+    "sha256": "cae7190d2eb0f393d7fee2890f88d044ea35728b9e1840076f1db8f088ce25cc",
+    "size": 670
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c015c6da9ad99f9a",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 13,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/client/StockClient.java",
+    "root": "estate",
+    "sha256": "af94d9f5350956743e9d1ff0e179cbb296ead16db7d276a42126aefa6f640418",
+    "size": 654
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cd7234f78bb56047",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 19,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/rest/CustomerController.java",
+    "root": "estate",
+    "sha256": "788a1bfd9f5e13b374da3d55b69b923c2b40836ac3b16bcecf4fcd9a4e22fcaf",
+    "size": 712
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ba7e5ddef5e2657b",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 17,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+    "root": "estate",
+    "sha256": "45546520745741d92fa95f2476386689f8c18ff916a848c0179c5c7e6965e5e4",
+    "size": 433
+  },
+  {
+    "category": "source",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fb70f205364ee260",
+    "language": "java",
+    "loc_blank": 5,
+    "loc_code": 17,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "orders-ws/src/main/java/com/acme/orders/ws/OrderStatusEndpoint.java",
+    "root": "estate",
+    "sha256": "af9a91b4118b4a2ac023a727b7b7a98d3ed2d20eabb8abf84fd2aad879946ad0",
+    "size": 553
+  },
+  {
+    "category": "config",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/resources/application.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e8683cfcb437554c",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "orders-ws/src/main/resources/application.properties",
+    "root": "estate",
+    "sha256": "de2eb7f4cdc27f9c7e14c39f0c776963f5d888a5db6e5038bc27f1d2cbb91e60",
+    "size": 84
+  },
+  {
+    "category": "config",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:56994dfaf6761809",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 6,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+    "root": "estate",
+    "sha256": "0480e87a7ecefaf111e0df08c04a40c23c4ea15141c8ad12f68e3635bd742753",
+    "size": 326
+  },
+  {
+    "category": "config",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:1cf61ef07b1fb641",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 20,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+    "root": "estate",
+    "sha256": "16ec0926780cf67a21932d98907dca8e913830885ee9c491196409ed4019387d",
+    "size": 680
+  },
+  {
+    "category": "config",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3d86f45f0a992e13",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 18,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/src/main/webapp/WEB-INF/wsdl/OrderStatus.wsdl",
+    "root": "estate",
+    "sha256": "17908aaf17404bc4e5ee533151a77d26f37a38bbe7a4978f64cdc9f22e14819d",
+    "size": 814
+  },
+  {
+    "category": "config",
+    "component": "orders-ws",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4a761e08bf3c80c6",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 18,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "orders-ws/src/main/webapp/WEB-INF/wsdl/crm.wsdl",
+    "root": "estate",
+    "sha256": "edaff3c1afea757103fa96f6c66a1d6094899851a73da89940df15cb122470a7",
+    "size": 742
+  },
+  {
+    "category": "source",
+    "component": "quote-axis",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/Calculator.jws",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fdae7021e63d8edb",
+    "language": "java",
+    "loc_blank": 2,
+    "loc_code": 8,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "quote-axis/WebContent/Calculator.jws",
+    "root": "estate",
+    "sha256": "5e0eca58d01d4ac4bedc857d619b146cd9863797a2c744ee3d6f2acdb93b5a44",
+    "size": 234
+  },
+  {
+    "category": "config",
+    "component": "quote-axis",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ad10f4ef52b972b9",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 8,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+    "root": "estate",
+    "sha256": "b8e5efadab683f443eca0f3a602a2b29a8cfdf60957f7d0d187d733473b51b1e",
+    "size": 381
+  },
+  {
+    "category": "config",
+    "component": "quote-axis",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7d159763c9e6f4c1",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "quote-axis/WebContent/WEB-INF/web.xml",
+    "root": "estate",
+    "sha256": "24cb8a4243b7711496165632c7de7e20a7c9ba4f0b2bc5a1ac0e73c9752addaf",
+    "size": 337
+  },
+  {
+    "category": "build",
+    "component": "quote-axis",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "quote-axis/build.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:8addf4ddf811ffe4",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "quote-axis/build.xml",
+    "root": "estate",
+    "sha256": "af0915979a6245350f64a9afb850d0e43153e648ccc3b5977690523173eed363",
+    "size": 209
+  },
+  {
+    "category": "source",
+    "component": "quote-axis",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "quote-axis/src/com/acme/quote/QuoteService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:570caa4ccd31de34",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 9,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "quote-axis/src/com/acme/quote/QuoteService.java",
+    "root": "estate",
+    "sha256": "1e15be2977cbb167c0b341b4858bfe66c3cfac1ee0f81b3ecd855ff3fe5480e8",
+    "size": 308
+  },
+  {
+    "category": "build",
+    "component": "rate-feed",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "rate-feed/Makefile",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:375ee69b9c8ce753",
+    "language": "make",
+    "loc_blank": 0,
+    "loc_code": 2,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "rate-feed/Makefile",
+    "root": "estate",
+    "sha256": "834190ab5f067986c7b756529447029e75f1a6b7492184f711b94018de97df8b",
+    "size": 75
+  },
+  {
+    "category": "source",
+    "component": "rate-feed",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ac834e5ece43e5f1",
+    "language": "c",
+    "loc_blank": 3,
+    "loc_code": 16,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "rate-feed/src/rate_feed.c",
+    "root": "estate",
+    "sha256": "f1aa406f532ca74850f9b068c563b11063ea3e6c221d67977b5920c50467cbd8",
+    "size": 561
+  }
+]

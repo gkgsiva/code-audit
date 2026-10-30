@@ -73,6 +73,22 @@
       "command": "mvn -B javadoc:aggregate",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 10. compare whole runs with the Python tool",
+      "detail": "Scans every sample app and compares all result files (findings, libraries, effort, SBOM, summary) and the SQL-to-PostgreSQL conversions with the Python tool, and checks each expected.yaml",
+      "type": "shell",
+      "command": "mvn -B -pl audit-engine -am test \"-Dtest=RunParityTest,ExpectedTest,PgCorpusTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 11. compare the last two scans of a sample app",
+      "detail": "Shows what changed between the two newest scans of a sample made with task 7 (added, removed and changed records)",
+      "type": "shell",
+      "command": "java -jar audit-cli/target/legacy-audit.jar diff previous latest -o target/sample-scans/${input:sample}",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

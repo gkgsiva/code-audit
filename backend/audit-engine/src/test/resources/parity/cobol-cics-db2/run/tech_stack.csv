@@ -1,0 +1,6 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:13afbe15064532cc,cobol/ORDBATCH.cbl:22;cobol/ORDINQ.cbl:25;cobol/ORDRPT.cbl:27;cobol/ORDVAL.cbl:14;proclib/ORDRPTP.jcl:10,DB2,,database,5,,,
+tech:366c79439637dcd9,bms/ORDMS1.bms:4,CICS BMS,,framework,1,,,
+tech:223ba3ba63c8752b,cobol/DATECONV.cbl:1;cobol/ORDBATCH.cbl:1;cobol/ORDINQ.cbl:1;cobol/ORDRPT.cbl:1;cobol/ORDVAL.cbl:1,COBOL,,language,5,,,
+tech:4b82cbaab42bdc03,cobol/ORDINQ.cbl:2;cobol/ORDVAL.cbl:2,CICS,,middleware,2,,,
+tech:bd3ddb22b1cd0d3f,jcl/ORDNIGHT.jcl:1,JCL,,scheduler,1,,,

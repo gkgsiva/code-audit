@@ -1,0 +1,161 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "library:8ea61c469b9b479f",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-ws/pom.xml"
+          }
+        ]
+      },
+      "group": "org.apache.cxf",
+      "name": "cxf-core",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:maven/org.apache.cxf/cxf-core@3.1.18",
+      "scope": "required",
+      "type": "library",
+      "version": "3.1.18"
+    },
+    {
+      "bom-ref": "library:d416a04226f402e9",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-ws/pom.xml"
+          }
+        ]
+      },
+      "group": "org.glassfish.jersey.containers",
+      "name": "jersey-container-servlet",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:maven/org.glassfish.jersey.containers/jersey-container-servlet@2.25.1",
+      "scope": "required",
+      "type": "library",
+      "version": "2.25.1"
+    },
+    {
+      "bom-ref": "library:42ad27ac6283ac46",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-ws/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework",
+      "name": "spring-webmvc",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2024-08-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework/spring-webmvc@4.3.30.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "4.3.30.RELEASE"
+    },
+    {
+      "bom-ref": "library:efd8311753bd7b53",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-ws/pom.xml"
+          }
+        ]
+      },
+      "group": "org.springframework.cloud",
+      "name": "spring-cloud-starter-openfeign",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "maven"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "use-bom"
+        }
+      ],
+      "purl": "pkg:maven/org.springframework.cloud/spring-cloud-starter-openfeign@2.2.10.RELEASE",
+      "scope": "required",
+      "type": "library",
+      "version": "2.2.10.RELEASE"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "library:8ea61c469b9b479f",
+        "library:d416a04226f402e9",
+        "library:42ad27ac6283ac46",
+        "library:efd8311753bd7b53"
+      ],
+      "ref": "application:Web services (sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Web services (sample)",
+      "name": "Web services (sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:40+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:523506f1-e11c-50c9-9688-2174804383ba",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

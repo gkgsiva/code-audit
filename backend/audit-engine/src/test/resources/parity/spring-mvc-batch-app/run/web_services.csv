@@ -1,0 +1,2 @@
+id,evidence,name,style,side,frameworks,url,wsdl,namespace,component,components,files,operations,callers,integrations,description
+web_service:b1ec315294363ca9,billing-web/src/main/java/com/acme/billing/web/HealthController.java:12,HealthController,REST,offered,Spring MVC,/health,,,billing-web,billing-web,billing-web/src/main/java/com/acme/billing/web/HealthController.java,billing-web/src/main/java/com/acme/billing/web/HealthController.java:12,,,Offers 1 REST operation under /health (Spring MVC).

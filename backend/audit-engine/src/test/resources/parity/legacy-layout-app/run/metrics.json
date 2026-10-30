@@ -1,0 +1,122 @@
+[
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 1.33,
+    "complexity_max": 2,
+    "complexity_score": null,
+    "component": "billing-batch",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "apps/billing-batch/java/com/acme/billing/InvoiceRun.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 6,
+    "id": "metric:9b1ef58834cfa1ed",
+    "loc_blank": 2,
+    "loc_code": 33,
+    "loc_comment": 7,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 3
+  },
+  {
+    "bands": {
+      "Simple": 2
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.33,
+    "complexity_max": 2,
+    "complexity_score": 2.87,
+    "component": "orders-web",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "apps/orders-web/.project",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 2,
+    "files": 9,
+    "id": "metric:a45838746afe78d4",
+    "loc_blank": 7,
+    "loc_code": 87,
+    "loc_comment": 2,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 3
+  },
+  {
+    "bands": {
+      "Simple": 1
+    },
+    "complex_units": 0,
+    "complexity": "Simple",
+    "complexity_avg": 1.5,
+    "complexity_max": 2,
+    "complexity_score": 1.74,
+    "component": "settlement-c",
+    "dead_code_candidates": 0,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "settlement-c/Makefile.aix",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 1,
+    "fan_out_max": 0,
+    "files": 4,
+    "id": "metric:97ec22fbdab53825",
+    "loc_blank": 2,
+    "loc_code": 14,
+    "loc_comment": 4,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 2
+  },
+  {
+    "bands": {},
+    "complex_units": 0,
+    "complexity": null,
+    "complexity_avg": 2.0,
+    "complexity_max": 2,
+    "complexity_score": null,
+    "component": "shared-scripts-config",
+    "dead_code_candidates": 1,
+    "duplicated_lines": 0,
+    "duplication_pct": 0.0,
+    "evidence": [
+      {
+        "file": "config/common.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "fan_in_max": 0,
+    "fan_out_max": 0,
+    "files": 4,
+    "id": "metric:65da916a42e9eff5",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 3,
+    "test_files": 0,
+    "test_ratio": 0.0,
+    "units": 1
+  }
+]

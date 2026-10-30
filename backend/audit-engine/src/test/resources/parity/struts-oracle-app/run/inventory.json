@@ -1,0 +1,816 @@
+[
+  {
+    "category": "doc",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "README.txt",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c678c8340e81fe58",
+    "language": "text",
+    "loc_blank": 1,
+    "loc_code": 0,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "README.txt",
+    "root": "orders-web",
+    "sha256": "449c74753cc1c0201a78cc46b1814c29a5e9f3f8ba9f8bdd513566f6435b192f",
+    "size": 170
+  },
+  {
+    "category": "binary",
+    "component": "orders-web",
+    "encoding": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/axis-1.4.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fe020cfedf1c398e",
+    "language": "archive",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/lib/axis-1.4.jar",
+    "root": "orders-web",
+    "sha256": "fac2676da5d38d52686d1aae1cba7a46749527229a35850454a75f9551a78915",
+    "size": 271
+  },
+  {
+    "category": "binary",
+    "component": "orders-web",
+    "encoding": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:48b6e6ecba395d05",
+    "language": "archive",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/lib/commons-collections-3.2.1.jar",
+    "root": "orders-web",
+    "sha256": "b8afe59632349f7874764b200742c450ace4fadf5ae122acbfcfc983f4c01e7a",
+    "size": 292
+  },
+  {
+    "category": "binary",
+    "component": "orders-web",
+    "encoding": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:597a4458048c5af7",
+    "language": "archive",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/lib/log4j-1.2.17.jar",
+    "root": "orders-web",
+    "sha256": "88b2077ae93a52df1f8382c75b8548372cb7ebcc576cc555d5c4072ac8cb2751",
+    "size": 275
+  },
+  {
+    "category": "binary",
+    "component": "orders-web",
+    "encoding": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/ojdbc14.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:f31d52e62dda0204",
+    "language": "archive",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/lib/ojdbc14.jar",
+    "root": "orders-web",
+    "sha256": "5c7a7c96a6bc10cf7365f09e418a7c3270b59f6d2820e829d0f3aec11198d55a",
+    "size": 284
+  },
+  {
+    "category": "binary",
+    "component": "orders-web",
+    "encoding": null,
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:580ed3ef27aaa9ff",
+    "language": "archive",
+    "loc_blank": 0,
+    "loc_code": 0,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/lib/struts-1.2.9.jar",
+    "root": "orders-web",
+    "sha256": "d7088cf662a99a2b6ce6fe46c24027ee6c03ccb84e1cf41ba29ea60ef5d5d135",
+    "size": 285
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/struts-config.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:cba429da7240a83c",
+    "language": "xml",
+    "loc_blank": 4,
+    "loc_code": 33,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/struts-config.xml",
+    "root": "orders-web",
+    "sha256": "42b7e7ac383d5766c4e182fe2b23d0228b7d62b86dec0aeb8b88b03d806f1740",
+    "size": 1670
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/tiles-defs.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:e6a031d13c7b7a28",
+    "language": "xml",
+    "loc_blank": 0,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/tiles-defs.xml",
+    "root": "orders-web",
+    "sha256": "ff522f08532295ab1a281c510e18e708c1c903390d3c63e5b3e6511b6464729c",
+    "size": 461
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/WEB-INF/web.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:7dfd681b2ad9e265",
+    "language": "xml",
+    "loc_blank": 5,
+    "loc_code": 34,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "WebContent/WEB-INF/web.xml",
+    "root": "orders-web",
+    "sha256": "29e2835294c376b1c2045bfee4fd01e7527bc28f6a1945abe51b2c4b7d20343a",
+    "size": 1246
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/css/site.css",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:63bca55b5fb93b08",
+    "language": "css",
+    "loc_blank": 1,
+    "loc_code": 6,
+    "loc_comment": 2,
+    "origin": "source",
+    "path": "WebContent/css/site.css",
+    "root": "orders-web",
+    "sha256": "6c1f19e2ad01830c4527d07dd87ead9e5d706652919dbfaab96a58da946b64f1",
+    "size": 319
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/common/footer.jspf",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4cd11a18904ede15",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 1,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "WebContent/jsp/common/footer.jspf",
+    "root": "orders-web",
+    "sha256": "2ec1a3511f9f1f4cd5c0e3efe368ed19179210a9b8d6dfcb3734004099de69aa",
+    "size": 72
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/common/header.jspf",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:da936598e6e22b9b",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "WebContent/jsp/common/header.jspf",
+    "root": "orders-web",
+    "sha256": "901c060d4928451595d69474916352de3889af6ab2736608b2c9c36a3ac8b1d7",
+    "size": 252
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/error.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a27109f49a61605f",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 9,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/jsp/error.jsp",
+    "root": "orders-web",
+    "sha256": "d456e5785c04cc01d4cb9749d5a6e54b02624bc480975933e432d78d900d4fce",
+    "size": 280
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/login.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c00f6696327bfa13",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 19,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "WebContent/jsp/login.jsp",
+    "root": "orders-web",
+    "sha256": "fedf73fc2ec798549cc803e6c63de86dbd3e9a4d14a24b53c6dce00a379e1d3d",
+    "size": 764
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderDetail.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:b695a4e2bae46fe4",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 14,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "WebContent/jsp/orderDetail.jsp",
+    "root": "orders-web",
+    "sha256": "9ccdef42482eb2b3dc83db8edc4c4357ffbae976709ba5e29dca7de899972546",
+    "size": 565
+  },
+  {
+    "category": "screen",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "WebContent/jsp/orderSearch.jsp",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:90d82ab222b488c2",
+    "language": "jsp",
+    "loc_blank": 0,
+    "loc_code": 36,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "WebContent/jsp/orderSearch.jsp",
+    "root": "orders-web",
+    "sha256": "2507467d18a8c4a2087c2b9f84c43d3f41372bc258e0dd923008da1f74c51ef5",
+    "size": 1350
+  },
+  {
+    "category": "build",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "build.xml",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ba0210b29431f646",
+    "language": "xml",
+    "loc_blank": 4,
+    "loc_code": 34,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "build.xml",
+    "root": "orders-web",
+    "sha256": "1c8c2143e1748e1820b79b9314dd7df03bf006bfed65dcdfddf3d3ae103bad65",
+    "size": 1471
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "conf/orders-app.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:d87fb927f3b81fa7",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "conf/orders-app.properties",
+    "root": "orders-web",
+    "sha256": "c22727d4c189252bd4c5c74a93cce6631770ba840071fad714d98041ec6a2131",
+    "size": 244
+  },
+  {
+    "category": "script",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "scripts/deploy.ksh",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4cb08fe0f21f45e2",
+    "language": "shell",
+    "loc_blank": 3,
+    "loc_code": 10,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "scripts/deploy.ksh",
+    "root": "orders-web",
+    "sha256": "c936cc4276fff7778ea00489690d383cce2fda6f5122da9fcac51c4e1a0a07e6",
+    "size": 387
+  },
+  {
+    "category": "sql",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "sql/order_queries.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:016ce2a150d4ce2b",
+    "language": "sql",
+    "loc_blank": 3,
+    "loc_code": 10,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "sql/order_queries.sql",
+    "root": "orders-web",
+    "sha256": "f1016dd87cb6a7c7a453eac2060b8da8051c7c3ad9e160cacc378a18625b2d76",
+    "size": 506
+  },
+  {
+    "category": "sql",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:0b5f894c61a07df1",
+    "language": "plsql",
+    "loc_blank": 3,
+    "loc_code": 20,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "sql/pkg_order_pricing.pkb",
+    "root": "orders-web",
+    "sha256": "53ac2da596399b06d4d38c8ace25e2a28c9599f8151c86d16ec38a6ff7399c10",
+    "size": 638
+  },
+  {
+    "category": "sql",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "sql/pkg_order_pricing.pks",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:a4b6081da5e7e120",
+    "language": "plsql",
+    "loc_blank": 0,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "sql/pkg_order_pricing.pks",
+    "root": "orders-web",
+    "sha256": "e46f1f8ebadf8025b2975244fa00e5a820ca60d846dbe7d15bd9a6d22f49fbb2",
+    "size": 211
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/ApplicationResources.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:14977803837aa006",
+    "language": "properties",
+    "loc_blank": 0,
+    "loc_code": 7,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "src/com/acme/orders/ApplicationResources.properties",
+    "root": "orders-web",
+    "sha256": "26ca2c296d760290985a592151accf3819ac8904541d99e254527eb0255aa417",
+    "size": 230
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/LoginAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:bf60c8465a11caaa",
+    "language": "java",
+    "loc_blank": 7,
+    "loc_code": 27,
+    "loc_comment": 4,
+    "origin": "source",
+    "path": "src/com/acme/orders/action/LoginAction.java",
+    "root": "orders-web",
+    "sha256": "b6ae50324413f7d24f4861dfdd0b77b872ffe7e6264696a50b4a0bd1e0436e4b",
+    "size": 1427
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/OrderDetailAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:99a28f1003eede2b",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 23,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "src/com/acme/orders/action/OrderDetailAction.java",
+    "root": "orders-web",
+    "sha256": "cef4c2540f008eeead0ad8259091ad19cadecd6eda9c73bd863cbbb81b751b3a",
+    "size": 1024
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/action/OrderSearchAction.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:c891b41943dada1e",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 20,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "src/com/acme/orders/action/OrderSearchAction.java",
+    "root": "orders-web",
+    "sha256": "f39c7bf1cb0c209bf739bbdcb171b7180b97d6b3557902f3b4fbad5b2c8b179d",
+    "size": 997
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:873162c3a3a19121",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 16,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "src/com/acme/orders/client/PricingSoapClient.java",
+    "root": "orders-web",
+    "sha256": "f2c17bab0b9a5e5df77e44d55c5983f356453f2625953fbe10f1e8f5e8983c97",
+    "size": 822
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/ConnectionFactory.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:fce1cd1c0bf310d4",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 23,
+    "loc_comment": 3,
+    "origin": "source",
+    "path": "src/com/acme/orders/dao/ConnectionFactory.java",
+    "root": "orders-web",
+    "sha256": "2ab34e2e510a4d6b0cf566c780cfdfae60f9e82d43b47d1500168e27fbad3a0b",
+    "size": 902
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/dao/OrderDao.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ae1c9277c02eee82",
+    "language": "java",
+    "loc_blank": 12,
+    "loc_code": 139,
+    "loc_comment": 5,
+    "origin": "source",
+    "path": "src/com/acme/orders/dao/OrderDao.java",
+    "root": "orders-web",
+    "sha256": "0601e1f5791e705ad056f3231d52e5b245c2100be74894085cf733839b20f4ba",
+    "size": 5704
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/form/LoginForm.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:baf06be425865cf5",
+    "language": "java",
+    "loc_blank": 6,
+    "loc_code": 24,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "src/com/acme/orders/form/LoginForm.java",
+    "root": "orders-web",
+    "sha256": "6d47ee1e7dd55facfbb626abb7016c82436546980cc9163b7db0deb160a3d952",
+    "size": 1098
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/form/OrderSearchForm.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ca893cd7b05b6830",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 10,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "src/com/acme/orders/form/OrderSearchForm.java",
+    "root": "orders-web",
+    "sha256": "6c9daaee12b362998ae8450a43c52bea6f090aaa91fbb7ffa79cd6b2b6c2715a",
+    "size": 458
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/service/OrderService.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:4d42fa0eac77191b",
+    "language": "java",
+    "loc_blank": 8,
+    "loc_code": 22,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "src/com/acme/orders/service/OrderService.java",
+    "root": "orders-web",
+    "sha256": "4913f679339d7e96da4151a9a99d0d66335278803e343382feb2099c2f9d7940",
+    "size": 848
+  },
+  {
+    "category": "source",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/servlet/HealthServlet.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:5710e99bd9e57b0f",
+    "language": "java",
+    "loc_blank": 4,
+    "loc_code": 11,
+    "loc_comment": 0,
+    "origin": "source",
+    "path": "src/com/acme/orders/servlet/HealthServlet.java",
+    "root": "orders-web",
+    "sha256": "95224273cd8d78ff66f8dca2bfb65600f8a597ff9bddbb31953b2458afa34050",
+    "size": 431
+  },
+  {
+    "category": "config",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "src/log4j.properties",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:ddc622dc90d69932",
+    "language": "properties",
+    "loc_blank": 1,
+    "loc_code": 5,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "src/log4j.properties",
+    "root": "orders-web",
+    "sha256": "0cf6875bec0b8648ccdb6cf11667fec65427c3d0954115c34600128543a6fe3a",
+    "size": 290
+  },
+  {
+    "category": "test",
+    "component": "orders-web",
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "test/com/acme/orders/dao/OrderDaoTest.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:3b2a4cdb245c15d6",
+    "language": "java",
+    "loc_blank": 3,
+    "loc_code": 7,
+    "loc_comment": 1,
+    "origin": "source",
+    "path": "test/com/acme/orders/dao/OrderDaoTest.java",
+    "root": "orders-web",
+    "sha256": "ba166ba7922b06e97d146b2ad202bcd8d21aa845a1a2387aed867abfe7e9b931",
+    "size": 274
+  },
+  {
+    "category": "sql",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/ddl/orders_schema.sql",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:acb9922094191855",
+    "language": "sql",
+    "loc_blank": 1,
+    "loc_code": 13,
+    "loc_comment": 1,
+    "origin": "input",
+    "path": "audit-inputs/ddl/orders_schema.sql",
+    "root": "audit-inputs",
+    "sha256": "b1cf35c025539d4274b23f12eb3d1977c6474663a65e39509bbd23b44d973af5",
+    "size": 417
+  },
+  {
+    "category": "config",
+    "component": null,
+    "encoding": "utf-8",
+    "evidence": [
+      {
+        "file": "audit-inputs/security/dependency-check-report.json",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "file:9254318805411873",
+    "language": "json",
+    "loc_blank": 0,
+    "loc_code": 80,
+    "loc_comment": 0,
+    "origin": "input",
+    "path": "audit-inputs/security/dependency-check-report.json",
+    "root": "audit-inputs",
+    "sha256": "b26f2d9a46198f492f1bc4d1f95eedf570ff40ebf359e7022439e0c7b44bd82e",
+    "size": 4476
+  }
+]

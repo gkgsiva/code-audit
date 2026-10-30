@@ -1,0 +1,441 @@
+[
+  {
+    "artifact": "com.ibm.mq.allclient",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 25,
+        "snippet": null
+      }
+    ],
+    "group": "com.ibm.mq",
+    "id": "library:f057932be3ad8fa5",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "keep",
+      "effort": "low",
+      "reason": "no rule applies",
+      "recipe": null,
+      "rule": "keep",
+      "target": null,
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "9.1.0.0",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-batch/pom.xml"
+    ]
+  },
+  {
+    "artifact": "servlet-api",
+    "cves": [],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": 30,
+        "snippet": null
+      }
+    ],
+    "group": "javax.servlet",
+    "id": "library:222e768201a05e05",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "migrate-jakarta",
+      "effort": "low",
+      "reason": "javax.* API: Spring Boot 4 runs on Jakarta EE 11",
+      "recipe": "org.openrewrite.java.migrate.jakarta.JavaxMigrationToJakarta",
+      "rule": "jakarta",
+      "target": "jakarta.servlet:jakarta.servlet-api:6.1.0",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": null,
+    "scope": "provided",
+    "sha1": null,
+    "source": "maven",
+    "version": "2.5",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-web/pom.xml"
+    ]
+  },
+  {
+    "artifact": "log4j",
+    "cves": [
+      "CVE-2019-17571"
+    ],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2015-08-05",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 24,
+        "snippet": null
+      }
+    ],
+    "group": "log4j",
+    "id": "library:c90a9abc591adbb1",
+    "language": "java",
+    "license": null,
+    "max_severity": "critical",
+    "recommendation": {
+      "action": "replace",
+      "effort": "medium",
+      "reason": "end of life since 2015-08-05",
+      "recipe": "org.openrewrite.java.logging.log4j.Log4j1ToLog4j2",
+      "rule": "eol",
+      "target": "SLF4J + Logback (Spring Boot default)",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "SLF4J + Logback (Spring Boot default)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "1.2.17",
+    "vulnerabilities": [
+      {
+        "aliases": [
+          "GHSA-2qrg-x229-3v8q"
+        ],
+        "cvss": 9.8,
+        "description": "Deserialization of untrusted data in Log4j 1.x SocketServer",
+        "fixed_versions": [],
+        "id": "CVE-2019-17571",
+        "severity": "critical",
+        "sources": [
+          "osv-scanner"
+        ]
+      }
+    ],
+    "where_used": [
+      "billing-common/pom.xml"
+    ]
+  },
+  {
+    "artifact": "hibernate-core",
+    "cves": [
+      "CVE-2020-25638"
+    ],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2022-12-31",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 16,
+        "snippet": null
+      }
+    ],
+    "group": "org.hibernate",
+    "id": "library:c37ef0a857ad2564",
+    "language": "java",
+    "license": null,
+    "max_severity": "high",
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2022-12-31; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Hibernate ORM 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Hibernate ORM 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.3.11.Final",
+    "vulnerabilities": [
+      {
+        "aliases": [
+          "GHSA-j8jw-g6fq-mp7h"
+        ],
+        "cvss": 7.4,
+        "description": "SQL injection in Hibernate ORM with hibernate.use_sql_comments",
+        "fixed_versions": [
+          "5.3.20.Final",
+          "5.4.24.Final"
+        ],
+        "id": "CVE-2020-25638",
+        "severity": "high",
+        "sources": [
+          "osv-scanner"
+        ]
+      }
+    ],
+    "where_used": [
+      "billing-common/pom.xml"
+    ]
+  },
+  {
+    "artifact": "mybatis",
+    "cves": [
+      "CVE-2020-26945"
+    ],
+    "declared": true,
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 20,
+        "snippet": null
+      }
+    ],
+    "group": "org.mybatis",
+    "id": "library:7c388312ffb6f148",
+    "language": "java",
+    "license": null,
+    "max_severity": "high",
+    "recommendation": {
+      "action": "upgrade",
+      "effort": "low",
+      "reason": "fixes 1 known vulnerabilities",
+      "recipe": null,
+      "rule": "vulnerable",
+      "target": "org.mybatis:mybatis:3.5.6",
+      "verify": false
+    },
+    "recommended_version": "3.5.6",
+    "replacement": null,
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "3.4.6",
+    "vulnerabilities": [
+      {
+        "aliases": [
+          "GHSA-7v5p-6qpr-f5x9"
+        ],
+        "cvss": 8.1,
+        "description": "Unsafe deserialization in MyBatis second-level cache",
+        "fixed_versions": [
+          "3.5.6"
+        ],
+        "id": "CVE-2020-26945",
+        "severity": "high",
+        "sources": [
+          "osv-scanner"
+        ]
+      }
+    ],
+    "where_used": [
+      "billing-common/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-jdbc",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "billing-common/pom.xml",
+        "line": 12,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework",
+    "id": "library:521b4c4304632ab7",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2024-08-31; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.3.30.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-common/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-jms",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "billing-web/pom.xml",
+        "line": 22,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework",
+    "id": "library:4994ddf812cbffa5",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2024-08-31; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.3.30.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-batch/pom.xml",
+      "billing-web/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-webmvc",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework",
+    "id": "library:42ad27ac6283ac46",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2024-08-31; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Framework 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.3.30.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-web/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-batch-core",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2023-11-18",
+    "evidence": [
+      {
+        "file": "billing-batch/pom.xml",
+        "line": 17,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework.batch",
+    "id": "library:0e6cfe2dd125954a",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2023-11-18; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Batch 6 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Batch 6 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "3.0.10.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-batch/pom.xml"
+    ]
+  },
+  {
+    "artifact": "spring-security-ldap",
+    "cves": [],
+    "declared": true,
+    "eol": true,
+    "eol_date": "2024-02-28",
+    "evidence": [
+      {
+        "file": "billing-web/pom.xml",
+        "line": 26,
+        "snippet": null
+      }
+    ],
+    "group": "org.springframework.security",
+    "id": "library:ceb8335d267f48ae",
+    "language": "java",
+    "license": null,
+    "max_severity": null,
+    "recommendation": {
+      "action": "use-bom",
+      "effort": "medium",
+      "reason": "end of life since 2024-02-28; Spring Boot manages the new version",
+      "recipe": "org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0",
+      "rule": "eol-boot-managed",
+      "target": "Spring Security 7 (Spring Boot 4), managed by Spring Boot 4.1",
+      "verify": false
+    },
+    "recommended_version": null,
+    "replacement": "Spring Security 7 (Spring Boot 4)",
+    "scope": "compile",
+    "sha1": null,
+    "source": "maven",
+    "version": "4.2.20.RELEASE",
+    "vulnerabilities": [],
+    "where_used": [
+      "billing-web/pom.xml"
+    ]
+  }
+]

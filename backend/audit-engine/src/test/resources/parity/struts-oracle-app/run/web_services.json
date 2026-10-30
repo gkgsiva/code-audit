@@ -1,0 +1,57 @@
+[
+  {
+    "callers": [
+      "src/com/acme/orders/client/PricingSoapClient.java"
+    ],
+    "component": "orders-web",
+    "components": [
+      "orders-web"
+    ],
+    "description": "Calls the PricingService SOAP service at http://pricing.acme.local:8080/axis/services/PricingService from 1 file (Apache Axis, 1 operation seen).",
+    "evidence": [
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 21,
+        "snippet": null
+      },
+      {
+        "file": "conf/orders-app.properties",
+        "line": 5,
+        "snippet": null
+      },
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "line": 15,
+        "snippet": null
+      }
+    ],
+    "files": [
+      "conf/orders-app.properties",
+      "src/com/acme/orders/client/PricingSoapClient.java"
+    ],
+    "frameworks": [
+      "Apache Axis"
+    ],
+    "id": "web_service:b1c1311ec5cdb906",
+    "integrations": [
+      "integration:35476cbb77b19985"
+    ],
+    "name": "PricingService",
+    "namespace": null,
+    "operations": [
+      {
+        "file": "src/com/acme/orders/client/PricingSoapClient.java",
+        "handler": null,
+        "line": 21,
+        "method": null,
+        "name": "quote",
+        "path": "/axis/services/PricingService",
+        "service_id": null
+      }
+    ],
+    "side": "called",
+    "style": "SOAP",
+    "url": "http://pricing.acme.local:8080/axis/services/PricingService",
+    "wsdl": null
+  }
+]

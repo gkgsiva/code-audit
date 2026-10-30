@@ -1,0 +1,17 @@
+[
+  {
+    "component": "rate-feed",
+    "evidence": [
+      {
+        "file": "rate-feed/src/rate_feed.c",
+        "line": 5,
+        "snippet": null
+      }
+    ],
+    "file": "rate-feed/src/rate_feed.c",
+    "id": "entry:c958144fded31bb7",
+    "kind": "main",
+    "line": 5,
+    "name": "rate_feed"
+  }
+]

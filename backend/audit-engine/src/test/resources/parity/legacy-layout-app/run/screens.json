@@ -1,0 +1,24 @@
+[
+  {
+    "action": "orderList.do",
+    "complexity": "Simple",
+    "complexity_score": 1.3,
+    "component": "orders-web",
+    "evidence": [
+      {
+        "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 1,
+    "file": "apps/orders-web/WebContent/jsp/orderList.jsp",
+    "id": "screen:bcfc28694d8460e2",
+    "name": "apps/orders-web/WebContent/jsp/orderList.jsp",
+    "partial": false,
+    "targeted_by": [
+      "service:c7e610da228b1314"
+    ],
+    "technology": "jsp"
+  }
+]

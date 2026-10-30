@@ -1,0 +1,6 @@
+id,evidence,component,loc_code,loc_comment,loc_blank,files,units,complexity_avg,complexity_max,complex_units,duplicated_lines,duplication_pct,test_files,test_ratio,dead_code_candidates,fan_in_max,fan_out_max,complexity,complexity_score,bands
+metric:bfce6f076d3bc1b1,billing-api/package.json,billing-api,97,2,15,8,11,1.18,2,0,0,0.0,0,0.0,0,1,2,Simple,3.89,"{""Simple"": 4}"
+metric:3d801628ab99373b,deploy/README.md,deploy,83,5,6,9,0,,,0,0,0.0,0,,0,0,0,,,{}
+metric:973c36925ed9c13d,legacy-portal/bower.json,legacy-portal,109,6,0,12,7,1.29,3,0,0,0.0,0,0.0,0,0,0,Simple,0.48,"{""Simple"": 2}"
+metric:1cc9403f2625ab8d,orders-api/package.json,orders-api,149,3,25,12,12,1.08,2,0,0,0.0,0,0.0,0,1,4,Simple,8.03,"{""Medium"": 1, ""Simple"": 6}"
+metric:c96fd17df6ce79a1,orders-web/angular.json;orders-web/package.json,orders-web,260,2,22,22,13,1.38,3,0,0,0.0,1,0.091,0,0,0,Simple,0.5,"{""Simple"": 3}"

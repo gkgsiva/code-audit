@@ -1,0 +1,6 @@
+id,evidence,name,version,category,usages,eol,eol_date,replacement
+tech:f868b8019ca10787,pom.xml:2;acme-core/pom.xml:2;acme-ear/pom.xml:2;acme-tools/pom.xml:2;acme-web/pom.xml:2;batches/pom.xml:2;batches/billing-batch/pom.xml:2;batches/report-batch/pom.xml:2,Maven,,build,8,,,
+tech:2f57f26890fd49dc,config/app.properties:2,Oracle,,database,1,,,
+tech:4cb01f14a2ae602e,ops/batch/eod/ksh/run_eod.ksh:3;ops/batch/eod/ksh/run_eod_report.ksh:3;ops/batch/purge/purge.ksh:5,SQL*Plus,,database,3,,,
+tech:94544620f465ab54,pom.xml:2,Java,1.8,language,1,true,2019-01-31,Java 25
+tech:7c24a97c094e95ae,acme-web/src/main/java/com/acme/web/CustomerServlet.java,javax.* namespace (Jakarta EE migration),,upgrade-signal,1,,,

@@ -1,0 +1,31 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [],
+  "dependencies": [
+    {
+      "dependsOn": [],
+      "ref": "application:Orders (COBOL/CICS/DB2 sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Orders (COBOL/CICS/DB2 sample)",
+      "name": "Orders (COBOL/CICS/DB2 sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:34+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:a9b8cfea-16b5-51e4-b59d-422d31575774",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

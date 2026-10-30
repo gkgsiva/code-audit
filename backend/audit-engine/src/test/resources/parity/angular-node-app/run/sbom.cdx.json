@@ -1,0 +1,998 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "library:db74e2d3ebe23142",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/cli",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@angular/cli@17.3.8",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.8"
+    },
+    {
+      "bom-ref": "library:2ddf66a992885e94",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/common",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@angular/common@17.3.12",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.12"
+    },
+    {
+      "bom-ref": "library:5e86d7df4205d504",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/core",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2025-05-15"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "upgrade"
+        }
+      ],
+      "purl": "pkg:npm/@angular/core@17.3.12",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.12"
+    },
+    {
+      "bom-ref": "library:c98153ca0644583a",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/forms",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@angular/forms@17.3.12",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.12"
+    },
+    {
+      "bom-ref": "library:cf342cf53a8b74cb",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/material",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@angular/material@17.3.10",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.10"
+    },
+    {
+      "bom-ref": "library:019eabe7b1db4a0c",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@angular/router",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@angular/router@17.3.12",
+      "scope": "required",
+      "type": "library",
+      "version": "17.3.12"
+    },
+    {
+      "bom-ref": "library:a164cce2969a3967",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "@nestjs/common",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@nestjs/common@10.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "10.3.0"
+    },
+    {
+      "bom-ref": "library:49c9bca190601354",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "@nestjs/core",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@nestjs/core@10.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "10.3.0"
+    },
+    {
+      "bom-ref": "library:c1444a602543ba7d",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "@nestjs/platform-express",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@nestjs/platform-express@10.3.0",
+      "scope": "required",
+      "type": "library",
+      "version": "10.3.0"
+    },
+    {
+      "bom-ref": "library:28f170027281737c",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "@nestjs/schedule",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@nestjs/schedule@4.0.1",
+      "scope": "required",
+      "type": "library",
+      "version": "4.0.1"
+    },
+    {
+      "bom-ref": "library:bbc2f0d4c79fc8b5",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "@okta/okta-angular",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@okta/okta-angular@6.3.2",
+      "scope": "required",
+      "type": "library",
+      "version": "6.3.2"
+    },
+    {
+      "bom-ref": "library:7dd10af0003fd5d1",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "@prisma/client",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@prisma/client@5.10.0",
+      "scope": "required",
+      "type": "library",
+      "version": "5.10.0"
+    },
+    {
+      "bom-ref": "library:8a869cfd3e585a8e",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "@types/express",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/@types/express@4.17.21",
+      "scope": "required",
+      "type": "library",
+      "version": "4.17.21"
+    },
+    {
+      "bom-ref": "library:e54dee248aae6790",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "legacy-portal/WebContent/lib/angular-1.5.8.js"
+          },
+          {
+            "location": "legacy-portal/bower.json"
+          }
+        ]
+      },
+      "name": "angular",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "bower"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:eol",
+          "value": "2021-12-31"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "rewrite"
+        }
+      ],
+      "purl": "pkg:npm/angular@1.5.8",
+      "scope": "required",
+      "type": "library",
+      "version": "1.5.8"
+    },
+    {
+      "bom-ref": "library:e102de573006b8c4",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "legacy-portal/bower.json"
+          }
+        ]
+      },
+      "name": "angular-route",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "bower"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/angular-route@1.5.8",
+      "scope": "required",
+      "type": "library",
+      "version": "1.5.8"
+    },
+    {
+      "bom-ref": "library:b94404750de550a1",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "legacy-portal/WebContent/js/app.js"
+          }
+        ]
+      },
+      "name": "angularjs",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "js-file"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/angularjs@1.5",
+      "scope": "required",
+      "type": "library",
+      "version": "1.5"
+    },
+    {
+      "bom-ref": "library:cee997e0518868a4",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "axios",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/axios@1.6.0",
+      "scope": "required",
+      "type": "library",
+      "version": "1.6.0"
+    },
+    {
+      "bom-ref": "library:788b0648e715f50c",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          }
+        ]
+      },
+      "name": "body-parser",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm-lock"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/body-parser@1.20.1",
+      "scope": "required",
+      "type": "library",
+      "version": "1.20.1"
+    },
+    {
+      "bom-ref": "library:9e37e86756733a95",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "legacy-portal/bower.json"
+          }
+        ]
+      },
+      "name": "bootstrap",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "bower"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "replace"
+        }
+      ],
+      "purl": "pkg:npm/bootstrap@3.3.7",
+      "scope": "required",
+      "type": "library",
+      "version": "3.3.7"
+    },
+    {
+      "bom-ref": "library:697d890a949db2be",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "express",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/express@4.18.2",
+      "scope": "required",
+      "type": "library",
+      "version": "4.18.2"
+    },
+    {
+      "bom-ref": "library:d78f70f8222e1696",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          }
+        ]
+      },
+      "name": "follow-redirects",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm-lock"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/follow-redirects@1.15.3",
+      "scope": "required",
+      "type": "library",
+      "version": "1.15.3"
+    },
+    {
+      "bom-ref": "library:1b896e99a24aa502",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "node-cron",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/node-cron@3.0.3",
+      "scope": "required",
+      "type": "library",
+      "version": "3.0.3"
+    },
+    {
+      "bom-ref": "library:281c711f91729f66",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "pg",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/pg@8.11.3",
+      "scope": "required",
+      "type": "library",
+      "version": "8.11.3"
+    },
+    {
+      "bom-ref": "library:1fc824f3cb22999c",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "prisma",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/prisma@5.10.0",
+      "scope": "required",
+      "type": "library",
+      "version": "5.10.0"
+    },
+    {
+      "bom-ref": "library:57d79788624e8824",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "rxjs",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/rxjs@7.8.1",
+      "scope": "required",
+      "type": "library",
+      "version": "7.8.1"
+    },
+    {
+      "bom-ref": "library:fbbbca193c8736b0",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          }
+        ]
+      },
+      "name": "tslib",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm-lock"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "false"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/tslib@2.6.2",
+      "scope": "required",
+      "type": "library",
+      "version": "2.6.2"
+    },
+    {
+      "bom-ref": "library:bffb1b79f6fc510d",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          }
+        ]
+      },
+      "name": "typeorm",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/typeorm@0.3.20",
+      "scope": "required",
+      "type": "library",
+      "version": "0.3.20"
+    },
+    {
+      "bom-ref": "library:696fefc365886a68",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "billing-api/package.json"
+          }
+        ]
+      },
+      "name": "typescript",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/typescript@5.4.2",
+      "scope": "required",
+      "type": "library",
+      "version": "5.4.2"
+    },
+    {
+      "bom-ref": "library:38994d40f5ba65fe",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-api/package-lock.json"
+          },
+          {
+            "location": "orders-api/package.json"
+          },
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "typescript",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/typescript@5.4.5",
+      "scope": "required",
+      "type": "library",
+      "version": "5.4.5"
+    },
+    {
+      "bom-ref": "library:0a15a54400825285",
+      "evidence": {
+        "occurrences": [
+          {
+            "location": "orders-web/package-lock.json"
+          },
+          {
+            "location": "orders-web/package.json"
+          }
+        ]
+      },
+      "name": "zone.js",
+      "properties": [
+        {
+          "name": "legacy-audit:source",
+          "value": "npm"
+        },
+        {
+          "name": "legacy-audit:declared",
+          "value": "true"
+        },
+        {
+          "name": "legacy-audit:recommendation",
+          "value": "keep"
+        }
+      ],
+      "purl": "pkg:npm/zone.js@0.14.4",
+      "scope": "required",
+      "type": "library",
+      "version": "0.14.4"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [
+        "library:db74e2d3ebe23142",
+        "library:2ddf66a992885e94",
+        "library:5e86d7df4205d504",
+        "library:c98153ca0644583a",
+        "library:cf342cf53a8b74cb",
+        "library:019eabe7b1db4a0c",
+        "library:a164cce2969a3967",
+        "library:49c9bca190601354",
+        "library:c1444a602543ba7d",
+        "library:28f170027281737c",
+        "library:bbc2f0d4c79fc8b5",
+        "library:7dd10af0003fd5d1",
+        "library:8a869cfd3e585a8e",
+        "library:e54dee248aae6790",
+        "library:e102de573006b8c4",
+        "library:b94404750de550a1",
+        "library:cee997e0518868a4",
+        "library:788b0648e715f50c",
+        "library:9e37e86756733a95",
+        "library:697d890a949db2be",
+        "library:d78f70f8222e1696",
+        "library:1b896e99a24aa502",
+        "library:281c711f91729f66",
+        "library:1fc824f3cb22999c",
+        "library:57d79788624e8824",
+        "library:fbbbca193c8736b0",
+        "library:bffb1b79f6fc510d",
+        "library:696fefc365886a68",
+        "library:38994d40f5ba65fe",
+        "library:0a15a54400825285"
+      ],
+      "ref": "application:Angular and Node.js orders (sample)"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "bom-ref": "application:Angular and Node.js orders (sample)",
+      "name": "Angular and Node.js orders (sample)",
+      "type": "application"
+    },
+    "timestamp": "2026-10-29T20:56:33+00:00",
+    "tools": {
+      "components": [
+        {
+          "name": "legacy-audit",
+          "type": "application",
+          "version": "0.1.0"
+        }
+      ]
+    }
+  },
+  "serialNumber": "urn:uuid:81836b25-c4e2-5da4-bfb8-074217afdea0",
+  "specVersion": "1.5",
+  "version": 1,
+  "vulnerabilities": []
+}

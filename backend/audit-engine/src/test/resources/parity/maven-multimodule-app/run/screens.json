@@ -1,0 +1,22 @@
+[
+  {
+    "action": null,
+    "complexity": "Simple",
+    "complexity_score": 0.06,
+    "component": "acme-web",
+    "evidence": [
+      {
+        "file": "acme-web/src/main/webapp/customer.jsp",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "fields_count": 0,
+    "file": "acme-web/src/main/webapp/customer.jsp",
+    "id": "screen:7286c74ada76a8f1",
+    "name": "acme-web/src/main/webapp/customer.jsp",
+    "partial": false,
+    "targeted_by": [],
+    "technology": "jsp"
+  }
+]

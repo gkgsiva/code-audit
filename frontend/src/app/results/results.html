@@ -1,0 +1,123 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Results</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'facts', 'findings']">All facts</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  @if (loaded() && !data()) {
+    <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
+  }
+  @if (data(); as d) {
+    <p class="hint">{{ d.application }}: run {{ d.run_id }}, started {{ d.started_at }}.</p>
+    <div class="tiles">
+      @for (k of d.kpis; track k.metric) {
+        <div class="tile">
+          <div class="tile-value">
+            @if (kindOf(k.metric); as kind) {
+              <a [routerLink]="['/p', id, 'facts', kind]">{{ k.value | number }}</a>
+            } @else {
+              {{ k.value | number }}
+            }
+          </div>
+          <div class="tile-label">{{ k.label }}</div>
+        </div>
+      }
+    </div>
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+</section>
+
+@if (data(); as d) {
+  @if (d.effort; as e) {
+    <section class="panel">
+      <h2>Effort to migrate</h2>
+      <p>
+        <strong>{{ e.likely | number }}</strong> {{ e.unit }} likely
+        (between {{ e.low | number }} and {{ e.high | number }}).
+      </p>
+      <p class="hint">An {{ e.label }}: counts of services, screens, jobs, SQL and libraries times the weights in audit.yaml, not a forecast.</p>
+    </section>
+  }
+
+  <section class="panel">
+    <h2>Charts</h2>
+    <div class="charts">
+      @for (c of charts; track c.key) {
+        <div>
+          <h3>{{ c.title }}</h3>
+          @if ((d.charts[c.key] | keyvalue: keep).length === 0) {
+            <p class="hint">Nothing to show.</p>
+          }
+          @for (item of d.charts[c.key] | keyvalue: keep; track item.key) {
+            <div class="bar-row">
+              <span class="bar-label">{{ item.key }}</span>
+              <span class="bar" [style.width.%]="width(d.charts[c.key], item.value)"></span>
+              <span class="bar-value">{{ item.value | number }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="row spread">
+      <h2>Top findings</h2>
+      <a [routerLink]="['/p', id, 'facts', 'findings']">All findings</a>
+    </div>
+    @if (!d.top_findings.length) {
+      <p class="hint">No findings.</p>
+    } @else {
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Severity</th><th>Rule</th><th>File</th><th>Message</th></tr></thead>
+          <tbody>
+            @for (f of d.top_findings; track $index) {
+              <tr>
+                <td><span class="badge" [class]="f.severity">{{ f.severity }}</span></td>
+                <td>{{ f.rule }}</td>
+                <td>{{ f.file }}@if (f.line) {:{{ f.line }}}</td>
+                <td>{{ f.message }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section class="panel">
+    <h2>Vulnerability check</h2>
+    <table class="grid">
+      @for (s of d.vulnerability_sources; track s.name) {
+        <tr>
+          <th>{{ s.name }}</th>
+          <td>{{ s.status }}@if (s.detail) {: {{ s.detail }}}</td>
+          <td>@if (s.database_date) { database of {{ s.database_date }} }</td>
+        </tr>
+      }
+    </table>
+    <p class="hint">To add a report, put the Dependency-Check or OSV-Scanner JSON file in the project's audit-inputs/security folder and scan again.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Inputs provided</h2>
+    <ul>
+      @for (c of d.coverage | keyvalue; track c.key) {
+        <li>{{ c.value }}</li>
+      }
+    </ul>
+    @if (d.warnings.length) {
+      <details>
+        <summary>Warnings ({{ d.warnings.length }})</summary>
+        <ul>
+          @for (w of d.warnings; track $index) { <li>{{ w }}</li> }
+        </ul>
+      </details>
+    }
+  </section>
+}

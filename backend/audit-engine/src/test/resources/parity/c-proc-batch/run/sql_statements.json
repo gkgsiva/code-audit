@@ -1,0 +1,280 @@
+[
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "scripts/run_settlement.ksh",
+        "line": 13,
+        "snippet": "SELECT merchant_id || ';' || TO_CHAR(amount, 'FM999999990.00') FROM settlement_lines WHERE run_date = TO_DATE('$RUN_DATE"
+      }
+    ],
+    "file": "scripts/run_settlement.ksh",
+    "fingerprint": "7535fe66f0b3c67d",
+    "fragments": 1,
+    "id": "sql:9916ac3a838164e5",
+    "line": 13,
+    "normalized": "SELECT MERCHANT_ID || ? || TO_CHAR(AMOUNT, ?) FROM SETTLEMENT_LINES WHERE RUN_DATE = TO_DATE(?, ?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT merchant_id || ';' || TO_CHAR(amount, 'FM999999990.00') FROM settlement_lines WHERE run_date = TO_DATE('$RUN_DATE', 'YYYYMMDD')",
+    "procedures": [],
+    "reason": null,
+    "source": "script",
+    "structural_holes": 0,
+    "tables": [
+      "SETTLEMENT_LINES"
+    ],
+    "text": "SELECT merchant_id || ';' || TO_CHAR(amount, 'FM999999990.00')\n  FROM settlement_lines\n WHERE run_date = TO_DATE('$RUN_DATE', 'YYYYMMDD')",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "sql/settle_report.sql",
+        "line": 5,
+        "snippet": "SELECT m.merchant_name, l.amount, DECODE(l.status, 'P', 'Paid', 'Pending') AS status FROM settlement_lines l, merchants "
+      }
+    ],
+    "file": "sql/settle_report.sql",
+    "fingerprint": "b4abe5ee439c2051",
+    "fragments": 1,
+    "id": "sql:dedf92e03171733a",
+    "line": 5,
+    "normalized": "SELECT M.MERCHANT_NAME, L.AMOUNT, DECODE(L.STATUS, ?, ?, ?) AS STATUS FROM SETTLEMENT_LINES L, MERCHANTS M WHERE L.MERCHANT_ID = M.MERCHANT_ID (+) AND L.RUN_DATE = TO_DATE(?, ?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "DECODE → CASE; Oracle (+) outer join → ANSI LEFT/RIGHT JOIN; not converted automatically",
+    "source": "sql-file",
+    "structural_holes": 0,
+    "tables": [
+      "MERCHANTS",
+      "SETTLEMENT_LINES"
+    ],
+    "text": "SELECT m.merchant_name, l.amount, DECODE(l.status, 'P', 'Paid', 'Pending') AS status\n  FROM settlement_lines l, merchants m\n WHERE l.merchant_id = m.merchant_id (+)\n   AND l.run_date = TO_DATE('&1', 'YYYYMMDD')",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "DECODE",
+      "OUTER JOIN (+)",
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 18,
+        "snippet": "DECLARE txn_cur CURSOR FOR SELECT t.merchant_id, SUM(t.amount) FROM card_transactions t, merchants m WHERE t.merchant_id"
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "fingerprint": "0a50c8b743bb0a04",
+    "fragments": 1,
+    "id": "sql:3324194cd7bafec9",
+    "line": 18,
+    "normalized": "DECLARE TXN_CUR CURSOR FOR SELECT T.MERCHANT_ID, SUM(T.AMOUNT) FROM CARD_TRANSACTIONS T, MERCHANTS M WHERE T.MERCHANT_ID = M.MERCHANT_ID AND T.TXN_DATE = TO_DATE(?, ?) AND M.STATUS = ? GROUP BY T.MERCHANT_ID",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "SELECT t.merchant_id, SUM(t.amount) FROM card_transactions AS t, merchants AS m WHERE t.merchant_id = m.merchant_id AND t.txn_date = TO_DATE(?, 'YYYYMMDD') AND m.status = 'A' GROUP BY t.merchant_id",
+    "procedures": [],
+    "reason": null,
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "CARD_TRANSACTIONS",
+      "MERCHANTS"
+    ],
+    "text": "DECLARE txn_cur CURSOR FOR\n    SELECT t.merchant_id, SUM(t.amount)\n      FROM card_transactions t, merchants m\n     WHERE t.merchant_id = m.merchant_id\n       AND t.txn_date = TO_DATE(:run_date, 'YYYYMMDD')\n       AND m.status = 'A'\n     GROUP BY t.merchant_id",
+    "type": "SELECT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 34,
+        "snippet": "INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on) VALUES (:merchant_id, TO_DATE(:run_date, 'YYYYM"
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "fingerprint": "f5ae5da80fa7b1cb",
+    "fragments": 1,
+    "id": "sql:7c7e766b1fca83a9",
+    "line": 34,
+    "normalized": "INSERT INTO SETTLEMENT_LINES (MERCHANT_ID, RUN_DATE, AMOUNT, CREATED_ON) VALUES (?, TO_DATE(?, ?), ?, SYSDATE)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on) VALUES (?, TO_DATE(?, 'YYYYMMDD'), ?, CURRENT_TIMESTAMP)",
+    "procedures": [],
+    "reason": "SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "SETTLEMENT_LINES"
+    ],
+    "text": "INSERT INTO settlement_lines (merchant_id, run_date, amount, created_on)\n                 VALUES (:merchant_id, TO_DATE(:run_date, 'YYYYMMDD'), :amount, SYSDATE)",
+    "type": "INSERT",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "SYSDATE",
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 45,
+        "snippet": "CALL pkg_settlement.close_day"
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "fingerprint": "8bdc4b695b4855bc",
+    "fragments": 1,
+    "id": "sql:0b142e2b85363f72",
+    "line": 45,
+    "normalized": "CALL PKG_SETTLEMENT.CLOSE_DAY",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "review",
+    "pg_text": "CALL pkg_settlement.close_day",
+    "procedures": [
+      "PKG_SETTLEMENT.CLOSE_DAY"
+    ],
+    "reason": "calls a stored procedure; converted together with it",
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [],
+    "text": "CALL pkg_settlement.close_day",
+    "type": "CALL",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": []
+  },
+  {
+    "built_with": [],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": false,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 46,
+        "snippet": "UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(:run_date, 'YYYYMMDD')"
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "fingerprint": "3cf1c8a51c3c022a",
+    "fragments": 1,
+    "id": "sql:4b592e7c074853a8",
+    "line": 46,
+    "normalized": "UPDATE SETTLEMENT_RUNS SET STATUS = ? WHERE RUN_DATE = TO_DATE(?, ?)",
+    "optional_fragments": 0,
+    "parsed": true,
+    "pg_grade": "auto",
+    "pg_text": "UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(?, 'YYYYMMDD')",
+    "procedures": [],
+    "reason": null,
+    "source": "embedded",
+    "structural_holes": 0,
+    "tables": [
+      "SETTLEMENT_RUNS"
+    ],
+    "text": "UPDATE settlement_runs SET status = 'LOADED' WHERE run_date = TO_DATE(:run_date, 'YYYYMMDD')",
+    "type": "UPDATE",
+    "value_holes": 0,
+    "variants": [],
+    "vendor_features": [
+      "TO_CHAR/TO_DATE"
+    ]
+  },
+  {
+    "built_with": [
+      "concatenation",
+      "conditional",
+      "prepare-from-variable",
+      "string-format"
+    ],
+    "component": "settlement",
+    "dialect": "oracle",
+    "dynamic": true,
+    "evidence": [
+      {
+        "file": "src/settle_load.pc",
+        "line": 59,
+        "snippet": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'"
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 55,
+        "snippet": null
+      },
+      {
+        "file": "src/settle_load.pc",
+        "line": 57,
+        "snippet": null
+      }
+    ],
+    "file": "src/settle_load.pc",
+    "fingerprint": "32e1e638d496406d",
+    "fragments": 2,
+    "id": "sql:285c81a26a358c5a",
+    "line": 59,
+    "normalized": "DELETE FROM ? WHERE RUN_DATE < ADD_MONTHS(SYSDATE, -?) AND STATUS <> ?",
+    "optional_fragments": 1,
+    "parsed": true,
+    "pg_grade": "manual",
+    "pg_text": null,
+    "procedures": [],
+    "reason": "part of the statement is only known at run time (1 place(s)); SYSDATE → CURRENT_TIMESTAMP / LOCALTIMESTAMP (check time zone)",
+    "source": "embedded",
+    "structural_holes": 1,
+    "tables": [],
+    "text": "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13) AND status <> 'FAILED'",
+    "type": "DELETE",
+    "value_holes": 0,
+    "variants": [
+      "DELETE FROM ? WHERE run_date < ADD_MONTHS(SYSDATE, -13)"
+    ],
+    "vendor_features": [
+      "SYSDATE",
+      "ADD_MONTHS"
+    ]
+  }
+]

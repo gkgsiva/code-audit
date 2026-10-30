@@ -1,0 +1,197 @@
+[
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "quote-axis/build.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:033ac96aeec1d8ea",
+    "name": "Ant",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "rate-feed/Makefile",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:51fcdf02f3bc41e9",
+    "name": "Make",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "build",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 1,
+        "snippet": null
+      }
+    ],
+    "id": "tech:f868b8019ca10787",
+    "name": "Maven",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2006-04-22",
+    "evidence": [
+      {
+        "file": "quote-axis/WebContent/WEB-INF/server-config.wsdd",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "quote-axis/WebContent/WEB-INF/web.xml",
+        "line": 3,
+        "snippet": null
+      }
+    ],
+    "id": "tech:3576a1eb85f0be61",
+    "name": "Apache Axis",
+    "replacement": "Spring Web Services or a REST client",
+    "usages": 2,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 8,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": 2,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 4,
+        "snippet": null
+      }
+    ],
+    "id": "tech:d428c6364177d691",
+    "name": "Apache CXF",
+    "replacement": null,
+    "usages": 3,
+    "version": "3.1.18"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 8,
+        "snippet": null
+      }
+    ],
+    "id": "tech:708ade08495d7128",
+    "name": "Jersey (JAX-RS)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "framework",
+    "eol": true,
+    "eol_date": "2024-08-31",
+    "evidence": [
+      {
+        "file": "orders-ws/pom.xml",
+        "line": 18,
+        "snippet": null
+      }
+    ],
+    "id": "tech:dba40b85143144e7",
+    "name": "Spring Framework",
+    "replacement": "Spring Framework 7 (Spring Boot 4)",
+    "usages": 1,
+    "version": "4.3.30.RELEASE"
+  },
+  {
+    "category": "framework",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/cxf-beans.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:8d21b13dbf66466d",
+    "name": "Spring Framework (XML configuration)",
+    "replacement": null,
+    "usages": 1,
+    "version": null
+  },
+  {
+    "category": "runtime",
+    "eol": false,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/webapp/WEB-INF/web.xml",
+        "line": 2,
+        "snippet": null
+      }
+    ],
+    "id": "tech:9df3a9611d3b3b7d",
+    "name": "Servlet API",
+    "replacement": null,
+    "usages": 1,
+    "version": "3.1"
+  },
+  {
+    "category": "upgrade-signal",
+    "eol": null,
+    "eol_date": null,
+    "evidence": [
+      {
+        "file": "orders-ws/src/main/java/com/acme/crm/CrmService.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/client/CrmClient.java",
+        "line": null,
+        "snippet": null
+      },
+      {
+        "file": "orders-ws/src/main/java/com/acme/orders/rest/OrderResource.java",
+        "line": null,
+        "snippet": null
+      }
+    ],
+    "id": "tech:7c24a97c094e95ae",
+    "name": "javax.* namespace (Jakarta EE migration)",
+    "replacement": null,
+    "usages": 3,
+    "version": null
+  }
+]
