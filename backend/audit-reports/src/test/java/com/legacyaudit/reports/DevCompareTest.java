@@ -28,6 +28,7 @@ class DevCompareTest {
                 TechReport.buildInto(rd, run.resolve("reports-java").resolve("tech"));
                 FunctionalReport.buildInto(rd, run.resolve("reports-java").resolve("functional"));
                 SummaryReport.buildInto(rd, run.resolve("reports-java").resolve("summary"), java.util.Set.of());
+                MgmtReport.buildInto(rd, run.resolve("reports-java").resolve("mgmt"), null, null);
                 System.out.println(sample.getFileName() + " built");
             }
         }
