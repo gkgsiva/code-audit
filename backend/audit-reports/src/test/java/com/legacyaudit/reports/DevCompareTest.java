@@ -26,6 +26,8 @@ class DevCompareTest {
                 }
                 RunData rd = RunData.load(run, samples.resolve(sample.getFileName()).resolve("audit-inputs").toAbsolutePath());
                 TechReport.buildInto(rd, run.resolve("reports-java").resolve("tech"));
+                FunctionalReport.buildInto(rd, run.resolve("reports-java").resolve("functional"));
+                SummaryReport.buildInto(rd, run.resolve("reports-java").resolve("summary"), java.util.Set.of());
                 System.out.println(sample.getFileName() + " built");
             }
         }

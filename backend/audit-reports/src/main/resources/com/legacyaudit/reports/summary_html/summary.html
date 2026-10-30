@@ -59,11 +59,6 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
   <div class="top">
     <div><h1>{{ app }}: summary</h1>
     <div class="sub">Run {{ run.run_id }} · {{ (run.started_at or "")[:16] | replace("T", " ") }} · Target: {{ target_label }}{% for s in (run.sources or []) if s.commit %} · {{ s.name }} {{ s.ref or "default branch" }} @ {{ s.commit[:12] }}{% endfor %} · figures from the scan, descriptions from the Copilot analysis where marked AI</div></div>
-    <div class="actions">
-      {% if pptx %}<a class="btn" id="pptx" href="{{ pptx }}" download>PowerPoint (PPTX)</a>{% else %}<a class="btn" id="pptx" aria-disabled="true">PowerPoint (PPTX)</a>{% endif %}
-      <span id="gui-tools" hidden><select id="tpl" aria-label="PowerPoint template"></select> <button class="btn ghost" id="rebuild" type="button">Rebuild PowerPoint</button></span>
-      <span class="msg" id="msg">{% if pptx %}Built on the {{ template }} template.{% else %}{{ message }} Build it with: legacy-audit report --type summary{% endif %}</span>
-    </div>
   </div>
   <nav>{% for s in sections %}<a href="#{{ s.key }}">{{ loop.index }}. {{ s.title }}</a>{% endfor %}</nav>
 </header>
@@ -118,31 +113,6 @@ var CHARTS = {{ charts | tojson }};
         tr.hidden = q && tr.textContent.toLowerCase().indexOf(q) < 0;
       });
     });
-  });
-  // Opened from the GUI (legacy-audit serve): offer the template choice and a rebuild.
-  var m = location.protocol.indexOf("http") === 0 && location.pathname.match(/^\/runs\/([^/]+)\/reports\/summary\//);
-  if (!m) return;
-  var run = m[1], msg = document.getElementById("msg"), sel = document.getElementById("tpl");
-  fetch("/api/pptx-templates").then(function (r) { return r.json(); }).then(function (d) {
-    (d.templates || []).forEach(function (t) {
-      var o = document.createElement("option"); o.value = t.id; o.textContent = t.label + " template";
-      if (t.id === d["default"]) o.selected = true; sel.appendChild(o);
-    });
-    if ((d.templates || []).length) document.getElementById("gui-tools").hidden = false;
-  }).catch(function () {});
-  document.getElementById("rebuild").addEventListener("click", function () {
-    msg.textContent = "Building the PowerPoint...";
-    fetch("/api/runs/" + run + "/reports", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type: "summary", template: sel.value }) })
-      .then(function (r) { return r.json(); }).then(function (job) {
-        if (!job.id) { msg.textContent = "Not built: " + (job.detail || "busy"); return; }
-        (function poll() {
-          fetch("/api/jobs/" + job.id).then(function (r) { return r.json(); }).then(function (j) {
-            if (j.state === "done") { location.reload(); }
-            else if (j.state === "failed" || j.state === "cancelled") { msg.textContent = "Not built: " + (j.error || j.state); }
-            else { setTimeout(poll, 800); }
-          });
-        })();
-      }).catch(function (e) { msg.textContent = "Not built: " + e; });
   });
 })();
 </script>

@@ -286,7 +286,7 @@ public final class TechReport {
     }
 
     /** One pass over a run: the shared context of every page and one method per page. */
-    static final class Pages {
+    static class Pages {
         final RunData rd;
         final Path out;
         final Map<String, Catalogues.Catalogue> cats;
