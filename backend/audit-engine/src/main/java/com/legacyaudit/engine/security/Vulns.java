@@ -281,18 +281,44 @@ public final class Vulns {
 
     // ---- running the tools -----------------------------------------------------------------
 
+    /**
+     * {@code shutil.which}: a name with a folder in it is checked as it is, a bare name in each
+     * PATH folder; on Windows also with each PATHEXT extension.
+     */
     static String which(String name) {
-        String path = System.getenv("PATH");
-        if (path == null) {
-            return null;
-        }
-        for (String dir : path.split(File.pathSeparator)) {
-            if (dir.isEmpty()) {
-                continue;
+        boolean windows = File.separatorChar == '\\';
+        List<String> exts = new ArrayList<>(List.of(""));
+        if (windows) {
+            String pathext = System.getenv("PATHEXT");
+            for (String e : (pathext == null ? ".COM;.EXE;.BAT;.CMD" : pathext).split(";")) {
+                if (!e.isEmpty() && !name.toLowerCase(Locale.ROOT).endsWith(e.toLowerCase(Locale.ROOT))) {
+                    exts.add(e);
+                }
             }
-            Path p = Path.of(dir, name);
-            if (Files.isRegularFile(p) && Files.isExecutable(p)) {
-                return p.toString();
+        }
+        List<String> dirs = new ArrayList<>();
+        if (name.contains("/") || name.contains(File.separator)) {
+            dirs.add(null);
+        } else {
+            String path = System.getenv("PATH");
+            if (path != null) {
+                for (String dir : path.split(File.pathSeparator)) {
+                    if (!dir.isEmpty()) {
+                        dirs.add(dir);
+                    }
+                }
+            }
+        }
+        for (String dir : dirs) {
+            for (String ext : exts) {
+                try {
+                    Path p = dir == null ? Path.of(name + ext) : Path.of(dir, name + ext);
+                    if (Files.isRegularFile(p) && Files.isExecutable(p)) {
+                        return p.toString();
+                    }
+                } catch (java.nio.file.InvalidPathException e) {
+                    // not a usable path on this system
+                }
             }
         }
         return null;
