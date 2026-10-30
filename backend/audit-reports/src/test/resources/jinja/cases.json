@@ -1,0 +1,219 @@
+[
+ {
+  "template": "{{ a }} {{ b }} {{ c }} {{ d }} {{ e }} {{ missing }} {{ missing.x.y }}",
+  "context": {
+   "a": 1,
+   "b": 2.5,
+   "c": "x<&>'\"",
+   "d": null,
+   "e": true
+  },
+  "expected": "1 2.5 x&lt;&amp;&gt;&#39;&#34; None True  "
+ },
+ {
+  "template": "{% for x in xs %}{{ loop.index }}:{{ x }}{% if not loop.last %}, {% endif %}{% endfor %}",
+  "context": {
+   "xs": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "expected": "1:a, 2:b, 3:c"
+ },
+ {
+  "template": "{% for k, v in m.items() %}[{{k}}={{v}}]{% else %}none{% endfor %}|{% for x in [] %}x{% else %}empty{% endfor %}",
+  "context": {
+   "m": {
+    "z": 1,
+    "a": [
+     1,
+     2
+    ]
+   }
+  },
+  "expected": "[z=1][a=[1, 2]]|empty"
+ },
+ {
+  "template": "{{ xs|join(', ') }}|{{ xs|length }}|{{ (xs|list)[1:] }}|{{ s[:3] }}|{{ s[-2:] }}",
+  "context": {
+   "xs": [
+    3,
+    1,
+    2
+   ],
+   "s": "abcdef"
+  },
+  "expected": "3, 1, 2|3|[1, 2]|abc|ef"
+ },
+ {
+  "template": "{{ 7 / 2 }} {{ 7 // 2 }} {{ 7 % 3 }} {{ 2 ** 10 }} {{ 1.5 + 2 }} {{ 'a' ~ 1 ~ none }} {{ 10 / 4 * 2 }}",
+  "context": {},
+  "expected": "3.5 3 1 1024 3.5 a1None 5.0"
+ },
+ {
+  "template": "{{ v|round(2) }} {{ v|round }} {{ 3|round(1) }} {{ '%.1f'|format(v) }} {{ '%d items'|format(n) }} {{ '%s and %s'|format(1, 'b') }}",
+  "context": {
+   "v": 2.675,
+   "n": 4
+  },
+  "expected": "2.67 3.0 3 2.7 4 items 1 and b"
+ },
+ {
+  "template": "{{ d|tojson }}",
+  "context": {
+   "d": {
+    "b": "<x>&'",
+    "a": [
+     1,
+     2.0,
+     null,
+     true
+    ]
+   }
+  },
+  "expected": "{\"a\": [1, 2.0, null, true], \"b\": \"\\u003cx\\u003e\\u0026\\u0027\"}"
+ },
+ {
+  "template": "{{ xs|sort(attribute='order')|map(attribute='name')|join(' ') }} {{ xs|selectattr('on')|list|length }} {{ xs|rejectattr('name', 'equalto', 'b')|map(attribute='name')|list }}",
+  "context": {
+   "xs": [
+    {
+     "name": "b",
+     "order": 2,
+     "on": true
+    },
+    {
+     "name": "a",
+     "order": 1,
+     "on": false
+    },
+    {
+     "name": "c",
+     "order": 2
+    }
+   ]
+  },
+  "expected": "a b c 1 [&#39;a&#39;, &#39;c&#39;]"
+ },
+ {
+  "template": "{{ [3, 1, 2]|max }} {{ ['b', 'A']|max }} {{ 'hello world'|capitalize }} {{ 'ABC'|lower }} {{ '3.7'|int }} {{ 'x'|int }} {{ 4.9|int }}",
+  "context": {},
+  "expected": "3 b Hello world abc 3 0 4"
+ },
+ {
+  "template": "{% set lv = {1: 2, 2: 3} %}{{ lv.get(1, 0) }}{{ lv.get(5, 0) }}{{ lv[2] }}",
+  "context": {},
+  "expected": "203"
+ },
+ {
+  "template": "{% if a is defined %}A{% endif %}{% if b is not defined %}B{% endif %}{% if 3 is number %}N{% endif %}{% if 'x' is number %}no{% endif %}{% if none is none %}Z{% endif %}",
+  "context": {
+   "a": 0
+  },
+  "expected": "ABNZ"
+ },
+ {
+  "template": "{{ 'yes' if t else 'no' }} {{ 'yes' if f }}! {{ x or 'dflt' }} {{ x and 'and' }}",
+  "context": {
+   "t": 1,
+   "f": 0,
+   "x": ""
+  },
+  "expected": "yes ! dflt "
+ },
+ {
+  "template": "{% macro m(a, b=2) -%}\n<{{ a }}|{{ b }}|{{ g }}>\n{%- endmacro %}{{ m(1) }} {{ m('<', b='>') }}",
+  "context": {
+   "g": "&"
+  },
+  "expected": "<1|2|&amp;> <&lt;|&gt;|&amp;>"
+ },
+ {
+  "template": "<ul>\n  {% for x in xs %}\n  <li>{{ x }}</li>\n  {% endfor %}\n</ul>\n{% if true %}\n    yes\n{% endif %}\n",
+  "context": {
+   "xs": [
+    1,
+    2
+   ]
+  },
+  "expected": "<ul>\n  <li>1</li>\n  <li>2</li>\n</ul>\n    yes\n"
+ },
+ {
+  "template": "a  {%- if true -%}  b  {%- endif -%}  c\n  {# comment #}\nd",
+  "context": {},
+  "expected": "abc\nd"
+ },
+ {
+  "template": "{{ m.x }} {{ m['values'] }} {{ l[5] }} {{ l[-1] }}",
+  "context": {
+   "m": {
+    "x": 1,
+    "values": [
+     9
+    ]
+   },
+   "l": [
+    1,
+    2
+   ]
+  },
+  "expected": "1 [9]  2"
+ },
+ {
+  "template": "{{ xs|reject('equalto', 'b')|list }} {{ ['a', none, 'b']|map('default', '.', true)|list }} {{ [b.months, 1]|max }}",
+  "context": {
+   "xs": [
+    "a",
+    "b"
+   ],
+   "b": {
+    "months": 3
+   }
+  },
+  "expected": "[&#39;a&#39;] [&#39;a&#39;, &#39;.&#39;, &#39;b&#39;] 3"
+ },
+ {
+  "template": "{% for x in xs if x > 1 %}{{ loop.index }}{{ x }} {% endfor %}{{ 1 in xs }} {{ 'b' in 'abc' }} {{ 'k' in {'k': 1} }} {{ 5 not in xs }}",
+  "context": {
+   "xs": [
+    1,
+    2,
+    3
+   ]
+  },
+  "expected": "12 23 True True True True"
+ },
+ {
+  "template": "{{ 1 == 1.0 }} {{ [1, 2] == [1, 2] }} {{ none == none }} {{ 'a' < 'b' }} {{ 0.1 + 0.2 }} {{ 1e20 }} {{ 1.0e-5 }} {{ 100.0 }}",
+  "context": {},
+  "expected": "True True True True 0.30000000000000004 1e+20 1e-05 100.0"
+ },
+ {
+  "template": "{{ 'a,b'.split(',') }} {{ 'Abc'.startswith('A') }} {{ '%s-%s' % (1, 2) }} {{ (1, 2) }} {{ [1, 'a'] }}",
+  "context": {},
+  "expected": "[&#39;a&#39;, &#39;b&#39;] True 1-2 (1, 2) [1, &#39;a&#39;]"
+ },
+ {
+  "template": "{{ h|format(h|int, ((h - h|int) * 60)|round|int) if false else '%dh %02dm'|format(h|int, ((h - h|int) * 60)|round|int) }}",
+  "context": {
+   "h": 2.5
+  },
+  "expected": "2h 30m"
+ },
+ {
+  "template": "{{ x.y|join(', ') }}{{ undefined_list|length }}{% for z in nothing %}{{ z }}{% endfor %}",
+  "context": {
+   "x": {}
+  },
+  "expected": "0"
+ },
+ {
+  "template": "{{ s|replace('a', '<') }} {{ n|round(2) }} {{ -n }} {{ -3 }}",
+  "context": {
+   "s": "banana",
+   "n": 1.005
+  },
+  "expected": "b&lt;n&lt;n&lt; 1.0 -1.005 -3"
+ }
+]

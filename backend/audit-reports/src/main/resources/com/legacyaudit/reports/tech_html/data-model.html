@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Which component creates, reads, updates and deletes which table, from the SQL found in each component's code. Letters: C create, R read, U update, D delete; darker cells do more.</p>
+<h2>CRUD by component and table</h2>
+{{ m.crud_heat(matrix, base) }}
+<div class="grid2" style="margin-top:16px">
+  {{ m.chart(refs_chart) }}
+  {{ m.diagram(data_map) }}
+</div>
+{% endblock %}

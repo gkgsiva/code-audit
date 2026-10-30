@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">One page per component (a deployable or buildable unit found from build files and folders). A Maven parent or aggregator pom (packaging <code>pom</code>) or a Gradle root project is a group of modules, shown in the "Maven group" column, not a component. Components are grouped (<code>inventory.component_grouping: auto</code>): a library module is part of the war, ear or batch that uses it, and part folders of one technology (COBOL and BMS, JCL and PROCLIB, the folders beside the Maven modules, shared configuration and scripts) are one component; the "Folders" column lists what each one is made of.</p>
+<div class="table-wrap"><table class="data">
+  <thead><tr><th>Component</th><th>Type</th><th>Also holds</th><th>Made of</th><th>Folders</th><th>Maven group</th><th>Detected by</th><th class="num">Files</th><th class="num">Code lines</th><th class="num">Services</th><th class="num">Screens</th><th class="num">SQL</th><th class="num">Findings</th></tr></thead>
+  <tbody>{% for c in components %}<tr>
+    <td><a href="{{ base }}components/{{ c.slug }}.html">{{ c.name }}</a></td><td>{{ c.type }}</td><td>{{ (c.roles or []) | reject("equalto", c.type) | join(", ") }}</td><td>{% for k, v in (c.composition or {}).items() %}{{ k }} {{ v }}{% if not loop.last %}, {% endif %}{% endfor %}</td><td><code>{{ (c.parts or [c.path or "."]) | join(", ") }}</code></td><td>{{ (c.build_group or []) | join(" &gt; ") }}{% if c.packaging %}{% if c.build_group %} · {% endif %}{{ c.packaging }}{% endif %}</td><td>{{ c.detected_by }}</td>
+    <td class="num">{{ c.files }}</td><td class="num">{{ c.loc_code }}</td><td class="num">{{ c.n_services }}</td>
+    <td class="num">{{ c.n_screens }}</td><td class="num">{{ c.n_sql }}</td><td class="num">{{ c.n_findings }}</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+{% endblock %}

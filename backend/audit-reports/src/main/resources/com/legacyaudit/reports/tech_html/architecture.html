@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% import "_macros.html" as m with context %}
+{% block content %}
+<p class="lead">Diagrams generated from the code edges, integrations and batch definitions found by the scan. Views interpreted by the Copilot agent are labelled as such; their source is the validated enrichment.</p>
+{% if layers_diagram or target_diagram %}<div class="grid2">{% if layers_diagram %}{{ m.diagram(layers_diagram) }}{% endif %}{% if target_diagram %}{{ m.diagram(target_diagram) }}{% endif %}</div>
+{% else %}<div class="placeholder-box">Layered and target views appear here once the Copilot agent has written the <code>architecture</code> and <code>target_architecture</code> stages (<code>/audit-enrich</code>).</div>{% endif %}
+<h2>Components (from the scan)</h2>
+{{ m.diagram(components_diagram) }}
+<h2>Integrations</h2>
+{{ m.diagram(integration_diagram) }}
+<h2>Batch chains</h2>
+{% for d in batch_diagrams %}{{ m.diagram(d) }}{% else %}<p class="muted">No batch jobs found.</p>{% endfor %}
+{% endblock %}
