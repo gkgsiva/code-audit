@@ -3,10 +3,19 @@
     <h1>Results</h1>
     <div class="row">
       <a class="btn" [routerLink]="['/p', id, 'reports']">Reports</a>
-      <a class="btn" [routerLink]="['/p', id, 'facts', 'findings']">All facts</a>
+      <a class="btn" [routerLink]="['/p', id, 'facts', 'findings']" [queryParams]="runQuery">All facts</a>
+      <a class="btn" [routerLink]="['/p', id, 'runs']">Runs and compare</a>
       <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
     </div>
   </div>
+  @if (runs().length > 1) {
+    <label class="row">Run
+      <select name="run" [(ngModel)]="run" (ngModelChange)="pickRun()">
+        <option value="">Newest finished scan</option>
+        @for (r of runs(); track r.run_id) { <option [value]="r.run_id">{{ r.run_id }}@if (r.latest) { (latest)}</option> }
+      </select>
+    </label>
+  }
   @if (loaded() && !data()) {
     <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
   }
@@ -17,7 +26,7 @@
         <div class="tile">
           <div class="tile-value">
             @if (kindOf(k.metric); as kind) {
-              <a [routerLink]="['/p', id, 'facts', kind]">{{ k.value | number }}</a>
+              <a [routerLink]="['/p', id, 'facts', kind]" [queryParams]="runQuery">{{ k.value | number }}</a>
             } @else {
               {{ k.value | number }}
             }
@@ -68,7 +77,7 @@
   <section class="panel">
     <div class="row spread">
       <h2>Top findings</h2>
-      <a [routerLink]="['/p', id, 'facts', 'findings']">All findings</a>
+      <a [routerLink]="['/p', id, 'facts', 'findings']" [queryParams]="runQuery">All findings</a>
     </div>
     @if (!d.top_findings.length) {
       <p class="hint">No findings.</p>
@@ -81,7 +90,7 @@
               <tr>
                 <td><span class="badge" [class]="f.severity">{{ f.severity }}</span></td>
                 <td>{{ f.rule }}</td>
-                <td>{{ f.file }}@if (f.line) {:{{ f.line }}}</td>
+                <td>@if (d.run_id && f.file) {<a [routerLink]="['/p', id, 'runs', d.run_id, 'evidence']" [queryParams]="{ file: f.file, line: f.line }">{{ f.file }}@if (f.line) {:{{ f.line }}}</a>} @else {{{ f.file }}}</td>
                 <td>{{ f.message }}</td>
               </tr>
             }

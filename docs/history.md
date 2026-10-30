@@ -58,3 +58,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #42 | 2026-10-30 | Spring Boot and Angular version, phase 5: linking, metrics, findings, PostgreSQL grades, dependency security, effort and results screens |
 | #43 | 2026-10-30 | Spring Boot and Angular version, phase 6: technical, functional, management and summary reports, PDF copies and the Reports page |
 | #44 | 2026-10-30 | Spring Boot and Angular version, phase 7: AI enrichment, Copilot files, MCP server and the enrichment page |
+| #45 | 2026-10-30 | Spring Boot and Angular version, phase 8a: runs and compare, component and source pages, settings, input files, components to scan and tool checks |

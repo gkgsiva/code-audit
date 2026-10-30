@@ -14,6 +14,12 @@
       <tr><th>Owner</th><td>{{ p.owner }}</td></tr>
       <tr><th>Your role</th><td>{{ p.role }}</td></tr>
     </table>
+    <p class="row" style="margin-top: .75rem">
+      <a class="btn" [routerLink]="['/p', p.id, 'settings']">Settings</a>
+      <a class="btn" [routerLink]="['/p', p.id, 'inputs']">Input files</a>
+      <a class="btn" [routerLink]="['/p', p.id, 'components']">Components to scan</a>
+      <a class="btn" [routerLink]="['/p', p.id, 'runs']">Runs and compare</a>
+    </p>
   </section>
 
   <section class="panel">
@@ -79,7 +85,8 @@
           <tbody>
             @for (c of components(); track c.id) {
               <tr>
-                <td><a [routerLink]="['/p', p.id, 'inventory']" [queryParams]="{ component: c.id }">{{ c.name }}</a></td>
+                <td><a [routerLink]="['/p', p.id, 'runs', 'latest', 'components', c.name]">{{ c.name }}</a>
+                  <a class="hint" [routerLink]="['/p', p.id, 'inventory']" [queryParams]="{ component: c.id }">files</a></td>
                 <td>{{ c.type }}</td>
                 <td>{{ c.path }}</td>
                 <td>{{ c.technology }}</td>

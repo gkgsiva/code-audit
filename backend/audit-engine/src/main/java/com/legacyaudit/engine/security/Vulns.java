@@ -285,7 +285,7 @@ public final class Vulns {
      * {@code shutil.which}: a name with a folder in it is checked as it is, a bare name in each
      * PATH folder; on Windows also with each PATHEXT extension.
      */
-    static String which(String name) {
+    public static String which(String name) {
         boolean windows = File.separatorChar == '\\';
         List<String> exts = new ArrayList<>(List.of(""));
         if (windows) {
@@ -339,7 +339,7 @@ public final class Vulns {
     }
 
     /** Why a tool was not found: "not installed", or the configured path that does not exist. */
-    static String missingDetail(String configured, List<String> names) {
+    public static String missingDetail(String configured, List<String> names) {
         if (configured == null || configured.isEmpty()) {
             return "not installed";
         }

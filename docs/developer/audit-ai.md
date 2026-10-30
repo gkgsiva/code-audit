@@ -17,6 +17,7 @@ The scan itself never calls an AI. Enrichment is a separate step on a finished r
 | `ai.model` | `AiSettings`, `AiClient`, `AiError`, `PromptContext`, `Enricher` | `ai/settings.py`, `ai/client.py`, `ai/context.py`, `ai/runner.py` |
 | `ai.copilot` | `CopilotFiles`, `Workspace` | `copilot/install.py`, `workspace.py` |
 | `ai.mcp` | `Facts`, `McpServer` | `mcp/facts.py`, `mcp/server.py` |
+| `ai.doctor` | `Doctor` | `doctor.py` (without the PowerPoint checks) |
 
 The stage list, the status file (`status.json`: missing, stale, invalid stages) and the
 carry-over between runs live in `audit-engine` (`engine.enrich.Stages`, `Status`), because the
@@ -101,6 +102,8 @@ Errors come back as a tool result with `isError` and Python's text (`FactsError:
 | `legacy-audit mcp` | `McpServer` |
 | `legacy-audit scan` | `Status.carryOver` (engine): the previous run's enrichment is copied and stale stages are marked |
 | web backend `server.enrichment` | `Validator`, `AiSettings`, `AiClient`, `Enricher` |
+| `legacy-audit doctor`, web backend `server.workspace` | `Doctor.run(cfg, outputDir)`: one `Check` per tool (name, status ok/missing/old/error, required, detail, needed for) |
+| web backend `server.results` | `Facts.getComponent`, `Facts.readEvidence` for the component and source pages |
 
 ## Tests
 

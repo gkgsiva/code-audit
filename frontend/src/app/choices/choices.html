@@ -1,0 +1,61 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Components to scan</h1>
+    <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+  </div>
+  <p class="lead">Found from build files and folders. Untick a component to leave its folders out of the next scan; pick a type
+    to change what was detected. The choices are saved to audit-overrides.yaml and used from the next scan.</p>
+  @if (!canEdit() && project()) {
+    <p class="hint">Only the owner of the project and admins can change these choices.</p>
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (saved()) {
+    <p class="hint" role="status">{{ saved() }}</p>
+  }
+  @if (!data() && !error()) {
+    <p class="hint">Looking at the files…</p>
+  }
+</section>
+
+@if (data(); as d) {
+  <section class="panel">
+    <p class="hint">{{ d.files | number }} files in {{ roots(d) }}.</p>
+    <div class="scroll">
+      <table class="grid">
+        <thead>
+          <tr><th>Scan</th><th>Component</th><th>Folder</th><th>Type</th><th>Type override</th><th class="num">Files</th>
+            <th>Languages</th><th>Maven group</th><th>Detected by</th></tr>
+        </thead>
+        <tbody>
+          @for (c of d.components; track c.name) {
+            <tr [class.left-out]="!included[key(c)]">
+              <td><input type="checkbox" [attr.aria-label]="'Scan ' + c.name" [name]="'inc-' + c.name" [(ngModel)]="included[key(c)]" [disabled]="!canEdit()"></td>
+              <td>{{ c.name }}</td>
+              <td><code>{{ folders(c) }}</code></td>
+              <td>{{ c.scan_type || c.detected_type }}</td>
+              <td>
+                <select [attr.aria-label]="'Type of ' + c.name" [name]="'type-' + c.name" [(ngModel)]="overrides[c.name]" [disabled]="!canEdit()">
+                  <option value="">(as detected)</option>
+                  @for (t of types; track t) { <option [value]="t">{{ t }}</option> }
+                </select>
+              </td>
+              <td class="num">{{ c.files | number }}</td>
+              <td>{{ languages(c) }}</td>
+              <td>{{ group(c) }}</td>
+              <td>{{ c.detected_by }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    @if (d.skipped.length) {
+      <p class="hint">Left out as build output or generated files: {{ skipped(d) }}. Set inventory.skip_build_output: false in
+        audit.yaml to scan them.</p>
+    }
+    @if (canEdit()) {
+      <div class="row"><button type="button" class="btn primary" (click)="save()">Save choices</button></div>
+    }
+  </section>
+}

@@ -31,6 +31,17 @@ It holds three things: the **facts** a scan produces, the **configuration** a sc
 - `Overrides` reads `audit-overrides.yaml`: files to exclude or include, component
   assignments, renames and types. The engine applies them on every run and reports how many
   items each override matched.
+- `ConfigLoader.addLayer(fn)` registers a function that sees (and may change or refuse) the
+  YAML data of every config before it is checked; the web backend's `HostedLayer` uses it to
+  keep projects inside their folders. It returns a `Runnable` that removes the layer.
+- `ConfigEdits` changes the files the way the Python GUI did: `setTopLevel` replaces one
+  top-level key and keeps every other line and comment, `updateConfig` / `writeConfigText`
+  write and check `audit.yaml` (a `ConfigException` when the result is not valid),
+  `setComponentChoices` / `saveOverrides` write `audit-overrides.yaml`, `componentExclude`
+  gives the `files.exclude` pattern for a component folder.
+- `PyYaml.dump(data, width)` writes YAML exactly as PyYAML's `safe_dump(..., sort_keys=False)`
+  does (block style, the same quoting rules and line wrapping), so a file the new version saves
+  equals one the Python version saved.
 
 ## Facts
 

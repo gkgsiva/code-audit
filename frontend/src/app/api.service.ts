@@ -209,6 +209,118 @@ export interface Enrichment {
   messages?: ValidationMessage[];
 }
 
+/** One run folder of a project (newest first in the list). */
+export interface RunRow {
+  run_id: string;
+  started_at: string | null;
+  finished_at: string | null;
+  full_scan: boolean | null;
+  files: number | null;
+  analyzed: number | null;
+  cached: number | null;
+  loc_code: number | null;
+  components: number | null;
+  findings: number | null;
+  warnings: number;
+  latest: boolean;
+  seconds: number;
+  git: { name: string; ref: string | null; commit: string }[];
+}
+
+export interface DiffRecord {
+  id: string;
+  label: string;
+  fields?: Record<string, unknown>;
+}
+
+export interface EntityDiff {
+  count_a: number;
+  count_b: number;
+  added: DiffRecord[];
+  removed: DiffRecord[];
+  changed: DiffRecord[];
+  added_count: number;
+  removed_count: number;
+  changed_count: number;
+}
+
+export interface Comparison {
+  run_a: string;
+  run_b: string;
+  entities: Record<string, EntityDiff>;
+}
+
+/** A part of a component: the first rows of one kind of fact and how many there are. */
+export interface ComponentPart {
+  total: number;
+  rows: Record<string, unknown>[];
+}
+
+export interface ComponentDetail {
+  component: Record<string, unknown> & { name: string; type: string; files: number; loc_code: number };
+  [kind: string]: unknown;
+}
+
+export interface Evidence {
+  file: string;
+  line: number | null;
+  start: number;
+  end: number;
+  text: string;
+}
+
+export interface ConfigView {
+  text: string;
+  fields: {
+    application: { name: string; description: string | null; owner: string | null };
+    source: { type: string; paths?: string[]; repos?: { url: string; ref?: string | null; paths?: string[]; token_env?: string | null }[] };
+    target: Record<string, string | null>;
+    include: string[];
+    exclude: string[];
+  };
+  path: string;
+}
+
+export interface InputKind {
+  kind: string;
+  label: string;
+  folder: string;
+  files: { name: string; size: number }[];
+}
+
+export interface ChoiceRow {
+  name: string;
+  root: string;
+  path: string;
+  detected_type: string;
+  type_override: string | null;
+  scan_type: string | null;
+  files: number;
+  languages: Record<string, number>;
+  detected_by: string;
+  build_group: string[];
+  packaging: string | null;
+  parts: string[];
+  folders: string[];
+  included: boolean;
+}
+
+export interface Choices {
+  roots: { name: string; path: string }[];
+  files: number;
+  components: ChoiceRow[];
+  excludes: string[];
+  skipped: { path: string; reason: string; files: number }[];
+}
+
+export interface ToolCheck {
+  name: string;
+  status: string;
+  required: boolean;
+  detail: string;
+  needed_for: string;
+}
+
 export function problem(err: HttpErrorResponse): string {
   return err.error?.detail ?? 'The server did not answer. Is it running?';
 }
@@ -264,18 +376,20 @@ export class ApiService {
     return this.http.get<Inventory>(`/api/projects/${encodeURIComponent(id)}/inventory`, { params });
   }
 
-  dashboard(id: string): Observable<{ scan: Scan | null; dashboard: Dashboard | null }> {
-    return this.http.get<{ scan: Scan | null; dashboard: Dashboard | null }>(`/api/projects/${encodeURIComponent(id)}/dashboard`);
+  dashboard(id: string, run = ''): Observable<{ scan: Scan | null; run_id: string | null; dashboard: Dashboard | null }> {
+    const params: Record<string, string> = run ? { run } : {};
+    return this.http.get<{ scan: Scan | null; run_id: string | null; dashboard: Dashboard | null }>(
+      `/api/projects/${encodeURIComponent(id)}/dashboard`, { params });
   }
 
-  facts(id: string, kind: string, query: Record<string, string | number>): Observable<{ scan: Scan | null; result: FactPage | null }> {
+  facts(id: string, kind: string, query: Record<string, string | number>): Observable<{ scan: Scan | null; run_id: string | null; result: FactPage | null }> {
     let params = new HttpParams();
     for (const [key, value] of Object.entries(query)) {
       if (value !== '') {
         params = params.set(key, String(value));
       }
     }
-    return this.http.get<{ scan: Scan | null; result: FactPage | null }>(
+    return this.http.get<{ scan: Scan | null; run_id: string | null; result: FactPage | null }>(
       `/api/projects/${encodeURIComponent(id)}/facts/${encodeURIComponent(kind)}`, { params });
   }
 
@@ -301,5 +415,65 @@ export class ApiService {
 
   runEnrichment(id: string, stale: boolean): Observable<Enrichment> {
     return this.http.post<Enrichment>(`/api/projects/${encodeURIComponent(id)}/enrichment/run`, { stale });
+  }
+
+  runs(id: string): Observable<RunRow[]> {
+    return this.http.get<RunRow[]>(`/api/projects/${encodeURIComponent(id)}/runs`);
+  }
+
+  compare(id: string, a: string, b: string): Observable<Comparison> {
+    return this.http.get<Comparison>(`/api/projects/${encodeURIComponent(id)}/compare`, { params: { a, b } });
+  }
+
+  component(id: string, run: string, name: string): Observable<ComponentDetail> {
+    return this.http.get<ComponentDetail>(
+      `/api/projects/${encodeURIComponent(id)}/runs/${encodeURIComponent(run)}/components/${encodeURIComponent(name)}`);
+  }
+
+  evidence(id: string, run: string, file: string, line: number | null): Observable<Evidence> {
+    const params: Record<string, string> = { file };
+    if (line) {
+      params['line'] = String(line);
+    }
+    return this.http.get<Evidence>(`/api/projects/${encodeURIComponent(id)}/runs/${encodeURIComponent(run)}/evidence`, { params });
+  }
+
+  config(id: string): Observable<ConfigView> {
+    return this.http.get<ConfigView>(`/api/projects/${encodeURIComponent(id)}/config`);
+  }
+
+  saveConfigFields(id: string, fields: Partial<ConfigView['fields']>): Observable<ConfigView> {
+    return this.http.put<ConfigView>(`/api/projects/${encodeURIComponent(id)}/config/fields`, fields);
+  }
+
+  saveConfigText(id: string, text: string): Observable<ConfigView> {
+    return this.http.put<ConfigView>(`/api/projects/${encodeURIComponent(id)}/config/text`, { text });
+  }
+
+  inputs(id: string): Observable<{ inputs_dir: string; kinds: InputKind[] }> {
+    return this.http.get<{ inputs_dir: string; kinds: InputKind[] }>(`/api/projects/${encodeURIComponent(id)}/inputs`);
+  }
+
+  uploadInput(id: string, kind: string, file: File): Observable<{ saved: string; size: number }> {
+    return this.http.put<{ saved: string; size: number }>(
+      `/api/projects/${encodeURIComponent(id)}/inputs/${encodeURIComponent(kind)}/${encodeURIComponent(file.name)}`, file,
+      { headers: { 'Content-Type': 'application/octet-stream' } });
+  }
+
+  deleteInput(id: string, kind: string, name: string): Observable<{ deleted: string }> {
+    return this.http.delete<{ deleted: string }>(
+      `/api/projects/${encodeURIComponent(id)}/inputs/${encodeURIComponent(kind)}/${encodeURIComponent(name)}`);
+  }
+
+  choices(id: string): Observable<Choices> {
+    return this.http.get<Choices>(`/api/projects/${encodeURIComponent(id)}/component-choices`);
+  }
+
+  saveChoices(id: string, included: Record<string, boolean>, types: Record<string, string | null>): Observable<Choices> {
+    return this.http.put<Choices>(`/api/projects/${encodeURIComponent(id)}/component-choices`, { included, types });
+  }
+
+  doctor(id: string): Observable<ToolCheck[]> {
+    return this.http.get<ToolCheck[]>(`/api/projects/${encodeURIComponent(id)}/doctor`);
   }
 }

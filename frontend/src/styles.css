@@ -154,3 +154,15 @@ ul.folders { list-style: none; padding: 0; margin: .5rem 0 0; display: flex; fle
 .bar-value { text-align: right; font-variant-numeric: tabular-nums; }
 .badge.critical, .badge.high { color: var(--error); border-color: var(--error); }
 .badge.medium { color: var(--warn-text); border-color: var(--warn-text); }
+
+/* Source lines of a piece of evidence: line numbers, the asked line highlighted. */
+pre.source { max-height: none; word-break: normal; }
+pre.source .lineno { display: inline-block; min-width: 3.5rem; color: var(--muted); user-select: none; }
+pre.source .hit { display: block; background: var(--warn-bg); color: var(--warn-text); }
+
+/* Settings: a wide text editor and the component picker. */
+textarea.yaml { width: 100%; min-height: 24rem; font-family: ui-monospace, monospace; font-size: .85rem; }
+tr.left-out td { color: var(--muted); }
+form.fields { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: .6rem 1rem; align-items: start; margin-bottom: 1rem; }
+form.fields textarea, form.fields input[type="text"] { width: 100%; }
+@media (max-width: 40rem) { form.fields { grid-template-columns: 1fr; } }

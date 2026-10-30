@@ -38,6 +38,12 @@ src/
     reports/              build the reports, open them in a new tab, PDFs and the data pack
     enrichment/           AI enrichment: stage states, validate, run with a model, the Copilot prompt
     facts/                every kind of fact, one kind at a time, with search, filter and paging
+    runs/                 every run of a project and the comparison of two runs
+    component/            one component of a run with its services, screens, SQL, jobs, integrations
+    evidence/             the source lines around a piece of evidence
+    settings/             audit.yaml as a form and as text, and the tool checks
+    inputs/               input files per kind: add and remove
+    choices/              components to scan and their type overrides
 ```
 
 ## Pages (`app.routes.ts`)
@@ -49,10 +55,16 @@ src/
 | `/new` | `NewProject` | Name, description and the source folder picker (`/api/sources`) |
 | `/p/:id` | `ProjectPage` | Start scan / full rescan, live status (asks every 1.5 s), log, cancel, past scans, components, who has access |
 | `/p/:id/inventory` | `Inventory` | Lines of code per language; files filtered by language, category, component, text |
-| `/p/:id/results` | `Results` | Headline numbers (each links to its facts), effort, bar charts (languages, complexity, PostgreSQL grades, severities), top findings, vulnerability sources, inputs provided, warnings |
+| `/p/:id/results` | `Results` | A run picker when there is more than one run (`?run=`); headline numbers (each links to its facts), effort, bar charts (languages, complexity, PostgreSQL grades, severities), top findings, vulnerability sources, inputs provided, warnings |
 | `/p/:id/reports` | `ReportsPage` | The four reports with what each shows, **Open** (new tab) and **PDF** links, **Build** per report, **Build all reports** and **... and PDFs** for contributors (asks every 1.5 s while building), the data pack ZIP |
 | `/p/:id/enrichment` | `EnrichmentPage` | The 14 stages with their state (and why a stage is stale); **Validate now**; **Run here with &lt;model&gt;** (missing and stale, or all) when a model other than Copilot is set, with live progress (asks every 1.5 s); otherwise the `/audit-enrich` prompt to paste into Copilot Chat; the validator's errors and warnings |
-| `/p/:id/facts/:kind` | `Facts` | One kind of fact (`KINDS` in `api.service.ts`): text search, one field filter (`~` for contains), 50 rows a page; for batch jobs also the batches with no schedule |
+| `/p/:id/facts/:kind` | `Facts` | One kind of fact (`KINDS` in `api.service.ts`): text search, one field filter (`~` for contains), 50 rows a page; for batch jobs also the batches with no schedule. `?run=` shows another run; component names link to the component page and files to the source page |
+| `/p/:id/runs` | `RunsPage` | Every run (open its results or facts) and **Compare runs** with Before and After pickers (`?a=&b=`): counts per kind and the added (+), removed (−) and changed (~) records |
+| `/p/:id/runs/:run/components/:name` | `ComponentPage` | The component's fields and its services, screens, SQL statements, batch jobs and integrations; files link to the source page |
+| `/p/:id/runs/:run/evidence?file=&line=` | `EvidencePage` | Numbered source lines with the asked line highlighted |
+| `/p/:id/settings` | `SettingsPage` | Application, source (folders or Git repositories as `url \| branch \| sub-paths \| token variable` lines), migration target and versions, include and exclude; **Advanced** edits `audit.yaml` as text; the tool checks |
+| `/p/:id/inputs` | `InputsPage` | One box per input kind: present or missing, the files with **Remove**, a file chooser to add |
+| `/p/:id/components` | `ChoicesPage` | The pre-scan: tick or untick each component, pick a type override, **Save choices** |
 
 Every path except `/login` sits inside `Shell` and is protected by `loggedIn`.
 

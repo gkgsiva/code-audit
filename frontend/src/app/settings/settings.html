@@ -1,0 +1,100 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Settings</h1>
+    <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+  </div>
+  @if (config(); as c) {
+    <p class="lead">Settings in {{ c.path }}. Saving keeps every comment and setting this form does not show.</p>
+  }
+  @if (!canEdit() && project()) {
+    <p class="hint">Only the owner of the project and admins can change the settings.</p>
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (saved()) {
+    <p class="hint" role="status">{{ saved() }}</p>
+  }
+  @if (config()) {
+    <form class="fields" (ngSubmit)="saveFields()">
+      <label for="f-name">Application name</label>
+      <input id="f-name" name="name" type="text" [(ngModel)]="name" [disabled]="!canEdit()">
+      <label for="f-desc">Description</label>
+      <input id="f-desc" name="description" type="text" [(ngModel)]="description" [disabled]="!canEdit()">
+      <label for="f-src">Source</label>
+      <select id="f-src" name="sourceType" [(ngModel)]="sourceType" [disabled]="!canEdit()">
+        <option value="local">Local folders</option>
+        <option value="git">Git repositories</option>
+      </select>
+      @if (sourceType === 'local') {
+        <label for="f-paths">Folders</label>
+        <div>
+          <textarea id="f-paths" name="paths" rows="3" [(ngModel)]="paths" [disabled]="!canEdit()"></textarea>
+          <p class="hint">One per line, relative to the project folder or absolute. They must be inside the folders this site may scan.</p>
+        </div>
+      } @else {
+        <label for="f-repos">Repositories</label>
+        <div>
+          <textarea id="f-repos" name="repos" rows="4" [(ngModel)]="repos" [disabled]="!canEdit()"></textarea>
+          <p class="hint">One per line: URL | branch or tag | sub-paths (comma separated) | name of the environment variable holding a
+            read-only token. The token itself is never stored or typed here.</p>
+        </div>
+      }
+      <label for="t-profile">Migration target</label>
+      <div>
+        <select id="t-profile" name="profile" [(ngModel)]="profile" [disabled]="!canEdit()">
+          <option value="spring-boot-angular">Spring Boot and Angular on Google Cloud (default)</option>
+          <option value="wildfly-gke">WildFly on GKE (code kept as it is, database to PostgreSQL)</option>
+          <option value="none">None: audit only, no migration target</option>
+        </select>
+        <div class="row">
+          @for (k of versionKeys; track k) {
+            @if (shown(k)) {
+              <label>{{ label(k) }} <input type="text" [name]="'t-' + k" [(ngModel)]="versions[k]" [disabled]="!canEdit()" style="max-width: 8rem"></label>
+            }
+          }
+        </div>
+        <p class="hint">What the reports and the AI analysis suggest the application moves to. Changing it needs a new scan.</p>
+      </div>
+      <label for="f-include">Include</label>
+      <textarea id="f-include" name="include" rows="2" [(ngModel)]="include" [disabled]="!canEdit()"></textarea>
+      <label for="f-exclude">Exclude</label>
+      <div>
+        <textarea id="f-exclude" name="exclude" rows="3" [(ngModel)]="exclude" [disabled]="!canEdit()"></textarea>
+        <p class="hint">.gitignore syntax, one pattern per line.</p>
+      </div>
+      <span></span>
+      <div><button type="submit" class="btn primary" [disabled]="!canEdit()">Save audit.yaml</button></div>
+    </form>
+    <details>
+      <summary>Advanced: edit audit.yaml as text</summary>
+      <textarea class="yaml" aria-label="audit.yaml" name="text" [(ngModel)]="text" [disabled]="!canEdit()"></textarea>
+      <div class="row"><button type="button" class="btn" [disabled]="!canEdit()" (click)="saveText()">Check and save</button></div>
+    </details>
+  }
+</section>
+
+<section class="panel">
+  <h2>Tools on the server</h2>
+  <p class="hint">Only Java and a writable output folder are required. The others add an output and are skipped when missing.</p>
+  @if (!checks()) {
+    <p class="hint">Checking…</p>
+  } @else {
+    <div class="scroll">
+      <table class="grid">
+        <thead><tr><th>Tool</th><th>Status</th><th></th><th>Detail</th><th>Needed for</th></tr></thead>
+        <tbody>
+          @for (c of checks(); track c.name) {
+            <tr>
+              <td>{{ c.name }}</td>
+              <td><span class="state" [class]="statusClass(c)">{{ c.status }}</span></td>
+              <td>{{ c.required ? 'required' : 'optional' }}</td>
+              <td><code>{{ c.detail }}</code></td>
+              <td>{{ c.needed_for }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</section>

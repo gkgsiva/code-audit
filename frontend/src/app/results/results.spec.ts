@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap, provideRouter } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 import { Results } from './results';
 
@@ -21,15 +22,17 @@ const dashboard = {
 
 describe('Results', () => {
   let http: HttpTestingController;
+  let query: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
 
   beforeEach(async () => {
+    query = new BehaviorSubject(convertToParamMap({}));
     await TestBed.configureTestingModule({
       imports: [Results],
       providers: [
         provideRouter([]),
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ id: 'billing' }) } } },
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ id: 'billing' }) }, queryParamMap: query } },
       ],
     }).compileComponents();
     http = TestBed.inject(HttpTestingController);
@@ -38,6 +41,7 @@ describe('Results', () => {
   it('shows the headline numbers, effort and top findings', async () => {
     const fixture = TestBed.createComponent(Results);
     fixture.detectChanges();
+    http.expectOne('/api/projects/billing/runs').flush([]);
     http.expectOne('/api/projects/billing/dashboard').flush({ scan: { id: 1 }, dashboard });
     await fixture.whenStable();
     const page = fixture.nativeElement as HTMLElement;
@@ -51,8 +55,22 @@ describe('Results', () => {
   it('says when nothing was scanned yet', async () => {
     const fixture = TestBed.createComponent(Results);
     fixture.detectChanges();
+    http.expectOne('/api/projects/billing/runs').flush([]);
     http.expectOne('/api/projects/billing/dashboard').flush({ scan: null, dashboard: null });
     await fixture.whenStable();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('No finished scan yet');
+  });
+
+  it('shows an older run when one is picked', async () => {
+    const fixture = TestBed.createComponent(Results);
+    fixture.detectChanges();
+    http.expectOne('/api/projects/billing/runs').flush([{ run_id: 'b', latest: true, git: [] }, { run_id: 'a', latest: false, git: [] }]);
+    http.expectOne('/api/projects/billing/dashboard').flush({ scan: { id: 1 }, dashboard });
+    query.next(convertToParamMap({ run: '20261029-010000-aaaaaa' }));
+    http.expectOne('/api/projects/billing/dashboard?run=20261029-010000-aaaaaa').flush({ scan: { id: 1 }, dashboard: { ...dashboard, run_id: 'old' } });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('run old');
+    expect((fixture.nativeElement as HTMLElement).querySelector('select[name="run"]')).toBeTruthy();
   });
 });

@@ -80,6 +80,14 @@ Steps, in order:
 Rules, severities, weights and the target are applied every run, so changing them in
 `audit.yaml` takes effect without reading the files again.
 
+## Before a scan (`scan.Prescan`)
+
+`Prescan.run(loaded)` lists the components a scan would find from file names only (only
+`pom.xml` and `settings.gradle` are read), with the files, the six main languages, the Maven
+group, whether each is ticked in `audit-overrides.yaml` and its type override, plus the folders
+left out as build output. It feeds the **Components to scan** page, as `workspace.prescan` fed
+the Python GUI.
+
 ## Results after the scan (`store`)
 
 | Class | Used by | What it does |

@@ -19,6 +19,7 @@ and starts the three containers to check health and a login.
 | audit-engine | `PgCorpusTest` | SQL to PostgreSQL text and grades on 3,132 statements recorded from Python (`parity/pg*.json.gz`) |
 | audit-engine | `FindingsTest`, `SecurityTest` | The rules engine (conditions, messages, config switches) and dependency security (versions, end of life, advice, report import, matching, SBOM, scanner runs) as in the Python tests |
 | audit-engine | `ProofsTest` | The Phase 0 parser proofs |
+| audit-engine | `WorkspaceParityTest` | 40 settings edits (`setTopLevel` with every kind of value PyYAML quotes or wraps), the component choices on 10 samples and the pre-scan on 10 samples give the same files and answers as the Python GUI (`workspace-parity/workspace.json`) |
 | audit-reports | `JinjaTest` | The template engine: syntax, filters, escaping, whitespace control as Jinja2 |
 | audit-reports | `ReportParityTest` | 11 sample runs (6 plain scans, 4 with enrichment, 1 audit only): every file of the technical, functional, management and summary reports equals what Python built from the same run (`report-parity/<set>/<sample>/`, README there); the sample folder is written `@SAMPLE@` / `@REL@` on both sides. A file that differs is written to `audit-reports/target/report-parity-actual/` for a diff |
 | audit-reports | `PdfReportsTest` | PDF settings, cover, page numbers, titles, browser lookup; with `PDF_BROWSER=<browser program>` (or on Linux CI) it prints the summary and functional PDFs and checks pages, bookmarks and metadata |
@@ -30,13 +31,15 @@ and starts the three containers to check health and a login.
 | audit-ai | `AiClientTest`, `EnrichTest` | Model settings from `audit.yaml`, variables and options; the request each provider gets; dropping refused parameters; proxy; a whole enrichment against a local fake model with openai, ollama, azure-openai and anthropic, including one repair round: every stage passes the validator |
 | audit-ai | `CarryOverTest` | A new scan takes over the previous run's enrichment and marks stale stages; edits in a copied `latest` are kept |
 | audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
+| audit-server | `WorkspaceFlowTest` | Settings form and text (a bad save is rolled back), input files, component choices, tool checks, two scans, the runs list, compare, the component and source pages, `?run=previous`, and viewers refused every change |
 | audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build; the enrichment states, validate, and the plain refusal to run with Copilot |
 
 Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer. Task 10
 runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`). Task 12 runs
 the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`). Task 14 runs the AI
 and Copilot comparisons (`ValidateParityTest`, `McpParityTest`, `PromptParityTest`,
-`CopilotFilesTest`).
+`CopilotFilesTest`). Task 17 runs the settings and component picker comparison
+(`WorkspaceParityTest`).
 
 ## How the parity data was made
 
@@ -48,6 +51,10 @@ test data in `backend/audit-engine/src/test/resources/parity/` (see the README t
 - **Recorded cases**: the Python test suite was run with a small pytest plugin that saved
   every analyzer call (input file, config, output facts or error). These reach far more
   branches than the samples (broken files, odd syntax, every framework the tests cover).
+
+- **Workspace**: `workspace-parity/workspace.json` holds what the Python GUI code
+  (`workspace.set_top_level`, `set_component_choices`, `prescan`) returned for 40 edits and the
+  10 samples, made by a small script run against `office-main`.
 
 When a later phase ports an analyzer, its cases are already there; the test picks up every
 registered analyzer by name. Regenerate the data only from `office-main`, never by hand.
