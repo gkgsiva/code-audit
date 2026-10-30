@@ -41,6 +41,7 @@
     <jsqlparser.version>5.3</jsqlparser.version>
     <picocli.version>4.7.7</picocli.version>
     <juniversalchardet.version>2.5.0</juniversalchardet.version>
+    <pdfbox.version>3.0.5</pdfbox.version>
   </properties>
 
   <build>
@@ -142,6 +143,11 @@
         <groupId>info.picocli</groupId>
         <artifactId>picocli</artifactId>
         <version>${picocli.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>${pdfbox.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

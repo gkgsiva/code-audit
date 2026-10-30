@@ -30,3 +30,8 @@ legacy-audit:
   sources-roots: ${LEGACY_AUDIT_SOURCES_ROOT:./sources}
   # Scans that may run at the same time; more wait in a queue.
   max-scans: ${LEGACY_AUDIT_MAX_SCANS:2}
+
+logging:
+  level:
+    # Chromium's PDFs trip harmless structure warnings when the report pages are joined.
+    org.apache.pdfbox: ERROR
