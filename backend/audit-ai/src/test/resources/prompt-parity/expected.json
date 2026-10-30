@@ -1,0 +1,1122 @@
+{
+ "enriched/struts-oracle-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "094c0170c33b636fc7c17b461a785db58928ef51d83c7b740bcbf887df6c83c8",
+  61127
+ ],
+ "enriched/struts-oracle-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "644f53f4c145db406b1381afcb6d61a93340d9f5095d59389a692443810b6f71",
+  33383
+ ],
+ "enriched/struts-oracle-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2f1069c9aeb6d8368b60056d5c35fe3e0a7d50d609b3f1d2806b46c78a9c0cdd",
+  47479
+ ],
+ "enriched/struts-oracle-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f78d12091e87fa9c9c91c1ea6a26a888159d5cf2eaa117c1887a1cb28bab508f",
+  49169
+ ],
+ "enriched/struts-oracle-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "92198b5ddc701f22df095f42c9bd7604101d360493b3f26ff3f0b1d80f0684b7",
+  42370
+ ],
+ "enriched/struts-oracle-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e0e6ace1e9bf4e7d473c4d2f93c97e5d22cbadfceab6925640270f9143923773",
+  48526
+ ],
+ "enriched/struts-oracle-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4567ab700959e50d0f98482238d458e9b29c9f48d3d8ad6d02f43ec96a2387ce",
+  40471
+ ],
+ "enriched/struts-oracle-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b63f3fd3c2b80f911584aefe684af87d4d42bc9dfc07b144d43a8e90caa54ed8",
+  53183
+ ],
+ "enriched/struts-oracle-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "be01a7db799aa41fe804e51c588a69ef1505d0186e1ec7e613e6cda433bd66a1",
+  42973
+ ],
+ "enriched/struts-oracle-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1525a83a9ad2b0534914061146edf59733bacb8a6e0631cec14be8c16ee6bac0",
+  47824
+ ],
+ "enriched/struts-oracle-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e6c0f42f6ea1176b03e68afd724065e2ec01e8d9547c07a8cc0d124dd089d79c",
+  41398
+ ],
+ "enriched/struts-oracle-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "993f2ed987b4814c43b8f13a27070df170aabc8ef3a4314658917b4bf19496f3",
+  42967
+ ],
+ "enriched/struts-oracle-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7bb1f17fcabb66eea34905c03d053bdc04d5963b5d864c46b15f573e88c8db50",
+  71586
+ ],
+ "enriched/struts-oracle-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "030359383ea579e2210da5487ef92a80297fa64c2c36c8cbe772d38b6ab62f52",
+  74763
+ ],
+ "enriched/struts-oracle-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a5de7b55ff29ca9621ac8e2d08b7e8c3cf1fe9d1651939130f44502c8ea83350",
+  29101
+ ],
+ "enriched/struts-oracle-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "07f797865a33ed2c17c8a3011069fb635dcc7d554de253bb9cc326f21797b078",
+  18611
+ ],
+ "enriched/struts-oracle-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d66576f9fb313338d84f84bc838f921f6904399c4bc1f3e0289ac46adf33688a",
+  25590
+ ],
+ "enriched/struts-oracle-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b333f329f4be2a8f596e4a78f53fca78a55aac4e9df337232657be4eceac53a4",
+  26899
+ ],
+ "enriched/struts-oracle-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "04653561ee60d55a25a784f6adf2fc8b360c4dc3ed1ef7236fcb53342f347a4d",
+  22577
+ ],
+ "enriched/struts-oracle-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f4b0cec012d11f311faeb7ea1399362118a0f792cd8b614bd470cdaf53349acb",
+  22275
+ ],
+ "enriched/struts-oracle-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c08e6ac2c82723bc1d459859e1f0b636d996a029cd62dce65a10d43bf24a2635",
+  20798
+ ],
+ "enriched/struts-oracle-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "478198214b07d6699c088396e31a653ea364de37b364fe668249b6efe65c2f00",
+  26195
+ ],
+ "enriched/struts-oracle-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6f4a8e6c7511ab8150bf1db5a35f590a237099e2bd58ed5a8cb67b6a34721d7d",
+  20777
+ ],
+ "enriched/struts-oracle-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f5681e83cc60f817cec7823941653ec01940bfd52692ccea66a2b9ac08ff99d6",
+  27020
+ ],
+ "enriched/struts-oracle-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0f1643596065e9cfd843c2cacfc8f56bbace1cc551483b0198c312f3ce2218da",
+  22012
+ ],
+ "enriched/struts-oracle-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0549cc82124345d56db040b184b18d92ada917403bf75d7d796b037433a0380b",
+  18110
+ ],
+ "enriched/struts-oracle-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ef60b19f5cf15006eedc371299ca2e8535aae3f93682a830a6caabee3b3f8fb1",
+  40444
+ ],
+ "enriched/struts-oracle-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "91dc68b23e6c808b197b5d44f1e6ad65c69d335938a3d1e2d5bc798406ac4baf",
+  34999
+ ],
+ "enriched/desktop-dotnet-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "63728837b39f3b94270c7993d3343634d7710bce0cfcba255c915ed7390f11e3",
+  84160
+ ],
+ "enriched/desktop-dotnet-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a846ce3b8dd373876bfce3e64714fef4292b8bc89d8f3a770461154915c9ae25",
+  37322
+ ],
+ "enriched/desktop-dotnet-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7b3b1410c6b9f5cd19e73cda25e35e7acb78f2f93177cbc7d4b97250b6f6f01c",
+  63577
+ ],
+ "enriched/desktop-dotnet-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d0326c0ec0f7e498bc58c565119319eda06cf5408bdec9bc12bff62664ff114e",
+  57260
+ ],
+ "enriched/desktop-dotnet-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b4b34aada54447e96a7bf2c44e4d9fd8c280cb720a3e2682c4dce0a52ef3d8f1",
+  46738
+ ],
+ "enriched/desktop-dotnet-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "deca2846e9e4f752d67c6b8cbe6b54d4ce0f68fa702d0b1b88e895c83ee36258",
+  53381
+ ],
+ "enriched/desktop-dotnet-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4d838e7f1b2519f7ac9aa5be5bc449a97cbd713dc4cb5fe632bf4a20731fce28",
+  51529
+ ],
+ "enriched/desktop-dotnet-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1aedba8b2fe1475518c2b4c6a9ce7c81971cbb97920d78c4c061acb83c38b9f3",
+  77138
+ ],
+ "enriched/desktop-dotnet-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0e79204d05bf566eb5bf0814ad5ce25239361c27f4930e6a1e18b5e4b994f43d",
+  55583
+ ],
+ "enriched/desktop-dotnet-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8b229d6f4134a50bc64c88dd39ace43a9b2ae5662635d0cd4c5a7519dd2695ea",
+  64133
+ ],
+ "enriched/desktop-dotnet-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "793a0e78ef83aceed751c5ddb281aa049d76e3b248464829104013be493378cd",
+  44676
+ ],
+ "enriched/desktop-dotnet-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e946267e03a0b51ccceef94a2d88355915508d393068895c39571e0d3b4ef04e",
+  36919
+ ],
+ "enriched/desktop-dotnet-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1302b394be24c236dbadc55b6854e445f98a977348fbb2f53f6a38a83b3a7630",
+  95395
+ ],
+ "enriched/desktop-dotnet-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6b7260d3e27d41221d303a6081cc1c8ece59be0b942dac644500f085f8ef864f",
+  104093
+ ],
+ "enriched/desktop-dotnet-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9f790fbef85e65aa86b29d95227226290bff4788e412b1ada60e13e4761463dc",
+  31740
+ ],
+ "enriched/desktop-dotnet-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "93860332d82b04f17f0314a923f8b4958dc2813d65b0cda8436305679fa73630",
+  21481
+ ],
+ "enriched/desktop-dotnet-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "afced9b39375ff410c82e67e239f4d0029b96daa69a30e610f2a768fc8ed00de",
+  29222
+ ],
+ "enriched/desktop-dotnet-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f98bd5ea7564ea4c223f4567ffb863bfe57bdfb6b69a35a295d373ff849e8c00",
+  30315
+ ],
+ "enriched/desktop-dotnet-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ca92803a5ba4987428572419dcf49ba365c6f0d2268597925c4131c2af262db2",
+  23945
+ ],
+ "enriched/desktop-dotnet-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "339bc9ae962e93ce2c493d4faf0d04ba9109b8b0c24b477bcfec188a3a6ca84f",
+  22260
+ ],
+ "enriched/desktop-dotnet-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fb8cd24b6b4d7fc252de32f645b6e7d96579cf42cdf9722748ad3e6176dbfe06",
+  21451
+ ],
+ "enriched/desktop-dotnet-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1b9805fbcf7e89d50eb614a90ff4050f7003329d8fe4317835735afc2a02cc8a",
+  27507
+ ],
+ "enriched/desktop-dotnet-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8020555ca37d95ec016c82378351e91ce08b6b1b77bd04093163a2c14c052db9",
+  20092
+ ],
+ "enriched/desktop-dotnet-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c3a2635587535ca80e11f5ba43b7c81f8ec2e59e981bf15c56f13b465732cf6e",
+  28061
+ ],
+ "enriched/desktop-dotnet-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8284dbea08d12a24cf161f9420c62fa83725f2d576515f0a7fa7064908a6589c",
+  23538
+ ],
+ "enriched/desktop-dotnet-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "df333e97f4083f25b9b9712a909dfdcfda8ab47d42baf73e3811654996cab0c8",
+  17785
+ ],
+ "enriched/desktop-dotnet-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3898c657872ae927bfb2486dec41a3e392aa0d249ed2cb0343a70d584262de22",
+  44859
+ ],
+ "enriched/desktop-dotnet-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d869b380b9d8773e7f0a3318395e8c167b56e22f6c9adacd253d5826140a2838",
+  43127
+ ],
+ "enriched/spring-mvc-batch-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "50b778934b4afcd0d7e64cc83ea5b9b8d2a58a0d90c5a4f36c79d71361edef2e",
+  70705
+ ],
+ "enriched/spring-mvc-batch-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ad46aa3093d7878f93d3551cdb594847ff0ca8ee54679cb6613dcae00faa1fa0",
+  34777
+ ],
+ "enriched/spring-mvc-batch-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "729c72ce152af2919f5450d590d210131df464ca385271e48506e538ff85f860",
+  50313
+ ],
+ "enriched/spring-mvc-batch-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "61a4d5af98243efb12039dcba3537888ae2957c1feda8b445b881ab1f2671b1d",
+  52500
+ ],
+ "enriched/spring-mvc-batch-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5663def8336a86f115f34fa74dcc8bdfc56605daa764408fc2ab6a87b1951ad5",
+  45175
+ ],
+ "enriched/spring-mvc-batch-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "019fda9880cac89a0c16e6db0579ff6f2ed0b22a029b74cc6e98adf71cb53767",
+  46519
+ ],
+ "enriched/spring-mvc-batch-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e2503c17ac5ce62e8c66b628cca0843f1e3bdeb023e188367591c381b4f3bded",
+  45095
+ ],
+ "enriched/spring-mvc-batch-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "78b02b0396cdf6049236a6d53768aa82c094513f59ce2e49ceef5deca594be5c",
+  61824
+ ],
+ "enriched/spring-mvc-batch-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "45b7918bbe614fea3b70fb69fd9fc0b39dd2359b6dd2142355db19e26a55c377",
+  43310
+ ],
+ "enriched/spring-mvc-batch-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d93459dac2c92847f36234e05e869668d180b09cc5ec76b91b3f676a1ad9a2c7",
+  50913
+ ],
+ "enriched/spring-mvc-batch-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "56641ff9262ac727eb8ec39e86bd63abef77cf6940fa9af8a1aa58e12138d8f7",
+  38441
+ ],
+ "enriched/spring-mvc-batch-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3e27705ff0a8e25b7edbdffbc310674a3712d83163ef3344a0f2187a01aab167",
+  31935
+ ],
+ "enriched/spring-mvc-batch-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6f066e9ece5cb1a23930b6939eaaf4ef64066587d4dbba69bafb96d7fd2321b9",
+  78653
+ ],
+ "enriched/spring-mvc-batch-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a925c8b06086600f6b85c86a0008b58436df50f8932379061caca4b08c9a421c",
+  85619
+ ],
+ "enriched/spring-mvc-batch-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b66dfc28d72363677006d3624f110b7d39f3317bba0a7c383eab7dcdd42d71fc",
+  31436
+ ],
+ "enriched/spring-mvc-batch-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "416259d2344db5b675974a4ef6c556b5646dba016e4d67a6e265536a98207d81",
+  19969
+ ],
+ "enriched/spring-mvc-batch-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "cd32b5d622361955c7c7e167fc272683beac735f68fc570ee5a58eb0c54dadbf",
+  26118
+ ],
+ "enriched/spring-mvc-batch-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fec4b385aad698690736fb4fd6f77df794756e91ca9d7b957dd4e544437b2169",
+  27525
+ ],
+ "enriched/spring-mvc-batch-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3003c5052b10609f1f7ba9f3ec377e7bd0306f71b999e213545a8400ea303493",
+  22982
+ ],
+ "enriched/spring-mvc-batch-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c46a827573bc2f4f77c190607ab4130e7eddd502ba24bbda9fd02ba14bd9103b",
+  21685
+ ],
+ "enriched/spring-mvc-batch-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ec6f931cfd0495d27b914a508191230e9d79ef48a3416cab6d2f506f49a2e7db",
+  21662
+ ],
+ "enriched/spring-mvc-batch-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "660a442e5625c6511252b33f65c6b987e96e7baf90057e84e35807a33d25aee8",
+  28460
+ ],
+ "enriched/spring-mvc-batch-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b9dce089f4ac780a79611d9f70da2ad46473f74fee6ad2dab9356c236e6042fd",
+  20730
+ ],
+ "enriched/spring-mvc-batch-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9cefecc6ab6a602a72c8092200545de0791d90a607e33dbc41ea87067fe80dbc",
+  26887
+ ],
+ "enriched/spring-mvc-batch-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "98b6a4894f64e74f9c40dc600db693145ea0692f6f25446ecba6d91c615f7fcb",
+  22507
+ ],
+ "enriched/spring-mvc-batch-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "af9fc6a61e3b2eb49702eaf7c10cd275d882be14c81ed28f289406d016efe514",
+  17020
+ ],
+ "enriched/spring-mvc-batch-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "eb7a86fb3ae48ad6f3efe158ff292bb2045affb4dc1db693e243c5d51c54410f",
+  41982
+ ],
+ "enriched/spring-mvc-batch-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0494f50ca8f19e4e5e2140a7c071d5a4444a38585716fed8d8fe0bc3c11dad76",
+  38802
+ ],
+ "enriched/angular-node-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "492c27d85ea288b695afe845ff8893eeff2596c7946cdac142c6fde7029b953f",
+  79355
+ ],
+ "enriched/angular-node-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "dbf985db31942591b00767b8ad0f5e6ac3568be8f72029247843fbf8593aa6a6",
+  35858
+ ],
+ "enriched/angular-node-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0a4f4c63d8e5cf0c200181818f9633daa1d68887f7148353a4abba8861edbac5",
+  65546
+ ],
+ "enriched/angular-node-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6242ed304eee15b843c09b5c38ad828735e7931c5557be3e21ed79213507e0d8",
+  64070
+ ],
+ "enriched/angular-node-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7dfae0e3c0985b421506e761bec8932762171972fd4c5221956e1b8704156569",
+  48063
+ ],
+ "enriched/angular-node-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "0bb86e6fe29e836d3989743ca1741ffa6983d35069af63815914f2d066be48e4",
+  41514
+ ],
+ "enriched/angular-node-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "229148df2de8b65134c9fe5dbd18c2cbbbf36db7002bb497332c4ef28ce58041",
+  56582
+ ],
+ "enriched/angular-node-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ebf3be71969462fc98a04a4a8e6759b49ed9a57b1bea88ba04f99a19b8147dc2",
+  74131
+ ],
+ "enriched/angular-node-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e9141da9f1224e00095aa34de4ed1c1f9d4d475463dacfe61b6088727dd20bee",
+  45074
+ ],
+ "enriched/angular-node-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "03e6be47dbcc6cf5560eff2e0a499463a00ef56b697eab27ea3f27a157b2ccdb",
+  60323
+ ],
+ "enriched/angular-node-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4b87e615ed7f533103e78c1f75a93493e69bcae560971b0fcc69bb9adcfabd7a",
+  40681
+ ],
+ "enriched/angular-node-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2db0e3828ab4d4adf854a0daba71b0741240e1854a1cb9fadfd652291acac709",
+  34661
+ ],
+ "enriched/angular-node-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "92cee1dcae4b4be7efbe9fd87b82c32a8285231b96e76ea72579f5f2f98b73d7",
+  88040
+ ],
+ "enriched/angular-node-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9b07c53579aa20786456dab30348e8925298aef590456fe61b0a91e0871011f7",
+  98900
+ ],
+ "enriched/angular-node-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "964cceb081ae6159601677b955cf9e3edd5c215badbc0f1d76a3bd3b68ea3c9a",
+  31929
+ ],
+ "enriched/angular-node-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4c9a94b614ac47c0de92af7dcaf74c1fffe029ffc2ca9a6e79069465bf3cfb21",
+  20831
+ ],
+ "enriched/angular-node-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "762e3b2e1560f82d80fa9980bd1b7e7a7fe2c96106eed0e16403a50c78233e89",
+  29555
+ ],
+ "enriched/angular-node-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ea4d0b5eca34bb4582ddf150b4e4cf710a7c8973c3b12422970718842f866a9f",
+  30201
+ ],
+ "enriched/angular-node-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "28f72e8200e0a5df4f33872dd6b5e11cf6c8fa8d0b14d31477da66f4f85dbe1a",
+  24186
+ ],
+ "enriched/angular-node-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5c990c5a0f9258a84c8960b015ae5a8f6087ef25fa5387fc3608fe1c54417c5f",
+  21699
+ ],
+ "enriched/angular-node-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8b1fc956cb91dff74be8e178e5f08df16ef9bb471c1882cc735b826393e1cd50",
+  21533
+ ],
+ "enriched/angular-node-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5649f1df30567d0d37c8530790bdf4f6027ad58c8aecb42a123bb5f6eb5248d4",
+  27974
+ ],
+ "enriched/angular-node-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9793747ecb73f6be93ec820d77525eb07b9529e837094fffb8e783f717070784",
+  20634
+ ],
+ "enriched/angular-node-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c03603679e3da6b520c94ab85a649607ef09b6ad745a173f215aed05c058ae39",
+  28861
+ ],
+ "enriched/angular-node-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1e705d5b84ab898163cdaea3fb9bacb443d90ded7b09d8e3ab79c9f625f6d546",
+  23363
+ ],
+ "enriched/angular-node-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "912bd223fcc0c27db8c51763eeef3dd44b8bc397adafaef6af69b95da7fa0f06",
+  17737
+ ],
+ "enriched/angular-node-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c0b21bb95ab4d99a017edc8012dac85a484dea4b7d15ba0cefb1efc053b2bd02",
+  43824
+ ],
+ "enriched/angular-node-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3690b98f3d8755c83a5e50f196021135cadbd88da707cec8ec3249cc5a8146ca",
+  41818
+ ],
+ "ref/c-proc-batch|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ced0e2caf24f68568343b74ab367cd99ce44ee6caf67fe8966f8659229a6a3b2",
+  43867
+ ],
+ "ref/c-proc-batch|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "710ab8690bde4da97dff0cd4c67a252c3c6bbff5b8db3e43fbdc3ac24696581b",
+  30085
+ ],
+ "ref/c-proc-batch|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "94055c3ceee044f25a9879393ea38032dcfdfe977c6b95630a56e3781888bb5f",
+  36844
+ ],
+ "ref/c-proc-batch|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fdc33a517d6f4030fe8eea023a2ba8b3d6e93b5e0d6fe11313b3fd0bac7fc2af",
+  37723
+ ],
+ "ref/c-proc-batch|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e695820a2f983dd484a87ee07b18f22b86332f61de785eace4e7f824710f5f1e",
+  37772
+ ],
+ "ref/c-proc-batch|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6d07785ec8c3ce78216868aefe2b72bf52053f5aeab764215708f51909f8cfa2",
+  37846
+ ],
+ "ref/c-proc-batch|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "742ec8fd7241878e0c887fcbc3e688175f5d444c5133c20f8aae6efb560db9e3",
+  30202
+ ],
+ "ref/c-proc-batch|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "735267cbf802d270ff93c278493dc566b494500c044337a5ed578f8b21db348e",
+  38544
+ ],
+ "ref/c-proc-batch|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "50bbe1d42c5b4daee89908163290d7f9abd67fb5d7388ec69e9392f4bab660ec",
+  32838
+ ],
+ "ref/c-proc-batch|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "85971129f0a7348653d9fe3ebc87947cf9156bb0b4cffe1fc1d0edc025733eb1",
+  41287
+ ],
+ "ref/c-proc-batch|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "01ac72da70c2d62a4b74135e41e766bfce0d06e369c991b511659fd44aaf56fc",
+  32232
+ ],
+ "ref/c-proc-batch|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "84237310ed8fb1011719ef5f5029653f15d41654cf18870c4e84a3107db8e511",
+  28150
+ ],
+ "ref/c-proc-batch|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "acfcbcf0197d4ae3fc5e329eba5d0a9b34cb4398cba993bfa6dbd5f4a6749f1f",
+  61609
+ ],
+ "ref/c-proc-batch|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "45f879996bfce24074a72c0cb43003d18462766b6cfe46df52cbdcfa1d748967",
+  57193
+ ],
+ "ref/c-proc-batch|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "282ed4314ea719a02f0969aea0bb959921856217af7aefe837ac58c96f993875",
+  25437
+ ],
+ "ref/c-proc-batch|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f2e6daf2cec8a1f68f343bb54d542c9bbcf0910716b911385e2d76fc4541ed8e",
+  18955
+ ],
+ "ref/c-proc-batch|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "15910c8f9ce964e687e7d7e2b7a5f035948c8b960360055ca48c7686e781ff1d",
+  24407
+ ],
+ "ref/c-proc-batch|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6625d00a76af1c7d70b6316c3b1ef2545c400a5d8f64a3b8836958ace511cb35",
+  24864
+ ],
+ "ref/c-proc-batch|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "579a434901ed0081a99aa77caeb02658f138b4ef8606e92b6c85d38ff1ce1f9c",
+  21998
+ ],
+ "ref/c-proc-batch|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "26bb9b85e7487f9926afe5b5d461c36447324209621a6389008c076a7f28a148",
+  20752
+ ],
+ "ref/c-proc-batch|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "e14428e80b0b5ce083388db6dcc3286cf0a26bc7ab54f5c17052df61c8f844c2",
+  19072
+ ],
+ "ref/c-proc-batch|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6e6de9bffd3bdd4decaaacbc82cfd2180d58fea6e56ef7c4268b77d22e874b69",
+  25054
+ ],
+ "ref/c-proc-batch|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "324777a7eb751898953e83a9c71320bbbadaf79f29051108a07875941fc604b0",
+  20262
+ ],
+ "ref/c-proc-batch|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "24b3ce041dbc8f4a16540d21afa528337cc7ada8dd6619e5b0e1868986c3076c",
+  25021
+ ],
+ "ref/c-proc-batch|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2bbefe25a95db761221d2a2fc0c733feba5c22aa6d9af622b98ad8844009c395",
+  21102
+ ],
+ "ref/c-proc-batch|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5aa8b67bbf00fe208720f01ef707ca09dac6bb29568dfcbb877aa8ab54d82dd7",
+  17020
+ ],
+ "ref/c-proc-batch|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3867fa8c36b53c4873a2b8ecd64c081e32ba370256f84bca7e17ead9ce8eab49",
+  36673
+ ],
+ "ref/c-proc-batch|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "34c8bd26bc0d3d91678f9df05edaed9d5ddd91e59c28f6aa33374b775abf5a28",
+  30811
+ ],
+ "ref/web-services-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "eb6fdda4d1e89fdc7f5a4a0057631f1180a5ed1c633041f249d405db433b6a61",
+  47019
+ ],
+ "ref/web-services-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4f8fbe8f28ed9d39172195f59b7cd445cefc641e07c62e2a423867685b655d78",
+  34018
+ ],
+ "ref/web-services-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2398ff2d97ce46f5aad9d1d6d47a09d6fe438b51be7ecc5fb654cc449d7b05de",
+  52095
+ ],
+ "ref/web-services-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "127ccc24526be2ebdcf6f50808788b91538132fb7b17c44b9716d256839263b1",
+  53702
+ ],
+ "ref/web-services-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b6ec92ed055ab4b9bb080f0c9e493ad3d735a82f24c9c5daa2580d91a50fcc9b",
+  45256
+ ],
+ "ref/web-services-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "08b50932e3ee2f51f9bcce49d1d3904fb7f4fea03453f4701961f26c0015f3b5",
+  33152
+ ],
+ "ref/web-services-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "50ca64ec16aae82d0b78212911745b16b0fb570b4e3a95f1ae878758e1fbe05e",
+  37001
+ ],
+ "ref/web-services-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "48f8eaa60ae8933a94088c68e1173a43470f9347fa15c02c13a2e8a247f7f57d",
+  47633
+ ],
+ "ref/web-services-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "13acad759bd3c6dde425c23d61e9b6b825aca0a225662ad5dc4a2bf6a980af03",
+  39299
+ ],
+ "ref/web-services-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7970a380809d994a5d809d49bcf358edd9c4713e3e3809f2106e1628a8e8c163",
+  57408
+ ],
+ "ref/web-services-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9c456f88f18c4c64f4fcae83aac3d807c06fb10267bc9a8fe3646a2a6a37f02b",
+  36237
+ ],
+ "ref/web-services-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "782bb47d830650f4e2d6dd0b70eeaaf5a89b6e584e418d559c7b92e644ff073b",
+  31625
+ ],
+ "ref/web-services-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5dc42c768fc98784220941111cd4ed4fee85b8a75180e9d28c433e035d879592",
+  67997
+ ],
+ "ref/web-services-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b0f2ca726c91b7fd8059dffa22335069a19c1725fdc052e12d576abd0880f61a",
+  66720
+ ],
+ "ref/web-services-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a5bc9825eb24a139140c2a48f0a1467e57033c18bf4e0f43cae26192cf752c1f",
+  27158
+ ],
+ "ref/web-services-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d63a2104236acb6c57e93e7fc9cdcc2b37d87525f2c936aec8c5e6d02c427db3",
+  19520
+ ],
+ "ref/web-services-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "41ef3d02e8ca314983fa638aed95d8b58700105f1d158e8bb1106baa6cc88069",
+  26576
+ ],
+ "ref/web-services-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a43b8826cba716c389d0199a05d5a2b0c88874664345dc90c527c90aa3d3b846",
+  25014
+ ],
+ "ref/web-services-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fab33e1a4cafdf37fc855b197d397cf26ff01ab8c1865a5425dc74884567a8c7",
+  22966
+ ],
+ "ref/web-services-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c599d03b6e2643d12ca9799e6194f7f7e2f217326484d4b54c80884f13a6dd43",
+  18679
+ ],
+ "ref/web-services-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "58e22f86eefe7b45748f4512a2c1ecb1d0316caaf78bc23e2e776628bde735ee",
+  21470
+ ],
+ "ref/web-services-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2ee533b1649ded32841e8cbfd2c1b3a4d1d74098cdc8f1068ee56a500d658e61",
+  26987
+ ],
+ "ref/web-services-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "1775afabe3d85bbed237089faa1638fbd1218e68f1c393dcd1c1d315177521ef",
+  20439
+ ],
+ "ref/web-services-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7d7966c8c0fcef66980097ac8da9f74cedb336f5ca917f06a8491def2fe60c02",
+  27762
+ ],
+ "ref/web-services-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "2ae5549089a6328b47c1d8e5ba06ceebab43734e932d65c61caeaab0b2ed8003",
+  21803
+ ],
+ "ref/web-services-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "048254e7eee63e45bdaad13939b77eab850366f859c737af9077298920875a1b",
+  17020
+ ],
+ "ref/web-services-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8eeee6dda6eb61c041774581c2e58221ac12d695a89e2001dba15a2e8dd82bc8",
+  36037
+ ],
+ "ref/web-services-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c525e29fc19c5054b2a1954f3c0edbfcd17e30ca45f48ea6e22e9e19fe17d024",
+  32492
+ ],
+ "ref/cobol-cics-db2|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "61d2f0124d6fee006fe33128b69a471acae6353f4cbd176256d7efb4b7b108eb",
+  40332
+ ],
+ "ref/cobol-cics-db2|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5fe10e2b2f6b82d5ba98dc6210f89bc2096044500da20ee36f9d62b286aee23b",
+  29354
+ ],
+ "ref/cobol-cics-db2|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ff34dd470411f52d004c012c38d7a34d5270f8ebdc360ed87ab7c2f32e762397",
+  34095
+ ],
+ "ref/cobol-cics-db2|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "a5be9b1cafabf9ba7b0434b7d06e0c03606a5997ea05cd9befdd5b20c8bc31c9",
+  34322
+ ],
+ "ref/cobol-cics-db2|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fdc10f978faf91bec186ffd0496ca6ceefc2634231f654a3cd1fa99013a6bf53",
+  37039
+ ],
+ "ref/cobol-cics-db2|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "588af74d24ee900031cac9223a42973a8c5b9db24e6cbdb708db340612e5aa44",
+  35775
+ ],
+ "ref/cobol-cics-db2|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "10e33f06bafcdc1a6b3154c4a0c7fc9e72f8d18279d14b9cfa72180223db05b9",
+  29362
+ ],
+ "ref/cobol-cics-db2|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "67149076b31927d7721d2ba2c43e4f6be382d4f598a26681161ba2f7e3d927a2",
+  35502
+ ],
+ "ref/cobol-cics-db2|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4d8d9cea7e7b002238813319b5cbdf0016faf0b9a5102bc7ce6a027c01113980",
+  31884
+ ],
+ "ref/cobol-cics-db2|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d20d1ada0dbc2a2c3dd4179eeff133e68ccc9684ce8365b9428efc1e12722a1f",
+  39129
+ ],
+ "ref/cobol-cics-db2|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "055a84d72bf2e0fe145b191a5b95c5b50fcd3ff73061938f525c4beee8eebe9c",
+  31902
+ ],
+ "ref/cobol-cics-db2|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d9842af2dd70790f8c135014673881295649b515a7fad2a1fd5bb85b0014dfeb",
+  27286
+ ],
+ "ref/cobol-cics-db2|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b02aed4fd0db12d27cea28c5a37c98a15acb69989c11bd61d8c52e0c5e2a7d48",
+  57137
+ ],
+ "ref/cobol-cics-db2|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c828b5482024e6ffa8b97bfdb9d652a1551a5db0a92b798aabc09b7ac6d1da94",
+  53151
+ ],
+ "ref/cobol-cics-db2|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "225089baa01d8fee14c02dc6e31be80bf8c5230ba981a9d98cfcbef3169a312b",
+  26003
+ ],
+ "ref/cobol-cics-db2|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d01aef1ad7326f1ea41c8f5291325e4e0b20342a8648df29c0b8a7f1070253e0",
+  19088
+ ],
+ "ref/cobol-cics-db2|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4657bb2f9cf8a3528ffd2eaa5529e177c52b03cd31c62a23fd4285ba84fe864b",
+  23654
+ ],
+ "ref/cobol-cics-db2|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6d8f32180b51d0418e571aa0137acc56191ba15dad91f63a985ce964aac78cc6",
+  23881
+ ],
+ "ref/cobol-cics-db2|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "7185f4be021a0a59318249ad63ecb627f74053ceec7c097b62be4e928fcca7b0",
+  22551
+ ],
+ "ref/cobol-cics-db2|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "14420e1f99fe98c3b0e92c8b4d69636247087b1333d16f3cd8e8392fb71f51b9",
+  21446
+ ],
+ "ref/cobol-cics-db2|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ef3c8bb84476a1f017d70cdd9219c73c10c60f0635b459751ec0302e8ebc03cf",
+  19096
+ ],
+ "ref/cobol-cics-db2|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "71a6703a2975cab76768c65549d1328f888e0d50da439f987fbf7a0ff71e2f0d",
+  23457
+ ],
+ "ref/cobol-cics-db2|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "93fff2c945f1d008eff099d0e93310ad7945065ada6b5025a5488a4e5d24834d",
+  19839
+ ],
+ "ref/cobol-cics-db2|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "5e7a72f68ec9ea12b9c2d3b5130bef9be579337315422a76571d614f76e3c4cc",
+  24641
+ ],
+ "ref/cobol-cics-db2|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ea9fa183b02c85ec7b0200ffde8762fc44892a5a155c9dc6ec02786a8f3e4bf3",
+  21636
+ ],
+ "ref/cobol-cics-db2|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "69207202d7cc7803407f69b9a58d6e7b2f7f9d523a709b41a20ffbefdde71311",
+  17020
+ ],
+ "ref/cobol-cics-db2|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "008d957f0e46b654e52f4658db4cb9f84c95054e48c091e4c2c68cebb9178b42",
+  37290
+ ],
+ "ref/cobol-cics-db2|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "44f96dc577a1eec8546f88761210484ae84aebf6de9472d82bebd1b469e9f7b9",
+  31525
+ ],
+ "auditonly/struts-oracle-app|150000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "937a33d900de070127a7a6d42c1d136cb3ff0c34726c216b8717098279953b51",
+  61083
+ ],
+ "auditonly/struts-oracle-app|150000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "06831f35707e560240a837b23420580b7301834cc80fed3d2fa5527fa21c604c",
+  33339
+ ],
+ "auditonly/struts-oracle-app|150000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ebf83c77d277d6cd91f96fee9b6b83713c8e958b9163b8fc3513cff3cc13da17",
+  47436
+ ],
+ "auditonly/struts-oracle-app|150000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "83dc6cfdecf7fec1a051840a0a89027b7c9b68d25c6ffbc7998b5f8370b10707",
+  49126
+ ],
+ "auditonly/struts-oracle-app|150000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "9c400fc0f546e1f90fc34f849ac825f6fddc2d2349f239736c1e055ee3093996",
+  42275
+ ],
+ "auditonly/struts-oracle-app|150000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "31f8462807c556c6a9c69f645e5f2717ad08874007ce241218070d2a9ae207be",
+  48430
+ ],
+ "auditonly/struts-oracle-app|150000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "ced50d5696393e944411eb87b2d07bb90428f6868f45d9c0a4d00f37e8dcf386",
+  40375
+ ],
+ "auditonly/struts-oracle-app|150000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3a7cba592613ac3e7db6bf03115dc0e5fd7f0e03b5c79f73e998c00c4e900979",
+  53088
+ ],
+ "auditonly/struts-oracle-app|150000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "d47ca7237f6641877b717de95f93030f538c7915c887671b2224c9d1701381f8",
+  42930
+ ],
+ "auditonly/struts-oracle-app|150000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "be403ff1305bbf92919ec49e99d53accb334f3f35ceb2124fe294d51cd8b2d86",
+  47729
+ ],
+ "auditonly/struts-oracle-app|150000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "69608ee4ee0fc0938c6692e016a3f2d1102a18abbb0eb26a10cdc67ddbb36549",
+  41303
+ ],
+ "auditonly/struts-oracle-app|150000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "4c9691c81ea6bcb61f6b0f83385c198f5c4e2c61be1c96923b779bce2ecd03b6",
+  42924
+ ],
+ "auditonly/struts-oracle-app|150000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "606c1e404b9462dc5579504f13bad793664f8964e89d54215cc6f79bf4340f51",
+  71542
+ ],
+ "auditonly/struts-oracle-app|150000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "39cf7eb44a93cc71da9feb6ec8dbbebe96a69a7f74b4fba01946fd8a2c9ef7a0",
+  74720
+ ],
+ "auditonly/struts-oracle-app|10000|overview": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "26f09a9aa48ca102717ef8c37575131944b2b8dd023ee72d51f58048c278db15",
+  29053
+ ],
+ "auditonly/struts-oracle-app|10000|classification": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "69660ef5462fbb1e78df4530fa0556714860f66225c4e6fb2c106380c41b4207",
+  18563
+ ],
+ "auditonly/struts-oracle-app|10000|architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "8b8a3042cef64c9e518265d665076010651bbcb861ec0608dbb63b831501468d",
+  25542
+ ],
+ "auditonly/struts-oracle-app|10000|flows": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "3e5dcf7743202893885737da6d2b9bd9365cf87dd4566abe06f1d17b8a395c59",
+  26851
+ ],
+ "auditonly/struts-oracle-app|10000|service_mapping": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "23e1163d650b4a227422ddad91205b6af1f87682eb10fbbdc53d59fb375fe4fb",
+  22477
+ ],
+ "auditonly/struts-oracle-app|10000|data_migration": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "6f7e315aa422a4a1f99d5561d4fcbd9907a6a341c6cec578b69eeaa0bbd27545",
+  22175
+ ],
+ "auditonly/struts-oracle-app|10000|dependency_plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "c4a544217b5e11ef138c7260b5d1da7fd1b6ebcbf8074b679c37c495c3608e02",
+  20698
+ ],
+ "auditonly/struts-oracle-app|10000|risks": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "fdf3d8e59e06b35a1604ad3223260c72a14011b8bd40f579e29ae7259cdd3dd7",
+  26095
+ ],
+ "auditonly/struts-oracle-app|10000|assumptions": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "f503e61039ca0ec0bd1827e4f0b657c7308961654f0c04469d6f45cdf8d98365",
+  20729
+ ],
+ "auditonly/struts-oracle-app|10000|target_architecture": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "84c9295d938782ede91b21cfe0a6880cb8b7b7c0e02bf40bd3ff4d636d4f332a",
+  26920
+ ],
+ "auditonly/struts-oracle-app|10000|plan": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "74fa4eb74a1b43cb9e025e6d513209cace84c528f57fe0bdda304407f7d0f1fe",
+  21912
+ ],
+ "auditonly/struts-oracle-app|10000|narratives": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "beef4a0a177b187798d225b9e7d47503e9c0868677c5a4e7c7b7c0a78cd87381",
+  18062
+ ],
+ "auditonly/struts-oracle-app|10000|functional": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "b755367350f9092d6d93dba401c07116fc990a86c93963ec828e93106d348315",
+  40396
+ ],
+ "auditonly/struts-oracle-app|10000|component_docs": [
+  "6d822e34d434dc5c036408ee84bbae8f249d238c12686129fb5fff6cb014aeee",
+  "61153137a2f210703313d78b406d3b4094323eaf4e77b2c1f47066b68fac393c",
+  34951
+ ]
+}

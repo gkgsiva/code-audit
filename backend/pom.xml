@@ -23,6 +23,7 @@
     <module>audit-model</module>
     <module>audit-engine</module>
     <module>audit-reports</module>
+    <module>audit-ai</module>
     <module>audit-cli</module>
     <module>audit-server</module>
   </modules>
@@ -87,6 +88,11 @@
       <dependency>
         <groupId>com.legacyaudit</groupId>
         <artifactId>audit-reports</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.legacyaudit</groupId>
+        <artifactId>audit-ai</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

@@ -1,0 +1,4107 @@
+{
+ "struts as written": [
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  },
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "wrong figure, then estimate": [
+  {
+   "messages": [
+    "error: overview at figures[0]: figure 'Services' says 12 but the scan says 4 (counts.services.total); copy the scan's number or mark it estimate: true"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  },
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [
+       "stage:overview"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [
+     "narratives"
+    ],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "missing evidence": [
+  {
+   "messages": [
+    "error: risks at risks.0: needs evidence [{file, line}] or assumption: true"
+   ],
+   "checked": [
+    "risks"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "evidence must exist": [
+  {
+   "messages": [
+    "error: risks at risks[0].evidence[0]: evidence file 'src/Nope.java' is not in the scanned source",
+    "error: risks at risks[1].evidence[0]: line 0 is outside 'sql/pkg_order_pricing.pkb' (24 lines)",
+    "error: risks at risks[2].evidence[0]: line 9999 is outside 'sql/pkg_order_pricing.pkb' (24 lines)"
+   ],
+   "checked": [
+    "risks"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "references": [
+  {
+   "messages": [
+    "error: architecture at layers[0].components: component 'billing' is not in components.json",
+    "error: flows at flows.0.component_ids.1: Input should be a valid string",
+    "error: service_mapping at mappings[0].service_id: id 'service:x' is not in the scan facts"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "prose counts": [
+  {
+   "messages": [
+    "warning: overview at purpose: text says '9 services' but the scan counts 4 (counts.services.total); use the scan's number, or say it is a subset",
+    "warning: overview at purpose: text says '1,234 findings' but the scan counts 21 (totals.findings); use the scan's number, or say it is a subset",
+    "warning: overview at purpose: text says '12 Batch Jobs' but the scan counts 0 (counts.batch_jobs.total); use the scan's number, or say it is a subset",
+    "warning: overview at purpose: text says '40 sql statements' but the scan counts 14 (counts.sql.total); use the scan's number, or say it is a subset"
+   ],
+   "checked": [
+    "overview"
+   ],
+   "stamped": [
+    "overview"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "bad severity": [
+  {
+   "messages": [
+    "error: risks at risks.0.severity: Input should be 'critical', 'high', 'medium' or 'low'"
+   ],
+   "checked": [
+    "risks"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "many schema errors": [
+  {
+   "messages": [
+    "error: overview at meta.built_from.run_id: Input should be a valid string",
+    "error: overview at meta.built_from.facts_hash_by_input: Field required",
+    "error: overview at users: Input should be a valid list",
+    "error: overview at key_points.0: needs evidence [{file, line}] or assumption: true",
+    "error: overview at key_points.1.evidence: Input should be a valid list",
+    "error: overview at key_points.3: needs evidence [{file, line}] or assumption: true",
+    "error: classification at components.0.kind: Input should be 'online', 'batch', 'integration', 'library', 'data', 'mixed', 'desktop', 'frontend' or 'api'",
+    "error: flows at flows: Input should be a valid list",
+    "error: risks at risks.0.evidence.0.line: Input should be a valid integer, unable to parse string as an integer",
+    "error: risks at risks.0.id: Input should be a valid string",
+    "error: risks at risks.0.title: Input should be a valid string",
+    "error: risks at risks.0.severity: Input should be 'critical', 'high', 'medium' or 'low'",
+    "error: risks at risks.0.extra: Extra inputs are not permitted",
+    "error: risks at risks.1: Input should be a valid dictionary or instance of Risk",
+    "error: assumptions at meta: Input should be a valid dictionary or instance of Meta",
+    "error: plan at waves.0.start_month: Input should be greater than or equal to 0",
+    "error: plan at waves.0.duration_months: Input should be a valid integer, got a number with a fractional part",
+    "error: plan at waves.0.effort.0.value.float: Input should be a valid number",
+    "error: plan at waves.0.effort.0.value.int: Input should be a valid integer",
+    "error: plan at waves.0.effort.0.value.str: Input should be a valid string",
+    "error: plan at team.1.count: Input should be a valid integer, unable to parse string as an integer",
+    "error: plan at team.2.count: Field required",
+    "error: narratives at executive: Input should be a valid dictionary or instance of Narrative",
+    "error: functional at actors.0.kind: Input should be 'user', 'external-system', 'scheduler' or 'operator'"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "architecture",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "target_architecture",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": 3,
+      "changed": [
+       "batch_jobs",
+       "components",
+       "integrations",
+       "libraries",
+       "screens",
+       "services",
+       "sql_statements",
+       "tech_stack"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [
+     "overview"
+    ],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "lax values accepted": [
+  {
+   "messages": [
+    "error: overview at figures[1]: figure 'Screens' says True but the scan says 4 (counts.screens.total); copy the scan's number or mark it estimate: true"
+   ],
+   "checked": [
+    "overview",
+    "plan"
+   ],
+   "stamped": [
+    "plan"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "meta stage wrong": [
+  {
+   "messages": [
+    "error: narratives at meta.stage: is 'plan', expected 'narratives'"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "unknown stages": [
+  {
+   "messages": [
+    "error: nope: no such stage",
+    "error: zzz: no such stage"
+   ],
+   "checked": [
+    "risks"
+   ],
+   "stamped": [
+    "risks"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "figures without metric": [
+  {
+   "messages": [
+    "error: overview at figures[2]: metric 'counts.nope' is not in audit-summary.json or effort.json",
+    "error: overview at figures[4]: figure 'e' says x but the scan says {'by_kind': {'servlet': 1, 'struts-action': 3}, 'total': 4} (counts.services); copy the scan's number or mark it estimate: true",
+    "error: overview at figures[5]: figure 'f' says 4 but the scan says 1 (totals.components); copy the scan's number or mark it estimate: true"
+   ],
+   "checked": [
+    "overview"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "not a dict": [
+  {
+   "messages": [
+    "error: overview: Input should be a valid dictionary or instance of Overview"
+   ],
+   "checked": [
+    "overview"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "stale after a fact change": [
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  },
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [
+       "libraries"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [
+       "libraries"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [
+       "libraries"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [
+       "risks",
+       "dependency_plan"
+      ],
+      "stale": true
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [
+       "overview",
+       "dependency_plan",
+       "risks",
+       "plan"
+      ],
+      "stale": true
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [
+       "libraries"
+      ],
+      "stale_upstream": [],
+      "stale": true
+     }
+    },
+    "stale": [
+     "overview",
+     "dependency_plan",
+     "risks",
+     "plan",
+     "narratives",
+     "component_docs"
+    ],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  },
+  {
+   "messages": [],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "wildfly target": [
+  {
+   "messages": [
+    "warning: service_mapping at mappings[1].target: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: service_mapping at mappings[2].target: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: service_mapping at mappings[3].target: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: dependency_plan at themes[0].action: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: target_architecture at components[0].technology: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: target_architecture at components[1].technology: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: target_architecture at components[1].platform: names 'Cloud Run', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: target_architecture at platform_changes[0].target: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: plan at waves[1].goal: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes",
+    "warning: component_docs at components[0].migration_notes: names 'Spring Boot', but the target is WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL: the code moves as it is and only the database changes"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "service_mapping",
+    "data_migration",
+    "dependency_plan",
+    "risks",
+    "assumptions",
+    "target_architecture",
+    "plan",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "auditonly as written": [
+  {
+   "messages": [
+    "warning: service_mapping: not needed: the target is none (audit only)",
+    "warning: data_migration: not needed: the target is none (audit only)",
+    "warning: dependency_plan: not needed: the target is none (audit only)",
+    "warning: target_architecture: not needed: the target is none (audit only)",
+    "warning: plan: not needed: the target is none (audit only)",
+    "warning: functional at web_services[0].migration: the target is none (audit only): leave migration text out",
+    "warning: component_docs at components[0].migration_notes: the target is none (audit only): leave migration text out"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "risks",
+    "assumptions",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "risks",
+    "assumptions",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "auditonly with migration text": [
+  {
+   "messages": [
+    "warning: service_mapping: not needed: the target is none (audit only)",
+    "warning: data_migration: not needed: the target is none (audit only)",
+    "warning: dependency_plan: not needed: the target is none (audit only)",
+    "warning: target_architecture: not needed: the target is none (audit only)",
+    "warning: plan: not needed: the target is none (audit only)",
+    "warning: component_docs at components[0].migration_notes: the target is none (audit only): leave migration text out"
+   ],
+   "checked": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "risks",
+    "assumptions",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "stamped": [
+    "overview",
+    "classification",
+    "architecture",
+    "flows",
+    "risks",
+    "assumptions",
+    "narratives",
+    "functional",
+    "component_docs"
+   ],
+   "status": {
+    "run_id": "20261030-015041-eb4ba0",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-eb4ba0",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     }
+    },
+    "stale": [],
+    "missing": [],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "desktop as written": [
+  {
+   "messages": [],
+   "checked": [
+    "classification",
+    "dependency_plan",
+    "target_architecture",
+    "functional"
+   ],
+   "stamped": [
+    "classification",
+    "dependency_plan",
+    "target_architecture",
+    "functional"
+   ],
+   "status": {
+    "run_id": "20261030-015041-13a1f7",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-13a1f7",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-13a1f7",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-13a1f7",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-13a1f7",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": false
+     }
+    },
+    "stale": [],
+    "missing": [
+     "overview",
+     "architecture",
+     "flows",
+     "service_mapping",
+     "data_migration",
+     "risks",
+     "assumptions",
+     "plan",
+     "narratives",
+     "component_docs"
+    ],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "desktop wrong tech id": [
+  {
+   "messages": [
+    "error: target_architecture at platform_changes[0].tech_ids: id 'tech:nope' is not in the scan facts"
+   ],
+   "checked": [
+    "target_architecture"
+   ],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-13a1f7",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "stale": false,
+      "validated": false,
+      "changed": []
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": false
+     }
+    },
+    "stale": [],
+    "missing": [
+     "overview",
+     "architecture",
+     "flows",
+     "service_mapping",
+     "data_migration",
+     "risks",
+     "assumptions",
+     "plan",
+     "narratives",
+     "component_docs"
+    ],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "angular as written": [
+  {
+   "messages": [],
+   "checked": [
+    "classification",
+    "target_architecture"
+   ],
+   "stamped": [
+    "classification",
+    "target_architecture"
+   ],
+   "status": {
+    "run_id": "20261030-015041-4799b9",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-4799b9",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-4799b9",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": false
+     }
+    },
+    "stale": [],
+    "missing": [
+     "overview",
+     "architecture",
+     "flows",
+     "service_mapping",
+     "data_migration",
+     "dependency_plan",
+     "risks",
+     "assumptions",
+     "plan",
+     "narratives",
+     "functional",
+     "component_docs"
+    ],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "spring batch as written": [
+  {
+   "messages": [],
+   "checked": [
+    "functional"
+   ],
+   "stamped": [
+    "functional"
+   ],
+   "status": {
+    "run_id": "20261030-015041-92a9f1",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": true,
+      "validated": true,
+      "built_from_run": "20261030-015041-92a9f1",
+      "changed": [],
+      "stale_upstream": [],
+      "stale": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": false
+     }
+    },
+    "stale": [],
+    "missing": [
+     "overview",
+     "classification",
+     "architecture",
+     "flows",
+     "service_mapping",
+     "data_migration",
+     "dependency_plan",
+     "risks",
+     "assumptions",
+     "target_architecture",
+     "plan",
+     "narratives",
+     "component_docs"
+    ],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ],
+ "no enrichment": [
+  {
+   "messages": [],
+   "checked": [],
+   "stamped": [],
+   "status": {
+    "run_id": "20261030-015041-df0add",
+    "stages": {
+     "overview": {
+      "number": 1,
+      "file": "overview.json",
+      "present": false
+     },
+     "classification": {
+      "number": 2,
+      "file": "classification.json",
+      "present": false
+     },
+     "architecture": {
+      "number": 3,
+      "file": "architecture.json",
+      "present": false
+     },
+     "flows": {
+      "number": 4,
+      "file": "flows.json",
+      "present": false
+     },
+     "service_mapping": {
+      "number": 5,
+      "file": "service_mapping.json",
+      "present": false
+     },
+     "data_migration": {
+      "number": 6,
+      "file": "data_migration.json",
+      "present": false
+     },
+     "dependency_plan": {
+      "number": 7,
+      "file": "dependency_plan.json",
+      "present": false
+     },
+     "risks": {
+      "number": 8,
+      "file": "risks.json",
+      "present": false
+     },
+     "assumptions": {
+      "number": 8,
+      "file": "assumptions.json",
+      "present": false
+     },
+     "target_architecture": {
+      "number": 9,
+      "file": "target_architecture.json",
+      "present": false
+     },
+     "plan": {
+      "number": 10,
+      "file": "plan.json",
+      "present": false
+     },
+     "narratives": {
+      "number": 11,
+      "file": "narratives.json",
+      "present": false
+     },
+     "functional": {
+      "number": 12,
+      "file": "functional.json",
+      "present": false
+     },
+     "component_docs": {
+      "number": 13,
+      "file": "component_docs.json",
+      "present": false
+     }
+    },
+    "stale": [],
+    "missing": [
+     "overview",
+     "classification",
+     "architecture",
+     "flows",
+     "service_mapping",
+     "data_migration",
+     "dependency_plan",
+     "risks",
+     "assumptions",
+     "target_architecture",
+     "plan",
+     "narratives",
+     "functional",
+     "component_docs"
+    ],
+    "overrides": {
+     "components_assign": {},
+     "components_rename": {},
+     "components_type": {},
+     "file": "audit-overrides.yaml",
+     "files_exclude": [],
+     "files_include": []
+    }
+   }
+  }
+ ]
+}

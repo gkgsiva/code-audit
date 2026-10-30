@@ -48,6 +48,7 @@
           {{ s.scan.locCode | number }} lines of code.
           @if (s.scan.warnings) { <span class="hint">{{ s.scan.warnings }} warnings (see the log).</span> }
           <a [routerLink]="['/p', p.id, 'results']">Open the results</a> ·
+          <a [routerLink]="['/p', p.id, 'enrichment']">AI enrichment</a> ·
           <a [routerLink]="['/p', p.id, 'reports']">Open the reports</a> ·
           <a [routerLink]="['/p', p.id, 'inventory']">Open the inventory</a>
         </p>

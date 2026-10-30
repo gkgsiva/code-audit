@@ -44,6 +44,17 @@ public final class Runs {
         return outputDir.resolve("runs");
     }
 
+    /** The run {@code runs/LATEST} names, before a new scan replaces it (null when none). */
+    public static Path previousRun(Path outputDir) {
+        Path latest = runsDir(outputDir).resolve(LATEST_FILE);
+        try {
+            String runId = Files.exists(latest) ? Files.readString(latest, StandardCharsets.UTF_8).strip() : "";
+            return runId.isEmpty() ? null : runsDir(outputDir).resolve(runId);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
     /** {@code <yyyyMMdd-HHmmss>-<6 hex>}, unique in {@code runsDir}. */
     public static String newRunId(String seed, OffsetDateTime now, Path runsDir) {
         String stamp = now.format(STAMP);

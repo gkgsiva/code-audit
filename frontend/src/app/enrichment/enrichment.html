@@ -1,0 +1,127 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>AI enrichment</h1>
+    <div class="row">
+      <a class="btn" [routerLink]="['/p', id, 'reports']">Reports</a>
+      <a class="btn" [routerLink]="['/p', id]">Back to the project</a>
+    </div>
+  </div>
+  <p class="hint">
+    An AI model writes the enrichment: Copilot in VS Code by default, or any model set under <code>ai:</code> in
+    audit.yaml. Each stage is checked against the scan: numbers must match, claims need evidence.
+  </p>
+  @if (data(); as d) {
+    @if (!d.run_id) {
+      <p class="lead">No finished scan yet. Go back to the project and click <strong>Start scan</strong>.</p>
+    } @else {
+      <p class="hint">Run {{ d.run_id }}.</p>
+      @if (canRun()) {
+        <div class="row">
+          <button class="btn" type="button" [disabled]="running()" (click)="validate()">Validate now</button>
+        </div>
+      }
+      @if (!d.ai_allowed) {
+        <p class="hint">The admin has switched off AI enrichment on this site.</p>
+      } @else if (d.ai.provider !== 'copilot') {
+        <div class="panel">
+          <h2>Run here with {{ d.ai.label }}</h2>
+          @if (d.ai.problem) {
+            <p class="hint">{{ d.ai.problem }}</p>
+          } @else {
+            <p class="hint">
+              The site sends the facts of each stage to this model, checks the answer and sends any errors back to fix.
+              The API key is read from an environment variable of the server.
+            </p>
+          }
+          @if (canRun()) {
+            <div class="row">
+              <button class="btn primary" type="button" [disabled]="running() || !!d.ai.problem" (click)="run(true)">Run missing and stale stages</button>
+              <button class="btn" type="button" [disabled]="running() || !!d.ai.problem" (click)="run(false)">Run all stages</button>
+            </div>
+          }
+        </div>
+      }
+      @if (d.next_prompt; as prompt) {
+        <div class="panel">
+          <h2>{{ d.ai.provider !== 'copilot' ? 'Or in' : 'Next step in' }} Copilot Chat (legacy-auditor agent)</h2>
+          <div class="row">
+            <code>{{ prompt }}</code>
+            <button class="btn" type="button" (click)="copy(prompt)">Copy</button>
+          </div>
+          <p class="hint">Then come back and press <strong>Validate now</strong> (or run <code>legacy-audit validate</code>).</p>
+        </div>
+      } @else {
+        <p class="hint">Every stage is present and up to date.</p>
+      }
+    }
+    @if (d.job; as j) {
+      @if (j.state === 'running') {
+        <p>Running with {{ j.label }}: {{ j.stage }} @if (j.total > 0) { ({{ j.done }} of {{ j.total }}) }</p>
+        @if (percent() !== null) {
+          <progress max="100" [value]="percent()"></progress>
+        }
+      } @else if (j.state === 'failed') {
+        <p class="error-text" role="alert">The AI enrichment failed: {{ j.error }}</p>
+      } @else {
+        <p class="hint">
+          Last run with {{ j.label }} by {{ j.user }}: {{ j.valid.length }} stage(s) valid, {{ j.invalid.length }} with errors.
+        </p>
+      }
+      @if (j.state !== 'running' && j.messages.length) {
+        <details>
+          <summary>What the run said ({{ j.messages.length }} lines)</summary>
+          @for (m of j.messages; track $index) {
+            <p class="hint">{{ m }}</p>
+          }
+        </details>
+      }
+    }
+  }
+  @if (note()) {
+    <p class="hint" role="status">{{ note() }}</p>
+  }
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+</section>
+
+@if (data()?.run_id) {
+  <section class="panel">
+    <h2>Stages</h2>
+    <table>
+      <thead><tr><th>#</th><th>Stage</th><th>File</th><th>State</th><th>Why</th></tr></thead>
+      <tbody>
+        @for (s of data()?.stages ?? []; track s.name) {
+          <tr>
+            <td>{{ s.number }}</td>
+            <td>{{ s.title }}</td>
+            <td><code>{{ s.file }}</code></td>
+            <td><span [class]="'state ' + s.state.replace(' ', '-')">{{ s.state }}</span></td>
+            <td>{{ s.why.join(', ') }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </section>
+}
+
+@if (messages(); as ms) {
+  @if (ms.length) {
+    <section class="panel">
+      <h2>Validation messages</h2>
+      <table>
+        <thead><tr><th>Level</th><th>Stage</th><th>Where</th><th>Message</th></tr></thead>
+        <tbody>
+          @for (m of ms; track $index) {
+            <tr>
+              <td>{{ m.level }}</td>
+              <td>{{ m.stage }}</td>
+              <td><code>{{ m.where }}</code></td>
+              <td>{{ m.text }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  }
+}

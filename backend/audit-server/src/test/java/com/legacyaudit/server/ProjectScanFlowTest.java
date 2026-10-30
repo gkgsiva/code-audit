@@ -145,6 +145,20 @@ class ProjectScanFlowTest {
         assertThat(mvc.perform(get(datapack).session(siva)).andExpect(status().isOk()).andReturn().getResponse().getContentAsByteArray())
                 .startsWith(0x50, 0x4b);
 
+        // AI enrichment: every stage missing, Copilot is the model, so the site cannot run it itself.
+        mvc.perform(get("/api/projects/struts-billing/enrichment").session(siva))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.stages.length()").value(14))
+                .andExpect(jsonPath("$.stages[0].state").value("missing"))
+                .andExpect(jsonPath("$.next_prompt").value("/audit-enrich all"))
+                .andExpect(jsonPath("$.ai.provider").value("copilot"));
+        mvc.perform(json(post("/api/projects/struts-billing/enrichment/validate"), siva, Map.of()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.checked.length()").value(0));
+        mvc.perform(json(post("/api/projects/struts-billing/enrichment/run"), siva, Map.of("stale", true)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.detail").value(org.hamcrest.Matchers.containsString("/audit-enrich")));
+
         // Others see it only as members; a viewer may read but not scan.
         MockHttpSession anna = login("anna");
         mvc.perform(get("/api/projects/struts-billing").session(anna)).andExpect(status().isNotFound());
@@ -155,6 +169,9 @@ class ProjectScanFlowTest {
                 .andExpect(status().isForbidden());
         mvc.perform(get("/api/projects/struts-billing/reports").session(anna)).andExpect(status().isOk());
         mvc.perform(json(post("/api/projects/struts-billing/reports"), anna, Map.of("type", "summary")))
+                .andExpect(status().isForbidden());
+        mvc.perform(get("/api/projects/struts-billing/enrichment").session(anna)).andExpect(status().isOk());
+        mvc.perform(json(post("/api/projects/struts-billing/enrichment/validate"), anna, Map.of()))
                 .andExpect(status().isForbidden());
         mvc.perform(json(put("/api/projects/struts-billing/members"), anna, Map.of("members", Map.of())))
                 .andExpect(status().isForbidden());

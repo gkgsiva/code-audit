@@ -163,6 +163,52 @@ export interface Reports {
   job: ReportJob | null;
 }
 
+export interface EnrichStage {
+  number: number;
+  name: string;
+  title: string;
+  file: string;
+  state: 'missing' | 'valid' | 'stale' | 'invalid' | 'not validated';
+  why: string[];
+}
+
+export interface EnrichJob {
+  run_id: string;
+  label: string;
+  user: string;
+  state: 'running' | 'done' | 'failed';
+  stage: string;
+  done: number;
+  total: number;
+  messages: string[];
+  valid: string[];
+  invalid: string[];
+  error: string | null;
+  started_at: string;
+  ended_at: string | null;
+}
+
+export interface ValidationMessage {
+  level: 'error' | 'warning';
+  stage: string;
+  where: string;
+  text: string;
+}
+
+export interface Enrichment {
+  run_id: string | null;
+  stages: EnrichStage[];
+  /** The Copilot prompt to paste next, or null when every stage is present and up to date. */
+  next_prompt: string | null;
+  /** The model set under ai: in audit.yaml; problem says why the site cannot call it. */
+  ai: { provider: string; label: string; problem: string | null };
+  ai_allowed: boolean;
+  job: EnrichJob | null;
+  /** Only in the answer to a validation. */
+  checked?: string[];
+  messages?: ValidationMessage[];
+}
+
 export function problem(err: HttpErrorResponse): string {
   return err.error?.detail ?? 'The server did not answer. Is it running?';
 }
@@ -243,5 +289,17 @@ export class ApiService {
 
   buildReports(id: string, type: string): Observable<Reports> {
     return this.http.post<Reports>(`/api/projects/${encodeURIComponent(id)}/reports`, { type });
+  }
+
+  enrichment(id: string): Observable<Enrichment> {
+    return this.http.get<Enrichment>(`/api/projects/${encodeURIComponent(id)}/enrichment`);
+  }
+
+  validateEnrichment(id: string): Observable<Enrichment> {
+    return this.http.post<Enrichment>(`/api/projects/${encodeURIComponent(id)}/enrichment/validate`, {});
+  }
+
+  runEnrichment(id: string, stale: boolean): Observable<Enrichment> {
+    return this.http.post<Enrichment>(`/api/projects/${encodeURIComponent(id)}/enrichment/run`, { stale });
   }
 }

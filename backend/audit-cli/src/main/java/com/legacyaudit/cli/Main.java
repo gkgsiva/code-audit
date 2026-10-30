@@ -16,7 +16,8 @@ import picocli.CommandLine.Option;
         mixinStandardHelpOptions = true,
         versionProvider = Main.Version.class,
         description = "Audit legacy applications before migrating them.",
-        subcommands = {Main.VersionCommand.class, ScanCommand.class, ReportCommand.class, DiffCommand.class, Main.ProofsCommand.class})
+        subcommands = {Main.VersionCommand.class, InitCommand.class, ScanCommand.class, ReportCommand.class, ValidateCommand.class,
+            EnrichCommand.class, FactsCommand.class, McpCommand.class, DiffCommand.class, Main.ProofsCommand.class})
 public final class Main implements Runnable {
 
     public static void main(String[] args) {

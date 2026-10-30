@@ -22,6 +22,10 @@
       <artifactId>audit-reports</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.legacyaudit</groupId>
+      <artifactId>audit-ai</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-webmvc</artifactId>
     </dependency>

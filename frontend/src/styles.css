@@ -47,6 +47,13 @@ h2 { font-size: 1.15rem; margin: 1.5rem 0 .5rem; }
 .hint { color: var(--muted); font-size: .9rem; }
 .error-text { color: var(--error); }
 
+/* Enrichment stage states */
+.state { font-weight: 600; }
+.state.valid { color: var(--ok); }
+.state.stale, .state.not-validated { background: var(--warn-bg); color: var(--warn-text); padding: 0 4px; border-radius: 3px; }
+.state.invalid { color: var(--error); }
+.state.missing { color: var(--muted); font-weight: normal; }
+
 .banner {
   background: var(--warn-bg);
   color: var(--warn-text);

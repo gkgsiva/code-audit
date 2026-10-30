@@ -583,7 +583,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
 | 4 – Analyzers: web, front ends, desktop | Done (2026-10-29) | Analyzers for web service definitions (WSDL, Axis, JAX-WS, CXF, servlets in `web.xml`), .NET project, solution and config files (`dotnet`), VB6 and VB.NET (`basic`, forms and their controls), C# (WinForms, WPF, ASP.NET, WCF, Entity Framework, Dapper; tree-sitter) and TypeScript/JavaScript (Angular, AngularJS, Node.js with Express/NestJS, TypeORM, Prisma, Sequelize, Knex; tree-sitter). Their facts match the Python tool on all 10 samples and on 350 more recorded cases. Every Python analyzer except `metrics` and `patterns` (Phase 5) is now ported |
 | 5 – Linking and assessment | Done (2026-10-30) | Linker (entities, references across files, component types and roles), metrics (complexity, duplication, tests, dead code, bands), text rules (`patterns`), SQL to PostgreSQL text and grades (own converter checked on 3,132 recorded statements), end of life, upgrade advice, Dependency-Check and OSV-Scanner reports and runs, CycloneDX SBOM, jdeps, findings, effort, `audit-summary.json` and the `diff` command. Every result file of a scan equals the Python tool's on all 10 samples (`RunParityTest`) and every `expected.yaml` passes. Web app: Results page (headline numbers, effort, charts, top findings, vulnerability check, inputs) and a Facts page for every kind of fact |
 | 6 – Reports | Done (2026-10-30) | Technical report, functional document, management deck (HTML slider and `deck.json`) and summary report: every file equals the Python tool's on the sample runs (`ReportParityTest`, 11 runs incl. enrichment and audit only); PDF copies with Edge/Chrome joined by PDFBox (same pages, bookmarks and links as Python's); `legacy-audit report`; web app **Reports** page (build in the background, open, PDFs, data pack). No PowerPoint |
-| 7 – AI and Copilot | Not started | |
+| 7 – AI and Copilot | Done (2026-10-30) | Enrichment validator (same messages as Python on 22 recorded cases), stale stages and carry-over to the next scan, `init` with the Copilot agent, prompts and `mcp.json` (starts the jar), MCP server with the five fact tools (same answers as Python), `facts`, `validate`, `enrich` with OpenAI, Anthropic, Azure OpenAI and Ollama (prompts equal Python's, 224 of 224; every stage passes the validator with each provider type against a fake model), launchers `legacy-audit` / `legacy-audit.cmd`; web app **AI enrichment** page |
 | 8 – Web app complete | Not started | |
 | 9 – Packaging and switch-over | Not started | |
 
@@ -606,5 +606,11 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
   web app come in Phase 8 (`legacy-audit diff` works now); enrichment carry-over between runs
   comes with the AI work (Phase 7); one of the 3,132 recorded SQL statements converts to a
   slightly different PostgreSQL text than sqlglot wrote.
-- Next: Phase 6 (technical, functional, management and summary HTML reports, diagrams, PDF and
-  the report screens).
+- Known gaps after Phase 6: the backend image has no browser yet, so the web app skips PDFs
+  (Phase 9); the admin report switches and hidden summary sections come with the admin pages
+  (Phase 8).
+- Known gaps after Phase 7: the admin switch that turns AI enrichment off on the site comes
+  with the admin pages (Phase 8); real model endpoints were not called from the build server
+  (the tests use a local fake model with each provider's request shape).
+- Next: Phase 8 (the rest of the web app: compare runs, component and evidence pages, admin,
+  status and logs, configuration editor, Compodoc).

@@ -1,0 +1,739 @@
+[
+ {
+  "name": "struts as written",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   },
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "wrong figure, then estimate",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "set": [
+       "figures",
+       0,
+       "value"
+      ],
+      "value": 12
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   },
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "set": [
+       "figures",
+       0,
+       "estimate"
+      ],
+      "value": true
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "missing evidence",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       0,
+       "evidence"
+      ],
+      "value": []
+     }
+    ],
+    "stages": [
+     "risks"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "evidence must exist",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       0,
+       "evidence"
+      ],
+      "value": [
+       {
+        "file": "src/Nope.java",
+        "line": 3
+       }
+      ]
+     },
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       2,
+       "evidence"
+      ],
+      "value": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 9999
+       }
+      ]
+     },
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       1,
+       "evidence"
+      ],
+      "value": [
+       {
+        "file": "sql/pkg_order_pricing.pkb",
+        "line": 0
+       }
+      ]
+     }
+    ],
+    "stages": [
+     "risks"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "references",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "service_mapping",
+      "set": [
+       "mappings",
+       0,
+       "service_id"
+      ],
+      "value": "service:x"
+     },
+     {
+      "stage": "architecture",
+      "set": [
+       "layers",
+       0,
+       "components"
+      ],
+      "value": [
+       "billing"
+      ]
+     },
+     {
+      "stage": "flows",
+      "set": [
+       "flows",
+       0,
+       "component_ids"
+      ],
+      "value": [
+       "component:nope",
+       7
+      ]
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "prose counts",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "set": [
+       "purpose"
+      ],
+      "value": "It has 9 services. Of these, about 2 services matter; 2 of the 4 services. Angular 21 components, 1,234 findings and 12 Batch Jobs, x9 services, 3.5 services, 40 sql statements, Java 25 services."
+     }
+    ],
+    "stages": [
+     "overview"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "bad severity",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       0,
+       "severity"
+      ],
+      "value": "huge"
+     }
+    ],
+    "stages": [
+     "risks"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "many schema errors",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       0
+      ],
+      "value": {
+       "id": 1,
+       "title": null,
+       "description": "d",
+       "severity": "huge",
+       "likelihood": "low",
+       "mitigation": "m",
+       "evidence": [
+        {
+         "file": "a",
+         "line": "x"
+        }
+       ],
+       "extra": 1
+      }
+     },
+     {
+      "stage": "risks",
+      "set": [
+       "risks",
+       1
+      ],
+      "value": 5
+     },
+     {
+      "stage": "plan",
+      "set": [
+       "waves",
+       0
+      ],
+      "value": {
+       "name": "w",
+       "order": "2",
+       "goal": "g",
+       "start_month": -1,
+       "duration_months": 0.5,
+       "effort": [
+        {
+         "label": "l",
+         "value": [
+          1
+         ]
+        }
+       ]
+      }
+     },
+     {
+      "stage": "plan",
+      "set": [
+       "team"
+      ],
+      "value": [
+       {
+        "role": "r",
+        "count": true
+       },
+       {
+        "role": "r",
+        "count": "x"
+       },
+       {
+        "role": "r"
+       }
+      ]
+     },
+     {
+      "stage": "overview",
+      "set": [
+       "users"
+      ],
+      "value": "abc"
+     },
+     {
+      "stage": "overview",
+      "set": [
+       "key_points"
+      ],
+      "value": [
+       {
+        "text": "t"
+       },
+       {
+        "text": "t",
+        "evidence": null
+       },
+       {
+        "text": "t",
+        "assumption": "yes"
+       },
+       {
+        "text": "t",
+        "assumption": "no"
+       }
+      ]
+     },
+     {
+      "stage": "overview",
+      "set": [
+       "meta",
+       "built_from"
+      ],
+      "value": {
+       "run_id": 3
+      }
+     },
+     {
+      "stage": "flows",
+      "set": [
+       "flows"
+      ],
+      "value": "x"
+     },
+     {
+      "stage": "narratives",
+      "set": [
+       "executive"
+      ],
+      "value": null
+     },
+     {
+      "stage": "functional",
+      "set": [
+       "actors",
+       0,
+       "kind"
+      ],
+      "value": "robot"
+     },
+     {
+      "stage": "classification",
+      "set": [
+       "components",
+       0,
+       "kind"
+      ],
+      "value": 5
+     },
+     {
+      "stage": "assumptions",
+      "set": [
+       "meta"
+      ],
+      "value": "x"
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "lax values accepted",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "set": [
+       "figures",
+       0,
+       "estimate"
+      ],
+      "value": "yes"
+     },
+     {
+      "stage": "plan",
+      "set": [
+       "waves",
+       0,
+       "order"
+      ],
+      "value": "3"
+     },
+     {
+      "stage": "plan",
+      "set": [
+       "waves",
+       0,
+       "start_month"
+      ],
+      "value": 2.0
+     },
+     {
+      "stage": "overview",
+      "set": [
+       "figures",
+       1,
+       "value"
+      ],
+      "value": true
+     }
+    ],
+    "stages": [
+     "overview",
+     "plan"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "meta stage wrong",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "narratives",
+      "set": [
+       "meta",
+       "stage"
+      ],
+      "value": "plan"
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "unknown stages",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": [
+     "nope",
+     "risks",
+     "zzz"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "figures without metric",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "set": [
+       "figures"
+      ],
+      "value": [
+       {
+        "label": "a",
+        "value": 1
+       },
+       {
+        "label": "b",
+        "value": 1,
+        "estimate": true
+       },
+       {
+        "label": "c",
+        "metric": "counts.nope",
+        "value": 1
+       },
+       {
+        "label": "d",
+        "metric": "counts.nope",
+        "value": 1,
+        "estimate": true
+       },
+       {
+        "label": "e",
+        "metric": "counts.services",
+        "value": "x"
+       },
+       {
+        "label": "f",
+        "metric": "totals.components",
+        "value": "4"
+       }
+      ]
+     }
+    ],
+    "stages": [
+     "overview"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "not a dict",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "overview",
+      "replace": [
+       1,
+       2
+      ]
+     }
+    ],
+    "stages": [
+     "overview"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "stale after a fact change",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   },
+   {
+    "edits": [
+     {
+      "file": "data/libraries.json",
+      "append": {
+       "id": "lib:x"
+      }
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   },
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": true
+   }
+  ]
+ },
+ {
+  "name": "wildfly target",
+  "set": "enriched/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "file": "data/target.json",
+      "content": {
+       "profile": "wildfly-gke",
+       "label": "WildFly 41 (Jakarta EE 11, Java 25) on GKE, database on PostgreSQL",
+       "audit_only": false,
+       "versions": {
+        "java": "25",
+        "database": "postgresql",
+        "cloud": "gcp",
+        "wildfly": "41",
+        "jakarta_ee": "11",
+        "platform": "GKE"
+       },
+       "skipped_stages": []
+      }
+     },
+     {
+      "stage": "target_architecture",
+      "set": [
+       "components",
+       0,
+       "technology"
+      ],
+      "value": "Spring Boot 4 on Java 25"
+     },
+     {
+      "stage": "component_docs",
+      "set": [
+       "components",
+       0,
+       "migration_notes"
+      ],
+      "value": "Move to Spring Boot and Cloud Run"
+     },
+     {
+      "stage": "target_architecture",
+      "set": [
+       "platform_changes"
+      ],
+      "value": [
+       {
+        "name": "x",
+        "today": "Spring Boot",
+        "target": "Spring Boot",
+        "assumption": true
+       }
+      ]
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "auditonly as written",
+  "set": "auditonly/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "auditonly with migration text",
+  "set": "auditonly/struts-oracle-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "component_docs",
+      "set": [
+       "components",
+       0,
+       "migration_notes"
+      ],
+      "value": "Spring Boot"
+     },
+     {
+      "stage": "functional",
+      "set": [
+       "web_services"
+      ],
+      "value": []
+     }
+    ],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "desktop as written",
+  "set": "enriched/desktop-dotnet-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "desktop wrong tech id",
+  "set": "enriched/desktop-dotnet-app",
+  "steps": [
+   {
+    "edits": [
+     {
+      "stage": "target_architecture",
+      "set": [
+       "platform_changes",
+       0,
+       "tech_ids"
+      ],
+      "value": [
+       "tech:nope"
+      ]
+     }
+    ],
+    "stages": [
+     "target_architecture"
+    ],
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "angular as written",
+  "set": "enriched/angular-node-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "spring batch as written",
+  "set": "enriched/spring-mvc-batch-app",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ },
+ {
+  "name": "no enrichment",
+  "set": "ref/c-proc-batch",
+  "steps": [
+   {
+    "edits": [],
+    "stages": null,
+    "restamp": false
+   }
+  ]
+ }
+]
