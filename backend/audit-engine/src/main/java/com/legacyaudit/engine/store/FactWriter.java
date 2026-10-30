@@ -152,7 +152,7 @@ public final class FactWriter {
     }
 
     /** One row as Python's csv writer quotes it (minimal quoting, CRLF line ends). */
-    private static void csvRow(StringBuilder out, List<String> cells) {
+    public static void csvRow(StringBuilder out, List<String> cells) {
         for (int i = 0; i < cells.size(); i++) {
             if (i > 0) {
                 out.append(',');

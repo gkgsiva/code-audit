@@ -25,6 +25,11 @@ public final class Template {
     Template(String name, String source, Environment env) {
         this.name = name;
         this.env = env;
+        // Jinja reads the source line by line (any line break becomes \n) and drops one final line break
+        source = source.replace("\r\n", "\n").replace('\r', '\n');
+        if (source.endsWith("\n")) {
+            source = source.substring(0, source.length() - 1);
+        }
         Parser p = new Parser(Lexer.split(source, name), name);
         this.body = p.until();
         if (!p.done()) {

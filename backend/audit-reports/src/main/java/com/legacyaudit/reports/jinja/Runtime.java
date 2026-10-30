@@ -6,13 +6,13 @@ import java.util.Locale;
 import java.util.Map;
 
 /** Attribute and item access, slicing and calls, as Jinja's environment does them. */
-final class Runtime {
+public final class Runtime {
 
     private Runtime() {}
 
     /** Something a template can call: a macro, a global function or a bound method. */
     @FunctionalInterface
-    interface Callable {
+    public interface Callable {
         Object call(List<Object> args, Map<String, Object> kwargs);
     }
 
@@ -42,7 +42,25 @@ final class Runtime {
             Callable m = stringMethod(Values.str(obj), attr);
             return m == null ? Values.UNDEFINED : m;
         }
+        if (obj instanceof Record) {
+            return recordAttr(obj, attr);
+        }
         return Values.UNDEFINED;
+    }
+
+    /** A record's component or other public no-argument method, as a Python object's attribute. */
+    private static Object recordAttr(Object obj, String attr) {
+        try {
+            java.lang.reflect.Method m = obj.getClass().getMethod(attr);
+            if (m.getParameterCount() != 0 || java.lang.reflect.Modifier.isStatic(m.getModifiers())) {
+                return Values.UNDEFINED;
+            }
+            return m.invoke(obj);
+        } catch (NoSuchMethodException e) {
+            return Values.UNDEFINED;
+        } catch (ReflectiveOperationException e) {
+            throw new TemplateError("cannot read " + attr + ": " + e);
+        }
     }
 
     /** {@code obj[key]}: the item first, then an attribute of that name. */

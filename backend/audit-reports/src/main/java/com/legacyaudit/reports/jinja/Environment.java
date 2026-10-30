@@ -25,6 +25,31 @@ public final class Environment {
     /** {@code folder}: class-path folder of the templates, such as {@code com/legacyaudit/reports/tech_html}. */
     public Environment(String folder) {
         this.folder = folder.endsWith("/") ? folder : folder + "/";
+        global("range", Environment::range);
+    }
+
+    /** Jinja's default {@code range(stop)} / {@code range(start, stop[, step])}. */
+    private static Object range(List<Object> args) {
+        long start = 0;
+        long stop;
+        long step = 1;
+        if (args.size() == 1) {
+            stop = Values.asLong(args.get(0));
+        } else {
+            start = Values.asLong(args.get(0));
+            stop = Values.asLong(args.get(1));
+            if (args.size() > 2) {
+                step = Values.asLong(args.get(2));
+            }
+        }
+        if (step == 0) {
+            throw new TemplateError("range() arg 3 must not be zero");
+        }
+        List<Object> out = new java.util.ArrayList<>();
+        for (long i = start; step > 0 ? i < stop : i > stop; i += step) {
+            out.add(i);
+        }
+        return out;
     }
 
     /** A global function ({@code icon(name)}): positional arguments in, a value out. */

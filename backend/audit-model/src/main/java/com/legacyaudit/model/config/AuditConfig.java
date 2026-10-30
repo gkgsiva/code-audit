@@ -81,6 +81,11 @@ public record AuditConfig(
         static final List<String> STAGES =
                 List.of("service_mapping", "data_migration", "dependency_plan", "target_architecture", "plan");
 
+        /** The target when audit.yaml names none. */
+        public static Target defaults() {
+            return new Target(DEFAULT, "25", "4.1", "21", "41", "11", "postgresql", "gcp");
+        }
+
         public String label() {
             if (NONE.equals(profile)) {
                 return "Audit only (no target)";
