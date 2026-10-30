@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -65,15 +64,20 @@ class ReportParityTest {
     static String normalize(String text, String sample, String samplePath) {
         String out = Pattern.compile("(?:\\.\\./)+(?:[^\"'<>\\s/]+/)*?samples/" + Pattern.quote(sample) + "(?=[/\"'<>\\s]|$)")
                 .matcher(text).replaceAll("@REL@");
-        return out.replace(samplePath, "@SAMPLE@");
+        String posix = samplePath.startsWith("/") ? samplePath : "/" + samplePath; // vscode://file/C:/...
+        return out.replace(RunData.quote(posix), "@SAMPLE@").replace(samplePath, "@SAMPLE@");
     }
 
     @ParameterizedTest
     @MethodSource("sets")
-    void reportsMatchThePythonTool(String set, @TempDir Path tmp) throws Exception {
+    void reportsMatchThePythonTool(String set) throws Exception {
         String sample = set.substring(set.indexOf('/') + 1);
         Path sampleDir = SAMPLES.resolve(sample).toAbsolutePath().normalize();
         String samplePath = sampleDir.toString().replace('\\', '/');
+        // Under target/ (not the system temp folder), so on Windows the run and the samples are on
+        // the same drive and the reports link to the sources with relative links, as on Linux.
+        Path tmp = Path.of("target", "report-parity-runs", set.substring(0, set.indexOf('/'))).toAbsolutePath();
+        Fmt.rmtree(tmp.resolve(sample));
         Path runs = tmp.resolve(sample).resolve("runs");
         String runId = null;
         for (Map.Entry<String, byte[]> f : unzip(FIXTURES.resolve(set).resolve("run.zip")).entrySet()) {
