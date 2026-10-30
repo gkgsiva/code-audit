@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { loggedIn } from './auth.guard';
+import { EnrichmentPage } from './enrichment/enrichment';
 import { Facts } from './facts/facts';
 import { Inventory } from './inventory/inventory';
 import { Login } from './login/login';
@@ -24,6 +25,7 @@ export const routes: Routes = [
       { path: 'p/:id/inventory', component: Inventory, title: 'legacy-audit: inventory' },
       { path: 'p/:id/results', component: Results, title: 'legacy-audit: results' },
       { path: 'p/:id/reports', component: ReportsPage, title: 'legacy-audit: reports' },
+      { path: 'p/:id/enrichment', component: EnrichmentPage, title: 'legacy-audit: AI enrichment' },
       { path: 'p/:id/facts/:kind', component: Facts, title: 'legacy-audit: facts' },
     ],
   },

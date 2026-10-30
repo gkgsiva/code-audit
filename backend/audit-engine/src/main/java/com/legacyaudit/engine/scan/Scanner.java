@@ -7,6 +7,7 @@ import com.legacyaudit.engine.analyzers.Coverage;
 import com.legacyaudit.engine.analyzers.Facts;
 import com.legacyaudit.engine.components.ComponentDetector;
 import com.legacyaudit.engine.components.ComponentOverrides;
+import com.legacyaudit.engine.enrich.Status;
 import com.legacyaudit.engine.inventory.FileAnalyzer;
 import com.legacyaudit.engine.inventory.FileCache;
 import com.legacyaudit.engine.inventory.InputCoverages;
@@ -582,6 +583,15 @@ public final class Scanner {
                     written, entities.stream().filter(e -> e.name().equals("findings")).flatMap(e -> e.items().stream()).map(f -> (Finding) f).toList(),
                     coverage);
             FactWriter.writeJson(dataDir.resolve("audit-summary.json"), Summary.build(run, summaryFacts, assessed.effort()));
+            Path previous = Runs.previousRun(outDir);
+            Map<String, Object> carried = Status.carryOver(previous, runDir);
+            if (carried != null) {
+                long present = ((Map<?, ?>) carried.get("stages")).values().stream()
+                        .filter(e -> Boolean.TRUE.equals(((Map<?, ?>) e).get("present"))).count();
+                List<?> stale = (List<?>) carried.get("stale");
+                log.info("Enrichment carried from " + previous.getFileName() + ": " + present + " stage file(s); stale: "
+                        + (stale.isEmpty() ? "none" : String.join(", ", stale.stream().map(Object::toString).toList())));
+            }
             Runs.setLatest(outDir, runId);
             for (String w : warnings) {
                 log.warning(w);

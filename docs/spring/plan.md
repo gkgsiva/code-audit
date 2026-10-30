@@ -38,7 +38,7 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 | `audit-model` | Facts records, configuration (audit.yaml, overrides), JSON Schema | No |
 | `audit-engine` | Inventory, analyzers, linker, metrics, rules, targets, security, run store | No |
 | `audit-reports` (Phase 6) | Technical, functional, management and summary HTML, PDF, diagrams | No |
-| `audit-ai` (Phase 7) | Enrichment stages and validator, AI providers, MCP server | Spring AI only |
+| `audit-ai` (Phase 7) | Enrichment validator, AI providers, Copilot files, MCP server | No (decision 230) |
 | `audit-cli` | The `legacy-audit` command as one runnable jar | No |
 | `audit-server` | REST API, background jobs, login and roles, admin, dashboard, Git clones | Yes |
 
@@ -59,11 +59,11 @@ reports), so Copilot, the MCP tools and anyone reading the files see what they s
 | Ignore rules, Git clone and branches | pathspec, git | JGit |
 | SBOM | own CycloneDX writer | cyclonedx-core-java |
 | Vulnerabilities | OSV-Scanner, Dependency-Check | the same tools, called from Java |
-| HTML reports | Jinja2 | Thymeleaf |
+| HTML reports | Jinja2 | own small Jinja2 in Java running the Python templates (decision 223) |
 | PowerPoint | python-pptx | not carried over |
 | PDF | headless Edge/Chrome | headless Chromium in the backend image |
-| AI enrichment | own clients for 4 providers | Spring AI (OpenAI-compatible, Azure OpenAI, Anthropic, Ollama) |
-| MCP server for Copilot | own server | MCP Java SDK (also over HTTP from the hosted site) |
+| AI enrichment | own clients for 4 providers | own clients on the JDK HttpClient (decision 230; Spring AI was the first choice) |
+| MCP server for Copilot | own server | own stdio server (decision 232; the MCP Java SDK was the first choice) |
 | Command line | typer | picocli |
 | Login | name-only test login | Spring Security, Okta (OIDC) ready |
 

@@ -7,3 +7,5 @@ samples/** -text
 *.pptx binary
 # Python run outputs used as parity fixtures (CSV files keep their CRLF line ends).
 backend/audit-engine/src/test/resources/parity/** -text
+# Windows launchers need CRLF line ends.
+*.cmd text eol=crlf

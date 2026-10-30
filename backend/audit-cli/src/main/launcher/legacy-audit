@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs legacy-audit.jar from the folder this script is in. Put the folder on PATH so that
+# `legacy-audit scan`, Copilot's commands and .vscode/mcp.json find the tool.
+dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+exec java ${LEGACY_AUDIT_JAVA_OPTS:-} -jar "$dir/legacy-audit.jar" "$@"

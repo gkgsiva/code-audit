@@ -13,6 +13,7 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `server.projects` | `ProjectController`, `ProjectService`, `ProjectStore`, `Project`, `Roles` | Projects, members, the folder picker |
 | `server.scans` | `ScanController`, `ScanJobs`, `ScanStore`, `Scan` | Starting, following and cancelling scans |
 | `server.reports` | `ReportController`, `ReportJobs` | Report links, background report builds, report files and the data pack |
+| `server.enrichment` | `EnrichmentController`, `EnrichJobs` | The AI enrichment of the newest scan: stage states, validate, run the model in the background |
 | `server.inventory` | `InventoryController` | Files and components of the newest scan |
 | `server.web` | `HealthController`, `ApiException`, `ApiErrors` | Health check and error answers |
 
@@ -29,6 +30,7 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `LEGACY_AUDIT_SOURCES_ROOT` | folders a project may scan | `./sources` |
 | `LEGACY_AUDIT_MAX_SCANS` | scans running at the same time | `2` |
 | `LEGACY_AUDIT_SESSION_HOURS` | session length | `12` |
+| `LEGACY_AUDIT_AI_PROVIDER`, `_MODEL`, `_BASE_URL` | the model for **Run here** on the Enrichment page; override `ai:` of each project's `audit.yaml` (the API key comes from the variable the provider names, e.g. `OPENAI_API_KEY`) | from `audit.yaml` (`copilot`) |
 | `LEGACY_AUDIT_DB_URL`, `_DB_USER`, `_DB_PASSWORD` | PostgreSQL | local `legacyaudit` |
 
 ## REST API
@@ -60,6 +62,9 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `GET /api/projects/{id}/reports` | run id of the newest scan, the address of each built report and PDF (or null), the data pack address, and the last report build (state, step, done/total, messages) | project viewer and up |
 | `POST /api/projects/{id}/reports` | `{"type": "tech" \| "functional" \| "mgmt" \| "summary" \| "pdf" \| "all"}`: build in the background (`ReportJobs`, one build per project at a time, 409 while one runs) | project contributor and up |
 | `GET /api/projects/{id}/runs/{runId}/reports/{path}` | a file of the run's reports (pages, assets, data, PDFs); relative links inside a report page resolve under the same address | project viewer and up |
+| `GET /api/projects/{id}/enrichment` | the stages of the newest scan (number, name, title, file, state: valid, not validated, invalid, missing or stale, and why), the next `/audit-enrich` prompt for Copilot, the model settings (`ai`, with a `problem` text when they cannot work) and the last enrichment job | project viewer and up |
+| `POST /api/projects/{id}/enrichment/validate` | runs the validator on the newest scan; answers the messages and the new stage states | project contributor and up |
+| `POST /api/projects/{id}/enrichment/run` | `{"stale": true, "stages": [...]}`: runs the stages with the model in the background (`EnrichJobs`, one per project, 409 while one runs); 400 with plain words when the provider is `copilot`, the model or key is missing, or nothing is to do | project contributor and up |
 | `GET /api/projects/{id}/runs/{runId}/datapack.zip` | `run.json`, `data/` and the enrichment files as a ZIP | project viewer and up |
 
 The results calls read the newest finished scan's run folder (`<project>/audit-output/runs/<run-id>/`);

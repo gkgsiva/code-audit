@@ -81,12 +81,25 @@ public final class FactsQuery {
      * keeps rows where any column contains the text; {@code offset} pages through the rest.
      */
     public Map<String, Object> query(String kind, Map<String, String> filters, int limit, int offset, String search) {
+        return query(kind, new LinkedHashMap<>(filters), limit, offset, search, null);
+    }
+
+    /**
+     * {@link #query(String, Map, int, int, String)} with filter values of any JSON type (as the MCP
+     * tool gets them) and only the columns in {@code fields} (all when null or empty).
+     */
+    public Map<String, Object> query(String kind, Map<String, Object> filters, int limit, int offset, String search, List<String> fields) {
         if (!Summary.ENTITIES.contains(kind)) {
             throw new FactsError("Unknown kind '" + kind + "'; one of: " + String.join(", ", Summary.ENTITIES));
         }
+        filters = filters == null ? Map.of() : filters;
         try (Connection conn = db()) {
             List<String> columns = columns(conn, kind);
-            for (String name : filters.keySet()) {
+            List<String> named = new ArrayList<>(filters.keySet());
+            if (fields != null) {
+                named.addAll(fields);
+            }
+            for (String name : named) {
                 if (!columns.contains(name)) {
                     throw new FactsError("'" + name + "' is not a field of " + kind + ": " + String.join(", ", columns));
                 }
@@ -94,9 +107,9 @@ public final class FactsQuery {
             List<String> where = new ArrayList<>();
             List<Object> args = new ArrayList<>();
             filters.forEach((col, value) -> {
-                if (value != null && value.startsWith("~")) {
+                if (value instanceof String sv && sv.startsWith("~")) {
                     where.add("\"" + col + "\" LIKE ?");
-                    args.add("%" + value.substring(1) + "%");
+                    args.add("%" + sv.substring(1) + "%");
                 } else {
                     where.add("\"" + col + "\" = ?");
                     args.add(value);
@@ -117,7 +130,8 @@ public final class FactsQuery {
                 }
             }
             List<Map<String, Object>> rows = new ArrayList<>();
-            try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM \"" + kind + "\"" + sqlWhere + " LIMIT " + lim + " OFFSET " + off)) {
+            try (PreparedStatement ps = conn.prepareStatement("SELECT " + (fields == null || fields.isEmpty() ? "*"
+                    : String.join(", ", fields.stream().map(f -> "\"" + f + "\"").toList())) + " FROM \"" + kind + "\"" + sqlWhere + " LIMIT " + lim + " OFFSET " + off)) {
                 bind(ps, args);
                 try (ResultSet rs = ps.executeQuery()) {
                     ResultSetMetaData md = rs.getMetaData();

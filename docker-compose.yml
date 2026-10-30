@@ -50,6 +50,10 @@ services:
       LEGACY_AUDIT_AUDITS_ROOT: /audits
       LEGACY_AUDIT_SOURCES_ROOT: /sources
       LEGACY_AUDIT_MAX_SCANS: ${MAX_SCANS:-2}
+      # AI enrichment from the site: the model (else ai: in each project's audit.yaml) and the keys.
+      LEGACY_AUDIT_AI_PROVIDER: ${LEGACY_AUDIT_AI_PROVIDER:-}
+      LEGACY_AUDIT_AI_MODEL: ${LEGACY_AUDIT_AI_MODEL:-}
+      LEGACY_AUDIT_AI_BASE_URL: ${LEGACY_AUDIT_AI_BASE_URL:-}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}

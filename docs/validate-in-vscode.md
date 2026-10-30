@@ -16,7 +16,7 @@ for the earlier Python tool are on the `office-main` branch; it is no longer use
 3. What each task needs on the machine:
    - Tasks 1 to 3: Docker only (Docker Desktop on Windows, Docker Engine or Docker Desktop in
      WSL2).
-   - Tasks 4 and 6 to 9: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
+   - Tasks 4 and 6 to 16: Java 25 and Maven. **Windows**: install a Java 25 JDK and Maven and put
      both on PATH. **WSL2**: `sudo apt install openjdk-25-jdk maven`.
    - Task 5: Node.js 22 (it includes npm).
 
@@ -264,3 +264,80 @@ HTML reports still work.
    - **Download the data pack (ZIP)** saves the scan's facts as a ZIP file;
    - log in as another user who is a **viewer** of the project: the reports open, but there are
      no **Build** buttons.
+
+## Phase 7: AI enrichment and Copilot
+
+What is new: the AI part of the Python tool now comes from the new version. An AI model writes
+the **enrichment** (the explanations, flows, risks, plan and documents in the reports) and the
+tool checks every number and reference in it against the scan. The model is **GitHub Copilot in
+VS Code** (with the new `init` command and the Copilot agent) or a model your company gives you
+access to (OpenAI, Azure OpenAI, Anthropic or Ollama) with the new `enrich` command. The command
+line also gets `validate`, `facts` and `mcp`, and the web app gets an **AI enrichment** page.
+A new scan takes over the enrichment of the previous one and marks what has to be redone.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (177 tests).
+3. Run **`audit: 14. compare the AI and Copilot parts with the Python tool`**. It ends with
+   `Tests run: 36, Failures: 0, Errors: 0, Skipped: 0` and `BUILD SUCCESS`. It checks that the
+   validator gives the same messages as the Python tool, that the questions sent to a model are
+   the same, letter for letter, that the Copilot files are the same, and that a whole enrichment
+   passes with each kind of model (a small fake model on your machine; nothing is sent out).
+4. Run **`audit: 7. scan a sample app (command line)`** and pick **struts-oracle-app**, then run
+   **`audit: 15. check the AI enrichment of a sample app`** and pick **struts-oracle-app**. It
+   prints a table of the 14 stages, all `missing` (nobody has written them yet), and ends with
+   `0 checked, 0 error(s), 0 warning(s); status -> ...status.json`.
+5. Optional, only if you have a model and its key. Set the key once:
+   - **Windows**: in the Start menu search **Edit environment variables for your account**,
+     click **New**, name `OPENAI_API_KEY` (or `AZURE_OPENAI_API_KEY`, `ANTHROPIC_API_KEY`),
+     paste the key, **OK**, then close and reopen VS Code.
+   - **WSL2**: run `echo 'export OPENAI_API_KEY=<your key>' >> ~/.bashrc` (with the right name),
+     then close VS Code, run `wsl --shutdown` in a Windows terminal and open VS Code again.
+
+   Run **`audit: 16. write the AI enrichment of a sample app with a model`**, pick
+   **struts-oracle-app**, pick where the model runs, type the model name (for Azure the
+   deployment name) and the address (empty for OpenAI and Anthropic; for Azure
+   `https://<resource>.openai.azure.com`). It prints one line per stage, for example
+   `Stage 1 overview: valid after 1 round(s)`, and ends with `14 stage(s) valid, 0 with errors`.
+   It takes several minutes. Then run task 15 again: the stages say `valid`; and task 13: the
+   reports now show the explanations instead of **Not enriched yet**.
+   - `Error: Set the environment variable OPENAI_API_KEY to your API key.`: the key is not
+     visible to VS Code; redo the setting above and restart VS Code.
+   - `Error: Cannot reach ...`: the address is wrong or the office proxy blocks it; ask IT for
+     the model address.
+6. Copilot (needs GitHub Copilot in VS Code). Put the tool on the PATH once so Copilot can run it:
+   - **Windows**: in **Edit environment variables for your account** select **Path**, **Edit**,
+     **New**, and add the full path of `backend\audit-cli\target` in your clone; reopen VS Code.
+     In a new terminal `legacy-audit version` prints the version.
+   - **WSL2**: `echo 'export PATH="$HOME/code-audit/backend/audit-cli/target:$PATH"' >> ~/.bashrc`,
+     open a new terminal; `legacy-audit version` prints the version.
+
+   Then try it on a copy of a sample:
+   1. Copy the folder `samples/struts-oracle-app` to a new place outside the clone, for example
+      `C:\work\orders-try` (WSL2: `cp -r samples/struts-oracle-app ~/orders-try`).
+   2. In a terminal in that folder run `legacy-audit init .`. It lists the files it made
+      (`.github/agents/legacy-auditor.agent.md`, the prompts, `.vscode/mcp.json`). The sample's
+      own `audit.yaml` is kept, so it is not in the list.
+   3. **File > Open Folder** on the copy. Open `.vscode/mcp.json`: click **Start** above
+      `legacy-audit` (trust it when asked); it shows **Running** and 5 tools.
+   4. Open Copilot Chat, switch to **Agent** mode and pick **legacy-auditor**. Type
+      `/audit-scan`; Copilot runs the scan. Then type `/audit-enrich all`; Copilot writes the
+      stages one by one and runs `legacy-audit validate` after each. Then `/audit-report`
+      builds the reports and PDFs.
+7. Carry-over: in the copy run `legacy-audit scan` again (or task 7 on the sample after step 5).
+   It prints `Enrichment carried from <previous run>`; task 15 (or `legacy-audit validate`)
+   shows the stages `valid` or `stale (...)` with what changed, never `missing`.
+8. Facts from the command line: in the copy run `legacy-audit facts services --limit 2`. It
+   prints the first two services as JSON (`"kind": "services"`, `"total": 4`).
+9. Web app: run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770, log in as
+   **siva** and open your project. After a finished scan click **AI enrichment**:
+   - the page lists the 14 stages with their state, and under **Next step in Copilot Chat** the
+     prompt to type there (`/audit-enrich all` when nothing is written yet);
+   - **Validate now** checks the stages and lists errors and warnings;
+   - to let the site run a model itself, set `LEGACY_AUDIT_AI_PROVIDER`, `LEGACY_AUDIT_AI_MODEL`
+     (and `LEGACY_AUDIT_AI_BASE_URL` for Azure or a gateway) and the key variable in `.env`, then
+     task 1 again. The page then shows **Run here with openai:&lt;model&gt;** with **Run missing
+     and stale stages** and **Run all stages**, and the progress of each stage;
+   - log in as a **viewer** of the project: the states show, but there are no buttons.
+10. Run **`audit: 5. frontend build and tests (Node.js)`**: `Tests 12 passed`.

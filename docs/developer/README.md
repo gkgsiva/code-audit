@@ -16,6 +16,7 @@ Parts that a later phase adds are marked with that phase.
 | [analyzers.md](analyzers.md) | Every analyzer, the helpers they share, tree-sitter and SQL, how to add or change one |
 | [audit-server.md](audit-server.md) | The web backend: REST API, login and roles, projects, background scans, database |
 | [audit-reports.md](audit-reports.md) | The four HTML reports, the management deck data and the PDF copies |
+| [audit-ai.md](audit-ai.md) | Enrichment validator, model clients and prompts, Copilot files, the MCP server |
 | [audit-cli.md](audit-cli.md) | The command-line jar `legacy-audit.jar` |
 | [frontend.md](frontend.md) | The Angular app: routes, screens, services, styles, tests |
 | [testing.md](testing.md) | Tests, the parity checks against the Python tool and how to add test data |
@@ -37,6 +38,7 @@ backend/                 Maven multi-module build (Java 25, Spring Boot 4)
   audit-model/           facts, config, JSON (no Spring)
   audit-engine/          the scan itself (no Spring)
   audit-reports/         HTML reports and PDF copies (no Spring)
+  audit-ai/              AI enrichment, Copilot files, MCP server (no Spring)
   audit-cli/             legacy-audit.jar, the command line (picocli)
   audit-server/          the web backend (Spring Boot, PostgreSQL)
   Dockerfile             backend image
@@ -60,6 +62,9 @@ docs/                    decisions, progress, history, VS Code steps, this guide
                  ^
                  |
             audit-reports (technical, functional, management, summary, PDF)
+                 ^
+                 |
+            audit-ai      (validator, model clients, Copilot files, MCP server)
               ^       ^
               |       |
        audit-cli     audit-server  <--- HTTP /api --- frontend (Angular, nginx)
@@ -69,11 +74,12 @@ docs/                    decisions, progress, history, VS Code steps, this guide
 - **audit-model** and **audit-engine** are plain Java with no Spring, so the engine runs the
   same in the laptop jar and in the web backend.
 - **audit-reports** builds the HTML reports and PDFs from a run folder (plain Java too).
-- **audit-cli** wraps the engine and the reports in commands (`scan`, `report`, `diff`; `enrich`
-  ... in later phases).
+- **audit-ai** checks and writes the AI enrichment, installs the Copilot files and serves the
+  facts to Copilot over MCP (plain Java too).
+- **audit-cli** wraps the engine, the reports and the AI part in commands (`scan`, `report`,
+  `diff`, `init`, `validate`, `enrich`, `facts`, `mcp`).
 - **audit-server** stores projects, members and scans in PostgreSQL, runs scans in the
   background through the engine, and serves `/api` to the Angular app.
-- Phase 7 adds `audit-ai` (enrichment and the MCP server).
 
 ## What a scan does
 
@@ -91,7 +97,11 @@ docs/                    decisions, progress, history, VS Code steps, this guide
    security, findings and the effort estimate are added (`Assess`), and `audit-summary.json`
    is written (`Summary`).
 7. `legacy-audit report` or the Reports page builds the reports into `reports/` of the run
-   (`audit-reports`). AI enrichment comes in Phase 7.
+   (`audit-reports`).
+8. AI enrichment is a separate step: Copilot (`/audit-enrich`, using the MCP server) or
+   `legacy-audit enrich` writes `enrichment/*.json`, `legacy-audit validate` checks it against
+   the facts (`audit-ai`), and the reports show it. The next scan carries it over and marks the
+   stages whose facts changed as stale.
 
 ## Ground rules for the code
 
@@ -118,6 +128,7 @@ docs/                    decisions, progress, history, VS Code steps, this guide
 | Scan a sample from the command line | task 7, or `java -jar backend/audit-cli/target/legacy-audit.jar scan -c samples/<app>/audit.yaml -o <out>` |
 | Compare with the Python tool | tasks 8, 10 and 12 |
 | Build the reports of a sample | task 13 (after task 7) |
+| AI and Copilot checks | task 14; task 15 validates a sample's enrichment |
 | Class reference | task 9 |
 
 Docker settings (proxy, mirrors, company certificates, folders) are explained in

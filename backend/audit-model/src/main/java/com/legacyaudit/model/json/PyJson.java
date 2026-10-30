@@ -24,6 +24,17 @@ public final class PyJson {
         return out.append('\n').toString();
     }
 
+    /** {@code json.dumps(value, indent=2, ensure_ascii=False)} and a newline; keys sorted only with {@code sortKeys}. */
+    public static String pretty(Object value, boolean sortKeys) {
+        boolean saved = SORT.get();
+        SORT.set(sortKeys);
+        try {
+            return pretty(value);
+        } finally {
+            SORT.set(saved);
+        }
+    }
+
     /** One-line JSON with sorted keys ({@code json.dumps(value, sort_keys=True)}), as in CSV cells. */
     public static String compact(Object value) {
         StringBuilder out = new StringBuilder();
@@ -36,6 +47,11 @@ public final class PyJson {
      * {@code ", "} and {@code ": "} separators, non-ASCII characters escaped as {@code \\uXXXX}.
      */
     public static String dumps(Object value, boolean sortKeys) {
+        return dumps(value, sortKeys, true);
+    }
+
+    /** {@link #dumps(Object, boolean)}; {@code ensureAscii} false keeps non-ASCII characters. */
+    public static String dumps(Object value, boolean sortKeys, boolean ensureAscii) {
         StringBuilder out = new StringBuilder();
         boolean saved = SORT.get();
         SORT.set(sortKeys);
@@ -43,6 +59,9 @@ public final class PyJson {
             write(out, value, 0, false);
         } finally {
             SORT.set(saved);
+        }
+        if (!ensureAscii) {
+            return out.toString();
         }
         StringBuilder ascii = new StringBuilder(out.length());
         for (int i = 0; i < out.length(); i++) {
@@ -56,7 +75,27 @@ public final class PyJson {
         return ascii.toString();
     }
 
+    /**
+     * {@code json.dumps(value, ensure_ascii=False, separators=(",", ":"))}, keys sorted only with
+     * {@code sortKeys}: what the enrichment prompts and the MCP answers use.
+     */
+    public static String tight(Object value, boolean sortKeys) {
+        StringBuilder out = new StringBuilder();
+        boolean savedSort = SORT.get();
+        boolean savedTight = TIGHT.get();
+        SORT.set(sortKeys);
+        TIGHT.set(true);
+        try {
+            write(out, value, 0, false);
+        } finally {
+            SORT.set(savedSort);
+            TIGHT.set(savedTight);
+        }
+        return out.toString();
+    }
+
     private static final ThreadLocal<Boolean> SORT = ThreadLocal.withInitial(() -> true);
+    private static final ThreadLocal<Boolean> TIGHT = ThreadLocal.withInitial(() -> false);
 
     private static void write(StringBuilder out, Object value, int depth, boolean pretty) {
         switch (value) {
@@ -90,14 +129,14 @@ public final class PyJson {
         for (String k : keys) {
             if (!first) {
                 out.append(',');
-                if (!pretty) {
+                if (!pretty && !TIGHT.get()) {
                     out.append(' ');
                 }
             }
             first = false;
             newline(out, depth + 1, pretty);
             string(out, k);
-            out.append(": ");
+            out.append(TIGHT.get() ? ":" : ": ");
             write(out, map.get(k), depth + 1, pretty);
         }
         newline(out, depth, pretty);
@@ -114,7 +153,7 @@ public final class PyJson {
         for (Object item : items) {
             if (!first) {
                 out.append(',');
-                if (!pretty) {
+                if (!pretty && !TIGHT.get()) {
                     out.append(' ');
                 }
             }

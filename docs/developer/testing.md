@@ -23,12 +23,20 @@ and starts the three containers to check health and a login.
 | audit-reports | `ReportParityTest` | 11 sample runs (6 plain scans, 4 with enrichment, 1 audit only): every file of the technical, functional, management and summary reports equals what Python built from the same run (`report-parity/<set>/<sample>/`, README there); the sample folder is written `@SAMPLE@` / `@REL@` on both sides. A file that differs is written to `audit-reports/target/report-parity-actual/` for a diff |
 | audit-reports | `PdfReportsTest` | PDF settings, cover, page numbers, titles, browser lookup; with `PDF_BROWSER=<browser program>` (or on Linux CI) it prints the summary and functional PDFs and checks pages, bookmarks and metadata |
 | audit-reports | `DevCompareTest` | Developer check, skipped unless `REPORT_REF` is set: builds the reports for every run of a folder of Python reference runs into `reports-java/` beside `reports/` |
+| audit-ai | `ValidateParityTest` | 22 validator cases recorded from Python (the enrichment of the Python tests, edited: wrong ids, wrong figures, missing evidence, bad choices, extra fields, target mismatches, stale facts): the messages, their order and `status.json` equal Python's (`validate-parity/`) |
+| audit-ai | `McpParityTest` | 20 MCP requests (initialize, tools/list, each tool, bad arguments, unknown tool) on two runs: every answer equals the Python server's (`mcp-parity/`) |
+| audit-ai | `PromptParityTest` | The system and user prompt of every stage for 8 runs and 2 context sizes (224 prompts) equal Python's; compared by SHA-256 and length (`prompt-parity/expected.json`) |
+| audit-ai | `CopilotFilesTest` | The files `init` writes (agent, chat modes, prompts, instructions, `audit.yaml`) equal Python's, except the `/audit-report` prompt (decision 229); `mcp.json` starts the jar |
+| audit-ai | `AiClientTest`, `EnrichTest` | Model settings from `audit.yaml`, variables and options; the request each provider gets; dropping refused parameters; proxy; a whole enrichment against a local fake model with openai, ollama, azure-openai and anthropic, including one repair round: every stage passes the validator |
+| audit-ai | `CarryOverTest` | A new scan takes over the previous run's enrichment and marks stale stages; edits in a copied `latest` are kept |
 | audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
-| audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build |
+| audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build; the enrichment states, validate, and the plain refusal to run with Copilot |
 
 Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer. Task 10
 runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`). Task 12 runs
-the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`).
+the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`). Task 14 runs the AI
+and Copilot comparisons (`ValidateParityTest`, `McpParityTest`, `PromptParityTest`,
+`CopilotFilesTest`).
 
 ## How the parity data was made
 

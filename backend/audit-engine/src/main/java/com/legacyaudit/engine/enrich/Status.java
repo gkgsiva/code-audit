@@ -213,6 +213,95 @@ public final class Status {
         return out;
     }
 
+    /**
+     * Record what the stage was built from ({@code meta.built_from}), when it is not recorded yet
+     * or {@code force}. Returns whether the file was stamped.
+     */
+    @SuppressWarnings("unchecked")
+    public static boolean stamp(Path runDir, Stages.Stage stage, boolean force) {
+        Path path = enrichmentDir(runDir).resolve(stage.file());
+        try {
+            Map<String, Object> data = (Map<String, Object>) read(path);
+            Object m = data.get("meta");
+            Map<String, Object> meta;
+            if (m instanceof Map<?, ?> mm) {
+                meta = (Map<String, Object>) mm;
+            } else {
+                meta = new LinkedHashMap<>();
+                meta.put("stage", stage.name());
+                data.put("meta", meta);
+            }
+            Object built = meta.get("built_from");
+            if (truthy(built) && !force) {
+                return false;
+            }
+            Map<String, Object> b = new LinkedHashMap<>();
+            b.put("run_id", runDir.getFileName().toString());
+            b.put("facts_hash_by_input", currentHashes(runDir, stage));
+            meta.put("built_from", b);
+            meta.putIfAbsent("generated_at", java.time.OffsetDateTime.now(java.time.ZoneOffset.UTC)
+                    .truncatedTo(java.time.temporal.ChronoUnit.SECONDS)
+                    .format(java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME).replace("Z", "+00:00"));
+            Files.writeString(path, PyJson.pretty(data), StandardCharsets.UTF_8);
+            return true;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private static boolean truthy(Object v) {
+        return v != null && !(v instanceof Map<?, ?> m && m.isEmpty()) && !(v instanceof String str && str.isEmpty())
+                && !Boolean.FALSE.equals(v) && !(v instanceof List<?> l && l.isEmpty());
+    }
+
+    /** {@link #compute}, written to {@code enrichment/status.json} when the folder exists. */
+    public static Map<String, Object> write(Path runDir) {
+        Map<String, Object> status = compute(runDir);
+        Path edir = enrichmentDir(runDir);
+        if (Files.isDirectory(edir)) {
+            try {
+                Files.writeString(edir.resolve(STATUS_FILE), PyJson.pretty(status), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
+        return status;
+    }
+
+    /** After stamping, put the run's enrichment back into a copied {@code latest}. */
+    public static void syncToLatest(Path runDir) {
+        Path latest = latestCopy(runDir);
+        if (latest != null && Files.isDirectory(enrichmentDir(runDir))) {
+            copyTree(enrichmentDir(runDir), latest.resolve(ENRICHMENT), null);
+        }
+    }
+
+    /**
+     * Copy the previous run's enrichment into a new run and mark what is now stale (every scan
+     * does this before pointing {@code latest} at the new run). Null when there was nothing to
+     * carry.
+     */
+    public static Map<String, Object> carryOver(Path previousRun, Path runDir) {
+        if (previousRun == null || !Files.isDirectory(previousRun)) {
+            return null;
+        }
+        syncFromLatest(previousRun);
+        Path src = enrichmentDir(previousRun);
+        if (!Files.isDirectory(src)) {
+            return null;
+        }
+        try (Stream<Path> files = Files.list(src)) {
+            if (files.noneMatch(p -> p.getFileName().toString().endsWith(".json"))) {
+                return null;
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+        copyTree(src, enrichmentDir(runDir), STATUS_FILE);
+        Map<String, Object> status = write(runDir);
+        return status;
+    }
+
     /** {@code <output>/latest} when it is a plain copy of this run, else null. */
     public static Path latestCopy(Path runDir) {
         Path parent = runDir.toAbsolutePath().normalize().getParent();

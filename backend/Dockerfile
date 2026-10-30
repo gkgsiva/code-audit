@@ -15,6 +15,7 @@ COPY backend/pom.xml backend/pom.xml
 COPY backend/audit-model/pom.xml backend/audit-model/pom.xml
 COPY backend/audit-engine/pom.xml backend/audit-engine/pom.xml
 COPY backend/audit-reports/pom.xml backend/audit-reports/pom.xml
+COPY backend/audit-ai/pom.xml backend/audit-ai/pom.xml
 COPY backend/audit-cli/pom.xml backend/audit-cli/pom.xml
 COPY backend/audit-server/pom.xml backend/audit-server/pom.xml
 RUN . /tmp/java-build.sh; cd backend && mvn -B -ntp -q dependency:go-offline -pl audit-server -am \
@@ -23,6 +24,7 @@ RUN . /tmp/java-build.sh; cd backend && mvn -B -ntp -q dependency:go-offline -pl
         "Or set MAVEN_MIRROR to the company Maven repository (Nexus, Artifactory)" \
         "Proxy that inspects HTTPS: put the company root certificate (.crt) in docker/certs/"
 COPY rules/ rules/
+COPY schemas/ schemas/
 COPY backend/ backend/
 RUN cd backend && mvn -B -ntp -q -DskipTests package -pl audit-server -am
 
