@@ -4,6 +4,7 @@ import com.legacyaudit.model.config.AuditConfig;
 import com.legacyaudit.model.config.ConfigException;
 import com.legacyaudit.model.config.ConfigLoader;
 import com.legacyaudit.server.ServerSettings;
+import com.legacyaudit.server.admin.AdminStore;
 import com.legacyaudit.server.auth.User;
 import com.legacyaudit.server.web.ApiException;
 import java.io.IOException;
@@ -37,10 +38,54 @@ public class ProjectService {
 
     private final ServerSettings settings;
     private final ProjectStore store;
+    private final AdminStore admin;
+    private final HostedLayer layer;
 
-    public ProjectService(ServerSettings settings, ProjectStore store) {
+    public ProjectService(ServerSettings settings, ProjectStore store, AdminStore admin, HostedLayer layer) {
         this.settings = settings;
         this.store = store;
+        this.admin = admin;
+        this.layer = layer;
+    }
+
+    /** Admins create projects; owners too unless the admin page says only admins may. */
+    public boolean canCreate(User user) {
+        return User.ADMIN.equals(user.role())
+                || (User.OWNER.equals(user.role()) && admin.get().users().whoCanCreate().equals("owners"));
+    }
+
+    /** Reports the site offers on this project: the admin's switches minus what the owner hid. */
+    public java.util.Set<String> reportsFor(Project project) {
+        var s = admin.get().reports();
+        java.util.Set<String> on = new java.util.LinkedHashSet<>();
+        s.enabled().forEach((k, v) -> {
+            if (v && com.legacyaudit.server.admin.AdminSettings.REPORTS.containsKey(k)) {
+                on.add(k);
+            }
+        });
+        if (s.ownersMayHide()) {
+            project.hiddenReports().forEach(on::remove);
+        }
+        return on;
+    }
+
+    /** Summary-report sections left out on this project. */
+    public java.util.Set<String> sectionsHidden(Project project) {
+        var s = admin.get().reports();
+        java.util.Set<String> off = new java.util.LinkedHashSet<>();
+        s.summarySections().forEach((k, v) -> {
+            if (!v) {
+                off.add(k);
+            }
+        });
+        if (s.ownersMayHide()) {
+            off.addAll(project.hiddenSections());
+        }
+        return off;
+    }
+
+    public ProjectStore store() {
+        return store;
     }
 
     /** As Python's slugify: runs of other characters become "-", trimmed, lower case, at most 60. */
@@ -84,7 +129,7 @@ public class ProjectService {
 
     /** Creates the folder (audit.yaml, audit-overrides.yaml, audit-inputs/) and the project row. */
     public Project create(User user, String title, String id, String description, String sourcePath) {
-        if (!Roles.canCreate(user)) {
+        if (!canCreate(user)) {
             throw ApiException.forbidden("Your role cannot create projects; ask an admin");
         }
         title = title == null ? "" : title.strip();
@@ -151,11 +196,17 @@ public class ProjectService {
     }
 
     public List<Path> sourcesRoots() {
-        return settings.sourcesRoots();
+        return layer.sourceRoots();
     }
 
     public boolean underSourcesRoot(Path target) {
-        return settings.sourcesRoots().stream().anyMatch(target::startsWith);
+        return sourcesRoots().stream().anyMatch(target::startsWith);
+    }
+
+    /** Removes the project's folder (results, inputs, settings) and its rows. */
+    public void delete(Project project) {
+        store.delete(project.id());
+        deleteTree(folder(project.id()));
     }
 
     static String configText(String title, String owner, String description, Path source) {

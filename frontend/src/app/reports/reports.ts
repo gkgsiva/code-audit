@@ -53,6 +53,16 @@ export class ReportsPage implements OnInit {
     });
   }
 
+  /** Whether the admin (and the owner) left this report switched on; true before the list arrives. */
+  allows(key: string): boolean {
+    const allowed = this.data()?.allowed;
+    return !allowed || allowed.includes(key);
+  }
+
+  shown() {
+    return this.reportList.filter((r) => this.allows(r.key));
+  }
+
   build(type: string): void {
     this.error.set(null);
     this.api.buildReports(this.id, type).subscribe({

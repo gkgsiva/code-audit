@@ -145,6 +145,14 @@
       "command": "java -jar audit-cli/target/legacy-audit.jar doctor -c ../samples/${input:sample}/audit.yaml",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 19. check the admin pages and usage figures",
+      "detail": "Runs the admin flow (settings, users, switches, activity, status, logs, dashboards) and checks the usage dashboard figures against the Python tool",
+      "type": "shell",
+      "command": "mvn -B -pl audit-server -am test \"-Dtest=AdminFlowTest,UsageParityTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

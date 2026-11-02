@@ -1,0 +1,96 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Dashboard</h1>
+    <a class="btn" routerLink="/admin">Admin</a>
+  </div>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  <form class="row" (ngSubmit)="loadUsage()">
+    <label>Period
+      <select name="days" [(ngModel)]="days" (ngModelChange)="loadUsage()">
+        <option [ngValue]="7">Last 7 days</option>
+        <option [ngValue]="30">Last 30 days</option>
+        <option [ngValue]="90">Last 90 days</option>
+        <option [ngValue]="366">Last year</option>
+      </select>
+    </label>
+  </form>
+  @if (usage(); as u) {
+    <div class="tiles">
+      <div class="tile"><div class="tile-value">{{ u.totals['active_users'] }} / {{ u.totals['users'] }}</div><div class="tile-label">Active users / users</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['projects'] }}</div><div class="tile-label">Projects ({{ u.totals['archived_projects'] }} archived)</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['logins'] }}</div><div class="tile-label">Logins</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['scans'] }}</div><div class="tile-label">Scans</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['success_percent'] ?? '–' }}@if (u.totals['success_percent'] !== null) {%}</div><div class="tile-label">Scans that finished</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['scan_seconds_avg'] ?? '–' }}</div><div class="tile-label">Average scan (s)</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['wait_seconds_avg'] ?? '–' }}</div><div class="tile-label">Average wait for a slot (s)</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['reports'] }}</div><div class="tile-label">Report builds</div></div>
+      <div class="tile"><div class="tile-value">{{ u.totals['enrich'] }}</div><div class="tile-label">AI runs</div></div>
+    </div>
+  }
+</section>
+
+@if (usage(); as u) {
+  <section class="panel">
+    <h2>Scans per day ({{ u.from }} to {{ u.to }})</h2>
+    @for (d of u.series; track d.day) {
+      <div class="bar-row">
+        <span class="bar-label">{{ d.day }}</span>
+        <span class="bar" [style.width.%]="(100 * (d.scans_done + d.scans_failed + d.scans_cancelled)) / maxScans()"></span>
+        <span class="bar-value">{{ d.scans_done }} done@if (d.scans_failed) {, {{ d.scans_failed }} failed}@if (d.scans_cancelled) {, {{ d.scans_cancelled }} cancelled}</span>
+      </div>
+    }
+  </section>
+  <section class="panel">
+    <div class="charts">
+      <div>
+        <h3>Busiest projects</h3>
+        <table class="grid"><tbody>
+          @for (p of u.top_projects; track p.name) { <tr><td><a [routerLink]="['/p', p.name]">{{ p.name }}</a></td><td class="num">{{ p.scans }} scans</td><td class="num">{{ p.scan_seconds | number }} s</td></tr> }
+        </tbody></table>
+      </div>
+      <div>
+        <h3>Busiest users</h3>
+        <table class="grid"><tbody>
+          @for (p of u.top_users; track p.name) { <tr><td>{{ p.name }}</td><td class="num">{{ p.actions }} actions</td></tr> }
+        </tbody></table>
+      </div>
+      <div>
+        <h3>Reports built</h3>
+        <table class="grid"><tbody>
+          @for (p of u.reports_by_type; track p.name) { <tr><td>{{ p.name }}</td><td class="num">{{ p.count }}</td></tr> }
+        </tbody></table>
+      </div>
+    </div>
+    @if (u.failures.length) {
+      <h3>Latest failures</h3>
+      <table class="grid">
+        <thead><tr><th>Time</th><th>Project</th><th>Job</th><th>Error</th></tr></thead>
+        <tbody>
+          @for (f of u.failures; track $index) { <tr><td>{{ f.time | date: 'medium' }}</td><td>{{ f.project }}</td><td>{{ f.title ?? f.kind }}</td><td>{{ f.error }}</td></tr> }
+        </tbody>
+      </table>
+    }
+  </section>
+}
+
+@if (system(); as s) {
+  <section class="panel">
+    <h2>Server</h2>
+    <div class="tiles">
+      <div class="tile"><div class="tile-value">{{ s.cpu.percent ?? '–' }}@if (s.cpu.percent !== null) {%}</div><div class="tile-label">CPU ({{ s.cpu.cpus }} CPUs)</div></div>
+      <div class="tile"><div class="tile-value">{{ memoryPercent(s) ?? '–' }}@if (memoryPercent(s) !== null) {%}</div><div class="tile-label">Memory: {{ size(s.memory.used) }} of {{ size(s.memory.limit) }}</div></div>
+      <div class="tile"><div class="tile-value">{{ size(s.disk.free) }}</div><div class="tile-label">Disk free of {{ size(s.disk.total) }}</div></div>
+      <div class="tile"><div class="tile-value">{{ s.jobs.running }} / {{ s.slots }}</div><div class="tile-label">Jobs running / slots ({{ s.jobs.waiting }} waiting)</div></div>
+    </div>
+    <h3>The last hour</h3>
+    <svg viewBox="0 0 300 60" class="spark" role="img" aria-label="CPU and memory over the last hour">
+      <polyline [attr.points]="cpuLine()" fill="none" stroke="var(--accent)" stroke-width="1.5" />
+      <polyline [attr.points]="memLine()" fill="none" stroke="var(--ok)" stroke-width="1.5" />
+    </svg>
+    <p class="hint"><span style="color: var(--accent)">CPU</span> and <span style="color: var(--ok)">memory</span> in % (a point every {{ s.sample_seconds }} s).
+      Memory: {{ s.memory.source }}; the server itself uses {{ size(s.memory.process) }} of {{ size(s.memory.heap_max) }}.
+      Up {{ uptime(s.uptime_seconds) }}, version {{ s.version }}, Java {{ s.java }} on {{ s.platform }}.</p>
+  </section>
+}

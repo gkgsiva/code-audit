@@ -9,7 +9,15 @@ import { AuthService } from '../auth.service';
   imports: [RouterLink, RouterOutlet],
   template: `
     <header class="top">
-      <a routerLink="/" class="brand">legacy-audit</a>
+      <nav class="row">
+        <a routerLink="/" class="brand">legacy-audit</a>
+        <a routerLink="/status">Status</a>
+        <a routerLink="/logs">Logs</a>
+        @if (auth.me()?.role === 'admin') {
+          <a routerLink="/admin">Admin</a>
+          <a routerLink="/admin/dashboard">Dashboard</a>
+        }
+      </nav>
       <span class="who">
         @if (version()) {
           <span class="hint">Version {{ version() }}</span>

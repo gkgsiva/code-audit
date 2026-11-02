@@ -41,9 +41,4 @@ public final class Roles {
         // a global viewer stays a viewer whatever a project says
         return VIEWER.equals(user.role()) ? VIEWER : role;
     }
-
-    /** Admins and owners create projects; contributors and viewers are added to them. */
-    public static boolean canCreate(User user) {
-        return ADMIN.equals(user.role()) || OWNER.equals(user.role());
-    }
 }

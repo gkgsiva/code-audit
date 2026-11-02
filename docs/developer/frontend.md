@@ -44,6 +44,10 @@ src/
     settings/             audit.yaml as a form and as text, and the tool checks
     inputs/               input files per kind: add and remove
     choices/              components to scan and their type overrides
+    status/               job slots and the last jobs
+    logs/                 the server log and scan logs: last lines, filters, download
+    admin/                site settings, project defaults, users, all projects, activity, health
+    dashboard/            usage per day and the server's memory, CPU and disk
 ```
 
 ## Pages (`app.routes.ts`)
@@ -53,7 +57,7 @@ src/
 | `/login` | `Login` | Test login (name only) and the version |
 | `/` | `Projects` | Projects the user can see; **New project** for owners and admins |
 | `/new` | `NewProject` | Name, description and the source folder picker (`/api/sources`) |
-| `/p/:id` | `ProjectPage` | Start scan / full rescan, live status (asks every 1.5 s), log, cancel, past scans, components, who has access |
+| `/p/:id` | `ProjectPage` | Start scan / full rescan, live status (asks every 1.5 s), log, cancel, past scans, components, who has access; **Project settings** (title, description, owner, archived, hidden reports and summary sections; delete for admins) |
 | `/p/:id/inventory` | `Inventory` | Lines of code per language; files filtered by language, category, component, text |
 | `/p/:id/results` | `Results` | A run picker when there is more than one run (`?run=`); headline numbers (each links to its facts), effort, bar charts (languages, complexity, PostgreSQL grades, severities), top findings, vulnerability sources, inputs provided, warnings |
 | `/p/:id/reports` | `ReportsPage` | The four reports with what each shows, **Open** (new tab) and **PDF** links, **Build** per report, **Build all reports** and **... and PDFs** for contributors (asks every 1.5 s while building), the data pack ZIP |
@@ -65,6 +69,10 @@ src/
 | `/p/:id/settings` | `SettingsPage` | Application, source (folders or Git repositories as `url \| branch \| sub-paths \| token variable` lines), migration target and versions, include and exclude; **Advanced** edits `audit.yaml` as text; the tool checks |
 | `/p/:id/inputs` | `InputsPage` | One box per input kind: present or missing, the files with **Remove**, a file chooser to add |
 | `/p/:id/components` | `ChoicesPage` | The pre-scan: tick or untick each component, pick a type override, **Save choices** |
+| `/status` | `StatusPage` | Job slots, running and waiting, the last jobs (asks every 3 s) |
+| `/logs` | `LogsPage` | Pick a log; filter by level and text; last 200 to 5,000 lines; download |
+| `/admin` | `AdminPage` | Site settings (reports, summary sections, AI, limits, sign-up, extra source roots, locked keys), project defaults as YAML, users, all projects, activity (CSV download), health. Admins only |
+| `/admin/dashboard` | `DashboardPage` | Usage tiles and per-day table for 7 to 366 days, report types, top projects and users, failures; memory, CPU and disk with a one-hour line (asks every 10 s). Admins only |
 
 Every path except `/login` sits inside `Shell` and is protected by `loggedIn`.
 

@@ -15,6 +15,9 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `server.reports` | `ReportController`, `ReportJobs` | Report links, background report builds, report files and the data pack |
 | `server.enrichment` | `EnrichmentController`, `EnrichJobs` | The AI enrichment of the newest scan: stage states, validate, run the model in the background |
 | `server.inventory` | `InventoryController` | Files and components of the newest scan |
+| `server.admin` | `AdminController`, `AdminStore`, `AdminSettings`, `Activity`, `Usage`, `SystemMetrics` | Site settings (`admin.yaml`), users, every project, the activity log, the usage and system dashboards, health |
+| `server.jobs` | `JobGate` | The site's job slots shared by scans, report builds and AI runs, and the last 200 jobs |
+| `server.status` | `StatusController` | The status page (slots and jobs) and the log pages |
 | `server.web` | `HealthController`, `ApiException`, `ApiErrors` | Health check and error answers |
 
 ## Settings
@@ -28,7 +31,9 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `LEGACY_AUDIT_ADMINS` | user names that are always admins | `admin` |
 | `LEGACY_AUDIT_AUDITS_ROOT` | one sub-folder per project | `./audits` |
 | `LEGACY_AUDIT_SOURCES_ROOT` | folders a project may scan | `./sources` |
-| `LEGACY_AUDIT_MAX_SCANS` | scans running at the same time | `2` |
+| `LEGACY_AUDIT_MAX_SCANS` | jobs (scans, report builds, AI runs) running at the same time; when set, the admin page cannot change it | empty: `limits.max_scans` of `admin.yaml` (2) |
+| `LEGACY_AUDIT_KEEP_RUNS` | runs kept per project after each scan; when set, the admin page cannot change it | empty: `limits.keep_runs` of `admin.yaml` (10) |
+| `LEGACY_AUDIT_LOG_FILE` | the server log file (rolled to `server.log.1` ...) shown on the Logs page | Docker: `/audits/.legacy-audit/logs/server.log` |
 | `LEGACY_AUDIT_SESSION_HOURS` | session length | `12` |
 | `LEGACY_AUDIT_AI_PROVIDER`, `_MODEL`, `_BASE_URL` | the model for **Run here** on the Enrichment page; override `ai:` of each project's `audit.yaml` (the API key comes from the variable the provider names, e.g. `OPENAI_API_KEY`) | from `audit.yaml` (`copilot`) |
 | `LEGACY_AUDIT_DB_URL`, `_DB_USER`, `_DB_PASSWORD` | PostgreSQL | local `legacyaudit` |
@@ -79,12 +84,28 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `GET /api/projects/{id}/component-choices` | the pre-scan (`scan.Prescan`) with the latest scan's type per component | project viewer and up |
 | `PUT /api/projects/{id}/component-choices` | `{"included": {"<folders joined by \|>": true}, "types": {"<name>": "batch" \| null}}` to `audit-overrides.yaml` | project owner, admin |
 | `GET /api/projects/{id}/doctor` | the tool checks (`ai.doctor.Doctor`) for this project | project viewer and up |
+| `PUT /api/projects/{id}` | `{"title", "description", "owner", "archived", "hiddenReports", "hiddenSections"}`: change the project; hiding reports or summary sections needs `owners_may_hide` (or an admin) | project owner, admin |
+| `POST /api/projects/{id}/delete` | `{"confirm": "<id>"}`: removes the project, its folder and its scans; 409 while a job runs | admin |
+| `GET /api/users` | user names, for the owner picker | logged in |
+| `GET /api/status` | job slots, running and waiting counts, the last jobs of the user's projects (all for admins) | logged in |
+| `GET /api/logs` | the logs the user may read: the server log (admins) and each run's scan log | logged in |
+| `GET /api/logs/view?id=&level=&q=&tail=` | the last lines of one log (at most 5,000), only warnings or errors, or lines with a text | logged in |
+| `GET /api/logs/download?id=` | the whole log file | logged in |
+| `GET /api/admin`, `PUT /api/admin` | the site settings (`admin.yaml`), the report and section names, roles and what the environment fixes; save with checks (422 with pydantic-style messages) | admin |
+| `PUT /api/admin/defaults` | `{"text"}`: the project defaults as YAML; per-project keys (`application`, `source`, `components`, `inputs_dir`, `output_dir`) are refused | admin |
+| `GET /api/admin/users`, `PUT /api/admin/users`, `DELETE /api/admin/users/{name}` | list, add or change (role, disabled), remove; the `LEGACY_AUDIT_ADMINS` names cannot be changed | admin |
+| `GET /api/admin/projects` | every project with owner, runs, last run, size and any `audit.yaml` problem | admin |
+| `GET /api/admin/activity?limit=&project=`, `GET /api/admin/activity.csv` | the activity log (logins, project changes, scans, report builds, AI runs, admin changes) | admin |
+| `GET /api/admin/dashboard/usage?days=` | logins, active users, scans, report builds and AI runs per day, totals, report types, top projects and users, failures (`Usage`, as Python's `metrics.usage`) | admin |
+| `GET /api/admin/dashboard/system` | memory and CPU (container limits when there are some), disk, uptime, threads, running jobs and the last hour of samples (`SystemMetrics`) | admin |
+| `GET /api/admin/health` | version, disk, size of each project, tool checks, queue and source roots | admin |
 
 `run` is `latest`, `previous` or a run id; the dashboard and facts calls also take `?run=` and
 answer the `run_id` they read. Every `audit.yaml` under the audits folder is loaded through
 `projects.HostedLayer`, which refuses output, inputs and overrides outside the project, local
 sources outside `LEGACY_AUDIT_SOURCES_ROOT` and the project, and Git addresses that are not
-https://, ssh:// or git@.
+https://, ssh:// or git@. The same layer applies the admin's project defaults (`defaults:` of
+`admin.yaml`, under each project's own settings) and puts back the keys the admin locked.
 
 The results calls read the newest finished scan's run folder (`<project>/audit-output/runs/<run-id>/`);
 the inventory and components also live in PostgreSQL for the filters of the inventory page.
@@ -105,8 +126,11 @@ the inventory and components also live in PostgreSQL for the filters of the inve
 
 ## Background scans (`ScanJobs`)
 
-- `POST .../scans` stores a `scan` row as `queued` and hands it to a fixed pool of
-  `max-scans` threads. Only one scan per project runs at a time.
+- `POST .../scans` stores a `scan` row as `queued` and asks `JobGate` for a slot. Scans,
+  report builds and AI runs share the `max_scans` slots (first come, first served). Only one
+  scan per project runs at a time. A scan that runs over `scan_timeout_minutes` is stopped.
+- After a scan, runs beyond `keep_runs` are removed (`Runs.prune`) and the activity log gets
+  `scan finished`.
 - A running scan calls `Scanner.run` (audit-engine) with a progress callback, a cancel flag and
   a log listener. Stage, counts and the last log lines are kept in memory for
   `GET .../scans/{scanId}`, which the Angular page asks every 1.5 s.
@@ -115,12 +139,24 @@ the inventory and components also live in PostgreSQL for the filters of the inve
 - Cancel sets the flag; the engine stops at the next file and removes the unfinished run
   folder. Scans still running when the server stops are marked failed at the next start.
 
+## Admin settings (`AdminStore`, `admin.yaml`)
+
+`<audits root>/.legacy-audit/admin.yaml` holds what the admin page changes, with the same keys
+as the Python hosted site: `reports` (`enabled` per report: summary, mgmt, functional, tech, pdf,
+datapack; `summary_sections`; `owners_may_hide`), `paths` (`extra_source_roots`,
+`git_cache_dir`), `users` (`open_signup`, `signup_role`, `who_can_create`), `ai.allowed`,
+`limits` (`max_scans`, `keep_runs`, `scan_timeout_minutes`, `clone_keep_days`, `min_free_gb`),
+`defaults` (project settings every project starts from) and `locked` (dotted keys a project
+cannot change). The file is written with the PyYAML-style writer, so it reads the same as one
+the Python site wrote. `MAX_SCANS` and `KEEP_RUNS` in `.env` win over the file and show as fixed.
+
 ## Database (Flyway, `src/main/resources/db/migration`)
 
 | Migration | Tables |
 | --- | --- |
 | `V1__users.sql` | `app_user` (name, role, disabled, last login) |
 | `V2__projects_and_scans.sql` | `project`, `project_member`, `scan`, `inventory_file`, `component` |
+| `V3__admin.sql` | `activity` (time, user, action, project, details as JSON); `project.hidden_reports` and `hidden_sections` |
 
 Rules: never change a migration that has been merged; add `V<n+1>__what.sql`. Queries use
 Spring's `JdbcClient` with plain SQL (no JPA). Tests run on H2 in PostgreSQL mode, so keep to

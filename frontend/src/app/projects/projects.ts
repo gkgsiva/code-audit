@@ -18,7 +18,7 @@ export class Projects implements OnInit {
 
   readonly projects = signal<Project[] | null>(null);
   readonly error = signal<string | null>(null);
-  readonly canCreate = computed(() => ['admin', 'owner'].includes(this.auth.me()?.role ?? ''));
+  readonly canCreate = computed(() => this.auth.me()?.canCreate ?? ['admin', 'owner'].includes(this.auth.me()?.role ?? ''));
 
   ngOnInit(): void {
     this.api.projects().subscribe({

@@ -1,0 +1,187 @@
+<section class="panel">
+  <div class="row spread">
+    <h1>Admin</h1>
+    <a class="btn" routerLink="/admin/dashboard">Dashboard</a>
+  </div>
+  <p class="lead">Settings for the whole site. Saved to {{ view()?.host?.['admin_file'] }}; no passwords or keys are kept there.</p>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (saved()) {
+    <p class="hint" role="status">{{ saved() }}</p>
+  }
+</section>
+
+@if (view(); as v) {
+  @if (s) {
+    <section class="panel">
+      <h2>Site settings</h2>
+      <form (ngSubmit)="save()">
+        <h3>Reports the site offers</h3>
+        <div class="row">
+          @for (r of v.reports | keyvalue: keep; track r.key) {
+            <label><input type="checkbox" [name]="'rep-' + r.key" [(ngModel)]="s.reports.enabled[r.key]"> {{ r.value }}</label>
+          }
+        </div>
+        <h3>Sections of the summary report</h3>
+        <div class="row">
+          @for (r of v.summary_sections | keyvalue: keep; track r.key) {
+            <label><input type="checkbox" [name]="'sec-' + r.key" [(ngModel)]="s.reports.summary_sections[r.key]"> {{ r.value }}</label>
+          }
+        </div>
+        <label><input type="checkbox" name="hide" [(ngModel)]="s.reports.owners_may_hide"> Project owners may hide more reports and sections on their project</label>
+
+        <h3>Users</h3>
+        <div class="row">
+          <label><input type="checkbox" name="signup" [(ngModel)]="s.users.open_signup"> A new name at the login page becomes a user</label>
+          <label>New users are
+            <select name="signupRole" [(ngModel)]="s.users.signup_role">
+              <option value="owner">owners</option><option value="contributor">contributors</option><option value="viewer">viewers</option>
+            </select>
+          </label>
+          <label>Who creates projects
+            <select name="create" [(ngModel)]="s.users.who_can_create">
+              <option value="owners">owners and admins</option><option value="admins">admins only</option>
+            </select>
+          </label>
+        </div>
+
+        <h3>AI</h3>
+        <label><input type="checkbox" name="ai" [(ngModel)]="s.ai.allowed"> Allow "Run here" AI enrichment from the site</label>
+
+        <h3>Limits</h3>
+        <div class="row">
+          <label>Jobs at once <input type="number" name="maxScans" min="1" max="32" style="width: 5rem" [(ngModel)]="s.limits.max_scans" [disabled]="locked('limits.max_scans')"></label>
+          <label>Runs kept per project <input type="number" name="keepRuns" min="1" max="500" style="width: 5rem" [(ngModel)]="s.limits.keep_runs" [disabled]="locked('limits.keep_runs')"></label>
+          <label>Stop a scan after (minutes) <input type="number" name="timeout" min="5" style="width: 6rem" [(ngModel)]="s.limits.scan_timeout_minutes"></label>
+          <label>Delete Git clones unused for (days) <input type="number" name="cloneDays" min="1" max="3650" style="width: 5rem" [(ngModel)]="s.limits.clone_keep_days"></label>
+          <label>Keep free (GB) <input type="number" name="freeGb" min="0" style="width: 5rem" [(ngModel)]="s.limits.min_free_gb"></label>
+        </div>
+        @if ((v.env_locked | keyvalue).length) {
+          <p class="hint">Fixed by the server's environment: @for (e of v.env_locked | keyvalue; track e.key) { {{ e.key }} = {{ e.value }} }</p>
+        }
+
+        <h3>More folders projects may scan</h3>
+        <textarea name="roots" rows="3" style="width: 100%" [(ngModel)]="roots"></textarea>
+        <p class="hint">One folder per line, besides {{ v.host['sources_roots'] }}.</p>
+
+        <h3>Locked settings</h3>
+        <textarea name="locked" rows="3" style="width: 100%" [(ngModel)]="lockedText"></textarea>
+        <p class="hint">One audit.yaml key per line (for example <code>security.osv_scanner</code>): projects always use the value in the
+          project defaults below and cannot change it.</p>
+        <button type="submit" class="btn primary">Save settings</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Project defaults</h2>
+      <p class="hint">audit.yaml settings every project starts with. A project's own settings win, except for the locked keys above.
+        application, source, components, inputs_dir and output_dir are set per project.</p>
+      <textarea class="yaml" aria-label="Project defaults" name="defaults" [(ngModel)]="defaultsText"></textarea>
+      <div class="row"><button type="button" class="btn" (click)="saveDefaults()">Check and save the defaults</button></div>
+    </section>
+  }
+
+  <section class="panel">
+    <h2>Users</h2>
+    <div class="scroll">
+      <table class="grid">
+        <thead><tr><th>Name</th><th>Role</th><th>Disabled</th><th class="num">Projects owned</th><th>Last login</th><th></th></tr></thead>
+        <tbody>
+          @for (u of users(); track u.name) {
+            <tr>
+              <td>{{ u.name }}@if (u.fixed) { <span class="hint">(set by the server)</span> }</td>
+              <td>
+                <select [name]="'role-' + u.name" [(ngModel)]="u.role" [disabled]="u.fixed" (ngModelChange)="saveUser(u)" [attr.aria-label]="'Role of ' + u.name">
+                  @for (r of v.roles; track r) { <option [value]="r">{{ r }}</option> }
+                </select>
+              </td>
+              <td><input type="checkbox" [name]="'dis-' + u.name" [(ngModel)]="u.disabled" [disabled]="u.fixed" (ngModelChange)="saveUser(u)" [attr.aria-label]="'Disable ' + u.name"></td>
+              <td class="num">{{ u.projects }}</td>
+              <td>{{ u.last_login | date: 'medium' }}</td>
+              <td>@if (!u.fixed) { <button type="button" class="btn" (click)="removeUser(u.name)">Remove</button> }</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <form class="row" style="margin-top: .75rem" (ngSubmit)="addUser()">
+      <input type="text" name="newUser" placeholder="User name" style="max-width: 14rem" [(ngModel)]="newUser">
+      <select name="newRole" [(ngModel)]="newRole">
+        @for (r of v.roles; track r) { <option [value]="r">{{ r }}</option> }
+      </select>
+      <button type="submit" class="btn" [disabled]="!newUser.trim()">Add user</button>
+    </form>
+  </section>
+}
+
+<section class="panel">
+  <h2>All projects</h2>
+  <div class="scroll">
+    <table class="grid">
+      <thead><tr><th>Project</th><th>Owner</th><th>Application</th><th class="num">Runs</th><th>Last run</th><th class="num">Size</th><th></th></tr></thead>
+      <tbody>
+        @for (p of projects(); track p.id) {
+          <tr>
+            <td><a [routerLink]="['/p', p.id]">{{ p.title }}</a> @if (p.archived) { <span class="badge">archived</span> }</td>
+            <td>{{ p.owner }}</td>
+            <td>{{ p.application }}@if (p.problem) { <span class="error-text">{{ p.problem }}</span> }</td>
+            <td class="num">{{ p.runs }}</td>
+            <td>{{ p.last_run }}</td>
+            <td class="num">{{ size(p.bytes) }}</td>
+            <td></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="row spread">
+    <h2>Activity</h2>
+    <a class="btn" href="/api/admin/activity.csv">Download all as CSV</a>
+  </div>
+  <form class="row" (ngSubmit)="loadActivity()">
+    <select name="activityProject" [(ngModel)]="activityProject" (ngModelChange)="loadActivity()" aria-label="Project">
+      <option value="">All projects</option>
+      @for (p of projects(); track p.id) { <option [value]="p.id">{{ p.title }}</option> }
+    </select>
+  </form>
+  <div class="scroll">
+    <table class="grid">
+      <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Project</th><th>Detail</th></tr></thead>
+      <tbody>
+        @for (e of activity(); track $index) {
+          <tr><td>{{ e.time | date: 'medium' }}</td><td>{{ e.user }}</td><td>{{ e.action }}</td><td>{{ e.project }}</td><td>{{ detail(e) }}</td></tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">The last 200 entries.</p>
+</section>
+
+@if (health(); as h) {
+  <section class="panel">
+    <h2>Health</h2>
+    <p>Version {{ h.version }}. Disk: {{ size(h.disk.free) }} free of {{ size(h.disk.total) }}. Job slots: {{ h.queue.slots }}
+      ({{ h.queue.running }} running, {{ h.queue.waiting }} waiting).</p>
+    <div class="scroll">
+      <table class="grid">
+        <thead><tr><th>Tool</th><th>Status</th><th></th><th>Detail</th><th>Needed for</th></tr></thead>
+        <tbody>
+          @for (c of h.checks; track c.name) {
+            <tr>
+              <td>{{ c.name }}</td>
+              <td><span class="state" [class.valid]="c.status === 'ok'" [class.invalid]="c.status !== 'ok' && c.required" [class.stale]="c.status !== 'ok' && !c.required">{{ c.status }}</span></td>
+              <td>{{ c.required ? 'required' : 'optional' }}</td>
+              <td><code>{{ c.detail }}</code></td>
+              <td>{{ c.needed_for }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="hint">Folders projects may scan: {{ h.source_roots.join(', ') }}.</p>
+  </section>
+}

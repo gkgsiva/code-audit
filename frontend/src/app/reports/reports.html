@@ -15,7 +15,7 @@
       @if (canBuild()) {
         <div class="row">
           <button class="btn primary" type="button" [disabled]="running()" (click)="build('all')">Build all reports</button>
-          <button class="btn" type="button" [disabled]="running()" (click)="build('pdf')">Build all reports and PDFs</button>
+          @if (allows('pdf')) { <button class="btn" type="button" [disabled]="running()" (click)="build('pdf')">Build all reports and PDFs</button> }
         </div>
       } @else {
         <p class="hint">Viewers can open the reports; a contributor or the project owner builds them.</p>
@@ -50,7 +50,7 @@
         @if (canBuild()) { <th>Build</th> }
       </tr></thead>
       <tbody>
-        @for (r of reportList; track r.key) {
+        @for (r of shown(); track r.key) {
           <tr>
             <td>{{ r.title }}</td>
             <td>{{ r.text }}</td>

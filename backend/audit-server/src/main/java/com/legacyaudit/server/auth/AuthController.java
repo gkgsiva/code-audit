@@ -1,6 +1,8 @@
 package com.legacyaudit.server.auth;
 
 import com.legacyaudit.server.ServerSettings;
+import com.legacyaudit.server.admin.Activity;
+import com.legacyaudit.server.admin.AdminStore;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
@@ -22,8 +24,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Test login, as in the Python hosted site: a user name and no password. A new name becomes an
- * owner; names listed in LEGACY_AUDIT_ADMINS are always admins. Okta replaces it later.
+ * Test login, as in the Python hosted site: a user name and no password. A new name becomes a
+ * user with the admin page's sign-up role (owner by default) unless the admin closed sign-up;
+ * names listed in LEGACY_AUDIT_ADMINS are always admins. Okta replaces it later.
  */
 @RestController
 public class AuthController {
@@ -35,20 +38,29 @@ public class AuthController {
 
     private final ServerSettings settings;
     private final UserStore users;
+    private final AdminStore admin;
+    private final Activity activity;
+    private final CurrentUser current;
     private final SecurityContextRepository contexts = new HttpSessionSecurityContextRepository();
 
-    public AuthController(ServerSettings settings, UserStore users) {
+    public AuthController(ServerSettings settings, UserStore users, AdminStore admin, Activity activity,
+            CurrentUser current) {
         this.settings = settings;
         this.users = users;
+        this.admin = admin;
+        this.activity = activity;
+        this.current = current;
     }
 
     public record LoginBody(String name) {}
 
-    public record Me(String name, String role) {}
+    /** The logged-in user; {@code canCreate} says whether the New project button is shown. */
+    public record Me(String name, String role, boolean canCreate) {}
 
     @GetMapping("/api/auth/info")
     public Map<String, Object> info() {
-        return Map.of("provider", settings.auth(), "label", "Test login", "loginForm", true, "banner", BANNER);
+        return Map.of("provider", settings.auth(), "label", "Test login", "loginForm", true, "banner", BANNER,
+                "openSignup", admin.get().users().openSignup());
     }
 
     @PostMapping("/api/auth/login")
@@ -64,10 +76,14 @@ public class AuthController {
         if (existing.isPresent() && existing.get().disabled() && !settings.admins().contains(name)) {
             return error(HttpStatus.FORBIDDEN, "This user is disabled; ask an admin");
         }
-        String role = settings.admins().contains(name)
-                ? User.ADMIN
-                : existing.map(User::role).orElse(User.OWNER);
+        var signup = admin.get().users();
+        boolean fixedAdmin = settings.admins().contains(name);
+        if (existing.isEmpty() && !fixedAdmin && !signup.openSignup()) {
+            return error(HttpStatus.FORBIDDEN, "This name is not a user here; ask an admin to add you");
+        }
+        String role = fixedAdmin ? User.ADMIN : existing.map(User::role).orElse(signup.signupRole());
         User user = users.recordLogin(name, role);
+        activity.log(user.name(), "log in", null);
 
         if (request.getSession(false) != null) {
             request.changeSessionId();
@@ -78,7 +94,7 @@ public class AuthController {
         context.setAuthentication(auth);
         SecurityContextHolder.setContext(context);
         contexts.saveContext(context, request, response);
-        return ResponseEntity.ok(new Me(user.name(), user.role()));
+        return ResponseEntity.ok(me(user));
     }
 
     @PostMapping("/api/auth/logout")
@@ -89,8 +105,14 @@ public class AuthController {
 
     @GetMapping("/api/me")
     public Me me(Principal principal) {
-        User user = users.find(principal.getName()).orElseThrow();
-        return new Me(user.name(), user.role());
+        User user = current.of(principal);
+        return me(user);
+    }
+
+    private Me me(User user) {
+        boolean canCreate = User.ADMIN.equals(user.role())
+                || (User.OWNER.equals(user.role()) && admin.get().users().whoCanCreate().equals("owners"));
+        return new Me(user.name(), user.role(), canCreate);
     }
 
     private static ResponseEntity<Map<String, String>> error(HttpStatus status, String message) {

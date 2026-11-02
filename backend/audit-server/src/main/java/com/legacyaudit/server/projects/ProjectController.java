@@ -1,7 +1,11 @@
 package com.legacyaudit.server.projects;
 
 import com.legacyaudit.server.auth.CurrentUser;
+import com.legacyaudit.server.admin.Activity;
+import com.legacyaudit.server.admin.AdminSettings;
 import com.legacyaudit.server.auth.User;
+import com.legacyaudit.server.auth.UserStore;
+import com.legacyaudit.server.jobs.JobGate;
 import com.legacyaudit.server.scans.Scan;
 import com.legacyaudit.server.scans.ScanStore;
 import com.legacyaudit.server.web.ApiException;
@@ -22,19 +26,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Projects the user can see, creating one, who has access, and the source folder picker. */
+/**
+ * Projects the user can see, creating, changing and deleting one, who has access, and the source
+ * folder picker.
+ */
 @RestController
 public class ProjectController {
 
     private final ProjectService projects;
     private final ScanStore scans;
     private final CurrentUser current;
+    private final UserStore users;
+    private final Activity activity;
+    private final JobGate gate;
 
-    public ProjectController(ProjectService projects, ScanStore scans, CurrentUser current) {
+    public ProjectController(ProjectService projects, ScanStore scans, CurrentUser current, UserStore users, Activity activity,
+            JobGate gate) {
         this.projects = projects;
         this.scans = scans;
         this.current = current;
+        this.users = users;
+        this.activity = activity;
+        this.gate = gate;
     }
+
+    /** What the owner or an admin may change; a field left out (null) stays as it is. */
+    public record UpdateBody(String title, String description, String owner, Boolean archived, List<String> hiddenReports,
+            List<String> hiddenSections) {}
+
+    public record DeleteBody(String confirm) {}
 
     public record CreateBody(String title, String id, String description, String sourcePath) {}
 
@@ -52,7 +72,9 @@ public class ProjectController {
         if (body == null) {
             throw ApiException.badRequest("Give the project a name");
         }
-        return summary(user, projects.create(user, body.title(), body.id(), body.description(), body.sourcePath()));
+        Project p = projects.create(user, body.title(), body.id(), body.description(), body.sourcePath());
+        activity.log(user.name(), "create project", p.id(), Map.of("source", "local"));
+        return summary(user, p);
     }
 
     @GetMapping("/api/projects/{id}")
@@ -64,14 +86,95 @@ public class ProjectController {
     @PutMapping("/api/projects/{id}/members")
     public Map<String, Object> members(@PathVariable String id, @RequestBody MembersBody body, Principal principal) {
         User user = current.of(principal);
-        return summary(user, projects.setMembers(user, id, body == null ? null : body.members()));
+        Project p = projects.setMembers(user, id, body == null ? null : body.members());
+        activity.log(user.name(), "change project", id, Map.of("fields", List.of("members")));
+        return summary(user, p);
+    }
+
+    @PutMapping("/api/projects/{id}")
+    public Map<String, Object> update(@PathVariable String id, @RequestBody UpdateBody body, Principal principal) {
+        User user = current.of(principal);
+        Project p = projects.need(user, id, Roles.OWNER, "Only the owner or an admin can change this project");
+        if (body == null) {
+            return summary(user, p);
+        }
+        List<String> fields = new ArrayList<>();
+        String title = p.title();
+        if (body.title() != null) {
+            title = body.title().strip();
+            if (title.isEmpty()) {
+                throw ApiException.badRequest("Give the project a name");
+            }
+            fields.add("title");
+        }
+        String description = p.description();
+        if (body.description() != null) {
+            description = body.description().isBlank() ? null : body.description().strip();
+            fields.add("description");
+        }
+        String owner = p.owner();
+        if (body.owner() != null && !body.owner().equals(p.owner())) {
+            if (users.find(body.owner()).isEmpty()) {
+                throw ApiException.badRequest("No user '" + body.owner() + "'");
+            }
+            owner = body.owner();
+            fields.add("owner");
+        }
+        boolean archived = body.archived() != null ? body.archived() : p.archived();
+        if (body.archived() != null) {
+            fields.add("archived");
+        }
+        List<String> hiddenReports = p.hiddenReports();
+        if (body.hiddenReports() != null) {
+            unknown(body.hiddenReports(), AdminSettings.REPORTS.keySet(), "report");
+            hiddenReports = List.copyOf(new java.util.LinkedHashSet<>(body.hiddenReports()));
+            fields.add("hidden_reports");
+        }
+        List<String> hiddenSections = p.hiddenSections();
+        if (body.hiddenSections() != null) {
+            unknown(body.hiddenSections(), AdminSettings.SUMMARY_SECTIONS.keySet(), "section");
+            hiddenSections = List.copyOf(new java.util.LinkedHashSet<>(body.hiddenSections()));
+            fields.add("hidden_sections");
+        }
+        Project changed = new Project(p.id(), title, description, owner, p.sourcePath(), archived, p.createdAt(), p.members(),
+                hiddenReports, hiddenSections);
+        projects.store().update(changed);
+        activity.log(user.name(), "change project", id, Map.of("fields", fields.stream().sorted().toList()));
+        return summary(user, projects.store().find(id).orElseThrow());
+    }
+
+    private static void unknown(List<String> given, java.util.Set<String> known, String what) {
+        List<String> bad = given.stream().filter(g -> !known.contains(g)).sorted().toList();
+        if (!bad.isEmpty()) {
+            throw ApiException.badRequest("Unknown " + what + "(s): " + String.join(", ", bad));
+        }
+    }
+
+    /** Admins only: removes the project folder and its rows; the folder name must be typed to confirm. */
+    @PostMapping("/api/projects/{id}/delete")
+    public Map<String, Object> delete(@PathVariable String id, @RequestBody(required = false) DeleteBody body, Principal principal) {
+        User user = current.of(principal);
+        if (!User.ADMIN.equals(user.role())) {
+            throw ApiException.forbidden("Admins only");
+        }
+        Project p = projects.get(user, id);
+        if (body == null || !p.id().equals(body.confirm())) {
+            throw ApiException.badRequest("Type the folder name '" + p.id() + "' to confirm");
+        }
+        boolean busy = gate.snapshot().values().stream().flatMap(List::stream).anyMatch(j -> p.id().equals(j.project));
+        if (busy || scans.active(p.id()).isPresent()) {
+            throw new ApiException(org.springframework.http.HttpStatus.CONFLICT, "A job is running on this project; cancel it first");
+        }
+        projects.delete(p);
+        activity.log(user.name(), "delete project", p.id());
+        return Map.of("deleted", p.id());
     }
 
     /** Folders a new project may scan: the sources roots, then their sub-folders. */
     @GetMapping("/api/sources")
     public Map<String, Object> sources(@RequestParam(defaultValue = "") String path, Principal principal) {
         User user = current.of(principal);
-        if (!Roles.canCreate(user)) {
+        if (!projects.canCreate(user)) {
             throw ApiException.forbidden("Your role cannot create projects; ask an admin");
         }
         List<Path> roots = projects.sourcesRoots();
@@ -116,6 +219,9 @@ public class ProjectController {
         out.put("role", Roles.on(user, p));
         out.put("sourcePath", p.sourcePath());
         out.put("createdAt", p.createdAt());
+        out.put("archived", p.archived());
+        out.put("hiddenReports", p.hiddenReports());
+        out.put("hiddenSections", p.hiddenSections());
         out.put("lastScan", scans.list(p.id(), 1).stream().findFirst().orElse(null));
         out.put("lastDone", scans.latestDone(p.id()).map(Scan::finishedAt).orElse(null));
         return out;

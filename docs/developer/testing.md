@@ -32,6 +32,8 @@ and starts the three containers to check health and a login.
 | audit-ai | `CarryOverTest` | A new scan takes over the previous run's enrichment and marks stale stages; edits in a copied `latest` are kept |
 | audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
 | audit-server | `WorkspaceFlowTest` | Settings form and text (a bad save is rolled back), input files, component choices, tool checks, two scans, the runs list, compare, the component and source pages, `?run=previous`, and viewers refused every change |
+| audit-server | `AdminFlowTest` | Admin settings (checks, env-fixed limits, defaults and locked keys reaching a project's settings), users (sign-up off, signup role, fixed admins, disable), who may create projects, project edit, hide and delete, report and AI switches, the activity log and CSV, status, logs, the dashboards and health |
+| audit-server | `UsageParityTest` | The usage dashboard figures for 400 activity entries and 3 periods equal Python's `metrics.usage` (`admin/usage.json`) |
 | audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build; the enrichment states, validate, and the plain refusal to run with Copilot |
 
 Task 8 runs only the analyzer comparisons, which is quicker while porting an analyzer. Task 10
@@ -39,7 +41,7 @@ runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`)
 the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`). Task 14 runs the AI
 and Copilot comparisons (`ValidateParityTest`, `McpParityTest`, `PromptParityTest`,
 `CopilotFilesTest`). Task 17 runs the settings and component picker comparison
-(`WorkspaceParityTest`).
+(`WorkspaceParityTest`). Task 19 runs the admin checks (`AdminFlowTest`, `UsageParityTest`).
 
 ## How the parity data was made
 

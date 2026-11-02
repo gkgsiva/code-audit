@@ -162,6 +162,26 @@ public final class Runs {
         throw new RunNotFound("No run '" + ref + "' in " + rd);
     }
 
+    /** Deletes the oldest runs so {@code keep} remain; the latest run is never deleted ({@code prune_runs}). */
+    public static List<String> prune(Path outputDir, int keep) {
+        List<String> runs = list(outputDir);
+        String latest;
+        try {
+            latest = resolve(outputDir, "latest").getFileName().toString();
+        } catch (RunNotFound e) {
+            latest = runs.isEmpty() ? "" : runs.getLast();
+        }
+        List<String> removed = new java.util.ArrayList<>();
+        for (String runId : runs.subList(0, Math.max(runs.size() - Math.max(keep, 1), 0))) {
+            if (runId.equals(latest)) {
+                continue;
+            }
+            deleteTree(runsDir(outputDir).resolve(runId));
+            removed.add(runId);
+        }
+        return removed;
+    }
+
     public static void deleteTree(Path dir) {
         if (!Files.exists(dir)) {
             return;

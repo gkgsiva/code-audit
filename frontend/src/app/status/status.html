@@ -1,0 +1,43 @@
+<section class="panel">
+  <h1>Status</h1>
+  <p class="lead">Scans, report builds and AI runs share the site's job slots. When all are busy, new jobs wait their turn.</p>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (status(); as s) {
+    <div class="tiles">
+      <div class="tile"><div class="tile-value">{{ s.slots }}</div><div class="tile-label">Job slots</div></div>
+      <div class="tile"><div class="tile-value">{{ s.running }}</div><div class="tile-label">Running</div></div>
+      <div class="tile"><div class="tile-value">{{ s.waiting }}</div><div class="tile-label">Waiting</div></div>
+    </div>
+  }
+</section>
+
+@if (status(); as s) {
+  <section class="panel">
+    <h2>Last jobs of your projects</h2>
+    @if (!s.jobs.length) {
+      <p class="hint">No job since the server started.</p>
+    } @else {
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Job</th><th>Project</th><th>What</th><th>By</th><th>State</th><th>Queued</th><th class="num">Waited (s)</th><th class="num">Took (s)</th></tr></thead>
+          <tbody>
+            @for (j of s.jobs; track $index) {
+              <tr>
+                <td>{{ kind(j.kind) }}</td>
+                <td><a [routerLink]="['/p', j.project]">{{ j.project }}</a></td>
+                <td>{{ j.title }}</td>
+                <td>{{ j.user }}</td>
+                <td><span class="badge" [class]="j.state">{{ j.state }}</span>@if (j.error) { <span class="error-text"> {{ j.error }}</span> }</td>
+                <td>{{ j.queued_at | date: 'medium' }}</td>
+                <td class="num">{{ j.wait_seconds ?? '' }}</td>
+                <td class="num">{{ j.seconds ?? '' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+}

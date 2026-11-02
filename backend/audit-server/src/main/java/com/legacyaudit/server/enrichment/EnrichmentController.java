@@ -48,12 +48,15 @@ public class EnrichmentController {
     private final ScanStore scans;
     private final EnrichJobs jobs;
     private final CurrentUser current;
+    private final com.legacyaudit.server.admin.AdminStore admin;
 
-    public EnrichmentController(ProjectService projects, ScanStore scans, EnrichJobs jobs, CurrentUser current) {
+    public EnrichmentController(ProjectService projects, ScanStore scans, EnrichJobs jobs, CurrentUser current,
+            com.legacyaudit.server.admin.AdminStore admin) {
         this.projects = projects;
         this.scans = scans;
         this.jobs = jobs;
         this.current = current;
+        this.admin = admin;
     }
 
     /** {@code stale}: only missing and stale stages; {@code stages}: only these. */
@@ -160,7 +163,7 @@ public class EnrichmentController {
         out.put("stages", rows);
         out.put("next_prompt", next);
         out.put("ai", ai(project));
-        out.put("ai_allowed", true);
+        out.put("ai_allowed", admin.get().ai().allowed());
         out.put("job", jobView(jobs.last(project.id())));
         return out;
     }
@@ -190,6 +193,9 @@ public class EnrichmentController {
     public Map<String, Object> run(@PathVariable String id, @RequestBody(required = false) RunBody body, Principal principal) {
         User user = current.of(principal);
         Project project = projects.need(user, id, Roles.CONTRIBUTOR, "Viewers cannot run the AI enrichment; ask the project owner");
+        if (!admin.get().ai().allowed()) {
+            throw ApiException.forbidden("The admin has switched off AI enrichment on this site");
+        }
         Path runDir = needRun(project);
         boolean stale = body == null || body.stale() == null || body.stale();
         List<String> names = body == null ? null : body.stages();
