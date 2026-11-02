@@ -585,7 +585,7 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
 | 6 – Reports | Done (2026-10-30) | Technical report, functional document, management deck (HTML slider and `deck.json`) and summary report: every file equals the Python tool's on the sample runs (`ReportParityTest`, 11 runs incl. enrichment and audit only); PDF copies with Edge/Chrome joined by PDFBox (same pages, bookmarks and links as Python's); `legacy-audit report`; web app **Reports** page (build in the background, open, PDFs, data pack). No PowerPoint |
 | 7 – AI and Copilot | Done (2026-10-30) | Enrichment validator (same messages as Python on 22 recorded cases), stale stages and carry-over to the next scan, `init` with the Copilot agent, prompts and `mcp.json` (starts the jar), MCP server with the five fact tools (same answers as Python), `facts`, `validate`, `enrich` with OpenAI, Anthropic, Azure OpenAI and Ollama (prompts equal Python's, 224 of 224; every stage passes the validator with each provider type against a fake model), launchers `legacy-audit` / `legacy-audit.cmd`; web app **AI enrichment** page |
 | 8 – Web app complete | Done (2026-11-02) | 8a done (2026-10-30): runs list and compare, results and facts of any run, component and source pages, Settings (form and text, saved as the Python tool saved them: `WorkspaceParityTest`), input files, components to scan (pre-scan equal to Python's on all 10 samples), tool checks and `legacy-audit doctor`, hosted folder rules. 8b done (2026-11-02): admin settings (`admin.yaml`, report and AI switches, limits, sign-up, project defaults and locked keys), users, every project, activity log and CSV, status, logs, usage dashboard (equal to Python's: `UsageParityTest`) and system dashboard, project edit, archive, hide and delete. 8c done (2026-11-02): Git sources (clone with a token kept out of every file, sub-paths, another branch for one scan), Git projects on the web app, clone list and clean-up on the Admin page, `purge-cache`, Git in the backend image, the Angular reference (Compodoc). Phase 8 done |
-| 9 – Packaging and switch-over | Not started | |
+| 9 – Packaging and switch-over | Done (2026-11-02) | Backend image on Debian slim with the Java 25 runtime, Chromium (PDF copies on the web app), Git, fonts and OSV-Scanner, running as user `audit`; CI builds the images, scans a sample and builds the reports with PDFs in Docker; 2M lines scan in 93 s and re-scan in under a minute within 2 GB (`docs/performance.md`); the laptop command (task 22, launchers with memory settings); user guide, admin guide, Copilot agent guide and developer rules for Copilot. Every phase is done: the switch-over to this version is Siva's call |
 
 - Known gaps after Phase 1: Git sources are refused with a plain message (they come with the
   Git work in a later phase); a component's entry points and the Dependency-Check/OSV coverage
@@ -620,4 +620,11 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
   `git_cache_dir`) are saved but used from 8c.
 - Known gaps after Phase 8c: ssh (`git@`) addresses need a key and `known_hosts` that the
   backend container does not have yet (https with a token works).
-- Next: Phase 9 (packaging, browser in the backend image, final docs).
+- Known gaps after Phase 9 (what the new version still does not have):
+  - No PowerPoint deck (dropped on purpose; the management deck is HTML with a PDF copy).
+  - ssh (`git@`) Git addresses in Docker need a key and `known_hosts` mounted by hand; https
+    with a token works.
+  - No Okta login yet (name-only login, as the Python site).
+  - The Python site's activity log is not imported.
+  - Laptop and real-estate performance numbers are still to be measured (`docs/performance.md`).
+- Next: Siva decides the switch-over (move `spring-boot-angular` to the office repository).

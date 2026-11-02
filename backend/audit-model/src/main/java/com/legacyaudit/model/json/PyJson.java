@@ -24,6 +24,36 @@ public final class PyJson {
         return out.append('\n').toString();
     }
 
+    /**
+     * {@link #pretty(Object)} written straight to a file: a list is written one item at a time,
+     * so a fact file of millions of rows never has to fit in memory as one string. Same bytes.
+     */
+    public static void prettyTo(java.nio.file.Path path, Object value) throws java.io.IOException {
+        try (java.io.Writer w = java.nio.file.Files.newBufferedWriter(path, java.nio.charset.StandardCharsets.UTF_8)) {
+            if (!(value instanceof Collection<?> items) || items.isEmpty()) {
+                w.write(pretty(value));
+                return;
+            }
+            StringBuilder out = new StringBuilder("[");
+            boolean first = true;
+            for (Object item : items) {
+                if (!first) {
+                    out.append(',');
+                }
+                first = false;
+                newline(out, 1, true);
+                write(out, item, 1, true);
+                if (out.length() > 1 << 16) {
+                    w.append(out);
+                    out.setLength(0);
+                }
+            }
+            newline(out, 0, true);
+            out.append("]\n");
+            w.append(out);
+        }
+    }
+
     /** {@code json.dumps(value, indent=2, ensure_ascii=False)} and a newline; keys sorted only with {@code sortKeys}. */
     public static String pretty(Object value, boolean sortKeys) {
         boolean saved = SORT.get();

@@ -41,7 +41,7 @@ backend/                 Maven multi-module build (Java 25, Spring Boot 4)
   audit-ai/              AI enrichment, Copilot files, MCP server (no Spring)
   audit-cli/             legacy-audit.jar, the command line (picocli)
   audit-server/          the web backend (Spring Boot, PostgreSQL)
-  Dockerfile             backend image
+  Dockerfile             backend image: Debian slim + the Temurin 25 runtime, Chromium, Git, fonts, OSV-Scanner; user audit (10001)
 frontend/                Angular 21 app, served by nginx in Docker
 docker/                  env.example, build helpers (spring/), company certificates folder
 docker-compose.yml       db (PostgreSQL 17) + backend + frontend, site on port 8770

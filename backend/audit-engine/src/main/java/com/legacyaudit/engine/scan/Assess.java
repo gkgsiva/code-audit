@@ -292,11 +292,20 @@ final class Assess {
         extra.put("libraries", () -> libraries.stream().map(l -> libraryItem(l, risky)).toList());
         extra.put("metrics", () -> in.measured().metrics.stream().map(Doc::toMap).toList());
         extra.put("inventory", () -> in.records().stream().map(FileRecord::toMap).toList());
-        Function<String, List<Map<String, Object>>> collection = name -> cache.computeIfAbsent(name, n -> extra.containsKey(n)
-                ? extra.get(n).get() : entities.getOrDefault(n, List.of()).stream().map(Doc::toMap).toList());
-
         List<Packs.Rule> rules = new ArrayList<>();
         packs.values().forEach(p -> rules.addAll(p.rules));
+        // each collection is built once and let go after the last rule that reads it, so a large
+        // estate never holds every collection as plain maps at the same time
+        Map<String, Integer> uses = new HashMap<>();
+        rules.stream().filter(r -> r.match() != null).forEach(r -> uses.merge(r.match().entity(), 1, Integer::sum));
+        Function<String, List<Map<String, Object>>> collection = name -> {
+            List<Map<String, Object>> items = cache.computeIfAbsent(name, n -> extra.containsKey(n)
+                    ? extra.get(n).get() : entities.getOrDefault(n, List.of()).stream().map(Doc::toMap).toList());
+            if (uses.merge(name, -1, Integer::sum) <= 0) {
+                cache.remove(name);
+            }
+            return items;
+        };
         List<Finding> all = new ArrayList<>();
         in.raised().forEach(f -> all.add(Findings.of(f)));
         all.addAll(Findings.evaluate(rules, collection, in.hits()));
