@@ -33,7 +33,7 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `LEGACY_AUDIT_SOURCES_ROOT` | folders a project may scan | `./sources` |
 | `LEGACY_AUDIT_MAX_SCANS` | jobs (scans, report builds, AI runs) running at the same time; when set, the admin page cannot change it | empty: `limits.max_scans` of `admin.yaml` (2) |
 | `LEGACY_AUDIT_KEEP_RUNS` | runs kept per project after each scan; when set, the admin page cannot change it | empty: `limits.keep_runs` of `admin.yaml` (10) |
-| `LEGACY_AUDIT_LOG_FILE` | the server log file (rolled to `server.log.1` ...) shown on the Logs page | Docker: `/audits/.legacy-audit/logs/server.log` |
+| `LEGACY_AUDIT_LOG_FILE` | the server log file (rolled to `server.log.<date>.<n>`, 10 MB each, 5 days) shown on the Logs page | Docker: `/audits/.legacy-audit/logs/server.log` |
 | `LEGACY_AUDIT_SESSION_HOURS` | session length | `12` |
 | `LEGACY_AUDIT_AI_PROVIDER`, `_MODEL`, `_BASE_URL` | the model for **Run here** on the Enrichment page; override `ai:` of each project's `audit.yaml` (the API key comes from the variable the provider names, e.g. `OPENAI_API_KEY`) | from `audit.yaml` (`copilot`) |
 | `LEGACY_AUDIT_DB_URL`, `_DB_USER`, `_DB_PASSWORD` | PostgreSQL | local `legacyaudit` |

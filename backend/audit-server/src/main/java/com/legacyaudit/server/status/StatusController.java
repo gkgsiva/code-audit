@@ -47,7 +47,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class StatusController {
 
     static final int LOG_TAIL = 5000;
-    static final Pattern SERVER_LOG = Pattern.compile("^server\\.log(\\.\\d+)?$");
+    static final Pattern SERVER_LOG = Pattern.compile("^server\\.log(\\.\\d{4}-\\d{2}-\\d{2})?(\\.\\d+)?$");
     static final Pattern RUN_LOG = Pattern.compile("^[\\w.-]+\\.log$");
 
     private final ServerSettings host;
