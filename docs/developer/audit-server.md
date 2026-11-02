@@ -17,6 +17,7 @@ Docker, nginx in the `frontend` container passes `/api` through to it.
 | `server.inventory` | `InventoryController` | Files and components of the newest scan |
 | `server.admin` | `AdminController`, `AdminStore`, `AdminSettings`, `Activity`, `Usage`, `SystemMetrics` | Site settings (`admin.yaml`), users, every project, the activity log, the usage and system dashboards, health |
 | `server.jobs` | `JobGate` | The site's job slots shared by scans, report builds and AI runs, and the last 200 jobs |
+| `server.git` | `Clones` | The Git clone cache of the site: list, clean-up (hourly, after each scan, on the admin page), deleting a project's own clones |
 | `server.status` | `StatusController` | The status page (slots and jobs) and the log pages |
 | `server.web` | `HealthController`, `ApiException`, `ApiErrors` | Health check and error answers |
 
@@ -52,11 +53,11 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `POST /api/auth/logout` | ends the session | logged in |
 | `GET /api/me` | name and role | logged in |
 | `GET /api/projects` | projects the user can see | logged in |
-| `POST /api/projects` | create a project on a source folder | owner, admin |
+| `POST /api/projects` | create a project on a source folder (`sourcePath`) or a Git repository (`git`: `url`, `ref`, `paths`, `tokenEnv`) | owner, admin |
 | `GET /api/projects/{id}` | one project with members | project viewer and up |
 | `PUT /api/projects/{id}/members` | set contributors and viewers | project owner, admin |
 | `GET /api/sources?path=` | folders under the sources roots, for the picker | owner, admin |
-| `POST /api/projects/{id}/scans` | `{"full"}`: queue a scan | project contributor and up |
+| `POST /api/projects/{id}/scans` | `{"full", "ref"}`: queue a scan; `ref` scans another branch or tag of a Git project this time only | project contributor and up |
 | `GET /api/projects/{id}/scans` | past and current scans | project viewer and up |
 | `GET /api/projects/{id}/scans/{scanId}` | live status: stage, done/total, log | project viewer and up |
 | `POST /api/projects/{id}/scans/{scanId}/cancel` | stop at the next file | project contributor and up |
@@ -98,6 +99,8 @@ logged-in session; state-changing calls need the CSRF header (see Security).
 | `GET /api/admin/activity?limit=&project=`, `GET /api/admin/activity.csv` | the activity log (logins, project changes, scans, report builds, AI runs, admin changes) | admin |
 | `GET /api/admin/dashboard/usage?days=` | logins, active users, scans, report builds and AI runs per day, totals, report types, top projects and users, failures (`Usage`, as Python's `metrics.usage`) | admin |
 | `GET /api/admin/dashboard/system` | memory and CPU (container limits when there are some), disk, uptime, threads, running jobs and the last hour of samples (`SystemMetrics`) | admin |
+| `GET /api/admin/clones` | the clone cache: each clone (repository, branch, commit, projects, last use, size), space used and free, the clean-up limits | admin |
+| `POST /api/admin/clones/delete`, `POST /api/admin/clones/prune` | `{"key"}`: delete one clone (409 while a job may use it); clean up now | admin |
 | `GET /api/admin/health` | version, disk, size of each project, tool checks, queue and source roots | admin |
 
 `run` is `latest`, `previous` or a run id; the dashboard and facts calls also take `?run=` and

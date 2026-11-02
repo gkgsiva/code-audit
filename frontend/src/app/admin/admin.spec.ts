@@ -47,11 +47,22 @@ describe('AdminPage', () => {
     http.expectOne((r) => r.url === '/api/admin/activity').flush([]);
     http.expectOne('/api/admin/health').flush({ version: '1', disk: { total: null, used: null, free: null }, projects: [], checks: [],
       queue: { slots: 2, running: 0, waiting: 0 }, source_roots: [] });
+    http.expectOne('/api/admin/clones').flush({ cache: '/audits/.legacy-audit/git', total: 2048, free: 1024, keep_days: 14, min_free_gb: 5,
+      clones: [{ key: 'git.example.com/team/a@main', url: 'https://git.example.com/team/a.git', ref: 'main', commit: 'aaaaaaaaaaaa',
+        last_used: '2026-11-01T10:00:00+00:00', size: 2048, projects: ['billing'] }] });
     await fixture.whenStable();
     fixture.detectChanges();
     const page = fixture.componentInstance;
     expect(page.locked('limits.max_scans')).toBe(true);
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('siva');
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('https://git.example.com/team/a.git');
+
+    page.deleteClone(page.clones()!.clones[0]);
+    const del = http.expectOne('/api/admin/clones/delete');
+    expect(del.request.body).toEqual({ key: 'git.example.com/team/a@main' });
+    del.flush({ deleted: 'git.example.com/team/a@main' });
+    http.expectOne('/api/admin/clones').flush({ cache: '', total: 0, free: null, keep_days: 14, min_free_gb: 5, clones: [] });
+    http.expectOne((r) => r.url === '/api/admin/activity').flush([]);
 
     page.newUser = ' anna ';
     page.newRole = 'viewer';

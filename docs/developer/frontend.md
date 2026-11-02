@@ -31,7 +31,7 @@ src/
     login/                login page
     shell/                top bar (name, role, version, Log out) around every page after login
     projects/             list of projects
-    new-project/          create a project with the folder picker
+    new-project/          create a project with the folder picker or a Git address
     project/              one project: start, follow and cancel scans, components, members
     inventory/            files of the newest scan with filters and totals per language
     results/              the newest scan's headline numbers, charts, effort, findings, coverage
@@ -102,4 +102,7 @@ Every path except `/login` sits inside `Shell` and is protected by `loggedIn`.
 
 ## Generated reference
 
-A Compodoc site of the Angular classes is added with the remaining screens (Phase 8).
+Run `npm run docs` in `frontend/` (or VS Code task **21**) to build the Compodoc site of every
+component, service, guard, route and interface into `frontend/docs-reference/` (open
+`index.html`; the folder is not committed). It reads the TSDoc comments on the classes, so
+keep one on each new page and service.

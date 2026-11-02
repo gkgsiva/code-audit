@@ -31,6 +31,16 @@ public record AuditConfig(
 
     public record Application(String name, String description, String owner) {}
 
+    /** This config with every Git repository set to {@code ref} (a scan of another branch, once); unchanged for local sources. */
+    public AuditConfig withGitRef(String ref) {
+        if (!(source instanceof GitSource g)) {
+            return this;
+        }
+        List<GitRepo> repos = g.repos().stream().map(r -> new GitRepo(r.url(), ref, r.paths(), r.name(), r.tokenEnv())).toList();
+        return new AuditConfig(application, new GitSource(repos, g.cacheDir()), include, exclude, components, inputsDir, outputDir,
+                overridesFile, target, counting, inventory, copybookPaths, duplicationTokens, rulePacks, dump);
+    }
+
     /** A setting of a section that is not typed yet, from {@link #dump()} (null when absent). */
     public Object setting(String section, String key) {
         return dump.get(section) instanceof Map<?, ?> m ? m.get(key) : null;

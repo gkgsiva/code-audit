@@ -7,7 +7,7 @@ command line and the web backend both call `Scanner.run`.
 
 | Package | Main classes | Purpose |
 | --- | --- | --- |
-| `scan` | `Scanner`, `Sources`, `ScanLog` | The scan pipeline and its log |
+| `scan` | `Scanner`, `Sources`, `GitClones`, `ScanLog` | The scan pipeline, the folders to scan (Git repositories cloned with `git`), and its log |
 | `inventory` | `Walker`, `GitIgnore`, `FileAnalyzer`, `Languages`, `LanguageTables`, `Encodings`, `Loc`, `FileCache`, `InputCoverages`, `Paths`, `Rx` | Which files there are and what they are |
 | `components` | `ComponentDetector`, `Grouping`, `ComponentOverrides`, `BuildInfo`, `Candidate`, `Kinds` | Splitting the code into components |
 | `analyzers` | `Analyzer`, `Analyzers`, `Facts`, one class per analyzer, shared helpers | Reading what is inside each file (see [analyzers.md](analyzers.md)) |
@@ -32,7 +32,7 @@ Steps, in order:
 1. **Lock and run folder.** `ScanLock` takes an operating-system lock on `runs/.lock` (one scan
    per output folder; released even after a crash). `Runs.newRunId` names the run
    (`20261029-185148-dd9a60`), and `ScanLog` writes `logs/scan.log` with secrets masked.
-2. **Sources.** `Sources` turns `source.paths` into folders on disk (Git sources come later).
+2. **Sources.** `Sources` turns `source.paths` into folders on disk; for `source.type: git` `GitClones.fetch` clones or updates each repository (one commit deep, the token as an HTTP header from the variable named in `token_env`) and the run records its address, branch and commit. `AuditConfig.withGitRef` scans another branch once.
    The supplementary inputs folder (`audit-inputs/`) is scanned as an extra root.
 3. **Walk.** `Walker` lists the files in a stable order (a folder's files, then each
    sub-folder, sorted), honouring `include`/`exclude` and the default excludes. Patterns use

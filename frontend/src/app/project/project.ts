@@ -48,6 +48,8 @@ export class ProjectPage implements OnInit {
   readonly members = computed(() => Object.entries(this.project()?.members ?? {}).map(([name, role]) => ({ name, role })));
 
   newMember = '';
+  /** For a Git project: scan this branch or tag this time only (empty: the project's own). */
+  scanRef = '';
   newRole = 'contributor';
 
   readonly reportKeys = Object.entries(HIDEABLE_REPORTS);
@@ -89,7 +91,7 @@ export class ProjectPage implements OnInit {
   start(full: boolean): void {
     this.busy.set(true);
     this.error.set(null);
-    this.api.startScan(this.id, full).subscribe({
+    this.api.startScan(this.id, full, this.scanRef.trim() || null).subscribe({
       next: (s) => {
         this.busy.set(false);
         this.status.set(s);

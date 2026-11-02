@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "docs": "compodoc -p tsconfig.app.json -d docs-reference -n \"legacy-audit frontend\" --hideGenerator --disableSourceCode --disableDomTree --disableTemplateTab --disableStyleTab"
   },
   "private": true,
   "packageManager": "npm@10.9.4",
@@ -24,6 +25,7 @@
     "@angular/build": "^21.2.29",
     "@angular/cli": "^21.2.29",
     "@angular/compiler-cli": "^21.2.0",
+    "@compodoc/compodoc": "2.0.0",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2",

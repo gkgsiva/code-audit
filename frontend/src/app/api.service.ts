@@ -33,6 +33,8 @@ export interface Project {
   archived?: boolean;
   hiddenReports?: string[];
   hiddenSections?: string[];
+  /** The Git repositories of a Git project (only on the single-project call); null for a folder. */
+  git?: { url: string; ref: string | null }[] | null;
   lastScan: Scan | null;
   lastDone: string | null;
 }
@@ -436,6 +438,33 @@ export interface SystemInfo {
   sample_seconds: number;
 }
 
+/** A new project's Git source. */
+export interface GitSpec {
+  url: string;
+  ref: string | null;
+  paths: string[];
+  tokenEnv: string | null;
+}
+
+export interface CloneInfo {
+  key: string;
+  url: string | null;
+  ref: string | null;
+  commit: string;
+  last_used: string;
+  size: number;
+  projects: string[];
+}
+
+export interface ClonesView {
+  cache: string;
+  clones: CloneInfo[];
+  total: number;
+  free: number | null;
+  keep_days: number;
+  min_free_gb: number;
+}
+
 export interface HealthInfo {
   version: string;
   disk: { total: number | null; used: number | null; free: number | null };
@@ -462,7 +491,7 @@ export class ApiService {
     return this.http.get<Project>(`/api/projects/${encodeURIComponent(id)}`);
   }
 
-  createProject(body: { title: string; id?: string; description?: string; sourcePath: string }): Observable<Project> {
+  createProject(body: { title: string; id?: string; description?: string; sourcePath?: string; git?: GitSpec }): Observable<Project> {
     return this.http.post<Project>('/api/projects', body);
   }
 
@@ -474,8 +503,9 @@ export class ApiService {
     return this.http.get<Folders>('/api/sources', { params: { path } });
   }
 
-  startScan(id: string, full: boolean): Observable<ScanStatus> {
-    return this.http.post<ScanStatus>(`/api/projects/${encodeURIComponent(id)}/scans`, { full });
+  /** {@code ref}: for a Git project, scan this branch, tag or commit this time only. */
+  startScan(id: string, full: boolean, ref: string | null = null): Observable<ScanStatus> {
+    return this.http.post<ScanStatus>(`/api/projects/${encodeURIComponent(id)}/scans`, ref ? { full, ref } : { full });
   }
 
   scans(id: string): Observable<Scan[]> {
@@ -664,6 +694,18 @@ export class ApiService {
 
   system(): Observable<SystemInfo> {
     return this.http.get<SystemInfo>('/api/admin/dashboard/system');
+  }
+
+  clones(): Observable<ClonesView> {
+    return this.http.get<ClonesView>('/api/admin/clones');
+  }
+
+  deleteClone(key: string): Observable<{ deleted: string }> {
+    return this.http.post<{ deleted: string }>('/api/admin/clones/delete', { key });
+  }
+
+  pruneClones(): Observable<{ removed: string[] }> {
+    return this.http.post<{ removed: string[] }>('/api/admin/clones/prune', {});
   }
 
   health(): Observable<HealthInfo> {

@@ -278,7 +278,13 @@ public final class Scanner {
             log.info("Run " + runId + " for '" + cfg.application().name() + "' (legacy-audit " + AppInfo.version() + ")");
             long t = System.nanoTime();
             Overrides overrides = Overrides.load(loaded.overridesPath());
-            List<Sources.Root> roots = Sources.resolve(loaded);
+            List<Sources.Root> roots = Sources.resolve(loaded, line -> {
+                if (line.startsWith("WARNING ")) {
+                    log.warning(line.substring(8));
+                } else {
+                    log.info(line);
+                }
+            });
             timings.put("sources", seconds(t));
             for (Sources.Root r : roots) {
                 log.info("Source " + r.name() + ": " + r.path() + (r.commit() != null ? " @ " + r.commit() : ""));

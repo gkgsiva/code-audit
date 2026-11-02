@@ -153,6 +153,22 @@
       "command": "mvn -B -pl audit-server -am test \"-Dtest=AdminFlowTest,UsageParityTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 20. check Git projects and clones",
+      "detail": "Clones a test repository with git (sub-paths, another branch once, a new commit) and checks the Git projects and the clone clean-up of the web app",
+      "type": "shell",
+      "command": "mvn -B -pl audit-server -am test \"-Dtest=GitSourceTest,GitFlowTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
+    },
+    {
+      "label": "audit: 21. build the Angular reference (Compodoc)",
+      "detail": "Writes the reference of every Angular component, service and route into frontend/docs-reference (open index.html)",
+      "type": "shell",
+      "command": "npm ci && npm run docs",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

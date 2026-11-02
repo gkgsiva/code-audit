@@ -31,9 +31,19 @@ RUN cd backend && mvn -B -ntp -q -DskipTests package -pl audit-server -am
 FROM ${BASE_IMAGE}
 ARG AUDIT_UID=10001
 ARG AUDIT_GID=10001
+ARG BUILD_PROXY=
+ARG BUILD_NO_PROXY=
+ARG APT_MIRROR=
+ARG WITH_SYSTEM_PACKAGES=true
 COPY docker/spring/java-build.sh /tmp/java-build.sh
 COPY docker/certs/ /tmp/certs/
-RUN . /tmp/java-build.sh && trust_company_certs && rm -rf /tmp/java-build.sh /tmp/certs \
+# Git (and ssh for git@ addresses) to clone the Git projects; the company certificates are added
+# to the system store as well, so git trusts a proxy that inspects HTTPS.
+RUN . /tmp/java-build.sh && trust_company_certs \
+    && for crt in /tmp/certs/*.crt; do [ -f "$crt" ] && cp "$crt" /usr/local/share/ca-certificates/ || true; done \
+    && system_packages git openssh-client ca-certificates \
+    && { command -v update-ca-certificates > /dev/null && update-ca-certificates > /dev/null || true; } \
+    && rm -rf /tmp/java-build.sh /tmp/certs \
     && mkdir -p /app /audits /sources
 COPY --from=build /src/backend/audit-server/target/legacy-audit-server.jar /app/legacy-audit-server.jar
 WORKDIR /app

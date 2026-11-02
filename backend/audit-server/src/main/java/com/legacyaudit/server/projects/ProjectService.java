@@ -129,6 +129,14 @@ public class ProjectService {
 
     /** Creates the folder (audit.yaml, audit-overrides.yaml, audit-inputs/) and the project row. */
     public Project create(User user, String title, String id, String description, String sourcePath) {
+        return create(user, title, id, description, sourcePath, null);
+    }
+
+    /** A Git source for a new project: address, branch or tag, sub-paths, and the variable holding a token. */
+    public record GitSpec(String url, String ref, List<String> paths, String tokenEnv) {}
+
+    /** Creates a project on a local folder ({@code sourcePath}) or, when {@code git} is given, on a Git repository. */
+    public Project create(User user, String title, String id, String description, String sourcePath, GitSpec git) {
         if (!canCreate(user)) {
             throw ApiException.forbidden("Your role cannot create projects; ask an admin");
         }
@@ -144,11 +152,14 @@ public class ProjectService {
         if (Files.exists(folder) || store.exists(pid)) {
             throw new ApiException(HttpStatus.CONFLICT, "A project folder '" + pid + "' already exists; open it instead");
         }
-        Path source = checkSource(sourcePath);
+        Path source = git == null ? checkSource(sourcePath) : null;
+        if (git != null && (git.url() == null || git.url().isBlank())) {
+            throw ApiException.badRequest("Give the Git address");
+        }
         description = description == null || description.isBlank() ? null : description.strip();
         try {
             Files.createDirectories(folder);
-            Files.writeString(folder.resolve(CONFIG_FILE), configText(title, user.name(), description, source), StandardCharsets.UTF_8);
+            Files.writeString(folder.resolve(CONFIG_FILE), configText(title, user.name(), description, source, git), StandardCharsets.UTF_8);
             Files.writeString(folder.resolve(OVERRIDES_FILE), template(OVERRIDES_FILE), StandardCharsets.UTF_8);
             for (String kind : AuditConfig.INPUT_KINDS.keySet()) {
                 Path d = folder.resolve("audit-inputs").resolve(kind);
@@ -162,7 +173,7 @@ public class ProjectService {
                     ? "Cannot write the project folder " + folder + ": " + e.getMessage()
                     : e.getMessage());
         }
-        return store.create(pid, title, description, user.name(), source.toString());
+        return store.create(pid, title, description, user.name(), git != null ? git.url().strip() : source.toString());
     }
 
     /** Sets the members (contributor or viewer); only the owner or an admin may. */
@@ -210,6 +221,10 @@ public class ProjectService {
     }
 
     static String configText(String title, String owner, String description, Path source) {
+        return configText(title, owner, description, source, null);
+    }
+
+    static String configText(String title, String owner, String description, Path source, GitSpec git) {
         StringBuilder sb = new StringBuilder();
         sb.append("# legacy-audit project created on the web app. Relative paths are resolved from this file's\n");
         sb.append("# folder. Add a section to change a default for this project.\n\n");
@@ -219,7 +234,22 @@ public class ProjectService {
         if (description != null) {
             sb.append("  description: ").append(quote(description)).append('\n');
         }
-        sb.append("\nsource:\n  type: local\n  paths:\n    - ").append(quote(source.toString().replace('\\', '/'))).append('\n');
+        if (git != null) {
+            sb.append("\nsource:\n  type: git\n  repos:\n    - url: ").append(quote(git.url().strip())).append('\n');
+            if (git.ref() != null && !git.ref().isBlank()) {
+                sb.append("      ref: ").append(quote(git.ref().strip())).append('\n');
+            }
+            List<String> paths = git.paths() == null ? List.of() : git.paths().stream().map(String::strip).filter(s -> !s.isEmpty()).toList();
+            if (!paths.isEmpty()) {
+                sb.append("      paths:\n");
+                paths.forEach(s -> sb.append("        - ").append(quote(s)).append('\n'));
+            }
+            if (git.tokenEnv() != null && !git.tokenEnv().isBlank()) {
+                sb.append("      token_env: ").append(quote(git.tokenEnv().strip())).append('\n');
+            }
+        } else {
+            sb.append("\nsource:\n  type: local\n  paths:\n    - ").append(quote(source.toString().replace('\\', '/'))).append('\n');
+        }
         sb.append("\n# Files to scan, in .gitignore syntax.\ninclude:\n  - \"**\"\nexclude: []\n");
         sb.append("\ninputs_dir: audit-inputs\noutput_dir: audit-output\noverrides_file: audit-overrides.yaml\n");
         return sb.toString();

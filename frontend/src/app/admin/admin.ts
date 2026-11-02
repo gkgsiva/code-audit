@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import {
-  ActivityEntry, AdminProject, AdminSettingsData, AdminUser, AdminView, ApiService, HealthInfo, problem,
+  ActivityEntry, AdminProject, CloneInfo, ClonesView, AdminSettingsData, AdminUser, AdminView, ApiService, HealthInfo, problem,
 } from '../api.service';
 
 /** Bytes as KB, MB or GB for the size columns. */
@@ -46,6 +46,7 @@ export class AdminPage implements OnInit {
   readonly projects = signal<AdminProject[]>([]);
   readonly activity = signal<ActivityEntry[]>([]);
   readonly health = signal<HealthInfo | null>(null);
+  readonly clones = signal<ClonesView | null>(null);
   readonly error = signal<string | null>(null);
   readonly saved = signal<string | null>(null);
   readonly size = size;
@@ -54,6 +55,7 @@ export class AdminPage implements OnInit {
   /** A copy of the settings the form edits. */
   s: AdminSettingsData | null = null;
   roots = '';
+  gitCacheDir = '';
   defaultsText = '';
   lockedText = '';
   newUser = '';
@@ -66,6 +68,35 @@ export class AdminPage implements OnInit {
     this.api.adminProjects().subscribe({ next: (p) => this.projects.set(p) });
     this.loadActivity();
     this.api.health().subscribe({ next: (h) => this.health.set(h) });
+    this.loadClones();
+  }
+
+  loadClones(): void {
+    this.api.clones().subscribe({ next: (c) => this.clones.set(c) });
+  }
+
+  pruneClones(): void {
+    this.error.set(null);
+    this.api.pruneClones().subscribe({
+      next: (r) => {
+        this.saved.set(r.removed.length ? 'Deleted ' + r.removed.length + ' clone(s).' : 'Nothing to clean up.');
+        this.loadClones();
+        this.loadActivity();
+      },
+      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    });
+  }
+
+  deleteClone(c: CloneInfo): void {
+    this.error.set(null);
+    this.api.deleteClone(c.key).subscribe({
+      next: () => {
+        this.saved.set('Deleted the clone of ' + (c.url ?? c.key) + '.');
+        this.loadClones();
+        this.loadActivity();
+      },
+      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    });
   }
 
   locked(key: string): boolean {
@@ -78,6 +109,7 @@ export class AdminPage implements OnInit {
     }
     const lines = (t: string) => t.split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
     this.s.paths.extra_source_roots = lines(this.roots);
+    this.s.paths.git_cache_dir = this.gitCacheDir.trim() || null;
     this.s.locked = lines(this.lockedText);
     this.done(this.api.saveAdmin(this.s), 'Settings saved.');
   }
@@ -143,6 +175,7 @@ export class AdminPage implements OnInit {
       this.s.reports.summary_sections[k] ??= false;
     }
     this.roots = v.settings.paths.extra_source_roots.join('\n');
+    this.gitCacheDir = v.settings.paths.git_cache_dir ?? '';
     this.lockedText = v.settings.locked.join('\n');
     this.defaultsText = v.defaults_yaml;
   }
