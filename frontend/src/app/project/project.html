@@ -2,7 +2,7 @@
   <section class="panel">
     <div class="row spread">
       <div>
-        <h1>{{ p.title }}</h1>
+        <h1>{{ p.title }} @if (p.archived) { <span class="badge">archived</span> }</h1>
         @if (p.description) {
           <p class="lead">{{ p.description }}</p>
         }
@@ -121,6 +121,54 @@
           </tbody>
         </table>
       </div>
+    </section>
+  }
+
+  @if (canManage()) {
+    <section class="panel">
+      <details>
+        <summary><strong>Project settings</strong>: name, owner, archive, hidden reports</summary>
+        @if (saved()) { <p class="hint" role="status">{{ saved() }}</p> }
+        <form class="fields" (ngSubmit)="saveProject()">
+          <label for="p-title">Name</label>
+          <input id="p-title" name="title" type="text" [(ngModel)]="editTitle">
+          <label for="p-desc">Description</label>
+          <input id="p-desc" name="description" type="text" [(ngModel)]="editDescription">
+          <label for="p-owner">Owner</label>
+          <select id="p-owner" name="owner" [(ngModel)]="editOwner">
+            @if (editOwner && !users().includes(editOwner)) { <option [value]="editOwner">{{ editOwner }}</option> }
+            @for (u of users(); track u) { <option [value]="u">{{ u }}</option> }
+          </select>
+          <span>Archived</span>
+          <label><input type="checkbox" name="archived" [(ngModel)]="editArchived"> Keep it, but mark it as no longer in use</label>
+          <span>Hide reports</span>
+          <div class="row">
+            @for (r of reportKeys; track r[0]) {
+              <label><input type="checkbox" [name]="'hr-' + r[0]" [(ngModel)]="hideReport[r[0]]"> {{ r[1] }}</label>
+            }
+          </div>
+          <span>Hide summary sections</span>
+          <div class="row">
+            @for (r of sectionKeys; track r[0]) {
+              <label><input type="checkbox" [name]="'hs-' + r[0]" [(ngModel)]="hideSection[r[0]]"> {{ r[1] }}</label>
+            }
+          </div>
+          <span></span>
+          <div>
+            <button type="submit" class="btn primary">Save</button>
+            <p class="hint">Hiding works only when the admin allows owners to hide reports.</p>
+          </div>
+        </form>
+        @if (isAdmin()) {
+          <h3>Delete the project</h3>
+          <p class="hint">Removes the project folder with its settings, input files and every run. This cannot be undone.
+            Type <code>{{ p.id }}</code> to confirm.</p>
+          <form class="row" (ngSubmit)="deleteProject()">
+            <input type="text" name="confirmDelete" style="max-width: 14rem" [(ngModel)]="confirmDelete" aria-label="Folder name to confirm">
+            <button type="submit" class="btn" [disabled]="confirmDelete.trim() !== p.id">Delete project</button>
+          </form>
+        }
+      </details>
     </section>
   }
 

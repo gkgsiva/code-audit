@@ -2,11 +2,21 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, DestroyRef, OnInit, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { ApiService, ComponentRow, Project, Scan, ScanStatus, problem } from '../api.service';
 
 const POLL_MS = 1500;
+
+/** Reports and summary sections an owner may hide on the project (when the admin allows it). */
+export const HIDEABLE_REPORTS: Record<string, string> = {
+  summary: 'Summary report', mgmt: 'Management deck', functional: 'Functional document', tech: 'Technical report',
+  pdf: 'PDF copies', datapack: 'Data pack',
+};
+export const HIDEABLE_SECTIONS: Record<string, string> = {
+  project: 'Project, tech stack and modules', data: 'Database and queries', integrations: 'Integrations', batch: 'Batches',
+  security: 'Dependency vulnerabilities',
+};
 
 /** One project: start a scan, follow it live, past scans, components and who has access. */
 @Component({
@@ -18,6 +28,7 @@ export class ProjectPage implements OnInit {
   private readonly api = inject(ApiService);
   private readonly route = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
   id = '';
   readonly project = signal<Project | null>(null);
@@ -39,6 +50,19 @@ export class ProjectPage implements OnInit {
   newMember = '';
   newRole = 'contributor';
 
+  readonly reportKeys = Object.entries(HIDEABLE_REPORTS);
+  readonly sectionKeys = Object.entries(HIDEABLE_SECTIONS);
+  readonly isAdmin = computed(() => this.project()?.role === 'admin');
+  readonly users = signal<string[]>([]);
+  readonly saved = signal<string | null>(null);
+  editTitle = '';
+  editDescription = '';
+  editOwner = '';
+  editArchived = false;
+  hideReport: Record<string, boolean> = {};
+  hideSection: Record<string, boolean> = {};
+  confirmDelete = '';
+
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   ngOnInit(): void {
@@ -51,6 +75,7 @@ export class ProjectPage implements OnInit {
     this.api.project(this.id).subscribe({
       next: (p) => {
         this.project.set(p);
+        this.fillEdit(p);
         if (p.lastScan) {
           this.follow(p.lastScan.id);
         }
@@ -84,6 +109,42 @@ export class ProjectPage implements OnInit {
         next: (st) => this.status.set(st),
         error: (err: HttpErrorResponse) => this.error.set(problem(err)),
       });
+    }
+  }
+
+  /** Saves the title, description, owner, archive flag and the hidden reports and sections. */
+  saveProject(): void {
+    const hidden = (m: Record<string, boolean>) => Object.keys(m).filter((k) => m[k]);
+    this.error.set(null);
+    this.api.updateProject(this.id, {
+      title: this.editTitle, description: this.editDescription, owner: this.editOwner, archived: this.editArchived,
+      hiddenReports: hidden(this.hideReport), hiddenSections: hidden(this.hideSection),
+    }).subscribe({
+      next: (p) => {
+        this.project.set(p);
+        this.fillEdit(p);
+        this.saved.set('Project saved.');
+      },
+      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    });
+  }
+
+  deleteProject(): void {
+    this.api.deleteProject(this.id, this.confirmDelete.trim()).subscribe({
+      next: () => this.router.navigateByUrl('/'),
+      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    });
+  }
+
+  private fillEdit(p: Project): void {
+    this.editTitle = p.title;
+    this.editDescription = p.description ?? '';
+    this.editOwner = p.owner ?? '';
+    this.editArchived = !!p.archived;
+    this.hideReport = Object.fromEntries((p.hiddenReports ?? []).map((k) => [k, true]));
+    this.hideSection = Object.fromEntries((p.hiddenSections ?? []).map((k) => [k, true]));
+    if (this.canManage() && !this.users().length) {
+      this.api.userNames().subscribe({ next: (u) => this.users.set(u) });
     }
   }
 

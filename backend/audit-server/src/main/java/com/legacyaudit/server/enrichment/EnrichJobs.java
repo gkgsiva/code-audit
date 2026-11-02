@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.legacyaudit.server.jobs.JobGate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -53,11 +54,12 @@ public class EnrichJobs {
     private final Map<String, Job> last = new ConcurrentHashMap<>();
     /** Run id to the stages its last validation or enrichment found invalid. */
     private final Map<String, Set<String>> invalid = new ConcurrentHashMap<>();
-    private final ExecutorService pool = Executors.newFixedThreadPool(2, r -> {
-        Thread t = new Thread(r, "enrichment");
-        t.setDaemon(true);
-        return t;
-    });
+    private final ExecutorService pool = Executors.newCachedThreadPool(Thread.ofPlatform().name("enrichment-", 1).daemon().factory());
+    private final JobGate gate;
+
+    public EnrichJobs(JobGate gate) {
+        this.gate = gate;
+    }
 
     public Job last(String projectId) {
         return last.get(projectId);
@@ -79,7 +81,20 @@ public class EnrichJobs {
         }
         Job job = new Job(runDir.getFileName().toString(), client.settings().label(), user, stages.size());
         last.put(projectId, job);
-        pool.submit(() -> run(job, runDir, stages, client));
+        JobGate.Job slot = gate.queue("enrich", projectId, "AI enrichment with " + job.label, user);
+        job.stage = "waiting for a free slot";
+        pool.submit(() -> {
+            try {
+                gate.run(slot, () -> false, () -> {
+                    run(job, runDir, stages, client);
+                    if (job.state.equals("failed")) {
+                        gate.outcome(slot, "failed", job.error);
+                    }
+                });
+            } catch (Exception e) {
+                // run() records its own failure
+            }
+        });
         return job;
     }
 

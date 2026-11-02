@@ -1,0 +1,38 @@
+<section class="panel">
+  <h1>Logs</h1>
+  <p class="lead">Pick a log to see its last lines. Admins also see the server log.</p>
+  @if (error()) {
+    <p class="error-text" role="alert">{{ error() }}</p>
+  }
+  @if (loaded() && !files().length) {
+    <p class="hint">No log yet: logs appear after the first scan.</p>
+  }
+  @if (files().length) {
+    <form class="row" (ngSubmit)="show()">
+      <select name="id" [(ngModel)]="id" (ngModelChange)="show()" aria-label="Log">
+        @for (f of files(); track f.id) { <option [value]="f.id">{{ f.label }} ({{ f.size | number }} bytes)</option> }
+      </select>
+      <select name="level" [(ngModel)]="level" (ngModelChange)="show()" aria-label="Level">
+        <option value="">All lines</option>
+        <option value="warning">Warnings and errors</option>
+        <option value="error">Errors only</option>
+      </select>
+      <input type="text" name="q" placeholder="Text in the line" style="max-width: 14rem" [(ngModel)]="q">
+      <select name="tail" [(ngModel)]="tail" (ngModelChange)="show()" aria-label="Lines">
+        <option [ngValue]="200">Last 200</option>
+        <option [ngValue]="500">Last 500</option>
+        <option [ngValue]="2000">Last 2,000</option>
+        <option [ngValue]="5000">Last 5,000</option>
+      </select>
+      <button type="submit" class="btn">Show</button>
+      <a class="btn" [href]="download()">Download</a>
+    </form>
+  }
+</section>
+
+@if (view(); as v) {
+  <section class="panel">
+    <p class="hint">{{ v.lines.length | number }} of {{ v.total | number }} matching lines.</p>
+    <pre class="log">{{ v.lines.join('\n') }}</pre>
+  </section>
+}

@@ -61,8 +61,8 @@ tool's.
    `git pull origin spring-boot-angular`).
 2. Put some code to scan in your sources folder (`SOURCES_DIR` in `.env`, for example
    `C:/legacy-audit/sources` or `~/legacy-audit/sources`). To try it with the sample apps, copy
-   the repository's `samples` folder into it. New in `.env` (optional): `MAX_SCANS`, the number of
-   scans that may run at the same time (default 2).
+   the repository's `samples` folder into it. In `.env` (optional): `MAX_SCANS`, the number of
+   jobs that may run at the same time; leave it empty to set it on the Admin page (default 2).
 3. Run **`audit: 1. start the web app (Docker)`** (it rebuilds the images; a few minutes).
 4. Open http://localhost:8770 and log in as **siva**. The **Projects** page says there are no
    projects yet. Click **New project**.
@@ -387,3 +387,42 @@ page, and a file in the facts opens the source lines around it. The command line
     Click **All facts**, pick **sql_statements**: the **component** column links to the
     component's page and the **file** column to the source lines, with the line highlighted.
 
+## Phase 8b: admin, users, activity, status, logs and dashboards
+
+What is new: the site has an **Admin** page (settings, project defaults, users, all projects,
+activity and health), a **Dashboard** (use of the site and the server's memory, CPU and disk),
+a **Status** page (jobs running and waiting) and a **Logs** page. Each project gets **Project
+settings** on its page.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Open `.env` (next to `docker-compose.yml`). `MAX_SCANS=` and `KEEP_RUNS=` may now be left
+   empty: the Admin page then sets them. If your `.env` has numbers there, they stay fixed and
+   the Admin page shows them as "set by the server". Compare with `docker/env.example`.
+3. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (185 tests).
+4. Run **`audit: 19. check the admin pages and usage figures`**. It ends with
+   `Tests run: 2, Failures: 0, Errors: 0, Skipped: 0` and `BUILD SUCCESS`.
+5. Run **`audit: 1. start the web app (Docker)`**, open http://localhost:8770 and log in as
+   **admin** (the name in `LEGACY_AUDIT_ADMINS`). The top bar now has **Status**, **Logs**,
+   **Admin** and **Dashboard**.
+6. Click **Admin**:
+   - under **Site settings**, untick **Management deck (HTML)** and click **Save settings**.
+     It says `Settings saved.` Open a project's **Reports** page: the management deck is gone.
+     Tick it again and save;
+   - under **Users**, type the name **anna**, pick **viewer** and click **Add user**. The name is listed.
+     Untick **A new name at the login page becomes a user** in the settings and save: a new name that is not in the list now
+     gets "This name is not a user here; ask an admin to add you" on the login page;
+   - **Activity** lists what you just did; **Download all as CSV** saves it as a file.
+7. Click **Dashboard**: the tiles show users, projects, logins and scans for the last 30 days,
+   and **Server** shows memory, CPU and disk. Pick **Last 7 days** to change the period.
+8. Start a scan on a project and click **Status**: the scan is listed as **running** (then
+   **done**). Click **Logs**, pick **Server log (server.log)** or the scan's log, pick **Warnings and
+   errors** and click **Show**.
+9. Open a project and click **Project settings**: change the description and click **Save**.
+   As admin, **Delete project** asks you to type the project's id first; do not confirm unless
+   you want it removed.
+
+On Windows run the tasks from VS Code as usual. On WSL2 the same tasks work in the WSL window;
+from a terminal use `cd ~/code-audit/backend && mvn -B -pl audit-server -am test
+"-Dtest=AdminFlowTest,UsageParityTest" "-Dsurefire.failIfNoSpecifiedTests=false"`.

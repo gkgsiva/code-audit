@@ -63,6 +63,12 @@ public class ReportController {
         FILES.put("pdf_tech", "pdf/technical.pdf");
     }
 
+    /** The admin switches each report link needs (REPORT_NEEDS of the Python GUI). */
+    static final Map<String, List<String>> NEEDS = Map.of(
+            "tech", List.of("tech"), "functional", List.of("functional"), "mgmt", List.of("mgmt"), "summary", List.of("summary"),
+            "pdf_summary", List.of("pdf", "summary"), "pdf_mgmt", List.of("pdf", "mgmt"),
+            "pdf_functional", List.of("pdf", "functional"), "pdf_tech", List.of("pdf", "tech"));
+
     private final ProjectService projects;
     private final ScanStore scans;
     private final ReportJobs jobs;
@@ -101,6 +107,7 @@ public class ReportController {
     public Map<String, Object> list(@PathVariable String id, Principal principal) {
         Project project = projects.get(current.of(principal), id);
         Scan scan = scans.latestDone(project.id()).orElse(null);
+        java.util.Set<String> allowed = projects.reportsFor(project);
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("scan", scan);
         Map<String, Object> reports = new LinkedHashMap<>();
@@ -110,6 +117,9 @@ public class ReportController {
             if (Files.isDirectory(dir)) {
                 runId = scan.runId();
                 for (Map.Entry<String, String> f : FILES.entrySet()) {
+                    if (!allowed.containsAll(NEEDS.get(f.getKey()))) {
+                        continue;
+                    }
                     boolean there = Files.isRegularFile(dir.resolve("reports").resolve(f.getValue()));
                     reports.put(f.getKey(), there ? "/api/projects/" + project.id() + "/runs/" + runId + "/reports/" + f.getValue() : null);
                 }
@@ -117,7 +127,9 @@ public class ReportController {
         }
         out.put("run_id", runId);
         out.put("reports", reports);
-        out.put("datapack", runId == null ? null : "/api/projects/" + project.id() + "/runs/" + runId + "/datapack.zip");
+        out.put("datapack", runId == null || !allowed.contains("datapack") ? null
+                : "/api/projects/" + project.id() + "/runs/" + runId + "/datapack.zip");
+        out.put("allowed", allowed.stream().sorted().toList());
         out.put("job", jobView(jobs.last(project.id())));
         return out;
     }
@@ -130,12 +142,16 @@ public class ReportController {
         if (!ReportJobs.TYPES.contains(type)) {
             throw ApiException.badRequest("Report type must be one of " + String.join(", ", ReportJobs.TYPES));
         }
+        java.util.Set<String> allowed = projects.reportsFor(project);
+        if (!type.equals("all") && !allowed.contains(type)) {
+            throw ApiException.forbidden("The admin has switched off: " + type);
+        }
         Scan scan = scans.latestDone(project.id()).orElse(null);
         if (scan == null || scan.runId() == null) {
             throw ApiException.badRequest("No finished scan yet: start a scan first");
         }
         Path dir = runDir(project, scan.runId());
-        if (jobs.start(project.id(), config(project), dir, type, user.name()) == null) {
+        if (jobs.start(project.id(), config(project), dir, type, user.name(), allowed, projects.sectionsHidden(project)) == null) {
             throw new ApiException(HttpStatus.CONFLICT, "Reports are already being built for this project");
         }
         return list(id, principal);
@@ -189,6 +205,9 @@ public class ReportController {
     @GetMapping("/api/projects/{id}/runs/{runId}/datapack.zip")
     public ResponseEntity<byte[]> datapack(@PathVariable String id, @PathVariable String runId, Principal principal) {
         Project project = projects.get(current.of(principal), id);
+        if (!projects.reportsFor(project).contains("datapack")) {
+            throw ApiException.forbidden("The admin has switched off: datapack");
+        }
         Path dir = runDir(project, runId);
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
         try (ZipOutputStream zip = new ZipOutputStream(buf)) {

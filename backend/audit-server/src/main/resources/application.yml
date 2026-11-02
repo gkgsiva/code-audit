@@ -28,10 +28,22 @@ legacy-audit:
   audits-root: ${LEGACY_AUDIT_AUDITS_ROOT:./audits}
   # Folders a new project may scan (comma-separated). The folder picker starts there.
   sources-roots: ${LEGACY_AUDIT_SOURCES_ROOT:./sources}
-  # Scans that may run at the same time; more wait in a queue.
-  max-scans: ${LEGACY_AUDIT_MAX_SCANS:2}
+  # Jobs (scans, report builds, AI runs) at the same time and runs kept per project. Empty: the
+  # Admin page sets them; a number fixes them (shown as locked on the Admin page).
+  max-scans: ${LEGACY_AUDIT_MAX_SCANS:}
+  keep-runs: ${LEGACY_AUDIT_KEEP_RUNS:}
 
 logging:
+  # The server log the Logs page shows to admins (the container sets it under the audits
+  # folder); empty: the log goes to the console only. Kept as server.log, then
+  # server.log.<date>.<n> (10 MB each, 5 days).
+  file:
+    name: ${LEGACY_AUDIT_LOG_FILE:}
+  logback:
+    rollingpolicy:
+      file-name-pattern: ${LEGACY_AUDIT_LOG_FILE:server.log}.%d{yyyy-MM-dd}.%i
+      max-file-size: 10MB
+      max-history: 5
   level:
     # Chromium's PDFs trip harmless structure warnings when the report pages are joined.
     org.apache.pdfbox: ERROR

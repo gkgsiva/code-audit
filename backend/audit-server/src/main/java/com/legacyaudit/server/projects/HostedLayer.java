@@ -3,6 +3,7 @@ package com.legacyaudit.server.projects;
 import com.legacyaudit.model.config.ConfigException;
 import com.legacyaudit.model.config.ConfigLoader;
 import com.legacyaudit.server.ServerSettings;
+import com.legacyaudit.server.admin.AdminStore;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.nio.file.Path;
@@ -14,8 +15,11 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 /**
- * Keeps every project inside its folder whenever its {@code audit.yaml} is loaded, as the Python
- * hosted site's {@code AdminLayer} did: output, inputs and overrides stay in the project, a
+ * The admin's common settings and the site's folder rules, applied whenever a project's
+ * {@code audit.yaml} is loaded, as the Python hosted site's {@code AdminLayer} did. Order: the
+ * admin {@code defaults} first, the project's own file over them, then every {@code locked} key
+ * put back to the admin's value (or removed, so the built-in default applies). Then each project
+ * is kept inside its folder: output, inputs and overrides stay in the project, a
  * local source must sit under a sources root or in the project folder, and a Git address must
  * be https://, ssh:// or git@. A config outside the audits root (the command line in the same
  * process, tests) is left alone. Settings edited on the web page cannot reach other folders of
@@ -26,11 +30,15 @@ public class HostedLayer {
 
     static final List<String> GIT_SCHEMES = List.of("https://", "http://", "ssh://", "git@");
 
+    private static final Object MISSING = new Object();
+
     private final ServerSettings settings;
+    private final AdminStore admin;
     private Runnable remove = () -> { };
 
-    public HostedLayer(ServerSettings settings) {
+    public HostedLayer(ServerSettings settings, AdminStore admin) {
         this.settings = settings;
+        this.admin = admin;
     }
 
     @PostConstruct
@@ -43,9 +51,72 @@ public class HostedLayer {
         remove.run();
     }
 
-    /** The folders a local source may point into. */
+    /** The folders a local source may point into: the sources roots and the admin's extra ones. */
     public List<Path> sourceRoots() {
-        return settings.sourcesRoots();
+        List<Path> roots = new ArrayList<>(settings.sourcesRoots());
+        for (String extra : admin.get().paths().extraSourceRoots()) {
+            roots.add(Path.of(extra).toAbsolutePath().normalize());
+        }
+        return roots;
+    }
+
+    /** {@code over} wins; mappings merge key by key, anything else (lists too) is replaced. */
+    @SuppressWarnings("unchecked")
+    static Map<String, Object> deepMerge(Map<String, Object> base, Map<?, ?> over) {
+        Map<String, Object> out = copy(base);
+        over.forEach((k, v) -> {
+            String key = String.valueOf(k);
+            if (v instanceof Map<?, ?> vm && out.get(key) instanceof Map<?, ?> om) {
+                out.put(key, deepMerge((Map<String, Object>) om, vm));
+            } else {
+                out.put(key, copyValue(v));
+            }
+        });
+        return out;
+    }
+
+    static Object getPath(Map<String, Object> data, String dotted) {
+        Object node = data;
+        for (String part : dotted.split("\\.")) {
+            if (!(node instanceof Map<?, ?> m) || !m.containsKey(part)) {
+                return MISSING;
+            }
+            node = m.get(part);
+        }
+        return node;
+    }
+
+    @SuppressWarnings("unchecked")
+    static void setPath(Map<String, Object> data, String dotted, Object value) {
+        String[] parts = dotted.split("\\.");
+        Map<String, Object> node = data;
+        for (int i = 0; i < parts.length - 1; i++) {
+            if (!(node.get(parts[i]) instanceof Map<?, ?>)) {
+                node.put(parts[i], new LinkedHashMap<>());
+            }
+            node = (Map<String, Object>) node.get(parts[i]);
+        }
+        if (value == MISSING) {
+            node.remove(parts[parts.length - 1]);
+        } else {
+            node.put(parts[parts.length - 1], copyValue(value));
+        }
+    }
+
+    private static Map<String, Object> copy(Map<?, ?> m) {
+        Map<String, Object> out = new LinkedHashMap<>();
+        m.forEach((k, v) -> out.put(String.valueOf(k), copyValue(v)));
+        return out;
+    }
+
+    private static Object copyValue(Object v) {
+        if (v instanceof Map<?, ?> m) {
+            return copy(m);
+        }
+        if (v instanceof List<?> l) {
+            return new ArrayList<>(l.stream().map(HostedLayer::copyValue).toList());
+        }
+        return v;
     }
 
     Object apply(Object data, Path configPath) {
@@ -57,8 +128,11 @@ public class HostedLayer {
         if (!(data instanceof Map<?, ?> map)) {
             return data; // the config reader reports it
         }
-        Map<String, Object> merged = new LinkedHashMap<>();
-        map.forEach((k, v) -> merged.put(String.valueOf(k), v));
+        var s = admin.get();
+        Map<String, Object> merged = deepMerge(s.defaults(), map);
+        for (String key : s.locked()) {
+            setPath(merged, key, getPath(s.defaults(), key));
+        }
         confine(merged, project);
         return merged;
     }

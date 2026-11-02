@@ -30,6 +30,9 @@ export interface Project {
   role: 'admin' | 'owner' | 'contributor' | 'viewer';
   sourcePath: string | null;
   createdAt: string;
+  archived?: boolean;
+  hiddenReports?: string[];
+  hiddenSections?: string[];
   lastScan: Scan | null;
   lastDone: string | null;
 }
@@ -161,6 +164,8 @@ export interface Reports {
   reports: Record<string, string | null>;
   datapack: string | null;
   job: ReportJob | null;
+  /** The reports the site offers on this project (the admin's switches minus what the owner hid). */
+  allowed?: string[];
 }
 
 export interface EnrichStage {
@@ -321,6 +326,125 @@ export interface ToolCheck {
   needed_for: string;
 }
 
+/** One background job on the status page. */
+export interface JobInfo {
+  kind: 'scan' | 'report' | 'enrich';
+  project: string;
+  title: string;
+  user: string | null;
+  state: string;
+  queued_at: string;
+  started_at: string | null;
+  ended_at: string | null;
+  wait_seconds: number | null;
+  seconds: number | null;
+  error: string | null;
+}
+
+export interface SiteStatus {
+  slots: number;
+  running: number;
+  waiting: number;
+  jobs: JobInfo[];
+}
+
+export interface LogFile {
+  id: string;
+  label: string;
+  project: string | null;
+  run: string | null;
+  size: number;
+}
+
+export interface LogView {
+  id: string;
+  total: number;
+  lines: string[];
+}
+
+/** admin.yaml as the admin page edits it. */
+export interface AdminSettingsData {
+  reports: { enabled: Record<string, boolean>; summary_sections: Record<string, boolean>; owners_may_hide: boolean };
+  paths: { extra_source_roots: string[]; git_cache_dir: string | null };
+  users: { open_signup: boolean; signup_role: string; who_can_create: string };
+  ai: { allowed: boolean };
+  limits: { max_scans: number; keep_runs: number; scan_timeout_minutes: number; clone_keep_days: number; min_free_gb: number };
+  defaults: Record<string, unknown>;
+  locked: string[];
+}
+
+export interface AdminView {
+  settings: AdminSettingsData;
+  defaults_yaml: string;
+  env_locked: Record<string, unknown>;
+  reports: Record<string, string>;
+  summary_sections: Record<string, string>;
+  roles: string[];
+  host: Record<string, unknown>;
+}
+
+export interface AdminUser {
+  name: string;
+  role: string;
+  disabled: boolean;
+  created_at: string | null;
+  last_login: string | null;
+  fixed: boolean;
+  projects: number;
+}
+
+export interface AdminProject {
+  id: string;
+  title: string;
+  owner: string | null;
+  archived: boolean;
+  application: string | null;
+  runs: number;
+  last_run: string | null;
+  problem: string | null;
+  bytes: number;
+}
+
+export type ActivityEntry = Record<string, unknown> & { time: string; user: string | null; action: string; project: string | null };
+
+export interface Usage {
+  days: number;
+  from: string;
+  to: string;
+  series: { day: string; logins: number; active_users: number; scans_done: number; scans_failed: number; scans_cancelled: number;
+    reports: number; enrich: number }[];
+  totals: Record<string, number | null>;
+  reports_by_type: { name: string; count: number }[];
+  top_projects: { name: string; scans: number; scan_seconds: number }[];
+  top_users: { name: string; actions: number }[];
+  failures: { time: string; project: string; kind: string; title: string | null; error: string | null }[];
+}
+
+export interface SystemInfo {
+  memory: { used: number | null; limit: number | null; process: number; heap_max: number; source: string };
+  cpu: { percent: number | null; cpus: number; machine_cpus: number; load: number[] | null };
+  disk: { total: number | null; used: number | null; free: number | null };
+  uptime_seconds: number;
+  threads: number;
+  java: string;
+  platform: string;
+  version: string;
+  slots: number;
+  jobs: { running: number; waiting: number };
+  now: JobInfo[];
+  history: { time: string; cpu_percent: number | null; memory_used: number | null; memory_limit: number | null }[];
+  sample_seconds: number;
+}
+
+export interface HealthInfo {
+  version: string;
+  disk: { total: number | null; used: number | null; free: number | null };
+  projects: { project: string; bytes: number }[];
+  checks: ToolCheck[];
+  queue: { slots: number; running: number; waiting: number };
+  source_roots: string[];
+}
+
 export function problem(err: HttpErrorResponse): string {
   return err.error?.detail ?? 'The server did not answer. Is it running?';
 }
@@ -475,5 +599,74 @@ export class ApiService {
 
   doctor(id: string): Observable<ToolCheck[]> {
     return this.http.get<ToolCheck[]>(`/api/projects/${encodeURIComponent(id)}/doctor`);
+  }
+
+  updateProject(id: string, body: { title?: string; description?: string; owner?: string; archived?: boolean;
+    hiddenReports?: string[]; hiddenSections?: string[] }): Observable<Project> {
+    return this.http.put<Project>(`/api/projects/${encodeURIComponent(id)}`, body);
+  }
+
+  deleteProject(id: string, confirm: string): Observable<{ deleted: string }> {
+    return this.http.post<{ deleted: string }>(`/api/projects/${encodeURIComponent(id)}/delete`, { confirm });
+  }
+
+  userNames(): Observable<string[]> {
+    return this.http.get<string[]>('/api/users');
+  }
+
+  status(): Observable<SiteStatus> {
+    return this.http.get<SiteStatus>('/api/status');
+  }
+
+  logs(): Observable<LogFile[]> {
+    return this.http.get<LogFile[]>('/api/logs');
+  }
+
+  logView(id: string, level: string, q: string, tail = 500): Observable<LogView> {
+    return this.http.get<LogView>('/api/logs/view', { params: { id, level, q, tail } });
+  }
+
+  admin(): Observable<AdminView> {
+    return this.http.get<AdminView>('/api/admin');
+  }
+
+  saveAdmin(settings: AdminSettingsData): Observable<AdminView> {
+    return this.http.put<AdminView>('/api/admin', settings);
+  }
+
+  saveDefaults(text: string): Observable<AdminView> {
+    return this.http.put<AdminView>('/api/admin/defaults', { text });
+  }
+
+  adminUsers(): Observable<AdminUser[]> {
+    return this.http.get<AdminUser[]>('/api/admin/users');
+  }
+
+  saveUser(name: string, role: string, disabled: boolean): Observable<AdminUser> {
+    return this.http.put<AdminUser>('/api/admin/users', { name, role, disabled });
+  }
+
+  deleteUser(name: string): Observable<{ deleted: string }> {
+    return this.http.delete<{ deleted: string }>(`/api/admin/users/${encodeURIComponent(name)}`);
+  }
+
+  adminProjects(): Observable<AdminProject[]> {
+    return this.http.get<AdminProject[]>('/api/admin/projects');
+  }
+
+  activity(limit = 500, project = ''): Observable<ActivityEntry[]> {
+    return this.http.get<ActivityEntry[]>('/api/admin/activity', { params: { limit, project } });
+  }
+
+  usage(days: number): Observable<Usage> {
+    return this.http.get<Usage>('/api/admin/dashboard/usage', { params: { days } });
+  }
+
+  system(): Observable<SystemInfo> {
+    return this.http.get<SystemInfo>('/api/admin/dashboard/system');
+  }
+
+  health(): Observable<HealthInfo> {
+    return this.http.get<HealthInfo>('/api/admin/health');
   }
 }

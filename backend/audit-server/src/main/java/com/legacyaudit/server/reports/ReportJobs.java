@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.legacyaudit.server.jobs.JobGate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -52,42 +53,64 @@ public class ReportJobs {
     }
 
     private final Map<String, Job> last = new ConcurrentHashMap<>();
-    private final ExecutorService pool = Executors.newFixedThreadPool(2, r -> {
-        Thread t = new Thread(r, "report-build");
-        t.setDaemon(true);
-        return t;
-    });
+    private final ExecutorService pool = Executors.newCachedThreadPool(Thread.ofPlatform().name("report-build-", 1).daemon().factory());
+    private final JobGate gate;
+
+    public ReportJobs(JobGate gate) {
+        this.gate = gate;
+    }
 
     public Job last(String projectId) {
         return last.get(projectId);
     }
 
-    /** Start a build; null when one is already running for the project. */
-    public synchronized Job start(String projectId, LoadedConfig loaded, Path runDir, String type, String user) {
+    /**
+     * Start a build of the reports in {@code allowed} (keys of the admin switches) with the
+     * summary sections in {@code hidden} left out; null when one is already running for the project.
+     */
+    public synchronized Job start(String projectId, LoadedConfig loaded, Path runDir, String type, String user, Set<String> allowed,
+            Set<String> hidden) {
         Job running = last.get(projectId);
         if (running != null && running.state.equals("running")) {
             return null;
         }
         Job job = new Job(type, runDir.getFileName().toString(), user);
         last.put(projectId, job);
-        pool.submit(() -> run(job, loaded, runDir));
+        JobGate.Job slot = gate.queue("report", projectId, "Build " + type + " report", user);
+        job.stage = "waiting for a free slot";
+        pool.submit(() -> {
+            try {
+                gate.run(slot, () -> false, () -> {
+                    run(job, loaded, runDir, allowed, hidden);
+                    if (job.state.equals("failed")) {
+                        gate.outcome(slot, "failed", job.error);
+                    }
+                });
+            } catch (Exception e) {
+                // run() records its own failure
+            }
+        });
         return job;
     }
 
-    @SuppressWarnings("unchecked")
     void run(Job job, LoadedConfig loaded, Path runDir) {
+        run(job, loaded, runDir, Set.of("tech", "functional", "mgmt", "summary", "pdf"), Set.of());
+    }
+
+    @SuppressWarnings("unchecked")
+    void run(Job job, LoadedConfig loaded, Path runDir, Set<String> allowed, Set<String> hidden) {
         try {
             String type = job.type;
             boolean every = type.equals("all") || type.equals("pdf");
             List<String> steps = new ArrayList<>();
             for (String k : List.of("tech", "functional", "mgmt", "summary")) {
-                if (every || type.equals(k)) {
+                if (allowed.contains(k) && (every || type.equals(k))) {
                     steps.add(k);
                 }
             }
             Map<String, Object> dump = loaded.config().dump();
             PdfReports.PdfConfig pdf = PdfReports.PdfConfig.of(dump.get("pdf"));
-            boolean pdfToo = type.equals("pdf") || (type.equals("all") && pdf.enabled());
+            boolean pdfToo = allowed.contains("pdf") && (type.equals("pdf") || (type.equals("all") && pdf.enabled()));
             job.total = steps.size() + (pdfToo ? 1 : 0);
             Map<String, Object> branding = dump.get("branding") instanceof Map<?, ?> b ? (Map<String, Object>) b : null;
             Path configDir = loaded.path().toAbsolutePath().getParent();
@@ -107,14 +130,20 @@ public class ReportJobs {
                     }
                     default -> {
                         job.stage = "summary report";
-                        SummaryReport.build(runDir, Set.of());
+                        SummaryReport.build(runDir, hidden);
                     }
                 }
                 job.done++;
             }
             if (pdfToo) {
                 job.stage = "PDF copies";
-                PdfReports.PdfResult res = PdfReports.build(runDir, pdf);
+                List<String> which = new ArrayList<>();
+                for (String k : List.of("summary", "mgmt", "functional", "tech")) {
+                    if (allowed.contains(k)) {
+                        which.add(k);
+                    }
+                }
+                PdfReports.PdfResult res = PdfReports.build(runDir, pdf, which);
                 synchronized (job.messages) {
                     if (!res.files.isEmpty()) {
                         job.messages.add("PDF copies written: " + res.files.size() + ".");

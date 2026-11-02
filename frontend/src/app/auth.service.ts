@@ -5,6 +5,8 @@ import { Observable, catchError, map, of, tap } from 'rxjs';
 export interface Me {
   name: string;
   role: string;
+  /** Whether the New project button is shown (admins, and owners unless the admin says only admins). */
+  canCreate?: boolean;
 }
 
 export interface AuthInfo {
@@ -12,6 +14,7 @@ export interface AuthInfo {
   label: string;
   loginForm: boolean;
   banner: string | null;
+  openSignup?: boolean;
 }
 
 export interface Health {

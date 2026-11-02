@@ -1,12 +1,15 @@
 import { Routes } from '@angular/router';
 
 import { loggedIn } from './auth.guard';
+import { AdminPage } from './admin/admin';
 import { ChoicesPage } from './choices/choices';
+import { DashboardPage } from './dashboard/dashboard';
 import { ComponentPage } from './component/component';
 import { EnrichmentPage } from './enrichment/enrichment';
 import { EvidencePage } from './evidence/evidence';
 import { Facts } from './facts/facts';
 import { InputsPage } from './inputs/inputs';
+import { LogsPage } from './logs/logs';
 import { Inventory } from './inventory/inventory';
 import { Login } from './login/login';
 import { NewProject } from './new-project/new-project';
@@ -17,6 +20,7 @@ import { Results } from './results/results';
 import { RunsPage } from './runs/runs';
 import { SettingsPage } from './settings/settings';
 import { Shell } from './shell/shell';
+import { StatusPage } from './status/status';
 
 export const routes: Routes = [
   { path: 'login', component: Login, title: 'legacy-audit: log in' },
@@ -27,6 +31,10 @@ export const routes: Routes = [
     children: [
       { path: '', component: Projects, title: 'legacy-audit: projects' },
       { path: 'new', component: NewProject, title: 'legacy-audit: new project' },
+      { path: 'status', component: StatusPage, title: 'legacy-audit: status' },
+      { path: 'logs', component: LogsPage, title: 'legacy-audit: logs' },
+      { path: 'admin', component: AdminPage, title: 'legacy-audit: admin' },
+      { path: 'admin/dashboard', component: DashboardPage, title: 'legacy-audit: dashboard' },
       { path: 'p/:id', component: ProjectPage, title: 'legacy-audit: project' },
       { path: 'p/:id/inventory', component: Inventory, title: 'legacy-audit: inventory' },
       { path: 'p/:id/results', component: Results, title: 'legacy-audit: results' },
