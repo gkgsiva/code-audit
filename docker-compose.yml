@@ -28,12 +28,16 @@ services:
       dockerfile: backend/Dockerfile
       args:
         BUILD_IMAGE: ${BACKEND_BUILD_IMAGE:-maven:3.9-eclipse-temurin-25}
-        BASE_IMAGE: ${BACKEND_BASE_IMAGE:-eclipse-temurin:25-jre}
+        JRE_IMAGE: ${BACKEND_JRE_IMAGE:-eclipse-temurin:25-jre}
+        BASE_IMAGE: ${BACKEND_BASE_IMAGE:-debian:trixie-slim}
         BUILD_PROXY: ${BUILD_PROXY:-}
         BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
         MAVEN_MIRROR: ${MAVEN_MIRROR:-}
         APT_MIRROR: ${APT_MIRROR:-}
+        APT_SECURITY_MIRROR: ${APT_SECURITY_MIRROR:-}
         WITH_SYSTEM_PACKAGES: ${WITH_SYSTEM_PACKAGES:-true}
+        WITH_CHROMIUM: ${WITH_CHROMIUM:-true}
+        WITH_OSV: ${WITH_OSV:-true}
     image: legacy-audit-backend:latest
     restart: unless-stopped
     init: true
