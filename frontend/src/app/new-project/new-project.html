@@ -1,6 +1,6 @@
 <section class="panel">
   <h1>New project</h1>
-  <p class="lead">Give the application a name, then open folders below until you are in the folder that holds its code.</p>
+  <p class="lead">Give the application a name, then open folders below until you are in the folder that holds its code, or give its Git address.</p>
   <form (ngSubmit)="create()">
     <div class="field">
       <label for="title">1. Application name</label>
@@ -11,7 +11,36 @@
       <input type="text" id="description" name="description" placeholder="e.g. Struts 1 + Oracle" [(ngModel)]="description">
     </div>
     <div class="field">
-      <label>3. Folder holding the code</label>
+      <label>3. Where the code is</label>
+      <div class="row">
+        <label><input type="radio" name="kind" value="local" [(ngModel)]="kind"> A folder on the server</label>
+        <label><input type="radio" name="kind" value="git" [(ngModel)]="kind"> A Git repository</label>
+      </div>
+    </div>
+    @if (kind === 'git') {
+      <div class="field">
+        <label for="gitUrl">Git address</label>
+        <input type="text" id="gitUrl" name="gitUrl" placeholder="https://git.example.com/team/billing.git" [(ngModel)]="gitUrl">
+        <p class="hint">An https://, ssh:// or git@ address. The server keeps a copy (clone) and updates it at each scan.</p>
+      </div>
+      <div class="field">
+        <label for="gitRef">Branch or tag</label>
+        <input type="text" id="gitRef" name="gitRef" placeholder="main" [(ngModel)]="gitRef">
+        <p class="hint">Empty: the default branch.</p>
+      </div>
+      <div class="field">
+        <label for="gitPaths">Only these folders (optional)</label>
+        <input type="text" id="gitPaths" name="gitPaths" placeholder="e.g. app, batch" [(ngModel)]="gitPaths">
+        <p class="hint">Comma separated. Empty: the whole repository.</p>
+      </div>
+      <div class="field">
+        <label for="gitToken">Token variable (optional)</label>
+        <input type="text" id="gitToken" name="gitToken" placeholder="e.g. GIT_TOKEN" [(ngModel)]="gitToken">
+        <p class="hint">The name of the server setting that holds a read-only token. The token itself is never typed or stored here.</p>
+      </div>
+    }
+    <div class="field" [hidden]="kind === 'git'">
+      <label>Folder holding the code</label>
       @if (folders(); as f) {
         <p class="hint">
           @if (f.path) {
@@ -39,7 +68,7 @@
       }
     </div>
     <div class="row">
-      <button type="submit" class="btn primary" [disabled]="busy() || !title.trim() || !picked()">Create project</button>
+      <button type="submit" class="btn primary" [disabled]="busy() || !ready()">Create project</button>
       <a class="btn" routerLink="/">Cancel</a>
     </div>
   </form>

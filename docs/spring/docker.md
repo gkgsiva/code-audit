@@ -50,7 +50,9 @@ These `.env` values help (ask IT for the addresses):
 | `docker/certs/*.crt` | The proxy inspects HTTPS. The certificates are added to Java's trust store and to Node.js |
 | `MAVEN_MIRROR` | Maven Central is blocked; the company Maven repository (Nexus, Artifactory) |
 | `NPM_REGISTRY` | The npm registry is blocked; the company npm mirror |
+| `APT_MIRROR` | The Ubuntu package servers are blocked; the company Ubuntu mirror (for Git in the backend image) |
+| `WITH_SYSTEM_PACKAGES=false` | Ubuntu packages cannot be downloaded at all: the backend is built without Git (Git projects cannot be scanned) |
 | `POSTGRES_IMAGE`, `BACKEND_BUILD_IMAGE`, `BACKEND_BASE_IMAGE`, `FRONTEND_BUILD_IMAGE`, `FRONTEND_BASE_IMAGE` | Docker Hub is blocked; the same images from the company registry |
-| `RUN_PROXY`, `RUN_NO_PROXY` | The running app needs the proxy (Git clones and vulnerability lookups, later phases) |
+| `RUN_PROXY`, `RUN_NO_PROXY` | The running app needs the proxy (Git clones, vulnerability lookups, AI models) |
 
 Send `build.log` if it still fails.

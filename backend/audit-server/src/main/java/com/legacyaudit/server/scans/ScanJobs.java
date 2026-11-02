@@ -102,17 +102,22 @@ public class ScanJobs {
 
     /** Queues a scan of the project whose audit.yaml is {@code config}; one at a time per project. */
     public synchronized Scan start(String projectId, Path config, String user, boolean full) {
+        return start(projectId, config, user, full, null);
+    }
+
+    /** As {@link #start(String, Path, String, boolean)}, with every Git repository on {@code ref} for this scan only. */
+    public synchronized Scan start(String projectId, Path config, String user, boolean full, String ref) {
         if (store.active(projectId).isPresent()) {
             throw new ApiException(HttpStatus.CONFLICT, "A scan of this project is already running; wait for it or cancel it");
         }
         long id = store.queue(projectId, user, full);
         Live state = new Live();
         live.put(id, state);
-        JobGate.Job slot = gate.queue("scan", projectId, full ? "Full rescan" : "Re-run", user);
+        JobGate.Job slot = gate.queue("scan", projectId, (full ? "Full rescan" : "Re-run") + (ref != null ? " of " + ref : ""), user);
         pool.submit(() -> {
             try {
                 gate.run(slot, state.cancel::get, () -> {
-                    String outcome = run(id, config, full, state);
+                    String outcome = run(id, config, full, ref, state);
                     if (!outcome.equals(Scan.DONE)) {
                         gate.outcome(slot, outcome, store.find(id).map(Scan::error).orElse(null));
                     }
@@ -143,7 +148,7 @@ public class ScanJobs {
     }
 
     /** Runs the scan and answers how it ended: done, cancelled or failed. */
-    private String run(long id, Path config, boolean full, Live state) {
+    private String run(long id, Path config, boolean full, String ref, Live state) {
         java.util.concurrent.ScheduledFuture<?> timeout = null;
         try {
             if (state.cancel.get()) {
@@ -158,6 +163,9 @@ public class ScanJobs {
                 state.cancel.set(true);
             }, minutes, java.util.concurrent.TimeUnit.MINUTES);
             LoadedConfig loaded = ConfigLoader.load(config);
+            if (ref != null) {
+                loaded = new LoadedConfig(loaded.config().withGitRef(ref), loaded.path(), loaded.baseDir(), loaded.hash());
+            }
             var options = new Scanner.Options(full, null, (stage, done, total) -> {
                 state.stage = stage;
                 state.done = done;

@@ -1,5 +1,8 @@
 package com.legacyaudit.server.scans;
 
+import com.legacyaudit.model.config.AuditConfig;
+import com.legacyaudit.model.config.ConfigException;
+import com.legacyaudit.model.config.ConfigLoader;
 import com.legacyaudit.server.auth.CurrentUser;
 import com.legacyaudit.server.auth.User;
 import com.legacyaudit.server.projects.Project;
@@ -10,6 +13,7 @@ import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,14 +36,30 @@ public class ScanController {
         this.current = current;
     }
 
-    public record StartBody(Boolean full) {}
+    /** {@code ref}: for a Git source, scan this branch, tag or commit this time only. */
+    public record StartBody(Boolean full, String ref) {}
 
     @PostMapping("/api/projects/{id}/scans")
     public Map<String, Object> start(@PathVariable String id, @RequestBody(required = false) StartBody body, Principal principal) {
         User user = current.of(principal);
         Project project = projects.need(user, id, Roles.CONTRIBUTOR, "Viewers cannot start a scan; ask the project owner");
         boolean full = body != null && Boolean.TRUE.equals(body.full());
-        return status(jobs.start(project.id(), projects.configPath(project.id()), user.name(), full));
+        String ref = body == null || body.ref() == null || body.ref().isBlank() ? null : body.ref().strip();
+        if (ref != null) {
+            boolean git;
+            try {
+                git = ConfigLoader.load(projects.configPath(project.id())).config().source() instanceof AuditConfig.GitSource;
+            } catch (ConfigException e) {
+                throw new ApiException(HttpStatus.UNPROCESSABLE_CONTENT, e.getMessage());
+            }
+            if (!git) {
+                throw new ApiException(HttpStatus.UNPROCESSABLE_CONTENT, "A branch can only be chosen for a Git source");
+            }
+            if (!AuditConfig.GIT_REF.matcher(ref).matches() || ref.contains("..")) {
+                throw new ApiException(HttpStatus.UNPROCESSABLE_CONTENT, "'" + ref + "' is not a branch, tag or commit name");
+            }
+        }
+        return status(jobs.start(project.id(), projects.configPath(project.id()), user.name(), full, ref));
     }
 
     @GetMapping("/api/projects/{id}/scans")

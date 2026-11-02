@@ -37,6 +37,14 @@
         </div>
       }
     </div>
+    @if (canScan() && !active() && project()?.git; as git) {
+      <div class="field">
+        <label for="scan-ref">Branch or tag</label>
+        <input type="text" id="scan-ref" name="scanRef" style="max-width: 16rem" [placeholder]="git[0]?.ref || 'default branch'" [(ngModel)]="scanRef">
+        <p class="hint">This scan only. The project's own branch is {{ git[0]?.ref || 'the default branch' }}; change it on the Settings page.
+          @if (git.length > 1) { Applies to all {{ git.length }} repositories. }</p>
+      </div>
+    }
     @if (status(); as s) {
       <p>
         Scan {{ s.scan.id }}: <span class="badge" [class]="s.scan.status">{{ s.scan.status }}</span>

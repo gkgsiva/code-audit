@@ -32,6 +32,8 @@ services:
         BUILD_PROXY: ${BUILD_PROXY:-}
         BUILD_NO_PROXY: ${BUILD_NO_PROXY:-}
         MAVEN_MIRROR: ${MAVEN_MIRROR:-}
+        APT_MIRROR: ${APT_MIRROR:-}
+        WITH_SYSTEM_PACKAGES: ${WITH_SYSTEM_PACKAGES:-true}
     image: legacy-audit-backend:latest
     restart: unless-stopped
     init: true

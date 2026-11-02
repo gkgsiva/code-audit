@@ -65,6 +65,10 @@
         <textarea name="roots" rows="3" style="width: 100%" [(ngModel)]="roots"></textarea>
         <p class="hint">One folder per line, besides {{ v.host['sources_roots'] }}.</p>
 
+        <h3>Git clone cache</h3>
+        <input type="text" name="gitCache" style="width: 100%" [placeholder]="v.host['admin_dir'] + '/git'" [(ngModel)]="gitCacheDir">
+        <p class="hint">Where Git projects are cloned. Empty: {{ v.host['admin_dir'] }}/git. In use now: {{ v.host['git_cache'] }}.</p>
+
         <h3>Locked settings</h3>
         <textarea name="locked" rows="3" style="width: 100%" [(ngModel)]="lockedText"></textarea>
         <p class="hint">One audit.yaml key per line (for example <code>security.osv_scanner</code>): projects always use the value in the
@@ -160,6 +164,44 @@
   </div>
   <p class="hint">The last 200 entries.</p>
 </section>
+
+@if (clones(); as c) {
+  <section class="panel">
+    <h2>Git clones</h2>
+    <p class="hint">Projects with a Git source scan a copy (clone) kept in {{ c.cache }}. Each scan updates it to the latest commit of its
+      branch. A clone not used for {{ c.keep_days }} days is deleted, and so are the oldest when less than {{ c.min_free_gb }} GB is free
+      (change both under Site settings). Deleting a project deletes the clones only it used. A deleted clone is simply cloned again by the
+      next scan.</p>
+    <div class="tiles">
+      <div class="tile"><div class="tile-value">{{ c.clones.length }}</div><div class="tile-label">Clones</div></div>
+      <div class="tile"><div class="tile-value">{{ size(c.total) }}</div><div class="tile-label">Space used</div></div>
+      <div class="tile"><div class="tile-value">{{ size(c.free) }}</div><div class="tile-label">Disk free</div></div>
+    </div>
+    <div class="row"><button type="button" class="btn" (click)="pruneClones()">Clean up now</button></div>
+    @if (!c.clones.length) {
+      <p class="hint">No clones yet.</p>
+    } @else {
+      <div class="scroll">
+        <table class="grid">
+          <thead><tr><th>Repository</th><th>Branch</th><th>Commit</th><th>Projects</th><th>Last used (UTC)</th><th class="num">Size</th><th></th></tr></thead>
+          <tbody>
+            @for (r of c.clones; track r.key) {
+              <tr>
+                <td>{{ r.url ?? r.key }}</td>
+                <td>{{ r.ref || 'default' }}</td>
+                <td><code>{{ r.commit }}</code></td>
+                <td>{{ r.projects.join(', ') || 'none' }}</td>
+                <td>{{ r.last_used }}</td>
+                <td class="num">{{ size(r.size) }}</td>
+                <td><button type="button" class="btn" (click)="deleteClone(r)">Delete</button></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+}
 
 @if (health(); as h) {
   <section class="panel">

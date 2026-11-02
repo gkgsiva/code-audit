@@ -18,6 +18,7 @@ and starts the three containers to check health and a login.
 | audit-engine | `ExpectedTest` | Each sample's `expected.yaml`: files, lines, components, roles, headline counts, services, screens, integrations, web services, batch jobs, unscheduled batches |
 | audit-engine | `PgCorpusTest` | SQL to PostgreSQL text and grades on 3,132 statements recorded from Python (`parity/pg*.json.gz`) |
 | audit-engine | `FindingsTest`, `SecurityTest` | The rules engine (conditions, messages, config switches) and dependency security (versions, end of life, advice, report import, matching, SBOM, scanner runs) as in the Python tests |
+| audit-engine | `GitSourceTest` | Git sources with a local bare repository: clone, commit in `run.json`, a new commit fetched, sub-paths, another branch once, the clone list and delete, a failure as a plain message, the token kept out of git's arguments, cache folder names, `purge-cache` (as Python's `test_git_source.py`; needs `git`) |
 | audit-engine | `ProofsTest` | The Phase 0 parser proofs |
 | audit-engine | `WorkspaceParityTest` | 40 settings edits (`setTopLevel` with every kind of value PyYAML quotes or wraps), the component choices on 10 samples and the pre-scan on 10 samples give the same files and answers as the Python GUI (`workspace-parity/workspace.json`) |
 | audit-reports | `JinjaTest` | The template engine: syntax, filters, escaping, whitespace control as Jinja2 |
@@ -33,6 +34,7 @@ and starts the three containers to check health and a login.
 | audit-cli | `MainTest`, `DiffCommandTest` | The `version` command, a clear error for a missing samples folder; two scans of one sample and `diff previous latest` with no changes |
 | audit-server | `WorkspaceFlowTest` | Settings form and text (a bad save is rolled back), input files, component choices, tool checks, two scans, the runs list, compare, the component and source pages, `?run=previous`, and viewers refused every change |
 | audit-server | `AdminFlowTest` | Admin settings (checks, env-fixed limits, defaults and locked keys reaching a project's settings), users (sign-up off, signup role, fixed admins, disable), who may create projects, project edit, hide and delete, report and AI switches, the activity log and CSV, status, logs, the dashboards and health |
+| audit-server | `GitFlowTest` | Git projects: create (checks), another branch refused for a local project or a bad name, the clone list, clean-up by age and by free disk, delete one, a deleted project's own clones (as the Python hosted clone test) |
 | audit-server | `UsageParityTest` | The usage dashboard figures for 400 activity entries and 3 periods equal Python's `metrics.usage` (`admin/usage.json`) |
 | audit-server | `AuthFlowTest`, `ProjectScanFlowTest` | Login, roles, projects, members, a real scan through the API (H2 database), building the summary report in the background, reading its page and the data pack, a viewer refused a build; the enrichment states, validate, and the plain refusal to run with Copilot |
 
@@ -41,7 +43,7 @@ runs the whole-run comparisons (`RunParityTest`, `ExpectedTest`, `PgCorpusTest`)
 the report comparisons (`ReportParityTest`, `JinjaTest`, `PdfReportsTest`). Task 14 runs the AI
 and Copilot comparisons (`ValidateParityTest`, `McpParityTest`, `PromptParityTest`,
 `CopilotFilesTest`). Task 17 runs the settings and component picker comparison
-(`WorkspaceParityTest`). Task 19 runs the admin checks (`AdminFlowTest`, `UsageParityTest`).
+(`WorkspaceParityTest`). Task 19 runs the admin checks (`AdminFlowTest`, `UsageParityTest`). Task 20 runs the Git checks (`GitSourceTest`, `GitFlowTest`).
 
 ## How the parity data was made
 

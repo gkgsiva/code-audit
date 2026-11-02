@@ -426,3 +426,39 @@ settings** on its page.
 On Windows run the tasks from VS Code as usual. On WSL2 the same tasks work in the WSL window;
 from a terminal use `cd ~/code-audit/backend && mvn -B -pl audit-server -am test
 "-Dtest=AdminFlowTest,UsageParityTest" "-Dsurefire.failIfNoSpecifiedTests=false"`.
+
+## Phase 8c: Git projects, clones and the Angular reference
+
+What is new: a project can scan a Git repository instead of a folder, a Git project can scan
+another branch once, the Admin page lists the Git clones and cleans them up, the command line
+gets `purge-cache`, and the Angular classes get a reference site. The backend image now has Git.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Optional, in `.env`: `GIT_TOKEN=` a read-only token for your Git server (needed for private
+   repositories over https). At the office, if the build cannot reach the Ubuntu servers, set
+   `APT_MIRROR`, or `WITH_SYSTEM_PACKAGES=false` to build without Git. Compare with
+   `docker/env.example`.
+3. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (191 tests). Git must be installed (Git for Windows on a Windows laptop; on WSL2 it is there).
+4. Run **`audit: 20. check Git projects and clones`**. It ends with
+   `Tests run: 7, Failures: 0, Errors: 0, Skipped: 0` and `BUILD SUCCESS`.
+5. Run **`audit: 21. build the Angular reference (Compodoc)`**. It ends with
+   `Documentation generated in docs-reference/`. Open `frontend/docs-reference/index.html` in
+   the browser: the menu lists the components (pages), injectables (services) and routes.
+6. Run **`audit: 1. start the web app (Docker)`** (it rebuilds the images), open
+   http://localhost:8770 and log in as **admin**. Click **New project**, type a name, pick
+   **A Git repository**, type a Git address your server can reach (for example a public
+   repository such as `https://github.com/spring-projects/spring-petclinic.git`), leave
+   **Branch or tag** empty and click **Create project**.
+7. On the project page click **Start scan**. The log shows `Cloning ...` and then the scan; the
+   past scans list it as done. Type another branch name in **Branch or tag** and click
+   **Start scan** again: the scan is titled "Re-run of <branch>" on the **Status** page, and the
+   project keeps its own branch.
+8. Click **Admin** and scroll to **Git clones**: one line per repository and branch, with the
+   project, commit, last use and size. Click **Delete** on one: it disappears (the next scan
+   clones it again). **Clean up now** says `Nothing to clean up.` when every clone is recent.
+9. Command line (optional): in a terminal in `backend/`, run
+   `java -jar audit-cli/target/legacy-audit.jar purge-cache`. It prints
+   `Removed Git clone cache ...` (your laptop's cache under your home folder).
+

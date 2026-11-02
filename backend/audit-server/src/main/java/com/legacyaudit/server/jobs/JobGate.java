@@ -93,16 +93,16 @@ public class JobGate {
     private final List<Job> running = new ArrayList<>();
     private final Deque<Job> recent = new ArrayDeque<>();
     private volatile IntSupplier slots = () -> 2;
-    private volatile Consumer<Job> onEnd = j -> { };
+    private final List<Consumer<Job>> onEnd = new java.util.concurrent.CopyOnWriteArrayList<>();
 
     /** Where the number of slots comes from (the admin settings). */
     public void slots(IntSupplier slots) {
         this.slots = slots;
     }
 
-    /** Called after every job ends (the activity log). */
-    public void onEnd(Consumer<Job> onEnd) {
-        this.onEnd = onEnd;
+    /** Adds a listener called after every job ends (the activity log, the clone clean-up). */
+    public void onEnd(Consumer<Job> listener) {
+        onEnd.add(listener);
     }
 
     public int slots() {
@@ -173,10 +173,12 @@ public class JobGate {
         if (job.error == null) {
             job.error = error;
         }
-        try {
-            onEnd.accept(job);
-        } catch (RuntimeException e) {
-            // the activity log is never worth failing a job
+        for (Consumer<Job> listener : onEnd) {
+            try {
+                listener.accept(job);
+            } catch (RuntimeException e) {
+                // the activity log or the clean-up is never worth failing a job
+            }
         }
     }
 

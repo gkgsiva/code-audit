@@ -60,6 +60,12 @@ public class HostedLayer {
         return roots;
     }
 
+    /** Where Git sources are cloned: the admin's {@code paths.git_cache_dir}, else {@code <admin folder>/git}. */
+    public Path gitCache() {
+        String dir = admin.get().paths().gitCacheDir();
+        return (dir != null && !dir.isBlank() ? Path.of(dir) : settings.adminDir().resolve("git")).toAbsolutePath().normalize();
+    }
+
     /** {@code over} wins; mappings merge key by key, anything else (lists too) is replaced. */
     @SuppressWarnings("unchecked")
     static Map<String, Object> deepMerge(Map<String, Object> base, Map<?, ?> over) {
@@ -169,6 +175,10 @@ public class HostedLayer {
                     }
                 }
             }
+            Map<String, Object> withCache = new java.util.LinkedHashMap<>();
+            src.forEach((k, v) -> withCache.put(String.valueOf(k), v));
+            withCache.put("cache_dir", gitCache().toString());
+            data.put("source", withCache);
             return;
         }
         List<Path> roots = new ArrayList<>(sourceRoots().stream().map(HostedLayer::real).toList());

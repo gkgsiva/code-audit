@@ -39,15 +39,17 @@ public class ProjectController {
     private final UserStore users;
     private final Activity activity;
     private final JobGate gate;
+    private final com.legacyaudit.server.git.Clones clones;
 
     public ProjectController(ProjectService projects, ScanStore scans, CurrentUser current, UserStore users, Activity activity,
-            JobGate gate) {
+            JobGate gate, com.legacyaudit.server.git.Clones clones) {
         this.projects = projects;
         this.scans = scans;
         this.current = current;
         this.users = users;
         this.activity = activity;
         this.gate = gate;
+        this.clones = clones;
     }
 
     /** What the owner or an admin may change; a field left out (null) stays as it is. */
@@ -56,7 +58,8 @@ public class ProjectController {
 
     public record DeleteBody(String confirm) {}
 
-    public record CreateBody(String title, String id, String description, String sourcePath) {}
+    /** {@code git}: a Git source instead of {@code sourcePath}. */
+    public record CreateBody(String title, String id, String description, String sourcePath, ProjectService.GitSpec git) {}
 
     public record MembersBody(Map<String, String> members) {}
 
@@ -72,15 +75,18 @@ public class ProjectController {
         if (body == null) {
             throw ApiException.badRequest("Give the project a name");
         }
-        Project p = projects.create(user, body.title(), body.id(), body.description(), body.sourcePath());
-        activity.log(user.name(), "create project", p.id(), Map.of("source", "local"));
+        Project p = projects.create(user, body.title(), body.id(), body.description(), body.sourcePath(), body.git());
+        activity.log(user.name(), "create project", p.id(), Map.of("source", body.git() != null ? "git" : "local"));
         return summary(user, p);
     }
 
     @GetMapping("/api/projects/{id}")
     public Map<String, Object> get(@PathVariable String id, Principal principal) {
         User user = current.of(principal);
-        return summary(user, projects.get(user, id));
+        Project p = projects.get(user, id);
+        Map<String, Object> out = summary(user, p);
+        out.put("git", gitRepos(p));
+        return out;
     }
 
     @PutMapping("/api/projects/{id}/members")
@@ -165,8 +171,10 @@ public class ProjectController {
         if (busy || scans.active(p.id()).isPresent()) {
             throw new ApiException(org.springframework.http.HttpStatus.CONFLICT, "A job is running on this project; cancel it first");
         }
+        List<com.legacyaudit.engine.scan.GitClones.Clone> only = clones.clonesOf(p.id());
         projects.delete(p);
         activity.log(user.name(), "delete project", p.id());
+        clones.removeFor(only, p.id(), user.name());
         return Map.of("deleted", p.id());
     }
 
@@ -207,6 +215,26 @@ public class ProjectController {
 
     private static Map<String, String> folder(String name, Path path) {
         return Map.of("name", name, "path", path.toString());
+    }
+
+    /** The Git repositories of the project ({@code url}, {@code ref}), or null for a local source. */
+    private List<Map<String, Object>> gitRepos(Project p) {
+        try {
+            if (com.legacyaudit.model.config.ConfigLoader.load(projects.configPath(p.id())).config().source()
+                    instanceof com.legacyaudit.model.config.AuditConfig.GitSource g) {
+                List<Map<String, Object>> out = new ArrayList<>();
+                for (var r : g.repos()) {
+                    Map<String, Object> m = new LinkedHashMap<>();
+                    m.put("url", r.url());
+                    m.put("ref", r.ref());
+                    out.add(m);
+                }
+                return out;
+            }
+        } catch (com.legacyaudit.model.config.ConfigException e) {
+            // the settings page shows the problem
+        }
+        return null;
     }
 
     private Map<String, Object> summary(User user, Project p) {

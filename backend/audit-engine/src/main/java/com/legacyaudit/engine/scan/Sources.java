@@ -1,5 +1,6 @@
 package com.legacyaudit.engine.scan;
 
+import com.legacyaudit.model.config.AuditConfig;
 import com.legacyaudit.model.config.AuditConfig.GitSource;
 import com.legacyaudit.model.config.AuditConfig.LocalSource;
 import com.legacyaudit.model.config.ConfigException;
@@ -26,12 +27,24 @@ public final class Sources {
     private Sources() {}
 
     public static List<Root> resolve(LoadedConfig loaded) {
-        if (loaded.config().source() instanceof GitSource) {
-            throw new ConfigException("Git sources are not supported yet by this version (they come in a later phase). "
-                    + "Clone the repository into a folder and use source: {type: local, paths: [<folder>]}.");
-        }
+        return resolve(loaded, line -> {});
+    }
+
+    /**
+     * The folders to scan; Git repositories are cloned or updated first ({@link GitClones}), and
+     * {@code log} gets what git did (warnings start with {@code WARNING }).
+     */
+    public static List<Root> resolve(LoadedConfig loaded, java.util.function.Consumer<String> log) {
         List<Root> roots = new ArrayList<>();
         Set<String> taken = new HashSet<>();
+        if (loaded.config().source() instanceof GitSource g) {
+            for (AuditConfig.GitRepo repo : g.repos()) {
+                GitClones.Fetched f = GitClones.fetch(repo, g.cacheDir(), log);
+                String name = unique(repo.name() != null ? repo.name() : GitClones.repoSlug(repo.url()).get(2), taken);
+                roots.add(new Root(name, f.path(), "git", f.url(), repo.ref(), f.commit(), List.copyOf(repo.paths())));
+            }
+            return roots;
+        }
         for (String p : ((LocalSource) loaded.config().source()).paths()) {
             Path path = real(loaded.resolve(p));
             if (!Files.isDirectory(path)) {

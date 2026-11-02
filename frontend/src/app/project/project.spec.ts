@@ -50,4 +50,21 @@ describe('ProjectPage', () => {
     expect(page.querySelector('progress')?.getAttribute('value')).toBe('50');
     expect(page.textContent).toContain('Cancel scan');
   });
+
+  it('scans another branch of a Git project once', async () => {
+    const fixture = TestBed.createComponent(ProjectPage);
+    fixture.detectChanges();
+    http.expectOne('/api/projects/billing').flush({ ...project, sourcePath: 'https://git.example.com/team/a.git',
+      git: [{ url: 'https://git.example.com/team/a.git', ref: 'main' }] });
+    http.expectOne('/api/projects/billing/scans').flush([]);
+    http.expectOne('/api/projects/billing/components').flush({ scan: null, components: [] });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain("The project's own branch is main");
+
+    fixture.componentInstance.scanRef = ' release ';
+    fixture.componentInstance.start(false);
+    const req = http.expectOne('/api/projects/billing/scans');
+    expect(req.request.body).toEqual({ full: false, ref: 'release' });
+  });
 });

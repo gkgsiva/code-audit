@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,7 +66,9 @@ public class AdminController {
     private final CurrentUser current;
 
     public AdminController(ServerSettings host, AdminStore admin, UserStore users, ProjectService projects, Activity activity,
-            SystemMetrics metrics, JobGate gate, HostedLayer layer, CurrentUser current) {
+            SystemMetrics metrics, JobGate gate, HostedLayer layer, CurrentUser current,
+            com.legacyaudit.server.git.Clones clones) {
+        this.clones = clones;
         this.host = host;
         this.admin = admin;
         this.users = users;
@@ -77,7 +80,34 @@ public class AdminController {
         this.current = current;
     }
 
+    private final com.legacyaudit.server.git.Clones clones;
+
     public record DefaultsBody(String text) {}
+
+    public record CloneBody(String key) {}
+
+    /** The Git clone cache: every clone with the projects that scan it, space used and free, the clean-up limits. */
+    @GetMapping("/api/admin/clones")
+    public Map<String, Object> clones(Principal principal) {
+        adminOnly(principal);
+        return clones.view();
+    }
+
+    @PostMapping("/api/admin/clones/delete")
+    public Map<String, Object> deleteClone(@RequestBody CloneBody body, Principal principal) {
+        User me = adminOnly(principal);
+        String key = body == null || body.key() == null ? "" : body.key();
+        clones.delete(key, me.name());
+        return Map.of("deleted", key);
+    }
+
+    @PostMapping("/api/admin/clones/prune")
+    public Map<String, Object> pruneClones(Principal principal) {
+        User me = adminOnly(principal);
+        List<String> removed = clones.prune();
+        activity.log(me.name(), "clean up clones", null, Map.of("removed", removed.size()));
+        return Map.of("removed", removed);
+    }
 
     public record UserBody(String name, String role, Boolean disabled) {}
 
@@ -113,6 +143,7 @@ public class AdminController {
         h.put("admins", host.admins());
         h.put("admin_dir", host.adminDir().toString());
         h.put("admin_file", admin.path().toString());
+        h.put("git_cache", layer.gitCache().toString());
         out.put("host", h);
         return out;
     }
