@@ -78,4 +78,4 @@ VOLUME ["/audits"]
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s \
     CMD sh -c 'command -v curl > /dev/null || exit 0; curl -sf http://127.0.0.1:8080/api/health > /dev/null'
-ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "--enable-native-access=ALL-UNNAMED", "-jar", "/app/legacy-audit-server.jar"]
+ENTRYPOINT ["java", "-XX:MaxRAMPercentage=75", "-XX:+UseStringDeduplication", "--enable-native-access=ALL-UNNAMED", "-jar", "/app/legacy-audit-server.jar"]

@@ -169,6 +169,14 @@
       "command": "npm ci && npm run docs",
       "options": { "cwd": "${workspaceFolder}/frontend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 22. build the legacy-audit command for this laptop",
+      "detail": "Builds backend/audit-cli/target/legacy-audit.jar with the launchers legacy-audit and legacy-audit.cmd, then runs doctor",
+      "type": "shell",
+      "command": "mvn -B -DskipTests package -pl audit-cli -am && java -jar audit-cli/target/legacy-audit.jar doctor",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

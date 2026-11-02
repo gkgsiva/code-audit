@@ -29,7 +29,7 @@ public final class FactWriter {
     private FactWriter() {}
 
     public static void writeJson(Path path, Object data) throws IOException {
-        Files.writeString(path, PyJson.pretty(data), StandardCharsets.UTF_8);
+        PyJson.prettyTo(path, data);
     }
 
     /**
@@ -71,16 +71,22 @@ public final class FactWriter {
                     rows.add(f.toMap());
                 }
                 writeJson(dataDir.resolve(e.name() + ".json"), rows);
-                StringBuilder csv = new StringBuilder();
-                csvRow(csv, e.columns());
-                for (Map<String, Object> row : rows) {
-                    List<String> cells = new ArrayList<>();
-                    for (String c : e.columns()) {
-                        cells.add(csvCell(row.get(c)));
+                try (java.io.Writer w = Files.newBufferedWriter(dataDir.resolve(e.name() + ".csv"), StandardCharsets.UTF_8)) {
+                    StringBuilder csv = new StringBuilder();
+                    csvRow(csv, e.columns());
+                    for (Map<String, Object> row : rows) {
+                        List<String> cells = new ArrayList<>();
+                        for (String c : e.columns()) {
+                            cells.add(csvCell(row.get(c)));
+                        }
+                        csvRow(csv, cells);
+                        if (csv.length() > 1 << 16) {
+                            w.append(csv);
+                            csv.setLength(0);
+                        }
                     }
-                    csvRow(csv, cells);
+                    w.append(csv);
                 }
-                Files.writeString(dataDir.resolve(e.name() + ".csv"), csv, StandardCharsets.UTF_8);
                 String cols = String.join(", ", e.columns().stream().map(c -> "\"" + c + "\"").toList());
                 try (Statement st = conn.createStatement()) {
                     st.execute("CREATE TABLE \"" + e.name() + "\" (" + cols

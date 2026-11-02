@@ -2,7 +2,9 @@
 
 Run everything with VS Code task 4 (`mvn -B verify` in `backend/`) and task 5 (frontend). CI
 (`.github/workflows/ci.yml`) runs the backend on Ubuntu and Windows, the frontend on Ubuntu,
-and starts the three containers to check health and a login.
+starts the three containers to check health and a login, checks that the backend image has
+Git, Chromium and OSV-Scanner, then creates a project on a sample, scans it and builds the
+reports with their PDFs inside Docker.
 
 ## Backend tests
 

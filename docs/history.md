@@ -61,3 +61,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #45 | 2026-10-30 | Spring Boot and Angular version, phase 8a: runs and compare, component and source pages, settings, input files, components to scan and tool checks |
 | #46 | 2026-11-02 | Spring Boot and Angular version, phase 8b: admin settings, users, activity log, status, logs and dashboards |
 | #47 | 2026-11-02 | Spring Boot and Angular version, phase 8c: Git sources, branch per scan, clone clean-up and the Angular reference |
+| #48 | 2026-11-02 | Spring Boot and Angular version, phase 9: backend image with Chromium, Git and OSV-Scanner, PDFs and a sample scan in CI, large estates in 2 GB, user and admin guides |

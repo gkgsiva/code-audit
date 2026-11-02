@@ -462,3 +462,37 @@ gets `purge-cache`, and the Angular classes get a reference site. The backend im
    `java -jar audit-cli/target/legacy-audit.jar purge-cache`. It prints
    `Removed Git clone cache ...` (your laptop's cache under your home folder).
 
+
+## Phase 9: the finished version (Docker image, PDFs, laptop command, guides)
+
+What is new: the backend image now has a browser for the PDF copies, Git, fonts and
+OSV-Scanner, and runs as its own user (not root); large estates fit in less memory; the
+`legacy-audit` command can be built for a laptop with one task; the user, admin and Copilot
+guides are written for this version.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Compare your `.env` with `docker/env.example`. New lines (all optional): `APT_MIRROR`,
+   `APT_SECURITY_MIRROR`, `WITH_CHROMIUM`, `WITH_OSV`, `BACKEND_JRE_IMAGE`,
+   `BACKEND_BASE_IMAGE`. At the office, if the build cannot reach the Debian servers, set
+   `APT_MIRROR` to your company mirror; if it cannot reach GitHub, set `WITH_OSV=false`.
+3. Run **`audit: 4. backend build and tests (Java 25, Maven)`**. It ends with `BUILD SUCCESS`
+   (191 tests).
+4. Run **`audit: 1. start the web app (Docker)`**. The first build takes longer (it downloads
+   Chromium). Open http://localhost:8770 and log in as **admin**.
+5. Click **Admin** and scroll to **Health**: **Browser for PDFs**, **Git** and **OSV-Scanner**
+   show as found.
+6. Open a project (or create one on a folder under your sources folder), click **Start scan**
+   and wait until it is done. On **Reports** click **Build all reports and PDFs**. When it is
+   done, each report has a **PDF** link; open the summary PDF: one page with the main numbers.
+7. Laptop command: run **`audit: 22. build the legacy-audit command for this laptop`**. It ends
+   with the `doctor` table and `Ready to scan.` Copy `legacy-audit.jar` and `legacy-audit.cmd`
+   (Windows) or `legacy-audit` (WSL2) from `backend/audit-cli/target/` to a folder on your
+   `PATH` (see `docs/admin-guide.md`). In a new terminal, `legacy-audit version` prints the
+   version.
+8. Large estate (optional): in a terminal in your application's audit folder run
+   `legacy-audit scan`. The launcher gives Java up to half the memory; if a very large scan
+   stops with `OutOfMemoryError`, set `LEGACY_AUDIT_JAVA_OPTS=-Xmx6g` and scan again
+   (`docs/performance.md`).
+9. Read `docs/user-guide.md` (for analysts) and `docs/admin-guide.md` (for whoever runs the
+   site): they describe the screens you just used.
