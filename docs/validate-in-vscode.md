@@ -496,3 +496,30 @@ guides are written for this version.
    (`docs/performance.md`).
 9. Read `docs/user-guide.md` (for analysts) and `docs/admin-guide.md` (for whoever runs the
    site): they describe the screens you just used.
+
+
+## New look of the web app
+
+What is new: a dark menu on the left with icons (the project's own pages are listed under
+**This project**), a top bar with where you are and who is logged in, cards with rounded
+corners, big number tiles, coloured status pills and the Inter font (shipped with the app, so it
+works offline). Light or dark follows your computer's setting. No page lost a feature.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Run **`audit: 5. frontend build and tests (Node.js)`**. It ends with `35 passed` and
+   `Application bundle generation complete`.
+3. Run **`audit: 1. start the web app (Docker)`** and open http://localhost:8770. The login page
+   is a card in the middle of the screen with the legacy-audit logo.
+4. Log in. The menu on the left shows **Projects**, **Status** and **Logs** (and **Admin** and
+   **Dashboard** for an admin); the page you are on is highlighted.
+5. Open a project. Under **This project** the menu now lists Overview, Results, Reports,
+   AI enrichment, Inventory, Runs and compare, Settings, Input files and Components to scan, and
+   the top bar shows `Projects / <your project>`. After a finished scan the overview shows four
+   tiles (files, lines of code, components, warnings) and buttons to open the results, reports,
+   AI enrichment and inventory.
+6. Click through each page in the menu: every one opens and shows the same content as before.
+7. Dark mode: on Windows, **Settings > Personalisation > Colours > Choose your mode: Dark**
+   (or set the browser to dark). Reload the page: it turns dark.
+8. Narrow window: make the browser window narrow (or open the site on a phone). The menu hides;
+   the button at the top left opens it.

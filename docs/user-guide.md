@@ -6,6 +6,13 @@ that does the same thing on a laptop (`legacy-audit ...`), for scripts and for t
 The web app runs on a server (or on your laptop with Docker): see [admin-guide.md](admin-guide.md)
 for how to install it. You need only a browser.
 
+**Finding your way around.** The menu on the left has **Projects**, **Status** and **Logs** (and
+**Admin** and **Dashboard** for admins). When you open a project, its pages are listed under
+**This project**: Overview, Results, Reports, AI enrichment, Inventory, Runs and compare,
+Settings, Input files and Components to scan. The bar at the top shows which project you are in
+and who is logged in. On a narrow window or a phone, the menu opens with the button at the top
+left. The site follows your computer's light or dark setting.
+
 ## 1. Log in and create a project
 
 1. Open the site's address (for example http://localhost:8770) and type your name. The admin may
@@ -26,7 +33,7 @@ Command line: `legacy-audit init` writes `audit.yaml`, `audit-overrides.yaml`, t
 
 ## 2. Settings
 
-**Settings** on the project page shows `audit.yaml` as a form: the application, where the code is
+**Settings** (in the menu on the left) shows `audit.yaml` as a form: the application, where the code is
 (folders, or Git repositories as `address | branch | folders | token variable` lines), the
 migration target and the files to include and leave out. **Save audit.yaml** changes only those
 keys and keeps every other line and comment. **Advanced: edit audit.yaml as text** edits the whole
@@ -63,7 +70,7 @@ every scan.
 - The page shows the step (inventory, analysis, linking, rules and grades, writing the results),
   a progress bar and the last log lines. **Cancel scan** stops it; the unfinished run is removed.
 - Only one scan per project runs at a time. When the site is busy the scan waits its turn:
-  **Status** (top bar) shows what is running and waiting.
+  **Status** (menu on the left) shows what is running and waiting.
 
 Command line: `legacy-audit scan` and `legacy-audit scan --full`.
 

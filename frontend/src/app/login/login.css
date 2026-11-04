@@ -1,11 +1,13 @@
-.login-box {
-  max-width: 420px;
-  margin: 12vh auto 0;
-}
+:host { display: grid; place-items: center; min-height: 100vh; padding: 1rem;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(99, 102, 241, .18), transparent 60%),
+    radial-gradient(900px 500px at 110% 110%, rgba(34, 211, 238, .14), transparent 60%), var(--bg); }
 
-form {
-  display: grid;
-  gap: .75rem;
-}
+.login-box { width: 100%; max-width: 420px; padding: 2rem 2rem 1.5rem; }
 
-button { justify-self: start; }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.25rem; }
+.mark { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #6366f1, #22d3ee);
+  display: grid; place-items: center; color: #fff; }
+
+form { display: grid; gap: .75rem; }
+
+button { width: 100%; margin-top: .25rem; }

@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../auth.service';
+import { Icon } from '../shell/icon';
 
 /** Login page: a user name only (test login), as in the Python hosted site. */
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, Icon],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

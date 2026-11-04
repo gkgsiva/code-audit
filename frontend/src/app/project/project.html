@@ -1,26 +1,28 @@
 @if (project(); as p) {
-  <section class="panel">
-    <div class="row spread">
-      <div>
-        <h1>{{ p.title }} @if (p.archived) { <span class="badge">archived</span> }</h1>
-        @if (p.description) {
-          <p class="lead">{{ p.description }}</p>
-        }
-      </div>
-      <a class="btn" routerLink="/">All projects</a>
+  <header class="page-head">
+    <div>
+      <h1>{{ p.title }} @if (p.archived) { <span class="badge">archived</span> }</h1>
+      @if (p.description) {
+        <p class="lead">{{ p.description }}</p>
+      }
+      <p class="meta">
+        <span title="Code folder"><app-icon name="folder" [size]="15" />{{ p.sourcePath || p.git?.[0]?.url || 'No code folder' }}</span>
+        <span title="Owner"><app-icon name="home" [size]="15" />Owner: {{ p.owner }}</span>
+        <span title="Your role"><app-icon name="shield" [size]="15" />Your role: {{ p.role }}</span>
+      </p>
     </div>
-    <table class="grid">
-      <tr><th>Code folder</th><td>{{ p.sourcePath }}</td></tr>
-      <tr><th>Owner</th><td>{{ p.owner }}</td></tr>
-      <tr><th>Your role</th><td>{{ p.role }}</td></tr>
-    </table>
-    <p class="row" style="margin-top: .75rem">
-      <a class="btn" [routerLink]="['/p', p.id, 'settings']">Settings</a>
-      <a class="btn" [routerLink]="['/p', p.id, 'inputs']">Input files</a>
-      <a class="btn" [routerLink]="['/p', p.id, 'components']">Components to scan</a>
-      <a class="btn" [routerLink]="['/p', p.id, 'runs']">Runs and compare</a>
-    </p>
-  </section>
+  </header>
+
+  @if (status()?.scan; as sc) {
+    @if (sc.status === 'done') {
+      <div class="tiles kpi-tiles">
+        <div class="tile"><div class="tile-value">{{ sc.files | number }}</div><div class="tile-label">Files</div></div>
+        <div class="tile"><div class="tile-value">{{ sc.locCode | number }}</div><div class="tile-label">Lines of code</div></div>
+        <div class="tile"><div class="tile-value">{{ sc.components | number }}</div><div class="tile-label">Components</div></div>
+        <div class="tile"><div class="tile-value">{{ sc.warnings ?? 0 | number }}</div><div class="tile-label">Warnings</div></div>
+      </div>
+    }
+  }
 
   <section class="panel">
     <div class="row spread">
@@ -61,10 +63,12 @@
           {{ s.scan.files | number }} files, {{ s.scan.components | number }} components,
           {{ s.scan.locCode | number }} lines of code.
           @if (s.scan.warnings) { <span class="hint">{{ s.scan.warnings }} warnings (see the log).</span> }
-          <a [routerLink]="['/p', p.id, 'results']">Open the results</a> ·
-          <a [routerLink]="['/p', p.id, 'enrichment']">AI enrichment</a> ·
-          <a [routerLink]="['/p', p.id, 'reports']">Open the reports</a> ·
-          <a [routerLink]="['/p', p.id, 'inventory']">Open the inventory</a>
+        </p>
+        <p class="quick-links">
+          <a class="btn" [routerLink]="['/p', p.id, 'results']"><app-icon name="chart" [size]="16" />Open the results</a>
+          <a class="btn" [routerLink]="['/p', p.id, 'reports']"><app-icon name="doc" [size]="16" />Open the reports</a>
+          <a class="btn" [routerLink]="['/p', p.id, 'enrichment']"><app-icon name="spark" [size]="16" />AI enrichment</a>
+          <a class="btn" [routerLink]="['/p', p.id, 'inventory']"><app-icon name="box" [size]="16" />Open the inventory</a>
         </p>
       }
       @if (s.scan.error) {
