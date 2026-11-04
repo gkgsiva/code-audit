@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { ApiService, ComponentRow, Project, Scan, ScanStatus, problem } from '../api.service';
+import { Icon } from '../shell/icon';
 
 const POLL_MS = 1500;
 
@@ -21,7 +22,7 @@ export const HIDEABLE_SECTIONS: Record<string, string> = {
 /** One project: start a scan, follow it live, past scans, components and who has access. */
 @Component({
   selector: 'app-project',
-  imports: [DatePipe, DecimalPipe, FormsModule, RouterLink],
+  imports: [DatePipe, DecimalPipe, FormsModule, Icon, RouterLink],
   templateUrl: './project.html',
 })
 export class ProjectPage implements OnInit {
