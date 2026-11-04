@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe, KeyValuePipe } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import {
-  ActivityEntry, AdminProject, CloneInfo, ClonesView, AdminSettingsData, AdminUser, AdminView, ApiService, HealthInfo, problem,
+  ActivityEntry, AdminProject, CloneInfo, ClonesView, AdminSettingsData, AdminUser, AdminView, ApiService, HealthInfo, VulnDbInfo, problem,
 } from '../api.service';
 
 /** Bytes as KB, MB or GB for the size columns. */
@@ -38,7 +38,7 @@ export function detail(e: ActivityEntry): string {
   imports: [DatePipe, FormsModule, KeyValuePipe, RouterLink],
   templateUrl: './admin.html',
 })
-export class AdminPage implements OnInit {
+export class AdminPage implements OnInit, OnDestroy {
   private readonly api = inject(ApiService);
 
   readonly view = signal<AdminView | null>(null);
@@ -47,6 +47,8 @@ export class AdminPage implements OnInit {
   readonly activity = signal<ActivityEntry[]>([]);
   readonly health = signal<HealthInfo | null>(null);
   readonly clones = signal<ClonesView | null>(null);
+  readonly vulnDb = signal<VulnDbInfo | null>(null);
+  private vulnDbTimer: ReturnType<typeof setTimeout> | null = null;
   readonly error = signal<string | null>(null);
   readonly saved = signal<string | null>(null);
   readonly size = size;
@@ -67,8 +69,39 @@ export class AdminPage implements OnInit {
     this.loadUsers();
     this.api.adminProjects().subscribe({ next: (p) => this.projects.set(p) });
     this.loadActivity();
-    this.api.health().subscribe({ next: (h) => this.health.set(h) });
+    this.api.health().subscribe({
+      next: (h) => {
+        this.health.set(h);
+        this.showVulnDb(h.vulndb ?? null);
+      },
+    });
     this.loadClones();
+  }
+
+  ngOnDestroy(): void {
+    if (this.vulnDbTimer) {
+      clearTimeout(this.vulnDbTimer);
+    }
+  }
+
+  /** Shows the database state; while an update runs, asks again every 10 seconds. */
+  showVulnDb(v: VulnDbInfo | null): void {
+    this.vulnDb.set(v);
+    if (this.vulnDbTimer) {
+      clearTimeout(this.vulnDbTimer);
+      this.vulnDbTimer = null;
+    }
+    if (v?.running) {
+      this.vulnDbTimer = setTimeout(() => this.api.vulnDb().subscribe({ next: (n) => this.showVulnDb(n) }), 10000);
+    }
+  }
+
+  updateVulnDb(): void {
+    this.error.set(null);
+    this.api.updateVulnDb().subscribe({
+      next: (v) => this.showVulnDb(v),
+      error: (err: HttpErrorResponse) => this.error.set(problem(err)),
+    });
   }
 
   loadClones(): void {

@@ -472,6 +472,26 @@ export interface HealthInfo {
   checks: ToolCheck[];
   queue: { slots: number; running: number; waiting: number };
   source_roots: string[];
+  vulndb?: VulnDbInfo;
+}
+
+/** OWASP Dependency-Check's NVD database on the hosted site (Admin > Health). */
+export interface VulnDbInfo {
+  tool: string | null;
+  version: string | null;
+  folder: string;
+  ready: boolean;
+  bytes: number;
+  last_success: string | null;
+  last_attempt: string | null;
+  last_ok: boolean | null;
+  last_message: string | null;
+  running: boolean;
+  started_at: string | null;
+  api_key: boolean;
+  mirror: string | null;
+  refresh_at: string | null;
+  output: string[];
 }
 
 export function problem(err: HttpErrorResponse): string {
@@ -710,5 +730,13 @@ export class ApiService {
 
   health(): Observable<HealthInfo> {
     return this.http.get<HealthInfo>('/api/admin/health');
+  }
+
+  vulnDb(): Observable<VulnDbInfo> {
+    return this.http.get<VulnDbInfo>('/api/admin/vulndb');
+  }
+
+  updateVulnDb(): Observable<VulnDbInfo> {
+    return this.http.post<VulnDbInfo>('/api/admin/vulndb/update', {});
   }
 }

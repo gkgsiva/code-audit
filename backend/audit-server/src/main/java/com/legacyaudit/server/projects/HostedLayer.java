@@ -140,7 +140,24 @@ public class HostedLayer {
             setPath(merged, key, getPath(s.defaults(), key));
         }
         confine(merged, project);
+        sharedVulnerabilityDatabase(merged);
         return merged;
+    }
+
+    /**
+     * Dependency-Check reads the site's one NVD copy ({@code VulnDb}) unless the project names its
+     * own {@code security.dependency_check.data_dir}.
+     */
+    @SuppressWarnings("unchecked")
+    void sharedVulnerabilityDatabase(Map<String, Object> data) {
+        Object dataDir = getPath(data, "security.dependency_check.data_dir");
+        if (dataDir == MISSING || dataDir == null || String.valueOf(dataDir).isBlank()) {
+            if (data.get("security") instanceof Map<?, ?> sec && !(sec.get("dependency_check") instanceof Map<?, ?>)
+                    && sec.containsKey("dependency_check")) {
+                return; // not a mapping: the config reader reports it
+            }
+            setPath(data, "security.dependency_check.data_dir", com.legacyaudit.server.vulndb.VulnDb.dir(settings).toString());
+        }
     }
 
     /** The real path (symbolic links followed) when it exists, else the normalized absolute path. */

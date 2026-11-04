@@ -496,3 +496,29 @@ guides are written for this version.
    (`docs/performance.md`).
 9. Read `docs/user-guide.md` (for analysts) and `docs/admin-guide.md` (for whoever runs the
    site): they describe the screens you just used.
+
+## OWASP Dependency-Check in the Docker image (2026-11-04)
+
+What is new: the backend image has OWASP Dependency-Check next to OSV-Scanner. Its NVD
+database is kept in your audits folder and filled from the Admin page; scans use it offline.
+
+1. Get the new code: in the Source Control panel click **Sync Changes** (or on WSL2
+   `git pull origin spring-boot-angular`).
+2. Compare your `.env` with `docker/env.example`. New lines (all optional): `NVD_API_KEY`,
+   `NVD_MIRROR_URL`, `VULNDB_REFRESH`, `WITH_DEPENDENCY_CHECK`, `DEPENDENCY_CHECK_VERSION`.
+   Get a free NVD API key at https://nvd.nist.gov/developers/request-an-api-key and paste it
+   after `NVD_API_KEY=`. At the office also set `RUN_PROXY`.
+3. Run **`audit: 23. check the vulnerability database updates`**. It ends with `BUILD SUCCESS`.
+4. Run **`audit: 1. start the web app (Docker)`**. Open http://localhost:8770 and log in as
+   **admin**.
+5. Click **Admin** and scroll to **Health**: **OWASP Dependency-Check** shows as found.
+   Below it, **Vulnerability database (OWASP Dependency-Check)** shows version 13.0.0.
+6. With a key in `.env` the download starts by itself when the site starts; otherwise click
+   **Update the database now**. The panel shows **updating** and the last lines of the tool's
+   output (with a key it takes a few minutes, without one it can take hours). Reload the page:
+   when it is done it shows the database size and **last updated** with today's date.
+7. Open a project with jar files (for example one on `samples/struts-oracle-app`), click
+   **Start scan** and wait until it is done. On **Results**, the libraries show vulnerabilities
+   from Dependency-Check, and the coverage list shows **OWASP Dependency-Check** as present.
+8. Check that the key is not written anywhere: in a terminal (WSL2 or Git Bash),
+   `grep -r "<the first 8 characters of your key>" audits/.legacy-audit` finds nothing.

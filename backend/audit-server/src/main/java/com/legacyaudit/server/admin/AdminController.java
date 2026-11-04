@@ -67,8 +67,9 @@ public class AdminController {
 
     public AdminController(ServerSettings host, AdminStore admin, UserStore users, ProjectService projects, Activity activity,
             SystemMetrics metrics, JobGate gate, HostedLayer layer, CurrentUser current,
-            com.legacyaudit.server.git.Clones clones) {
+            com.legacyaudit.server.git.Clones clones, com.legacyaudit.server.vulndb.VulnDb vulnDb) {
         this.clones = clones;
+        this.vulnDb = vulnDb;
         this.host = host;
         this.admin = admin;
         this.users = users;
@@ -81,6 +82,7 @@ public class AdminController {
     }
 
     private final com.legacyaudit.server.git.Clones clones;
+    private final com.legacyaudit.server.vulndb.VulnDb vulnDb;
 
     public record DefaultsBody(String text) {}
 
@@ -418,7 +420,27 @@ public class AdminController {
         out.put("checks", Doctor.run(cfg, host.auditsRoot()).stream().map(Doctor.Check::toMap).toList());
         out.put("queue", queue);
         out.put("source_roots", layer.sourceRoots().stream().map(Path::toString).toList());
+        out.put("vulndb", vulnDb.status());
         return out;
+    }
+
+    /** The Dependency-Check database: its state, and an update started in the background. */
+    @GetMapping("/api/admin/vulndb")
+    public Map<String, Object> vulnDb(Principal principal) {
+        adminOnly(principal);
+        return vulnDb.status();
+    }
+
+    @PostMapping("/api/admin/vulndb/update")
+    public Map<String, Object> updateVulnDb(Principal principal) {
+        User me = adminOnly(principal);
+        if (vulnDb.exe() == null) {
+            throw new ApiException(HttpStatus.CONFLICT, "OWASP Dependency-Check is not installed in this server (WITH_DEPENDENCY_CHECK=false?)");
+        }
+        if (!vulnDb.update(me.name())) {
+            throw new ApiException(HttpStatus.CONFLICT, "An update of the vulnerability database is already running");
+        }
+        return vulnDb.status();
     }
 
     /** Bytes under a folder; stops counting after 200,000 entries on huge trees. */

@@ -233,6 +233,26 @@ class SecurityTest {
     }
 
     @Test
+    @DisabledOnOs(OS.WINDOWS)
+    void offlineDependencyCheckNeedsItsDatabase(@TempDir Path tmp) throws Exception {
+        Path args = tmp.resolve("args.txt");
+        Path fake = script(tmp.resolve("dependency-check.sh"), "echo \"$@\" > \"" + args + "\"\n"
+                + "while [ $# -gt 0 ]; do [ \"$1\" = \"--out\" ] && out=\"$2\"; shift; done\n"
+                + "cp \"" + DC_REPORT.toAbsolutePath() + "\" \"$out/dependency-check-report.json\"\n");
+        Path data = Files.createDirectories(tmp.resolve("nvd"));
+        Vulns.Outcome o = Vulns.runDependencyCheck(tool(fake.toString(), data.toString(), true), List.of(tmp), tmp.resolve("out"), "app");
+        assertEquals("failed", o.source().str("status"));
+        assertTrue(o.source().str("detail").startsWith(Vulns.NO_NVD_DATABASE));
+        assertTrue(!Files.exists(args)); // not even started
+
+        Files.writeString(data.resolve("odc.mv.db"), "db");
+        o = Vulns.runDependencyCheck(tool(fake.toString(), data.toString(), true), List.of(tmp), tmp.resolve("out"), "app");
+        assertEquals("ran", o.source().str("status"));
+        String line = Files.readString(args);
+        assertTrue(line.contains("--data " + data + " --noupdate --disableOssIndex --disableCentral"), line);
+    }
+
+    @Test
     void aWrongToolPathIsNamed(@TempDir Path tmp) {
         String wrong = tmp.resolve("tools").resolve("osv-scanner").toString();
         Vulns.Outcome o = Vulns.runOsvScanner(tool(wrong, null, false), List.of(tmp), tmp.resolve("o"));

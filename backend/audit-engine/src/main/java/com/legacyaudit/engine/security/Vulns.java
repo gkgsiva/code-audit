@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -361,20 +363,52 @@ public final class Vulns {
         if (exe == null) {
             return new Outcome(null, source(DC, "missing", missingDetail(cfg.path(), names), null, List.of()));
         }
+        boolean hasDataDir = cfg.dataDir() != null && !cfg.dataDir().isEmpty();
+        if (cfg.offline() && hasDataDir && !dependencyCheckDatabaseReady(Path.of(cfg.dataDir()))) {
+            return new Outcome(null, source(DC, "failed", NO_NVD_DATABASE + " in " + cfg.dataDir(), null, List.of()));
+        }
         mkdirs(outDir);
         List<String> cmd = new ArrayList<>(List.of(exe, "--project", project, "--format", "JSON", "--out", outDir.toString()));
         for (Path d : scanDirs) {
             cmd.addAll(List.of("--scan", d.toString()));
         }
-        if (cfg.dataDir() != null && !cfg.dataDir().isEmpty()) {
+        if (hasDataDir) {
             cmd.addAll(List.of("--data", cfg.dataDir()));
         }
         if (cfg.offline()) {
-            cmd.add("--noupdate");
+            // Offline means no network during the scan: no database update, and no look-ups at
+            // Maven Central or Sonatype OSS Index (which also needs an account since 2025).
+            cmd.addAll(List.of("--noupdate", "--disableOssIndex", "--disableCentral"));
         } else if (cfg.nvdMirrorUrl() != null && !cfg.nvdMirrorUrl().isEmpty()) {
             cmd.addAll(List.of("--nvdDatafeed", cfg.nvdMirrorUrl()));
         }
-        return run(cmd, cfg.timeoutMinutes(), DC, outDir.resolve("dependency-check-report.json"), List.of(0), Map.of());
+        ReentrantLock lock = databaseLock(hasDataDir ? cfg.dataDir() : "");
+        lock.lock();
+        try {
+            return run(cmd, cfg.timeoutMinutes(), DC, outDir.resolve("dependency-check-report.json"), List.of(0), Map.of());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /** What a scan says when Dependency-Check has no NVD database yet. */
+    public static final String NO_NVD_DATABASE = "its NVD database is not downloaded yet: on the hosted site Admin > Health > "
+            + "Update the database now; on a laptop dependency-check --updateonly --data <data_dir> with an NVD API key";
+
+    private static final Map<String, ReentrantLock> DB_LOCKS = new ConcurrentHashMap<>();
+
+    /**
+     * One Dependency-Check at a time per database folder in this Java process: its H2 database
+     * does not take a scan and an update (or two scans) from separate processes at once.
+     */
+    public static ReentrantLock databaseLock(String dataDir) {
+        String key = dataDir == null || dataDir.isEmpty() ? "" : Path.of(dataDir).toAbsolutePath().normalize().toString();
+        return DB_LOCKS.computeIfAbsent(key, k -> new ReentrantLock());
+    }
+
+    /** True when the folder holds a Dependency-Check database ({@code odc.mv.db}). */
+    public static boolean dependencyCheckDatabaseReady(Path dataDir) {
+        return Files.isRegularFile(dataDir.resolve("odc.mv.db"));
     }
 
     public static Outcome runOsvScanner(ToolConfig cfg, List<Path> scanDirs, Path outDir) {
@@ -415,9 +449,7 @@ public final class Vulns {
             new String[] {OSV, "flag provided but not defined", "OSV-Scanner 1.x is too old: install version 2"},
             new String[] {OSV, "no package sources found",
                 "no build files (pom.xml, Gradle, package.json, .csproj/packages.config) or .jar files found in the code folders"},
-            new String[] {DC, "No documents exist",
-                "its NVD database is not downloaded yet: run dependency-check --updateonly with an NVD API key once, or set "
-                        + "security.dependency_check.enabled: false"});
+            new String[] {DC, "No documents exist", NO_NVD_DATABASE + ", or set security.dependency_check.enabled: false"});
 
     static String failureHint(String tool, String output) {
         String low = output.toLowerCase(Locale.ROOT);

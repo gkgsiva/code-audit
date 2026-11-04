@@ -92,7 +92,7 @@ Optional tools (the `doctor` command says what each missing one costs):
 The scan downloads nothing itself. Vulnerability data comes from tools you run or reports you
 import.
 
-- **OSV-Scanner** (version 2.x), the quickest setup and the one in the Docker image:
+- **OSV-Scanner** (version 2.x), the quickest setup (in the Docker image too):
   `security.osv_scanner.path` (or on `PATH`) and `offline: false` (the default). The scan runs
   `osv-scanner --experimental-plugins java/archive`, which asks the osv.dev service about package
   names and versions only (no source). Needs outbound HTTPS to `api.osv.dev` (in Docker:
@@ -101,9 +101,27 @@ import.
   schedule with `osv-scanner scan source --offline-vulnerabilities
   --download-offline-databases --experimental-plugins java/archive -r <code folder>` and
   `OSV_SCANNER_LOCAL_DB_CACHE_DIRECTORY` set to `data_dir`.
-- **Dependency-Check**: `security.dependency_check.path`, `data_dir` (local NVD copy),
+- **Dependency-Check on the hosted site** (in the Docker image since November 2026): nothing to
+  install. The NVD database is not in the image; the site keeps one copy for every project in
+  `<audits folder>/.legacy-audit/vulndb/dependency-check`, so it survives a rebuild. To fill it:
+  1. Get a free NVD API key at https://nvd.nist.gov/developers/request-an-api-key (without one
+     the first download can take hours) and put it in `.env` as `NVD_API_KEY=...`. Or, if your
+     company keeps a copy of the NVD data feed, set `NVD_MIRROR_URL` to it (for example
+     `https://nexus.example.com/nvd/nvdcve-{0}.json.gz`).
+  2. At the office set `RUN_PROXY` (and `RUN_NO_PROXY`) in `.env`; the update uses that proxy.
+  3. Restart the site (`docker compose up -d`). With a key or a mirror it downloads the database
+     at start; otherwise go to **Admin > Vulnerability database** and click **Update the
+     database now**. The panel shows the version, the database size and date, and the last
+     lines of the tool's output while it runs.
+  4. It refreshes every night at `VULNDB_REFRESH` (default `02:00`, `off` for never).
+  Scans only read the database (`offline: true`); while it is empty they list Dependency-Check
+  as a coverage gap and carry on. The key and a proxy password go to the tool in a temporary file,
+  never on its command line or in a log. A project can still name its own `data_dir`.
+  `WITH_DEPENDENCY_CHECK=false` builds the image without it.
+- **Dependency-Check on a laptop**: `security.dependency_check.path`, `data_dir` (local NVD copy),
   `nvd_mirror_url`, `offline: true` (default). Update the database outside the scans, for example
-  weekly: `dependency-check --updateonly --data <data_dir>`.
+  weekly: `dependency-check --updateonly --data <data_dir> --nvdApiKey <key>`. Offline scans add
+  `--disableOssIndex --disableCentral`, so they make no network calls.
 - **Imported reports**: put Dependency-Check or OSV-Scanner JSON output in
   `audit-inputs/security/`.
 

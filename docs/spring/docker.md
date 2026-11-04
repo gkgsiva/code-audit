@@ -52,6 +52,7 @@ These `.env` values help (ask IT for the addresses):
 | `NPM_REGISTRY` | The npm registry is blocked; the company npm mirror |
 | `APT_MIRROR` | The Ubuntu package servers are blocked; the company Ubuntu mirror (for Git in the backend image) |
 | `WITH_SYSTEM_PACKAGES=false` | Ubuntu packages cannot be downloaded at all: the backend is built without Git (Git projects cannot be scanned) |
+| `WITH_DEPENDENCY_CHECK=false` | You do not want OWASP Dependency-Check in the backend. It comes from the Maven repository (`org.owasp:dependency-check-cli`, through `BUILD_PROXY` / `MAVEN_MIRROR`); if that fails the build goes on with a warning and without it. `DEPENDENCY_CHECK_VERSION` picks another version |
 | `POSTGRES_IMAGE`, `BACKEND_BUILD_IMAGE`, `BACKEND_BASE_IMAGE`, `FRONTEND_BUILD_IMAGE`, `FRONTEND_BASE_IMAGE` | Docker Hub is blocked; the same images from the company registry |
 | `RUN_PROXY`, `RUN_NO_PROXY` | The running app needs the proxy (Git clones, vulnerability lookups, AI models) |
 

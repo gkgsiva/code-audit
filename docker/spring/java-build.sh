@@ -4,6 +4,8 @@
 #   maven_settings       writes ~/.m2/settings.xml for BUILD_PROXY, BUILD_NO_PROXY and MAVEN_MIRROR
 #   system_packages      installs Debian packages (apt) through BUILD_PROXY and APT_MIRROR
 #   osv_scanner          downloads OSV-Scanner from github.com (a warning when it cannot)
+#   dependency_check     unpacks OWASP Dependency-Check into /opt/dependency-check, fetched with
+#                        Maven (so BUILD_PROXY and MAVEN_MIRROR apply; a warning when it cannot)
 set -eu
 
 trust_company_certs() {
@@ -100,6 +102,27 @@ osv_scanner() {
         echo "WARNING: could not download OSV-Scanner from github.com; dependency vulnerabilities" \
              "are not checked (set BUILD_PROXY in .env, or osv_scanner in a project's audit.yaml)."
     fi
+}
+
+dependency_check() {
+    mkdir -p /opt/dependency-check
+    if [ "${WITH_DEPENDENCY_CHECK:-true}" != "true" ]; then
+        echo "WITH_DEPENDENCY_CHECK=false: no OWASP Dependency-Check in the image"
+        return 0
+    fi
+    version="$1"
+    if ! mvn -B -ntp -q dependency:copy -Dartifact="org.owasp:dependency-check-cli:$version:zip:release" \
+            -DoutputDirectory=/tmp/dc -Dmdep.stripVersion=true > /tmp/dc.log 2>&1; then
+        tail -n 5 /tmp/dc.log
+        echo "WARNING: could not download OWASP Dependency-Check $version (org.owasp:dependency-check-cli)" \
+             "from the Maven repository; it is not in the image (set BUILD_PROXY or MAVEN_MIRROR in .env)."
+        return 0
+    fi
+    # Unpacked with the JDK's jar tool (no unzip in the build image); jar keeps no file modes.
+    (cd /opt && jar xf /tmp/dc/dependency-check-cli-release.zip)
+    chmod 755 /opt/dependency-check/bin/*.sh
+    rm -rf /tmp/dc /tmp/dc.log /opt/dependency-check/bin/*.bat
+    echo "OWASP Dependency-Check $version in /opt/dependency-check"
 }
 
 fail() {
