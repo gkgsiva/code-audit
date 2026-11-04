@@ -62,3 +62,4 @@ ending with the PR number, and the same line is added at the bottom of this list
 | #46 | 2026-11-02 | Spring Boot and Angular version, phase 8b: admin settings, users, activity log, status, logs and dashboards |
 | #47 | 2026-11-02 | Spring Boot and Angular version, phase 8c: Git sources, branch per scan, clone clean-up and the Angular reference |
 | #48 | 2026-11-02 | Spring Boot and Angular version, phase 9: backend image with Chromium, Git and OSV-Scanner, PDFs and a sample scan in CI, large estates in 2 GB, user and admin guides |
+| #50 | 2026-11-04 | Bundle OWASP Dependency-Check in the backend image with a shared NVD database updated from the Admin page |
