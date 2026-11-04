@@ -25,6 +25,10 @@
               }
             ],
             "styles": [
+              "@fontsource/inter/latin-400.css",
+              "@fontsource/inter/latin-500.css",
+              "@fontsource/inter/latin-600.css",
+              "@fontsource/inter/latin-700.css",
               "src/styles.css"
             ]
           },

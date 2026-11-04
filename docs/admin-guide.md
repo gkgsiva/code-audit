@@ -36,7 +36,7 @@ left out: `WITH_CHROMIUM=false` (no PDF copies), `WITH_OSV=false` (no OSV-Scanne
 
 ### The Admin page
 
-Log in with a name listed in `LEGACY_AUDIT_ADMINS` (`.env`). **Admin** in the top bar has:
+Log in with a name listed in `LEGACY_AUDIT_ADMINS` (`.env`). **Admin** in the menu on the left has:
 
 - **Site settings**: which reports can be built (and which summary sections show), whether
   project owners may hide reports, whether the AI model may run on the server, the limits (jobs
