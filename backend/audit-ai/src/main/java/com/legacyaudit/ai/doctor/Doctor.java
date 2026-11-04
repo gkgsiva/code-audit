@@ -74,6 +74,9 @@ public final class Doctor {
         String dataDir = str(dc.get("data_dir"));
         if (dcExe != null && dataDir != null && !dataDir.isEmpty() && !Files.isDirectory(Path.of(dataDir))) {
             dcCheck = new Check(dcCheck.name(), "error", false, "data_dir " + dataDir + " does not exist", dcCheck.neededFor());
+        } else if (dcExe != null && dataDir != null && !dataDir.isEmpty() && !Vulns.dependencyCheckDatabaseReady(Path.of(dataDir))) {
+            dcCheck = new Check(dcCheck.name(), "missing", false, dcExe + ": " + Vulns.NO_NVD_DATABASE + " (" + dataDir + ")",
+                    dcCheck.neededFor());
         }
         out.add(dcCheck);
         List<String> osvNames = List.of("osv-scanner", "osv-scanner.exe");

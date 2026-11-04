@@ -227,3 +227,37 @@
     <p class="hint">Folders projects may scan: {{ h.source_roots.join(', ') }}.</p>
   </section>
 }
+
+@if (vulnDb(); as v) {
+  <section class="panel">
+    <h2>Vulnerability database (OWASP Dependency-Check)</h2>
+    @if (!v.tool) {
+      <p>OWASP Dependency-Check is not installed in this server, so scans use OSV-Scanner and imported reports only.
+        Rebuild the image with <code>WITH_DEPENDENCY_CHECK=true</code> in <code>.env</code>.</p>
+    } @else {
+      <p>
+        Dependency-Check {{ v.version }}.
+        @if (v.ready) {
+          Database {{ size(v.bytes) }}@if (v.last_success) {, last updated {{ v.last_success | date: 'medium' }}}.
+        } @else {
+          <strong>No database yet</strong>: scans report Dependency-Check as a coverage gap until it is downloaded.
+        }
+      </p>
+      <p>
+        NVD API key: {{ v.api_key ? 'set' : 'not set (the first download can take hours; set NVD_API_KEY in .env)' }}.
+        @if (v.mirror) { Data from the company copy {{ v.mirror }}. }
+        Nightly refresh: {{ v.refresh_at ?? 'off' }}.
+      </p>
+      @if (v.running) {
+        <p><span class="state stale">updating</span> since {{ v.started_at | date: 'mediumTime' }}. Scans wait for it to finish.</p>
+      } @else if (v.last_ok === false) {
+        <p><span class="state invalid">last update failed</span> {{ v.last_attempt | date: 'medium' }}: {{ v.last_message }}</p>
+      }
+      @if (v.output.length) {
+        <pre class="log">{{ v.output.join('\n') }}</pre>
+      }
+      <button type="button" (click)="updateVulnDb()" [disabled]="v.running">Update the database now</button>
+      <p class="hint">Kept in {{ v.folder }} (outside the image, so it survives a rebuild).</p>
+    }
+  </section>
+}

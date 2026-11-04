@@ -177,6 +177,14 @@
       "command": "mvn -B -DskipTests package -pl audit-cli -am && java -jar audit-cli/target/legacy-audit.jar doctor",
       "options": { "cwd": "${workspaceFolder}/backend" },
       "problemMatcher": []
+    },
+    {
+      "label": "audit: 23. check the vulnerability database updates",
+      "detail": "Tests the Dependency-Check database updates (key and proxy kept off the command line, nightly time), offline scans and the Admin page calls",
+      "type": "shell",
+      "command": "mvn -B -pl audit-server -am test \"-Dtest=VulnDbTest,SecurityTest,AdminFlowTest\" \"-Dsurefire.failIfNoSpecifiedTests=false\"",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "problemMatcher": []
     }
   ],
   "inputs": [

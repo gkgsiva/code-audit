@@ -74,4 +74,36 @@ describe('AdminPage', () => {
     http.expectOne('/api/admin/users').flush([]);
     http.expectOne((r) => r.url === '/api/admin/activity').flush([]);
   });
+
+  it('shows the vulnerability database and starts an update', async () => {
+    const fixture = TestBed.createComponent(AdminPage);
+    fixture.detectChanges();
+    http.expectOne('/api/admin').flush({
+      settings, defaults_yaml: '', env_locked: {}, reports: {}, summary_sections: {}, roles: ['admin'], host: {},
+    });
+    http.expectOne('/api/admin/users').flush([]);
+    http.expectOne('/api/admin/projects').flush([]);
+    http.expectOne((r) => r.url === '/api/admin/activity').flush([]);
+    const db = { tool: '/usr/local/bin/dependency-check', version: '13.0.0', folder: '/audits/.legacy-audit/vulndb/dependency-check',
+      ready: false, bytes: 0, last_success: null, last_attempt: null, last_ok: null, last_message: null, running: false,
+      started_at: null, api_key: false, mirror: null, refresh_at: '02:00', output: [] };
+    http.expectOne('/api/admin/health').flush({ version: '1', disk: { total: null, used: null, free: null }, projects: [], checks: [],
+      queue: { slots: 2, running: 0, waiting: 0 }, source_roots: [], vulndb: db });
+    http.expectOne('/api/admin/clones').flush({ cache: '', total: 0, free: null, keep_days: 14, min_free_gb: 5, clones: [] });
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
+    expect(text).toContain('Dependency-Check 13.0.0');
+    expect(text).toContain('No database yet');
+    expect(text).toContain('Nightly refresh: 02:00');
+
+    const page = fixture.componentInstance;
+    page.updateVulnDb();
+    const req = http.expectOne('/api/admin/vulndb/update');
+    expect(req.request.method).toBe('POST');
+    req.flush({ ...db, ready: true, bytes: 1048576, last_success: '2026-11-04T05:00:00Z', last_ok: true });
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Database 1.0 MB');
+    page.ngOnDestroy();
+  });
 });

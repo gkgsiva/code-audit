@@ -32,6 +32,10 @@ COPY rules/ rules/
 COPY schemas/ schemas/
 COPY backend/ backend/
 RUN cd backend && mvn -B -ntp -q -DskipTests package -pl audit-server -am
+# OWASP Dependency-Check, from the Maven repository (the same proxy and mirror as the build).
+ARG WITH_DEPENDENCY_CHECK=true
+ARG DEPENDENCY_CHECK_VERSION=13.0.0
+RUN . /tmp/java-build.sh; dependency_check "$DEPENDENCY_CHECK_VERSION"
 
 FROM ${BASE_IMAGE}
 ARG BUILD_PROXY=
@@ -51,7 +55,7 @@ COPY --from=jre /opt/java/openjdk /opt/java/openjdk
 COPY docker/spring/java-build.sh /tmp/java-build.sh
 COPY docker/certs/ /tmp/certs/
 # Git (and ssh) for Git projects, Chromium for the PDF copies, fonts for the reports, and
-# OSV-Scanner for dependency vulnerabilities. The company certificates go into Java's trust store
+# OSV-Scanner for dependency vulnerabilities (OWASP Dependency-Check comes from the build stage). The company certificates go into Java's trust store
 # and the system store, so Java, git and Chromium trust a proxy that inspects HTTPS. A missing
 # optional extra is reported on Admin > Health; the build goes on without it.
 RUN set -eu; . /tmp/java-build.sh; trust_company_certs; \
@@ -63,6 +67,11 @@ RUN set -eu; . /tmp/java-build.sh; trust_company_certs; \
     if [ "$WITH_OSV" = "true" ]; then osv_scanner "$OSV_VERSION"; fi; \
     rm -rf /tmp/java-build.sh /tmp/certs
 COPY --from=build /src/backend/audit-server/target/legacy-audit-server.jar /app/legacy-audit-server.jar
+# OWASP Dependency-Check (empty when WITH_DEPENDENCY_CHECK=false). Its NVD database is not in the
+# image: the server keeps it under /audits/.legacy-audit/vulndb (Admin > Health > Update).
+COPY --from=build /opt/dependency-check /opt/dependency-check
+RUN if [ -x /opt/dependency-check/bin/dependency-check.sh ]; then \
+        ln -s /opt/dependency-check/bin/dependency-check.sh /usr/local/bin/dependency-check; fi
 # Runs as a normal user (uid 10001). docker-compose.yml can run it as another user id
 # (AUDIT_UID/AUDIT_GID in .env) so it can write a folder of yours; HOME suits any user id
 # (git and Chromium write there).

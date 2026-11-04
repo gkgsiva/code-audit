@@ -627,4 +627,9 @@ Plan: `docs/spring/plan.md`. One pull request per phase; since 2026-10-29 Siva a
   - No Okta login yet (name-only login, as the Python site).
   - The Python site's activity log is not imported.
   - Laptop and real-estate performance numbers are still to be measured (`docs/performance.md`).
+- 2026-11-04: OWASP Dependency-Check 13.0.0 is in the backend image; the site keeps one NVD
+  database under `<audits>/.legacy-audit/vulndb`, filled from Admin > Vulnerability database,
+  at start (with `NVD_API_KEY` or `NVD_MIRROR_URL`) and nightly (decisions 257-260, VS Code task
+  23). Gap: the update was tested here against a small local NVD feed (nvd.nist.gov is not
+  reachable from the build machine), not against the real NVD.
 - Next: Siva decides the switch-over (move `spring-boot-angular` to the office repository).

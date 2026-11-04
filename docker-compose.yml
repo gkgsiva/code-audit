@@ -38,6 +38,8 @@ services:
         WITH_SYSTEM_PACKAGES: ${WITH_SYSTEM_PACKAGES:-true}
         WITH_CHROMIUM: ${WITH_CHROMIUM:-true}
         WITH_OSV: ${WITH_OSV:-true}
+        WITH_DEPENDENCY_CHECK: ${WITH_DEPENDENCY_CHECK:-true}
+        DEPENDENCY_CHECK_VERSION: ${DEPENDENCY_CHECK_VERSION:-13.0.0}
     image: legacy-audit-backend:latest
     restart: unless-stopped
     init: true
@@ -66,6 +68,11 @@ services:
       AZURE_OPENAI_API_KEY: ${AZURE_OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       GIT_TOKEN: ${GIT_TOKEN:-}
+      # OWASP Dependency-Check's NVD database (Admin > Health): the free NVD API key, or a company
+      # copy of the NVD data feed, and the time of the nightly refresh (off: none).
+      NVD_API_KEY: ${NVD_API_KEY:-}
+      NVD_MIRROR_URL: ${NVD_MIRROR_URL:-}
+      LEGACY_AUDIT_VULNDB_REFRESH: ${VULNDB_REFRESH:-02:00}
       HTTPS_PROXY: ${RUN_PROXY:-}
       HTTP_PROXY: ${RUN_PROXY:-}
       NO_PROXY: ${RUN_NO_PROXY:-localhost,127.0.0.1}

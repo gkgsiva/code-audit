@@ -201,7 +201,15 @@ class AdminFlowTest {
         mvc.perform(get("/api/admin/health").session(admin))
                 .andExpect(jsonPath("$.checks[0].name").value("Java"))
                 .andExpect(jsonPath("$.projects[0].project").value("orders"))
-                .andExpect(jsonPath("$.queue.slots").value(3));
+                .andExpect(jsonPath("$.queue.slots").value(3))
+                .andExpect(jsonPath("$.vulndb.folder").value(audits.resolve(".legacy-audit").resolve("vulndb")
+                        .resolve("dependency-check").toString()))
+                .andExpect(jsonPath("$.vulndb.ready").value(false))
+                .andExpect(jsonPath("$.vulndb.refresh_at").value("02:00"));
+        if (new com.legacyaudit.server.vulndb.VulnDb(null, null).exe() == null) {
+            mvc.perform(post("/api/admin/vulndb/update").session(admin).with(csrf())).andExpect(status().isConflict());
+        }
+        mvc.perform(post("/api/admin/vulndb/update").session(siva).with(csrf())).andExpect(status().isForbidden());
         mvc.perform(get("/api/admin/projects").session(admin))
                 .andExpect(jsonPath("$[0].runs").value(1))
                 .andExpect(jsonPath("$[0].application").value("Orders"));

@@ -69,7 +69,7 @@ jobs:
           curl -sf http://localhost:8770/ | grep -q '<app-root>'
       - name: Tools in the backend image
         run: |
-          docker compose exec -T backend sh -c 'git --version && chromium --version && osv-scanner --version | head -1'
+          docker compose exec -T backend sh -c 'git --version && chromium --version && osv-scanner --version | head -1 && dependency-check --version'
       - name: Scan a sample and build the reports with their PDFs
         run: |
           xsrf() { awk '/XSRF-TOKEN/ {print $7}' cj; }
@@ -90,6 +90,8 @@ jobs:
           echo "$body" | grep -q '"state":"done"'
           echo "$body" | grep -q 'summary.pdf'
           curl -sf -b cj http://localhost:8770/api/admin/health | grep -o '"name":"Browser for PDFs","status":"[a-z]*"'
+          curl -sf -b cj http://localhost:8770/api/admin/health | grep -o '"name":"OWASP Dependency-Check","status":"[a-z]*"'
+          curl -sf -b cj http://localhost:8770/api/admin/vulndb | grep '"version":"13.0.0"'
       - name: Logs
         if: always()
         run: docker compose logs --no-color
